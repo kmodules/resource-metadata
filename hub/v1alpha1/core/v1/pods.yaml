@@ -1,0 +1,65 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ""
+    k8s.io/kind: Pod
+    k8s.io/resource: pods
+    k8s.io/version: v1
+  name: core-v1-pods
+spec:
+  resource:
+    group: ""
+    kind: Pod
+    name: pods
+    scope: Namespaced
+    version: v1
+  connections:
+    - target:
+        group: apps
+        version: v1
+        resource: statefulsets
+      type: OwnedBy
+      level: Controller
+    - target:
+        group: apps
+        version: v1
+        resource: replicasets
+      type: OwnedBy
+      level: Controller
+    - target:
+        group: ""
+        version: v1
+        resource: nodes
+      type: MatchRef
+      references:
+      - '{.spec.nodeName}'
+    - target:
+        group: ""
+        version: v1
+        resource: persistentvolumeclaims
+      type: MatchRef
+      namespacePath: "metadata.namespace"
+      references:
+      - '{range .spec.volumes[*]}{.persistentVolumeClaim.claimName}{"\n"}{end}'
+    - target:
+        group: ""
+        version: v1
+        resource: configmaps
+      type: MatchRef
+      namespacePath: "metadata.namespace"
+      references:
+      - '{range .spec.containers[*].envFrom[*]}{.configMapRef.name}{"\n"}{end}'
+      - '{range .spec.containers[*].env[*]}{.valueFrom.configMapKeyRef.name}{"\n"}{end}'
+      - '{range .spec.volumes[*]}{.configMap.name}{"\n"}{end}'
+    - target:
+        group: ""
+        version: v1
+        resource: secrets
+      type: MatchRef
+      namespacePath: "metadata.namespace"
+      references:
+      - '{range .spec.containers[*].envFrom[*]}{.secretRef.name}{"\n"}{end}'
+      - '{range .spec.containers[*].env[*]}{.valueFrom.secretKeyRef.name}{"\n"}{end}'
+      - '{range .spec.volumes[*]}{.secret.secretName}{"\n"}{end}'

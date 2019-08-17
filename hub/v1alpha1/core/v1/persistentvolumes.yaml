@@ -1,0 +1,17 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ""
+    k8s.io/kind: PersistentVolume
+    k8s.io/resource: persistentvolumes
+    k8s.io/version: v1
+  name: core-v1-persistentvolumes
+spec:
+  resource:
+    group: ""
+    kind: PersistentVolume
+    name: persistentvolumes
+    scope: Cluster
+    version: v1

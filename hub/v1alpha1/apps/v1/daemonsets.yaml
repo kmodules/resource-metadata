@@ -1,0 +1,17 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: apps
+    k8s.io/kind: DaemonSet
+    k8s.io/resource: daemonsets
+    k8s.io/version: v1
+  name: apps-v1-daemonsets
+spec:
+  resource:
+    group: apps
+    kind: DaemonSet
+    name: daemonsets
+    scope: Namespaced
+    version: v1

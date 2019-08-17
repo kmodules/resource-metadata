@@ -1,0 +1,17 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: authorization.k8s.io
+    k8s.io/kind: SubjectAccessReview
+    k8s.io/resource: subjectaccessreviews
+    k8s.io/version: v1
+  name: authorization.k8s.io-v1-subjectaccessreviews
+spec:
+  resource:
+    group: authorization.k8s.io
+    kind: SubjectAccessReview
+    name: subjectaccessreviews
+    scope: Cluster
+    version: v1

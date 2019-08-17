@@ -1,0 +1,17 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: apps
+    k8s.io/kind: ControllerRevision
+    k8s.io/resource: controllerrevisions
+    k8s.io/version: v1
+  name: apps-v1-controllerrevisions
+spec:
+  resource:
+    group: apps
+    kind: ControllerRevision
+    name: controllerrevisions
+    scope: Namespaced
+    version: v1

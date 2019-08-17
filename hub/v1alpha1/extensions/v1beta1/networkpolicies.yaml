@@ -1,0 +1,17 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: extensions
+    k8s.io/kind: NetworkPolicy
+    k8s.io/resource: networkpolicies
+    k8s.io/version: v1beta1
+  name: extensions-v1beta1-networkpolicies
+spec:
+  resource:
+    group: extensions
+    kind: NetworkPolicy
+    name: networkpolicies
+    scope: Namespaced
+    version: v1beta1

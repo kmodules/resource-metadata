@@ -1,0 +1,45 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: kubedb.com
+    k8s.io/kind: Postgres
+    k8s.io/resource: postgreses
+    k8s.io/version: v1alpha1
+  name: kubedb.com-v1alpha1-postgreses
+spec:
+  resource:
+    group: kubedb.com
+    kind: Postgres
+    name: postgreses
+    scope: Namespaced
+    version: v1alpha1
+  connections:
+    - target:
+        group: apps
+        version: v1
+        resource: statefulsets
+      type: MatchName
+      namespacePath: "metadata.namespace"
+      nameTemplate: "{.metadata.name}"
+      level: Owner
+    - target:
+        group: ""
+        version: v1
+        resource: services
+      type: MatchSelector
+      namespacePath: "metadata.namespace"
+      selector:
+        matchLabels:
+          kubedb.com/kind: Postgres
+          kubedb.com/name: "{.metadata.name}"
+      level: Owner
+    - target:
+        group: appcatalog.appscode.com
+        version: v1alpha1
+        resource: appbindings
+      type: MatchName
+      namespacePath: "metadata.namespace"
+      nameTemplate: "{.metadata.name}"
+      level: Owner

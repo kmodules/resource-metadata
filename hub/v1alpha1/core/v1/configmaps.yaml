@@ -1,0 +1,17 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ""
+    k8s.io/kind: ConfigMap
+    k8s.io/resource: configmaps
+    k8s.io/version: v1
+  name: core-v1-configmaps
+spec:
+  resource:
+    group: ""
+    kind: ConfigMap
+    name: configmaps
+    scope: Namespaced
+    version: v1

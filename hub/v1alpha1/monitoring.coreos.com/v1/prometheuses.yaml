@@ -1,0 +1,33 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  labels:
+    k8s.io/group: monitoring.coreos.com
+    k8s.io/kind: Prometheus
+    k8s.io/resource: prometheuses
+    k8s.io/version: v1
+  name: monitoring.coreos.com-v1-prometheuses
+spec:
+  resource:
+    group: monitoring.coreos.com
+    version: v1
+    name: prometheuses
+    kind: Prometheus
+    scope: Namespaced
+  connections:
+    # - statefulset
+    # - service
+    - target:
+        group: monitoring.coreos.com
+        version: v1
+        resource: servicemonitors
+      type: MatchSelector
+      namespacePath: "spec.namespacePath"
+      selectorPath: "spec.selector"
+  keyTargets:
+    - group:
+      version: v1
+      resource: pods
+    - group:
+      version: v1
+      resource: services

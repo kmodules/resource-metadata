@@ -1,0 +1,36 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: apps
+    k8s.io/kind: Deployment
+    k8s.io/resource: deployments
+    k8s.io/version: v1
+  name: apps-v1-deployments
+spec:
+  resource:
+    group: apps
+    kind: Deployment
+    name: deployments
+    scope: Namespaced
+    version: v1
+  connections:
+    - target:
+        group: apps
+        version: v1
+        resource: replicasets
+      type: MatchSelector
+      namespacePath: "metadata.namespace"
+      selectorPath: "spec.selector"
+      level: Controller
+  keyTargets:
+    - group: apps
+      version: v1
+      resource: replicasets
+    - group:
+      version: v1
+      resource: pods
+    - group:
+      version: v1
+      resource: services

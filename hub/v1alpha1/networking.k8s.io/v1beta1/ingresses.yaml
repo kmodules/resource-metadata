@@ -1,0 +1,17 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: networking.k8s.io
+    k8s.io/kind: Ingress
+    k8s.io/resource: ingresses
+    k8s.io/version: v1beta1
+  name: networking.k8s.io-v1beta1-ingresses
+spec:
+  resource:
+    group: networking.k8s.io
+    kind: Ingress
+    name: ingresses
+    scope: Namespaced
+    version: v1beta1

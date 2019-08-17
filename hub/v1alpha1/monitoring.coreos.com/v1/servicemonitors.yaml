@@ -1,0 +1,35 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  labels:
+    k8s.io/group: monitoring.coreos.com
+    k8s.io/kind: ServiceMonitor
+    k8s.io/resource: servicemonitors
+    k8s.io/version: v1
+  name: monitoring.coreos.com-v1-servicemonitors
+spec:
+  resource:
+    group: monitoring.coreos.com
+    version: v1
+    name: servicemonitors
+    kind: ServiceMonitor
+    scope: Namespaced
+  connections:
+    # - statefulset
+    - target:
+        group:
+        version: v1
+        resource: services
+      type: MatchSelector
+      namespacePath: "spec.namespacePath"
+      selectorPath: "spec.selector"
+  keyTargets:
+    - group: apps
+      version: v1
+      resource: replicasets
+    - group:
+      version: v1
+      resource: pods
+    - group:
+      version: v1
+      resource: services

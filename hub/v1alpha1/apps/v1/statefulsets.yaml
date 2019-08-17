@@ -1,0 +1,26 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: apps
+    k8s.io/kind: StatefulSet
+    k8s.io/resource: statefulsets
+    k8s.io/version: v1
+  name: apps-v1-statefulsets
+spec:
+  resource:
+    group: apps
+    kind: StatefulSet
+    name: statefulsets
+    scope: Namespaced
+    version: v1
+  connections:
+    - target:
+        group: ""
+        version: v1
+        resource: pods
+      type: MatchSelector
+      namespacePath: "metadata.namespace"
+      selectorPath: "spec.selector"
+      level: Controller

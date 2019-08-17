@@ -1,0 +1,17 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ""
+    k8s.io/kind: Endpoints
+    k8s.io/resource: endpoints
+    k8s.io/version: v1
+  name: core-v1-endpoints
+spec:
+  resource:
+    group: ""
+    kind: Endpoints
+    name: endpoints
+    scope: Namespaced
+    version: v1

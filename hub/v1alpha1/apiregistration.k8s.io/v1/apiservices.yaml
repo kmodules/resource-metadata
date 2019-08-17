@@ -1,0 +1,17 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: apiregistration.k8s.io
+    k8s.io/kind: APIService
+    k8s.io/resource: apiservices
+    k8s.io/version: v1
+  name: apiregistration.k8s.io-v1-apiservices
+spec:
+  resource:
+    group: apiregistration.k8s.io
+    kind: APIService
+    name: apiservices
+    scope: Cluster
+    version: v1
