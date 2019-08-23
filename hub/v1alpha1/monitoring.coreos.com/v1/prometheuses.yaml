@@ -22,7 +22,7 @@ spec:
         version: v1
         resource: servicemonitors
       type: MatchSelector
-      namespacePath: "spec.namespacePath"
+      namespacePath: "spec.namespaceSelector"
       selectorPath: "spec.selector"
   keyTargets:
     - group:
