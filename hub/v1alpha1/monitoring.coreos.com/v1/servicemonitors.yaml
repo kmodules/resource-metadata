@@ -21,7 +21,7 @@ spec:
         version: v1
         resource: services
       type: MatchSelector
-      namespacePath: "spec.namespacePath"
+      namespacePath: "spec.namespaceSelector"
       selectorPath: "spec.selector"
   keyTargets:
     - group: apps
