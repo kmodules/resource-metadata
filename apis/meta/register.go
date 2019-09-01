@@ -47,6 +47,7 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&ResourceDescriptor{},
 		&ResourceDescriptorList{},
 		&PathFinder{},
+		&GraphFinder{},
 	)
 	return nil
 }

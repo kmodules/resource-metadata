@@ -28,6 +28,10 @@ type FakeMetaV1alpha1 struct {
 	*testing.Fake
 }
 
+func (c *FakeMetaV1alpha1) GraphFinders() v1alpha1.GraphFinderInterface {
+	return &FakeGraphFinders{c}
+}
+
 func (c *FakeMetaV1alpha1) PathFinders() v1alpha1.PathFinderInterface {
 	return &FakePathFinders{c}
 }

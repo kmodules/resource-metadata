@@ -27,6 +27,7 @@ import (
 
 type MetaV1alpha1Interface interface {
 	RESTClient() rest.Interface
+	GraphFindersGetter
 	PathFindersGetter
 	ResourceDescriptorsGetter
 }
@@ -34,6 +35,10 @@ type MetaV1alpha1Interface interface {
 // MetaV1alpha1Client is used to interact with features provided by the meta.appscode.com group.
 type MetaV1alpha1Client struct {
 	restClient rest.Interface
+}
+
+func (c *MetaV1alpha1Client) GraphFinders() GraphFinderInterface {
+	return newGraphFinders(c)
 }
 
 func (c *MetaV1alpha1Client) PathFinders() PathFinderInterface {
