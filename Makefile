@@ -1,4 +1,4 @@
-# Copyright 2019 The ResourceMetadata Project Authors.
+# Copyright 2019 AppsCode Inc.
 # Copyright 2016 The Kubernetes Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +17,7 @@ SHELL=/bin/bash -o pipefail
 
 GO_PKG   := kmodules.xyz
 REPO     := $(notdir $(shell pwd))
-BIN      := resource-metadata
+BIN      := resourcemetadataserver
 COMPRESS ?= no
 
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
@@ -52,7 +52,7 @@ endif
 ### These variables should not need tweaking.
 ###
 
-SRC_DIRS := apis client hack/gencrd # directories which hold app source (not vendored)
+SRC_DIRS := apis client cmd pkg hack/gencrd # directories which hold app source (not vendored)
 
 DOCKER_PLATFORMS := linux/amd64 linux/arm linux/arm64
 BIN_PLATFORMS    := $(DOCKER_PLATFORMS)
@@ -63,6 +63,13 @@ ARCH := $(if $(GOARCH),$(GOARCH),$(shell go env GOARCH))
 
 BASEIMAGE_PROD   ?= gcr.io/distroless/static
 BASEIMAGE_DBG    ?= debian:stretch
+
+IMAGE            := $(REGISTRY)/$(BIN)
+VERSION_PROD     := $(VERSION)
+VERSION_DBG      := $(VERSION)-dbg
+TAG              := $(VERSION)_$(OS)_$(ARCH)
+TAG_PROD         := $(TAG)
+TAG_DBG          := $(VERSION)-dbg_$(OS)_$(ARCH)
 
 GO_VERSION       ?= 1.12.9
 BUILD_IMAGE      ?= appscode/golang-dev:$(GO_VERSION)-stretch
@@ -76,6 +83,9 @@ endif
 BUILD_DIRS  := bin/$(OS)_$(ARCH)     \
                .go/bin/$(OS)_$(ARCH) \
                .go/cache
+
+DOCKERFILE_PROD  = Dockerfile.in
+DOCKERFILE_DBG   = Dockerfile.dbg
 
 # If you want to build all binaries, see the 'all-build' rule.
 # If you want to build all containers, see the 'all-container' rule.
@@ -91,7 +101,23 @@ build-%:
 	    GOOS=$(firstword $(subst _, ,$*)) \
 	    GOARCH=$(lastword $(subst _, ,$*))
 
+container-%:
+	@$(MAKE) container                    \
+	    --no-print-directory              \
+	    GOOS=$(firstword $(subst _, ,$*)) \
+	    GOARCH=$(lastword $(subst _, ,$*))
+
+push-%:
+	@$(MAKE) push                         \
+	    --no-print-directory              \
+	    GOOS=$(firstword $(subst _, ,$*)) \
+	    GOARCH=$(lastword $(subst _, ,$*))
+
 all-build: $(addprefix build-, $(subst /,_, $(BIN_PLATFORMS)))
+
+all-container: $(addprefix container-, $(subst /,_, $(DOCKER_PLATFORMS)))
+
+all-push: $(addprefix push-, $(subst /,_, $(DOCKER_PLATFORMS)))
 
 version:
 	@echo version=$(VERSION)
@@ -217,8 +243,16 @@ fmt: $(BUILD_DIRS)
 
 build: $(OUTBIN)
 
-.PHONY: .go/$(OUTBIN)
-$(OUTBIN): $(BUILD_DIRS)
+# The following structure defeats Go's (intentional) behavior to always touch
+# result files, even if they have not changed.  This will still run `go` but
+# will not trigger further work if nothing has actually changed.
+
+$(OUTBIN): .go/$(OUTBIN).stamp
+	@true
+
+# This will build the binary under ./.go and update the real binary iff needed.
+.PHONY: .go/$(OUTBIN).stamp
+.go/$(OUTBIN).stamp: $(BUILD_DIRS)
 	@echo "making $(OUTBIN)"
 	@docker run                                                 \
 	    -i                                                      \
@@ -243,7 +277,55 @@ $(OUTBIN): $(BUILD_DIRS)
 	        commit_timestamp=$(commit_timestamp)                \
 	        ./hack/build.sh                                     \
 	    "
+	@if [ $(COMPRESS) = yes ] && [ $(OS) != darwin ]; then          \
+		echo "compressing $(OUTBIN)";                               \
+		docker run                                                  \
+		    -i                                                      \
+		    --rm                                                    \
+		    -u $$(id -u):$$(id -g)                                  \
+		    -v $$(pwd):/src                                         \
+		    -w /src                                                 \
+		    -v $$(pwd)/.go/bin/$(OS)_$(ARCH):/go/bin                \
+		    -v $$(pwd)/.go/bin/$(OS)_$(ARCH):/go/bin/$(OS)_$(ARCH)  \
+		    -v $$(pwd)/.go/cache:/.cache                            \
+		    --env HTTP_PROXY=$(HTTP_PROXY)                          \
+		    --env HTTPS_PROXY=$(HTTPS_PROXY)                        \
+		    $(BUILD_IMAGE)                                          \
+		    upx --brute /go/$(OUTBIN);                              \
+	fi
+	@if ! cmp -s .go/$(OUTBIN) $(OUTBIN); then \
+	    mv .go/$(OUTBIN) $(OUTBIN);            \
+	    date >$@;                              \
+	fi
 	@echo
+
+# Used to track state in hidden files.
+DOTFILE_IMAGE    = $(subst /,_,$(IMAGE))-$(TAG)
+
+container: bin/.container-$(DOTFILE_IMAGE)-PROD bin/.container-$(DOTFILE_IMAGE)-DBG
+bin/.container-$(DOTFILE_IMAGE)-%: bin/$(OS)_$(ARCH)/$(BIN) $(DOCKERFILE_%)
+	@echo "container: $(IMAGE):$(TAG_$*)"
+	@sed                                    \
+		-e 's|{ARG_BIN}|$(BIN)|g'           \
+		-e 's|{ARG_ARCH}|$(ARCH)|g'         \
+		-e 's|{ARG_OS}|$(OS)|g'             \
+		-e 's|{ARG_FROM}|$(BASEIMAGE_$*)|g' \
+		$(DOCKERFILE_$*) > bin/.dockerfile-$*-$(OS)_$(ARCH)
+	@DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --platform $(OS)/$(ARCH) --load --pull -t $(IMAGE):$(TAG_$*) -f bin/.dockerfile-$*-$(OS)_$(ARCH) .
+	@docker images -q $(IMAGE):$(TAG_$*) > $@
+	@echo
+
+push: bin/.push-$(DOTFILE_IMAGE)-PROD bin/.push-$(DOTFILE_IMAGE)-DBG
+bin/.push-$(DOTFILE_IMAGE)-%: bin/.container-$(DOTFILE_IMAGE)-%
+	@docker push $(IMAGE):$(TAG_$*)
+	@echo "pushed: $(IMAGE):$(TAG_$*)"
+	@echo
+
+.PHONY: docker-manifest
+docker-manifest: docker-manifest-PROD docker-manifest-DBG
+docker-manifest-%:
+	DOCKER_CLI_EXPERIMENTAL=enabled docker manifest create -a $(IMAGE):$(VERSION_$*) $(foreach PLATFORM,$(DOCKER_PLATFORMS),$(IMAGE):$(VERSION_$*)_$(subst /,_,$(PLATFORM)))
+	DOCKER_CLI_EXPERIMENTAL=enabled docker manifest push $(IMAGE):$(VERSION_$*)
 
 test: $(BUILD_DIRS)
 	@docker run                                                 \
@@ -289,11 +371,47 @@ lint: $(BUILD_DIRS)
 $(BUILD_DIRS):
 	@mkdir -p $@
 
+.PHONY: install
+install:
+	@APPSCODE_ENV=dev  VAULT_OPERATOR_DOCKER_REGISTRY=$(REGISTRY) VAULT_OPERATOR_IMAGE_TAG=$(TAG) ./hack/deploy/install.sh
+
+.PHONY: uninstall
+uninstall:
+	@./hack/deploy/install.sh --uninstall
+
+.PHONY: purge
+purge:
+	@./hack/deploy/install.sh --uninstall --purge
+
 .PHONY: dev
 dev: gen fmt push
 
 .PHONY: ci
 ci: lint test build #cover
+
+.PHONY: qa
+qa:
+	@if [ "$$APPSCODE_ENV" = "prod" ]; then                                              \
+		echo "Nothing to do in prod env. Are you trying to 'release' binaries to prod?"; \
+		exit 1;                                                                          \
+	fi
+	@if [ "$(version_strategy)" = "tag" ]; then               \
+		echo "Are you trying to 'release' binaries to prod?"; \
+		exit 1;                                               \
+	fi
+	@$(MAKE) clean all-push docker-manifest --no-print-directory
+
+.PHONY: release
+release:
+	@if [ "$$APPSCODE_ENV" != "prod" ]; then      \
+		echo "'release' only works in PROD env."; \
+		exit 1;                                   \
+	fi
+	@if [ "$(version_strategy)" != "tag" ]; then                    \
+		echo "apply tag to release binaries and/or docker images."; \
+		exit 1;                                                     \
+	fi
+	@$(MAKE) clean all-push docker-manifest --no-print-directory
 
 .PHONY: clean
 clean:

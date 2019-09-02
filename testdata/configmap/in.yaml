@@ -1,0 +1,39 @@
+apiVersion: v1
+data:
+  you.imp: only
+  live.ok: once
+kind: ConfigMap
+metadata:
+  name: omni
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: busy-dep
+  labels:
+    app: busy-dep
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: busy-dep
+    spec:
+      containers:
+      - image: busybox
+        command:
+          - sleep
+          - "3600"
+        imagePullPolicy: IfNotPresent
+        name: busybox
+        envFrom:
+        - configMapRef:
+            name: omni
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/config
+      restartPolicy: Always
+      volumes:
+        - name: config-volume
+          configMap:
+            name: omni
