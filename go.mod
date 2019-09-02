@@ -3,30 +3,41 @@ module kmodules.xyz/resource-metadata
 go 1.12
 
 require (
+	github.com/appscode/go v0.0.0-20190808133642-1d4ef1f1c1e0
+	github.com/emicklei/dot v0.10.1
 	github.com/go-openapi/jsonpointer v0.19.0 // indirect
 	github.com/go-openapi/jsonreference v0.19.0 // indirect
 	github.com/go-openapi/spec v0.19.0
 	github.com/go-openapi/swag v0.17.2 // indirect
 	github.com/gogo/protobuf v1.2.1 // indirect
+	github.com/grpc-ecosystem/grpc-gateway v1.9.6 // indirect
 	github.com/hashicorp/golang-lru v0.5.1 // indirect
+	github.com/json-iterator/go v1.1.6
+	github.com/mitchellh/mapstructure v1.1.2
 	github.com/onsi/ginkgo v1.8.0 // indirect
 	github.com/onsi/gomega v1.5.0 // indirect
+	github.com/spf13/cobra v0.0.5
+	github.com/spf13/pflag v1.0.3
 	golang.org/x/crypto v0.0.0-20190424203555-c05e17bb3b2d // indirect
 	golang.org/x/net v0.0.0-20190424112056-4829fb13d2c6 // indirect
 	golang.org/x/oauth2 v0.0.0-20190402181905-9f3314589c9a // indirect
 	golang.org/x/sys v0.0.0-20190425145619-16072639606e // indirect
 	golang.org/x/text v0.3.1 // indirect
-	k8s.io/api v0.0.0-20190503110853-61630f889b3c // indirect
+	gomodules.xyz/version v0.1.0
+	k8s.io/api v0.0.0-20190503110853-61630f889b3c
 	k8s.io/apiextensions-apiserver v0.0.0-20190516231611-bf6753f2aa24
 	k8s.io/apimachinery v0.0.0-20190508063446-a3da69d3723c
+	k8s.io/apiserver v0.0.0-20190516230822-f89599b3f645
 	k8s.io/client-go v11.0.0+incompatible
 	k8s.io/klog v0.3.1
 	k8s.io/kube-openapi v0.0.0-20190502190224-411b2483e503
 	k8s.io/utils v0.0.0-20190506122338-8fab8cb257d5 // indirect
 	kmodules.xyz/client-go v0.0.0-20190808141354-bbb9e14f60ab
+	sigs.k8s.io/yaml v1.1.0
 )
 
 replace (
+	git.apache.org/thrift.git => github.com/apache/thrift v0.12.0
 	github.com/Azure/go-autorest => github.com/Azure/go-autorest v12.4.2+incompatible
 	k8s.io/api => k8s.io/api v0.0.0-20190313235455-40a48860b5ab
 	k8s.io/apiextensions-apiserver => k8s.io/apiextensions-apiserver v0.0.0-20190315093550-53c4693659ed

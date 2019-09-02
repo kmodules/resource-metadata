@@ -1,0 +1,55 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: busy-dep
+  labels:
+    app: busy-dep
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: busy-dep
+    spec:
+      containers:
+      - image: busybox
+        command:
+          - sleep
+          - "3600"
+        imagePullPolicy: IfNotPresent
+        name: busybox
+      restartPolicy: Always
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: busy-dep2
+  labels:
+    app: busy-dep
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: busy-dep
+    spec:
+      containers:
+      - image: busybox
+        command:
+          - sleep
+          - "3600"
+        imagePullPolicy: IfNotPresent
+        name: busybox
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: busy
+spec:
+  selector:
+    app: busy-dep
+  ports:
+  - name: foo # Actually, no port is needed.
+    port: 1234
+    targetPort: 1234

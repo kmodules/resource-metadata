@@ -69,3 +69,10 @@ curl -X POST \
    }
 }'
 ```
+
+### Generate Path Diagram using Graphviz
+
+```console
+$ go run cmd/pathviz/main.go --group=kubedb.com --version=v1alpha1 --resource=postgreses | dot -Tpng > postgres.png
+$ go run cmd/pathviz/main.go --group=apps --version=v1 --resource=deployments | dot -Tpng > deployment.png
+```
