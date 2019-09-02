@@ -153,3 +153,19 @@ type Edge struct {
 	Connection ResourceConnectionSpec
 	Forward    bool
 }
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+type GraphFinder struct {
+	metav1.TypeMeta
+	Request  *GraphRequest
+	Response *GraphResponse
+}
+
+type GraphRequest struct {
+	Source GroupVersionResource
+}
+
+type GraphResponse struct {
+	Source      GroupVersionResource
+	Connections []Edge
+}

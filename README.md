@@ -8,6 +8,25 @@
 
 API for defining metadata about Kubernetes resources.
 
+### Test GraphFinder api
+
+```
+curl -X POST \
+  https://api.crd.builders/apis/meta.appscode.com/v1alpha1/graphfinders \
+  -H 'content-type: application/json' \
+  -d '{
+   "apiVersion": "meta.appscode.com/v1alpha1",
+   "kind": "GraphFinder",
+   "request": {
+      "source": {
+         "group": "apps",
+         "version": "v1",
+         "resource": "deployments"
+      }
+   }
+}'
+```
+
 ### Test PathFinder api
 
 ```
