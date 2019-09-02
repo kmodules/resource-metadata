@@ -12648,7 +12648,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceColumnDefinition(ref co
 							Format:      "int32",
 						},
 					},
-					"JSONPath": {
+					"jsonPath": {
 						SchemaProps: spec.SchemaProps{
 							Description: "JSONPath is a simple JSON path, i.e. with array notation.",
 							Type:        []string{"string"},
@@ -12656,7 +12656,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceColumnDefinition(ref co
 						},
 					},
 				},
-				Required: []string{"name", "type", "JSONPath"},
+				Required: []string{"name", "type", "jsonPath"},
 			},
 		},
 	}

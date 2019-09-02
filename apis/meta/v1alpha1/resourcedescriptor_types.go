@@ -161,7 +161,7 @@ type ResourceColumnDefinition struct {
 	Priority int32 `json:"priority,omitempty"`
 
 	// JSONPath is a simple JSON path, i.e. with array notation.
-	JSONPath string `json:"JSONPath"`
+	JSONPath string `json:"jsonPath"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

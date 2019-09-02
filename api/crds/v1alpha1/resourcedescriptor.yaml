@@ -470,9 +470,6 @@ spec:
                 description: ResourceColumnDefinition specifies a column for server
                   side printing.
                 properties:
-                  JSONPath:
-                    description: JSONPath is a simple JSON path, i.e. with array notation.
-                    type: string
                   description:
                     description: description is a human readable description of this
                       column.
@@ -483,6 +480,9 @@ spec:
                       column to assist in clients identifying column is the resource
                       name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
                       for more.
+                    type: string
+                  jsonPath:
+                    description: JSONPath is a simple JSON path, i.e. with array notation.
                     type: string
                   name:
                     description: name is a human readable name for the column.
@@ -502,7 +502,7 @@ spec:
                 required:
                 - name
                 - type
-                - JSONPath
+                - jsonPath
                 type: object
               type: array
             keyTargets:
