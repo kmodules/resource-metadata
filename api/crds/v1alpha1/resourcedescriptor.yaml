@@ -439,21 +439,23 @@ spec:
                   selectorPath:
                     type: string
                   target:
+                    description: TypeMeta describes an individual object in an API
+                      response or request with strings representing the type of the
+                      object and its API schema version. Structures that are versioned
+                      or persisted should inline TypeMeta.
                     properties:
-                      group:
-                        description: Group is the group this resource belongs in
+                      apiVersion:
+                        description: 'APIVersion defines the versioned schema of this
+                          representation of an object. Servers should convert recognized
+                          schemas to the latest internal value, and may reject unrecognized
+                          values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
                         type: string
-                      resource:
+                      kind:
+                        description: 'Kind is a string value representing the REST
+                          resource this object represents. Servers may infer this
+                          from the endpoint the client submits requests to. Cannot
+                          be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
                         type: string
-                      version:
-                        description: 'Version is the version this resource belongs
-                          in Should be always first item in Versions field if provided.
-                          Optional, but at least one of Version or Versions must be
-                          set. Deprecated: Please use `Versions`.'
-                        type: string
-                    required:
-                    - group
-                    - resource
                     type: object
                   targetLabelPath:
                     description: 'default: metadata.labels'
@@ -507,21 +509,23 @@ spec:
               type: array
             keyTargets:
               items:
+                description: TypeMeta describes an individual object in an API response
+                  or request with strings representing the type of the object and
+                  its API schema version. Structures that are versioned or persisted
+                  should inline TypeMeta.
                 properties:
-                  group:
-                    description: Group is the group this resource belongs in
+                  apiVersion:
+                    description: 'APIVersion defines the versioned schema of this
+                      representation of an object. Servers should convert recognized
+                      schemas to the latest internal value, and may reject unrecognized
+                      values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
                     type: string
-                  resource:
+                  kind:
+                    description: 'Kind is a string value representing the REST resource
+                      this object represents. Servers may infer this from the endpoint
+                      the client submits requests to. Cannot be updated. In CamelCase.
+                      More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
                     type: string
-                  version:
-                    description: 'Version is the version this resource belongs in
-                      Should be always first item in Versions field if provided. Optional,
-                      but at least one of Version or Versions must be set. Deprecated:
-                      Please use `Versions`.'
-                    type: string
-                required:
-                - group
-                - resource
                 type: object
               type: array
             resource:

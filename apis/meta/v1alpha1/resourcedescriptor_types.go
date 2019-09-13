@@ -47,7 +47,7 @@ type ResourceDescriptorSpec struct {
 	Resource       ResourceID                 `json:"resource"`
 	DisplayColumns []ResourceColumnDefinition `json:"displayColumns,omitempty"`
 	Connections    []ResourceConnection       `json:"connections,omitempty"`
-	KeyTargets     []GroupVersionResource     `json:"keyTargets,omitempty"`
+	KeyTargets     []metav1.TypeMeta          `json:"keyTargets,omitempty"`
 }
 
 // ResourceID identifies a resource
@@ -79,20 +79,8 @@ const (
 	OwnedBy       ConnectionType = "OwnedBy"
 )
 
-type GroupVersionResource struct {
-	// Group is the group this resource belongs in
-	Group string `json:"group"`
-	// Version is the version this resource belongs in
-	// Should be always first item in Versions field if provided.
-	// Optional, but at least one of Version or Versions must be set.
-	// Deprecated: Please use `Versions`.
-	// +optional
-	Version  string `json:"version,omitempty"`
-	Resource string `json:"resource"`
-}
-
 type ResourceConnection struct {
-	Target                 GroupVersionResource `json:"target"`
+	Target                 metav1.TypeMeta `json:"target"`
 	ResourceConnectionSpec `json:",inline,omitempty"`
 }
 

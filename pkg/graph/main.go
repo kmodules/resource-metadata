@@ -13,16 +13,13 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/util/jsonpath"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 )
 
-func (g *Graph) List(dc dynamic.Interface, src *unstructured.Unstructured, dstGVR schema.GroupVersionResource) ([]*unstructured.Unstructured, error) {
-	gvk := src.GetObjectKind().GroupVersionKind()
-	srcGVR := gvk.GroupVersion().WithResource(g.kinds[gvk].Name)
-
+func (g *Graph) List(dc dynamic.Interface, src *unstructured.Unstructured, dstGVR metav1.TypeMeta) ([]*unstructured.Unstructured, error) {
+	srcGVR := metav1.TypeMeta{APIVersion: src.GetAPIVersion(), Kind: src.GetKind()}
 	dist, prev := Dijkstra(g, srcGVR)
 
 	paths := GeneratePaths(srcGVR, dist, prev)
@@ -71,8 +68,7 @@ func appendObjects(arr []*unstructured.Unstructured, items ...*unstructured.Unst
 }
 
 func (g *Graph) ResourcesFor(dc dynamic.Interface, src *unstructured.Unstructured, e Edge) ([]*unstructured.Unstructured, error) {
-	gvk := src.GetObjectKind().GroupVersionKind()
-	gvr := gvk.GroupVersion().WithResource(g.kinds[gvk].Name)
+	gvr := metav1.TypeMeta{APIVersion: src.GetAPIVersion(), Kind: src.GetKind()}
 	if e.Src != gvr {
 		return nil, fmt.Errorf("edge src %v does not match ref %v", e.Src, gvr)
 	}
@@ -114,9 +110,9 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src *unstructured.Unstructure
 			var out []*unstructured.Unstructured
 			for _, ns := range namespaces {
 				var ri dynamic.ResourceInterface
-				ri = dc.Resource(e.Dst)
-				if g.resources[e.Dst].Scope == v1alpha1.NamespaceScoped {
-					ri = dc.Resource(e.Dst).Namespace(ns)
+				ri = dc.Resource(g.GVR(e.Dst))
+				if g.regTypes[e.Dst].Scope == v1alpha1.NamespaceScoped {
+					ri = dc.Resource(g.GVR(e.Dst)).Namespace(ns)
 				}
 
 				selInApp := e.Connection.TargetLabelPath != "" && strings.Trim(e.Connection.TargetLabelPath, ".") != "metadata.labels"
@@ -165,9 +161,9 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src *unstructured.Unstructure
 			var out []*unstructured.Unstructured
 			for _, ns := range namespaces {
 				var ri dynamic.ResourceInterface
-				ri = dc.Resource(e.Dst)
-				if g.resources[e.Dst].Scope == v1alpha1.NamespaceScoped {
-					ri = dc.Resource(e.Dst).Namespace(ns)
+				ri = dc.Resource(g.GVR(e.Dst))
+				if g.regTypes[e.Dst].Scope == v1alpha1.NamespaceScoped {
+					ri = dc.Resource(g.GVR(e.Dst)).Namespace(ns)
 				}
 				rs, err := ri.Get(name, metav1.GetOptions{})
 				if err != nil {
@@ -213,17 +209,17 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src *unstructured.Unstructure
 				var objects []*unstructured.Unstructured
 				for _, ref := range refs {
 					// if apiGroup is set, it must match
-					if ref.APIGroup != "" && ref.APIGroup != e.Dst.Group {
+					if ref.APIGroup != "" && !equalsGV(ref.APIGroup, e.Dst) {
 						continue
 					}
 					// if apiGroup is set, it must match
-					if ref.Kind != "" && ref.Kind != g.resources[e.Dst].Kind {
+					if ref.Kind != "" && ref.Kind != g.regTypes[e.Dst].Kind {
 						continue
 					}
 
 					var ri dynamic.ResourceInterface
-					ri = dc.Resource(e.Dst)
-					if g.resources[e.Dst].Scope == v1alpha1.NamespaceScoped {
+					ri = dc.Resource(g.GVR(e.Dst))
+					if g.regTypes[e.Dst].Scope == v1alpha1.NamespaceScoped {
 						ns := ref.Namespace
 						if ns == "" {
 							ns = src.GetNamespace()
@@ -234,7 +230,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src *unstructured.Unstructure
 							// src is not-namespaced
 							return nil, errors.New("namespace must be defined in reference")
 						}
-						ri = dc.Resource(e.Dst).Namespace(ns)
+						ri = dc.Resource(g.GVR(e.Dst)).Namespace(ns)
 					}
 					rs, err := ri.Get(ref.Name, metav1.GetOptions{})
 					if err != nil {
@@ -271,9 +267,9 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src *unstructured.Unstructure
 			}
 
 			var ri dynamic.ResourceInterface
-			ri = dc.Resource(e.Dst)
-			if g.resources[e.Dst].Scope == v1alpha1.NamespaceScoped {
-				ri = dc.Resource(e.Dst).Namespace(namespace)
+			ri = dc.Resource(g.GVR(e.Dst))
+			if g.regTypes[e.Dst].Scope == v1alpha1.NamespaceScoped {
+				ri = dc.Resource(g.GVR(e.Dst)).Namespace(namespace)
 			}
 			result, err := ri.List(metav1.ListOptions{})
 			if err != nil {
@@ -333,9 +329,9 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src *unstructured.Unstructure
 
 				var out []*unstructured.Unstructured
 				var ri dynamic.ResourceInterface
-				ri = dc.Resource(e.Dst)
-				if g.resources[e.Dst].Scope == v1alpha1.NamespaceScoped {
-					ri = dc.Resource(e.Dst).Namespace(namespace)
+				ri = dc.Resource(g.GVR(e.Dst))
+				if g.regTypes[e.Dst].Scope == v1alpha1.NamespaceScoped {
+					ri = dc.Resource(g.GVR(e.Dst)).Namespace(namespace)
 				}
 				rs, err := ri.Get(name, metav1.GetOptions{})
 				if err != nil {
@@ -354,13 +350,13 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src *unstructured.Unstructure
 			// TODO: check that namespacePath must be empty
 
 			var ri dynamic.ResourceInterface
-			ri = dc.Resource(e.Dst)
-			if g.resources[e.Dst].Scope == v1alpha1.NamespaceScoped {
+			ri = dc.Resource(g.GVR(e.Dst))
+			if g.regTypes[e.Dst].Scope == v1alpha1.NamespaceScoped {
 				ns := metav1.NamespaceAll
 				if e.Connection.NamespacePath == "metadata.namespace" {
 					ns = src.GetNamespace()
 				}
-				ri = dc.Resource(e.Dst).Namespace(ns)
+				ri = dc.Resource(g.GVR(e.Dst)).Namespace(ns)
 			}
 			result, err := ri.List(metav1.ListOptions{})
 			if err != nil {
@@ -399,16 +395,17 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src *unstructured.Unstructure
 					}
 					for _, ref := range refs {
 						// if apiGroup is set, it must match
-						if ref.APIGroup != "" && ref.APIGroup != e.Src.Group {
+						if ref.APIGroup != "" && !equalsGV(ref.APIGroup, e.Src) {
 							continue
 						}
+
 						// if apiGroup is set, it must match
-						if ref.Kind != "" && ref.Kind != g.resources[e.Src].Kind {
+						if ref.Kind != "" && ref.Kind != g.regTypes[e.Src].Kind {
 							continue
 						}
 
 						ns := ref.Namespace
-						if ns == "" && g.resources[e.Src].Scope == v1alpha1.NamespaceScoped {
+						if ns == "" && g.regTypes[e.Src].Scope == v1alpha1.NamespaceScoped {
 							ns = rs.GetNamespace()
 							if ns == "" {
 								// src is namespaced &&
@@ -517,12 +514,12 @@ func (g *Graph) findOwners(dc dynamic.Interface, e Edge, srcOwnerRefs []metav1.O
 	var out []*unstructured.Unstructured
 
 	var ri dynamic.ResourceInterface
-	ri = dc.Resource(e.Dst)
-	if g.resources[e.Dst].Scope == v1alpha1.NamespaceScoped {
-		ri = dc.Resource(e.Dst).Namespace(namespace)
+	ri = dc.Resource(g.GVR(e.Dst))
+	if g.regTypes[e.Dst].Scope == v1alpha1.NamespaceScoped {
+		ri = dc.Resource(g.GVR(e.Dst)).Namespace(namespace)
 	}
 	for _, ref := range srcOwnerRefs {
-		if ref.APIVersion == e.Dst.GroupVersion().String() && ref.Kind == g.resources[e.Dst].Kind {
+		if ref.APIVersion == e.Dst.APIVersion && ref.Kind == g.regTypes[e.Dst].Kind {
 			if e.Connection.Level == v1alpha1.Controller {
 				if ref.Controller != nil && *ref.Controller {
 					rs, err := ri.Get(ref.Name, metav1.GetOptions{})
@@ -555,9 +552,9 @@ func (g *Graph) findChildren(dc dynamic.Interface, e Edge, src *unstructured.Uns
 	var out []*unstructured.Unstructured
 
 	var ri dynamic.ResourceInterface
-	ri = dc.Resource(e.Dst)
-	if g.resources[e.Dst].Scope == v1alpha1.NamespaceScoped {
-		ri = dc.Resource(e.Dst).Namespace(src.GetNamespace())
+	ri = dc.Resource(g.GVR(e.Dst))
+	if g.regTypes[e.Dst].Scope == v1alpha1.NamespaceScoped {
+		ri = dc.Resource(g.GVR(e.Dst)).Namespace(src.GetNamespace())
 	}
 
 	result, err := ri.List(metav1.ListOptions{})

@@ -3,7 +3,6 @@ package graph
 import (
 	"strings"
 
-	"k8s.io/apimachinery/pkg/runtime/schema"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
 	"sigs.k8s.io/yaml"
@@ -24,19 +23,11 @@ func LoadGraph() (*Graph, error) {
 			return nil, err
 		}
 
-		src := schema.GroupVersionResource{
-			Group:    rd.Spec.Resource.Group,
-			Version:  rd.Spec.Resource.Version,
-			Resource: rd.Spec.Resource.Name,
-		}
+		src := rd.Spec.Resource.TypeMeta()
 		graph.AddVertex(rd.Spec.Resource)
 
 		for _, conn := range rd.Spec.Connections {
-			dst := schema.GroupVersionResource{
-				Group:    conn.Target.Group,
-				Version:  conn.Target.Version,
-				Resource: conn.Target.Resource,
-			}
+			dst := conn.Target
 
 			var w uint64 = 1
 			if conn.ResourceConnectionSpec.Type == v1alpha1.MatchSelector &&

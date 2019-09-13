@@ -17,35 +17,26 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"fmt"
-
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	crdutils "kmodules.xyz/client-go/apiextensions/v1beta1"
-	meta_util "kmodules.xyz/client-go/meta"
-	"kmodules.xyz/client-go/tools/clusterid"
 )
 
-func (v ResourceDescriptor) GetKey() string {
-	return ResourceResourceDescriptor + "/" + v.Namespace + "/" + v.Name
+func (r ResourceID) GroupVersion() schema.GroupVersion {
+	return schema.GroupVersion{Group: r.Group, Version: r.Version}
 }
 
-func (v ResourceDescriptor) PolicyName() string {
-	cluster := "-"
-	if clusterid.ClusterName() != "" {
-		cluster = clusterid.ClusterName()
-	}
-	return fmt.Sprintf("k8s.%s.%s.%s", cluster, v.Namespace, v.Name)
+func (r ResourceID) TypeMeta() metav1.TypeMeta {
+	return metav1.TypeMeta{APIVersion: r.GroupVersion().String(), Kind: r.Kind}
 }
 
-func (v ResourceDescriptor) OffshootSelectors() map[string]string {
-	return map[string]string{
-		"app":          "vault",
-		"vault_policy": v.Name,
-	}
+func (r ResourceID) GroupVersionResource() schema.GroupVersionResource {
+	return schema.GroupVersionResource{Group: r.Group, Version: r.Version, Resource: r.Name}
 }
 
-func (v ResourceDescriptor) OffshootLabels() map[string]string {
-	return meta_util.FilterKeys("kubevault.com", v.OffshootSelectors(), v.Labels)
+func (r ResourceID) GroupVersionKind() schema.GroupVersionKind {
+	return schema.GroupVersionKind{Group: r.Group, Version: r.Version, Kind: r.Kind}
 }
 
 func (v ResourceDescriptor) CustomResourceDefinition() *apiextensions.CustomResourceDefinition {

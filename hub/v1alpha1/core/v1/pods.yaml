@@ -15,38 +15,76 @@ spec:
     name: pods
     scope: Namespaced
     version: v1
+  displayColumns:
+    - jsonPath: .metadata.name
+      name: Name
+      type: string
+    - jsonPath: .metadata.namespace
+      name: Namespace
+      type: string
+    - jsonPath: .metadata.labels
+      name: Labels
+      type: object
+    - jsonPath: .metadata.annotations
+      name: Annotations
+      type: object
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    # custom columns
+    - jsonPath:
+      name: Ready
+      type: string
+    - jsonPath: .status.phase
+      name: Status
+      type: string
+    - jsonPath:
+      name: Restarts
+      type: string
+    - jsonPath: .status.podIP
+      name: IP
+      type: string
+    - jsonPath: .spec.nodeName
+      name: Node
+      type: string
+    - jsonPath: .spec.nominatedNodeName
+      name: Nominated Node
+      type: string
+    - jsonPath: .spec.readinessGates
+      name: Readiness Gates
+      type: object
+  keyTargets:
+    - apiVersion: v1
+      kind: Service
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
   connections:
     - target:
-        group: apps
-        version: v1
-        resource: statefulsets
+        apiVersion: apps/v1
+        kind: StatefulSet
       type: OwnedBy
       level: Controller
     - target:
-        group: apps
-        version: v1
-        resource: replicasets
+        apiVersion: apps/v1
+        kind: ReplicaSet
       type: OwnedBy
       level: Controller
     - target:
-        group: ""
-        version: v1
-        resource: nodes
+        apiVersion: v1
+        kind: Node
       type: MatchRef
       references:
       - '{.spec.nodeName}'
     - target:
-        group: ""
-        version: v1
-        resource: persistentvolumeclaims
+        apiVersion: v1
+        kind: PersistentVolumeClaim
       type: MatchRef
       namespacePath: "metadata.namespace"
       references:
       - '{range .spec.volumes[*]}{.persistentVolumeClaim.claimName}{"\n"}{end}'
     - target:
-        group: ""
-        version: v1
-        resource: configmaps
+        apiVersion: v1
+        kind: ConfigMap
       type: MatchRef
       namespacePath: "metadata.namespace"
       references:
@@ -54,9 +92,8 @@ spec:
       - '{range .spec.containers[*].env[*]}{.valueFrom.configMapKeyRef.name}{"\n"}{end}'
       - '{range .spec.volumes[*]}{.configMap.name}{"\n"}{end}'
     - target:
-        group: ""
-        version: v1
-        resource: secrets
+        apiVersion: v1
+        kind: Secret
       type: MatchRef
       namespacePath: "metadata.namespace"
       references:

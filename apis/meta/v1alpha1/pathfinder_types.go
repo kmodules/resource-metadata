@@ -42,8 +42,8 @@ type PathFinder struct {
 }
 
 type PathRequest struct {
-	Source GroupVersionResource  `json:"source"`
-	Target *GroupVersionResource `json:"target,omitempty"`
+	Source metav1.TypeMeta  `json:"source"`
+	Target *metav1.TypeMeta `json:"target,omitempty"`
 }
 
 type PathResponse struct {
@@ -51,15 +51,15 @@ type PathResponse struct {
 }
 
 type Path struct {
-	Source   GroupVersionResource `json:"source"`
-	Target   GroupVersionResource `json:"target"`
-	Distance uint64               `json:"distance"`
-	Edges    []Edge               `json:"edges"`
+	Source   metav1.TypeMeta `json:"source"`
+	Target   metav1.TypeMeta `json:"target"`
+	Distance uint64          `json:"distance"`
+	Edges    []Edge          `json:"edges"`
 }
 
 type Edge struct {
-	Src        GroupVersionResource   `json:"source"`
-	Dst        GroupVersionResource   `json:"target"`
+	Src        metav1.TypeMeta        `json:"source"`
+	Dst        metav1.TypeMeta        `json:"target"`
 	W          uint64                 `json:"distance"`
 	Connection ResourceConnectionSpec `json:"connection"`
 	Forward    bool                   `json:"forward"`

@@ -34,7 +34,7 @@ type ResourceDescriptorSpec struct {
 	Resource       ResourceID
 	DisplayColumns []ResourceColumnDefinition
 	Connections    []ResourceConnection
-	KeyTargets     []GroupVersionResource
+	KeyTargets     []metav1.TypeMeta
 }
 
 type ResourceID struct {
@@ -61,14 +61,8 @@ const (
 	OwnedBy       ConnectionType = "OwnedBy"
 )
 
-type GroupVersionResource struct {
-	Group    string
-	Version  string
-	Resource string
-}
-
 type ResourceConnection struct {
-	Target GroupVersionResource
+	Target metav1.TypeMeta
 	ResourceConnectionSpec
 }
 
@@ -131,8 +125,8 @@ type PathFinder struct {
 }
 
 type PathRequest struct {
-	Source GroupVersionResource
-	Target *GroupVersionResource
+	Source metav1.TypeMeta
+	Target *metav1.TypeMeta
 }
 
 type PathResponse struct {
@@ -140,15 +134,15 @@ type PathResponse struct {
 }
 
 type Path struct {
-	Source   GroupVersionResource
-	Target   GroupVersionResource
+	Source   metav1.TypeMeta
+	Target   metav1.TypeMeta
 	Distance uint64
 	Edges    []Edge
 }
 
 type Edge struct {
-	Src        GroupVersionResource
-	Dst        GroupVersionResource
+	Src        metav1.TypeMeta
+	Dst        metav1.TypeMeta
 	W          uint64
 	Connection ResourceConnectionSpec
 	Forward    bool
@@ -162,10 +156,10 @@ type GraphFinder struct {
 }
 
 type GraphRequest struct {
-	Source GroupVersionResource
+	Source metav1.TypeMeta
 }
 
 type GraphResponse struct {
-	Source      GroupVersionResource
+	Source      metav1.TypeMeta
 	Connections []Edge
 }

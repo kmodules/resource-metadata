@@ -15,3 +15,31 @@ spec:
     name: cronjobs
     scope: Namespaced
     version: v1beta1
+  displayColumns:
+    - jsonPath: .metadata.name
+      name: Name
+      type: string
+    - jsonPath: .metadata.namespace
+      name: Namespace
+      type: string
+    - jsonPath: .metadata.labels
+      name: Labels
+      type: object
+    - jsonPath: .metadata.annotations
+      name: Annotations
+      type: object
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    - jsonPath: .spec.schedule
+      name: Schedule
+      type: string
+    - jsonPath: '{range .spec.jobTemplate.spec.template.spec.containers[*]}{.image}{"\n"}{end}'
+      name: Images
+      type: string
+      format: csv
+  keyTargets:
+    - apiVersion: v1
+      kind: Pod
+    - apiVersion: v1
+      kind: Service

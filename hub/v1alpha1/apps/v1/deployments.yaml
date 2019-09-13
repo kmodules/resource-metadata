@@ -15,22 +15,43 @@ spec:
     name: deployments
     scope: Namespaced
     version: v1
+  displayColumns:
+    - jsonPath: .metadata.name
+      name: Name
+      type: string
+    - jsonPath: .metadata.namespace
+      name: Namespace
+      type: string
+    - jsonPath: .metadata.labels
+      name: Labels
+      type: object
+    - jsonPath: .metadata.annotations
+      name: Annotations
+      type: object
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    - jsonPath: '{.status.readyReplicas}/{.spec.replicas}'
+      name: Pods
+      type: string
+    - jsonPath: '{range .spec.template.spec.containers[*]}{.image}{"\n"}{end}'
+      name: Images
+      type: string
+      format: csv
+  keyTargets:
+    - apiVersion: apps/v1
+      kind: ReplicaSet
+    - apiVersion: v1
+      kind: Pod
+    - apiVersion: v1
+      kind: Service
+    - apiVersion: autoscaling/v2beta2
+      kind: HorizontalPodAutoscaler
   connections:
     - target:
-        group: apps
-        version: v1
-        resource: replicasets
+        apiVersion: apps/v1
+        kind: ReplicaSet
       type: MatchSelector
       namespacePath: "metadata.namespace"
       selectorPath: "spec.selector"
       level: Controller
-  keyTargets:
-    - group: apps
-      version: v1
-      resource: replicasets
-    - group:
-      version: v1
-      resource: pods
-    - group:
-      version: v1
-      resource: services

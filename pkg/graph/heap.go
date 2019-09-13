@@ -5,13 +5,13 @@ import (
 	"container/heap"
 	"math"
 
-	"k8s.io/apimachinery/pkg/runtime/schema"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // An Item is something we manage in a priority queue.
 type Item struct {
-	vertex schema.GroupVersionResource // The value of the item; arbitrary.
-	dist   uint64                      // The priority of the item in the queue.
+	vertex metav1.TypeMeta // The value of the item; arbitrary.
+	dist   uint64          // The priority of the item in the queue.
 	// The index is needed by Update and is maintained by the heap.Interface methods.
 	index int // The index of the item in the heap.
 }
@@ -55,14 +55,14 @@ func (q *Queue) Update(item *Item, dist uint64) {
 
 // ref: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Pseudocode
 
-func Dijkstra(graph *Graph, src schema.GroupVersionResource) (dist map[schema.GroupVersionResource]uint64, prev map[schema.GroupVersionResource]*Edge) {
-	dist = make(map[schema.GroupVersionResource]uint64)
-	prev = make(map[schema.GroupVersionResource]*Edge)
+func Dijkstra(graph *Graph, src metav1.TypeMeta) (dist map[metav1.TypeMeta]uint64, prev map[metav1.TypeMeta]*Edge) {
+	dist = make(map[metav1.TypeMeta]uint64)
+	prev = make(map[metav1.TypeMeta]*Edge)
 
-	q := make(Queue, len(graph.resources))
+	q := make(Queue, len(graph.regTypes))
 	i := 0
-	items := make(map[schema.GroupVersionResource]*Item)
-	for vertex := range graph.resources {
+	items := make(map[metav1.TypeMeta]*Item)
+	for vertex := range graph.regTypes {
 		var d uint64 = math.MaxUint32 // avoid overflow
 		if vertex == src {
 			d = 0 // dist[src] = 0
@@ -98,8 +98,8 @@ func Dijkstra(graph *Graph, src schema.GroupVersionResource) (dist map[schema.Gr
 }
 
 type Path struct {
-	Source   schema.GroupVersionResource
-	Target   schema.GroupVersionResource
+	Source   metav1.TypeMeta
+	Target   metav1.TypeMeta
 	Distance uint64
 	Edges    []*Edge
 }
@@ -109,8 +109,8 @@ type Path struct {
 //	return strings.Join([]string{gvr.Group, "/", gvr.Version, ", Resource=", gvr.Resource}, "")
 //}
 
-func GeneratePaths(src schema.GroupVersionResource, dist map[schema.GroupVersionResource]uint64, prev map[schema.GroupVersionResource]*Edge) map[schema.GroupVersionResource]*Path {
-	paths := make(map[schema.GroupVersionResource]*Path)
+func GeneratePaths(src metav1.TypeMeta, dist map[metav1.TypeMeta]uint64, prev map[metav1.TypeMeta]*Edge) map[metav1.TypeMeta]*Path {
+	paths := make(map[metav1.TypeMeta]*Path)
 
 	for target, d := range dist {
 		if d < math.MaxUint32 {
