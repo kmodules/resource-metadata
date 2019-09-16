@@ -14,9 +14,9 @@ import (
 func LoadByGVR(gvr schema.GroupVersionResource) (*v1alpha1.ResourceDescriptor, error) {
 	var filename string
 	if gvr.Group == "" && gvr.Version == "v1" {
-		filename = fmt.Sprintf("core-v1-%s.yaml", gvr.Resource)
+		filename = fmt.Sprintf("core/v1/%s.yaml", gvr.Resource)
 	} else {
-		filename = fmt.Sprintf("%s-%s-%s.yaml", gvr.Group, gvr.Version, gvr.Resource)
+		filename = fmt.Sprintf("%s/%s/%s.yaml", gvr.Group, gvr.Version, gvr.Resource)
 	}
 	return LoadByFile(filename)
 }
