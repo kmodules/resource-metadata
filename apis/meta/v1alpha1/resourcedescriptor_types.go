@@ -45,6 +45,7 @@ type ResourceDescriptor struct {
 
 type ResourceDescriptorSpec struct {
 	Resource       ResourceID                 `json:"resource"`
+	Details        ResourceDetails            `json:"details"`
 	DisplayColumns []ResourceColumnDefinition `json:"displayColumns,omitempty"`
 	Connections    []ResourceConnection       `json:"connections,omitempty"`
 	KeyTargets     []metav1.TypeMeta          `json:"keyTargets,omitempty"`
@@ -142,14 +143,18 @@ type ResourceColumnDefinition struct {
 	// description is a human readable description of this column.
 	// +optional
 	Description string `json:"description,omitempty"`
-	// priority is an integer defining the relative importance of this column compared to others. Lower
-	// numbers are considered higher priority. Columns that may be omitted in limited space scenarios
-	// should be given a higher priority.
-	// +optional
-	Priority int32 `json:"priority,omitempty"`
-
 	// JSONPath is a simple JSON path, i.e. with array notation.
 	JSONPath string `json:"jsonPath"`
+}
+
+type ResourceDetails struct {
+	Fields    []ResourceColumnDefinition   `json:"fields,omitempty"`
+	SubTabled []ResourceSubTableDefinition `json:"subTables,omitempty"`
+}
+
+type ResourceSubTableDefinition struct {
+	FieldPath      string                     `json:"fieldPath,omitempty"`
+	DisplayColumns []ResourceColumnDefinition `json:"displayColumns,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

@@ -32,6 +32,7 @@ type ResourceDescriptor struct {
 
 type ResourceDescriptorSpec struct {
 	Resource       ResourceID
+	Details        ResourceDetails
 	DisplayColumns []ResourceColumnDefinition
 	Connections    []ResourceConnection
 	KeyTargets     []metav1.TypeMeta
@@ -98,13 +99,18 @@ type ResourceColumnDefinition struct {
 	Format string
 	// description is a human readable description of this column.
 	Description string
-	// priority is an integer defining the relative importance of this column compared to others. Lower
-	// numbers are considered higher priority. Columns that may be omitted in limited space scenarios
-	// should be given a higher priority.
-	Priority int32
-
 	// JSONPath is a simple JSON path, i.e. without array notation.
 	JSONPath string
+}
+
+type ResourceDetails struct {
+	Fields    []ResourceColumnDefinition
+	SubTabled []ResourceSubTableDefinition
+}
+
+type ResourceSubTableDefinition struct {
+	FieldPath      string
+	DisplayColumns []ResourceColumnDefinition
 }
 
 // +genclient:nonNamespaced

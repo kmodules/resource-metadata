@@ -69,7 +69,7 @@ func New(columns []v1alpha1.ResourceColumnDefinition) (rest.TableConvertor, erro
 			Type:        col.Type,
 			Format:      col.Format,
 			Description: desc,
-			Priority:    col.Priority,
+			Priority:    0,
 		})
 	}
 
