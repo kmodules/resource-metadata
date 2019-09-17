@@ -53,7 +53,7 @@ spec:
       name: Rolling Update Strategy
       type: object
       priority: 1
-    - jsonPath: {.status.updatedReplicas} updated, {.status.replicas} total, {.status.availableReplicas} available, {.status.unavailableReplicas} unavailable
+    - jsonPath: "{.status.updatedReplicas} updated, {.status.replicas} total, {.status.availableReplicas} available, {.status.unavailableReplicas} unavailable"
       name: Status
       type: string
       priority: 1

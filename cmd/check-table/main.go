@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"log"
 	"path/filepath"
 
@@ -11,7 +13,6 @@ import (
 	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/util/homedir"
-	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor"
 )
 
@@ -34,17 +35,13 @@ func main() {
 		Version:  "v1",
 		Resource: "deployments",
 	}
-	rd, err := hub.LoadByGVR(gvr)
-	if err != nil {
-		log.Fatalln(err)
-	}
 
 	dep, err := dc.Resource(gvr).Namespace("default").Get("busy-dep", metav1.GetOptions{})
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	c, err := tableconvertor.New(rd.Spec.DisplayColumns)
+	c, err := tableconvertor.NewForGVR(gvr, v1alpha1.Field)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -52,5 +49,10 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	fmt.Println(t)
+
+	data, err := json.MarshalIndent(t, "", "  ")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	fmt.Println(string(data))
 }
