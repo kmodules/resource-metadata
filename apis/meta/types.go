@@ -108,8 +108,8 @@ type ResourceColumnDefinition struct {
 }
 
 type ResourceSubTableDefinition struct {
-	FieldPath      string
-	Columns []ResourceColumnDefinition
+	FieldPath string
+	Columns   []ResourceColumnDefinition
 }
 
 // +genclient:nonNamespaced

@@ -34,17 +34,10 @@ import (
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 )
 
-var swaggerMetadataDescriptions = metav1.ObjectMeta{}.SwaggerDoc()
-
 // New creates a new table convertor for the provided CRD column definition. If the printer definition cannot be parsed,
 // error will be returned along with a default table convertor.
 func New(columns []v1alpha1.ResourceColumnDefinition) (rest.TableConvertor, error) {
-	headers := []metav1beta1.TableColumnDefinition{
-		{Name: "Name", Type: "string", Format: "name", Description: swaggerMetadataDescriptions["name"]},
-	}
-	c := &convertor{
-		headers: headers,
-	}
+	c := &convertor{}
 
 	for _, col := range columns {
 		path := jsonpath.New(col.Name)
@@ -63,7 +56,7 @@ func New(columns []v1alpha1.ResourceColumnDefinition) (rest.TableConvertor, erro
 			desc = col.Description
 		}
 
-		c.additionalColumns = append(c.additionalColumns, path)
+		c.columns = append(c.columns, path)
 		c.headers = append(c.headers, metav1beta1.TableColumnDefinition{
 			Name:        col.Name,
 			Type:        col.Type,
@@ -77,8 +70,8 @@ func New(columns []v1alpha1.ResourceColumnDefinition) (rest.TableConvertor, erro
 }
 
 type convertor struct {
-	headers           []metav1beta1.TableColumnDefinition
-	additionalColumns []*jsonpath.JSONPath
+	headers []metav1beta1.TableColumnDefinition
+	columns []*jsonpath.JSONPath
 }
 
 func (c *convertor) ConvertToTable(ctx context.Context, obj runtime.Object, tableOptions runtime.Object) (*metav1beta1.Table, error) {
@@ -99,10 +92,8 @@ func (c *convertor) ConvertToTable(ctx context.Context, obj runtime.Object, tabl
 	var err error
 	buf := &bytes.Buffer{}
 	table.Rows, err = metatable.MetaToTableRow(obj, func(obj runtime.Object, m metav1.Object, name, age string) ([]interface{}, error) {
-		cells := make([]interface{}, 1, 1+len(c.additionalColumns))
-		cells[0] = name
-		customHeaders := c.headers[1:]
-		for i, column := range c.additionalColumns {
+		cells := make([]interface{}, 0, len(c.columns))
+		for i, column := range c.columns {
 			results, err := column.FindResults(obj.(runtime.Unstructured).UnstructuredContent())
 			if err != nil || len(results) == 0 || len(results[0]) == 0 {
 				cells = append(cells, nil)
@@ -111,7 +102,7 @@ func (c *convertor) ConvertToTable(ctx context.Context, obj runtime.Object, tabl
 
 			// as we only support simple JSON path, we can assume to have only one result (or none, filtered out above)
 			value := results[0][0].Interface()
-			if customHeaders[i].Type == "string" {
+			if c.headers[i].Type == "string" {
 				if err := column.PrintResults(buf, []reflect.Value{reflect.ValueOf(value)}); err == nil {
 					cells = append(cells, buf.String())
 					buf.Reset()
@@ -119,7 +110,7 @@ func (c *convertor) ConvertToTable(ctx context.Context, obj runtime.Object, tabl
 					cells = append(cells, nil)
 				}
 			} else {
-				cells = append(cells, cellForJSONValue(customHeaders[i].Type, value))
+				cells = append(cells, cellForJSONValue(c.headers[i].Type, value))
 			}
 		}
 		return cells, nil
