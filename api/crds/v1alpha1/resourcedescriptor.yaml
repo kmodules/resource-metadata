@@ -368,6 +368,47 @@ spec:
           type: object
         spec:
           properties:
+            columns:
+              items:
+                description: ResourceColumnDefinition specifies a column for server
+                  side printing.
+                properties:
+                  description:
+                    description: description is a human readable description of this
+                      column.
+                    type: string
+                  format:
+                    description: format is an optional OpenAPI type definition for
+                      this column. The 'name' format is applied to the primary identifier
+                      column to assist in clients identifying column is the resource
+                      name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                      for more.
+                    type: string
+                  jsonPath:
+                    description: JSONPath is a simple JSON path, i.e. with array notation.
+                    type: string
+                  name:
+                    description: name is a human readable name for the column.
+                    type: string
+                  priority:
+                    description: priority is an integer defining the relative importance
+                      of this column compared to others. Lower numbers are considered
+                      higher priority. Columns that may be omitted in limited space
+                      scenarios should be given a higher priority.
+                    format: int32
+                    type: integer
+                  type:
+                    description: type is an OpenAPI type definition for this column.
+                      See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                      for more.
+                    type: string
+                required:
+                - name
+                - type
+                - priority
+                - jsonPath
+                type: object
+              type: array
             connections:
               items:
                 properties:
@@ -467,117 +508,6 @@ spec:
                 - type
                 type: object
               type: array
-            details:
-              properties:
-                fields:
-                  items:
-                    description: ResourceColumnDefinition specifies a column for server
-                      side printing.
-                    properties:
-                      description:
-                        description: description is a human readable description of
-                          this column.
-                        type: string
-                      format:
-                        description: format is an optional OpenAPI type definition
-                          for this column. The 'name' format is applied to the primary
-                          identifier column to assist in clients identifying column
-                          is the resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
-                          for more.
-                        type: string
-                      jsonPath:
-                        description: JSONPath is a simple JSON path, i.e. with array
-                          notation.
-                        type: string
-                      name:
-                        description: name is a human readable name for the column.
-                        type: string
-                      type:
-                        description: type is an OpenAPI type definition for this column.
-                          See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
-                          for more.
-                        type: string
-                    required:
-                    - name
-                    - type
-                    - jsonPath
-                    type: object
-                  type: array
-                subTables:
-                  items:
-                    properties:
-                      displayColumns:
-                        items:
-                          description: ResourceColumnDefinition specifies a column
-                            for server side printing.
-                          properties:
-                            description:
-                              description: description is a human readable description
-                                of this column.
-                              type: string
-                            format:
-                              description: format is an optional OpenAPI type definition
-                                for this column. The 'name' format is applied to the
-                                primary identifier column to assist in clients identifying
-                                column is the resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
-                                for more.
-                              type: string
-                            jsonPath:
-                              description: JSONPath is a simple JSON path, i.e. with
-                                array notation.
-                              type: string
-                            name:
-                              description: name is a human readable name for the column.
-                              type: string
-                            type:
-                              description: type is an OpenAPI type definition for
-                                this column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
-                                for more.
-                              type: string
-                          required:
-                          - name
-                          - type
-                          - jsonPath
-                          type: object
-                        type: array
-                      fieldPath:
-                        type: string
-                    type: object
-                  type: array
-              type: object
-            displayColumns:
-              items:
-                description: ResourceColumnDefinition specifies a column for server
-                  side printing.
-                properties:
-                  description:
-                    description: description is a human readable description of this
-                      column.
-                    type: string
-                  format:
-                    description: format is an optional OpenAPI type definition for
-                      this column. The 'name' format is applied to the primary identifier
-                      column to assist in clients identifying column is the resource
-                      name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
-                      for more.
-                    type: string
-                  jsonPath:
-                    description: JSONPath is a simple JSON path, i.e. with array notation.
-                    type: string
-                  name:
-                    description: name is a human readable name for the column.
-                    type: string
-                  type:
-                    description: type is an OpenAPI type definition for this column.
-                      See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
-                      for more.
-                    type: string
-                required:
-                - name
-                - type
-                - jsonPath
-                type: object
-              type: array
             keyTargets:
               items:
                 description: TypeMeta describes an individual object in an API response
@@ -624,9 +554,57 @@ spec:
               - kind
               - scope
               type: object
+            subTables:
+              items:
+                properties:
+                  columns:
+                    items:
+                      description: ResourceColumnDefinition specifies a column for
+                        server side printing.
+                      properties:
+                        description:
+                          description: description is a human readable description
+                            of this column.
+                          type: string
+                        format:
+                          description: format is an optional OpenAPI type definition
+                            for this column. The 'name' format is applied to the primary
+                            identifier column to assist in clients identifying column
+                            is the resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                            for more.
+                          type: string
+                        jsonPath:
+                          description: JSONPath is a simple JSON path, i.e. with array
+                            notation.
+                          type: string
+                        name:
+                          description: name is a human readable name for the column.
+                          type: string
+                        priority:
+                          description: priority is an integer defining the relative
+                            importance of this column compared to others. Lower numbers
+                            are considered higher priority. Columns that may be omitted
+                            in limited space scenarios should be given a higher priority.
+                          format: int32
+                          type: integer
+                        type:
+                          description: type is an OpenAPI type definition for this
+                            column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                            for more.
+                          type: string
+                      required:
+                      - name
+                      - type
+                      - priority
+                      - jsonPath
+                      type: object
+                    type: array
+                  fieldPath:
+                    type: string
+                type: object
+              type: array
           required:
           - resource
-          - details
           type: object
       type: object
   version: v1alpha1

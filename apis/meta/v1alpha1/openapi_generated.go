@@ -292,7 +292,6 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceDescriptor":         schema_resource_metadata_apis_meta_v1alpha1_ResourceDescriptor(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceDescriptorList":     schema_resource_metadata_apis_meta_v1alpha1_ResourceDescriptorList(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceDescriptorSpec":     schema_resource_metadata_apis_meta_v1alpha1_ResourceDescriptorSpec(ref),
-		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceDetails":            schema_resource_metadata_apis_meta_v1alpha1_ResourceDetails(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceID":                 schema_resource_metadata_apis_meta_v1alpha1_ResourceID(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceSubTableDefinition": schema_resource_metadata_apis_meta_v1alpha1_ResourceSubTableDefinition(ref),
 	}
@@ -12609,6 +12608,13 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceColumnDefinition(ref co
 							Format:      "",
 						},
 					},
+					"priority": {
+						SchemaProps: spec.SchemaProps{
+							Description: "priority is an integer defining the relative importance of this column compared to others. Lower numbers are considered higher priority. Columns that may be omitted in limited space scenarios should be given a higher priority.",
+							Type:        []string{"integer"},
+							Format:      "int32",
+						},
+					},
 					"jsonPath": {
 						SchemaProps: spec.SchemaProps{
 							Description: "JSONPath is a simple JSON path, i.e. with array notation.",
@@ -12617,7 +12623,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceColumnDefinition(ref co
 						},
 					},
 				},
-				Required: []string{"name", "type", "jsonPath"},
+				Required: []string{"name", "type", "priority", "jsonPath"},
 			},
 		},
 	}
@@ -12864,18 +12870,25 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceDescriptorSpec(ref comm
 							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceID"),
 						},
 					},
-					"details": {
-						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceDetails"),
-						},
-					},
-					"displayColumns": {
+					"columns": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumnDefinition"),
+									},
+								},
+							},
+						},
+					},
+					"subTables": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceSubTableDefinition"),
 									},
 								},
 							},
@@ -12906,49 +12919,11 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceDescriptorSpec(ref comm
 						},
 					},
 				},
-				Required: []string{"resource", "details"},
+				Required: []string{"resource"},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.TypeMeta", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumnDefinition", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceConnection", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceDetails", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceID"},
-	}
-}
-
-func schema_resource_metadata_apis_meta_v1alpha1_ResourceDetails(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Type: []string{"object"},
-				Properties: map[string]spec.Schema{
-					"fields": {
-						SchemaProps: spec.SchemaProps{
-							Type: []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumnDefinition"),
-									},
-								},
-							},
-						},
-					},
-					"subTables": {
-						SchemaProps: spec.SchemaProps{
-							Type: []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceSubTableDefinition"),
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		},
-		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumnDefinition", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceSubTableDefinition"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.TypeMeta", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumnDefinition", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceConnection", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceID", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceSubTableDefinition"},
 	}
 }
 
@@ -13010,7 +12985,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceSubTableDefinition(ref 
 							Format: "",
 						},
 					},
-					"displayColumns": {
+					"columns": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
 							Items: &spec.SchemaOrArray{

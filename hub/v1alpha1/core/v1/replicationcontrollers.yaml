@@ -15,7 +15,7 @@ spec:
     name: replicationcontrollers
     scope: Namespaced
     version: v1
-  displayColumns:
+  columns:
     - jsonPath: .metadata.name
       name: Name
       type: string

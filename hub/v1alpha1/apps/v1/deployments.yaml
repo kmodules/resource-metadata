@@ -15,29 +15,83 @@ spec:
     name: deployments
     scope: Namespaced
     version: v1
-  displayColumns:
+  columns:
     - jsonPath: .metadata.name
       name: Name
       type: string
+      priority: 3
     - jsonPath: .metadata.namespace
       name: Namespace
       type: string
+      priority: 3
     - jsonPath: .metadata.labels
       name: Labels
       type: object
+      priority: 3
     - jsonPath: .metadata.annotations
       name: Annotations
       type: object
+      priority: 3
+    - jsonPath: .spec.selector
+      name: Selector
+      type: object
+      format: selector
+      priority: 1
+    - jsonPath: .spec.strategy.type
+      name: Strategy
+      type: string
+      priority: 1
+    - jsonPath: .spec.minReadySeconds
+      name: Min Ready Seconds
+      type: integer
+      priority: 1
+    - jsonPath: .spec.revisionHistoryLimit
+      name: Revision History Limit
+      type: integer
+      priority: 1
+    - jsonPath: .spec.strategy.rollingUpdate
+      name: Rolling Update Strategy
+      type: object
+      priority: 1
+    - jsonPath: {.status.updatedReplicas} updated, {.status.replicas} total, {.status.availableReplicas} available, {.status.unavailableReplicas} unavailable
+      name: Status
+      type: string
+      priority: 1
+    - jsonPath: .spec.replicas
+      name: Desired Replicas
+      type: integer
+      priority: 1
     - jsonPath: .metadata.creationTimestamp
       name: Age
       type: date
+      priority: 2
     - jsonPath: '{.status.readyReplicas}/{.spec.replicas}'
       name: Pods
       type: string
+      priority: 2
     - jsonPath: '{range .spec.template.spec.containers[*]}{.image}{"\n"}{end}'
       name: Images
       type: string
       format: csv
+      priority: 2
+  subTables:
+    - fieldPath: .status.conditions
+      columns:
+        - jsonPath: .type
+          name: Type
+          type: string
+        - jsonPath: .status
+          name: Status
+          type: string
+        - jsonPath: .lastTransitionTime
+          name: "Last Transition Time"
+          type: date
+        - jsonPath: .reason
+          name: Reason
+          type: string
+        - jsonPath: .lastUpdateTime
+          name: "Last Update Time"
+          type: date
   keyTargets:
     - apiVersion: apps/v1
       kind: ReplicaSet

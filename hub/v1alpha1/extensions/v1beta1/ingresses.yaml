@@ -15,7 +15,7 @@ spec:
     name: ingresses
     scope: Namespaced
     version: v1beta1
-  displayColumns:
+  columns:
     - jsonPath: .metadata.name
       name: Name
       type: string
