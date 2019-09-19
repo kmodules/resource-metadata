@@ -44,6 +44,18 @@ type Table struct {
 	ColumnDefinitions []ResourceColumnDefinition `json:"columnDefinitions"`
 	// rows is the list of items in the table.
 	Rows []TableRow `json:"rows"`
+
+	SubTables []SubTable `json:"subTables,omitempty"`
+}
+
+type SubTable struct {
+	// name is a human readable name for the sub table.
+	Name string `json:"name"`
+	// columnDefinitions describes each column in the returned items array. The number of cells per row
+	// will always match the number of column definitions.
+	ColumnDefinitions []ResourceColumnDefinition `json:"columnDefinitions"`
+	// rows is the list of items in the table.
+	Rows []TableRow `json:"rows"`
 }
 
 // TableRow is an individual row in a table.

@@ -108,6 +108,7 @@ type ResourceColumnDefinition struct {
 }
 
 type ResourceSubTableDefinition struct {
+	Name      string
 	FieldPath string
 	Columns   []ResourceColumnDefinition
 }
@@ -173,11 +174,19 @@ type Table struct {
 	metav1.TypeMeta
 	metav1.ListMeta
 	ColumnDefinitions []ResourceColumnDefinition
-	Rows              []TableRow `json:"rows"`
+	Rows              []TableRow
+
+	SubTables []SubTable
+}
+
+type SubTable struct {
+	Name              string
+	ColumnDefinitions []ResourceColumnDefinition
+	Rows              []TableRow
 }
 
 type TableRow struct {
-	Cells []interface{} `json:"cells"`
+	Cells []interface{}
 }
 
 type IncludeObjectPolicy string

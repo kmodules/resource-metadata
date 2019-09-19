@@ -601,6 +601,10 @@ spec:
                     type: array
                   fieldPath:
                     type: string
+                  name:
+                    type: string
+                required:
+                - name
                 type: object
               type: array
           required:

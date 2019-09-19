@@ -159,6 +159,7 @@ type ResourceColumnDefinition struct {
 }
 
 type ResourceSubTableDefinition struct {
+	Name      string                     `json:"name"`
 	FieldPath string                     `json:"fieldPath,omitempty"`
 	Columns   []ResourceColumnDefinition `json:"columns,omitempty"`
 }

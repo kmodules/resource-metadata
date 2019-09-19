@@ -294,6 +294,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceDescriptorSpec":     schema_resource_metadata_apis_meta_v1alpha1_ResourceDescriptorSpec(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceID":                 schema_resource_metadata_apis_meta_v1alpha1_ResourceID(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceSubTableDefinition": schema_resource_metadata_apis_meta_v1alpha1_ResourceSubTableDefinition(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.SubTable":                   schema_resource_metadata_apis_meta_v1alpha1_SubTable(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Table":                      schema_resource_metadata_apis_meta_v1alpha1_Table(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TableOptions":               schema_resource_metadata_apis_meta_v1alpha1_TableOptions(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TableRow":                   schema_resource_metadata_apis_meta_v1alpha1_TableRow(ref),
@@ -12982,6 +12983,12 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceSubTableDefinition(ref 
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
 					"fieldPath": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
@@ -13001,10 +13008,59 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceSubTableDefinition(ref 
 						},
 					},
 				},
+				Required: []string{"name"},
 			},
 		},
 		Dependencies: []string{
 			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumnDefinition"},
+	}
+}
+
+func schema_resource_metadata_apis_meta_v1alpha1_SubTable(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Description: "name is a human readable name for the sub table.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"columnDefinitions": {
+						SchemaProps: spec.SchemaProps{
+							Description: "columnDefinitions describes each column in the returned items array. The number of cells per row will always match the number of column definitions.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumnDefinition"),
+									},
+								},
+							},
+						},
+					},
+					"rows": {
+						SchemaProps: spec.SchemaProps{
+							Description: "rows is the list of items in the table.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TableRow"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"name", "columnDefinitions", "rows"},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumnDefinition", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TableRow"},
 	}
 }
 
@@ -13061,12 +13117,24 @@ func schema_resource_metadata_apis_meta_v1alpha1_Table(ref common.ReferenceCallb
 							},
 						},
 					},
+					"subTables": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.SubTable"),
+									},
+								},
+							},
+						},
+					},
 				},
 				Required: []string{"columnDefinitions", "rows"},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumnDefinition", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TableRow"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumnDefinition", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.SubTable", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TableRow"},
 	}
 }
 
