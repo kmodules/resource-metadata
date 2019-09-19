@@ -52,7 +52,7 @@ func CheckNodeToPod(dc dynamic.Interface, g *graph.Graph) error {
 		APIVersion: "v1",
 		Kind:       "Node",
 	}
-	nodes, err := g.List(dc, pod, nodeType)
+	nodes, err := g.List(dc, *pod, nodeType)
 	if err != nil {
 		return err
 	}
@@ -78,7 +78,7 @@ func CheckPodToNode(dc dynamic.Interface, g *graph.Graph) error {
 		APIVersion: "v1",
 		Kind:       "Pod",
 	}
-	pods, err := g.List(dc, node, podType)
+	pods, err := g.List(dc, *node, podType)
 	if err != nil {
 		return err
 	}
@@ -104,7 +104,7 @@ func CheckDeployment(dc dynamic.Interface, g *graph.Graph) error {
 		APIVersion: "v1",
 		Kind:       "Pod",
 	}
-	pods, err := g.List(dc, busyDep, podType)
+	pods, err := g.List(dc, *busyDep, podType)
 	if err != nil {
 		return err
 	}
@@ -116,7 +116,7 @@ func CheckDeployment(dc dynamic.Interface, g *graph.Graph) error {
 		APIVersion: "v1",
 		Kind:       "Service",
 	}
-	services, err := g.List(dc, busyDep, svcType)
+	services, err := g.List(dc, *busyDep, svcType)
 	if err != nil {
 		return err
 	}
@@ -142,7 +142,7 @@ func checkPodToPVC(dc dynamic.Interface, g *graph.Graph) error {
 		APIVersion: "v1",
 		Kind:       "PersistentVolumeClaim",
 	}
-	pvcs, err := g.List(dc, pod, pvcType)
+	pvcs, err := g.List(dc, *pod, pvcType)
 	if err != nil {
 		return err
 	}
@@ -168,7 +168,7 @@ func checkPVCToPod(dc dynamic.Interface, g *graph.Graph) error {
 		APIVersion: "v1",
 		Kind:       "Pod",
 	}
-	pods, err := g.List(dc, pvc, podType)
+	pods, err := g.List(dc, *pvc, podType)
 	if err != nil {
 		return err
 	}
@@ -194,7 +194,7 @@ func checkDepToConfigMap(dc dynamic.Interface, g *graph.Graph) error {
 		APIVersion: "v1",
 		Kind:       "ConfigMap",
 	}
-	cfgs, err := g.List(dc, pod, cfgType)
+	cfgs, err := g.List(dc, *pod, cfgType)
 	if err != nil {
 		return err
 	}
@@ -220,7 +220,7 @@ func checkConfigMapToDep(dc dynamic.Interface, g *graph.Graph) error {
 		APIVersion: "apps/v1",
 		Kind:       "Deployment",
 	}
-	deps, err := g.List(dc, cfg, depType)
+	deps, err := g.List(dc, *cfg, depType)
 	if err != nil {
 		return err
 	}
@@ -246,7 +246,7 @@ func checkKubeDBToService(dc dynamic.Interface, g *graph.Graph) error {
 		APIVersion: "v1",
 		Kind:       "Service",
 	}
-	services, err := g.List(dc, pg, svcType)
+	services, err := g.List(dc, *pg, svcType)
 	if err != nil {
 		return err
 	}
@@ -272,7 +272,7 @@ func checkKubeDBToStatefulset(dc dynamic.Interface, g *graph.Graph) error {
 		APIVersion: "apps/v1",
 		Kind:       "StatefulSet",
 	}
-	statefulsets, err := g.List(dc, pg, ssType)
+	statefulsets, err := g.List(dc, *pg, ssType)
 	if err != nil {
 		return err
 	}
