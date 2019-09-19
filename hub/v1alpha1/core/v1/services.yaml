@@ -15,23 +15,20 @@ spec:
     name: services
     scope: Namespaced
     version: v1
+  keyTargets:
+    - apiVersion: v1
+      kind: Pod
   connections:
     - target:
-        group:
-        version: v1
-        resource: pods
+        apiVersion: v1
+        kind: Pod
       type: MatchSelector
       namespacePath: "metadata.namespace"
       selectorPath: "spec.selector"
     - target:
-        group: apps
-        version: v1
-        resource: deployments
+        apiVersion: apps/v1
+        kind: Deployment
       type: MatchSelector
       namespacePath: "metadata.namespace"
       selectorPath: "spec.selector"
       targetLabelPath: "spec.template.metadata.labels"
-  keyTargets:
-    - group:
-      version: v1
-      resource: pods

@@ -76,16 +76,6 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}); err != nil {
 		return err
 	}
-	if err := s.AddGeneratedConversionFunc((*GroupVersionResource)(nil), (*meta.GroupVersionResource)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_v1alpha1_GroupVersionResource_To_meta_GroupVersionResource(a.(*GroupVersionResource), b.(*meta.GroupVersionResource), scope)
-	}); err != nil {
-		return err
-	}
-	if err := s.AddGeneratedConversionFunc((*meta.GroupVersionResource)(nil), (*GroupVersionResource)(nil), func(a, b interface{}, scope conversion.Scope) error {
-		return Convert_meta_GroupVersionResource_To_v1alpha1_GroupVersionResource(a.(*meta.GroupVersionResource), b.(*GroupVersionResource), scope)
-	}); err != nil {
-		return err
-	}
 	if err := s.AddGeneratedConversionFunc((*Path)(nil), (*meta.Path)(nil), func(a, b interface{}, scope conversion.Scope) error {
 		return Convert_v1alpha1_Path_To_meta_Path(a.(*Path), b.(*meta.Path), scope)
 	}); err != nil {
@@ -196,16 +186,60 @@ func RegisterConversions(s *runtime.Scheme) error {
 	}); err != nil {
 		return err
 	}
+	if err := s.AddGeneratedConversionFunc((*ResourceSubTableDefinition)(nil), (*meta.ResourceSubTableDefinition)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_ResourceSubTableDefinition_To_meta_ResourceSubTableDefinition(a.(*ResourceSubTableDefinition), b.(*meta.ResourceSubTableDefinition), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddGeneratedConversionFunc((*meta.ResourceSubTableDefinition)(nil), (*ResourceSubTableDefinition)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_meta_ResourceSubTableDefinition_To_v1alpha1_ResourceSubTableDefinition(a.(*meta.ResourceSubTableDefinition), b.(*ResourceSubTableDefinition), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddGeneratedConversionFunc((*SubTable)(nil), (*meta.SubTable)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_SubTable_To_meta_SubTable(a.(*SubTable), b.(*meta.SubTable), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddGeneratedConversionFunc((*meta.SubTable)(nil), (*SubTable)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_meta_SubTable_To_v1alpha1_SubTable(a.(*meta.SubTable), b.(*SubTable), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddGeneratedConversionFunc((*Table)(nil), (*meta.Table)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_Table_To_meta_Table(a.(*Table), b.(*meta.Table), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddGeneratedConversionFunc((*meta.Table)(nil), (*Table)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_meta_Table_To_v1alpha1_Table(a.(*meta.Table), b.(*Table), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddGeneratedConversionFunc((*TableOptions)(nil), (*meta.TableOptions)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_TableOptions_To_meta_TableOptions(a.(*TableOptions), b.(*meta.TableOptions), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddGeneratedConversionFunc((*meta.TableOptions)(nil), (*TableOptions)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_meta_TableOptions_To_v1alpha1_TableOptions(a.(*meta.TableOptions), b.(*TableOptions), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddGeneratedConversionFunc((*TableRow)(nil), (*meta.TableRow)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_v1alpha1_TableRow_To_meta_TableRow(a.(*TableRow), b.(*meta.TableRow), scope)
+	}); err != nil {
+		return err
+	}
+	if err := s.AddGeneratedConversionFunc((*meta.TableRow)(nil), (*TableRow)(nil), func(a, b interface{}, scope conversion.Scope) error {
+		return Convert_meta_TableRow_To_v1alpha1_TableRow(a.(*meta.TableRow), b.(*TableRow), scope)
+	}); err != nil {
+		return err
+	}
 	return nil
 }
 
 func autoConvert_v1alpha1_Edge_To_meta_Edge(in *Edge, out *meta.Edge, s conversion.Scope) error {
-	if err := Convert_v1alpha1_GroupVersionResource_To_meta_GroupVersionResource(&in.Src, &out.Src, s); err != nil {
-		return err
-	}
-	if err := Convert_v1alpha1_GroupVersionResource_To_meta_GroupVersionResource(&in.Dst, &out.Dst, s); err != nil {
-		return err
-	}
 	out.W = in.W
 	if err := Convert_v1alpha1_ResourceConnectionSpec_To_meta_ResourceConnectionSpec(&in.Connection, &out.Connection, s); err != nil {
 		return err
@@ -220,12 +254,6 @@ func Convert_v1alpha1_Edge_To_meta_Edge(in *Edge, out *meta.Edge, s conversion.S
 }
 
 func autoConvert_meta_Edge_To_v1alpha1_Edge(in *meta.Edge, out *Edge, s conversion.Scope) error {
-	if err := Convert_meta_GroupVersionResource_To_v1alpha1_GroupVersionResource(&in.Src, &out.Src, s); err != nil {
-		return err
-	}
-	if err := Convert_meta_GroupVersionResource_To_v1alpha1_GroupVersionResource(&in.Dst, &out.Dst, s); err != nil {
-		return err
-	}
 	out.W = in.W
 	if err := Convert_meta_ResourceConnectionSpec_To_v1alpha1_ResourceConnectionSpec(&in.Connection, &out.Connection, s); err != nil {
 		return err
@@ -262,9 +290,6 @@ func Convert_meta_GraphFinder_To_v1alpha1_GraphFinder(in *meta.GraphFinder, out 
 }
 
 func autoConvert_v1alpha1_GraphRequest_To_meta_GraphRequest(in *GraphRequest, out *meta.GraphRequest, s conversion.Scope) error {
-	if err := Convert_v1alpha1_GroupVersionResource_To_meta_GroupVersionResource(&in.Source, &out.Source, s); err != nil {
-		return err
-	}
 	return nil
 }
 
@@ -274,9 +299,6 @@ func Convert_v1alpha1_GraphRequest_To_meta_GraphRequest(in *GraphRequest, out *m
 }
 
 func autoConvert_meta_GraphRequest_To_v1alpha1_GraphRequest(in *meta.GraphRequest, out *GraphRequest, s conversion.Scope) error {
-	if err := Convert_meta_GroupVersionResource_To_v1alpha1_GroupVersionResource(&in.Source, &out.Source, s); err != nil {
-		return err
-	}
 	return nil
 }
 
@@ -286,9 +308,6 @@ func Convert_meta_GraphRequest_To_v1alpha1_GraphRequest(in *meta.GraphRequest, o
 }
 
 func autoConvert_v1alpha1_GraphResponse_To_meta_GraphResponse(in *GraphResponse, out *meta.GraphResponse, s conversion.Scope) error {
-	if err := Convert_v1alpha1_GroupVersionResource_To_meta_GroupVersionResource(&in.Source, &out.Source, s); err != nil {
-		return err
-	}
 	out.Connections = *(*[]meta.Edge)(unsafe.Pointer(&in.Connections))
 	return nil
 }
@@ -299,9 +318,6 @@ func Convert_v1alpha1_GraphResponse_To_meta_GraphResponse(in *GraphResponse, out
 }
 
 func autoConvert_meta_GraphResponse_To_v1alpha1_GraphResponse(in *meta.GraphResponse, out *GraphResponse, s conversion.Scope) error {
-	if err := Convert_meta_GroupVersionResource_To_v1alpha1_GroupVersionResource(&in.Source, &out.Source, s); err != nil {
-		return err
-	}
 	out.Connections = *(*[]Edge)(unsafe.Pointer(&in.Connections))
 	return nil
 }
@@ -311,37 +327,7 @@ func Convert_meta_GraphResponse_To_v1alpha1_GraphResponse(in *meta.GraphResponse
 	return autoConvert_meta_GraphResponse_To_v1alpha1_GraphResponse(in, out, s)
 }
 
-func autoConvert_v1alpha1_GroupVersionResource_To_meta_GroupVersionResource(in *GroupVersionResource, out *meta.GroupVersionResource, s conversion.Scope) error {
-	out.Group = in.Group
-	out.Version = in.Version
-	out.Resource = in.Resource
-	return nil
-}
-
-// Convert_v1alpha1_GroupVersionResource_To_meta_GroupVersionResource is an autogenerated conversion function.
-func Convert_v1alpha1_GroupVersionResource_To_meta_GroupVersionResource(in *GroupVersionResource, out *meta.GroupVersionResource, s conversion.Scope) error {
-	return autoConvert_v1alpha1_GroupVersionResource_To_meta_GroupVersionResource(in, out, s)
-}
-
-func autoConvert_meta_GroupVersionResource_To_v1alpha1_GroupVersionResource(in *meta.GroupVersionResource, out *GroupVersionResource, s conversion.Scope) error {
-	out.Group = in.Group
-	out.Version = in.Version
-	out.Resource = in.Resource
-	return nil
-}
-
-// Convert_meta_GroupVersionResource_To_v1alpha1_GroupVersionResource is an autogenerated conversion function.
-func Convert_meta_GroupVersionResource_To_v1alpha1_GroupVersionResource(in *meta.GroupVersionResource, out *GroupVersionResource, s conversion.Scope) error {
-	return autoConvert_meta_GroupVersionResource_To_v1alpha1_GroupVersionResource(in, out, s)
-}
-
 func autoConvert_v1alpha1_Path_To_meta_Path(in *Path, out *meta.Path, s conversion.Scope) error {
-	if err := Convert_v1alpha1_GroupVersionResource_To_meta_GroupVersionResource(&in.Source, &out.Source, s); err != nil {
-		return err
-	}
-	if err := Convert_v1alpha1_GroupVersionResource_To_meta_GroupVersionResource(&in.Target, &out.Target, s); err != nil {
-		return err
-	}
 	out.Distance = in.Distance
 	out.Edges = *(*[]meta.Edge)(unsafe.Pointer(&in.Edges))
 	return nil
@@ -353,12 +339,6 @@ func Convert_v1alpha1_Path_To_meta_Path(in *Path, out *meta.Path, s conversion.S
 }
 
 func autoConvert_meta_Path_To_v1alpha1_Path(in *meta.Path, out *Path, s conversion.Scope) error {
-	if err := Convert_meta_GroupVersionResource_To_v1alpha1_GroupVersionResource(&in.Source, &out.Source, s); err != nil {
-		return err
-	}
-	if err := Convert_meta_GroupVersionResource_To_v1alpha1_GroupVersionResource(&in.Target, &out.Target, s); err != nil {
-		return err
-	}
 	out.Distance = in.Distance
 	out.Edges = *(*[]Edge)(unsafe.Pointer(&in.Edges))
 	return nil
@@ -392,10 +372,7 @@ func Convert_meta_PathFinder_To_v1alpha1_PathFinder(in *meta.PathFinder, out *Pa
 }
 
 func autoConvert_v1alpha1_PathRequest_To_meta_PathRequest(in *PathRequest, out *meta.PathRequest, s conversion.Scope) error {
-	if err := Convert_v1alpha1_GroupVersionResource_To_meta_GroupVersionResource(&in.Source, &out.Source, s); err != nil {
-		return err
-	}
-	out.Target = (*meta.GroupVersionResource)(unsafe.Pointer(in.Target))
+	out.Target = (*v1.TypeMeta)(unsafe.Pointer(in.Target))
 	return nil
 }
 
@@ -405,10 +382,7 @@ func Convert_v1alpha1_PathRequest_To_meta_PathRequest(in *PathRequest, out *meta
 }
 
 func autoConvert_meta_PathRequest_To_v1alpha1_PathRequest(in *meta.PathRequest, out *PathRequest, s conversion.Scope) error {
-	if err := Convert_meta_GroupVersionResource_To_v1alpha1_GroupVersionResource(&in.Source, &out.Source, s); err != nil {
-		return err
-	}
-	out.Target = (*GroupVersionResource)(unsafe.Pointer(in.Target))
+	out.Target = (*v1.TypeMeta)(unsafe.Pointer(in.Target))
 	return nil
 }
 
@@ -468,9 +442,6 @@ func Convert_meta_ResourceColumnDefinition_To_v1alpha1_ResourceColumnDefinition(
 }
 
 func autoConvert_v1alpha1_ResourceConnection_To_meta_ResourceConnection(in *ResourceConnection, out *meta.ResourceConnection, s conversion.Scope) error {
-	if err := Convert_v1alpha1_GroupVersionResource_To_meta_GroupVersionResource(&in.Target, &out.Target, s); err != nil {
-		return err
-	}
 	if err := Convert_v1alpha1_ResourceConnectionSpec_To_meta_ResourceConnectionSpec(&in.ResourceConnectionSpec, &out.ResourceConnectionSpec, s); err != nil {
 		return err
 	}
@@ -483,9 +454,6 @@ func Convert_v1alpha1_ResourceConnection_To_meta_ResourceConnection(in *Resource
 }
 
 func autoConvert_meta_ResourceConnection_To_v1alpha1_ResourceConnection(in *meta.ResourceConnection, out *ResourceConnection, s conversion.Scope) error {
-	if err := Convert_meta_GroupVersionResource_To_v1alpha1_GroupVersionResource(&in.Target, &out.Target, s); err != nil {
-		return err
-	}
 	if err := Convert_meta_ResourceConnectionSpec_To_v1alpha1_ResourceConnectionSpec(&in.ResourceConnectionSpec, &out.ResourceConnectionSpec, s); err != nil {
 		return err
 	}
@@ -583,9 +551,10 @@ func autoConvert_v1alpha1_ResourceDescriptorSpec_To_meta_ResourceDescriptorSpec(
 	if err := Convert_v1alpha1_ResourceID_To_meta_ResourceID(&in.Resource, &out.Resource, s); err != nil {
 		return err
 	}
-	out.DisplayColumns = *(*[]meta.ResourceColumnDefinition)(unsafe.Pointer(&in.DisplayColumns))
+	out.Columns = *(*[]meta.ResourceColumnDefinition)(unsafe.Pointer(&in.Columns))
+	out.SubTables = *(*[]meta.ResourceSubTableDefinition)(unsafe.Pointer(&in.SubTables))
 	out.Connections = *(*[]meta.ResourceConnection)(unsafe.Pointer(&in.Connections))
-	out.KeyTargets = *(*[]meta.GroupVersionResource)(unsafe.Pointer(&in.KeyTargets))
+	out.KeyTargets = *(*[]v1.TypeMeta)(unsafe.Pointer(&in.KeyTargets))
 	return nil
 }
 
@@ -598,9 +567,10 @@ func autoConvert_meta_ResourceDescriptorSpec_To_v1alpha1_ResourceDescriptorSpec(
 	if err := Convert_meta_ResourceID_To_v1alpha1_ResourceID(&in.Resource, &out.Resource, s); err != nil {
 		return err
 	}
-	out.DisplayColumns = *(*[]ResourceColumnDefinition)(unsafe.Pointer(&in.DisplayColumns))
+	out.Columns = *(*[]ResourceColumnDefinition)(unsafe.Pointer(&in.Columns))
+	out.SubTables = *(*[]ResourceSubTableDefinition)(unsafe.Pointer(&in.SubTables))
 	out.Connections = *(*[]ResourceConnection)(unsafe.Pointer(&in.Connections))
-	out.KeyTargets = *(*[]GroupVersionResource)(unsafe.Pointer(&in.KeyTargets))
+	out.KeyTargets = *(*[]v1.TypeMeta)(unsafe.Pointer(&in.KeyTargets))
 	return nil
 }
 
@@ -635,4 +605,120 @@ func autoConvert_meta_ResourceID_To_v1alpha1_ResourceID(in *meta.ResourceID, out
 // Convert_meta_ResourceID_To_v1alpha1_ResourceID is an autogenerated conversion function.
 func Convert_meta_ResourceID_To_v1alpha1_ResourceID(in *meta.ResourceID, out *ResourceID, s conversion.Scope) error {
 	return autoConvert_meta_ResourceID_To_v1alpha1_ResourceID(in, out, s)
+}
+
+func autoConvert_v1alpha1_ResourceSubTableDefinition_To_meta_ResourceSubTableDefinition(in *ResourceSubTableDefinition, out *meta.ResourceSubTableDefinition, s conversion.Scope) error {
+	out.Name = in.Name
+	out.FieldPath = in.FieldPath
+	out.Columns = *(*[]meta.ResourceColumnDefinition)(unsafe.Pointer(&in.Columns))
+	return nil
+}
+
+// Convert_v1alpha1_ResourceSubTableDefinition_To_meta_ResourceSubTableDefinition is an autogenerated conversion function.
+func Convert_v1alpha1_ResourceSubTableDefinition_To_meta_ResourceSubTableDefinition(in *ResourceSubTableDefinition, out *meta.ResourceSubTableDefinition, s conversion.Scope) error {
+	return autoConvert_v1alpha1_ResourceSubTableDefinition_To_meta_ResourceSubTableDefinition(in, out, s)
+}
+
+func autoConvert_meta_ResourceSubTableDefinition_To_v1alpha1_ResourceSubTableDefinition(in *meta.ResourceSubTableDefinition, out *ResourceSubTableDefinition, s conversion.Scope) error {
+	out.Name = in.Name
+	out.FieldPath = in.FieldPath
+	out.Columns = *(*[]ResourceColumnDefinition)(unsafe.Pointer(&in.Columns))
+	return nil
+}
+
+// Convert_meta_ResourceSubTableDefinition_To_v1alpha1_ResourceSubTableDefinition is an autogenerated conversion function.
+func Convert_meta_ResourceSubTableDefinition_To_v1alpha1_ResourceSubTableDefinition(in *meta.ResourceSubTableDefinition, out *ResourceSubTableDefinition, s conversion.Scope) error {
+	return autoConvert_meta_ResourceSubTableDefinition_To_v1alpha1_ResourceSubTableDefinition(in, out, s)
+}
+
+func autoConvert_v1alpha1_SubTable_To_meta_SubTable(in *SubTable, out *meta.SubTable, s conversion.Scope) error {
+	out.Name = in.Name
+	out.ColumnDefinitions = *(*[]meta.ResourceColumnDefinition)(unsafe.Pointer(&in.ColumnDefinitions))
+	out.Rows = *(*[]meta.TableRow)(unsafe.Pointer(&in.Rows))
+	return nil
+}
+
+// Convert_v1alpha1_SubTable_To_meta_SubTable is an autogenerated conversion function.
+func Convert_v1alpha1_SubTable_To_meta_SubTable(in *SubTable, out *meta.SubTable, s conversion.Scope) error {
+	return autoConvert_v1alpha1_SubTable_To_meta_SubTable(in, out, s)
+}
+
+func autoConvert_meta_SubTable_To_v1alpha1_SubTable(in *meta.SubTable, out *SubTable, s conversion.Scope) error {
+	out.Name = in.Name
+	out.ColumnDefinitions = *(*[]ResourceColumnDefinition)(unsafe.Pointer(&in.ColumnDefinitions))
+	out.Rows = *(*[]TableRow)(unsafe.Pointer(&in.Rows))
+	return nil
+}
+
+// Convert_meta_SubTable_To_v1alpha1_SubTable is an autogenerated conversion function.
+func Convert_meta_SubTable_To_v1alpha1_SubTable(in *meta.SubTable, out *SubTable, s conversion.Scope) error {
+	return autoConvert_meta_SubTable_To_v1alpha1_SubTable(in, out, s)
+}
+
+func autoConvert_v1alpha1_Table_To_meta_Table(in *Table, out *meta.Table, s conversion.Scope) error {
+	out.ListMeta = in.ListMeta
+	out.ColumnDefinitions = *(*[]meta.ResourceColumnDefinition)(unsafe.Pointer(&in.ColumnDefinitions))
+	out.Rows = *(*[]meta.TableRow)(unsafe.Pointer(&in.Rows))
+	out.SubTables = *(*[]meta.SubTable)(unsafe.Pointer(&in.SubTables))
+	return nil
+}
+
+// Convert_v1alpha1_Table_To_meta_Table is an autogenerated conversion function.
+func Convert_v1alpha1_Table_To_meta_Table(in *Table, out *meta.Table, s conversion.Scope) error {
+	return autoConvert_v1alpha1_Table_To_meta_Table(in, out, s)
+}
+
+func autoConvert_meta_Table_To_v1alpha1_Table(in *meta.Table, out *Table, s conversion.Scope) error {
+	out.ListMeta = in.ListMeta
+	out.ColumnDefinitions = *(*[]ResourceColumnDefinition)(unsafe.Pointer(&in.ColumnDefinitions))
+	out.Rows = *(*[]TableRow)(unsafe.Pointer(&in.Rows))
+	out.SubTables = *(*[]SubTable)(unsafe.Pointer(&in.SubTables))
+	return nil
+}
+
+// Convert_meta_Table_To_v1alpha1_Table is an autogenerated conversion function.
+func Convert_meta_Table_To_v1alpha1_Table(in *meta.Table, out *Table, s conversion.Scope) error {
+	return autoConvert_meta_Table_To_v1alpha1_Table(in, out, s)
+}
+
+func autoConvert_v1alpha1_TableOptions_To_meta_TableOptions(in *TableOptions, out *meta.TableOptions, s conversion.Scope) error {
+	out.NoHeaders = in.NoHeaders
+	out.IncludeObject = meta.IncludeObjectPolicy(in.IncludeObject)
+	return nil
+}
+
+// Convert_v1alpha1_TableOptions_To_meta_TableOptions is an autogenerated conversion function.
+func Convert_v1alpha1_TableOptions_To_meta_TableOptions(in *TableOptions, out *meta.TableOptions, s conversion.Scope) error {
+	return autoConvert_v1alpha1_TableOptions_To_meta_TableOptions(in, out, s)
+}
+
+func autoConvert_meta_TableOptions_To_v1alpha1_TableOptions(in *meta.TableOptions, out *TableOptions, s conversion.Scope) error {
+	out.NoHeaders = in.NoHeaders
+	out.IncludeObject = IncludeObjectPolicy(in.IncludeObject)
+	return nil
+}
+
+// Convert_meta_TableOptions_To_v1alpha1_TableOptions is an autogenerated conversion function.
+func Convert_meta_TableOptions_To_v1alpha1_TableOptions(in *meta.TableOptions, out *TableOptions, s conversion.Scope) error {
+	return autoConvert_meta_TableOptions_To_v1alpha1_TableOptions(in, out, s)
+}
+
+func autoConvert_v1alpha1_TableRow_To_meta_TableRow(in *TableRow, out *meta.TableRow, s conversion.Scope) error {
+	out.Cells = *(*[]interface{})(unsafe.Pointer(&in.Cells))
+	return nil
+}
+
+// Convert_v1alpha1_TableRow_To_meta_TableRow is an autogenerated conversion function.
+func Convert_v1alpha1_TableRow_To_meta_TableRow(in *TableRow, out *meta.TableRow, s conversion.Scope) error {
+	return autoConvert_v1alpha1_TableRow_To_meta_TableRow(in, out, s)
+}
+
+func autoConvert_meta_TableRow_To_v1alpha1_TableRow(in *meta.TableRow, out *TableRow, s conversion.Scope) error {
+	out.Cells = *(*[]interface{})(unsafe.Pointer(&in.Cells))
+	return nil
+}
+
+// Convert_meta_TableRow_To_v1alpha1_TableRow is an autogenerated conversion function.
+func Convert_meta_TableRow_To_v1alpha1_TableRow(in *meta.TableRow, out *TableRow, s conversion.Scope) error {
+	return autoConvert_meta_TableRow_To_v1alpha1_TableRow(in, out, s)
 }

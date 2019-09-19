@@ -18,16 +18,13 @@ spec:
     # - statefulset
     # - service
     - target:
-        group: monitoring.coreos.com
-        version: v1
-        resource: servicemonitors
+        apiVersion: monitoring.coreos.com/v1
+        kind: ServiceMonitor
       type: MatchSelector
       namespacePath: "spec.namespaceSelector"
       selectorPath: "spec.selector"
   keyTargets:
-    - group:
-      version: v1
-      resource: pods
-    - group:
-      version: v1
-      resource: services
+    - apiVersion: v1
+      kind: Pod
+    - apiVersion: v1
+      kind: Service

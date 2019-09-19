@@ -31,10 +31,11 @@ type ResourceDescriptor struct {
 }
 
 type ResourceDescriptorSpec struct {
-	Resource       ResourceID
-	DisplayColumns []ResourceColumnDefinition
-	Connections    []ResourceConnection
-	KeyTargets     []GroupVersionResource
+	Resource    ResourceID
+	Columns     []ResourceColumnDefinition
+	SubTables   []ResourceSubTableDefinition
+	Connections []ResourceConnection
+	KeyTargets  []metav1.TypeMeta
 }
 
 type ResourceID struct {
@@ -61,14 +62,8 @@ const (
 	OwnedBy       ConnectionType = "OwnedBy"
 )
 
-type GroupVersionResource struct {
-	Group    string
-	Version  string
-	Resource string
-}
-
 type ResourceConnection struct {
-	Target GroupVersionResource
+	Target metav1.TypeMeta
 	ResourceConnectionSpec
 }
 
@@ -108,9 +103,14 @@ type ResourceColumnDefinition struct {
 	// numbers are considered higher priority. Columns that may be omitted in limited space scenarios
 	// should be given a higher priority.
 	Priority int32
-
 	// JSONPath is a simple JSON path, i.e. without array notation.
 	JSONPath string
+}
+
+type ResourceSubTableDefinition struct {
+	Name      string
+	FieldPath string
+	Columns   []ResourceColumnDefinition
 }
 
 // +genclient:nonNamespaced
@@ -131,8 +131,8 @@ type PathFinder struct {
 }
 
 type PathRequest struct {
-	Source GroupVersionResource
-	Target *GroupVersionResource
+	Source metav1.TypeMeta
+	Target *metav1.TypeMeta
 }
 
 type PathResponse struct {
@@ -140,15 +140,15 @@ type PathResponse struct {
 }
 
 type Path struct {
-	Source   GroupVersionResource
-	Target   GroupVersionResource
+	Source   metav1.TypeMeta
+	Target   metav1.TypeMeta
 	Distance uint64
 	Edges    []Edge
 }
 
 type Edge struct {
-	Src        GroupVersionResource
-	Dst        GroupVersionResource
+	Src        metav1.TypeMeta
+	Dst        metav1.TypeMeta
 	W          uint64
 	Connection ResourceConnectionSpec
 	Forward    bool
@@ -162,10 +162,43 @@ type GraphFinder struct {
 }
 
 type GraphRequest struct {
-	Source GroupVersionResource
+	Source metav1.TypeMeta
 }
 
 type GraphResponse struct {
-	Source      GroupVersionResource
+	Source      metav1.TypeMeta
 	Connections []Edge
+}
+
+type Table struct {
+	metav1.TypeMeta
+	metav1.ListMeta
+	ColumnDefinitions []ResourceColumnDefinition
+	Rows              []TableRow
+
+	SubTables []SubTable
+}
+
+type SubTable struct {
+	Name              string
+	ColumnDefinitions []ResourceColumnDefinition
+	Rows              []TableRow
+}
+
+type TableRow struct {
+	Cells []interface{}
+}
+
+type IncludeObjectPolicy string
+
+const (
+	IncludeNone     IncludeObjectPolicy = "None"
+	IncludeMetadata IncludeObjectPolicy = "Metadata"
+	IncludeObject   IncludeObjectPolicy = "Object"
+)
+
+type TableOptions struct {
+	metav1.TypeMeta
+	NoHeaders     bool
+	IncludeObject IncludeObjectPolicy
 }

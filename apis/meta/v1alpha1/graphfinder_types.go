@@ -42,10 +42,10 @@ type GraphFinder struct {
 }
 
 type GraphRequest struct {
-	Source GroupVersionResource `json:"source"`
+	Source metav1.TypeMeta `json:"source"`
 }
 
 type GraphResponse struct {
-	Source      GroupVersionResource `json:"source"`
-	Connections []Edge               `json:"connections,omitempty"`
+	Source      metav1.TypeMeta `json:"source"`
+	Connections []Edge          `json:"connections,omitempty"`
 }

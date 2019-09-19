@@ -17,17 +17,15 @@ spec:
     version: v1alpha1
   connections:
     - target:
-        group: apps
-        version: v1
-        resource: statefulsets
+        apiVersion: apps/v1
+        kind: StatefulSet
       type: MatchName
       namespacePath: "metadata.namespace"
       nameTemplate: "{.metadata.name}"
       level: Owner
     - target:
-        group: ""
-        version: v1
-        resource: services
+        apiVersion: v1
+        kind: Service
       type: MatchSelector
       namespacePath: "metadata.namespace"
       selector:
@@ -36,9 +34,8 @@ spec:
           kubedb.com/name: "{.metadata.name}"
       level: Owner
     - target:
-        group: appcatalog.appscode.com
-        version: v1alpha1
-        resource: appbindings
+        apiVersion: appcatalog.appscode.com/v1alpha1
+        kind: AppBinding
       type: MatchName
       namespacePath: "metadata.namespace"
       nameTemplate: "{.metadata.name}"

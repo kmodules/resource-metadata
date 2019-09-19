@@ -39,34 +39,20 @@ func (r *Storage) New() runtime.Object {
 func (r *Storage) Create(ctx context.Context, obj runtime.Object, createValidation rest.ValidateObjectFunc, options *metav1.CreateOptions) (runtime.Object, error) {
 	gf := obj.(*v1alpha1.GraphFinder)
 
-	srcGVR := schema.GroupVersionResource{
-		Group:    gf.Request.Source.Group,
-		Version:  gf.Request.Source.Version,
-		Resource: gf.Request.Source.Resource,
-	}
-
 	g, err := graph.LoadGraph()
 	if err != nil {
 		return nil, kerr.NewInternalError(err)
 	}
 
-	dist, prev := graph.Dijkstra(g, srcGVR)
+	dist, prev := graph.Dijkstra(g, gf.Request.Source)
 
 	out := make([]v1alpha1.Edge, 0, len(prev))
 
 	for target, edge := range prev {
-		if target != srcGVR && edge != nil {
+		if target != gf.Request.Source && edge != nil {
 			out = append(out, v1alpha1.Edge{
-				Src: v1alpha1.GroupVersionResource{
-					Group:    edge.Src.Group,
-					Version:  edge.Src.Version,
-					Resource: edge.Src.Resource,
-				},
-				Dst: v1alpha1.GroupVersionResource{
-					Group:    edge.Dst.Group,
-					Version:  edge.Dst.Version,
-					Resource: edge.Dst.Resource,
-				},
+				Src:        edge.Src,
+				Dst:        edge.Dst,
 				W:          dist[target],
 				Connection: edge.Connection,
 				Forward:    edge.Forward,

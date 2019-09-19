@@ -1,0 +1,115 @@
+{
+  "metadata": {
+    "selfLink": "/apis/apps/v1/namespaces/default/deployments/busy-dep",
+    "resourceVersion": "47015"
+  },
+  "columnDefinitions": [
+    {
+      "name": "Name",
+      "type": "string",
+      "format": "",
+      "description": "Custom resource definition column (in JSONPath format): {.metadata.name}",
+      "priority": 3
+    },
+    {
+      "name": "Namespace",
+      "type": "string",
+      "format": "",
+      "description": "Custom resource definition column (in JSONPath format): {.metadata.namespace}",
+      "priority": 3
+    },
+    {
+      "name": "Labels",
+      "type": "object",
+      "format": "",
+      "description": "Custom resource definition column (in JSONPath format): {.metadata.labels}",
+      "priority": 3
+    },
+    {
+      "name": "Annotations",
+      "type": "object",
+      "format": "",
+      "description": "Custom resource definition column (in JSONPath format): {.metadata.annotations}",
+      "priority": 3
+    },
+    {
+      "name": "Selector",
+      "type": "object",
+      "format": "selector",
+      "description": "Custom resource definition column (in JSONPath format): {.spec.selector}",
+      "priority": 1
+    },
+    {
+      "name": "Strategy",
+      "type": "string",
+      "format": "",
+      "description": "Custom resource definition column (in JSONPath format): {.spec.strategy.type}",
+      "priority": 1
+    },
+    {
+      "name": "Min Ready Seconds",
+      "type": "integer",
+      "format": "",
+      "description": "Custom resource definition column (in JSONPath format): {.spec.minReadySeconds}",
+      "priority": 1
+    },
+    {
+      "name": "Revision History Limit",
+      "type": "integer",
+      "format": "",
+      "description": "Custom resource definition column (in JSONPath format): {.spec.revisionHistoryLimit}",
+      "priority": 1
+    },
+    {
+      "name": "Rolling Update Strategy",
+      "type": "object",
+      "format": "",
+      "description": "Custom resource definition column (in JSONPath format): {.spec.strategy.rollingUpdate}",
+      "priority": 1
+    },
+    {
+      "name": "Status",
+      "type": "string",
+      "format": "",
+      "description": "Custom resource definition column (in JSONPath format): {.status.updatedReplicas} updated, {.status.replicas} total, {.status.availableReplicas} available, {.status.unavailableReplicas} unavailable",
+      "priority": 1
+    },
+    {
+      "name": "Desired Replicas",
+      "type": "integer",
+      "format": "",
+      "description": "Custom resource definition column (in JSONPath format): {.spec.replicas}",
+      "priority": 1
+    }
+  ],
+  "rows": [
+    {
+      "cells": [
+        "busy-dep",
+        "default",
+        {
+          "app": "busy-dep"
+        },
+        {
+          "deployment.kubernetes.io/revision": "1"
+        },
+        {
+          "matchLabels": {
+            "app": "busy-dep"
+          }
+        },
+        "RollingUpdate",
+        null,
+        2,
+        {
+          "maxSurge": "25%",
+          "maxUnavailable": "25%"
+        },
+        "1",
+        1
+      ],
+      "object": null
+    }
+  ]
+}
+

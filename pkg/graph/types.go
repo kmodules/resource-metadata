@@ -5,6 +5,7 @@ import (
 	"sync"
 
 	jsoniter "github.com/json-iterator/go"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 )
@@ -21,43 +22,25 @@ var json = jsoniter.Config{
 const CostFactorOfInAppFiltering = 4
 
 type Edge struct {
-	Src        schema.GroupVersionResource
-	Dst        schema.GroupVersionResource
+	Src        metav1.TypeMeta
+	Dst        metav1.TypeMeta
 	W          uint64
 	Connection v1alpha1.ResourceConnectionSpec
 	Forward    bool
 }
 
-type AdjacencyMap map[schema.GroupVersionResource]*Edge
+type AdjacencyMap map[metav1.TypeMeta]*Edge
 
 type Graph struct {
-	edges     map[schema.GroupVersionResource]AdjacencyMap
-	resources map[schema.GroupVersionResource]*v1alpha1.ResourceID
-	kinds     map[schema.GroupVersionKind]*v1alpha1.ResourceID
+	edges map[metav1.TypeMeta]AdjacencyMap
 
 	m sync.Mutex
 }
 
 func NewGraph() *Graph {
 	return &Graph{
-		edges:     make(map[schema.GroupVersionResource]AdjacencyMap),
-		resources: make(map[schema.GroupVersionResource]*v1alpha1.ResourceID),
-		kinds:     make(map[schema.GroupVersionKind]*v1alpha1.ResourceID),
+		edges: make(map[metav1.TypeMeta]AdjacencyMap),
 	}
-}
-
-func (g *Graph) AddVertex(v v1alpha1.ResourceID) {
-	g.resources[schema.GroupVersionResource{
-		Group:    v.Group,
-		Version:  v.Version,
-		Resource: v.Name,
-	}] = &v
-
-	g.kinds[schema.GroupVersionKind{
-		Group:   v.Group,
-		Version: v.Version,
-		Kind:    v.Kind,
-	}] = &v
 }
 
 func (g *Graph) AddEdge(e *Edge) {
@@ -120,4 +103,17 @@ func contains(arr []string, item string) bool {
 		}
 	}
 	return false
+}
+
+func equalsGV(apiGroup string, t metav1.TypeMeta) bool {
+	gv1, err := schema.ParseGroupVersion(apiGroup)
+	if err != nil {
+		return false
+	}
+	gv2 := t.GroupVersionKind().GroupVersion()
+	if gv1.Version != "" && gv1.Version != gv2.Version {
+		// if gv2 has version, than version must match
+		return false
+	}
+	return gv1.Group != gv2.Group
 }

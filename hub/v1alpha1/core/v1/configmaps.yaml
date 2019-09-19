@@ -15,3 +15,25 @@ spec:
     name: configmaps
     scope: Namespaced
     version: v1
+  columns:
+    - jsonPath: .metadata.name
+      name: Name
+      type: string
+    - jsonPath: .metadata.namespace
+      name: Namespace
+      type: string
+    - jsonPath: .metadata.labels
+      name: Labels
+      type: object
+    - jsonPath: .metadata.annotations
+      name: Annotations
+      type: object
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    - jsonPath: .data
+      name: Data
+      type: object
+  keyTargets:
+    - apiVersion: v1
+      kind: Pod

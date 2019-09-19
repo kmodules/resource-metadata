@@ -88,16 +88,10 @@ func (r *Storage) List(ctx context.Context, options *metainternalversion.ListOpt
 	}
 
 	items := make([]meta.ResourceDescriptor, 0, len(names))
-	for _, name := range hub.AssetNames() {
-		data, err := hub.Asset(name)
+	for _, filename := range hub.AssetNames() {
+		obj, err := hub.LoadByFile(filename)
 		if err != nil {
-			return nil, kerr.NewNotFound(schema.GroupResource{Group: meta.GroupName, Resource: v1alpha1.ResourceKindResourceDescriptor}, name)
-		}
-
-		var obj v1alpha1.ResourceDescriptor
-		err = yaml.Unmarshal(data, &obj)
-		if err != nil {
-			return nil, kerr.NewInternalError(err)
+			return nil, err
 		}
 
 		if options.LabelSelector != nil && !options.LabelSelector.Matches(labels.Set(obj.GetLabels())) {
@@ -105,7 +99,7 @@ func (r *Storage) List(ctx context.Context, options *metainternalversion.ListOpt
 		}
 
 		var item meta.ResourceDescriptor
-		err = v1alpha1.Convert_v1alpha1_ResourceDescriptor_To_meta_ResourceDescriptor(&obj, &item, nil)
+		err = v1alpha1.Convert_v1alpha1_ResourceDescriptor_To_meta_ResourceDescriptor(obj, &item, nil)
 		items = append(items, item)
 	}
 

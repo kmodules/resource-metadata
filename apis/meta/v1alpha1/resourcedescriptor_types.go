@@ -44,10 +44,11 @@ type ResourceDescriptor struct {
 }
 
 type ResourceDescriptorSpec struct {
-	Resource       ResourceID                 `json:"resource"`
-	DisplayColumns []ResourceColumnDefinition `json:"displayColumns,omitempty"`
-	Connections    []ResourceConnection       `json:"connections,omitempty"`
-	KeyTargets     []GroupVersionResource     `json:"keyTargets,omitempty"`
+	Resource    ResourceID                   `json:"resource"`
+	Columns     []ResourceColumnDefinition   `json:"columns,omitempty"`
+	SubTables   []ResourceSubTableDefinition `json:"subTables,omitempty"`
+	Connections []ResourceConnection         `json:"connections,omitempty"`
+	KeyTargets  []metav1.TypeMeta            `json:"keyTargets,omitempty"`
 }
 
 // ResourceID identifies a resource
@@ -79,20 +80,8 @@ const (
 	OwnedBy       ConnectionType = "OwnedBy"
 )
 
-type GroupVersionResource struct {
-	// Group is the group this resource belongs in
-	Group string `json:"group"`
-	// Version is the version this resource belongs in
-	// Should be always first item in Versions field if provided.
-	// Optional, but at least one of Version or Versions must be set.
-	// Deprecated: Please use `Versions`.
-	// +optional
-	Version  string `json:"version,omitempty"`
-	Resource string `json:"resource"`
-}
-
 type ResourceConnection struct {
-	Target                 GroupVersionResource `json:"target"`
+	Target                 metav1.TypeMeta `json:"target"`
 	ResourceConnectionSpec `json:",inline,omitempty"`
 }
 
@@ -139,6 +128,13 @@ const (
 	Controller OwnershipLevel = "Controller"
 )
 
+type Priority int32
+
+const (
+	Field Priority = 1 << iota
+	List
+)
+
 // ResourceColumnDefinition specifies a column for server side printing.
 type ResourceColumnDefinition struct {
 	// name is a human readable name for the column.
@@ -157,11 +153,15 @@ type ResourceColumnDefinition struct {
 	// priority is an integer defining the relative importance of this column compared to others. Lower
 	// numbers are considered higher priority. Columns that may be omitted in limited space scenarios
 	// should be given a higher priority.
-	// +optional
-	Priority int32 `json:"priority,omitempty"`
-
+	Priority int32 `json:"priority"`
 	// JSONPath is a simple JSON path, i.e. with array notation.
 	JSONPath string `json:"jsonPath"`
+}
+
+type ResourceSubTableDefinition struct {
+	Name      string                     `json:"name"`
+	FieldPath string                     `json:"fieldPath,omitempty"`
+	Columns   []ResourceColumnDefinition `json:"columns,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
