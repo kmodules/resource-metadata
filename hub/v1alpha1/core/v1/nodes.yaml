@@ -15,16 +15,3 @@ spec:
     name: nodes
     scope: Cluster
     version: v1
-  columns:
-    - jsonPath: .metadata.name
-      name: Name
-      type: string
-    - jsonPath: .metadata.labels
-      name: Labels
-      type: object
-    - jsonPath: .metadata.annotations
-      name: Annotations
-      type: object
-    - jsonPath: .metadata.creationTimestamp
-      name: Age
-      type: date

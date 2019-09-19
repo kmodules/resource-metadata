@@ -6,6 +6,7 @@ import (
 	"log"
 	"path/filepath"
 
+	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1beta1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/dynamic"
@@ -27,6 +28,10 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+	crdClient, err := crd_cs.NewForConfig(config)
+	if err != nil {
+		log.Fatalln(err)
+	}
 
 	gvr := schema.GroupVersionResource{
 		Group:    "apps",
@@ -40,7 +45,7 @@ func main() {
 			log.Fatalln(err)
 		}
 
-		t, err := tableconvertor.TableForList(gvr, list.Items)
+		t, err := tableconvertor.TableForList(crdClient, gvr, list.Items)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -59,7 +64,7 @@ func main() {
 		}
 		fmt.Println(dep.GroupVersionKind().String())
 
-		t, err := tableconvertor.TableForObject(dep)
+		t, err := tableconvertor.TableForObject(crdClient, dep)
 		if err != nil {
 			log.Fatalln(err)
 		}

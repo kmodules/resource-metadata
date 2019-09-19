@@ -3,6 +3,7 @@ package tableconvertor
 import (
 	"context"
 
+	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1beta1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -11,8 +12,8 @@ import (
 	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
 )
 
-func TableForList(gvr schema.GroupVersionResource, items []unstructured.Unstructured) (*v1alpha1.Table, error) {
-	c, err := NewForGVR(gvr, v1alpha1.List)
+func TableForList(client crd_cs.ApiextensionsV1beta1Interface, gvr schema.GroupVersionResource, items []unstructured.Unstructured) (*v1alpha1.Table, error) {
+	c, err := NewForGVR(client, gvr, v1alpha1.List)
 	if err != nil {
 		return nil, err
 	}
@@ -23,7 +24,7 @@ func TableForList(gvr schema.GroupVersionResource, items []unstructured.Unstruct
 	return c.ConvertToTable(ctx, obj, nil)
 }
 
-func TableForObject(obj runtime.Object) (*v1alpha1.Table, error) {
+func TableForObject(client crd_cs.ApiextensionsV1beta1Interface, obj runtime.Object) (*v1alpha1.Table, error) {
 	gvk := obj.GetObjectKind().GroupVersionKind()
 	t := metav1.TypeMeta{APIVersion: gvk.GroupVersion().String(), Kind: gvk.Kind}
 	gvr := hub.GVR(t)
@@ -33,7 +34,7 @@ func TableForObject(obj runtime.Object) (*v1alpha1.Table, error) {
 		return nil, err
 	}
 
-	c, err := NewForGVR(gvr, v1alpha1.Field)
+	c, err := NewForGVR(client, gvr, v1alpha1.Field)
 	if err != nil {
 		return nil, err
 	}

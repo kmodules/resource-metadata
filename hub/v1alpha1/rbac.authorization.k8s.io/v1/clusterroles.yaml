@@ -15,19 +15,6 @@ spec:
     name: clusterroles
     scope: Cluster
     version: v1
-  columns:
-    - jsonPath: .metadata.name
-      name: Name
-      type: string
-    - jsonPath: .metadata.labels
-      name: Labels
-      type: object
-    - jsonPath: .metadata.annotations
-      name: Annotations
-      type: object
-    - jsonPath: .metadata.creationTimestamp
-      name: Age
-      type: date
   keyTargets:
     - apiVersion: rbac.authorization.k8s.io/v1
       kind: ClusterRoleBinding

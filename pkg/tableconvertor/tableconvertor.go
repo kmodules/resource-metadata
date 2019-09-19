@@ -24,6 +24,7 @@ import (
 	"reflect"
 	"strings"
 
+	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1beta1"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metatable "k8s.io/apimachinery/pkg/api/meta/table"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -46,11 +47,11 @@ func New(fieldPath string, columns []v1alpha1.ResourceColumnDefinition) (TableCo
 		fieldPath: fieldPath,
 		buf:       &bytes.Buffer{},
 	}
-	err := c.init(columns, v1alpha1.List)
+	err := c.init(filterColumns(columns, v1alpha1.List))
 	return c, err
 }
 
-func NewForGVR(gvr schema.GroupVersionResource, priority v1alpha1.Priority) (TableConvertor, error) {
+func NewForGVR(client crd_cs.ApiextensionsV1beta1Interface, gvr schema.GroupVersionResource, priority v1alpha1.Priority) (TableConvertor, error) {
 	rd, err := hub.LoadByGVR(gvr)
 	if err != nil {
 		return nil, err
@@ -59,7 +60,11 @@ func NewForGVR(gvr schema.GroupVersionResource, priority v1alpha1.Priority) (Tab
 	c := &convertor{
 		buf: &bytes.Buffer{},
 	}
-	err = c.init(rd.Spec.Columns, priority)
+	columns, err := filterColumnsWithDefaults(client, gvr, rd.Spec.Columns, priority)
+	if err != nil {
+		return nil, err
+	}
+	err = c.init(columns)
 	return c, err
 }
 
@@ -70,36 +75,78 @@ type convertor struct {
 	columns   []*jsonpath.JSONPath
 }
 
-func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition, priority v1alpha1.Priority) error {
+func filterColumns(columns []v1alpha1.ResourceColumnDefinition, priority v1alpha1.Priority) []v1alpha1.ResourceColumnDefinition {
+	out := make([]v1alpha1.ResourceColumnDefinition, 0, len(columns))
 	for _, col := range columns {
 		if (col.Priority&int32(priority)) == int32(priority) ||
 			(priority == v1alpha1.List && col.Priority == 0) {
-			path := jsonpath.New(col.Name)
-
-			col.JSONPath = strings.TrimSpace(col.JSONPath)
-			if !strings.HasPrefix(col.JSONPath, "{") {
-				col.JSONPath = fmt.Sprintf("{%s}", col.JSONPath)
-			}
-			if err := path.Parse(col.JSONPath); err != nil {
-				return fmt.Errorf("unrecognized column definition %q", col.JSONPath)
-			}
-			path.AllowMissingKeys(true)
-
-			desc := fmt.Sprintf("Custom resource definition column (in JSONPath format): %s", col.JSONPath)
-			if len(col.Description) > 0 {
-				desc = col.Description
-			}
-
-			c.columns = append(c.columns, path)
-			c.headers = append(c.headers, v1alpha1.ResourceColumnDefinition{
-				Name:        col.Name,
-				Type:        col.Type,
-				Format:      col.Format,
-				Description: desc,
-				Priority:    col.Priority,
-				JSONPath:    col.JSONPath,
-			})
+			out = append(out, col)
 		}
+	}
+	return out
+}
+
+func filterColumnsWithDefaults(client crd_cs.ApiextensionsV1beta1Interface, gvr schema.GroupVersionResource, columns []v1alpha1.ResourceColumnDefinition, priority v1alpha1.Priority) ([]v1alpha1.ResourceColumnDefinition, error) {
+	out := filterColumns(columns, priority)
+	if len(out) > 0 {
+		return out, nil
+	}
+
+	var additionalColumns []v1alpha1.ResourceColumnDefinition
+	if client != nil {
+		crd, err := client.CustomResourceDefinitions().Get(fmt.Sprintf("%s.%s", gvr.Resource, gvr.Group), metav1.GetOptions{})
+		if err != nil {
+			return nil, err
+		}
+		for _, version := range crd.Spec.Versions {
+			if version.Name == gvr.Version && len(version.AdditionalPrinterColumns) > 0 {
+				additionalColumns = make([]v1alpha1.ResourceColumnDefinition, 0, len(version.AdditionalPrinterColumns))
+				for _, col := range version.AdditionalPrinterColumns {
+					additionalColumns = append(additionalColumns, v1alpha1.ResourceColumnDefinition{
+						Name:        col.Name,
+						Type:        col.Type,
+						Format:      col.Format,
+						Description: col.Description,
+						Priority:    int32(v1alpha1.Field | v1alpha1.List),
+						JSONPath:    col.JSONPath,
+					})
+				}
+			}
+		}
+	}
+	if priority == v1alpha1.List {
+		return append(defaultListColumns(), additionalColumns...), nil
+	}
+	return append(defaultDetailsColumns(), additionalColumns...), nil
+}
+
+func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition) error {
+	for _, col := range columns {
+		path := jsonpath.New(col.Name)
+
+		col.JSONPath = strings.TrimSpace(col.JSONPath)
+		if !strings.HasPrefix(col.JSONPath, "{") {
+			col.JSONPath = fmt.Sprintf("{%s}", col.JSONPath)
+		}
+		if err := path.Parse(col.JSONPath); err != nil {
+			return fmt.Errorf("unrecognized column definition %q", col.JSONPath)
+		}
+		path.AllowMissingKeys(true)
+
+		desc := fmt.Sprintf("Custom resource definition column (in JSONPath format): %s", col.JSONPath)
+		if len(col.Description) > 0 {
+			desc = col.Description
+		}
+
+		c.columns = append(c.columns, path)
+		c.headers = append(c.headers, v1alpha1.ResourceColumnDefinition{
+			Name:        col.Name,
+			Type:        col.Type,
+			Format:      col.Format,
+			Description: desc,
+			Priority:    col.Priority,
+			JSONPath:    col.JSONPath,
+		})
 	}
 	return nil
 }
@@ -159,9 +206,7 @@ func (c *convertor) ConvertToTable(ctx context.Context, obj runtime.Object, tabl
 
 		rows := make([]v1alpha1.TableRow, 0, len(arr))
 		for _, item := range arr {
-			row := v1alpha1.TableRow{
-				// Object: runtime.RawExtension{Object: obj},
-			}
+			var row v1alpha1.TableRow
 			row.Cells, err = c.rowFn(item)
 			if err != nil {
 				return nil, err
@@ -251,7 +296,7 @@ func metaToTableRow(obj runtime.Object, rowFn func(obj interface{}) ([]interface
 	}
 
 	rows := make([]v1alpha1.TableRow, 0, 1)
-	row := v1alpha1.TableRow{}
+	var row v1alpha1.TableRow
 	var err error
 	row.Cells, err = rowFn(obj.(runtime.Unstructured).UnstructuredContent())
 	if err != nil {
@@ -259,4 +304,99 @@ func metaToTableRow(obj runtime.Object, rowFn func(obj interface{}) ([]interface
 	}
 	rows = append(rows, row)
 	return rows, nil
+}
+
+func defaultListColumns() []v1alpha1.ResourceColumnDefinition {
+	return []v1alpha1.ResourceColumnDefinition{
+		{
+			Name:     "Name",
+			Type:     "string",
+			Format:   "",
+			Priority: int32(v1alpha1.List),
+			JSONPath: ".metadata.name",
+		},
+		{
+			Name:     "Namespace",
+			Type:     "string",
+			Format:   "",
+			Priority: int32(v1alpha1.List),
+			JSONPath: ".metadata.namespace",
+		},
+		{
+			Name:     "Labels",
+			Type:     "object",
+			Format:   "",
+			Priority: int32(v1alpha1.List),
+			JSONPath: ".metadata.labels",
+		},
+		{
+			Name:     "Annotations",
+			Type:     "object",
+			Format:   "",
+			Priority: int32(v1alpha1.List),
+			JSONPath: ".metadata.annotations",
+		},
+		{
+			Name:     "Age",
+			Type:     "date",
+			Format:   "",
+			Priority: int32(v1alpha1.List),
+			JSONPath: ".metadata.creationTimestamp",
+		},
+	}
+}
+
+func defaultDetailsColumns() []v1alpha1.ResourceColumnDefinition {
+	return []v1alpha1.ResourceColumnDefinition{
+		{
+			Name:     "Name",
+			Type:     "string",
+			Format:   "",
+			Priority: int32(v1alpha1.Field),
+			JSONPath: ".metadata.name",
+		},
+		{
+			Name:     "Namespace",
+			Type:     "string",
+			Format:   "",
+			Priority: int32(v1alpha1.Field),
+			JSONPath: ".metadata.namespace",
+		},
+		{
+			Name:     "Labels",
+			Type:     "object",
+			Format:   "",
+			Priority: int32(v1alpha1.Field),
+			JSONPath: ".metadata.labels",
+		},
+		{
+			Name:     "Annotations",
+			Type:     "object",
+			Format:   "",
+			Priority: int32(v1alpha1.Field),
+			JSONPath: ".metadata.annotations",
+		},
+		{
+			Name:     "Age",
+			Type:     "date",
+			Format:   "",
+			Priority: int32(v1alpha1.Field),
+			JSONPath: ".metadata.creationTimestamp",
+		},
+
+		{
+			Name:     "Selector",
+			Type:     "object",
+			Format:   "selector",
+			Priority: int32(v1alpha1.Field),
+			JSONPath: ".spec.selector",
+		},
+		{
+			Name:     "Desired Replicas",
+			Type:     "integer",
+			Format:   "",
+			Priority: int32(v1alpha1.Field),
+			JSONPath: ".spec.replicas",
+		},
+	}
 }
