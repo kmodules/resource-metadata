@@ -24,7 +24,6 @@ func LoadGraph() (*Graph, error) {
 		}
 
 		src := rd.Spec.Resource.TypeMeta()
-		graph.AddVertex(rd.Spec.Resource)
 
 		for _, conn := range rd.Spec.Connections {
 			dst := conn.Target

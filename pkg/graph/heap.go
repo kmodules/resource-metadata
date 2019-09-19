@@ -6,6 +6,7 @@ import (
 	"math"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
 )
 
 // An Item is something we manage in a priority queue.
@@ -59,10 +60,12 @@ func Dijkstra(graph *Graph, src metav1.TypeMeta) (dist map[metav1.TypeMeta]uint6
 	dist = make(map[metav1.TypeMeta]uint64)
 	prev = make(map[metav1.TypeMeta]*Edge)
 
-	q := make(Queue, len(graph.regTypes))
+	types := hub.Types()
+
+	q := make(Queue, len(types))
 	i := 0
 	items := make(map[metav1.TypeMeta]*Item)
-	for vertex := range graph.regTypes {
+	for _, vertex := range types {
 		var d uint64 = math.MaxUint32 // avoid overflow
 		if vertex == src {
 			d = 0 // dist[src] = 0

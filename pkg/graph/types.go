@@ -32,32 +32,15 @@ type Edge struct {
 type AdjacencyMap map[metav1.TypeMeta]*Edge
 
 type Graph struct {
-	edges    map[metav1.TypeMeta]AdjacencyMap
-	regTypes map[metav1.TypeMeta]*v1alpha1.ResourceID
-	regGVR   map[schema.GroupVersionResource]*v1alpha1.ResourceID
+	edges map[metav1.TypeMeta]AdjacencyMap
 
 	m sync.Mutex
 }
 
-func (g *Graph) GVR(t metav1.TypeMeta) schema.GroupVersionResource {
-	return g.regTypes[t].GroupVersionResource()
-}
-
-func (g *Graph) TypeMeta(gvr schema.GroupVersionResource) metav1.TypeMeta {
-	return g.regGVR[gvr].TypeMeta()
-}
-
 func NewGraph() *Graph {
 	return &Graph{
-		edges:    make(map[metav1.TypeMeta]AdjacencyMap),
-		regTypes: make(map[metav1.TypeMeta]*v1alpha1.ResourceID),
-		regGVR:   make(map[schema.GroupVersionResource]*v1alpha1.ResourceID),
+		edges: make(map[metav1.TypeMeta]AdjacencyMap),
 	}
-}
-
-func (g *Graph) AddVertex(v v1alpha1.ResourceID) {
-	g.regTypes[v.TypeMeta()] = &v
-	g.regGVR[v.GroupVersionResource()] = &v
 }
 
 func (g *Graph) AddEdge(e *Edge) {

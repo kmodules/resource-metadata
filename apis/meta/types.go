@@ -173,7 +173,7 @@ type Table struct {
 	metav1.TypeMeta
 	metav1.ListMeta
 	ColumnDefinitions []ResourceColumnDefinition
-	Rows []TableRow `json:"rows"`
+	Rows              []TableRow `json:"rows"`
 }
 
 type TableRow struct {
@@ -183,13 +183,13 @@ type TableRow struct {
 type IncludeObjectPolicy string
 
 const (
-	IncludeNone IncludeObjectPolicy = "None"
+	IncludeNone     IncludeObjectPolicy = "None"
 	IncludeMetadata IncludeObjectPolicy = "Metadata"
-	IncludeObject IncludeObjectPolicy = "Object"
+	IncludeObject   IncludeObjectPolicy = "Object"
 )
 
 type TableOptions struct {
 	metav1.TypeMeta
-	NoHeaders bool
+	NoHeaders     bool
 	IncludeObject IncludeObjectPolicy
 }
