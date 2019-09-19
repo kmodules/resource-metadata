@@ -28,7 +28,7 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	crdClient, err := crd_cs.NewForConfig(config)
+	client, err := crd_cs.NewForConfig(config)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -45,7 +45,7 @@ func main() {
 			log.Fatalln(err)
 		}
 
-		t, err := tableconvertor.TableForList(crdClient, gvr, list.Items)
+		t, err := tableconvertor.TableForList(client.CustomResourceDefinitions(), gvr, list.Items)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -64,7 +64,7 @@ func main() {
 		}
 		fmt.Println(dep.GroupVersionKind().String())
 
-		t, err := tableconvertor.TableForObject(crdClient, dep)
+		t, err := tableconvertor.TableForObject(client.CustomResourceDefinitions(), dep)
 		if err != nil {
 			log.Fatalln(err)
 		}

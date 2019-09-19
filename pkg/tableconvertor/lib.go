@@ -12,7 +12,7 @@ import (
 	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
 )
 
-func TableForList(client crd_cs.ApiextensionsV1beta1Interface, gvr schema.GroupVersionResource, items []unstructured.Unstructured) (*v1alpha1.Table, error) {
+func TableForList(client crd_cs.CustomResourceDefinitionInterface, gvr schema.GroupVersionResource, items []unstructured.Unstructured) (*v1alpha1.Table, error) {
 	c, err := NewForGVR(client, gvr, v1alpha1.List)
 	if err != nil {
 		return nil, err
@@ -24,7 +24,7 @@ func TableForList(client crd_cs.ApiextensionsV1beta1Interface, gvr schema.GroupV
 	return c.ConvertToTable(ctx, obj, nil)
 }
 
-func TableForObject(client crd_cs.ApiextensionsV1beta1Interface, obj runtime.Object) (*v1alpha1.Table, error) {
+func TableForObject(client crd_cs.CustomResourceDefinitionInterface, obj runtime.Object) (*v1alpha1.Table, error) {
 	gvk := obj.GetObjectKind().GroupVersionKind()
 	t := metav1.TypeMeta{APIVersion: gvk.GroupVersion().String(), Kind: gvk.Kind}
 	gvr := hub.GVR(t)

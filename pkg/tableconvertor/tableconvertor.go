@@ -51,7 +51,7 @@ func New(fieldPath string, columns []v1alpha1.ResourceColumnDefinition) (TableCo
 	return c, err
 }
 
-func NewForGVR(client crd_cs.ApiextensionsV1beta1Interface, gvr schema.GroupVersionResource, priority v1alpha1.Priority) (TableConvertor, error) {
+func NewForGVR(client crd_cs.CustomResourceDefinitionInterface, gvr schema.GroupVersionResource, priority v1alpha1.Priority) (TableConvertor, error) {
 	rd, err := hub.LoadByGVR(gvr)
 	if err != nil {
 		return nil, err
@@ -86,7 +86,7 @@ func filterColumns(columns []v1alpha1.ResourceColumnDefinition, priority v1alpha
 	return out
 }
 
-func filterColumnsWithDefaults(client crd_cs.ApiextensionsV1beta1Interface, gvr schema.GroupVersionResource, columns []v1alpha1.ResourceColumnDefinition, priority v1alpha1.Priority) ([]v1alpha1.ResourceColumnDefinition, error) {
+func filterColumnsWithDefaults(client crd_cs.CustomResourceDefinitionInterface, gvr schema.GroupVersionResource, columns []v1alpha1.ResourceColumnDefinition, priority v1alpha1.Priority) ([]v1alpha1.ResourceColumnDefinition, error) {
 	out := filterColumns(columns, priority)
 	if len(out) > 0 {
 		return out, nil
@@ -94,7 +94,7 @@ func filterColumnsWithDefaults(client crd_cs.ApiextensionsV1beta1Interface, gvr 
 
 	var additionalColumns []v1alpha1.ResourceColumnDefinition
 	if client != nil {
-		crd, err := client.CustomResourceDefinitions().Get(fmt.Sprintf("%s.%s", gvr.Resource, gvr.Group), metav1.GetOptions{})
+		crd, err := client.Get(fmt.Sprintf("%s.%s", gvr.Resource, gvr.Group), metav1.GetOptions{})
 		if err != nil {
 			return nil, err
 		}
