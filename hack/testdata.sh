@@ -8,7 +8,7 @@ $ kubectl get deploy busy-dep -o=jsonpath='{range .spec.template.spec.containers
 
 $ kubectl get deploy busy-dep -o=jsonpath='{.spec.template.spec.containers[*].image}'
 
-
+$ kubectl get deploy busy-dep -o=jsonpath='{.status.updatedReplicas} updated, {.status.replicas} total, {.status.availableReplicas} available, {.status.unavailableReplicas} unavailable'
 
 $ kubectl create -f nginx-rc.yaml
 replicationcontroller/nginx created
@@ -18,4 +18,7 @@ kubectl get rc nginx -o=jsonpath='{range .spec.template.spec.containers[*]}{.ima
 
 
 https://console.byte.builders/kubernetes/cluster-admin@gke_ackube_us-central1-f_demo.pharmer/replicationcontroller/nginx?namespace=default
+
+
+
 

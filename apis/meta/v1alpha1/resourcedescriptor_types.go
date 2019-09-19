@@ -132,7 +132,7 @@ type Priority int32
 
 const (
 	Field Priority = 1 << iota
-	Table
+	List
 )
 
 // ResourceColumnDefinition specifies a column for server side printing.

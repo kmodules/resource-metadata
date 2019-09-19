@@ -294,6 +294,9 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceDescriptorSpec":     schema_resource_metadata_apis_meta_v1alpha1_ResourceDescriptorSpec(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceID":                 schema_resource_metadata_apis_meta_v1alpha1_ResourceID(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceSubTableDefinition": schema_resource_metadata_apis_meta_v1alpha1_ResourceSubTableDefinition(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Table":                      schema_resource_metadata_apis_meta_v1alpha1_Table(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TableOptions":               schema_resource_metadata_apis_meta_v1alpha1_TableOptions(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TableRow":                   schema_resource_metadata_apis_meta_v1alpha1_TableRow(ref),
 	}
 }
 
@@ -13002,5 +13005,129 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceSubTableDefinition(ref 
 		},
 		Dependencies: []string{
 			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumnDefinition"},
+	}
+}
+
+func schema_resource_metadata_apis_meta_v1alpha1_Table(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "Table is a tabular representation of a set of API resources. The server transforms the object into a set of preferred columns for quickly reviewing the objects.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"),
+						},
+					},
+					"columnDefinitions": {
+						SchemaProps: spec.SchemaProps{
+							Description: "columnDefinitions describes each column in the returned items array. The number of cells per row will always match the number of column definitions.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumnDefinition"),
+									},
+								},
+							},
+						},
+					},
+					"rows": {
+						SchemaProps: spec.SchemaProps{
+							Description: "rows is the list of items in the table.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TableRow"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"columnDefinitions", "rows"},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumnDefinition", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TableRow"},
+	}
+}
+
+func schema_resource_metadata_apis_meta_v1alpha1_TableOptions(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "TableOptions are used when a Table is requested by the caller.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"includeObject": {
+						SchemaProps: spec.SchemaProps{
+							Description: "includeObject decides whether to include each object along with its columnar information. Specifying \"None\" will return no object, specifying \"Object\" will return the full object contents, and specifying \"Metadata\" (the default) will return the object's metadata in the PartialObjectMetadata kind in version v1beta1 of the meta.k8s.io API group.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+				},
+			},
+		},
+	}
+}
+
+func schema_resource_metadata_apis_meta_v1alpha1_TableRow(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "TableRow is an individual row in a table.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"cells": {
+						SchemaProps: spec.SchemaProps{
+							Description: "cells will be as wide as the column definitions array and may contain strings, numbers (float64 or int64), booleans, simple maps, lists, or null. See the type field of the column definition for a more detailed description.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Type:   []string{"object"},
+										Format: "",
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"cells"},
+			},
+		},
 	}
 }

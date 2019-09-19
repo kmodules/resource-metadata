@@ -168,3 +168,28 @@ type GraphResponse struct {
 	Source      metav1.TypeMeta
 	Connections []Edge
 }
+
+type Table struct {
+	metav1.TypeMeta
+	metav1.ListMeta
+	ColumnDefinitions []ResourceColumnDefinition
+	Rows []TableRow `json:"rows"`
+}
+
+type TableRow struct {
+	Cells []interface{} `json:"cells"`
+}
+
+type IncludeObjectPolicy string
+
+const (
+	IncludeNone IncludeObjectPolicy = "None"
+	IncludeMetadata IncludeObjectPolicy = "Metadata"
+	IncludeObject IncludeObjectPolicy = "Object"
+)
+
+type TableOptions struct {
+	metav1.TypeMeta
+	NoHeaders bool
+	IncludeObject IncludeObjectPolicy
+}

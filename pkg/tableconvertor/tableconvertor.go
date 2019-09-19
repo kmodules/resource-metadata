@@ -28,27 +28,29 @@ import (
 	metatable "k8s.io/apimachinery/pkg/api/meta/table"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
-	metav1beta1 "k8s.io/apimachinery/pkg/apis/meta/v1beta1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/apiserver/pkg/registry/rest"
 	"k8s.io/client-go/util/jsonpath"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
 )
 
+type TableConvertor interface {
+	ConvertToTable(ctx context.Context, object runtime.Object, tableOptions runtime.Object) (*v1alpha1.Table, error)
+}
+
 // New creates a new table convertor for the provided CRD column definition. If the printer definition cannot be parsed,
 // error will be returned along with a default table convertor.
-func New(fieldPath string, columns []v1alpha1.ResourceColumnDefinition) (rest.TableConvertor, error) {
+func New(fieldPath string, columns []v1alpha1.ResourceColumnDefinition) (TableConvertor, error) {
 	c := &convertor{
 		fieldPath: fieldPath,
 		buf:       &bytes.Buffer{},
 	}
-	err := c.init(columns, v1alpha1.Table)
+	err := c.init(columns, v1alpha1.List)
 	return c, err
 }
 
-func NewForGVR(gvr schema.GroupVersionResource, priority v1alpha1.Priority) (rest.TableConvertor, error) {
+func NewForGVR(gvr schema.GroupVersionResource, priority v1alpha1.Priority) (TableConvertor, error) {
 	rd, err := hub.LoadByGVR(gvr)
 	if err != nil {
 		return nil, err
@@ -64,14 +66,14 @@ func NewForGVR(gvr schema.GroupVersionResource, priority v1alpha1.Priority) (res
 type convertor struct {
 	buf       *bytes.Buffer
 	fieldPath string
-	headers   []metav1beta1.TableColumnDefinition
+	headers   []v1alpha1.ResourceColumnDefinition
 	columns   []*jsonpath.JSONPath
 }
 
 func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition, priority v1alpha1.Priority) error {
 	for _, col := range columns {
 		if (col.Priority&int32(priority)) == int32(priority) ||
-			(priority == v1alpha1.Table && col.Priority == 0) {
+			(priority == v1alpha1.List && col.Priority == 0) {
 			path := jsonpath.New(col.Name)
 
 			col.JSONPath = strings.TrimSpace(col.JSONPath)
@@ -89,7 +91,7 @@ func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition, priority v
 			}
 
 			c.columns = append(c.columns, path)
-			c.headers = append(c.headers, metav1beta1.TableColumnDefinition{
+			c.headers = append(c.headers, v1alpha1.ResourceColumnDefinition{
 				Name:        col.Name,
 				Type:        col.Type,
 				Format:      col.Format,
@@ -126,8 +128,8 @@ func (c *convertor) rowFn(data interface{}) ([]interface{}, error) {
 	return cells, nil
 }
 
-func (c *convertor) ConvertToTable(ctx context.Context, obj runtime.Object, tableOptions runtime.Object) (*metav1beta1.Table, error) {
-	table := &metav1beta1.Table{
+func (c *convertor) ConvertToTable(ctx context.Context, obj runtime.Object, tableOptions runtime.Object) (*v1alpha1.Table, error) {
+	table := &v1alpha1.Table{
 		ColumnDefinitions: c.headers,
 	}
 	if m, err := meta.ListAccessor(obj); err == nil {
@@ -154,9 +156,9 @@ func (c *convertor) ConvertToTable(ctx context.Context, obj runtime.Object, tabl
 			return table, nil
 		}
 
-		rows := make([]metav1beta1.TableRow, 0, len(arr))
+		rows := make([]v1alpha1.TableRow, 0, len(arr))
 		for _, item := range arr {
-			row := metav1beta1.TableRow{
+			row := v1alpha1.TableRow{
 				// Object: runtime.RawExtension{Object: obj},
 			}
 			row.Cells, err = c.rowFn(item)
@@ -226,9 +228,9 @@ func cellForJSONValue(headerType string, value interface{}) interface{} {
 
 // metaToTableRow converts a list or object into one or more table rows. The provided rowFn is invoked for
 // each accessed item, with name and age being passed to each.
-func metaToTableRow(obj runtime.Object, rowFn func(obj interface{}) ([]interface{}, error)) ([]metav1beta1.TableRow, error) {
+func metaToTableRow(obj runtime.Object, rowFn func(obj interface{}) ([]interface{}, error)) ([]v1alpha1.TableRow, error) {
 	if meta.IsListType(obj) {
-		rows := make([]metav1beta1.TableRow, 0, 16)
+		rows := make([]v1alpha1.TableRow, 0, 16)
 		err := meta.EachListItem(obj, func(obj runtime.Object) error {
 			nestedRows, err := metaToTableRow(obj, rowFn)
 			if err != nil {
@@ -243,8 +245,8 @@ func metaToTableRow(obj runtime.Object, rowFn func(obj interface{}) ([]interface
 		return rows, nil
 	}
 
-	rows := make([]metav1beta1.TableRow, 0, 1)
-	row := metav1beta1.TableRow{}
+	rows := make([]v1alpha1.TableRow, 0, 1)
+	row := v1alpha1.TableRow{}
 	var err error
 	row.Cells, err = rowFn(obj.(runtime.Unstructured).UnstructuredContent())
 	if err != nil {
