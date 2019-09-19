@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -12,7 +11,6 @@ import (
 	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/util/homedir"
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor"
 )
 
@@ -36,23 +34,40 @@ func main() {
 		Resource: "deployments",
 	}
 
-	dep, err := dc.Resource(gvr).Namespace("default").Get("busy-dep", metav1.GetOptions{})
-	if err != nil {
-		log.Fatalln(err)
+	{
+		list, err := dc.Resource(gvr).Namespace("default").List(metav1.ListOptions{})
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		t, err := tableconvertor.TableForList(gvr, list.Items)
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		data, err := json.MarshalIndent(t, "", "  ")
+		if err != nil {
+			log.Fatalln(err)
+		}
+		fmt.Println(string(data))
 	}
 
-	c, err := tableconvertor.NewForGVR(gvr, v1alpha1.Field)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	t, err := c.ConvertToTable(context.Background(), dep, nil)
-	if err != nil {
-		log.Fatalln(err)
-	}
+	{
+		dep, err := dc.Resource(gvr).Namespace("default").Get("busy-dep", metav1.GetOptions{})
+		if err != nil {
+			log.Fatalln(err)
+		}
+		fmt.Println(dep.GroupVersionKind().String())
 
-	data, err := json.MarshalIndent(t, "", "  ")
-	if err != nil {
-		log.Fatalln(err)
+		t, err := tableconvertor.TableForObject(dep)
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		data, err := json.MarshalIndent(t, "", "  ")
+		if err != nil {
+			log.Fatalln(err)
+		}
+		fmt.Println(string(data))
 	}
-	fmt.Println(string(data))
 }

@@ -75,7 +75,8 @@ spec:
       format: csv
       priority: 2
   subTables:
-    - fieldPath: .status.conditions
+    - name: Conditions
+      fieldPath: .status.conditions
       columns:
         - jsonPath: .type
           name: Type

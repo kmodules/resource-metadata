@@ -97,6 +97,7 @@ func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition, priority v
 				Format:      col.Format,
 				Description: desc,
 				Priority:    col.Priority,
+				JSONPath:    col.JSONPath,
 			})
 		}
 	}
@@ -148,7 +149,7 @@ func (c *convertor) ConvertToTable(ctx context.Context, obj runtime.Object, tabl
 	if c.fieldPath == "" {
 		table.Rows, err = metaToTableRow(obj, c.rowFn)
 	} else {
-		arr, ok, err := unstructured.NestedSlice(obj.(runtime.Unstructured).UnstructuredContent(), strings.Split(c.fieldPath, ".")...)
+		arr, ok, err := unstructured.NestedSlice(obj.(runtime.Unstructured).UnstructuredContent(), fields(c.fieldPath)...)
 		if err != nil {
 			return nil, err
 		}
@@ -171,6 +172,10 @@ func (c *convertor) ConvertToTable(ctx context.Context, obj runtime.Object, tabl
 	}
 
 	return table, err
+}
+
+func fields(path string) []string {
+	return strings.Split(strings.Trim(path, "."), ".")
 }
 
 func cellForJSONValue(headerType string, value interface{}) interface{} {
