@@ -95,21 +95,20 @@ func filterColumnsWithDefaults(client crd_cs.CustomResourceDefinitionInterface, 
 	var additionalColumns []v1alpha1.ResourceColumnDefinition
 	if client != nil {
 		crd, err := client.Get(fmt.Sprintf("%s.%s", gvr.Resource, gvr.Group), metav1.GetOptions{})
-		if err != nil {
-			return nil, err
-		}
-		for _, version := range crd.Spec.Versions {
-			if version.Name == gvr.Version && len(version.AdditionalPrinterColumns) > 0 {
-				additionalColumns = make([]v1alpha1.ResourceColumnDefinition, 0, len(version.AdditionalPrinterColumns))
-				for _, col := range version.AdditionalPrinterColumns {
-					additionalColumns = append(additionalColumns, v1alpha1.ResourceColumnDefinition{
-						Name:        col.Name,
-						Type:        col.Type,
-						Format:      col.Format,
-						Description: col.Description,
-						Priority:    int32(v1alpha1.Field | v1alpha1.List),
-						JSONPath:    col.JSONPath,
-					})
+		if err == nil {
+			for _, version := range crd.Spec.Versions {
+				if version.Name == gvr.Version && len(version.AdditionalPrinterColumns) > 0 {
+					additionalColumns = make([]v1alpha1.ResourceColumnDefinition, 0, len(version.AdditionalPrinterColumns))
+					for _, col := range version.AdditionalPrinterColumns {
+						additionalColumns = append(additionalColumns, v1alpha1.ResourceColumnDefinition{
+							Name:   col.Name,
+							Type:   col.Type,
+							Format: col.Format,
+							// Description: col.Description,
+							// Priority:    int32(v1alpha1.Field | v1alpha1.List),
+							// JSONPath:    col.JSONPath,
+						})
+					}
 				}
 			}
 		}
@@ -133,19 +132,19 @@ func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition) error {
 		}
 		path.AllowMissingKeys(true)
 
-		desc := fmt.Sprintf("Custom resource definition column (in JSONPath format): %s", col.JSONPath)
-		if len(col.Description) > 0 {
-			desc = col.Description
-		}
+		//desc := fmt.Sprintf("Custom resource definition column (in JSONPath format): %s", col.JSONPath)
+		//if len(col.Description) > 0 {
+		//	desc = col.Description
+		//}
 
 		c.columns = append(c.columns, path)
 		c.headers = append(c.headers, v1alpha1.ResourceColumnDefinition{
-			Name:        col.Name,
-			Type:        col.Type,
-			Format:      col.Format,
-			Description: desc,
-			Priority:    col.Priority,
-			JSONPath:    col.JSONPath,
+			Name:   col.Name,
+			Type:   col.Type,
+			Format: col.Format,
+			// Description: desc,
+			// Priority:    col.Priority,
+			// JSONPath:    col.JSONPath,
 		})
 	}
 	return nil
