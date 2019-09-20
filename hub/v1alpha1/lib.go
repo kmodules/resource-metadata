@@ -52,6 +52,7 @@ func Register(gvr schema.GroupVersionResource, dc discovery.ServerResourcesInter
 		if _, found := cache[name]; !found {
 			regGVK[rd.Spec.Resource.GroupVersionKind()] = &rd.Spec.Resource
 			regGVR[rd.Spec.Resource.GroupVersionResource()] = &rd.Spec.Resource
+			cache[name] = rd
 		}
 	}
 	m.Unlock()
