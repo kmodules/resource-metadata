@@ -48,11 +48,11 @@ func Register(gvr schema.GroupVersionResource, dc discovery.ServerResourcesInter
 	}
 
 	m.Lock()
-	for name, rd := range reg {
-		if _, found := cache[name]; !found {
+	for filename, rd := range reg {
+		if _, found := cache[filename]; !found {
 			regGVK[rd.Spec.Resource.GroupVersionKind()] = &rd.Spec.Resource
 			regGVR[rd.Spec.Resource.GroupVersionResource()] = &rd.Spec.Resource
-			cache[name] = rd
+			cache[filename] = rd
 		}
 	}
 	m.Unlock()
@@ -83,7 +83,8 @@ func createRegistry(dc discovery.ServerResourcesInterface) (map[string]*v1alpha1
 				scope = v1alpha1.NamespaceScoped
 			}
 
-			rd := &v1alpha1.ResourceDescriptor{
+			filename := fmt.Sprintf("%s/%s/%s.yaml", rs.Group, rs.Version, rs.Name)
+			reg[filename] = &v1alpha1.ResourceDescriptor{
 				TypeMeta: metav1.TypeMeta{
 					APIVersion: v1alpha1.SchemeGroupVersion.String(),
 					Kind:       v1alpha1.ResourceKindResourceDescriptor,
@@ -107,7 +108,6 @@ func createRegistry(dc discovery.ServerResourcesInterface) (map[string]*v1alpha1
 					},
 				},
 			}
-			reg[rd.Name] = rd
 		}
 	}
 
