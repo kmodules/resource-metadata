@@ -27,7 +27,7 @@ func TableForList(client crd_cs.CustomResourceDefinitionInterface, gvr schema.Gr
 func TableForObject(client crd_cs.CustomResourceDefinitionInterface, obj runtime.Object) (*v1alpha1.Table, error) {
 	gvk := obj.GetObjectKind().GroupVersionKind()
 	t := metav1.TypeMeta{APIVersion: gvk.GroupVersion().String(), Kind: gvk.Kind}
-	gvr := hub.GVR(t)
+	gvr := hub.GVR(t.GroupVersionKind())
 
 	rd, err := hub.LoadByGVR(gvr)
 	if err != nil {
