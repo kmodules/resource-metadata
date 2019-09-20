@@ -111,9 +111,9 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 			var out []unstructured.Unstructured
 			for _, ns := range namespaces {
 				var ri dynamic.ResourceInterface
-				ri = dc.Resource(hub.GVR(e.Dst))
+				ri = dc.Resource(hub.GVR(e.Dst.GroupVersionKind()))
 				if hub.IsNamespaced(e.Dst) {
-					ri = dc.Resource(hub.GVR(e.Dst)).Namespace(ns)
+					ri = dc.Resource(hub.GVR(e.Dst.GroupVersionKind())).Namespace(ns)
 				}
 
 				selInApp := e.Connection.TargetLabelPath != "" && strings.Trim(e.Connection.TargetLabelPath, ".") != "metadata.labels"
@@ -162,9 +162,9 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 			var out []unstructured.Unstructured
 			for _, ns := range namespaces {
 				var ri dynamic.ResourceInterface
-				ri = dc.Resource(hub.GVR(e.Dst))
+				ri = dc.Resource(hub.GVR(e.Dst.GroupVersionKind()))
 				if hub.IsNamespaced(e.Dst) {
-					ri = dc.Resource(hub.GVR(e.Dst)).Namespace(ns)
+					ri = dc.Resource(hub.GVR(e.Dst.GroupVersionKind())).Namespace(ns)
 				}
 				rs, err := ri.Get(name, metav1.GetOptions{})
 				if err != nil {
@@ -219,7 +219,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 					}
 
 					var ri dynamic.ResourceInterface
-					ri = dc.Resource(hub.GVR(e.Dst))
+					ri = dc.Resource(hub.GVR(e.Dst.GroupVersionKind()))
 					if hub.IsNamespaced(e.Dst) {
 						ns := ref.Namespace
 						if ns == "" {
@@ -231,7 +231,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 							// src is not-namespaced
 							return nil, errors.New("namespace must be defined in reference")
 						}
-						ri = dc.Resource(hub.GVR(e.Dst)).Namespace(ns)
+						ri = dc.Resource(hub.GVR(e.Dst.GroupVersionKind())).Namespace(ns)
 					}
 					rs, err := ri.Get(ref.Name, metav1.GetOptions{})
 					if err != nil {
@@ -268,9 +268,9 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 			}
 
 			var ri dynamic.ResourceInterface
-			ri = dc.Resource(hub.GVR(e.Dst))
+			ri = dc.Resource(hub.GVR(e.Dst.GroupVersionKind()))
 			if hub.IsNamespaced(e.Dst) {
-				ri = dc.Resource(hub.GVR(e.Dst)).Namespace(namespace)
+				ri = dc.Resource(hub.GVR(e.Dst.GroupVersionKind())).Namespace(namespace)
 			}
 			result, err := ri.List(metav1.ListOptions{})
 			if err != nil {
@@ -330,9 +330,9 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 
 				var out []unstructured.Unstructured
 				var ri dynamic.ResourceInterface
-				ri = dc.Resource(hub.GVR(e.Dst))
+				ri = dc.Resource(hub.GVR(e.Dst.GroupVersionKind()))
 				if hub.IsNamespaced(e.Dst) {
-					ri = dc.Resource(hub.GVR(e.Dst)).Namespace(namespace)
+					ri = dc.Resource(hub.GVR(e.Dst.GroupVersionKind())).Namespace(namespace)
 				}
 				rs, err := ri.Get(name, metav1.GetOptions{})
 				if err != nil {
@@ -351,13 +351,13 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 			// TODO: check that namespacePath must be empty
 
 			var ri dynamic.ResourceInterface
-			ri = dc.Resource(hub.GVR(e.Dst))
+			ri = dc.Resource(hub.GVR(e.Dst.GroupVersionKind()))
 			if hub.IsNamespaced(e.Dst) {
 				ns := metav1.NamespaceAll
 				if e.Connection.NamespacePath == "metadata.namespace" {
 					ns = src.GetNamespace()
 				}
-				ri = dc.Resource(hub.GVR(e.Dst)).Namespace(ns)
+				ri = dc.Resource(hub.GVR(e.Dst.GroupVersionKind())).Namespace(ns)
 			}
 			result, err := ri.List(metav1.ListOptions{})
 			if err != nil {
@@ -515,9 +515,9 @@ func (g *Graph) findOwners(dc dynamic.Interface, e Edge, srcOwnerRefs []metav1.O
 	var out []unstructured.Unstructured
 
 	var ri dynamic.ResourceInterface
-	ri = dc.Resource(hub.GVR(e.Dst))
+	ri = dc.Resource(hub.GVR(e.Dst.GroupVersionKind()))
 	if hub.IsNamespaced(e.Dst) {
-		ri = dc.Resource(hub.GVR(e.Dst)).Namespace(namespace)
+		ri = dc.Resource(hub.GVR(e.Dst.GroupVersionKind())).Namespace(namespace)
 	}
 	for _, ref := range srcOwnerRefs {
 		if ref.APIVersion == e.Dst.APIVersion && ref.Kind == e.Dst.Kind {
@@ -553,9 +553,9 @@ func (g *Graph) findChildren(dc dynamic.Interface, e Edge, src unstructured.Unst
 	var out []unstructured.Unstructured
 
 	var ri dynamic.ResourceInterface
-	ri = dc.Resource(hub.GVR(e.Dst))
+	ri = dc.Resource(hub.GVR(e.Dst.GroupVersionKind()))
 	if hub.IsNamespaced(e.Dst) {
-		ri = dc.Resource(hub.GVR(e.Dst)).Namespace(src.GetNamespace())
+		ri = dc.Resource(hub.GVR(e.Dst.GroupVersionKind())).Namespace(src.GetNamespace())
 	}
 
 	result, err := ri.List(metav1.ListOptions{})

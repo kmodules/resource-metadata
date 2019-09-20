@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"strconv"
-	"strings"
 
 	kerr "k8s.io/apimachinery/pkg/api/errors"
 	metainternalversion "k8s.io/apimachinery/pkg/apis/meta/internalversion"
@@ -16,7 +15,6 @@ import (
 	"kmodules.xyz/resource-metadata/apis/meta"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
-	"sigs.k8s.io/yaml"
 )
 
 type Storage struct {
@@ -45,19 +43,13 @@ func (r *Storage) New() runtime.Object {
 }
 
 func (r *Storage) Get(ctx context.Context, name string, options *metav1.GetOptions) (runtime.Object, error) {
-	data, err := hub.Asset(strings.Replace(name, "-", "/", 2) + ".yaml")
+	obj, err := hub.LoadByName(name)
 	if err != nil {
 		return nil, kerr.NewNotFound(schema.GroupResource{Group: meta.GroupName, Resource: v1alpha1.ResourceKindResourceDescriptor}, name)
 	}
 
-	var obj v1alpha1.ResourceDescriptor
-	err = yaml.Unmarshal(data, &obj)
-	if err != nil {
-		return nil, kerr.NewInternalError(err)
-	}
-
 	var out meta.ResourceDescriptor
-	err = v1alpha1.Convert_v1alpha1_ResourceDescriptor_To_meta_ResourceDescriptor(&obj, &out, nil)
+	err = v1alpha1.Convert_v1alpha1_ResourceDescriptor_To_meta_ResourceDescriptor(obj, &out, nil)
 	return &out, err
 }
 
