@@ -16,6 +16,7 @@
 // authorization.k8s.io/v1/selfsubjectrulesreviews.yaml
 // authorization.k8s.io/v1/subjectaccessreviews.yaml
 // autoscaling/v1/horizontalpodautoscalers.yaml
+// autoscaling/v2beta2/horizontalpodautoscalers.yaml
 // batch/v1/jobs.yaml
 // batch/v1beta1/cronjobs.yaml
 // certificates.k8s.io/v1beta1/certificatesigningrequests.yaml
@@ -269,7 +270,7 @@ func appsV1DaemonsetsYaml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "apps/v1/daemonsets.yaml", size: 1076, mode: os.FileMode(420), modTime: time.Unix(1568707690, 0)}
+	info := bindataFileInfo{name: "apps/v1/daemonsets.yaml", size: 1076, mode: os.FileMode(420), modTime: time.Unix(1568877919, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -289,7 +290,7 @@ func appsV1DeploymentsYaml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "apps/v1/deployments.yaml", size: 2882, mode: os.FileMode(420), modTime: time.Unix(1568862800, 0)}
+	info := bindataFileInfo{name: "apps/v1/deployments.yaml", size: 2882, mode: os.FileMode(420), modTime: time.Unix(1568877919, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -309,7 +310,7 @@ func appsV1ReplicasetsYaml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "apps/v1/replicasets.yaml", size: 1470, mode: os.FileMode(420), modTime: time.Unix(1568707690, 0)}
+	info := bindataFileInfo{name: "apps/v1/replicasets.yaml", size: 1470, mode: os.FileMode(420), modTime: time.Unix(1568877919, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -329,7 +330,7 @@ func appsV1StatefulsetsYaml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "apps/v1/statefulsets.yaml", size: 1269, mode: os.FileMode(420), modTime: time.Unix(1568707690, 0)}
+	info := bindataFileInfo{name: "apps/v1/statefulsets.yaml", size: 1269, mode: os.FileMode(420), modTime: time.Unix(1568877919, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -454,6 +455,26 @@ func autoscalingV1HorizontalpodautoscalersYaml() (*asset, error) {
 	return a, nil
 }
 
+var _autoscalingV2beta2HorizontalpodautoscalersYaml = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x84\x8f\xb1\x4e\x03\x31\x10\x44\x7b\x7f\xc5\xfe\x40\x12\x25\x15\x72\x87\x44\x41\x85\x10\x42\xf4\x13\x7b\x95\x58\xb1\xbd\x2b\xaf\xef\x0a\xbe\x1e\x5d\x72\x9c\x0e\xa1\x40\xeb\x79\xde\x99\x07\x4d\x1f\xdc\x2c\x49\xf5\x54\xb8\x63\x0b\x55\x0b\x12\x79\x1b\xa4\xec\xc6\x3d\xb2\x9e\xb1\x77\x97\x54\xa3\xa7\x37\x36\x19\x5a\xe0\x27\xb6\xd0\x92\x76\x69\x6e\xfa\x13\xd1\xe1\x1d\x51\x68\x8c\x9e\xa4\xbe\xa7\xc2\xd6\x51\xd4\x53\x1d\x72\x76\x44\x19\x47\xce\x36\x31\x44\x97\x07\xdb\x26\xd9\x9d\x9a\x0c\xea\x09\x43\x17\x0b\xc8\xa9\x9e\xd6\xe9\xad\xef\x59\x5a\xfa\x94\xda\x91\x5f\x25\x3e\xce\x24\xb7\x35\xd8\xe6\x49\x9e\xce\x0b\xac\x12\xb1\xc0\xb6\xa6\xc7\x6f\xd5\xf1\x70\xe4\x8e\x83\x23\xaa\x28\xfc\x63\xc6\x66\xce\x36\x77\x0f\x9a\x72\x98\x5c\x96\xee\x6b\xc5\x3d\xa1\x7f\x4d\x6e\x0b\xfe\x9c\x6f\x41\x94\x3d\xbd\xa0\xb0\x29\x02\xc7\xeb\xeb\x2f\x9b\xaf\x00\x00\x00\xff\xff\xf5\xe7\x0b\xf9\xcd\x01\x00\x00")
+
+func autoscalingV2beta2HorizontalpodautoscalersYamlBytes() ([]byte, error) {
+	return bindataRead(
+		_autoscalingV2beta2HorizontalpodautoscalersYaml,
+		"autoscaling/v2beta2/horizontalpodautoscalers.yaml",
+	)
+}
+
+func autoscalingV2beta2HorizontalpodautoscalersYaml() (*asset, error) {
+	bytes, err := autoscalingV2beta2HorizontalpodautoscalersYamlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "autoscaling/v2beta2/horizontalpodautoscalers.yaml", size: 461, mode: os.FileMode(420), modTime: time.Unix(1569219947, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
 var _batchV1JobsYaml = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x8c\x93\xc1\x6a\xdc\x30\x10\x86\xef\x7e\x8a\x21\x97\x40\x61\x15\xf6\x56\x74\x2b\xf4\xd2\x52\x42\x68\x43\x2f\x6d\x0f\x63\x79\xea\xd5\xae\xa5\x11\x9a\xb1\x21\x18\xbf\x7b\xb1\xbd\xbb\xb1\x31\x4d\xf6\xe8\x5f\xa3\xef\x93\x34\x63\x4c\xfe\x27\x65\xf1\x1c\x2d\x04\x52\x34\x98\x92\x38\xae\xc8\x38\x0e\x0f\xdd\x1e\x9b\x74\xc0\x7d\x71\xf2\xb1\xb2\xf0\x9d\x84\xdb\xec\xe8\x33\x89\xcb\x3e\x29\xe7\x62\xdc\x53\xa1\xa2\x2d\x00\x5c\x26\x54\xcf\xf1\xd9\x07\x12\xc5\x90\x2c\xc4\xb6\x69\x0a\x80\x06\x4b\x6a\x64\xac\x01\x38\x7d\x14\xe3\xf9\xa1\xce\xdc\x26\x0b\x25\xaa\x3b\x2c\xf3\xd9\xf4\x95\xcb\x65\x98\xcf\x62\x0b\x47\x2e\x65\xb9\xd2\x5d\x0e\xdf\xed\x0b\x80\x88\x81\xce\xcc\x5d\xb7\xdf\x4d\xc5\x92\xc8\x8d\xe6\x2b\x63\xda\xbe\xd5\xaf\xbc\x33\xe8\x2a\x13\xc7\x89\x2c\x3c\x62\x20\x49\xe8\xa8\x9a\xd2\xb5\xdb\x71\xd3\x86\x78\xbe\xe4\x0e\x8e\xc2\xf1\x09\xf5\x60\xc1\x5c\xde\xc8\x8c\xd4\x69\xf9\x22\x78\x7c\x0d\xf4\x65\x34\x88\x66\x1f\xeb\x77\x10\xd3\x11\x36\x9c\x65\x7a\x23\x6c\x6e\xcb\x8a\xf4\x6d\x19\xcd\x18\x2e\x8f\xe4\xf4\x0d\x0c\xc6\xc8\x3a\x75\x7e\xcd\xfa\xb4\xc9\x6f\x04\x6e\x06\x69\x8d\xad\xd7\xd7\xac\x50\x69\x03\xbb\xef\x33\xc6\x9a\xc0\x8c\xed\x37\x4a\x21\x35\xa8\x34\x7f\x39\x8e\x8a\x3e\x52\x96\x5f\x1f\xfe\x0c\xbd\xf1\x01\x6b\x1a\xfa\xbb\xdf\xf1\x6e\xe8\x29\x56\xc3\xfd\xca\xf7\x65\x5c\x96\xff\xbd\x2c\xc0\x5f\xce\x01\xd5\x82\x93\xae\x00\x38\xd1\xcb\x33\xe6\x9a\xf4\x3a\x09\xcb\x5f\x6c\x9a\x94\xd7\x71\x7b\xe2\xea\xfd\xa2\x1f\x94\x3b\xef\xa8\xf8\x17\x00\x00\xff\xff\xbb\xcf\x1f\xb9\xab\x03\x00\x00")
 
 func batchV1JobsYamlBytes() ([]byte, error) {
@@ -469,7 +490,7 @@ func batchV1JobsYaml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "batch/v1/jobs.yaml", size: 939, mode: os.FileMode(420), modTime: time.Unix(1568707690, 0)}
+	info := bindataFileInfo{name: "batch/v1/jobs.yaml", size: 939, mode: os.FileMode(420), modTime: time.Unix(1568877919, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -489,7 +510,7 @@ func batchV1beta1CronjobsYaml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "batch/v1beta1/cronjobs.yaml", size: 1062, mode: os.FileMode(420), modTime: time.Unix(1568707690, 0)}
+	info := bindataFileInfo{name: "batch/v1beta1/cronjobs.yaml", size: 1062, mode: os.FileMode(420), modTime: time.Unix(1568877919, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -589,7 +610,7 @@ func coreV1ConfigmapsYaml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "core/v1/configmaps.yaml", size: 844, mode: os.FileMode(420), modTime: time.Unix(1568707690, 0)}
+	info := bindataFileInfo{name: "core/v1/configmaps.yaml", size: 844, mode: os.FileMode(420), modTime: time.Unix(1568877919, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -749,7 +770,7 @@ func coreV1PodsYaml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "core/v1/pods.yaml", size: 2650, mode: os.FileMode(420), modTime: time.Unix(1568707690, 0)}
+	info := bindataFileInfo{name: "core/v1/pods.yaml", size: 2650, mode: os.FileMode(420), modTime: time.Unix(1568877919, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -769,7 +790,7 @@ func coreV1ReplicationcontrollersYaml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "core/v1/replicationcontrollers.yaml", size: 1410, mode: os.FileMode(420), modTime: time.Unix(1568707690, 0)}
+	info := bindataFileInfo{name: "core/v1/replicationcontrollers.yaml", size: 1410, mode: os.FileMode(420), modTime: time.Unix(1568877919, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -809,7 +830,7 @@ func coreV1SecretsYaml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "core/v1/secrets.yaml", size: 887, mode: os.FileMode(420), modTime: time.Unix(1568707690, 0)}
+	info := bindataFileInfo{name: "core/v1/secrets.yaml", size: 887, mode: os.FileMode(420), modTime: time.Unix(1568877919, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -849,7 +870,7 @@ func coreV1ServicesYaml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "core/v1/services.yaml", size: 792, mode: os.FileMode(420), modTime: time.Unix(1568876355, 0)}
+	info := bindataFileInfo{name: "core/v1/services.yaml", size: 792, mode: os.FileMode(420), modTime: time.Unix(1568877919, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -949,7 +970,7 @@ func kubedbComV1alpha1PostgresesYaml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "kubedb.com/v1alpha1/postgreses.yaml", size: 1073, mode: os.FileMode(420), modTime: time.Unix(1568876326, 0)}
+	info := bindataFileInfo{name: "kubedb.com/v1alpha1/postgreses.yaml", size: 1073, mode: os.FileMode(420), modTime: time.Unix(1568877919, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -989,7 +1010,7 @@ func monitoringCoreosComV1PrometheusesYaml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "monitoring.coreos.com/v1/prometheuses.yaml", size: 727, mode: os.FileMode(420), modTime: time.Unix(1568707689, 0)}
+	info := bindataFileInfo{name: "monitoring.coreos.com/v1/prometheuses.yaml", size: 727, mode: os.FileMode(420), modTime: time.Unix(1568877919, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1009,7 +1030,7 @@ func monitoringCoreosComV1ServicemonitorsYaml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "monitoring.coreos.com/v1/servicemonitors.yaml", size: 748, mode: os.FileMode(420), modTime: time.Unix(1568707689, 0)}
+	info := bindataFileInfo{name: "monitoring.coreos.com/v1/servicemonitors.yaml", size: 748, mode: os.FileMode(420), modTime: time.Unix(1568877919, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1149,7 +1170,7 @@ func rbacAuthorizationK8sIoV1ClusterrolesYaml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "rbac.authorization.k8s.io/v1/clusterroles.yaml", size: 588, mode: os.FileMode(420), modTime: time.Unix(1568876268, 0)}
+	info := bindataFileInfo{name: "rbac.authorization.k8s.io/v1/clusterroles.yaml", size: 588, mode: os.FileMode(420), modTime: time.Unix(1568877919, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1189,7 +1210,7 @@ func rbacAuthorizationK8sIoV1RolesYaml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "rbac.authorization.k8s.io/v1/roles.yaml", size: 478, mode: os.FileMode(420), modTime: time.Unix(1568876253, 0)}
+	info := bindataFileInfo{name: "rbac.authorization.k8s.io/v1/roles.yaml", size: 478, mode: os.FileMode(420), modTime: time.Unix(1568877919, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -1362,6 +1383,7 @@ var _bindata = map[string]func() (*asset, error){
 	"authorization.k8s.io/v1/selfsubjectrulesreviews.yaml":                      authorizationK8sIoV1SelfsubjectrulesreviewsYaml,
 	"authorization.k8s.io/v1/subjectaccessreviews.yaml":                         authorizationK8sIoV1SubjectaccessreviewsYaml,
 	"autoscaling/v1/horizontalpodautoscalers.yaml":                              autoscalingV1HorizontalpodautoscalersYaml,
+	"autoscaling/v2beta2/horizontalpodautoscalers.yaml":                         autoscalingV2beta2HorizontalpodautoscalersYaml,
 	"batch/v1/jobs.yaml":                                                        batchV1JobsYaml,
 	"batch/v1beta1/cronjobs.yaml":                                               batchV1beta1CronjobsYaml,
 	"certificates.k8s.io/v1beta1/certificatesigningrequests.yaml":               certificatesK8sIoV1beta1CertificatesigningrequestsYaml,
@@ -1493,6 +1515,9 @@ var _bintree = &bintree{nil, map[string]*bintree{
 	"autoscaling": &bintree{nil, map[string]*bintree{
 		"v1": &bintree{nil, map[string]*bintree{
 			"horizontalpodautoscalers.yaml": &bintree{autoscalingV1HorizontalpodautoscalersYaml, map[string]*bintree{}},
+		}},
+		"v2beta2": &bintree{nil, map[string]*bintree{
+			"horizontalpodautoscalers.yaml": &bintree{autoscalingV2beta2HorizontalpodautoscalersYaml, map[string]*bintree{}},
 		}},
 	}},
 	"batch": &bintree{nil, map[string]*bintree{
