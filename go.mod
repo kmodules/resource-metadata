@@ -3,7 +3,7 @@ module kmodules.xyz/resource-metadata
 go 1.12
 
 require (
-	github.com/appscode/go v0.0.0-20190808133642-1d4ef1f1c1e0
+	github.com/appscode/go v0.0.0-20190920081029-7b75ec783e2e
 	github.com/emicklei/dot v0.10.1
 	github.com/go-openapi/jsonpointer v0.19.0 // indirect
 	github.com/go-openapi/jsonreference v0.19.0 // indirect
