@@ -48,11 +48,13 @@ func CheckNodeToPod(dc dynamic.Interface, g *graph.Graph) error {
 		return err
 	}
 
-	nodeType := metav1.TypeMeta{
-		APIVersion: "v1",
-		Kind:       "Node",
+	nodeGVR := schema.GroupVersionResource{
+		Group:    "",
+		Version:  "v1",
+		Resource: "nodes",
 	}
-	nodes, err := g.List(dc, *pod, nodeType)
+
+	nodes, err := g.List(dc, *pod, nodeGVR)
 	if err != nil {
 		return err
 	}
@@ -74,11 +76,13 @@ func CheckPodToNode(dc dynamic.Interface, g *graph.Graph) error {
 		return err
 	}
 
-	podType := metav1.TypeMeta{
-		APIVersion: "v1",
-		Kind:       "Pod",
+	podGVR := schema.GroupVersionResource{
+		Group:    "",
+		Version:  "v1",
+		Resource: "pods",
 	}
-	pods, err := g.List(dc, *node, podType)
+
+	pods, err := g.List(dc, *node, podGVR)
 	if err != nil {
 		return err
 	}
@@ -100,11 +104,12 @@ func CheckDeployment(dc dynamic.Interface, g *graph.Graph) error {
 		return err
 	}
 
-	podType := metav1.TypeMeta{
-		APIVersion: "v1",
-		Kind:       "Pod",
+	podGVR := schema.GroupVersionResource{
+		Group:    "",
+		Version:  "v1",
+		Resource: "pods",
 	}
-	pods, err := g.List(dc, *busyDep, podType)
+	pods, err := g.List(dc, *busyDep, podGVR)
 	if err != nil {
 		return err
 	}
@@ -112,11 +117,12 @@ func CheckDeployment(dc dynamic.Interface, g *graph.Graph) error {
 		fmt.Println(obj.GetObjectKind().GroupVersionKind(), ":", obj.GetNamespace()+"/"+obj.GetName())
 	}
 
-	svcType := metav1.TypeMeta{
-		APIVersion: "v1",
-		Kind:       "Service",
+	svcGVR := schema.GroupVersionResource{
+		Group:    "",
+		Version:  "v1",
+		Resource: "services",
 	}
-	services, err := g.List(dc, *busyDep, svcType)
+	services, err := g.List(dc, *busyDep, svcGVR)
 	if err != nil {
 		return err
 	}
@@ -138,11 +144,12 @@ func checkPodToPVC(dc dynamic.Interface, g *graph.Graph) error {
 		return err
 	}
 
-	pvcType := metav1.TypeMeta{
-		APIVersion: "v1",
-		Kind:       "PersistentVolumeClaim",
+	pvcGVR := schema.GroupVersionResource{
+		Group:    "",
+		Version:  "v1",
+		Resource: "persistentvolumeclaims",
 	}
-	pvcs, err := g.List(dc, *pod, pvcType)
+	pvcs, err := g.List(dc, *pod, pvcGVR)
 	if err != nil {
 		return err
 	}
@@ -164,11 +171,13 @@ func checkPVCToPod(dc dynamic.Interface, g *graph.Graph) error {
 		return err
 	}
 
-	podType := metav1.TypeMeta{
-		APIVersion: "v1",
-		Kind:       "Pod",
+	podGVR := schema.GroupVersionResource{
+		Group:    "",
+		Version:  "v1",
+		Resource: "pods",
 	}
-	pods, err := g.List(dc, *pvc, podType)
+
+	pods, err := g.List(dc, *pvc, podGVR)
 	if err != nil {
 		return err
 	}
@@ -190,11 +199,12 @@ func checkDepToConfigMap(dc dynamic.Interface, g *graph.Graph) error {
 		return err
 	}
 
-	cfgType := metav1.TypeMeta{
-		APIVersion: "v1",
-		Kind:       "ConfigMap",
+	cfgGVR := schema.GroupVersionResource{
+		Group:    "",
+		Version:  "v1",
+		Resource: "configmaps",
 	}
-	cfgs, err := g.List(dc, *pod, cfgType)
+	cfgs, err := g.List(dc, *pod, cfgGVR)
 	if err != nil {
 		return err
 	}
@@ -216,11 +226,12 @@ func checkConfigMapToDep(dc dynamic.Interface, g *graph.Graph) error {
 		return err
 	}
 
-	depType := metav1.TypeMeta{
-		APIVersion: "apps/v1",
-		Kind:       "Deployment",
+	depGVR := schema.GroupVersionResource{
+		Group:    "apps",
+		Version:  "v1",
+		Resource: "deployments",
 	}
-	deps, err := g.List(dc, *cfg, depType)
+	deps, err := g.List(dc, *cfg, depGVR)
 	if err != nil {
 		return err
 	}
@@ -242,11 +253,12 @@ func checkKubeDBToService(dc dynamic.Interface, g *graph.Graph) error {
 		return err
 	}
 
-	svcType := metav1.TypeMeta{
-		APIVersion: "v1",
-		Kind:       "Service",
+	svcGVR := schema.GroupVersionResource{
+		Group:    "",
+		Version:  "v1",
+		Resource: "services",
 	}
-	services, err := g.List(dc, *pg, svcType)
+	services, err := g.List(dc, *pg, svcGVR)
 	if err != nil {
 		return err
 	}
@@ -268,11 +280,12 @@ func checkKubeDBToStatefulset(dc dynamic.Interface, g *graph.Graph) error {
 		return err
 	}
 
-	ssType := metav1.TypeMeta{
-		APIVersion: "apps/v1",
-		Kind:       "StatefulSet",
+	ssGVR := schema.GroupVersionResource{
+		Group:    "apps",
+		Version:  "v1",
+		Resource: "statefulsets",
 	}
-	statefulsets, err := g.List(dc, *pg, ssType)
+	statefulsets, err := g.List(dc, *pg, ssGVR)
 	if err != nil {
 		return err
 	}

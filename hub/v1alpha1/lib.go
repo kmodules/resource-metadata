@@ -138,10 +138,10 @@ func GVK(gvr schema.GroupVersionResource) schema.GroupVersionKind {
 	return regGVR[gvr].GroupVersionKind()
 }
 
-func IsNamespaced(t metav1.TypeMeta) bool {
+func IsNamespaced(gvr schema.GroupVersionResource) bool {
 	m.RLock()
 	defer m.RUnlock()
-	return regGVK[t.GroupVersionKind()].Scope == v1alpha1.NamespaceScoped
+	return regGVR[gvr].Scope == v1alpha1.NamespaceScoped
 }
 
 func Types() []metav1.TypeMeta {
@@ -153,6 +153,17 @@ func Types() []metav1.TypeMeta {
 		types = append(types, v.TypeMeta())
 	}
 	return types
+}
+
+func Resources() []schema.GroupVersionResource {
+	m.RLock()
+	defer m.RUnlock()
+
+	resources := make([]schema.GroupVersionResource, 0, len(regGVR))
+	for k := range regGVR {
+		resources = append(resources, k)
+	}
+	return resources
 }
 
 func LoadByGVR(gvr schema.GroupVersionResource) (*v1alpha1.ResourceDescriptor, error) {

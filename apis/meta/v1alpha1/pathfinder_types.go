@@ -18,6 +18,7 @@ package v1alpha1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 const (
@@ -42,8 +43,8 @@ type PathFinder struct {
 }
 
 type PathRequest struct {
-	Source metav1.TypeMeta  `json:"source"`
-	Target *metav1.TypeMeta `json:"target,omitempty"`
+	Source GroupVersionResource  `json:"source"`
+	Target *GroupVersionResource `json:"target,omitempty"`
 }
 
 type PathResponse struct {
@@ -51,16 +52,40 @@ type PathResponse struct {
 }
 
 type Path struct {
-	Source   metav1.TypeMeta `json:"source"`
-	Target   metav1.TypeMeta `json:"target"`
-	Distance uint64          `json:"distance"`
-	Edges    []Edge          `json:"edges"`
+	Source   GroupVersionResource `json:"source"`
+	Target   GroupVersionResource `json:"target"`
+	Distance uint64               `json:"distance"`
+	Edges    []Edge               `json:"edges"`
 }
 
 type Edge struct {
-	Src        metav1.TypeMeta        `json:"source"`
-	Dst        metav1.TypeMeta        `json:"target"`
+	Src        GroupVersionResource   `json:"source"`
+	Dst        GroupVersionResource   `json:"target"`
 	W          uint64                 `json:"distance"`
 	Connection ResourceConnectionSpec `json:"connection"`
 	Forward    bool                   `json:"forward"`
+}
+
+// GroupVersionResource unambiguously identifies a resource.  It doesn't anonymously include GroupVersion
+// to avoid automatic coercion.  It doesn't use a GroupVersion to avoid custom marshalling
+type GroupVersionResource struct {
+	Group    string `json:"group"`
+	Version  string `json:"version"`
+	Resource string `json:"resource"`
+}
+
+func (in GroupVersionResource) GVR() schema.GroupVersionResource {
+	return schema.GroupVersionResource{
+		Group:    in.Group,
+		Version:  in.Version,
+		Resource: in.Resource,
+	}
+}
+
+func FromGVR(in schema.GroupVersionResource) GroupVersionResource {
+	return GroupVersionResource{
+		Group:    in.Group,
+		Version:  in.Version,
+		Resource: in.Resource,
+	}
 }
