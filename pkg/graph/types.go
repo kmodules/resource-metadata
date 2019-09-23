@@ -5,7 +5,6 @@ import (
 	"sync"
 
 	jsoniter "github.com/json-iterator/go"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 )
@@ -22,24 +21,24 @@ var json = jsoniter.Config{
 const CostFactorOfInAppFiltering = 4
 
 type Edge struct {
-	Src        metav1.TypeMeta
-	Dst        metav1.TypeMeta
+	Src        schema.GroupVersionResource
+	Dst        schema.GroupVersionResource
 	W          uint64
 	Connection v1alpha1.ResourceConnectionSpec
 	Forward    bool
 }
 
-type AdjacencyMap map[metav1.TypeMeta]*Edge
+type AdjacencyMap map[schema.GroupVersionResource]*Edge
 
 type Graph struct {
-	edges map[metav1.TypeMeta]AdjacencyMap
+	edges map[schema.GroupVersionResource]AdjacencyMap
 
 	m sync.Mutex
 }
 
 func NewGraph() *Graph {
 	return &Graph{
-		edges: make(map[metav1.TypeMeta]AdjacencyMap),
+		edges: make(map[schema.GroupVersionResource]AdjacencyMap),
 	}
 }
 
@@ -105,12 +104,12 @@ func contains(arr []string, item string) bool {
 	return false
 }
 
-func equalsGV(apiGroup string, t metav1.TypeMeta) bool {
+func equalsGV(apiGroup string, t schema.GroupVersionResource) bool {
 	gv1, err := schema.ParseGroupVersion(apiGroup)
 	if err != nil {
 		return false
 	}
-	gv2 := t.GroupVersionKind().GroupVersion()
+	gv2 := t.GroupVersion()
 	if gv1.Version != "" && gv1.Version != gv2.Version {
 		// if gv2 has version, than version must match
 		return false

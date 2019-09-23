@@ -7,19 +7,20 @@ import (
 
 	"github.com/emicklei/dot"
 	flag "github.com/spf13/pflag"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	"kmodules.xyz/resource-metadata/pkg/graph"
 )
 
 func main() {
-	var src metav1.TypeMeta
-	flag.StringVar(&src.APIVersion, "apiVersion", "", "apiVersion of resource who paths will be rendered")
-	flag.StringVar(&src.Kind, "kind", "", "Kind of resource who paths will be rendered")
+	var src schema.GroupVersionResource
+	flag.StringVar(&src.Group, "group", "", "Group of resource who paths will be rendered")
+	flag.StringVar(&src.Version, "version", "", "Version of resource who paths will be rendered")
+	flag.StringVar(&src.Resource, "resource", "", "Name (plural) of resource who paths will be rendered")
 	flag.CommandLine.AddGoFlagSet(goflag.CommandLine)
 	flag.Parse()
 
-	if src.APIVersion == "" || src.Kind == "" {
-		log.Fatalln("--apiVersion, --kind can't bt empty")
+	if src.Group == "" || src.Version == "" || src.Resource == "" {
+		log.Fatalln("--group, --version, --resource can't bt empty")
 	}
 
 	g, err := graph.LoadGraph()
@@ -29,7 +30,7 @@ func main() {
 	_, prev := graph.Dijkstra(g, src)
 
 	gv := dot.NewGraph(dot.Directed)
-	nodes := make(map[metav1.TypeMeta]dot.Node)
+	nodes := make(map[schema.GroupVersionResource]dot.Node)
 
 	for target, edge := range prev {
 		if target != src && edge != nil {

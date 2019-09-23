@@ -23,10 +23,11 @@ func LoadGraph() (*Graph, error) {
 			return nil, err
 		}
 
-		src := rd.Spec.Resource.TypeMeta()
+		src := rd.Spec.Resource.GroupVersionResource()
 
 		for _, conn := range rd.Spec.Connections {
 			dst := conn.Target
+			dstGVR := hub.GVR(dst.GroupVersionKind())
 
 			var w uint64 = 1
 			if conn.ResourceConnectionSpec.Type == v1alpha1.MatchSelector &&
@@ -37,7 +38,7 @@ func LoadGraph() (*Graph, error) {
 
 			graph.AddEdge(&Edge{
 				Src:        src,
-				Dst:        dst,
+				Dst:        dstGVR,
 				W:          w,
 				Connection: conn.ResourceConnectionSpec,
 				Forward:    true,
@@ -45,7 +46,7 @@ func LoadGraph() (*Graph, error) {
 
 			if conn.Type == v1alpha1.MatchSelector || conn.Type == v1alpha1.OwnedBy {
 				graph.AddEdge(&Edge{
-					Src:        dst,
+					Src:        dstGVR,
 					Dst:        src,
 					W:          1 + CostFactorOfInAppFiltering,
 					Connection: conn.ResourceConnectionSpec,
@@ -53,7 +54,7 @@ func LoadGraph() (*Graph, error) {
 				})
 			} else if conn.Type == v1alpha1.MatchName {
 				graph.AddEdge(&Edge{
-					Src:        dst,
+					Src:        dstGVR,
 					Dst:        src,
 					W:          1,
 					Connection: conn.ResourceConnectionSpec,
@@ -61,7 +62,7 @@ func LoadGraph() (*Graph, error) {
 				})
 			} else if conn.Type == v1alpha1.MatchRef {
 				graph.AddEdge(&Edge{
-					Src:        dst,
+					Src:        dstGVR,
 					Dst:        src,
 					W:          1 + CostFactorOfInAppFiltering<<1,
 					Connection: conn.ResourceConnectionSpec,

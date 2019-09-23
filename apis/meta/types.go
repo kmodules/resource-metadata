@@ -123,6 +123,12 @@ type ResourceDescriptorList struct {
 	Items []ResourceDescriptor
 }
 
+type GroupVersionResource struct {
+	Group    string `json:"group"`
+	Version  string `json:"version"`
+	Resource string `json:"resource"`
+}
+
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 type PathFinder struct {
 	metav1.TypeMeta
@@ -131,8 +137,8 @@ type PathFinder struct {
 }
 
 type PathRequest struct {
-	Source metav1.TypeMeta
-	Target *metav1.TypeMeta
+	Source GroupVersionResource
+	Target *GroupVersionResource
 }
 
 type PathResponse struct {
@@ -140,15 +146,15 @@ type PathResponse struct {
 }
 
 type Path struct {
-	Source   metav1.TypeMeta
-	Target   metav1.TypeMeta
+	Source   GroupVersionResource
+	Target   GroupVersionResource
 	Distance uint64
 	Edges    []Edge
 }
 
 type Edge struct {
-	Src        metav1.TypeMeta
-	Dst        metav1.TypeMeta
+	Src        GroupVersionResource
+	Dst        GroupVersionResource
 	W          uint64
 	Connection ResourceConnectionSpec
 	Forward    bool
@@ -162,11 +168,11 @@ type GraphFinder struct {
 }
 
 type GraphRequest struct {
-	Source metav1.TypeMeta
+	Source GroupVersionResource
 }
 
 type GraphResponse struct {
-	Source      metav1.TypeMeta
+	Source      GroupVersionResource
 	Connections []Edge
 }
 

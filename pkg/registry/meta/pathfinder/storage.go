@@ -44,13 +44,14 @@ func (r *Storage) Create(ctx context.Context, obj runtime.Object, createValidati
 		return nil, kerr.NewInternalError(err)
 	}
 
-	dist, prev := graph.Dijkstra(g, pf.Request.Source)
-	paths := graph.GeneratePaths(pf.Request.Source, dist, prev)
+	srcGVR := pf.Request.Source.GVR()
+	dist, prev := graph.Dijkstra(g, srcGVR)
+	paths := graph.GeneratePaths(srcGVR, dist, prev)
 
 	out := make([]v1alpha1.Path, 0, len(paths))
 
 	if pf.Request.Target != nil {
-		path, ok := paths[*pf.Request.Target]
+		path, ok := paths[pf.Request.Target.GVR()]
 		if ok {
 			out = append(out, convertPath(*path))
 		}
@@ -66,8 +67,8 @@ func (r *Storage) Create(ctx context.Context, obj runtime.Object, createValidati
 
 func convertPath(in graph.Path) v1alpha1.Path {
 	out := v1alpha1.Path{
-		Source:   in.Source,
-		Target:   in.Target,
+		Source:   v1alpha1.FromGVR(in.Source),
+		Target:   v1alpha1.FromGVR(in.Target),
 		Distance: in.Distance,
 		Edges:    make([]v1alpha1.Edge, len(in.Edges)),
 	}
@@ -81,8 +82,8 @@ func convertPath(in graph.Path) v1alpha1.Path {
 
 func convertEdge(in graph.Edge) v1alpha1.Edge {
 	return v1alpha1.Edge{
-		Src:        in.Src,
-		Dst:        in.Dst,
+		Src:        v1alpha1.FromGVR(in.Src),
+		Dst:        v1alpha1.FromGVR(in.Dst),
 		W:          in.W,
 		Connection: in.Connection,
 		Forward:    in.Forward,
