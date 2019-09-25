@@ -194,6 +194,7 @@ func (o ResourceMetadataServerOptions) RunResourceMetadataServer(stopCh <-chan s
 // BuildInsecureHandlerChain sets up the server to listen to http. Should be removed.
 func BuildInsecureHandlerChain(apiHandler http.Handler, c *server.Config) http.Handler {
 	handler := apiHandler
+	handler = WithResponseHeader(handler)
 	handler = genericapifilters.WithAudit(handler, c.AuditBackend, c.AuditPolicyChecker, c.LongRunningFunc)
 	handler = genericapifilters.WithAuthentication(handler, server.InsecureSuperuser{}, nil, nil)
 	handler = genericfilters.WithCORS(handler, c.CorsAllowedOriginList, nil, nil, nil, "true")
@@ -204,4 +205,14 @@ func BuildInsecureHandlerChain(apiHandler http.Handler, c *server.Config) http.H
 	handler = genericfilters.WithPanicRecovery(handler)
 
 	return handler
+}
+
+func WithResponseHeader(handler http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+		// https://cloud.google.com/appengine/docs/flexible/python/how-requests-are-handled#disabling_buffering
+		w.Header().Set("X-Accel-Buffering", "no")
+
+		// Dispatch to the next handler
+		handler.ServeHTTP(w, req)
+	})
 }
