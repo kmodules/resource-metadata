@@ -1,0 +1,17 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: stash.appscode.com
+    k8s.io/kind: Restic
+    k8s.io/resource: restics
+    k8s.io/version: v1alpha1
+  name: voyager.appscode.com-v1beta1-restics
+spec:
+  resource:
+    group: stash.appscode.com
+    kind: Restic
+    name: restics
+    scope: Namespaced
+    version: v1alpha1
