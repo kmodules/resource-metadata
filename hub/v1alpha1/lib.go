@@ -5,12 +5,14 @@ import (
 	"strings"
 	"sync"
 
+	"kmodules.xyz/resource-metadata/apis/meta"
+	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+
 	kerr "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/discovery"
-	"kmodules.xyz/resource-metadata/apis/meta"
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	"k8s.io/client-go/rest"
 	"sigs.k8s.io/yaml"
 )
 
@@ -18,9 +20,14 @@ var (
 	regGVK = make(map[schema.GroupVersionKind]*v1alpha1.ResourceID, len(_bindata))
 	regGVR = make(map[schema.GroupVersionResource]*v1alpha1.ResourceID, len(_bindata))
 
-	cache = make(map[string]*v1alpha1.ResourceDescriptor)
-	m     sync.RWMutex
+	cache       = make(map[string]*v1alpha1.ResourceDescriptor)
+	m           sync.RWMutex
+	clusterHost string
 )
+
+func GetCachedResourceDescriptor() map[string]*v1alpha1.ResourceDescriptor {
+	return cache
+}
 
 func init() {
 	for _, filename := range AssetNames() {
@@ -34,7 +41,7 @@ func init() {
 	}
 }
 
-func Register(gvr schema.GroupVersionResource, dc discovery.ServerResourcesInterface) error {
+func Register(gvr schema.GroupVersionResource, dc discovery.ServerResourcesInterface, config *rest.Config) error {
 	m.RLock()
 	if _, found := regGVR[gvr]; found {
 		m.RUnlock()
@@ -46,13 +53,14 @@ func Register(gvr schema.GroupVersionResource, dc discovery.ServerResourcesInter
 	if err != nil {
 		return err
 	}
+	clusterHost = config.Host
 
 	m.Lock()
 	for filename, rd := range reg {
-		if _, found := cache[filename]; !found {
+		if _, found := cache[cachedFileName(filename)]; !found {
 			regGVK[rd.Spec.Resource.GroupVersionKind()] = &rd.Spec.Resource
 			regGVR[rd.Spec.Resource.GroupVersionResource()] = &rd.Spec.Resource
-			cache[filename] = rd
+			cache[cachedFileName(filename)] = rd
 		}
 	}
 	m.Unlock()
@@ -194,9 +202,13 @@ func LoadByFile(filename string) (*v1alpha1.ResourceDescriptor, error) {
 	m.RLock()
 	defer m.RUnlock()
 
-	obj, ok := cache[filename]
+	obj, ok := cache[cachedFileName(filename)]
 	if !ok {
 		return nil, kerr.NewNotFound(schema.GroupResource{Group: meta.GroupName, Resource: v1alpha1.ResourceKindResourceDescriptor}, strings.TrimSuffix(filename, ".yaml"))
 	}
 	return obj, nil
+}
+
+func cachedFileName(filename string) string {
+	return clusterHost + "/" + filename
 }
