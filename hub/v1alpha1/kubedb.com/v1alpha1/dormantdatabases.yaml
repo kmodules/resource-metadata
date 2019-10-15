@@ -1,0 +1,17 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: kubedb.com
+    k8s.io/kind: DormantDatabase
+    k8s.io/resource: dormantdatabases
+    k8s.io/version: v1alpha1
+  name: kubedb.com-v1alpha1-dormantdatabases
+spec:
+  resource:
+    group: kubedb.com
+    kind: DormantDatabase
+    name: dormantdatabases
+    scope: Namespaced
+    version: v1alpha1

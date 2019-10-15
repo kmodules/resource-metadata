@@ -1,0 +1,17 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cluster.k8s.io
+    k8s.io/kind: MachineSet
+    k8s.io/resource: machinesets
+    k8s.io/version: v1alpha1
+  name: cluster.k8s.io-v1alpha1-machinesets
+spec:
+  resource:
+    group: cluster.k8s.io
+    kind: MachineSet
+    name: machinesets
+    scope: Namespaced
+    version: v1alpha1

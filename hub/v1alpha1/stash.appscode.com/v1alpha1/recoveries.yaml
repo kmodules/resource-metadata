@@ -1,0 +1,17 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: stash.appscode.com
+    k8s.io/kind: Recovery
+    k8s.io/resource: recoveries
+    k8s.io/version: v1alpha1
+  name: stash.appscode.com-valpha1-recoveries
+spec:
+  resource:
+    group: stash.appscode.com
+    kind: Recovery
+    name: recoveries
+    scope: Namespaced
+    version: v1alpha1
