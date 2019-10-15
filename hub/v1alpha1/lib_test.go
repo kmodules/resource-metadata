@@ -31,3 +31,24 @@ func TestRegister(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, rd1, rd2)
 }
+
+func TestDiscovery(t *testing.T) {
+	config, err := clientcmd.BuildConfigFromFlags("", filepath.Join(os.Getenv("HOME"), ".kube", "config"))
+	assert.NoError(t, err)
+	var dc discovery.DiscoveryInterface
+	dc, err = discovery.NewDiscoveryClientForConfig(config)
+	fmt.Println("config.Host: ", config.Host)
+	assert.NoError(t, err)
+	list, err := dc.ServerPreferredResources()
+	assert.NoError(t, err)
+	for _, ls := range list {
+		for _, rs := range ls.APIResources {
+			fmt.Println(ls.GroupVersion+"/"+rs.Name, ": ", rs.Verbs)
+		}
+	}
+	lst, err := dc.ServerResourcesForGroupVersion("v1")
+	assert.NoError(t, err)
+	for _, rs := range lst.APIResources {
+		fmt.Println(lst.GroupVersion+"/"+rs.Name, ": ", rs.Verbs)
+	}
+}

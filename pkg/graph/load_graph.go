@@ -23,20 +23,27 @@ func LoadGraph() (*Graph, error) {
 		if err != nil {
 			return nil, err
 		}
-		addRDConnectionsToGraph(graph, &rd)
+		if err := addRDConnectionsToGraph(graph, &rd); err != nil {
+			return nil, err
+		}
 	}
 	cache := hub.GetCachedResourceDescriptor()
 	for _, rd := range cache {
-		addRDConnectionsToGraph(graph, rd)
+		if err := addRDConnectionsToGraph(graph, rd); err != nil {
+			return nil, err
+		}
 	}
 	return graph, nil
 }
 
-func addRDConnectionsToGraph(graph *Graph, rd *v1alpha1.ResourceDescriptor) {
+func addRDConnectionsToGraph(graph *Graph, rd *v1alpha1.ResourceDescriptor) error {
 	src := rd.Spec.Resource.GroupVersionResource()
 	for _, conn := range rd.Spec.Connections {
 		dst := conn.Target
-		dstGVR := hub.GVR(dst.GroupVersionKind())
+		dstGVR, err := hub.GVR(dst.GroupVersionKind())
+		if err != nil {
+			return err
+		}
 
 		var w uint64 = 1
 		if conn.ResourceConnectionSpec.Type == v1alpha1.MatchSelector &&
@@ -70,4 +77,5 @@ func addRDConnectionsToGraph(graph *Graph, rd *v1alpha1.ResourceDescriptor) {
 
 		graph.AddEdge(backEdge)
 	}
+	return nil
 }

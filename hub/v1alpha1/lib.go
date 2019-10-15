@@ -125,31 +125,44 @@ func createRegistry(dc discovery.ServerResourcesInterface) (map[string]*v1alpha1
 	return reg, nil
 }
 
-func GVR(gvk schema.GroupVersionKind) schema.GroupVersionResource {
-	// handle not found
+func GVR(gvk schema.GroupVersionKind) (schema.GroupVersionResource, error) {
 	m.RLock()
 	defer m.RUnlock()
-	return regGVK[gvk].GroupVersionResource()
+	rid, exist := regGVK[gvk]
+	if !exist {
+		return schema.GroupVersionResource{}, fmt.Errorf("gvk %v isn't registered", gvk)
+	}
+	return rid.GroupVersionResource(), nil
 }
 
-func TypeMeta(gvr schema.GroupVersionResource) metav1.TypeMeta {
-	// handle not found
+func TypeMeta(gvr schema.GroupVersionResource) (metav1.TypeMeta, error) {
 	m.RLock()
 	defer m.RUnlock()
-	return regGVR[gvr].TypeMeta()
+	rid, exist := regGVR[gvr]
+	if !exist {
+		return metav1.TypeMeta{}, fmt.Errorf("gvr %v isn't registered", gvr)
+	}
+	return rid.TypeMeta(), nil
 }
 
-func GVK(gvr schema.GroupVersionResource) schema.GroupVersionKind {
-	// handle not found
+func GVK(gvr schema.GroupVersionResource) (schema.GroupVersionKind, error) {
 	m.RLock()
 	defer m.RUnlock()
-	return regGVR[gvr].GroupVersionKind()
+	rid, exist := regGVR[gvr]
+	if !exist {
+		return schema.GroupVersionKind{}, fmt.Errorf("gvr %v isn't registered", gvr)
+	}
+	return rid.GroupVersionKind(), nil
 }
 
-func IsNamespaced(gvr schema.GroupVersionResource) bool {
+func IsNamespaced(gvr schema.GroupVersionResource) (bool, error) {
 	m.RLock()
 	defer m.RUnlock()
-	return regGVR[gvr].Scope == v1alpha1.NamespaceScoped
+	rid, exist := regGVR[gvr]
+	if !exist {
+		return false, fmt.Errorf("gvr %v isn't registered", gvr)
+	}
+	return rid.Scope == v1alpha1.NamespaceScoped, nil
 }
 
 func Types() []metav1.TypeMeta {
