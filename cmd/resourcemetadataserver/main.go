@@ -5,10 +5,11 @@ import (
 	"flag"
 	"os"
 
-	genericapiserver "k8s.io/apiserver/pkg/server"
-	"k8s.io/klog"
 	"kmodules.xyz/client-go/logs"
 	"kmodules.xyz/resource-metadata/pkg/cmd/server"
+
+	genericapiserver "k8s.io/apiserver/pkg/server"
+	"k8s.io/klog"
 )
 
 func main() {

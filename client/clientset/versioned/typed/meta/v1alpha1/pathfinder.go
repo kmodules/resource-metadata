@@ -1,5 +1,5 @@
 /*
-Copyright 2019 The ResourceMetadata Project Authors.
+Copyright The Kmodules Authors.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,8 +19,9 @@ limitations under the License.
 package v1alpha1
 
 import (
-	rest "k8s.io/client-go/rest"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+
+	rest "k8s.io/client-go/rest"
 )
 
 // PathFindersGetter has a method to return a PathFinderInterface.

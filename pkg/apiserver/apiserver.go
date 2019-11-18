@@ -3,6 +3,13 @@ package apiserver
 import (
 	"strconv"
 
+	"kmodules.xyz/resource-metadata/apis/meta"
+	"kmodules.xyz/resource-metadata/apis/meta/install"
+	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	"kmodules.xyz/resource-metadata/pkg/registry/meta/graphfinder"
+	"kmodules.xyz/resource-metadata/pkg/registry/meta/pathfinder"
+	"kmodules.xyz/resource-metadata/pkg/registry/meta/resourcedescriptor"
+
 	v "github.com/appscode/go/version"
 	semver "gomodules.xyz/version"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -12,12 +19,6 @@ import (
 	"k8s.io/apimachinery/pkg/version"
 	"k8s.io/apiserver/pkg/registry/rest"
 	genericapiserver "k8s.io/apiserver/pkg/server"
-	"kmodules.xyz/resource-metadata/apis/meta"
-	"kmodules.xyz/resource-metadata/apis/meta/install"
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	"kmodules.xyz/resource-metadata/pkg/registry/meta/graphfinder"
-	"kmodules.xyz/resource-metadata/pkg/registry/meta/pathfinder"
-	"kmodules.xyz/resource-metadata/pkg/registry/meta/resourcedescriptor"
 )
 
 var (

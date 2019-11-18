@@ -4,9 +4,10 @@ import (
 	"strings"
 	"sync"
 
+	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+
 	jsoniter "github.com/json-iterator/go"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 )
 
 var json = jsoniter.Config{

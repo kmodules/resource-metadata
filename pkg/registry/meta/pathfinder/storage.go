@@ -3,13 +3,14 @@ package pathfinder
 import (
 	"context"
 
+	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	"kmodules.xyz/resource-metadata/pkg/graph"
+
 	kerr "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apiserver/pkg/registry/rest"
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	"kmodules.xyz/resource-metadata/pkg/graph"
 )
 
 type Storage struct {

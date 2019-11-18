@@ -3,13 +3,14 @@ package tableconvertor
 import (
 	"context"
 
+	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
+
 	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1beta1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
 )
 
 func TableForList(client crd_cs.CustomResourceDefinitionInterface, gvr schema.GroupVersionResource, items []unstructured.Unstructured) (*v1alpha1.Table, error) {

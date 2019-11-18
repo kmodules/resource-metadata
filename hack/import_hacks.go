@@ -1,5 +1,5 @@
 /*
-Copyright YEAR The ResourceMetadata Project Authors.
+Copyright The Kmodules Authors.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,3 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+package hack
+
+import (
+	_ "k8s.io/apimachinery/pkg/api/resource"
+	_ "k8s.io/apimachinery/pkg/apis/meta/v1"
+	_ "k8s.io/apimachinery/pkg/runtime"
+	_ "k8s.io/apimachinery/pkg/runtime/schema"
+	_ "k8s.io/apimachinery/pkg/util/intstr"
+)

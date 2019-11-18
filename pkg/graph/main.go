@@ -8,6 +8,9 @@ import (
 	"regexp"
 	"strings"
 
+	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
+
 	"github.com/mitchellh/mapstructure"
 	core "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -16,8 +19,6 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/util/jsonpath"
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
 )
 
 func (g *Graph) List(dc dynamic.Interface, src unstructured.Unstructured, dstGVR schema.GroupVersionResource) ([]unstructured.Unstructured, error) {

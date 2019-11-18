@@ -5,6 +5,10 @@ import (
 	"fmt"
 	"strconv"
 
+	"kmodules.xyz/resource-metadata/apis/meta"
+	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
+
 	kerr "k8s.io/apimachinery/pkg/api/errors"
 	metainternalversion "k8s.io/apimachinery/pkg/apis/meta/internalversion"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -12,9 +16,6 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apiserver/pkg/registry/rest"
-	"kmodules.xyz/resource-metadata/apis/meta"
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
 )
 
 type Storage struct {

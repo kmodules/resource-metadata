@@ -5,8 +5,9 @@ import (
 	"container/heap"
 	"math"
 
-	"k8s.io/apimachinery/pkg/runtime/schema"
 	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
+
+	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 // An Item is something we manage in a priority queue.

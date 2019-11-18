@@ -6,13 +6,14 @@ import (
 	"log"
 	"path/filepath"
 
+	"kmodules.xyz/resource-metadata/pkg/tableconvertor"
+
 	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1beta1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/util/homedir"
-	"kmodules.xyz/resource-metadata/pkg/tableconvertor"
 )
 
 func main() {

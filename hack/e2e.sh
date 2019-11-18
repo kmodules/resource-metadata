@@ -16,19 +16,15 @@
 
 set -eou pipefail
 
-GOPATH=$(go env GOPATH)
-REPO_ROOT="$GOPATH/src/stash.appscode.dev/stash"
+export CGO_ENABLED=1
+export GO111MODULE=on
+export GOFLAGS="-mod=vendor"
 
-pushd $REPO_ROOT
+GINKGO_ARGS=${GINKGO_ARGS:-}
+TEST_ARGS=${TEST_ARGS:-}
+DOCKER_REGISTRY=${DOCKER_REGISTRY:-}
 
-echo "" >coverage.txt
-
-for d in $(go list ./... | grep -v -e vendor -e test); do
-    go test -v -race -coverprofile=profile.out -covermode=atomic "$d"
-    if [ -f profile.out ]; then
-        cat profile.out >>coverage.txt
-        rm profile.out
-    fi
-done
-
-popd
+echo "Running e2e tests:"
+cmd="ginkgo -r --v -race --progress --trace --noisyPendings=false ${GINKGO_ARGS} test -- --docker-registry=${DOCKER_REGISTRY} ${TEST_ARGS}"
+echo $cmd
+$cmd

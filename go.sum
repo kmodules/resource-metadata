@@ -1,4 +1,3 @@
-cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 cloud.google.com/go v0.34.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 contrib.go.opencensus.io/exporter/ocagent v0.4.6/go.mod h1:YuG83h+XWwqWjvCqn7vK4KSyLKhThY3+gNGQ37iS2V0=
 github.com/Azure/azure-sdk-for-go v31.1.0+incompatible/go.mod h1:9XXNKU+eRnpl9moKnB4QOLf1HestfXbmab5FXxiDBjc=
@@ -15,8 +14,9 @@ github.com/BurntSushi/toml v0.3.1 h1:WXkYYl6Yr3qBf1K79EBnL4mak0OimBfB0XUf9Vl28OQ
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/NYTimes/gziphandler v1.1.1 h1:ZUDjpQae29j0ryrS0u/B8HZfJBtBQHjqw2rQ2cqUQ3I=
 github.com/NYTimes/gziphandler v1.1.1/go.mod h1:n/CVRwUEOgIxrgPvAQhUUr9oeUtvrhMomdKFjzJNB0c=
-github.com/PuerkitoBio/purell v1.1.0 h1:rmGxhojJlM0tuKtfdvliR84CFHljx9ag64t2xmVkjK4=
 github.com/PuerkitoBio/purell v1.1.0/go.mod h1:c11w/QuzBsJSee3cPx9rAFu61PvFxuPbtSwDGJws/X0=
+github.com/PuerkitoBio/purell v1.1.1 h1:WEQqlqaGbrPkxLJWfBwQmfEAE1Z7ONdDLqrN38tNFfI=
+github.com/PuerkitoBio/purell v1.1.1/go.mod h1:c11w/QuzBsJSee3cPx9rAFu61PvFxuPbtSwDGJws/X0=
 github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578 h1:d+Bc7a5rLufV/sSk/8dngufqelfh6jnri85riMAaF/M=
 github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578/go.mod h1:uGdkoq3SwY9Y+13GIhn11/XLaGBb4BfwItxLd5jeuXE=
 github.com/Shopify/sarama v1.19.0/go.mod h1:FVkBWblsNy7DGZRfXLU0O9RCGt5g3g3yEuWXgklEdEo=
@@ -25,9 +25,9 @@ github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuy
 github.com/alecthomas/units v0.0.0-20151022065526-2efee857e7cf/go.mod h1:ybxpYRFXyAe+OPACYpWeL0wqObRcbAqCMya13uyzqw0=
 github.com/apache/thrift v0.12.0/go.mod h1:cp2SuWMxlEZw2r+iP2GNCdIi4C1qmUzdZFSVb+bacwQ=
 github.com/appscode/docker-registry-client v0.0.0-20180426150142-1bb02bb202b0/go.mod h1:W9bsWfSbgJXUXzBZ+tSBV2g+zzT7ANPHQFsSXRHYKsA=
-github.com/appscode/go v0.0.0-20190808133642-1d4ef1f1c1e0/go.mod h1:iy07dV61Z7QQdCKJCIvUoDL21u6AIceRhZzyleh2ymc=
-github.com/appscode/go v0.0.0-20190920081029-7b75ec783e2e h1:c2EGRz/Xi/CGm+P0v/pbUHDZcGcOqtbl65RyvKcJFJg=
-github.com/appscode/go v0.0.0-20190920081029-7b75ec783e2e/go.mod h1:hUW7Fq0KY2/ntGnYAzemyUpIhLL6bXrTljN6SRY/+Lc=
+github.com/appscode/go v0.0.0-20191016085057-e186b6c94a3b/go.mod h1:hUW7Fq0KY2/ntGnYAzemyUpIhLL6bXrTljN6SRY/+Lc=
+github.com/appscode/go v0.0.0-20191025021232-311ac347b3ef h1:nTbtvdVAVwFgKANCR4KU36Jo1V9Xs/Z2GMEAlpOVG1Y=
+github.com/appscode/go v0.0.0-20191025021232-311ac347b3ef/go.mod h1:hUW7Fq0KY2/ntGnYAzemyUpIhLL6bXrTljN6SRY/+Lc=
 github.com/armon/consul-api v0.0.0-20180202201655-eb2c6b5be1b6/go.mod h1:grANhF5doyWs3UAsr3K4I6qtAmlQcZDesFNEHPZAzj8=
 github.com/aws/aws-sdk-go v1.20.20/go.mod h1:KmX6BPdI08NWTb3/sm4ZGu5ShLoqVDhKgpiN924inxo=
 github.com/beevik/ntp v0.2.0/go.mod h1:hIHWr+l3+/clUnF44zdK+CWW7fO8dR5cIylAQ76NRpg=
@@ -168,8 +168,9 @@ github.com/kmodules/apimachinery v0.0.0-20190508045248-a52a97a7a2bf h1:XUigLZjjx
 github.com/kmodules/apimachinery v0.0.0-20190508045248-a52a97a7a2bf/go.mod h1:1nbDY1cBTGna53FTjqnehJWker1BB75r+ElWRqNcYo8=
 github.com/kmodules/apiserver v0.0.0-20190811223248-5a95b2df4348 h1:T29tebI9+PX1FOaC1SMI3Kzwnqq5vSLe4Uq6lG0A8nU=
 github.com/kmodules/apiserver v0.0.0-20190811223248-5a95b2df4348/go.mod h1:rMEImsX8dFD0jGmDQXq3zbWddcIU8vlcrMWPzpXEm9g=
-github.com/konsorten/go-windows-terminal-sequences v1.0.1 h1:mweAR1A6xJ3oS2pRaGiHgQ4OO8tzTaLawm8vnODuwDk=
 github.com/konsorten/go-windows-terminal-sequences v1.0.1/go.mod h1:T0+1ngSBFLxvqU3pZ+m/2kptfBszLMUkC4ZK/EgS/cQ=
+github.com/konsorten/go-windows-terminal-sequences v1.0.2 h1:DB17ag19krx9CFsz4o3enTrPXyIXCl+2iCXH/aMAp9s=
+github.com/konsorten/go-windows-terminal-sequences v1.0.2/go.mod h1:T0+1ngSBFLxvqU3pZ+m/2kptfBszLMUkC4ZK/EgS/cQ=
 github.com/kr/logfmt v0.0.0-20140226030751-b84e30acd515/go.mod h1:+0opPa2QZZtGFBFZlji/RkVcI2GknAs/DXo4wKdlNEc=
 github.com/kr/pretty v0.1.0 h1:L/CwN0zerZDmRFUapSPitk6f+Q3+0za1rQkzVuMiMFI=
 github.com/kr/pretty v0.1.0/go.mod h1:dAy3ld7l9f0ibDNOQOHHMYYIIbhfbHSm3C4ZsoJORNo=
@@ -237,8 +238,9 @@ github.com/rogpeppe/fastuuid v0.0.0-20150106093220-6724a57986af/go.mod h1:XWv6So
 github.com/rogpeppe/go-charset v0.0.0-20180617210344-2471d30d28b4/go.mod h1:qgYeAmZ5ZIpBWTGllZSQnw97Dj+woV0toclVaRGI8pc=
 github.com/russross/blackfriday v1.5.2/go.mod h1:JO/DiYxRf+HjHt06OyowR9PTA263kcR/rfWxYHBV53g=
 github.com/sergi/go-diff v1.0.0/go.mod h1:0CfEIISq7TuYL3j771MWULgwwjU+GofnZX9QAmXWZgo=
-github.com/sirupsen/logrus v1.2.0 h1:juTguoYk5qI21pwyTXY3B3Y5cOTH3ZUyZCg1v/mihuo=
 github.com/sirupsen/logrus v1.2.0/go.mod h1:LxeOpSwHxABJmUn/MG1IvRgCAasNZTLOkJPxbbu5VWo=
+github.com/sirupsen/logrus v1.4.1 h1:GL2rEmy6nsikmW0r8opw9JIRScdMF5hA8cOYLH7In1k=
+github.com/sirupsen/logrus v1.4.1/go.mod h1:ni0Sbl8bgC9z8RoU9G6nDWqqs/fq4eDPysMBDgk/93Q=
 github.com/smartystreets/assertions v0.0.0-20180927180507-b2de0cb4f26d/go.mod h1:OnSkiWE9lh6wB0YB77sQom3nweQdgAjqCqsofrRNTgc=
 github.com/smartystreets/goconvey v0.0.0-20190731233626-505e41936337/go.mod h1:syvi0/a8iFYH4r/RixwvyeAJjdLS9QV7WQ/tjFTllLA=
 github.com/soheilhy/cmux v0.1.4 h1:0HKaf1o97UwFjHH9o5XsHUOF+tqmdA7KEzXLpiyaw0E=
@@ -345,7 +347,6 @@ golang.org/x/tools v0.0.0-20190226205152-f727befe758c/go.mod h1:9Yl7xja0Znq3iFh3
 golang.org/x/tools v0.0.0-20190312170243-e65039ee4138/go.mod h1:LCzVGOaR6xXOjkQ3onu1FJEFr0SW1gC7cKk1uF8kGRs=
 golang.org/x/tools v0.0.0-20190328211700-ab21143f2384/go.mod h1:LCzVGOaR6xXOjkQ3onu1FJEFr0SW1gC7cKk1uF8kGRs=
 gomodules.xyz/jsonpatch/v2 v2.0.0/go.mod h1:IhYNNY4jnS53ZnfE4PAmpKtDpTCj1JFXc+3mwe7XcUU=
-gomodules.xyz/version v0.0.0-20190507203204-7cec7ee542d3/go.mod h1:Y8xuV02mL/45psyPKG3NCVOwvAOy6T5Kx0l3rCjKSjU=
 gomodules.xyz/version v0.1.0 h1:inGItCg/egI0jPMeIE0SQkiDIJaodOMoCrxYqasQLR0=
 gomodules.xyz/version v0.1.0/go.mod h1:Y8xuV02mL/45psyPKG3NCVOwvAOy6T5Kx0l3rCjKSjU=
 google.golang.org/api v0.0.0-20180910000450-7ca32eb868bf/go.mod h1:4mhQ8q/RsB7i+udVvVy5NUi08OU8ZlA0gRVgrF7VFY0=
@@ -405,10 +406,10 @@ k8s.io/kube-aggregator v0.0.0-20190314000639-da8327669ac5/go.mod h1:8sbzT4QQKDEm
 k8s.io/kube-openapi v0.0.0-20190228160746-b3a7cee44a30 h1:TRb4wNWoBVrH9plmkp2q86FIDppkbrEXdXlxU3a3BMI=
 k8s.io/kube-openapi v0.0.0-20190228160746-b3a7cee44a30/go.mod h1:BXM9ceUBTj2QnfH2MK1odQs778ajze1RxcmP6S8RVVc=
 k8s.io/kubernetes v1.14.0/go.mod h1:ocZa8+6APFNC2tX1DZASIbocyYT5jHzqFVsY5aoB7Jk=
-k8s.io/utils v0.0.0-20190221042446-c2654d5206da h1:ElyM7RPonbKnQqOcw7dG2IK5uvQQn3b/WPHqD5mBvP4=
-k8s.io/utils v0.0.0-20190221042446-c2654d5206da/go.mod h1:8k8uAuAQ0rXslZKaEWd0c3oVhZz7sSzSiPnVZayjIX0=
-kmodules.xyz/client-go v0.0.0-20190808141354-bbb9e14f60ab h1:rnKcFaDLtqpdooase2BqPfHV9Mu1WvzbTUmucnJjLio=
-kmodules.xyz/client-go v0.0.0-20190808141354-bbb9e14f60ab/go.mod h1:1GI6h5D31op/2D+Hrn9DhXW6iUd5wsHBQRoLeY7fndM=
+k8s.io/utils v0.0.0-20190514214443-0a167cbac756 h1:2XBbostlqrw13zVYimyqcj/Om2P4B26oMzv+m2cj//k=
+k8s.io/utils v0.0.0-20190514214443-0a167cbac756/go.mod h1:8k8uAuAQ0rXslZKaEWd0c3oVhZz7sSzSiPnVZayjIX0=
+kmodules.xyz/client-go v0.0.0-20191107203555-78563b72c377 h1:75XzDzsDSNKhFIV2nCw6TPzXafOohs9xUzfv2szruXY=
+kmodules.xyz/client-go v0.0.0-20191107203555-78563b72c377/go.mod h1:VqLXdVFKtLJu0S8wrDVFGdPuNFUn8rVKETOjwfnRhRE=
 sigs.k8s.io/kustomize v2.0.3+incompatible/go.mod h1:MkjgH3RdOWrievjo6c9T245dYlB5QeXV4WCbnt/PEpU=
 sigs.k8s.io/structured-merge-diff v0.0.0-20190302045857-e85c7b244fd2 h1:9r5DY45ef9LtcA6BnkhW8MPV7OKAfbf2AUwUhq3LeRk=
 sigs.k8s.io/structured-merge-diff v0.0.0-20190302045857-e85c7b244fd2/go.mod h1:wWxsB5ozmmv/SG7nM11ayaAW51xMvak/t1r0CSlcokI=

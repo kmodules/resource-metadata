@@ -7,13 +7,14 @@ import (
 	"os"
 	"path/filepath"
 
+	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/discovery"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/util/homedir"
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"sigs.k8s.io/yaml"
 )
 

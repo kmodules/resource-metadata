@@ -16,9 +16,4 @@ replicationcontroller/nginx created
 kubectl get rc nginx -o=jsonpath='{.status.readyReplicas}/{.spec.replicas}'
 kubectl get rc nginx -o=jsonpath='{range .spec.template.spec.containers[*]}{.image}{"\n"}{end}'
 
-
 https://console.byte.builders/kubernetes/cluster-admin@gke_ackube_us-central1-f_demo.pharmer/replicationcontroller/nginx?namespace=default
-
-
-
-

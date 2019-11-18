@@ -5,10 +5,11 @@ import (
 	"fmt"
 	"log"
 
+	"kmodules.xyz/resource-metadata/pkg/graph"
+
 	"github.com/emicklei/dot"
 	flag "github.com/spf13/pflag"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"kmodules.xyz/resource-metadata/pkg/graph"
 )
 
 func main() {

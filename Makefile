@@ -22,6 +22,7 @@ COMPRESS ?= no
 
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 # CRD_OPTIONS          ?= "crd:trivialVersions=true"
+CRD_OPTIONS          ?= "crd:trivialVersions=true"
 CODE_GENERATOR_IMAGE ?= appscode/gengo:release-1.14
 API_GROUPS           ?= meta:v1alpha1
 
@@ -52,7 +53,8 @@ endif
 ### These variables should not need tweaking.
 ###
 
-SRC_DIRS := apis client cmd pkg hack/gencrd # directories which hold app source (not vendored)
+SRC_PKGS := api apis client cmd pkg
+SRC_DIRS := $(SRC_PKGS) *.go # directories which hold app source (not vendored)
 
 DOCKER_PLATFORMS := linux/amd64 linux/arm linux/arm64
 BIN_PLATFORMS    := $(DOCKER_PLATFORMS)
@@ -71,8 +73,8 @@ TAG              := $(VERSION)_$(OS)_$(ARCH)
 TAG_PROD         := $(TAG)
 TAG_DBG          := $(VERSION)-dbg_$(OS)_$(ARCH)
 
-GO_VERSION       ?= 1.12.9
-BUILD_IMAGE      ?= appscode/golang-dev:$(GO_VERSION)-stretch
+GO_VERSION       ?= 1.12.12
+BUILD_IMAGE      ?= appscode/golang-dev:$(GO_VERSION)
 
 OUTBIN = bin/$(OS)_$(ARCH)/$(BIN)
 ifeq ($(OS),windows)
@@ -86,6 +88,8 @@ BUILD_DIRS  := bin/$(OS)_$(ARCH)     \
 
 DOCKERFILE_PROD  = Dockerfile.in
 DOCKERFILE_DBG   = Dockerfile.dbg
+
+DOCKER_REPO_ROOT := /go/src/$(GO_PKG)/$(REPO)
 
 # If you want to build all binaries, see the 'all-build' rule.
 # If you want to build all containers, see the 'all-container' rule.
@@ -127,8 +131,6 @@ version:
 	@echo commit_hash=$(commit_hash)
 	@echo commit_timestamp=$(commit_timestamp)
 
-DOCKER_REPO_ROOT := /go/src/$(GO_PKG)/$(REPO)
-
 # Generate a typed clientset
 .PHONY: clientset
 clientset:
@@ -147,7 +149,7 @@ clientset:
 			$(GO_PKG)/$(REPO)/apis                                \
 			$(GO_PKG)/$(REPO)/apis                                \
 			"$(API_GROUPS)"                                       \
-			--go-header-file "./hack/boilerplate.go.txt"
+			--go-header-file "./hack/license/go.txt"
 	# for both CRD and EAS types
 	@docker run --rm -ti                                          \
 		-u $$(id -u):$$(id -g)                                    \
@@ -162,14 +164,13 @@ clientset:
 			$(GO_PKG)/$(REPO)/client                              \
 			$(GO_PKG)/$(REPO)/apis                                \
 			"$(API_GROUPS)"                                       \
-			--go-header-file "./hack/boilerplate.go.txt"
+			--go-header-file "./hack/license/go.txt"
 
 # Generate openapi schema
 .PHONY: openapi
 openapi: $(addprefix openapi-, $(subst :,_, $(API_GROUPS)))
 openapi-%:
 	@echo "Generating openapi schema for $(subst _,/,$*)"
-	@mkdir -p api/api-rules
 	@docker run --rm -ti                                 \
 		-u $$(id -u):$$(id -g)                           \
 		-v /tmp:/.cache                                  \
@@ -180,37 +181,41 @@ openapi-%:
 		$(CODE_GENERATOR_IMAGE)                          \
 		openapi-gen                                      \
 			--v 1 --logtostderr                          \
-			--go-header-file "./hack/boilerplate.go.txt" \
+			--go-header-file "./hack/license/go.txt"     \
 			--input-dirs "$(GO_PKG)/$(REPO)/apis/$(subst _,/,$*),k8s.io/apimachinery/pkg/apis/meta/v1,k8s.io/apimachinery/pkg/api/resource,k8s.io/apimachinery/pkg/runtime,k8s.io/apimachinery/pkg/version,k8s.io/api/core/v1,k8s.io/apimachinery/pkg/util/intstr" \
 			--output-package "$(GO_PKG)/$(REPO)/apis/$(subst _,/,$*)" \
-			--report-filename api/api-rules/violation_exceptions.list
+			--report-filename /tmp/violation_exceptions.list
 
 # Generate CRD manifests
 .PHONY: gen-crds
 gen-crds:
 	@echo "Generating CRD manifests"
-	@docker run                                                 \
-		-i                                                      \
-		--rm                                                    \
-		-u $$(id -u):$$(id -g)                                  \
-		-v $$(pwd):/src                                         \
-		-w /src                                                 \
-		-v /tmp:/.cache                                         \
-		--env HTTP_PROXY=$(HTTP_PROXY)                          \
-		--env HTTPS_PROXY=$(HTTPS_PROXY)                        \
-		--env GOOS=$(OS)                                        \
-		--env GOARCH=$(ARCH)                                    \
-		--env GO111MODULE=on                                    \
-		--env GOFLAGS="-mod=vendor"                             \
-		--env CGO_ENABLED=0                                     \
-		$(BUILD_IMAGE)                                          \
-		go run hack/gencrd/main.go
-
-.PHONY: manifests
-manifests: gen-crds
+	@docker run --rm 	                    \
+		-u $$(id -u):$$(id -g)              \
+		-v /tmp:/.cache                     \
+		-v $$(pwd):$(DOCKER_REPO_ROOT)      \
+		-w $(DOCKER_REPO_ROOT)              \
+	    --env HTTP_PROXY=$(HTTP_PROXY)      \
+	    --env HTTPS_PROXY=$(HTTPS_PROXY)    \
+		$(CODE_GENERATOR_IMAGE)             \
+		controller-gen                      \
+			$(CRD_OPTIONS)                  \
+			paths="./apis/..."              \
+			output:crd:artifacts:config=api/crds
 
 .PHONY: gen-bindata
 gen-bindata:
+	@docker run                                                 \
+	    -i                                                      \
+	    --rm                                                    \
+	    -u $$(id -u):$$(id -g)                                  \
+	    -v $$(pwd):/src                                         \
+	    -w /src/api/crds                                        \
+		-v /tmp:/.cache                                         \
+	    --env HTTP_PROXY=$(HTTP_PROXY)                          \
+	    --env HTTPS_PROXY=$(HTTPS_PROXY)                        \
+	    $(BUILD_IMAGE)                                          \
+	    go-bindata -ignore=\\.go -ignore=\\.DS_Store -mode=0644 -o bindata.go -pkg crds ./...
 	@docker run                                                 \
 	    -i                                                      \
 	    --rm                                                    \
@@ -223,8 +228,11 @@ gen-bindata:
 	    $(BUILD_IMAGE)                                          \
 	    go-bindata -ignore=\\.go -ignore=\\.DS_Store -mode=0644 -o bindata.go -pkg v1alpha1 ./...
 
+.PHONY: manifests
+manifests: gen-crds gen-bindata
+
 .PHONY: gen
-gen: clientset openapi manifests gen-bindata
+gen: clientset manifests openapi
 
 fmt: $(BUILD_DIRS)
 	@docker run                                                 \
@@ -239,7 +247,10 @@ fmt: $(BUILD_DIRS)
 	    --env HTTP_PROXY=$(HTTP_PROXY)                          \
 	    --env HTTPS_PROXY=$(HTTPS_PROXY)                        \
 	    $(BUILD_IMAGE)                                          \
-	    ./hack/fmt.sh $(SRC_DIRS)
+	    /bin/bash -c "                                          \
+	        REPO_PKG=$(GO_PKG)                                  \
+	        ./hack/fmt.sh $(SRC_DIRS)                           \
+	    "
 
 build: $(OUTBIN)
 
@@ -371,23 +382,54 @@ lint: $(BUILD_DIRS)
 $(BUILD_DIRS):
 	@mkdir -p $@
 
-.PHONY: install
-install:
-	@APPSCODE_ENV=dev  VAULT_OPERATOR_DOCKER_REGISTRY=$(REGISTRY) VAULT_OPERATOR_IMAGE_TAG=$(TAG) ./hack/deploy/install.sh
-
-.PHONY: uninstall
-uninstall:
-	@./hack/deploy/install.sh --uninstall
-
-.PHONY: purge
-purge:
-	@./hack/deploy/install.sh --uninstall --purge
-
 .PHONY: dev
 dev: gen fmt push
 
+.PHONY: verify
+verify: verify-modules verify-gen
+
+.PHONY: verify-modules
+verify-modules:
+	GO111MODULE=on go mod tidy
+	GO111MODULE=on go mod vendor
+	@if !(git diff --exit-code HEAD); then \
+		echo "go module files are out of date"; exit 1; \
+	fi
+
+.PHONY: verify-gen
+verify-gen: gen fmt
+	@if !(git diff --exit-code HEAD); then \
+		echo "files are out of date, run make gen fmt"; exit 1; \
+	fi
+
+.PHONY: add-license
+add-license:
+	@echo "Adding license header"
+	@docker run --rm 	                                 \
+		-u $$(id -u):$$(id -g)                           \
+		-v /tmp:/.cache                                  \
+		-v $$(pwd):$(DOCKER_REPO_ROOT)                   \
+		-w $(DOCKER_REPO_ROOT)                           \
+		--env HTTP_PROXY=$(HTTP_PROXY)                   \
+		--env HTTPS_PROXY=$(HTTPS_PROXY)                 \
+		$(BUILD_IMAGE)                                   \
+		ltag -t "./hack/license" --excludes "vendor contrib" -v
+
+.PHONY: check-license
+check-license:
+	@echo "Checking files for license header"
+	@docker run --rm 	                                 \
+		-u $$(id -u):$$(id -g)                           \
+		-v /tmp:/.cache                                  \
+		-v $$(pwd):$(DOCKER_REPO_ROOT)                   \
+		-w $(DOCKER_REPO_ROOT)                           \
+		--env HTTP_PROXY=$(HTTP_PROXY)                   \
+		--env HTTPS_PROXY=$(HTTPS_PROXY)                 \
+		$(BUILD_IMAGE)                                   \
+		ltag -t "./hack/license" --excludes "vendor contrib" --check -v
+
 .PHONY: ci
-ci: lint test build #cover
+ci: verify check-license lint build unit-tests #cover
 
 .PHONY: qa
 qa:

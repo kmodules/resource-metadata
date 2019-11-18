@@ -8,6 +8,9 @@ import (
 	"os"
 	"strconv"
 
+	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	"kmodules.xyz/resource-metadata/pkg/apiserver"
+
 	"github.com/go-openapi/spec"
 	"github.com/spf13/cobra"
 	utilerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -19,8 +22,6 @@ import (
 	genericapiserver "k8s.io/apiserver/pkg/server"
 	genericfilters "k8s.io/apiserver/pkg/server/filters"
 	genericoptions "k8s.io/apiserver/pkg/server/options"
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	"kmodules.xyz/resource-metadata/pkg/apiserver"
 )
 
 // ResourceMetadataServerOptions contains state for master/api server
