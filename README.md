@@ -6,7 +6,7 @@
 
 # resource-metadata
 
-API for defining metadata about Kubernetes resources. You can read about the motivation and design of `ResourceDescriptor`s in our blog post: https://blog.byte.builders/post/resourcedescriptor/
+API for defining metadata about Kubernetes resources. You can read about the motivation and design of `ResourceDescriptors` in our blog post: https://blog.byte.builders/post/resourcedescriptor/
 
 ### Test GraphFinder api
 
