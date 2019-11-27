@@ -26,8 +26,12 @@ import (
 	"sigs.k8s.io/yaml"
 )
 
-func LoadGraph() (*Graph, error) {
-	graph := NewGraph()
+func LoadGraphOfKnownResources() (*Graph, error) {
+	return LoadGraph(hub.KnownUID, hub.KnownResources)
+}
+
+func LoadGraph(uid string, cache hub.KV) (*Graph, error) {
+	graph := NewGraph(uid, cache)
 
 	for _, f := range hub.AssetNames() {
 		data, err := hub.Asset(f)

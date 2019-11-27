@@ -55,9 +55,17 @@ type Graph struct {
 	m sync.Mutex
 }
 
-func NewGraph() *Graph {
+func NewGraphOfKnownResources() *Graph {
 	return &Graph{
 		edges: make(map[schema.GroupVersionResource]AdjacencyMap),
+		r:     hub.NewRegistryOfKnownResources(),
+	}
+}
+
+func NewGraph(uid string, cache hub.KV) *Graph {
+	return &Graph{
+		edges: make(map[schema.GroupVersionResource]AdjacencyMap),
+		r:     hub.NewRegistry(uid, cache),
 	}
 }
 

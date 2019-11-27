@@ -68,7 +68,7 @@ var _ KV = &KVLocal{}
 
 func NewKVLocal() KV {
 	return &KVLocal{
-		shared: Known,
+		shared: KnownResources,
 		cache:  map[string]*v1alpha1.ResourceDescriptor{},
 	}
 }
@@ -93,8 +93,10 @@ func (s *KVLocal) Visit (f func(key string, val *v1alpha1.ResourceDescriptor)) {
 	}
 }
 
+const KnownUID = "__known__"
+
 var (
-	Known KV = &KVMap{
+	KnownResources KV = &KVMap{
 		cache: make(map[string]*v1alpha1.ResourceDescriptor),
 	}
 )
@@ -105,7 +107,7 @@ func init() {
 		if err != nil {
 			panic(err)
 		}
-		Known.Set(filename, rd)
+		KnownResources.Set(filename, rd)
 	}
 }
 

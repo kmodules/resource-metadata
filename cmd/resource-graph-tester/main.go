@@ -44,7 +44,7 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	g, err := graph.LoadGraph()
+	g, err := graph.LoadGraphOfKnownResources()
 	if err != nil {
 		log.Fatalln(err)
 	}

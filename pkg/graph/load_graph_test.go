@@ -47,7 +47,7 @@ func TestLoadGraph(t *testing.T) {
 	}
 	reg := hub.NewRegistry(config.Host, hub.NewKVLocal())
 	assert.NoError(t, reg.Register(gvr, dc))
-	graph, err := LoadGraph()
+	graph, err := LoadGraphOfKnownResources()
 	assert.NoError(t, err)
 	assert.NotNil(t, graph)
 }

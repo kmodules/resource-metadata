@@ -39,7 +39,7 @@ func NewPool(kvFactory func() KV) (*Pool, error) {
 func NewLocalPool() (*Pool, error) {
 	return NewPool(func () KV {
 	return	&KVLocal{
-			shared: Known,
+			shared: KnownResources,
 			cache:  map[string]*v1alpha1.ResourceDescriptor{},
 		}
 	})

@@ -40,7 +40,7 @@ func main() {
 		log.Fatalln("--group, --version, --resource can't bt empty")
 	}
 
-	g, err := graph.LoadGraph()
+	g, err := graph.LoadGraphOfKnownResources()
 	if err != nil {
 		log.Fatalln(err)
 	}

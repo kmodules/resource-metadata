@@ -56,7 +56,7 @@ func (r *Storage) New() runtime.Object {
 func (r *Storage) Create(ctx context.Context, obj runtime.Object, createValidation rest.ValidateObjectFunc, options *metav1.CreateOptions) (runtime.Object, error) {
 	gf := obj.(*v1alpha1.GraphFinder)
 
-	g, err := graph.LoadGraph()
+	g, err := graph.LoadGraphOfKnownResources()
 	if err != nil {
 		return nil, kerr.NewInternalError(err)
 	}

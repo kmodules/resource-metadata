@@ -57,7 +57,7 @@ func main() {
 		Resource: "deployments",
 	}
 
-	r := hub.NewRegistryOfKnownTypes()
+	r := hub.NewRegistryOfKnownResources()
 
 	{
 		list, err := dc.Resource(gvr).Namespace("default").List(metav1.ListOptions{})

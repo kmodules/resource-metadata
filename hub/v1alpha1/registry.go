@@ -50,8 +50,8 @@ func NewRegistry(uid string, cache KV) *Registry {
 	return r
 }
 
-func NewRegistryOfKnownTypes() *Registry {
-	return NewRegistry("__known__", Known)
+func NewRegistryOfKnownResources() *Registry {
+	return NewRegistry(KnownUID, KnownResources)
 }
 
 func (r *Registry) Register(gvr schema.GroupVersionResource, dc discovery.ServerResourcesInterface) error {
