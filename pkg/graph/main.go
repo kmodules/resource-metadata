@@ -9,7 +9,6 @@ import (
 	"strings"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
 
 	"github.com/mitchellh/mapstructure"
 	core "k8s.io/api/core/v1"
@@ -22,7 +21,7 @@ import (
 )
 
 func (g *Graph) List(dc dynamic.Interface, src unstructured.Unstructured, dstGVR schema.GroupVersionResource) ([]unstructured.Unstructured, error) {
-	srcGVR, err := hub.GVR(src.GroupVersionKind())
+	srcGVR, err := g.r.GVR(src.GroupVersionKind())
 	if err != nil {
 		return nil, err
 	}
@@ -74,7 +73,7 @@ func appendObjects(arr []unstructured.Unstructured, items ...unstructured.Unstru
 }
 
 func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured, e Edge) ([]unstructured.Unstructured, error) {
-	gvr, err := hub.GVR(src.GroupVersionKind())
+	gvr, err := g.r.GVR(src.GroupVersionKind())
 	if err != nil {
 		return nil, err
 	}
@@ -120,7 +119,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 			for _, ns := range namespaces {
 				var ri dynamic.ResourceInterface
 				ri = dc.Resource(e.Dst)
-				if namespaced, err := hub.IsNamespaced(e.Dst); err != nil {
+				if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 					return nil, err
 				} else if namespaced {
 					ri = dc.Resource(e.Dst).Namespace(ns)
@@ -173,7 +172,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 			for _, ns := range namespaces {
 				var ri dynamic.ResourceInterface
 				ri = dc.Resource(e.Dst)
-				if namespaced, err := hub.IsNamespaced(e.Dst); err != nil {
+				if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 					return nil, err
 				} else if namespaced {
 					ri = dc.Resource(e.Dst).Namespace(ns)
@@ -226,7 +225,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 						continue
 					}
 					// if apiGroup is set, it must match
-					gvk, err := hub.GVK(e.Dst)
+					gvk, err := g.r.GVK(e.Dst)
 					if err != nil {
 						return nil, err
 					}
@@ -236,7 +235,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 
 					var ri dynamic.ResourceInterface
 					ri = dc.Resource(e.Dst)
-					if namespaced, err := hub.IsNamespaced(e.Dst); err != nil {
+					if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 						return nil, err
 					} else if namespaced {
 						ns := ref.Namespace
@@ -287,7 +286,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 
 			var ri dynamic.ResourceInterface
 			ri = dc.Resource(e.Dst)
-			if namespaced, err := hub.IsNamespaced(e.Dst); err != nil {
+			if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 				return nil, err
 			} else if namespaced {
 				ri = dc.Resource(e.Dst).Namespace(namespace)
@@ -351,7 +350,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 				var out []unstructured.Unstructured
 				var ri dynamic.ResourceInterface
 				ri = dc.Resource(e.Dst)
-				if namespaced, err := hub.IsNamespaced(e.Dst); err != nil {
+				if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 					return nil, err
 				} else if namespaced {
 					ri = dc.Resource(e.Dst).Namespace(namespace)
@@ -374,7 +373,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 
 			var ri dynamic.ResourceInterface
 			ri = dc.Resource(e.Dst)
-			if namespaced, err := hub.IsNamespaced(e.Dst); err != nil {
+			if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 				return nil, err
 			} else if namespaced {
 				ns := metav1.NamespaceAll
@@ -425,7 +424,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 						}
 
 						// if apiGroup is set, it must match
-						gvk, err := hub.GVK(e.Src)
+						gvk, err := g.r.GVK(e.Src)
 						if err != nil {
 							return nil, err
 						}
@@ -434,7 +433,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 						}
 
 						ns := ref.Namespace
-						namespaced, err := hub.IsNamespaced(e.Src)
+						namespaced, err := g.r.IsNamespaced(e.Src)
 						if err != nil {
 							return nil, err
 						}
@@ -548,12 +547,12 @@ func (g *Graph) findOwners(dc dynamic.Interface, e Edge, srcOwnerRefs []metav1.O
 
 	var ri dynamic.ResourceInterface
 	ri = dc.Resource(e.Dst)
-	if namespaced, err := hub.IsNamespaced(e.Dst); err != nil {
+	if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 		return nil, err
 	} else if namespaced {
 		ri = dc.Resource(e.Dst).Namespace(namespace)
 	}
-	t, err := hub.TypeMeta(e.Dst)
+	t, err := g.r.TypeMeta(e.Dst)
 	if err != nil {
 		return nil, err
 	}
@@ -592,7 +591,7 @@ func (g *Graph) findChildren(dc dynamic.Interface, e Edge, src unstructured.Unst
 
 	var ri dynamic.ResourceInterface
 	ri = dc.Resource(e.Dst)
-	if namespaced, err := hub.IsNamespaced(e.Dst); err != nil {
+	if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 		return nil, err
 	} else if namespaced {
 		ri = dc.Resource(e.Dst).Namespace(src.GetNamespace())
@@ -632,7 +631,7 @@ func Namespaces(ref unstructured.Unstructured, nsSelector string) ([]string, err
 			return nil, err
 		}
 		if ok {
-			// https://github.com/coreos/prometheus-operator/blob/cc584ecfa08d2eb95ba9401f116e3a20bf71be8b/pkg/prometheus/promcfg.go#L392
+			// https://gitg.r.com/coreos/prometheus-operator/blob/cc584ecfa08d2eb95ba9401f116e3a20bf71be8b/pkg/prometheus/promcfg.go#L392
 			if !nsel.Any && len(nsel.MatchNames) == 0 {
 				return []string{ref.GetNamespace()}, nil
 			} else if len(nsel.MatchNames) > 0 {

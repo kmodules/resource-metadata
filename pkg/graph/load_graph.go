@@ -6,6 +6,7 @@ import (
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
 
+	utilerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/yaml"
 )
 
@@ -27,12 +28,17 @@ func LoadGraph() (*Graph, error) {
 			return nil, err
 		}
 	}
-	cache := hub.GetCachedResourceDescriptor()
-	for _, rd := range cache {
-		if err := addRDConnectionsToGraph(graph, rd); err != nil {
-			return nil, err
+
+	var errs []error
+	graph.r.Visit(func(key string, val *v1alpha1.ResourceDescriptor) {
+		if err := addRDConnectionsToGraph(graph, val); err != nil {
+			errs = append(errs, err)
 		}
+	})
+	if len(errs) > 0 {
+		return nil, utilerrors.NewAggregate(errs)
 	}
+
 	return graph, nil
 }
 
@@ -40,7 +46,7 @@ func addRDConnectionsToGraph(graph *Graph, rd *v1alpha1.ResourceDescriptor) erro
 	src := rd.Spec.Resource.GroupVersionResource()
 	for _, conn := range rd.Spec.Connections {
 		dst := conn.Target
-		dstGVR, err := hub.GVR(dst.GroupVersionKind())
+		dstGVR, err := graph.r.GVR(dst.GroupVersionKind())
 		if err != nil {
 			return err
 		}

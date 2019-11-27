@@ -52,8 +52,8 @@ func New(fieldPath string, columns []v1alpha1.ResourceColumnDefinition) (TableCo
 	return c, err
 }
 
-func NewForGVR(client crd_cs.CustomResourceDefinitionInterface, gvr schema.GroupVersionResource, priority v1alpha1.Priority) (TableConvertor, error) {
-	rd, err := hub.LoadByGVR(gvr)
+func NewForGVR(r *hub.Registry, client crd_cs.CustomResourceDefinitionInterface, gvr schema.GroupVersionResource, priority v1alpha1.Priority) (TableConvertor, error) {
+	rd, err := r.LoadByGVR(gvr)
 	if err != nil {
 		return nil, err
 	}

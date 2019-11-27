@@ -13,8 +13,8 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
-func TableForList(client crd_cs.CustomResourceDefinitionInterface, gvr schema.GroupVersionResource, items []unstructured.Unstructured) (*v1alpha1.Table, error) {
-	c, err := NewForGVR(client, gvr, v1alpha1.List)
+func TableForList(r *hub.Registry, client crd_cs.CustomResourceDefinitionInterface, gvr schema.GroupVersionResource, items []unstructured.Unstructured) (*v1alpha1.Table, error) {
+	c, err := NewForGVR(r, client, gvr, v1alpha1.List)
 	if err != nil {
 		return nil, err
 	}
@@ -25,20 +25,20 @@ func TableForList(client crd_cs.CustomResourceDefinitionInterface, gvr schema.Gr
 	return c.ConvertToTable(ctx, obj, nil)
 }
 
-func TableForObject(client crd_cs.CustomResourceDefinitionInterface, obj runtime.Object) (*v1alpha1.Table, error) {
+func TableForObject(r *hub.Registry, client crd_cs.CustomResourceDefinitionInterface, obj runtime.Object) (*v1alpha1.Table, error) {
 	gvk := obj.GetObjectKind().GroupVersionKind()
 	t := metav1.TypeMeta{APIVersion: gvk.GroupVersion().String(), Kind: gvk.Kind}
-	gvr, err := hub.GVR(t.GroupVersionKind())
+	gvr, err := r.GVR(t.GroupVersionKind())
 	if err != nil {
 		return nil, err
 	}
 
-	rd, err := hub.LoadByGVR(gvr)
+	rd, err := r.LoadByGVR(gvr)
 	if err != nil {
 		return nil, err
 	}
 
-	c, err := NewForGVR(client, gvr, v1alpha1.Field)
+	c, err := NewForGVR(r, client, gvr, v1alpha1.Field)
 	if err != nil {
 		return nil, err
 	}

@@ -4,7 +4,7 @@ go 1.12
 
 require (
 	github.com/PuerkitoBio/purell v1.1.1 // indirect
-	github.com/appscode/go v0.0.0-20191025021232-311ac347b3ef
+	github.com/appscode/go v0.0.0-20191119085241-0887d8ec2ecc
 	github.com/emicklei/dot v0.10.1
 	github.com/go-openapi/jsonpointer v0.19.0 // indirect
 	github.com/go-openapi/jsonreference v0.19.0 // indirect
@@ -12,7 +12,7 @@ require (
 	github.com/go-openapi/swag v0.17.2 // indirect
 	github.com/gogo/protobuf v1.2.1 // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.9.6 // indirect
-	github.com/hashicorp/golang-lru v0.5.1 // indirect
+	github.com/hashicorp/golang-lru v0.5.1
 	github.com/json-iterator/go v1.1.6
 	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
 	github.com/mitchellh/mapstructure v1.1.2

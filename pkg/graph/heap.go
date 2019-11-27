@@ -5,8 +5,6 @@ import (
 	"container/heap"
 	"math"
 
-	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
-
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
@@ -61,7 +59,7 @@ func Dijkstra(graph *Graph, src schema.GroupVersionResource) (dist map[schema.Gr
 	dist = make(map[schema.GroupVersionResource]uint64)
 	prev = make(map[schema.GroupVersionResource]*Edge)
 
-	resources := hub.Resources()
+	resources := graph.r.Resources()
 
 	q := make(Queue, len(resources))
 	i := 0

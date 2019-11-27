@@ -6,6 +6,7 @@ import (
 	"log"
 	"path/filepath"
 
+	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor"
 
 	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1beta1"
@@ -40,13 +41,15 @@ func main() {
 		Resource: "deployments",
 	}
 
+	r := hub.NewRegistryOfKnownTypes()
+
 	{
 		list, err := dc.Resource(gvr).Namespace("default").List(metav1.ListOptions{})
 		if err != nil {
 			log.Fatalln(err)
 		}
 
-		t, err := tableconvertor.TableForList(client.CustomResourceDefinitions(), gvr, list.Items)
+		t, err := tableconvertor.TableForList(r, client.CustomResourceDefinitions(), gvr, list.Items)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -65,7 +68,7 @@ func main() {
 		}
 		fmt.Println(dep.GroupVersionKind().String())
 
-		t, err := tableconvertor.TableForObject(client.CustomResourceDefinitions(), dep)
+		t, err := tableconvertor.TableForObject(r, client.CustomResourceDefinitions(), dep)
 		if err != nil {
 			log.Fatalln(err)
 		}

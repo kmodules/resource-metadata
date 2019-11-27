@@ -135,7 +135,7 @@ version:
 .PHONY: clientset
 clientset:
 	# for EAS types
-	@docker run --rm -ti                                          \
+	@docker run --rm                                              \
 		-u $$(id -u):$$(id -g)                                    \
 		-v /tmp:/.cache                                           \
 		-v $$(pwd):$(DOCKER_REPO_ROOT)                            \
@@ -151,7 +151,7 @@ clientset:
 			"$(API_GROUPS)"                                       \
 			--go-header-file "./hack/license/go.txt"
 	# for both CRD and EAS types
-	@docker run --rm -ti                                          \
+	@docker run --rm                                              \
 		-u $$(id -u):$$(id -g)                                    \
 		-v /tmp:/.cache                                           \
 		-v $$(pwd):$(DOCKER_REPO_ROOT)                            \
@@ -171,7 +171,7 @@ clientset:
 openapi: $(addprefix openapi-, $(subst :,_, $(API_GROUPS)))
 openapi-%:
 	@echo "Generating openapi schema for $(subst _,/,$*)"
-	@docker run --rm -ti                                 \
+	@docker run --rm                                     \
 		-u $$(id -u):$$(id -g)                           \
 		-v /tmp:/.cache                                  \
 		-v $$(pwd):$(DOCKER_REPO_ROOT)                   \
@@ -215,7 +215,7 @@ gen-bindata:
 	    --env HTTP_PROXY=$(HTTP_PROXY)                          \
 	    --env HTTPS_PROXY=$(HTTPS_PROXY)                        \
 	    $(BUILD_IMAGE)                                          \
-	    go-bindata -ignore=\\.go -ignore=\\.DS_Store -mode=0644 -o bindata.go -pkg crds ./...
+	    go-bindata -ignore=\\.go -ignore=\\.DS_Store -mode=0644 -modtime=1573722179 -o bindata.go -pkg crds ./...
 	@docker run                                                 \
 	    -i                                                      \
 	    --rm                                                    \
@@ -226,7 +226,7 @@ gen-bindata:
 	    --env HTTP_PROXY=$(HTTP_PROXY)                          \
 	    --env HTTPS_PROXY=$(HTTPS_PROXY)                        \
 	    $(BUILD_IMAGE)                                          \
-	    go-bindata -ignore=\\.go -ignore=\\.DS_Store -mode=0644 -o bindata.go -pkg v1alpha1 ./...
+	    go-bindata -ignore=\\.go -ignore=\\.DS_Store -mode=0644 -modtime=1573722179 -o bindata.go -pkg v1alpha1 ./...
 
 .PHONY: manifests
 manifests: gen-crds gen-bindata
@@ -386,7 +386,7 @@ $(BUILD_DIRS):
 dev: gen fmt push
 
 .PHONY: verify
-verify: verify-modules verify-gen
+verify: verify-gen # verify-modules
 
 .PHONY: verify-modules
 verify-modules:

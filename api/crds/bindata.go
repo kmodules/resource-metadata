@@ -92,7 +92,7 @@ func metaAppscodeCom_resourcedescriptorsYaml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "meta.appscode.com_resourcedescriptors.yaml", size: 14115, mode: os.FileMode(420), modTime: time.Unix(1574074937, 0)}
+	info := bindataFileInfo{name: "meta.appscode.com_resourcedescriptors.yaml", size: 14115, mode: os.FileMode(420), modTime: time.Unix(1573722179, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

@@ -5,6 +5,7 @@ import (
 	"sync"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
 
 	jsoniter "github.com/json-iterator/go"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -32,6 +33,7 @@ type Edge struct {
 type AdjacencyMap map[schema.GroupVersionResource]*Edge
 
 type Graph struct {
+	r     *hub.Registry
 	edges map[schema.GroupVersionResource]AdjacencyMap
 
 	m sync.Mutex
