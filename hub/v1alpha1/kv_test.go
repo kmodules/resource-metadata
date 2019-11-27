@@ -40,7 +40,8 @@ func TestRegister(t *testing.T) {
 		Version:  "v1",
 		Resource: "alertmanagers",
 	}
-	assert.NoError(t, Register(gvr, dc, config))
+	reg := NewRegistry(config.Host, NewKVLocal())
+	assert.NoError(t, reg.Register(gvr, dc))
 	rd1, err := LoadByGVR(gvr)
 	assert.NoError(t, err)
 	rd2, err := LoadByFile("monitoring.coreos.com/v1/alertmanagers.yaml")

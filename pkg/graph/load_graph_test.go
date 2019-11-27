@@ -21,16 +21,21 @@ import (
 	"path/filepath"
 	"testing"
 
-	"kmodules.xyz/resource-metadata/hub/v1alpha1"
+	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
 
 	"github.com/stretchr/testify/assert"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/discovery"
 	"k8s.io/client-go/tools/clientcmd"
+	"k8s.io/client-go/util/homedir"
 )
 
 func TestLoadGraph(t *testing.T) {
-	config, err := clientcmd.BuildConfigFromFlags("", filepath.Join(os.Getenv("HOME"), ".kube", "config"))
+	kubecfg := os.Getenv("KUBECONFIG")
+	if kubecfg == "" {
+		kubecfg = filepath.Join(homedir.HomeDir(), ".kube", "config")
+	}
+	config, err := clientcmd.BuildConfigFromFlags("", kubecfg)
 	assert.NoError(t, err)
 	var dc discovery.DiscoveryInterface
 	dc, err = discovery.NewDiscoveryClientForConfig(config)
@@ -40,7 +45,8 @@ func TestLoadGraph(t *testing.T) {
 		Version:  "v1",
 		Resource: "alertmanagers",
 	}
-	assert.NoError(t, v1alpha1.Register(gvr, dc, config))
+	reg := hub.NewRegistry(config.Host, hub.NewKVLocal())
+	assert.NoError(t, reg.Register(gvr, dc))
 	graph, err := LoadGraph()
 	assert.NoError(t, err)
 	assert.NotNil(t, graph)

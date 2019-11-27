@@ -31,27 +31,27 @@ type KV interface {
 	Visit (func(key string, val *v1alpha1.ResourceDescriptor))
 }
 
-type kvMap struct {
+type KVMap struct {
 	cache map[string]*v1alpha1.ResourceDescriptor
 	m     sync.RWMutex
 }
 
-var _ KV = &kvMap{}
+var _ KV = &KVMap{}
 
-func (s *kvMap) Set(key string, val *v1alpha1.ResourceDescriptor) {
+func (s *KVMap) Set(key string, val *v1alpha1.ResourceDescriptor) {
 	s.m.Lock()
 	s.cache[key] = val
 	s.m.Unlock()
 }
 
-func (s *kvMap) Get(key string) (*v1alpha1.ResourceDescriptor, bool) {
+func (s *KVMap) Get(key string) (*v1alpha1.ResourceDescriptor, bool) {
 	s.m.RLock()
 	val, found := s.cache[key]
 	s.m.RUnlock()
 	return val, found
 }
 
-func (s *kvMap) Visit (f func(key string, val *v1alpha1.ResourceDescriptor)) {
+func (s *KVMap) Visit (f func(key string, val *v1alpha1.ResourceDescriptor)) {
 	s.m.RLock()
 	for k, v := range s.cache {
 		f(k, v)
@@ -59,18 +59,25 @@ func (s *kvMap) Visit (f func(key string, val *v1alpha1.ResourceDescriptor)) {
 	s.m.RUnlock()
 }
 
-type kvLocal struct {
+type KVLocal struct {
 	shared KV
 	cache  map[string]*v1alpha1.ResourceDescriptor
 }
 
-var _ KV = &kvLocal{}
+var _ KV = &KVLocal{}
 
-func (s *kvLocal) Set(key string, val *v1alpha1.ResourceDescriptor) {
+func NewKVLocal() KV {
+	return &KVLocal{
+		shared: Known,
+		cache:  map[string]*v1alpha1.ResourceDescriptor{},
+	}
+}
+
+func (s *KVLocal) Set(key string, val *v1alpha1.ResourceDescriptor) {
 	s.cache[key] = val
 }
 
-func (s *kvLocal) Get(key string) (*v1alpha1.ResourceDescriptor, bool) {
+func (s *KVLocal) Get(key string) (*v1alpha1.ResourceDescriptor, bool) {
 	val, found := s.shared.Get(key)
 	if found {
 		return val, found
@@ -79,7 +86,7 @@ func (s *kvLocal) Get(key string) (*v1alpha1.ResourceDescriptor, bool) {
 	return val, found
 }
 
-func (s *kvLocal) Visit (f func(key string, val *v1alpha1.ResourceDescriptor)) {
+func (s *KVLocal) Visit (f func(key string, val *v1alpha1.ResourceDescriptor)) {
 	s.shared.Visit(f)
 	for k, v := range s.cache {
 		f(k, v)
@@ -87,7 +94,7 @@ func (s *kvLocal) Visit (f func(key string, val *v1alpha1.ResourceDescriptor)) {
 }
 
 var (
-	known KV = &kvMap{
+	Known KV = &KVMap{
 		cache: make(map[string]*v1alpha1.ResourceDescriptor),
 	}
 )
@@ -98,7 +105,7 @@ func init() {
 		if err != nil {
 			panic(err)
 		}
-		known.Set(filename, rd)
+		Known.Set(filename, rd)
 	}
 }
 
