@@ -26,10 +26,15 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/discovery"
 	"k8s.io/client-go/tools/clientcmd"
+	"k8s.io/client-go/util/homedir"
 )
 
 func TestRegister(t *testing.T) {
-	config, err := clientcmd.BuildConfigFromFlags("", filepath.Join(os.Getenv("HOME"), ".kube", "config"))
+	kubecfg := os.Getenv("KUBECONFIG")
+	if kubecfg == "" {
+		kubecfg = filepath.Join(homedir.HomeDir(), ".kube", "config")
+	}
+	config, err := clientcmd.BuildConfigFromFlags("", kubecfg)
 	assert.NoError(t, err)
 	var dc discovery.DiscoveryInterface
 	dc, err = discovery.NewDiscoveryClientForConfig(config)
@@ -38,19 +43,23 @@ func TestRegister(t *testing.T) {
 	gvr := schema.GroupVersionResource{
 		Group:    "monitoring.coreos.com",
 		Version:  "v1",
-		Resource: "alertmanagers",
+		Resource: "prometheuses",
 	}
 	reg := NewRegistry(config.Host, NewKVLocal())
 	assert.NoError(t, reg.Register(gvr, dc))
 	rd1, err := LoadByGVR(gvr)
 	assert.NoError(t, err)
-	rd2, err := LoadByFile("monitoring.coreos.com/v1/alertmanagers.yaml")
+	rd2, err := LoadByFile("monitoring.coreos.com/v1/prometheuses.yaml")
 	assert.NoError(t, err)
 	assert.Equal(t, rd1, rd2)
 }
 
 func TestDiscovery(t *testing.T) {
-	config, err := clientcmd.BuildConfigFromFlags("", filepath.Join(os.Getenv("HOME"), ".kube", "config"))
+	kubecfg := os.Getenv("KUBECONFIG")
+	if kubecfg == "" {
+		kubecfg = filepath.Join(homedir.HomeDir(), ".kube", "config")
+	}
+	config, err := clientcmd.BuildConfigFromFlags("", kubecfg)
 	assert.NoError(t, err)
 	var dc discovery.DiscoveryInterface
 	dc, err = discovery.NewDiscoveryClientForConfig(config)
