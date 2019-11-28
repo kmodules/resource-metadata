@@ -19,19 +19,19 @@ package v1alpha1
 import (
 	"sync"
 
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-
 	lru "github.com/hashicorp/golang-lru"
 )
 
 type Pool struct {
-	cache *lru.Cache
+	cache *lru.Cache // pool of registries
 	m     sync.Mutex
 	f     func() KV
 }
 
+const PoolSize = 1024 // This number should match the max number of concurrent clusters handled
+
 func NewPool(kvFactory func() KV) (*Pool, error) {
-	cache, err := lru.New(1024)
+	cache, err := lru.New(PoolSize)
 	if err != nil {
 		return nil, err
 	}
@@ -39,12 +39,7 @@ func NewPool(kvFactory func() KV) (*Pool, error) {
 }
 
 func NewLocalPool() (*Pool, error) {
-	return NewPool(func() KV {
-		return &KVLocal{
-			shared: KnownResources,
-			cache:  map[string]*v1alpha1.ResourceDescriptor{},
-		}
-	})
+	return NewPool(NewKVLocal)
 }
 
 func (p *Pool) GetRegistry(uid string) *Registry {

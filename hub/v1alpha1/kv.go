@@ -33,6 +33,7 @@ type KV interface {
 	Visit(func(key string, val *v1alpha1.ResourceDescriptor))
 }
 
+// KVMap is concurrent safe.
 type KVMap struct {
 	cache map[string]*v1alpha1.ResourceDescriptor
 	m     sync.RWMutex
@@ -61,26 +62,29 @@ func (s *KVMap) Visit(f func(key string, val *v1alpha1.ResourceDescriptor)) {
 	s.m.RUnlock()
 }
 
+// KVLocal is not concurrent safe.
 type KVLocal struct {
-	shared KV
-	cache  map[string]*v1alpha1.ResourceDescriptor
+	known KV
+	cache map[string]*v1alpha1.ResourceDescriptor
 }
 
 var _ KV = &KVLocal{}
 
 func NewKVLocal() KV {
 	return &KVLocal{
-		shared: KnownResources,
-		cache:  map[string]*v1alpha1.ResourceDescriptor{},
+		known: KnownResources,
+		cache: map[string]*v1alpha1.ResourceDescriptor{},
 	}
 }
 
 func (s *KVLocal) Set(key string, val *v1alpha1.ResourceDescriptor) {
-	s.cache[key] = val
+	if _, found := s.known.Get(key); !found {
+		s.cache[key] = val
+	}
 }
 
 func (s *KVLocal) Get(key string) (*v1alpha1.ResourceDescriptor, bool) {
-	val, found := s.shared.Get(key)
+	val, found := s.known.Get(key)
 	if found {
 		return val, found
 	}
@@ -89,7 +93,7 @@ func (s *KVLocal) Get(key string) (*v1alpha1.ResourceDescriptor, bool) {
 }
 
 func (s *KVLocal) Visit(f func(key string, val *v1alpha1.ResourceDescriptor)) {
-	s.shared.Visit(f)
+	s.known.Visit(f)
 	for k, v := range s.cache {
 		f(k, v)
 	}
