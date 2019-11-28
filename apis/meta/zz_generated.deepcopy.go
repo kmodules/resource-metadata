@@ -332,7 +332,7 @@ func (in *ResourceDescriptor) DeepCopyObject() runtime.Object {
 func (in *ResourceDescriptorList) DeepCopyInto(out *ResourceDescriptorList) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
-	out.ListMeta = in.ListMeta
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
 		*out = make([]ResourceDescriptor, len(*in))
@@ -471,7 +471,7 @@ func (in *SubTable) DeepCopy() *SubTable {
 func (in *Table) DeepCopyInto(out *Table) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
-	out.ListMeta = in.ListMeta
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
 	if in.ColumnDefinitions != nil {
 		in, out := &in.ColumnDefinitions, &out.ColumnDefinitions
 		*out = make([]ResourceColumnDefinition, len(*in))
