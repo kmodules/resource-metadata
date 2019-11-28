@@ -1755,188 +1755,188 @@ type bintree struct {
 }
 
 var _bintree = &bintree{nil, map[string]*bintree{
-	"admissionregistration.k8s.io": &bintree{nil, map[string]*bintree{
-		"v1beta1": &bintree{nil, map[string]*bintree{
-			"mutatingwebhookconfigurations.yaml":   &bintree{admissionregistrationK8sIoV1beta1MutatingwebhookconfigurationsYaml, map[string]*bintree{}},
-			"validatingwebhookconfigurations.yaml": &bintree{admissionregistrationK8sIoV1beta1ValidatingwebhookconfigurationsYaml, map[string]*bintree{}},
+	"admissionregistration.k8s.io": {nil, map[string]*bintree{
+		"v1beta1": {nil, map[string]*bintree{
+			"mutatingwebhookconfigurations.yaml":   {admissionregistrationK8sIoV1beta1MutatingwebhookconfigurationsYaml, map[string]*bintree{}},
+			"validatingwebhookconfigurations.yaml": {admissionregistrationK8sIoV1beta1ValidatingwebhookconfigurationsYaml, map[string]*bintree{}},
 		}},
 	}},
-	"apiextensions.k8s.io": &bintree{nil, map[string]*bintree{
-		"v1beta1": &bintree{nil, map[string]*bintree{
-			"customresourcedefinitions.yaml": &bintree{apiextensionsK8sIoV1beta1CustomresourcedefinitionsYaml, map[string]*bintree{}},
+	"apiextensions.k8s.io": {nil, map[string]*bintree{
+		"v1beta1": {nil, map[string]*bintree{
+			"customresourcedefinitions.yaml": {apiextensionsK8sIoV1beta1CustomresourcedefinitionsYaml, map[string]*bintree{}},
 		}},
 	}},
-	"apiregistration.k8s.io": &bintree{nil, map[string]*bintree{
-		"v1": &bintree{nil, map[string]*bintree{
-			"apiservices.yaml": &bintree{apiregistrationK8sIoV1ApiservicesYaml, map[string]*bintree{}},
+	"apiregistration.k8s.io": {nil, map[string]*bintree{
+		"v1": {nil, map[string]*bintree{
+			"apiservices.yaml": {apiregistrationK8sIoV1ApiservicesYaml, map[string]*bintree{}},
 		}},
 	}},
-	"appcatalog.appscode.com": &bintree{nil, map[string]*bintree{
-		"v1alpha1": &bintree{nil, map[string]*bintree{
-			"appbindings.yaml": &bintree{appcatalogAppscodeComV1alpha1AppbindingsYaml, map[string]*bintree{}},
+	"appcatalog.appscode.com": {nil, map[string]*bintree{
+		"v1alpha1": {nil, map[string]*bintree{
+			"appbindings.yaml": {appcatalogAppscodeComV1alpha1AppbindingsYaml, map[string]*bintree{}},
 		}},
 	}},
-	"apps": &bintree{nil, map[string]*bintree{
-		"v1": &bintree{nil, map[string]*bintree{
-			"controllerrevisions.yaml": &bintree{appsV1ControllerrevisionsYaml, map[string]*bintree{}},
-			"daemonsets.yaml":          &bintree{appsV1DaemonsetsYaml, map[string]*bintree{}},
-			"deployments.yaml":         &bintree{appsV1DeploymentsYaml, map[string]*bintree{}},
-			"replicasets.yaml":         &bintree{appsV1ReplicasetsYaml, map[string]*bintree{}},
-			"statefulsets.yaml":        &bintree{appsV1StatefulsetsYaml, map[string]*bintree{}},
+	"apps": {nil, map[string]*bintree{
+		"v1": {nil, map[string]*bintree{
+			"controllerrevisions.yaml": {appsV1ControllerrevisionsYaml, map[string]*bintree{}},
+			"daemonsets.yaml":          {appsV1DaemonsetsYaml, map[string]*bintree{}},
+			"deployments.yaml":         {appsV1DeploymentsYaml, map[string]*bintree{}},
+			"replicasets.yaml":         {appsV1ReplicasetsYaml, map[string]*bintree{}},
+			"statefulsets.yaml":        {appsV1StatefulsetsYaml, map[string]*bintree{}},
 		}},
 	}},
-	"authentication.k8s.io": &bintree{nil, map[string]*bintree{
-		"v1": &bintree{nil, map[string]*bintree{
-			"tokenreviews.yaml": &bintree{authenticationK8sIoV1TokenreviewsYaml, map[string]*bintree{}},
+	"authentication.k8s.io": {nil, map[string]*bintree{
+		"v1": {nil, map[string]*bintree{
+			"tokenreviews.yaml": {authenticationK8sIoV1TokenreviewsYaml, map[string]*bintree{}},
 		}},
 	}},
-	"authorization.k8s.io": &bintree{nil, map[string]*bintree{
-		"v1": &bintree{nil, map[string]*bintree{
-			"localsubjectaccessreviews.yaml": &bintree{authorizationK8sIoV1LocalsubjectaccessreviewsYaml, map[string]*bintree{}},
-			"selfsubjectaccessreviews.yaml":  &bintree{authorizationK8sIoV1SelfsubjectaccessreviewsYaml, map[string]*bintree{}},
-			"selfsubjectrulesreviews.yaml":   &bintree{authorizationK8sIoV1SelfsubjectrulesreviewsYaml, map[string]*bintree{}},
-			"subjectaccessreviews.yaml":      &bintree{authorizationK8sIoV1SubjectaccessreviewsYaml, map[string]*bintree{}},
+	"authorization.k8s.io": {nil, map[string]*bintree{
+		"v1": {nil, map[string]*bintree{
+			"localsubjectaccessreviews.yaml": {authorizationK8sIoV1LocalsubjectaccessreviewsYaml, map[string]*bintree{}},
+			"selfsubjectaccessreviews.yaml":  {authorizationK8sIoV1SelfsubjectaccessreviewsYaml, map[string]*bintree{}},
+			"selfsubjectrulesreviews.yaml":   {authorizationK8sIoV1SelfsubjectrulesreviewsYaml, map[string]*bintree{}},
+			"subjectaccessreviews.yaml":      {authorizationK8sIoV1SubjectaccessreviewsYaml, map[string]*bintree{}},
 		}},
 	}},
-	"autoscaling": &bintree{nil, map[string]*bintree{
-		"v1": &bintree{nil, map[string]*bintree{
-			"horizontalpodautoscalers.yaml": &bintree{autoscalingV1HorizontalpodautoscalersYaml, map[string]*bintree{}},
+	"autoscaling": {nil, map[string]*bintree{
+		"v1": {nil, map[string]*bintree{
+			"horizontalpodautoscalers.yaml": {autoscalingV1HorizontalpodautoscalersYaml, map[string]*bintree{}},
 		}},
-		"v2beta2": &bintree{nil, map[string]*bintree{
-			"horizontalpodautoscalers.yaml": &bintree{autoscalingV2beta2HorizontalpodautoscalersYaml, map[string]*bintree{}},
-		}},
-	}},
-	"batch": &bintree{nil, map[string]*bintree{
-		"v1": &bintree{nil, map[string]*bintree{
-			"jobs.yaml": &bintree{batchV1JobsYaml, map[string]*bintree{}},
-		}},
-		"v1beta1": &bintree{nil, map[string]*bintree{
-			"cronjobs.yaml": &bintree{batchV1beta1CronjobsYaml, map[string]*bintree{}},
+		"v2beta2": {nil, map[string]*bintree{
+			"horizontalpodautoscalers.yaml": {autoscalingV2beta2HorizontalpodautoscalersYaml, map[string]*bintree{}},
 		}},
 	}},
-	"certificates.k8s.io": &bintree{nil, map[string]*bintree{
-		"v1beta1": &bintree{nil, map[string]*bintree{
-			"certificatesigningrequests.yaml": &bintree{certificatesK8sIoV1beta1CertificatesigningrequestsYaml, map[string]*bintree{}},
+	"batch": {nil, map[string]*bintree{
+		"v1": {nil, map[string]*bintree{
+			"jobs.yaml": {batchV1JobsYaml, map[string]*bintree{}},
+		}},
+		"v1beta1": {nil, map[string]*bintree{
+			"cronjobs.yaml": {batchV1beta1CronjobsYaml, map[string]*bintree{}},
 		}},
 	}},
-	"cluster.k8s.io": &bintree{nil, map[string]*bintree{
-		"v1alpha1": &bintree{nil, map[string]*bintree{
-			"machines.yaml":    &bintree{clusterK8sIoV1alpha1MachinesYaml, map[string]*bintree{}},
-			"machinesets.yaml": &bintree{clusterK8sIoV1alpha1MachinesetsYaml, map[string]*bintree{}},
+	"certificates.k8s.io": {nil, map[string]*bintree{
+		"v1beta1": {nil, map[string]*bintree{
+			"certificatesigningrequests.yaml": {certificatesK8sIoV1beta1CertificatesigningrequestsYaml, map[string]*bintree{}},
 		}},
 	}},
-	"coordination.k8s.io": &bintree{nil, map[string]*bintree{
-		"v1": &bintree{nil, map[string]*bintree{
-			"leases.yaml": &bintree{coordinationK8sIoV1LeasesYaml, map[string]*bintree{}},
+	"cluster.k8s.io": {nil, map[string]*bintree{
+		"v1alpha1": {nil, map[string]*bintree{
+			"machines.yaml":    {clusterK8sIoV1alpha1MachinesYaml, map[string]*bintree{}},
+			"machinesets.yaml": {clusterK8sIoV1alpha1MachinesetsYaml, map[string]*bintree{}},
 		}},
 	}},
-	"core": &bintree{nil, map[string]*bintree{
-		"v1": &bintree{nil, map[string]*bintree{
-			"bindings.yaml":               &bintree{coreV1BindingsYaml, map[string]*bintree{}},
-			"componentstatuses.yaml":      &bintree{coreV1ComponentstatusesYaml, map[string]*bintree{}},
-			"configmaps.yaml":             &bintree{coreV1ConfigmapsYaml, map[string]*bintree{}},
-			"endpoints.yaml":              &bintree{coreV1EndpointsYaml, map[string]*bintree{}},
-			"events.yaml":                 &bintree{coreV1EventsYaml, map[string]*bintree{}},
-			"limitranges.yaml":            &bintree{coreV1LimitrangesYaml, map[string]*bintree{}},
-			"namespaces.yaml":             &bintree{coreV1NamespacesYaml, map[string]*bintree{}},
-			"nodes.yaml":                  &bintree{coreV1NodesYaml, map[string]*bintree{}},
-			"persistentvolumeclaims.yaml": &bintree{coreV1PersistentvolumeclaimsYaml, map[string]*bintree{}},
-			"persistentvolumes.yaml":      &bintree{coreV1PersistentvolumesYaml, map[string]*bintree{}},
-			"pods.yaml":                   &bintree{coreV1PodsYaml, map[string]*bintree{}},
-			"replicationcontrollers.yaml": &bintree{coreV1ReplicationcontrollersYaml, map[string]*bintree{}},
-			"resourcequotas.yaml":         &bintree{coreV1ResourcequotasYaml, map[string]*bintree{}},
-			"secrets.yaml":                &bintree{coreV1SecretsYaml, map[string]*bintree{}},
-			"serviceaccounts.yaml":        &bintree{coreV1ServiceaccountsYaml, map[string]*bintree{}},
-			"services.yaml":               &bintree{coreV1ServicesYaml, map[string]*bintree{}},
+	"coordination.k8s.io": {nil, map[string]*bintree{
+		"v1": {nil, map[string]*bintree{
+			"leases.yaml": {coordinationK8sIoV1LeasesYaml, map[string]*bintree{}},
 		}},
 	}},
-	"events.k8s.io": &bintree{nil, map[string]*bintree{
-		"v1beta1": &bintree{nil, map[string]*bintree{
-			"events.yaml": &bintree{eventsK8sIoV1beta1EventsYaml, map[string]*bintree{}},
+	"core": {nil, map[string]*bintree{
+		"v1": {nil, map[string]*bintree{
+			"bindings.yaml":               {coreV1BindingsYaml, map[string]*bintree{}},
+			"componentstatuses.yaml":      {coreV1ComponentstatusesYaml, map[string]*bintree{}},
+			"configmaps.yaml":             {coreV1ConfigmapsYaml, map[string]*bintree{}},
+			"endpoints.yaml":              {coreV1EndpointsYaml, map[string]*bintree{}},
+			"events.yaml":                 {coreV1EventsYaml, map[string]*bintree{}},
+			"limitranges.yaml":            {coreV1LimitrangesYaml, map[string]*bintree{}},
+			"namespaces.yaml":             {coreV1NamespacesYaml, map[string]*bintree{}},
+			"nodes.yaml":                  {coreV1NodesYaml, map[string]*bintree{}},
+			"persistentvolumeclaims.yaml": {coreV1PersistentvolumeclaimsYaml, map[string]*bintree{}},
+			"persistentvolumes.yaml":      {coreV1PersistentvolumesYaml, map[string]*bintree{}},
+			"pods.yaml":                   {coreV1PodsYaml, map[string]*bintree{}},
+			"replicationcontrollers.yaml": {coreV1ReplicationcontrollersYaml, map[string]*bintree{}},
+			"resourcequotas.yaml":         {coreV1ResourcequotasYaml, map[string]*bintree{}},
+			"secrets.yaml":                {coreV1SecretsYaml, map[string]*bintree{}},
+			"serviceaccounts.yaml":        {coreV1ServiceaccountsYaml, map[string]*bintree{}},
+			"services.yaml":               {coreV1ServicesYaml, map[string]*bintree{}},
 		}},
 	}},
-	"extensions": &bintree{nil, map[string]*bintree{
-		"v1beta1": &bintree{nil, map[string]*bintree{
-			"ingresses.yaml":           &bintree{extensionsV1beta1IngressesYaml, map[string]*bintree{}},
-			"networkpolicies.yaml":     &bintree{extensionsV1beta1NetworkpoliciesYaml, map[string]*bintree{}},
-			"podsecuritypolicies.yaml": &bintree{extensionsV1beta1PodsecuritypoliciesYaml, map[string]*bintree{}},
+	"events.k8s.io": {nil, map[string]*bintree{
+		"v1beta1": {nil, map[string]*bintree{
+			"events.yaml": {eventsK8sIoV1beta1EventsYaml, map[string]*bintree{}},
 		}},
 	}},
-	"kubedb.com": &bintree{nil, map[string]*bintree{
-		"v1alpha1": &bintree{nil, map[string]*bintree{
-			"dormantdatabases.yaml": &bintree{kubedbComV1alpha1DormantdatabasesYaml, map[string]*bintree{}},
-			"elasticsearches.yaml":  &bintree{kubedbComV1alpha1ElasticsearchesYaml, map[string]*bintree{}},
-			"memcacheds.yaml":       &bintree{kubedbComV1alpha1MemcachedsYaml, map[string]*bintree{}},
-			"mongodbs.yaml":         &bintree{kubedbComV1alpha1MongodbsYaml, map[string]*bintree{}},
-			"mysqls.yaml":           &bintree{kubedbComV1alpha1MysqlsYaml, map[string]*bintree{}},
-			"postgreses.yaml":       &bintree{kubedbComV1alpha1PostgresesYaml, map[string]*bintree{}},
-			"redises.yaml":          &bintree{kubedbComV1alpha1RedisesYaml, map[string]*bintree{}},
+	"extensions": {nil, map[string]*bintree{
+		"v1beta1": {nil, map[string]*bintree{
+			"ingresses.yaml":           {extensionsV1beta1IngressesYaml, map[string]*bintree{}},
+			"networkpolicies.yaml":     {extensionsV1beta1NetworkpoliciesYaml, map[string]*bintree{}},
+			"podsecuritypolicies.yaml": {extensionsV1beta1PodsecuritypoliciesYaml, map[string]*bintree{}},
 		}},
 	}},
-	"meta.appscode.com": &bintree{nil, map[string]*bintree{
-		"v1alpha1": &bintree{nil, map[string]*bintree{
-			"resourcedescriptors.yaml": &bintree{metaAppscodeComV1alpha1ResourcedescriptorsYaml, map[string]*bintree{}},
+	"kubedb.com": {nil, map[string]*bintree{
+		"v1alpha1": {nil, map[string]*bintree{
+			"dormantdatabases.yaml": {kubedbComV1alpha1DormantdatabasesYaml, map[string]*bintree{}},
+			"elasticsearches.yaml":  {kubedbComV1alpha1ElasticsearchesYaml, map[string]*bintree{}},
+			"memcacheds.yaml":       {kubedbComV1alpha1MemcachedsYaml, map[string]*bintree{}},
+			"mongodbs.yaml":         {kubedbComV1alpha1MongodbsYaml, map[string]*bintree{}},
+			"mysqls.yaml":           {kubedbComV1alpha1MysqlsYaml, map[string]*bintree{}},
+			"postgreses.yaml":       {kubedbComV1alpha1PostgresesYaml, map[string]*bintree{}},
+			"redises.yaml":          {kubedbComV1alpha1RedisesYaml, map[string]*bintree{}},
 		}},
 	}},
-	"monitoring.coreos.com": &bintree{nil, map[string]*bintree{
-		"v1": &bintree{nil, map[string]*bintree{
-			"prometheuses.yaml":    &bintree{monitoringCoreosComV1PrometheusesYaml, map[string]*bintree{}},
-			"servicemonitors.yaml": &bintree{monitoringCoreosComV1ServicemonitorsYaml, map[string]*bintree{}},
+	"meta.appscode.com": {nil, map[string]*bintree{
+		"v1alpha1": {nil, map[string]*bintree{
+			"resourcedescriptors.yaml": {metaAppscodeComV1alpha1ResourcedescriptorsYaml, map[string]*bintree{}},
 		}},
 	}},
-	"networking.k8s.io": &bintree{nil, map[string]*bintree{
-		"v1": &bintree{nil, map[string]*bintree{
-			"networkpolicies.yaml": &bintree{networkingK8sIoV1NetworkpoliciesYaml, map[string]*bintree{}},
-		}},
-		"v1beta1": &bintree{nil, map[string]*bintree{
-			"ingresses.yaml": &bintree{networkingK8sIoV1beta1IngressesYaml, map[string]*bintree{}},
+	"monitoring.coreos.com": {nil, map[string]*bintree{
+		"v1": {nil, map[string]*bintree{
+			"prometheuses.yaml":    {monitoringCoreosComV1PrometheusesYaml, map[string]*bintree{}},
+			"servicemonitors.yaml": {monitoringCoreosComV1ServicemonitorsYaml, map[string]*bintree{}},
 		}},
 	}},
-	"node.k8s.io": &bintree{nil, map[string]*bintree{
-		"v1beta1": &bintree{nil, map[string]*bintree{
-			"runtimeclasses.yaml": &bintree{nodeK8sIoV1beta1RuntimeclassesYaml, map[string]*bintree{}},
+	"networking.k8s.io": {nil, map[string]*bintree{
+		"v1": {nil, map[string]*bintree{
+			"networkpolicies.yaml": {networkingK8sIoV1NetworkpoliciesYaml, map[string]*bintree{}},
+		}},
+		"v1beta1": {nil, map[string]*bintree{
+			"ingresses.yaml": {networkingK8sIoV1beta1IngressesYaml, map[string]*bintree{}},
 		}},
 	}},
-	"policy": &bintree{nil, map[string]*bintree{
-		"v1beta1": &bintree{nil, map[string]*bintree{
-			"poddisruptionbudgets.yaml": &bintree{policyV1beta1PoddisruptionbudgetsYaml, map[string]*bintree{}},
-			"podsecuritypolicies.yaml":  &bintree{policyV1beta1PodsecuritypoliciesYaml, map[string]*bintree{}},
+	"node.k8s.io": {nil, map[string]*bintree{
+		"v1beta1": {nil, map[string]*bintree{
+			"runtimeclasses.yaml": {nodeK8sIoV1beta1RuntimeclassesYaml, map[string]*bintree{}},
 		}},
 	}},
-	"rbac.authorization.k8s.io": &bintree{nil, map[string]*bintree{
-		"v1": &bintree{nil, map[string]*bintree{
-			"clusterrolebindings.yaml": &bintree{rbacAuthorizationK8sIoV1ClusterrolebindingsYaml, map[string]*bintree{}},
-			"clusterroles.yaml":        &bintree{rbacAuthorizationK8sIoV1ClusterrolesYaml, map[string]*bintree{}},
-			"rolebindings.yaml":        &bintree{rbacAuthorizationK8sIoV1RolebindingsYaml, map[string]*bintree{}},
-			"roles.yaml":               &bintree{rbacAuthorizationK8sIoV1RolesYaml, map[string]*bintree{}},
+	"policy": {nil, map[string]*bintree{
+		"v1beta1": {nil, map[string]*bintree{
+			"poddisruptionbudgets.yaml": {policyV1beta1PoddisruptionbudgetsYaml, map[string]*bintree{}},
+			"podsecuritypolicies.yaml":  {policyV1beta1PodsecuritypoliciesYaml, map[string]*bintree{}},
 		}},
 	}},
-	"scheduling.k8s.io": &bintree{nil, map[string]*bintree{
-		"v1": &bintree{nil, map[string]*bintree{
-			"priorityclasses.yaml": &bintree{schedulingK8sIoV1PriorityclassesYaml, map[string]*bintree{}},
+	"rbac.authorization.k8s.io": {nil, map[string]*bintree{
+		"v1": {nil, map[string]*bintree{
+			"clusterrolebindings.yaml": {rbacAuthorizationK8sIoV1ClusterrolebindingsYaml, map[string]*bintree{}},
+			"clusterroles.yaml":        {rbacAuthorizationK8sIoV1ClusterrolesYaml, map[string]*bintree{}},
+			"rolebindings.yaml":        {rbacAuthorizationK8sIoV1RolebindingsYaml, map[string]*bintree{}},
+			"roles.yaml":               {rbacAuthorizationK8sIoV1RolesYaml, map[string]*bintree{}},
 		}},
 	}},
-	"stash.appscode.com": &bintree{nil, map[string]*bintree{
-		"v1alpha1": &bintree{nil, map[string]*bintree{
-			"recoveries.yaml":   &bintree{stashAppscodeComV1alpha1RecoveriesYaml, map[string]*bintree{}},
-			"repositories.yaml": &bintree{stashAppscodeComV1alpha1RepositoriesYaml, map[string]*bintree{}},
-			"restics.yaml":      &bintree{stashAppscodeComV1alpha1ResticsYaml, map[string]*bintree{}},
+	"scheduling.k8s.io": {nil, map[string]*bintree{
+		"v1": {nil, map[string]*bintree{
+			"priorityclasses.yaml": {schedulingK8sIoV1PriorityclassesYaml, map[string]*bintree{}},
 		}},
 	}},
-	"storage.k8s.io": &bintree{nil, map[string]*bintree{
-		"v1": &bintree{nil, map[string]*bintree{
-			"storageclasses.yaml":    &bintree{storageK8sIoV1StorageclassesYaml, map[string]*bintree{}},
-			"volumeattachments.yaml": &bintree{storageK8sIoV1VolumeattachmentsYaml, map[string]*bintree{}},
-		}},
-		"v1beta1": &bintree{nil, map[string]*bintree{
-			"csidrivers.yaml": &bintree{storageK8sIoV1beta1CsidriversYaml, map[string]*bintree{}},
-			"csinodes.yaml":   &bintree{storageK8sIoV1beta1CsinodesYaml, map[string]*bintree{}},
+	"stash.appscode.com": {nil, map[string]*bintree{
+		"v1alpha1": {nil, map[string]*bintree{
+			"recoveries.yaml":   {stashAppscodeComV1alpha1RecoveriesYaml, map[string]*bintree{}},
+			"repositories.yaml": {stashAppscodeComV1alpha1RepositoriesYaml, map[string]*bintree{}},
+			"restics.yaml":      {stashAppscodeComV1alpha1ResticsYaml, map[string]*bintree{}},
 		}},
 	}},
-	"voyager.appscode.com": &bintree{nil, map[string]*bintree{
-		"v1beta1": &bintree{nil, map[string]*bintree{
-			"certificates.yaml": &bintree{voyagerAppscodeComV1beta1CertificatesYaml, map[string]*bintree{}},
-			"ingresses.yaml":    &bintree{voyagerAppscodeComV1beta1IngressesYaml, map[string]*bintree{}},
+	"storage.k8s.io": {nil, map[string]*bintree{
+		"v1": {nil, map[string]*bintree{
+			"storageclasses.yaml":    {storageK8sIoV1StorageclassesYaml, map[string]*bintree{}},
+			"volumeattachments.yaml": {storageK8sIoV1VolumeattachmentsYaml, map[string]*bintree{}},
+		}},
+		"v1beta1": {nil, map[string]*bintree{
+			"csidrivers.yaml": {storageK8sIoV1beta1CsidriversYaml, map[string]*bintree{}},
+			"csinodes.yaml":   {storageK8sIoV1beta1CsinodesYaml, map[string]*bintree{}},
+		}},
+	}},
+	"voyager.appscode.com": {nil, map[string]*bintree{
+		"v1beta1": {nil, map[string]*bintree{
+			"certificates.yaml": {voyagerAppscodeComV1beta1CertificatesYaml, map[string]*bintree{}},
+			"ingresses.yaml":    {voyagerAppscodeComV1beta1IngressesYaml, map[string]*bintree{}},
 		}},
 	}},
 }}

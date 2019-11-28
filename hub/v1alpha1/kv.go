@@ -18,17 +18,19 @@ package v1alpha1
 
 import (
 	"fmt"
-	"k8s.io/apimachinery/pkg/runtime/schema"
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	"sigs.k8s.io/yaml"
 	"strings"
 	"sync"
+
+	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+
+	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/yaml"
 )
 
 type KV interface {
 	Set(key string, val *v1alpha1.ResourceDescriptor)
 	Get(key string) (*v1alpha1.ResourceDescriptor, bool)
-	Visit (func(key string, val *v1alpha1.ResourceDescriptor))
+	Visit(func(key string, val *v1alpha1.ResourceDescriptor))
 }
 
 type KVMap struct {
@@ -51,7 +53,7 @@ func (s *KVMap) Get(key string) (*v1alpha1.ResourceDescriptor, bool) {
 	return val, found
 }
 
-func (s *KVMap) Visit (f func(key string, val *v1alpha1.ResourceDescriptor)) {
+func (s *KVMap) Visit(f func(key string, val *v1alpha1.ResourceDescriptor)) {
 	s.m.RLock()
 	for k, v := range s.cache {
 		f(k, v)
@@ -86,7 +88,7 @@ func (s *KVLocal) Get(key string) (*v1alpha1.ResourceDescriptor, bool) {
 	return val, found
 }
 
-func (s *KVLocal) Visit (f func(key string, val *v1alpha1.ResourceDescriptor)) {
+func (s *KVLocal) Visit(f func(key string, val *v1alpha1.ResourceDescriptor)) {
 	s.shared.Visit(f)
 	for k, v := range s.cache {
 		f(k, v)

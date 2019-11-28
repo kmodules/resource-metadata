@@ -61,11 +61,7 @@ func NewForGVR(r *hub.Registry, client crd_cs.CustomResourceDefinitionInterface,
 	c := &convertor{
 		buf: &bytes.Buffer{},
 	}
-	columns, err := filterColumnsWithDefaults(client, gvr, rd.Spec.Columns, priority)
-	if err != nil {
-		return nil, err
-	}
-	err = c.init(columns)
+	err = c.init(filterColumnsWithDefaults(client, gvr, rd.Spec.Columns, priority))
 	return c, err
 }
 
@@ -87,10 +83,10 @@ func filterColumns(columns []v1alpha1.ResourceColumnDefinition, priority v1alpha
 	return out
 }
 
-func filterColumnsWithDefaults(client crd_cs.CustomResourceDefinitionInterface, gvr schema.GroupVersionResource, columns []v1alpha1.ResourceColumnDefinition, priority v1alpha1.Priority) ([]v1alpha1.ResourceColumnDefinition, error) {
+func filterColumnsWithDefaults(client crd_cs.CustomResourceDefinitionInterface, gvr schema.GroupVersionResource, columns []v1alpha1.ResourceColumnDefinition, priority v1alpha1.Priority) []v1alpha1.ResourceColumnDefinition {
 	out := filterColumns(columns, priority)
 	if len(out) > 0 {
-		return out, nil
+		return out
 	}
 
 	var additionalColumns []v1alpha1.ResourceColumnDefinition
@@ -115,9 +111,9 @@ func filterColumnsWithDefaults(client crd_cs.CustomResourceDefinitionInterface, 
 		}
 	}
 	if priority == v1alpha1.List {
-		return append(defaultListColumns(), additionalColumns...), nil
+		return append(defaultListColumns(), additionalColumns...)
 	}
-	return append(defaultDetailsColumns(), additionalColumns...), nil
+	return append(defaultDetailsColumns(), additionalColumns...)
 }
 
 func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition) error {

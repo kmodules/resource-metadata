@@ -141,7 +141,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 					ri = dc.Resource(e.Dst).Namespace(ns)
 				}
 
-				selInApp := e.Connection.TargetLabelPath != "" && strings.Trim(e.Connection.TargetLabelPath, ".") != "metadata.labels"
+				selInApp := e.Connection.TargetLabelPath != "" && strings.Trim(e.Connection.TargetLabelPath, ".") != MetadataLabels
 
 				var opts metav1.ListOptions
 				if !selInApp {
@@ -174,7 +174,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 			if e.Connection.NameTemplate == "" {
 				return nil, fmt.Errorf("edge %v is missing nameTemplate", e)
 			}
-			name := strings.ReplaceAll(e.Connection.NameTemplate, "{.metadata.name}", src.GetName())
+			name := strings.ReplaceAll(e.Connection.NameTemplate, MetadataNameQuery, src.GetName())
 
 			namespaces, err := Namespaces(src, e.Connection.NamespacePath)
 			if err != nil {
@@ -281,7 +281,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 		}
 	} else {
 		namespace := core.NamespaceAll
-		if e.Connection.NamespacePath == "metadata.namespace" {
+		if e.Connection.NamespacePath == MetadataNamespace {
 			namespace = src.GetNamespace()
 		} // else all namespace RETHINK
 
@@ -289,7 +289,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 			var out []unstructured.Unstructured
 
 			lbl := src.GetLabels()
-			if e.Connection.TargetLabelPath != "" && strings.Trim(e.Connection.TargetLabelPath, ".") != "metadata.labels" {
+			if e.Connection.TargetLabelPath != "" && strings.Trim(e.Connection.TargetLabelPath, ".") != MetadataLabels {
 				l2, ok, err := unstructured.NestedStringMap(src.Object, fields(e.Connection.TargetLabelPath)...)
 				if err != nil {
 					return nil, err
@@ -314,7 +314,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 			for i := range result.Items {
 				rs := result.Items[i]
 
-				if e.Connection.NamespacePath != "" && e.Connection.NamespacePath != "metadata.namespace" {
+				if e.Connection.NamespacePath != "" && e.Connection.NamespacePath != MetadataNamespace {
 					namespaces, err := Namespaces(rs, e.Connection.NamespacePath)
 					if err != nil {
 						return nil, err
@@ -393,7 +393,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 				return nil, err
 			} else if namespaced {
 				ns := metav1.NamespaceAll
-				if e.Connection.NamespacePath == "metadata.namespace" {
+				if e.Connection.NamespacePath == MetadataNamespace {
 					ns = src.GetNamespace()
 				}
 				ri = dc.Resource(e.Dst).Namespace(ns)
@@ -507,11 +507,11 @@ func evalLabelSelector(obj unstructured.Unstructured, in *metav1.LabelSelector) 
 		if strings.ContainsRune(k, '{') {
 			return nil, fmt.Errorf("invalid selector key %v", k)
 		}
-		if v == "{.metadata.name}" {
+		if v == MetadataNameQuery {
 			out.MatchLabels[k] = obj.GetName()
 			continue
 		}
-		if v == "{.metadata.namespace}" {
+		if v == MetadataNamespaceQuery {
 			out.MatchLabels[k] = obj.GetNamespace()
 			continue
 		}
@@ -638,7 +638,7 @@ func IsOwnedBy(obj metav1.Object, owner metav1.Object) bool {
 
 // len([]string) == 0 && err == nil => all namespaces
 func Namespaces(ref unstructured.Unstructured, nsSelector string) ([]string, error) {
-	if nsSelector == "metadata.namespace" {
+	if nsSelector == MetadataNamespace {
 		return []string{ref.GetNamespace()}, nil
 	} else if nsSelector != "" {
 		var nsel NamespaceSelector
@@ -733,7 +733,7 @@ func DecodeJSON(input map[string]interface{}, output interface{}) error {
 }
 
 func ExtractName(name, selector string) (string, bool) {
-	re := regexp.MustCompile(`^` + strings.ReplaceAll(selector, `{.metadata.name}`, `(.*)`) + `$`)
+	re := regexp.MustCompile(`^` + strings.ReplaceAll(selector, MetadataNameQuery, `(.*)`) + `$`)
 	matches := re.FindStringSubmatch(name)
 	if len(matches) != 2 {
 		return "", false

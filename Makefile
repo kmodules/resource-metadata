@@ -53,7 +53,7 @@ endif
 ### These variables should not need tweaking.
 ###
 
-SRC_PKGS := api apis client cmd pkg
+SRC_PKGS := api apis client cmd hub pkg
 SRC_DIRS := $(SRC_PKGS) *.go # directories which hold app source (not vendored)
 
 DOCKER_PLATFORMS := linux/amd64 linux/arm linux/arm64
@@ -338,7 +338,10 @@ docker-manifest-%:
 	DOCKER_CLI_EXPERIMENTAL=enabled docker manifest create -a $(IMAGE):$(VERSION_$*) $(foreach PLATFORM,$(DOCKER_PLATFORMS),$(IMAGE):$(VERSION_$*)_$(subst /,_,$(PLATFORM)))
 	DOCKER_CLI_EXPERIMENTAL=enabled docker manifest push $(IMAGE):$(VERSION_$*)
 
-test: $(BUILD_DIRS)
+.PHONY: test
+test: unit-tests
+
+unit-tests: $(BUILD_DIRS)
 	@docker run                                                 \
 	    -i                                                      \
 	    --rm                                                    \

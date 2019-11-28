@@ -109,6 +109,9 @@ func (r *Storage) List(ctx context.Context, options *metainternalversion.ListOpt
 
 		var item meta.ResourceDescriptor
 		err = v1alpha1.Convert_v1alpha1_ResourceDescriptor_To_meta_ResourceDescriptor(obj, &item, nil)
+		if err != nil {
+			return nil, err
+		}
 		items = append(items, item)
 	}
 

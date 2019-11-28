@@ -18,12 +18,14 @@ package v1alpha1
 
 import (
 	"fmt"
+	"strings"
+	"sync"
+
+	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/discovery"
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	"strings"
-	"sync"
 )
 
 type Registry struct {
@@ -36,8 +38,8 @@ type Registry struct {
 
 func NewRegistry(uid string, cache KV) *Registry {
 	r := &Registry{
-		uid: uid,
-		cache: cache,
+		uid:    uid,
+		cache:  cache,
 		regGVK: map[schema.GroupVersionKind]*v1alpha1.ResourceID{},
 		regGVR: map[schema.GroupVersionResource]*v1alpha1.ResourceID{},
 	}
@@ -137,7 +139,7 @@ func (r *Registry) createRegistry(dc discovery.ServerResourcesInterface) (map[st
 	return reg, nil
 }
 
-func (r *Registry) Visit (f func(key string, val *v1alpha1.ResourceDescriptor)) {
+func (r *Registry) Visit(f func(key string, val *v1alpha1.ResourceDescriptor)) {
 	r.cache.Visit(f)
 }
 
@@ -156,7 +158,7 @@ func (r *Registry) TypeMeta(gvr schema.GroupVersionResource) (metav1.TypeMeta, e
 	defer r.m.RUnlock()
 	rid, exist := r.regGVR[gvr]
 	if !exist {
-		return metav1.TypeMeta{}, UnregisteredErr{ gvr.String()}
+		return metav1.TypeMeta{}, UnregisteredErr{gvr.String()}
 	}
 	return rid.TypeMeta(), nil
 }
@@ -166,12 +168,12 @@ func (r *Registry) GVK(gvr schema.GroupVersionResource) (schema.GroupVersionKind
 	defer r.m.RUnlock()
 	rid, exist := r.regGVR[gvr]
 	if !exist {
-		return schema.GroupVersionKind{}, UnregisteredErr{  gvr.String()}
+		return schema.GroupVersionKind{}, UnregisteredErr{gvr.String()}
 	}
 	return rid.GroupVersionKind(), nil
 }
 
-func (r *Registry)  IsNamespaced(gvr schema.GroupVersionResource) (bool, error) {
+func (r *Registry) IsNamespaced(gvr schema.GroupVersionResource) (bool, error) {
 	r.m.RLock()
 	defer r.m.RUnlock()
 	rid, exist := r.regGVR[gvr]

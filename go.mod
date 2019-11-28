@@ -13,7 +13,6 @@ require (
 	github.com/gogo/protobuf v1.2.1 // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.9.6 // indirect
 	github.com/hashicorp/golang-lru v0.5.1
-	github.com/json-iterator/go v1.1.6
 	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
 	github.com/mitchellh/mapstructure v1.1.2
 	github.com/onsi/ginkgo v1.8.0 // indirect

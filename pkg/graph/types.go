@@ -18,25 +18,23 @@ package graph
 
 import (
 	"strings"
-	"sync"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
 
-	jsoniter "github.com/json-iterator/go"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
-var json = jsoniter.Config{
-	EscapeHTML:             true,
-	SortMapKeys:            true,
-	ValidateJsonRawMessage: true,
-	DisallowUnknownFields:  true, // non-standard
-}.Froze()
+const (
+	// CostFactorOfInAppFiltering = 4 means, we assume that the cost of listing all resources and
+	// filtering them in the app (instead of using kube-apiserver) is 5x of that via label based selection
+	CostFactorOfInAppFiltering = 4
 
-// CostFactorOfInAppFiltering = 4 means, we assume that the cost of listing all resources and
-// filtering them in the app (instead of using kube-apiserver) is 5x of that via label based selection
-const CostFactorOfInAppFiltering = 4
+	MetadataNamespace      = "metadata.namespace"
+	MetadataNamespaceQuery = "{." + MetadataNamespace + "}"
+	MetadataLabels         = "metadata.labels"
+	MetadataNameQuery      = "{.metadata.name}"
+)
 
 type Edge struct {
 	Src        schema.GroupVersionResource
@@ -51,8 +49,6 @@ type AdjacencyMap map[schema.GroupVersionResource]*Edge
 type Graph struct {
 	r     *hub.Registry
 	edges map[schema.GroupVersionResource]AdjacencyMap
-
-	m sync.Mutex
 }
 
 func NewGraphOfKnownResources() *Graph {

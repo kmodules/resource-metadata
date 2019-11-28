@@ -17,15 +17,17 @@ limitations under the License.
 package v1alpha1
 
 import (
-	lru "github.com/hashicorp/golang-lru"
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"sync"
+
+	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+
+	lru "github.com/hashicorp/golang-lru"
 )
 
 type Pool struct {
 	cache *lru.Cache
-	m sync.Mutex
-	f func() KV
+	m     sync.Mutex
+	f     func() KV
 }
 
 func NewPool(kvFactory func() KV) (*Pool, error) {
@@ -37,8 +39,8 @@ func NewPool(kvFactory func() KV) (*Pool, error) {
 }
 
 func NewLocalPool() (*Pool, error) {
-	return NewPool(func () KV {
-	return	&KVLocal{
+	return NewPool(func() KV {
+		return &KVLocal{
 			shared: KnownResources,
 			cache:  map[string]*v1alpha1.ResourceDescriptor{},
 		}
