@@ -1,5 +1,5 @@
 /*
-Copyright 2019 The ResourceMetadata Project Authors.
+Copyright The Kmodules Authors.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@ limitations under the License.
 
 // +k8s:deepcopy-gen=package
 // +groupName=meta.appscode.com
+// +kubebuilder:skip
 
 // Package api is the internal version of the API.
 package meta // import "kmodules.xyz/resource-metadata/apis/meta"

@@ -24,6 +24,9 @@ import (
 	"reflect"
 	"strings"
 
+	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
+
 	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1beta1"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metatable "k8s.io/apimachinery/pkg/api/meta/table"
@@ -32,8 +35,6 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/util/jsonpath"
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
 )
 
 type TableConvertor interface {
@@ -51,8 +52,8 @@ func New(fieldPath string, columns []v1alpha1.ResourceColumnDefinition) (TableCo
 	return c, err
 }
 
-func NewForGVR(client crd_cs.CustomResourceDefinitionInterface, gvr schema.GroupVersionResource, priority v1alpha1.Priority) (TableConvertor, error) {
-	rd, err := hub.LoadByGVR(gvr)
+func NewForGVR(r *hub.Registry, client crd_cs.CustomResourceDefinitionInterface, gvr schema.GroupVersionResource, priority v1alpha1.Priority) (TableConvertor, error) {
+	rd, err := r.LoadByGVR(gvr)
 	if err != nil {
 		return nil, err
 	}
@@ -60,11 +61,7 @@ func NewForGVR(client crd_cs.CustomResourceDefinitionInterface, gvr schema.Group
 	c := &convertor{
 		buf: &bytes.Buffer{},
 	}
-	columns, err := filterColumnsWithDefaults(client, gvr, rd.Spec.Columns, priority)
-	if err != nil {
-		return nil, err
-	}
-	err = c.init(columns)
+	err = c.init(filterColumnsWithDefaults(client, gvr, rd.Spec.Columns, priority))
 	return c, err
 }
 
@@ -86,10 +83,10 @@ func filterColumns(columns []v1alpha1.ResourceColumnDefinition, priority v1alpha
 	return out
 }
 
-func filterColumnsWithDefaults(client crd_cs.CustomResourceDefinitionInterface, gvr schema.GroupVersionResource, columns []v1alpha1.ResourceColumnDefinition, priority v1alpha1.Priority) ([]v1alpha1.ResourceColumnDefinition, error) {
+func filterColumnsWithDefaults(client crd_cs.CustomResourceDefinitionInterface, gvr schema.GroupVersionResource, columns []v1alpha1.ResourceColumnDefinition, priority v1alpha1.Priority) []v1alpha1.ResourceColumnDefinition {
 	out := filterColumns(columns, priority)
 	if len(out) > 0 {
-		return out, nil
+		return out
 	}
 
 	var additionalColumns []v1alpha1.ResourceColumnDefinition
@@ -114,9 +111,9 @@ func filterColumnsWithDefaults(client crd_cs.CustomResourceDefinitionInterface, 
 		}
 	}
 	if priority == v1alpha1.List {
-		return append(defaultListColumns(), additionalColumns...), nil
+		return append(defaultListColumns(), additionalColumns...)
 	}
-	return append(defaultDetailsColumns(), additionalColumns...), nil
+	return append(defaultDetailsColumns(), additionalColumns...)
 }
 
 func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition) error {

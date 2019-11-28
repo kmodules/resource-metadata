@@ -1,24 +1,40 @@
+/*
+Copyright The Kmodules Authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 package graph
 
 import (
 	"strings"
-	"sync"
 
-	jsoniter "github.com/json-iterator/go"
-	"k8s.io/apimachinery/pkg/runtime/schema"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
+
+	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
-var json = jsoniter.Config{
-	EscapeHTML:             true,
-	SortMapKeys:            true,
-	ValidateJsonRawMessage: true,
-	DisallowUnknownFields:  true, // non-standard
-}.Froze()
+const (
+	// CostFactorOfInAppFiltering = 4 means, we assume that the cost of listing all resources and
+	// filtering them in the app (instead of using kube-apiserver) is 5x of that via label based selection
+	CostFactorOfInAppFiltering = 4
 
-// CostFactorOfInAppFiltering = 4 means, we assume that the cost of listing all resources and
-// filtering them in the app (instead of using kube-apiserver) is 5x of that via label based selection
-const CostFactorOfInAppFiltering = 4
+	MetadataNamespace      = "metadata.namespace"
+	MetadataNamespaceQuery = "{." + MetadataNamespace + "}"
+	MetadataLabels         = "metadata.labels"
+	MetadataNameQuery      = "{.metadata.name}"
+)
 
 type Edge struct {
 	Src        schema.GroupVersionResource
@@ -31,14 +47,21 @@ type Edge struct {
 type AdjacencyMap map[schema.GroupVersionResource]*Edge
 
 type Graph struct {
+	r     *hub.Registry
 	edges map[schema.GroupVersionResource]AdjacencyMap
-
-	m sync.Mutex
 }
 
-func NewGraph() *Graph {
+func NewGraphOfKnownResources() *Graph {
 	return &Graph{
 		edges: make(map[schema.GroupVersionResource]AdjacencyMap),
+		r:     hub.NewRegistryOfKnownResources(),
+	}
+}
+
+func NewGraph(uid string, cache hub.KV) *Graph {
+	return &Graph{
+		edges: make(map[schema.GroupVersionResource]AdjacencyMap),
+		r:     hub.NewRegistry(uid, cache),
 	}
 }
 

@@ -1,5 +1,5 @@
 /*
-Copyright 2019 The ResourceMetadata Project Authors.
+Copyright The Kmodules Authors.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,10 +17,11 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"kmodules.xyz/resource-metadata/api/crds"
+
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	crdutils "kmodules.xyz/client-go/apiextensions/v1beta1"
 )
 
 func (r ResourceID) GroupVersion() schema.GroupVersion {
@@ -40,41 +41,7 @@ func (r ResourceID) GroupVersionKind() schema.GroupVersionKind {
 }
 
 func (v ResourceDescriptor) CustomResourceDefinition() *apiextensions.CustomResourceDefinition {
-	return crdutils.NewCustomResourceDefinition(crdutils.Config{
-		Group:         SchemeGroupVersion.Group,
-		Plural:        ResourceResourceDescriptors,
-		Singular:      ResourceResourceDescriptor,
-		Kind:          ResourceKindResourceDescriptor,
-		ShortNames:    []string{"vp"},
-		Categories:    []string{"vault", "policy", "appscode", "all"},
-		ResourceScope: string(apiextensions.NamespaceScoped),
-		Versions: []apiextensions.CustomResourceDefinitionVersion{
-			{
-				Name:    SchemeGroupVersion.Version,
-				Served:  true,
-				Storage: true,
-			},
-		},
-		Labels: crdutils.Labels{
-			LabelsMap: map[string]string{"app": "vault"},
-		},
-		SpecDefinitionName:      "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceDescriptor",
-		EnableValidation:        true,
-		GetOpenAPIDefinitions:   GetOpenAPIDefinitions,
-		EnableStatusSubresource: true,
-		AdditionalPrinterColumns: []apiextensions.CustomResourceColumnDefinition{
-			{
-				Name:     "Phase",
-				Type:     "string",
-				JSONPath: ".status.phase",
-			},
-			{
-				Name:     "Age",
-				Type:     "date",
-				JSONPath: ".metadata.creationTimestamp",
-			},
-		},
-	})
+	return crds.MustCustomResourceDefinition(SchemeGroupVersion.WithResource(ResourceResourceDescriptors))
 }
 
 func (v ResourceDescriptor) IsValid() error {

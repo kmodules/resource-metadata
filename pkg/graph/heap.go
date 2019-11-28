@@ -1,3 +1,19 @@
+/*
+Copyright The Kmodules Authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 // This example demonstrates a distance queue built using the heap interface.
 package graph
 
@@ -6,7 +22,6 @@ import (
 	"math"
 
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
 )
 
 // An Item is something we manage in a priority queue.
@@ -60,7 +75,7 @@ func Dijkstra(graph *Graph, src schema.GroupVersionResource) (dist map[schema.Gr
 	dist = make(map[schema.GroupVersionResource]uint64)
 	prev = make(map[schema.GroupVersionResource]*Edge)
 
-	resources := hub.Resources()
+	resources := graph.r.Resources()
 
 	q := make(Queue, len(resources))
 	i := 0

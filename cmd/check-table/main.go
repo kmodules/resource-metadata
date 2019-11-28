@@ -1,3 +1,19 @@
+/*
+Copyright The Kmodules Authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 package main
 
 import (
@@ -6,13 +22,15 @@ import (
 	"log"
 	"path/filepath"
 
+	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
+	"kmodules.xyz/resource-metadata/pkg/tableconvertor"
+
 	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1beta1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/util/homedir"
-	"kmodules.xyz/resource-metadata/pkg/tableconvertor"
 )
 
 func main() {
@@ -39,13 +57,15 @@ func main() {
 		Resource: "deployments",
 	}
 
+	r := hub.NewRegistryOfKnownResources()
+
 	{
 		list, err := dc.Resource(gvr).Namespace("default").List(metav1.ListOptions{})
 		if err != nil {
 			log.Fatalln(err)
 		}
 
-		t, err := tableconvertor.TableForList(client.CustomResourceDefinitions(), gvr, list.Items)
+		t, err := tableconvertor.TableForList(r, client.CustomResourceDefinitions(), gvr, list.Items)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -64,7 +84,7 @@ func main() {
 		}
 		fmt.Println(dep.GroupVersionKind().String())
 
-		t, err := tableconvertor.TableForObject(client.CustomResourceDefinitions(), dep)
+		t, err := tableconvertor.TableForObject(r, client.CustomResourceDefinitions(), dep)
 		if err != nil {
 			log.Fatalln(err)
 		}

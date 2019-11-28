@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches-ignore:
+      - 'release-*'
+    tags-ignore:
+      - '*.*'
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        k8s: [v1.12.10, v1.14.6, v1.16.2]
+    steps:
+
+    - name: Set up Go 1.12
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.12
+      id: go
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v1
+
+    - name: Create Kubernetes ${{ matrix.k8s }} cluster
+      id: kind
+      uses: engineerd/setup-kind@v0.1.0
+      with:
+        config: hack/kubernetes/kind.yaml
+        image: kindest/node:${{ matrix.k8s }}
+
+    - name: Build
+      run: |
+        export KUBECONFIG="$(kind get kubeconfig-path)"
+        make ci

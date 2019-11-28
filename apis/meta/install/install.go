@@ -1,5 +1,5 @@
 /*
-Copyright 2019 The ResourceMetadata Project Authors.
+Copyright The Kmodules Authors.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,10 +17,11 @@ limitations under the License.
 package install
 
 import (
-	"k8s.io/apimachinery/pkg/runtime"
-	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	"kmodules.xyz/resource-metadata/apis/meta"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+
+	"k8s.io/apimachinery/pkg/runtime"
+	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 )
 
 // Install registers the API group and adds types to a scheme
