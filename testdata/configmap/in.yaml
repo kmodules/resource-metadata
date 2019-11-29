@@ -6,7 +6,7 @@ kind: ConfigMap
 metadata:
   name: omni
 ---
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: busy-dep
@@ -14,6 +14,9 @@ metadata:
     app: busy-dep
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: busy-dep
   template:
     metadata:
       labels:
