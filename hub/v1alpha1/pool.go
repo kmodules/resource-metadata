@@ -38,8 +38,12 @@ func NewPool(kvFactory func() KV) (*Pool, error) {
 	return &Pool{cache: cache, f: kvFactory}, nil
 }
 
-func NewLocalPool() (*Pool, error) {
-	return NewPool(NewKVLocal)
+func MustPool(kvFactory func() KV) *Pool {
+	pool, err := NewPool(kvFactory)
+	if err != nil {
+		panic(err)
+	}
+	return pool
 }
 
 func (p *Pool) GetRegistry(uid string) *Registry {
