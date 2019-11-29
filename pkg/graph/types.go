@@ -51,17 +51,10 @@ type Graph struct {
 	edges map[schema.GroupVersionResource]AdjacencyMap
 }
 
-func NewGraphOfKnownResources() *Graph {
+func NewGraph(r *hub.Registry) *Graph {
 	return &Graph{
 		edges: make(map[schema.GroupVersionResource]AdjacencyMap),
-		r:     hub.NewRegistryOfKnownResources(),
-	}
-}
-
-func NewGraph(uid string, cache hub.KV) *Graph {
-	return &Graph{
-		edges: make(map[schema.GroupVersionResource]AdjacencyMap),
-		r:     hub.NewRegistry(uid, cache),
+		r:     r,
 	}
 }
 
