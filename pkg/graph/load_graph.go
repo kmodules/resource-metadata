@@ -23,35 +23,18 @@ import (
 	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
 
 	utilerrors "k8s.io/apimachinery/pkg/util/errors"
-	"sigs.k8s.io/yaml"
 )
 
 func LoadGraphOfKnownResources() (*Graph, error) {
-	return LoadGraph(hub.KnownUID, hub.KnownResources)
+	return LoadGraph(hub.NewRegistryOfKnownResources())
 }
 
-func LoadGraph(uid string, cache hub.KV) (*Graph, error) {
-	graph := NewGraph(uid, cache)
-
-	for _, f := range hub.AssetNames() {
-		data, err := hub.Asset(f)
-		if err != nil {
-			return nil, err
-		}
-
-		var rd v1alpha1.ResourceDescriptor
-		err = yaml.UnmarshalStrict(data, &rd)
-		if err != nil {
-			return nil, err
-		}
-		if err := addRDConnectionsToGraph(graph, &rd); err != nil {
-			return nil, err
-		}
-	}
+func LoadGraph(r *hub.Registry) (*Graph, error) {
+	graph := NewGraph(r)
 
 	var errs []error
-	graph.r.Visit(func(key string, val *v1alpha1.ResourceDescriptor) {
-		if err := addRDConnectionsToGraph(graph, val); err != nil {
+	graph.r.Visit(func(key string, r *v1alpha1.ResourceDescriptor) {
+		if err := addRDConnectionsToGraph(graph, r); err != nil {
 			errs = append(errs, err)
 		}
 	})

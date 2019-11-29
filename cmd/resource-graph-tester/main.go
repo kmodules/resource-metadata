@@ -50,7 +50,7 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	if err := checkKubeDBToStatefulset(dc, g); err != nil {
+	if err := CheckPodToNode(dc, g); err != nil {
 		log.Fatalln(err)
 	}
 }
@@ -61,7 +61,7 @@ func CheckNodeToPod(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "pods",
 	}
-	pod, err := dc.Resource(podGVR).Namespace("kube-system").Get("kube-apiserver-minikube", metav1.GetOptions{})
+	pod, err := dc.Resource(podGVR).Namespace("kube-system").Get("kube-apiserver-kind-control-plane", metav1.GetOptions{})
 	if err != nil {
 		return err
 	}
@@ -89,7 +89,7 @@ func CheckPodToNode(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "nodes",
 	}
-	node, err := dc.Resource(nodeGVR).Get("minikube", metav1.GetOptions{})
+	node, err := dc.Resource(nodeGVR).Get("kind-control-plane", metav1.GetOptions{})
 	if err != nil {
 		return err
 	}

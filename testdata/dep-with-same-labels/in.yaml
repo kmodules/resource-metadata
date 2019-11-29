@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: busy-dep
@@ -6,6 +6,9 @@ metadata:
     app: busy-dep
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: busy-dep
   template:
     metadata:
       labels:
@@ -20,7 +23,7 @@ spec:
         name: busybox
       restartPolicy: Always
 ---
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: busy-dep2
@@ -28,6 +31,9 @@ metadata:
     app: busy-dep
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: busy-dep
   template:
     metadata:
       labels:
