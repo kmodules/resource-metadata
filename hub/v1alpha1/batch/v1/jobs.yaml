@@ -15,6 +15,9 @@ spec:
     name: jobs
     scope: Namespaced
     version: v1
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/batch/job.svg
+    type: image/svg+xml
   columns:
     - jsonPath: .metadata.name
       name: Name

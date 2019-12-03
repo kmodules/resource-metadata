@@ -15,6 +15,9 @@ spec:
     name: cronjobs
     scope: Namespaced
     version: v1beta1
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/batch/cronjob.svg
+    type: image/svg+xml
   columns:
     - jsonPath: .metadata.name
       name: Name
