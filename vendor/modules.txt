@@ -274,8 +274,11 @@ k8s.io/api/storage/v1alpha1
 k8s.io/api/storage/v1beta1
 # k8s.io/apiextensions-apiserver v0.0.0-20191114105449-027877536833 => k8s.io/apiextensions-apiserver v0.0.0-20191114105449-027877536833
 k8s.io/apiextensions-apiserver/pkg/apis/apiextensions
+k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/install
 k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1
 k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1
+k8s.io/apiextensions-apiserver/pkg/apiserver/schema
+k8s.io/apiextensions-apiserver/pkg/apiserver/schema/pruning
 k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/scheme
 k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1beta1
 # k8s.io/apimachinery v0.0.0-20191028221656-72ed19daf4bb => github.com/kmodules/apimachinery v0.0.0-20191119091232-0553326db082
@@ -622,6 +625,8 @@ k8s.io/utils/pointer
 k8s.io/utils/trace
 # kmodules.xyz/client-go v0.0.0-20191127054604-26981530831d
 kmodules.xyz/client-go/logs
+# kmodules.xyz/crd-schema-fuzz v0.0.0-20191129174258-81f984340891
+kmodules.xyz/crd-schema-fuzz
 # sigs.k8s.io/structured-merge-diff v0.0.0-20190817042607-6149e4549fca => sigs.k8s.io/structured-merge-diff v0.0.0-20190817042607-6149e4549fca
 sigs.k8s.io/structured-merge-diff/fieldpath
 sigs.k8s.io/structured-merge-diff/merge

@@ -9,6 +9,7 @@ require (
 	github.com/go-openapi/spec v0.19.2
 	github.com/go-openapi/swag v0.19.4 // indirect
 	github.com/gogo/protobuf v1.2.2-0.20190730201129-28a6bbf47e48 // indirect
+	github.com/google/gofuzz v1.0.0
 	github.com/hashicorp/golang-lru v0.5.1
 	github.com/mitchellh/mapstructure v1.1.2
 	github.com/spf13/cobra v0.0.5
@@ -24,6 +25,7 @@ require (
 	k8s.io/klog v0.4.0
 	k8s.io/kube-openapi v0.0.0-20190816220812-743ec37842bf
 	kmodules.xyz/client-go v0.0.0-20191127054604-26981530831d
+	kmodules.xyz/crd-schema-fuzz v0.0.0-20191129174258-81f984340891
 	sigs.k8s.io/yaml v1.1.0
 )
 
