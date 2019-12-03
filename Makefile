@@ -467,3 +467,9 @@ release:
 .PHONY: clean
 clean:
 	rm -rf .go bin
+
+.PHONY: publish-icons
+publish-icons:
+	@echo "publishing icons"
+	gsutil rsync -d -r $$(pwd)/icons gs://appscode-cdn/k8s/icons
+	gsutil acl ch -u AllUsers:R -r gs://appscode-cdn/k8s/icons
