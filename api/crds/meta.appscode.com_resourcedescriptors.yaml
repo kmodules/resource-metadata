@@ -26,6 +26,7 @@ spec:
     shortNames:
     - rd
     singular: resourcedescriptor
+  preserveUnknownFields: false
   scope: Namespaced
   subresources:
     status: {}

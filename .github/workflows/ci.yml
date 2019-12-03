@@ -30,10 +30,9 @@ jobs:
       id: kind
       uses: engineerd/setup-kind@v0.1.0
       with:
+        version: v0.6.0
         config: hack/kubernetes/kind.yaml
         image: kindest/node:${{ matrix.k8s }}
 
     - name: Build
-      run: |
-        export KUBECONFIG="$(kind get kubeconfig-path)"
-        make ci
+      run: make ci
