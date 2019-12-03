@@ -36,6 +36,10 @@ type ResourceDescriptorSpec struct {
 	SubTables   []ResourceSubTableDefinition
 	Connections []ResourceConnection
 	KeyTargets  []metav1.TypeMeta
+
+	Icons       []ImageSpec
+	Maintainers []ContactData
+	Links       []Link
 }
 
 type ResourceID struct {
@@ -111,6 +115,23 @@ type ResourceSubTableDefinition struct {
 	Name      string
 	FieldPath string
 	Columns   []ResourceColumnDefinition
+}
+
+type ImageSpec struct {
+	Source string
+	Size   string
+	Type   string
+}
+
+type ContactData struct {
+	Name  string
+	URL   string
+	Email string
+}
+
+type Link struct {
+	Description string
+	URL         string
 }
 
 // +genclient:nonNamespaced

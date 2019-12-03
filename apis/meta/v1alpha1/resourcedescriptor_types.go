@@ -49,6 +49,17 @@ type ResourceDescriptorSpec struct {
 	SubTables   []ResourceSubTableDefinition `json:"subTables,omitempty"`
 	Connections []ResourceConnection         `json:"connections,omitempty"`
 	KeyTargets  []metav1.TypeMeta            `json:"keyTargets,omitempty"`
+
+	// Icons is an optional list of icons for an application. Icon information includes the source, size,
+	// and mime type.
+	Icons []ImageSpec `json:"icons,omitempty"`
+
+	// Maintainers is an optional list of maintainers of the application. The maintainers in this list maintain the
+	// the source code, images, and package for the application.
+	Maintainers []ContactData `json:"maintainers,omitempty"`
+
+	// Links are a list of descriptive URLs intended to be used to surface additional documentation, dashboards, etc.
+	Links []Link `json:"links,omitempty"`
 }
 
 // ResourceID identifies a resource
@@ -162,6 +173,40 @@ type ResourceSubTableDefinition struct {
 	Name      string                     `json:"name"`
 	FieldPath string                     `json:"fieldPath,omitempty"`
 	Columns   []ResourceColumnDefinition `json:"columns,omitempty"`
+}
+
+// ImageSpec contains information about an image used as an icon.
+type ImageSpec struct {
+	// The source for image represented as either an absolute URL to the image or a Data URL containing
+	// the image. Data URLs are defined in RFC 2397.
+	Source string `json:"src"`
+
+	// (optional) The size of the image in pixels (e.g., 25x25).
+	Size string `json:"size,omitempty"`
+
+	// (optional) The mine type of the image (e.g., "image/png").
+	Type string `json:"type,omitempty"`
+}
+
+// ContactData contains information about an individual or organization.
+type ContactData struct {
+	// Name is the descriptive name.
+	Name string `json:"name,omitempty"`
+
+	// Url could typically be a website address.
+	URL string `json:"url,omitempty"`
+
+	// Email is the email address.
+	Email string `json:"email,omitempty"`
+}
+
+// Link contains information about an URL to surface documentation, dashboards, etc.
+type Link struct {
+	// Description is human readable content explaining the purpose of the link.
+	Description string `json:"description,omitempty"`
+
+	// Url typically points at a website address.
+	URL string `json:"url,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
