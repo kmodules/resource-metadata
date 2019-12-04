@@ -22,4 +22,6 @@ type GraphFinderExpansion interface{}
 
 type PathFinderExpansion interface{}
 
+type ResourceClassExpansion interface{}
+
 type ResourceDescriptorExpansion interface{}

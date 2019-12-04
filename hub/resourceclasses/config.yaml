@@ -1,0 +1,19 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceClass
+metadata:
+  name: Config
+spec:
+  apiGroup: ""
+  resources:
+  - group: ""
+    resource: configmaps
+    version: v1
+  - group: ""
+    resource: secrets
+    version: v1
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/workloads.svg
+    type: image/svg+xml
+  weight: 1
+  visible: false
+  editable: false

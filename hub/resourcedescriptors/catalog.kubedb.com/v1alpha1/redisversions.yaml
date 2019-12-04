@@ -1,0 +1,17 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: catalog.kubedb.com
+    k8s.io/kind: RedisVersion
+    k8s.io/resource: redisversions
+    k8s.io/version: v1alpha1
+  name: catalog.kubedb.com-v1alpha1-redisversions
+spec:
+  resource:
+    group: catalog.kubedb.com
+    kind: RedisVersion
+    name: redisversions
+    scope: Cluster
+    version: v1alpha1

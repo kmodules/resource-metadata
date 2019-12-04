@@ -229,3 +229,32 @@ type TableOptions struct {
 	NoHeaders     bool
 	IncludeObject IncludeObjectPolicy
 }
+
+// +genclient
+// +genclient:nonNamespaced
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+type ResourceClass struct {
+	metav1.TypeMeta
+	metav1.ObjectMeta
+	Spec ResourceClassSpec
+}
+
+type ResourceClassSpec struct {
+	Resources   []GroupVersionResource
+	APIGroup    string
+	Weight      int
+	Editable    bool
+	Visible     bool
+	Paths       []string
+	Icons       []ImageSpec
+	Maintainers []ContactData
+	Links       []Link
+}
+
+// +genclient:nonNamespaced
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+type ResourceClassList struct {
+	metav1.TypeMeta
+	metav1.ListMeta
+	Items []ResourceClass
+}

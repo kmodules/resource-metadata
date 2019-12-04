@@ -1,6 +1,7 @@
 apiVersion: meta.appscode.com/v1alpha1
 kind: ResourceDescriptor
 metadata:
+  creationTimestamp: null
   labels:
     k8s.io/group: monitoring.coreos.com
     k8s.io/kind: Prometheus

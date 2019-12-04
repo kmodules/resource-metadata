@@ -54,6 +54,8 @@ func (f *genericInformer) Lister() cache.GenericLister {
 func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource) (GenericInformer, error) {
 	switch resource {
 	// Group=meta.appscode.com, Version=v1alpha1
+	case v1alpha1.SchemeGroupVersion.WithResource("resourceclasses"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Meta().V1alpha1().ResourceClasses().Informer()}, nil
 	case v1alpha1.SchemeGroupVersion.WithResource("resourcedescriptors"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Meta().V1alpha1().ResourceDescriptors().Informer()}, nil
 

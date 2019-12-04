@@ -18,6 +18,10 @@ limitations under the License.
 
 package v1alpha1
 
+// ResourceClassListerExpansion allows custom methods to be added to
+// ResourceClassLister.
+type ResourceClassListerExpansion interface{}
+
 // ResourceDescriptorListerExpansion allows custom methods to be added to
 // ResourceDescriptorLister.
 type ResourceDescriptorListerExpansion interface{}

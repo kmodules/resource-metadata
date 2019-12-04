@@ -22,8 +22,11 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"sort"
+	"strings"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	"kmodules.xyz/resource-metadata/hub/resourceclasses"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -48,7 +51,7 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	err = createRegistry(kc, filepath.Join("hub", "v1alpha1"))
+	err = createRegistry(kc, filepath.Join("/home/tamal/go/src/kmodules.xyz/resource-metadata", "hub", "resourceclasses"))
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -63,68 +66,60 @@ func createRegistry(kc kubernetes.Interface, dir string) error {
 		return err
 	}
 
+	categories := make(map[string]*v1alpha1.ResourceClass)
+
 	for _, rsList := range rsLists {
-		fmt.Println(rsList.GroupVersion)
-		for i := range rsList.APIResources {
-			rs := rsList.APIResources[i]
+		gv, err := schema.ParseGroupVersion(rsList.GroupVersion)
+		if err != nil {
+			return err
+		}
 
-			gv, err := schema.ParseGroupVersion(rsList.GroupVersion)
-			if err != nil {
-				return err
-			}
-			rs.Group = gv.Group
-			rs.Version = gv.Version
+		name := resourceclasses.ResourceClassName(gv.Group)
+		fmt.Println(name + " | " + gv.Version)
 
-			scope := v1alpha1.ClusterScoped
-			if rs.Namespaced {
-				scope = v1alpha1.NamespaceScoped
-			}
-
-			name := fmt.Sprintf("%s-%s-%s", rs.Group, rs.Version, rs.Name)
-			baseDir := filepath.Join(dir, rs.Group, rs.Version)
-			if rs.Group == "" {
-				name = fmt.Sprintf("core-%s-%s", rs.Version, rs.Name)
-				baseDir = filepath.Join(dir, "core", rs.Version)
-			}
-
-			rd := v1alpha1.ResourceDescriptor{
+		rd, found := categories[name]
+		if !found {
+			rd = &v1alpha1.ResourceClass{
 				TypeMeta: metav1.TypeMeta{
 					APIVersion: v1alpha1.SchemeGroupVersion.String(),
-					Kind:       v1alpha1.ResourceKindResourceDescriptor,
+					Kind:       v1alpha1.ResourceKindResourceClass,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name: name,
-					Labels: map[string]string{
-						"k8s.io/group":    rs.Group,
-						"k8s.io/version":  rs.Version,
-						"k8s.io/resource": rs.Name,
-						"k8s.io/kind":     rs.Kind,
-					},
 				},
-				Spec: v1alpha1.ResourceDescriptorSpec{
-					Resource: v1alpha1.ResourceID{
-						Group:   rs.Group,
-						Version: rs.Version,
-						Name:    rs.Name,
-						Kind:    rs.Kind,
-						Scope:   scope,
-					},
+				Spec: v1alpha1.ResourceClassSpec{
+					APIGroup: gv.Group,
 				},
 			}
-			data, err := yaml.Marshal(rd)
-			if err != nil {
-				return err
-			}
+			categories[name] = rd
+		}
 
-			err = os.MkdirAll(baseDir, 0755)
-			if err != nil {
-				return err
-			}
+		for i := range rsList.APIResources {
+			rs := rsList.APIResources[i]
+			rd.Spec.Resources = append(rd.Spec.Resources, v1alpha1.GroupVersionResource{
+				Group:    gv.Group,
+				Version:  gv.Version,
+				Resource: rs.Name,
+			})
+		}
+	}
 
-			err = ioutil.WriteFile(filepath.Join(baseDir, rs.Name+".yaml"), data, 0644)
-			if err != nil {
-				return err
-			}
+	for _, rd := range categories {
+		sort.Slice(rd.Spec.Resources, func(i, j int) bool { return rd.Spec.Resources[i].Resource < rd.Spec.Resources[j].Resource })
+
+		data, err := yaml.Marshal(rd)
+		if err != nil {
+			return err
+		}
+
+		err = os.MkdirAll(dir, 0755)
+		if err != nil {
+			return err
+		}
+
+		err = ioutil.WriteFile(filepath.Join(dir, strings.ToLower(rd.Name)+".yaml"), data, 0644)
+		if err != nil {
+			return err
 		}
 	}
 	return nil
