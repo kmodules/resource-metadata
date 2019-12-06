@@ -21,7 +21,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
+	"kmodules.xyz/resource-metadata/hub"
 
 	"github.com/stretchr/testify/assert"
 	"k8s.io/apimachinery/pkg/runtime/schema"

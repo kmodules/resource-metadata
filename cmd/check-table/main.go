@@ -22,7 +22,7 @@ import (
 	"log"
 	"path/filepath"
 
-	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
+	"kmodules.xyz/resource-metadata/hub"
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor"
 
 	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1beta1"

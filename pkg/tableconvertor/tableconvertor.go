@@ -25,7 +25,7 @@ import (
 	"strings"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
+	"kmodules.xyz/resource-metadata/hub"
 
 	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1beta1"
 	"k8s.io/apimachinery/pkg/api/meta"
