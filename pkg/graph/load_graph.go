@@ -20,7 +20,7 @@ import (
 	"strings"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
+	"kmodules.xyz/resource-metadata/hub"
 
 	utilerrors "k8s.io/apimachinery/pkg/util/errors"
 )

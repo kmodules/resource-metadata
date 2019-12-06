@@ -221,12 +221,12 @@ gen-bindata:
 	    --rm                                                    \
 	    -u $$(id -u):$$(id -g)                                  \
 	    -v $$(pwd):/src                                         \
-	    -w /src/hub/v1alpha1                                    \
+	    -w /src/hub/resourcedescriptors                         \
 		-v /tmp:/.cache                                         \
 	    --env HTTP_PROXY=$(HTTP_PROXY)                          \
 	    --env HTTPS_PROXY=$(HTTPS_PROXY)                        \
 	    $(BUILD_IMAGE)                                          \
-	    go-bindata -ignore=\\.go -ignore=\\.DS_Store -mode=0644 -modtime=1573722179 -o bindata.go -pkg v1alpha1 ./...
+	    go-bindata -ignore=\\.go -ignore=\\.DS_Store -mode=0644 -modtime=1573722179 -o bindata.go -pkg resourcedescriptors ./...
 
 .PHONY: manifests
 manifests: gen-crds gen-bindata

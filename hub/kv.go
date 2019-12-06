@@ -14,17 +14,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1alpha1
+package hub
 
 import (
-	"fmt"
-	"strings"
 	"sync"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-
-	"k8s.io/apimachinery/pkg/runtime/schema"
-	"sigs.k8s.io/yaml"
+	"kmodules.xyz/resource-metadata/hub/resourcedescriptors"
 )
 
 type KV interface {
@@ -108,39 +104,11 @@ var (
 )
 
 func init() {
-	for _, filename := range AssetNames() {
-		rd, err := LoadByFile(filename)
+	for _, filename := range resourcedescriptors.AssetNames() {
+		rd, err := resourcedescriptors.LoadByFile(filename)
 		if err != nil {
 			panic(err)
 		}
 		KnownResources.Set(filename, rd)
 	}
-}
-
-func LoadByGVR(gvr schema.GroupVersionResource) (*v1alpha1.ResourceDescriptor, error) {
-	var filename string
-	if gvr.Group == "" && gvr.Version == "v1" {
-		filename = fmt.Sprintf("core/v1/%s.yaml", gvr.Resource)
-	} else {
-		filename = fmt.Sprintf("%s/%s/%s.yaml", gvr.Group, gvr.Version, gvr.Resource)
-	}
-	return LoadByFile(filename)
-}
-
-func LoadByName(name string) (*v1alpha1.ResourceDescriptor, error) {
-	filename := strings.Replace(name, "-", "/", 2) + ".yaml"
-	return LoadByFile(filename)
-}
-
-func LoadByFile(filename string) (*v1alpha1.ResourceDescriptor, error) {
-	data, err := Asset(filename)
-	if err != nil {
-		return nil, err
-	}
-	var obj v1alpha1.ResourceDescriptor
-	err = yaml.Unmarshal(data, &obj)
-	if err != nil {
-		return nil, err
-	}
-	return &obj, nil
 }

@@ -23,7 +23,7 @@ import (
 
 	"kmodules.xyz/resource-metadata/apis/meta"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	hub "kmodules.xyz/resource-metadata/hub/v1alpha1"
+	"kmodules.xyz/resource-metadata/hub/resourcedescriptors"
 
 	kerr "k8s.io/apimachinery/pkg/api/errors"
 	metainternalversion "k8s.io/apimachinery/pkg/apis/meta/internalversion"
@@ -60,7 +60,7 @@ func (r *Storage) New() runtime.Object {
 }
 
 func (r *Storage) Get(ctx context.Context, name string, options *metav1.GetOptions) (runtime.Object, error) {
-	obj, err := hub.LoadByName(name)
+	obj, err := resourcedescriptors.LoadByName(name)
 	if err != nil {
 		return nil, kerr.NewNotFound(schema.GroupResource{Group: meta.GroupName, Resource: v1alpha1.ResourceKindResourceDescriptor}, name)
 	}
@@ -80,7 +80,7 @@ func (r *Storage) List(ctx context.Context, options *metainternalversion.ListOpt
 		return nil, kerr.NewBadRequest("fieldSelector is not a supported")
 	}
 
-	names := hub.AssetNames()
+	names := resourcedescriptors.AssetNames()
 
 	if options.Continue != "" {
 		start, err := strconv.Atoi(options.Continue)
@@ -97,8 +97,8 @@ func (r *Storage) List(ctx context.Context, options *metainternalversion.ListOpt
 	}
 
 	items := make([]meta.ResourceDescriptor, 0, len(names))
-	for _, filename := range hub.AssetNames() {
-		obj, err := hub.LoadByFile(filename)
+	for _, filename := range resourcedescriptors.AssetNames() {
+		obj, err := resourcedescriptors.LoadByFile(filename)
 		if err != nil {
 			return nil, err
 		}
