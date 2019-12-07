@@ -15,6 +15,9 @@ spec:
     name: prometheuses
     kind: Prometheus
     scope: Namespaced
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/monitoring.coreos.com/prometheus.svg
+    type: image/svg+xml
   connections:
     # - statefulset
     # - service

@@ -15,6 +15,9 @@ spec:
     name: servicemonitors
     kind: ServiceMonitor
     scope: Namespaced
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/monitoring.coreos.com/servicemonitor.svg
+    type: image/svg+xml
   keyTargets:
     - apiVersion: apps/v1
       kind: ReplicaSet
