@@ -29,6 +29,7 @@ type MetaV1alpha1Interface interface {
 	RESTClient() rest.Interface
 	GraphFindersGetter
 	PathFindersGetter
+	ResourceClassesGetter
 	ResourceDescriptorsGetter
 }
 
@@ -43,6 +44,10 @@ func (c *MetaV1alpha1Client) GraphFinders() GraphFinderInterface {
 
 func (c *MetaV1alpha1Client) PathFinders() PathFinderInterface {
 	return newPathFinders(c)
+}
+
+func (c *MetaV1alpha1Client) ResourceClasses() ResourceClassInterface {
+	return newResourceClasses(c)
 }
 
 func (c *MetaV1alpha1Client) ResourceDescriptors() ResourceDescriptorInterface {

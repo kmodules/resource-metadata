@@ -22,6 +22,8 @@ import (
 	"path/filepath"
 	"testing"
 
+	"kmodules.xyz/resource-metadata/hub/resourcedescriptors"
+
 	"github.com/stretchr/testify/assert"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/discovery"
@@ -47,9 +49,9 @@ func TestRegister(t *testing.T) {
 	}
 	reg := NewRegistry(config.Host, NewKVLocal())
 	assert.NoError(t, reg.Register(gvr, dc))
-	rd1, err := LoadByGVR(gvr)
+	rd1, err := resourcedescriptors.LoadByGVR(gvr)
 	assert.NoError(t, err)
-	rd2, err := LoadByFile("monitoring.coreos.com/v1/prometheuses.yaml")
+	rd2, err := resourcedescriptors.LoadByFile("monitoring.coreos.com/v1/prometheuses.yaml")
 	assert.NoError(t, err)
 	assert.Equal(t, rd1, rd2)
 }

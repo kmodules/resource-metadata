@@ -8,6 +8,7 @@ require (
 	github.com/emicklei/dot v0.10.1
 	github.com/go-openapi/spec v0.19.2
 	github.com/go-openapi/swag v0.19.4 // indirect
+	github.com/gobuffalo/flect v0.1.7
 	github.com/gogo/protobuf v1.2.2-0.20190730201129-28a6bbf47e48 // indirect
 	github.com/google/gofuzz v1.0.0
 	github.com/hashicorp/golang-lru v0.5.1

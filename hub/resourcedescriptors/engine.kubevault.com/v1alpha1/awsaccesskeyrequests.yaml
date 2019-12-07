@@ -1,0 +1,17 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: engine.kubevault.com
+    k8s.io/kind: AWSAccessKeyRequest
+    k8s.io/resource: awsaccesskeyrequests
+    k8s.io/version: v1alpha1
+  name: engine.kubevault.com-v1alpha1-awsaccesskeyrequests
+spec:
+  resource:
+    group: engine.kubevault.com
+    kind: AWSAccessKeyRequest
+    name: awsaccesskeyrequests
+    scope: Namespaced
+    version: v1alpha1

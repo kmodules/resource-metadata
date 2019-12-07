@@ -1,0 +1,13 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceClass
+metadata:
+  creationTimestamp: null
+  name: Extension
+spec:
+  apiGroup: extensions
+  editable: false
+  resources:
+  - group: extensions
+    resource: ingresses
+    version: v1beta1
+  visible: false

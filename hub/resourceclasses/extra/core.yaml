@@ -1,0 +1,56 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceClass
+metadata:
+  creationTimestamp: null
+  name: Core
+spec:
+  apiGroup: ""
+  editable: false
+  resources:
+  - group: ""
+    resource: bindings
+    version: v1
+  - group: ""
+    resource: componentstatuses
+    version: v1
+  - group: ""
+    resource: configmaps
+    version: v1
+  - group: ""
+    resource: endpoints
+    version: v1
+  - group: ""
+    resource: events
+    version: v1
+  - group: ""
+    resource: limitranges
+    version: v1
+  - group: ""
+    resource: namespaces
+    version: v1
+  - group: ""
+    resource: nodes
+    version: v1
+
+  - group: ""
+    resource: pods
+    version: v1
+  - group: ""
+    resource: podtemplates
+    version: v1
+  - group: ""
+    resource: replicationcontrollers
+    version: v1
+  - group: ""
+    resource: resourcequotas
+    version: v1
+  - group: ""
+    resource: secrets
+    version: v1
+  - group: ""
+    resource: serviceaccounts
+    version: v1
+  - group: ""
+    resource: services
+    version: v1
+  visible: false

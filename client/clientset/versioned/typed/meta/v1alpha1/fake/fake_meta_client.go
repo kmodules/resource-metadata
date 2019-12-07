@@ -37,6 +37,10 @@ func (c *FakeMetaV1alpha1) PathFinders() v1alpha1.PathFinderInterface {
 	return &FakePathFinders{c}
 }
 
+func (c *FakeMetaV1alpha1) ResourceClasses() v1alpha1.ResourceClassInterface {
+	return &FakeResourceClasses{c}
+}
+
 func (c *FakeMetaV1alpha1) ResourceDescriptors() v1alpha1.ResourceDescriptorInterface {
 	return &FakeResourceDescriptors{c}
 }

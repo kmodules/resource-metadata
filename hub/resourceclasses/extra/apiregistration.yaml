@@ -1,0 +1,13 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceClass
+metadata:
+  creationTimestamp: null
+  name: Apiregistration
+spec:
+  apiGroup: apiregistration.k8s.io
+  editable: false
+  resources:
+  - group: apiregistration.k8s.io
+    resource: apiservices
+    version: v1
+  visible: false
