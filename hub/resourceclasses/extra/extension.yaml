@@ -6,8 +6,9 @@ metadata:
 spec:
   apiGroup: extensions
   editable: false
-  resources:
-  - group: extensions
-    resource: ingresses
-    version: v1beta1
-  visible: false
+  entries:
+  - optional: true
+    type:
+    - group: extensions
+      resource: ingresses
+      version: v1beta1

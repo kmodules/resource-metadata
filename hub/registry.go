@@ -21,6 +21,8 @@ import (
 	"strings"
 	"sync"
 
+	"kmodules.xyz/resource-metadata/hub/resourceclasses"
+
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"kmodules.xyz/resource-metadata/hub/resourcedescriptors"
 
@@ -227,6 +229,119 @@ func (r *Registry) LoadByFile(filename string) (*v1alpha1.ResourceDescriptor, er
 		return nil, UnregisteredErr{filename}
 	}
 	return obj, nil
+}
+
+func (r *Registry) LoadDefaultResourceClassList() (v1alpha1.ResourceClassList, error) {
+	rcList := v1alpha1.ResourceClassList{
+		Items: make([]v1alpha1.ResourceClass, 0, len(resourceclasses.AssetNames())+5),
+	}
+
+	for _, rcFile := range resourceclasses.AssetNames() {
+		rc, err := resourceclasses.LoadByFile(rcFile)
+		if err != nil {
+			return v1alpha1.ResourceClassList{}, err
+		}
+		rcList.Items = append(rcList.Items, *rc)
+	}
+
+	rc := &v1alpha1.ResourceClass{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       "ResourceClass",
+			APIVersion: "meta.appscode.com/v1alpha1",
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name: "Kubernetes",
+		},
+		Spec: v1alpha1.ResourceClassSpec{
+			Entries: []v1alpha1.Entry{
+				{
+					Name:     "Basic",
+					Path:     "",
+					Optional: false,
+				},
+				{
+					Name: "Machines",
+					Type: v1alpha1.GroupVersionResource{
+						Group:    "cluster.k8s.io",
+						Version:  "v1alpha1",
+						Resource: "machines",
+					},
+					Optional: false,
+				},
+				{
+					Name: "Machine Sets",
+					Type: v1alpha1.GroupVersionResource{
+						Group:    "cluster.k8s.io",
+						Version:  "v1alpha1",
+						Resource: "machinesets",
+					},
+					Optional: false,
+				},
+			},
+			Weight: 1,
+		},
+	}
+	rcList.Items = append(rcList.Items, *rc)
+
+	rc = &v1alpha1.ResourceClass{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       "ResourceClass",
+			APIVersion: "meta.appscode.com/v1alpha1",
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name: "Helm",
+		},
+		Spec: v1alpha1.ResourceClassSpec{
+			Entries: []v1alpha1.Entry{
+				{
+					Name: "Machine Sets",
+					Type: v1alpha1.GroupVersionResource{
+						Group:    "cluster.k8s.io",
+						Version:  "v1alpha1",
+						Resource: "machinesets",
+					},
+					Optional: false,
+				},
+			},
+			Weight: 6,
+		},
+	}
+	rcList.Items = append(rcList.Items, *rc)
+
+	rc = &v1alpha1.ResourceClass{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       "ResourceClass",
+			APIVersion: "meta.appscode.com/v1alpha1",
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name: "Monitoring",
+		},
+		Spec: v1alpha1.ResourceClassSpec{
+			Entries: []v1alpha1.Entry{
+				{
+					Name: "Prometheuses",
+					Type: v1alpha1.GroupVersionResource{
+						Group:    "monitoring.coreos.ocom",
+						Version:  "v1",
+						Resource: "prometheuses",
+					},
+					Optional: false,
+				},
+				{
+					Name: "Service Monitors",
+					Type: v1alpha1.GroupVersionResource{
+						Group:    "monitoring.coreos.ocom",
+						Version:  "v1",
+						Resource: "servicemonitors",
+					},
+					Optional: false,
+				},
+			},
+			Weight: 6,
+		},
+	}
+	rcList.Items = append(rcList.Items, *rc)
+	return rcList, nil
 }
 
 type UnregisteredErr struct {

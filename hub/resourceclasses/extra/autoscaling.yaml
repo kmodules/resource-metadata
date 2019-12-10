@@ -5,9 +5,9 @@ metadata:
   name: Autoscaling
 spec:
   apiGroup: autoscaling
-  editable: false
-  resources:
-  - group: autoscaling
-    resource: horizontalpodautoscalers
-    version: v1
-  visible: false
+  entries:
+  - optional: true
+    type:
+    - group: autoscaling
+      resource: horizontalpodautoscalers
+      version: v1

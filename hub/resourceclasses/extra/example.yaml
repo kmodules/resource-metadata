@@ -5,9 +5,9 @@ metadata:
   name: Example
 spec:
   apiGroup: example.com
-  editable: false
-  resources:
-  - group: example.com
-    resource: crontabs
-    version: v1
-  visible: false
+  entries:
+  - optional: true
+    type:
+    - group: example.com
+      resource: crontabs
+      version: v1

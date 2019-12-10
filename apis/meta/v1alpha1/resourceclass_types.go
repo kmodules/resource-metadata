@@ -44,14 +44,10 @@ type ResourceClass struct {
 }
 
 type ResourceClassSpec struct {
-	Resources []GroupVersionResource `json:"resources"`
+	Entries []Entry `json:"entries"`
 
 	APIGroup string `json:"apiGroup"`
 	Weight   int    `json:"weight"`
-	Editable bool   `json:"editable"`
-	Visible  bool   `json:"visible"`
-	// +optional
-	Paths []string `json:"paths,omitempty"`
 
 	// Icons is an optional list of icons for an application. Icon information includes the source, size,
 	// and mime type.
@@ -63,6 +59,16 @@ type ResourceClassSpec struct {
 
 	// Links are a list of descriptive URLs intended to be used to surface additional documentation, dashboards, etc.
 	Links []Link `json:"links,omitempty"`
+}
+
+type Entry struct {
+	Name string `json:"name"`
+	// +optional
+	Path     string               `json:"path,omitempty"`
+	Type     GroupVersionResource `json:"type"`
+	Weight   int                  `json:"weight"`
+	Optional bool                 `json:"optional"`
+	Icons    []ImageSpec          `json:"icons,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

@@ -5,12 +5,14 @@ metadata:
   name: Admissionregistration
 spec:
   apiGroup: admissionregistration.k8s.io
-  editable: false
-  resources:
-  - group: admissionregistration.k8s.io
-    resource: mutatingwebhookconfigurations
-    version: v1
-  - group: admissionregistration.k8s.io
-    resource: validatingwebhookconfigurations
-    version: v1
-  visible: false
+  entries:
+  - optional: true
+    type:
+    - group: admissionregistration.k8s.io
+      resource: mutatingwebhookconfigurations
+      version: v1
+  - optional: true
+    type:
+    - group: admissionregistration.k8s.io
+      resource: validatingwebhookconfigurations
+      version: v1

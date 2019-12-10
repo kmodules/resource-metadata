@@ -5,9 +5,9 @@ metadata:
   name: Authentication
 spec:
   apiGroup: authentication.k8s.io
-  editable: false
-  resources:
-  - group: authentication.k8s.io
-    resource: tokenreviews
-    version: v1
-  visible: false
+  entries:
+  - optional: true
+    type:
+    - group: authentication.k8s.io
+      resource: tokenreviews
+      version: v1

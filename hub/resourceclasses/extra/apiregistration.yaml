@@ -5,9 +5,9 @@ metadata:
   name: Apiregistration
 spec:
   apiGroup: apiregistration.k8s.io
-  editable: false
-  resources:
-  - group: apiregistration.k8s.io
-    resource: apiservices
-    version: v1
-  visible: false
+  entries:
+  - optional: true
+    type:
+    - group: apiregistration.k8s.io
+      resource: apiservices
+      version: v1

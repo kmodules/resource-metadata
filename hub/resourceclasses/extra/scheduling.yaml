@@ -6,8 +6,9 @@ metadata:
 spec:
   apiGroup: scheduling.k8s.io
   editable: false
-  resources:
-  - group: scheduling.k8s.io
-    resource: priorityclasses
-    version: v1
-  visible: false
+  entries:
+  - optional: true
+    type:
+    - group: scheduling.k8s.io
+      resource: priorityclasses
+      version: v1

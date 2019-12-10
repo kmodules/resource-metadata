@@ -6,51 +6,80 @@ metadata:
 spec:
   apiGroup: ""
   editable: false
-  resources:
-  - group: ""
-    resource: bindings
-    version: v1
-  - group: ""
-    resource: componentstatuses
-    version: v1
-  - group: ""
-    resource: configmaps
-    version: v1
-  - group: ""
-    resource: endpoints
-    version: v1
-  - group: ""
-    resource: events
-    version: v1
-  - group: ""
-    resource: limitranges
-    version: v1
-  - group: ""
-    resource: namespaces
-    version: v1
-  - group: ""
-    resource: nodes
-    version: v1
+  entries:
+  - optional: true
+    type:
+    - group: ""
+      resource: bindings
+      version: v1
+  - optional: true
+    type:
+    - group: ""
+      resource: componentstatuses
+      version: v1
+  - optional: true
+    type:
+    - group: ""
+      resource: configmaps
+      version: v1
+  - optional: true
+    type:
+    - group: ""
+      resource: endpoints
+      version: v1
+  - optional: true
+    type:
+    - group: ""
+      resource: events
+      version: v1
+  - optional: true
+    type:
+    - group: ""
+      resource: limitranges
+      version: v1
+  - optional: true
+    type:
+    - group: ""
+      resource: namespaces
+      version: v1
+  - optional: true
+    type:
+    - group: ""
+      resource: nodes
+      version: v1
 
-  - group: ""
-    resource: pods
-    version: v1
-  - group: ""
-    resource: podtemplates
-    version: v1
-  - group: ""
-    resource: replicationcontrollers
-    version: v1
-  - group: ""
-    resource: resourcequotas
-    version: v1
-  - group: ""
-    resource: secrets
-    version: v1
-  - group: ""
-    resource: serviceaccounts
-    version: v1
-  - group: ""
-    resource: services
-    version: v1
-  visible: false
+  - optional: true
+    type:
+    - group: ""
+      resource: pods
+      version: v1
+  - optional: true
+    type:
+    - group: ""
+      resource: podtemplates
+      version: v1
+  - optional: true
+    type:
+    - group: ""
+      resource: replicationcontrollers
+      version: v1
+  - optional: true
+    type:
+    - group: ""
+      resource: resourcequotas
+      version: v1
+  - optional: true
+    type:
+    - group: ""
+      resource: secrets
+      version: v1
+  - optional: true
+    type:
+    - group: ""
+      resource: serviceaccounts
+      version: v1
+  - optional: true
+    type:
+    - group: ""
+      resource: services
+      version: v1

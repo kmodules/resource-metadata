@@ -5,9 +5,9 @@ metadata:
   name: Certificate
 spec:
   apiGroup: certificates.k8s.io
-  editable: false
-  resources:
-  - group: certificates.k8s.io
-    resource: certificatesigningrequests
-    version: v1beta1
-  visible: false
+  entries:
+  - optional: true
+    type:
+    - group: certificates.k8s.io
+      resource: certificatesigningrequests
+      version: v1beta1
