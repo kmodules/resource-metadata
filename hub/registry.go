@@ -21,9 +21,8 @@ import (
 	"strings"
 	"sync"
 
-	"kmodules.xyz/resource-metadata/hub/resourceclasses"
-
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	"kmodules.xyz/resource-metadata/hub/resourceclasses"
 	"kmodules.xyz/resource-metadata/hub/resourcedescriptors"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

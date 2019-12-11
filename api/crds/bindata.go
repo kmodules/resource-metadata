@@ -215,8 +215,8 @@ type bintree struct {
 }
 
 var _bintree = &bintree{nil, map[string]*bintree{
-	"meta.appscode.com_resourceclasses.yaml":     &bintree{metaAppscodeCom_resourceclassesYaml, map[string]*bintree{}},
-	"meta.appscode.com_resourcedescriptors.yaml": &bintree{metaAppscodeCom_resourcedescriptorsYaml, map[string]*bintree{}},
+	"meta.appscode.com_resourceclasses.yaml":     {metaAppscodeCom_resourceclassesYaml, map[string]*bintree{}},
+	"meta.appscode.com_resourcedescriptors.yaml": {metaAppscodeCom_resourcedescriptorsYaml, map[string]*bintree{}},
 }}
 
 // RestoreAsset restores an asset under the given directory

@@ -23,10 +23,11 @@ package v1alpha1
 import (
 	unsafe "unsafe"
 
+	meta "kmodules.xyz/resource-metadata/apis/meta"
+
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	conversion "k8s.io/apimachinery/pkg/conversion"
 	runtime "k8s.io/apimachinery/pkg/runtime"
-	meta "kmodules.xyz/resource-metadata/apis/meta"
 )
 
 func init() {

@@ -23,13 +23,14 @@ import (
 	sync "sync"
 	time "time"
 
+	versioned "kmodules.xyz/resource-metadata/client/clientset/versioned"
+	internalinterfaces "kmodules.xyz/resource-metadata/client/informers/externalversions/internalinterfaces"
+	meta "kmodules.xyz/resource-metadata/client/informers/externalversions/meta"
+
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	cache "k8s.io/client-go/tools/cache"
-	versioned "kmodules.xyz/resource-metadata/client/clientset/versioned"
-	internalinterfaces "kmodules.xyz/resource-metadata/client/informers/externalversions/internalinterfaces"
-	meta "kmodules.xyz/resource-metadata/client/informers/externalversions/meta"
 )
 
 // SharedInformerOption defines the functional option type for SharedInformerFactory.
