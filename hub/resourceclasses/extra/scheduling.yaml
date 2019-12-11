@@ -9,6 +9,6 @@ spec:
   entries:
   - optional: true
     type:
-    - group: scheduling.k8s.io
+      group: scheduling.k8s.io
       resource: priorityclasses
       version: v1

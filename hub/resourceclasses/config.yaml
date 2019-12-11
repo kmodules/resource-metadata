@@ -8,15 +8,15 @@ spec:
   - name: Config Maps
     optional: false
     type:
-    - group: ""
+      group: ""
       resource: configmaps
       version: v1
   - name: Secrets
     optional: false
     type:
-      - group: ""
-        resource: secrets
-        version: v1
+      group: ""
+      resource: secrets
+      version: v1
   icons:
   - src: https://cdn.appscode.com/k8s/icons/resourceclasses/workloads.svg
     type: image/svg+xml

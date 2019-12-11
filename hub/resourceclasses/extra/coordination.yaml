@@ -8,6 +8,6 @@ spec:
   entries:
   - optional: true
     type:
-    - group: coordination.k8s.io
+      group: coordination.k8s.io
       resource: leases
       version: v1

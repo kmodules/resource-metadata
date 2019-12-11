@@ -8,24 +8,24 @@ spec:
   - name: Services
     optional: false
     type:
-    - group: ""
+      group: ""
       resource: services
       version: v1
   - name: Ingresses
     optional: false
     type:
-    - group: networking.k8s.io
+      group: networking.k8s.io
       resource: ingresses
       version: v1beta1
   - name: Voyager Ingresses
     optional: false
     type:
-    - group: voyager.appscode.com
+      group: voyager.appscode.com
       resource: ingresses
       version: v1beta1
   - name: Network Policies
     optional: false
     type:
-    - group: networking.k8s.io
+      group: networking.k8s.io
       resource: networkpolicies
       version: v1

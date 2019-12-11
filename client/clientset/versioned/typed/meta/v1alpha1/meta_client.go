@@ -19,10 +19,9 @@ limitations under the License.
 package v1alpha1
 
 import (
+	rest "k8s.io/client-go/rest"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
-
-	rest "k8s.io/client-go/rest"
 )
 
 type MetaV1alpha1Interface interface {

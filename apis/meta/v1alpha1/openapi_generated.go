@@ -292,6 +292,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"k8s.io/apimachinery/pkg/version.Info":                                         schema_k8sio_apimachinery_pkg_version_Info(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ContactData":                schema_resource_metadata_apis_meta_v1alpha1_ContactData(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Edge":                       schema_resource_metadata_apis_meta_v1alpha1_Edge(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Entry":                      schema_resource_metadata_apis_meta_v1alpha1_Entry(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GraphFinder":                schema_resource_metadata_apis_meta_v1alpha1_GraphFinder(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GraphRequest":               schema_resource_metadata_apis_meta_v1alpha1_GraphRequest(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GraphResponse":              schema_resource_metadata_apis_meta_v1alpha1_GraphResponse(ref),
@@ -13508,6 +13509,62 @@ func schema_resource_metadata_apis_meta_v1alpha1_Edge(ref common.ReferenceCallba
 	}
 }
 
+func schema_resource_metadata_apis_meta_v1alpha1_Entry(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"path": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"type": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource"),
+						},
+					},
+					"weight": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"integer"},
+							Format: "int32",
+						},
+					},
+					"optional": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"boolean"},
+							Format: "",
+						},
+					},
+					"icons": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ImageSpec"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"name", "type", "weight", "optional"},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ImageSpec"},
+	}
+}
+
 func schema_resource_metadata_apis_meta_v1alpha1_GraphFinder(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -13917,13 +13974,13 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceClassSpec(ref common.Re
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
-					"resources": {
+					"entries": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
-										Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource"),
+										Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Entry"),
 									},
 								},
 							},
@@ -13939,31 +13996,6 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceClassSpec(ref common.Re
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"integer"},
 							Format: "int32",
-						},
-					},
-					"editable": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"boolean"},
-							Format: "",
-						},
-					},
-					"visible": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"boolean"},
-							Format: "",
-						},
-					},
-					"paths": {
-						SchemaProps: spec.SchemaProps{
-							Type: []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Type:   []string{"string"},
-										Format: "",
-									},
-								},
-							},
 						},
 					},
 					"icons": {
@@ -14006,11 +14038,11 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceClassSpec(ref common.Re
 						},
 					},
 				},
-				Required: []string{"resources", "apiGroup", "weight", "editable", "visible"},
+				Required: []string{"entries", "apiGroup", "weight"},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ContactData", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ImageSpec", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Link"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ContactData", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Entry", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ImageSpec", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Link"},
 	}
 }
 

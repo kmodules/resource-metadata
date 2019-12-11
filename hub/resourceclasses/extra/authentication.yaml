@@ -8,6 +8,6 @@ spec:
   entries:
   - optional: true
     type:
-    - group: authentication.k8s.io
+      group: authentication.k8s.io
       resource: tokenreviews
       version: v1

@@ -42,8 +42,62 @@ spec:
           properties:
             apiGroup:
               type: string
-            editable:
-              type: boolean
+            entries:
+              items:
+                properties:
+                  icons:
+                    items:
+                      description: ImageSpec contains information about an image used
+                        as an icon.
+                      properties:
+                        size:
+                          description: (optional) The size of the image in pixels
+                            (e.g., 25x25).
+                          type: string
+                        src:
+                          description: The source for image represented as either
+                            an absolute URL to the image or a Data URL containing
+                            the image. Data URLs are defined in RFC 2397.
+                          type: string
+                        type:
+                          description: (optional) The mine type of the image (e.g.,
+                            "image/png").
+                          type: string
+                      required:
+                      - src
+                      type: object
+                    type: array
+                  name:
+                    type: string
+                  optional:
+                    type: boolean
+                  path:
+                    type: string
+                  type:
+                    description: GroupVersionResource unambiguously identifies a resource.  It
+                      doesn't anonymously include GroupVersion to avoid automatic
+                      coercion.  It doesn't use a GroupVersion to avoid custom marshalling
+                    properties:
+                      group:
+                        type: string
+                      resource:
+                        type: string
+                      version:
+                        type: string
+                    required:
+                    - group
+                    - resource
+                    - version
+                    type: object
+                  weight:
+                    type: integer
+                required:
+                - name
+                - optional
+                - type
+                - weight
+                type: object
+              type: array
             icons:
               description: Icons is an optional list of icons for an application.
                 Icon information includes the source, size, and mime type.
@@ -102,37 +156,11 @@ spec:
                     type: string
                 type: object
               type: array
-            paths:
-              items:
-                type: string
-              type: array
-            resources:
-              items:
-                description: GroupVersionResource unambiguously identifies a resource.  It
-                  doesn't anonymously include GroupVersion to avoid automatic coercion.  It
-                  doesn't use a GroupVersion to avoid custom marshalling
-                properties:
-                  group:
-                    type: string
-                  resource:
-                    type: string
-                  version:
-                    type: string
-                required:
-                - group
-                - resource
-                - version
-                type: object
-              type: array
-            visible:
-              type: boolean
             weight:
               type: integer
           required:
           - apiGroup
-          - editable
-          - resources
-          - visible
+          - entries
           - weight
           type: object
       type: object

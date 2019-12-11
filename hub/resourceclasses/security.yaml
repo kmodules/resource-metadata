@@ -7,19 +7,19 @@ spec:
   - name: Policy
     optional: true
     type:
-    - group: policy
+      group: policy
       resource: podsecuritypolicies
       version: v1beta1
   - name: Certificates
     optional: true
     type:
-    - group: voyager.appscode.com
+      group: voyager.appscode.com
       resource: certificates
       version: v1beta1
   - name: Service Accounts
     optional: true
     type:
-    - group: ""
+      group: ""
       resource: serviceaccounts
       version: v1
   icons:

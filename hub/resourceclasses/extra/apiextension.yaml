@@ -8,6 +8,6 @@ spec:
   entries:
   - optional: true
     type:
-    - group: apiextensions.k8s.io
+      group: apiextensions.k8s.io
       resource: customresourcedefinitions
       version: v1

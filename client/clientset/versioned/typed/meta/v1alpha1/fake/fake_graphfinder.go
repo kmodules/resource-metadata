@@ -19,10 +19,9 @@ limitations under the License.
 package fake
 
 import (
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	testing "k8s.io/client-go/testing"
+	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 )
 
 // FakeGraphFinders implements GraphFinderInterface

@@ -8,6 +8,6 @@ spec:
   entries:
   - optional: true
     type:
-    - group: autoscaling
+      group: autoscaling
       resource: horizontalpodautoscalers
       version: v1
