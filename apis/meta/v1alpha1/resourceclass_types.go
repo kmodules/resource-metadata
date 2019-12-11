@@ -64,11 +64,12 @@ type ResourceClassSpec struct {
 type Entry struct {
 	Name string `json:"name"`
 	// +optional
-	Path     string               `json:"path,omitempty"`
-	Type     GroupVersionResource `json:"type"`
-	Weight   int                  `json:"weight"`
-	Optional bool                 `json:"optional"`
-	Icons    []ImageSpec          `json:"icons,omitempty"`
+	Path       string               `json:"path,omitempty"`
+	Type       GroupVersionResource `json:"type"`
+	Namespaced bool                 `json:"namespaced"`
+	Weight     int                  `json:"weight"`
+	Optional   bool                 `json:"optional"`
+	Icons      []ImageSpec          `json:"icons,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

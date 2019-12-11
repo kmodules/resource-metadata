@@ -69,6 +69,8 @@ spec:
                     type: array
                   name:
                     type: string
+                  namespaced:
+                    type: boolean
                   optional:
                     type: boolean
                   path:
@@ -93,6 +95,7 @@ spec:
                     type: integer
                 required:
                 - name
+                - namespaced
                 - optional
                 - type
                 - weight

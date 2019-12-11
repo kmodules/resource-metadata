@@ -6,18 +6,21 @@ spec:
   entries:
   - name: Persistent Volume Claims
     optional: false
+    namespaced: true
     type:
       group: ""
       resource: persistentvolumeclaims
       version: v1
   - name: Persistent Volulmes
     optional: false
+    namespaced: false
     type:
       group: ""
       resource: persistentvolumes
       version: v1
   - name: Storage Classes
     optional: false
+    namespaced: false
     type:
       group: storage.k8s.io
       resource: storageclasses

@@ -7,12 +7,14 @@ spec:
   entries:
   - name: Config Maps
     optional: false
+    namespaced: true
     type:
       group: ""
       resource: configmaps
       version: v1
   - name: Secrets
     optional: false
+    namespaced: true
     type:
       group: ""
       resource: secrets

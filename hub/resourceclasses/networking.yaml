@@ -7,24 +7,28 @@ spec:
   entries:
   - name: Services
     optional: false
+    namespaced: true
     type:
       group: ""
       resource: services
       version: v1
   - name: Ingresses
     optional: false
+    namespaced: true
     type:
       group: networking.k8s.io
       resource: ingresses
       version: v1beta1
   - name: Voyager Ingresses
     optional: false
+    namespaced: true
     type:
       group: voyager.appscode.com
       resource: ingresses
       version: v1beta1
   - name: Network Policies
     optional: false
+    namespaced: true
     type:
       group: networking.k8s.io
       resource: networkpolicies

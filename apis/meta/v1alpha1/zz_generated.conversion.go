@@ -390,6 +390,7 @@ func autoConvert_v1alpha1_Entry_To_meta_Entry(in *Entry, out *meta.Entry, s conv
 	if err := Convert_v1alpha1_GroupVersionResource_To_meta_GroupVersionResource(&in.Type, &out.Type, s); err != nil {
 		return err
 	}
+	out.Namespaced = in.Namespaced
 	out.Weight = in.Weight
 	out.Optional = in.Optional
 	out.Icons = *(*[]meta.ImageSpec)(unsafe.Pointer(&in.Icons))
@@ -407,6 +408,7 @@ func autoConvert_meta_Entry_To_v1alpha1_Entry(in *meta.Entry, out *Entry, s conv
 	if err := Convert_meta_GroupVersionResource_To_v1alpha1_GroupVersionResource(&in.Type, &out.Type, s); err != nil {
 		return err
 	}
+	out.Namespaced = in.Namespaced
 	out.Weight = in.Weight
 	out.Optional = in.Optional
 	out.Icons = *(*[]ImageSpec)(unsafe.Pointer(&in.Icons))

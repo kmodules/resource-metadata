@@ -265,7 +265,8 @@ func (r *Registry) LoadDefaultResourceClassList() (v1alpha1.ResourceClassList, e
 						Version:  "v1alpha1",
 						Resource: "machines",
 					},
-					Optional: false,
+					Namespaced: true,
+					Optional:   false,
 				},
 				{
 					Name: "Machine Sets",
@@ -274,7 +275,8 @@ func (r *Registry) LoadDefaultResourceClassList() (v1alpha1.ResourceClassList, e
 						Version:  "v1alpha1",
 						Resource: "machinesets",
 					},
-					Optional: false,
+					Namespaced: true,
+					Optional:   false,
 				},
 			},
 			Weight: 1,
@@ -293,12 +295,8 @@ func (r *Registry) LoadDefaultResourceClassList() (v1alpha1.ResourceClassList, e
 		Spec: v1alpha1.ResourceClassSpec{
 			Entries: []v1alpha1.Entry{
 				{
-					Name: "Machine Sets",
-					Type: v1alpha1.GroupVersionResource{
-						Group:    "cluster.k8s.io",
-						Version:  "v1alpha1",
-						Resource: "machinesets",
-					},
+					Name:     "Releases",
+					Path:     "tiller/v2/releases",
 					Optional: false,
 				},
 			},
@@ -324,7 +322,8 @@ func (r *Registry) LoadDefaultResourceClassList() (v1alpha1.ResourceClassList, e
 						Version:  "v1",
 						Resource: "prometheuses",
 					},
-					Optional: false,
+					Namespaced: true,
+					Optional:   false,
 				},
 				{
 					Name: "Service Monitors",
@@ -333,7 +332,8 @@ func (r *Registry) LoadDefaultResourceClassList() (v1alpha1.ResourceClassList, e
 						Version:  "v1",
 						Resource: "servicemonitors",
 					},
-					Optional: false,
+					Namespaced: true,
+					Optional:   false,
 				},
 			},
 			Weight: 6,
