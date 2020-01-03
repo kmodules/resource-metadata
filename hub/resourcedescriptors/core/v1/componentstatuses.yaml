@@ -15,3 +15,47 @@ spec:
     name: componentstatuses
     scope: Cluster
     version: v1
+  validation:
+    openAPIV3Schema:
+      description: ComponentStatus (and ComponentStatusList) holds the cluster validation
+        info.
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        conditions:
+          description: List of component conditions observed
+          items:
+            description: Information about the condition of a component.
+            properties:
+              error:
+                description: Condition error code for a component. For example, a
+                  health check error code.
+                type: string
+              message:
+                description: Message about the condition for a component. For example,
+                  information about a health check.
+                type: string
+              status:
+                description: 'Status of the condition for a component. Valid values
+                  for "Healthy": "True", "False", or "Unknown".'
+                type: string
+              type:
+                description: 'Type of condition for a component. Valid value: "Healthy"'
+                type: string
+            required:
+            - status
+            - type
+            type: object
+          type: array
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          description: 'Standard object''s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata'
+          type: object
+      type: object
