@@ -21,6 +21,7 @@ limitations under the License.
 package meta
 
 import (
+	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
@@ -537,6 +538,11 @@ func (in *ResourceDescriptorSpec) DeepCopyInto(out *ResourceDescriptorSpec) {
 		in, out := &in.KeyTargets, &out.KeyTargets
 		*out = make([]v1.TypeMeta, len(*in))
 		copy(*out, *in)
+	}
+	if in.Validation != nil {
+		in, out := &in.Validation, &out.Validation
+		*out = new(apiextensions.CustomResourceValidation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Icons != nil {
 		in, out := &in.Icons, &out.Icons

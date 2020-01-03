@@ -16,7 +16,10 @@ limitations under the License.
 
 package meta
 
-import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+import (
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+)
 
 type ReferenceType string
 
@@ -36,6 +39,8 @@ type ResourceDescriptorSpec struct {
 	SubTables   []ResourceSubTableDefinition
 	Connections []ResourceConnection
 	KeyTargets  []metav1.TypeMeta
+
+	Validation *apiextensions.CustomResourceValidation
 
 	Icons       []ImageSpec
 	Maintainers []ContactData
