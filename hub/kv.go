@@ -17,9 +17,11 @@ limitations under the License.
 package hub
 
 import (
+	"strings"
 	"sync"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	"kmodules.xyz/resource-metadata/hub/resourceclasses"
 	"kmodules.xyz/resource-metadata/hub/resourcedescriptors"
 )
 
@@ -101,6 +103,7 @@ var (
 	KnownResources KV = &KVMap{
 		cache: make(map[string]*v1alpha1.ResourceDescriptor),
 	}
+	KnownClasses = make(map[string]*v1alpha1.ResourceClass)
 )
 
 func init() {
@@ -110,5 +113,17 @@ func init() {
 			panic(err)
 		}
 		KnownResources.Set(filename, rd)
+	}
+
+	for _, filename := range resourceclasses.AssetNames() {
+		rc, err := resourceclasses.LoadByFile(filename)
+		if err != nil {
+			panic(err)
+		}
+		if rc.Spec.APIGroup != "" {
+			KnownClasses[rc.Spec.APIGroup] = rc
+		} else {
+			KnownClasses[strings.ToLower(rc.Name)+".local"] = rc
+		}
 	}
 }

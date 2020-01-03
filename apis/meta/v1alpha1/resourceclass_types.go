@@ -38,20 +38,20 @@ const (
 // +kubebuilder:printcolumn:name="Status",type="string",JSONPath=".status.phase"
 // +kubebuilder:printcolumn:name="Age",type="date",JSONPath=".metadata.creationTimestamp"
 type ResourceClass struct {
-	metav1.TypeMeta   `json:",inline,omitempty"`
+	metav1.TypeMeta `json:",inline"`
+	// +optional
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              ResourceClassSpec `json:"spec,omitempty"`
 }
 
 type ResourceClassSpec struct {
-	Resources []GroupVersionResource `json:"resources"`
+	ResourceClassInfo `json:",inline"`
+	Entries           []Entry `json:"entries"`
+}
 
-	APIGroup string `json:"apiGroup"`
+type ResourceClassInfo struct {
+	APIGroup string `json:"apiGroup,omitempty"`
 	Weight   int    `json:"weight"`
-	Editable bool   `json:"editable"`
-	Visible  bool   `json:"visible"`
-	// +optional
-	Paths []string `json:"paths,omitempty"`
 
 	// Icons is an optional list of icons for an application. Icon information includes the source, size,
 	// and mime type.
@@ -65,6 +65,16 @@ type ResourceClassSpec struct {
 	Links []Link `json:"links,omitempty"`
 }
 
+type Entry struct {
+	Name string `json:"name"`
+	// +optional
+	Path   string                `json:"path,omitempty"`
+	Type   *GroupVersionResource `json:"type,omitempty"`
+	Weight int                   `json:"weight"`
+	// +optional
+	Required bool `json:"required,omitempty"`
+}
+
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +kubebuilder:object:root=true
 
@@ -72,4 +82,23 @@ type ResourceClassList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ResourceClass `json:"items,omitempty"`
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+type ResourcePanel struct {
+	metav1.TypeMeta `json:",inline"`
+	Sections        []PanelSection `json:"sections,omitempty"`
+}
+
+type PanelSection struct {
+	Name              string `json:"name,omitempty"`
+	ResourceClassInfo `json:",inline"`
+	Entries           []PanelEntry `json:"entries"`
+}
+
+type PanelEntry struct {
+	Entry      `json:",inline"`
+	Namespaced bool        `json:"namespaced"`
+	Icons      []ImageSpec `json:"icons,omitempty"`
 }

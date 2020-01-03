@@ -22,6 +22,7 @@ import (
 	"sync"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	"kmodules.xyz/resource-metadata/hub/resourceclasses"
 	"kmodules.xyz/resource-metadata/hub/resourcedescriptors"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -227,6 +228,108 @@ func (r *Registry) LoadByFile(filename string) (*v1alpha1.ResourceDescriptor, er
 		return nil, UnregisteredErr{filename}
 	}
 	return obj, nil
+}
+
+func (r *Registry) CompleteResourcePanel() (*v1alpha1.ResourcePanel, error) {
+	return r.newPanel(false, true)
+}
+
+func (r *Registry) DefaultResourcePanel() (*v1alpha1.ResourcePanel, error) {
+	return r.newPanel(true, false)
+}
+
+func (r *Registry) newPanel(skipK8sGroups, mutateRequiredSections bool) (*v1alpha1.ResourcePanel, error) {
+	sections := make(map[string]*v1alpha1.PanelSection)
+
+	// first add the known required sections
+	for group, rc := range KnownClasses {
+		if !rc.IsRequired() {
+			continue
+		}
+
+		section := &v1alpha1.PanelSection{
+			Name:              rc.Name,
+			ResourceClassInfo: rc.Spec.ResourceClassInfo,
+		}
+		for _, entry := range rc.Spec.Entries {
+			pe := v1alpha1.PanelEntry{
+				Entry:      entry,
+				Namespaced: false,
+				Icons:      nil,
+			}
+			if entry.Type != nil {
+				if rd, err := r.LoadByGVR(entry.Type.GVR()); err != nil {
+					pe.Namespaced = rd.Spec.Resource.Scope == v1alpha1.NamespaceScoped
+					pe.Icons = rd.Spec.Icons
+				}
+			}
+			section.Entries = append(section.Entries, pe)
+		}
+		sections[group] = section
+	}
+
+	// now, auto discover sections from registry
+	r.Visit(func(_ string, rd *v1alpha1.ResourceDescriptor) {
+		if skipK8sGroups && (rd.Spec.Resource.Group == "" ||
+			strings.IndexRune(rd.Spec.Resource.Group, '.') == -1 ||
+			strings.HasSuffix(rd.Spec.Resource.Group, ".k8s.io")) {
+			return // skip k8s.io api groups
+		}
+
+		name := resourceclasses.ResourceClassName(rd.Spec.Resource.Group)
+
+		section, found := sections[rd.Spec.Resource.Group]
+		if found {
+			if !mutateRequiredSections {
+				return // this api group was manually configured with required entries
+			}
+		} else {
+			if rc, found := KnownClasses[rd.Spec.Resource.Group]; found {
+				section = &v1alpha1.PanelSection{
+					Name:              rc.Name,
+					ResourceClassInfo: rc.Spec.ResourceClassInfo,
+				}
+			} else {
+				// unknown api group, so use CRD icon
+				section = &v1alpha1.PanelSection{
+					Name: name,
+					ResourceClassInfo: v1alpha1.ResourceClassInfo{
+						APIGroup: rd.Spec.Resource.Group,
+						Icons: []v1alpha1.ImageSpec{
+							{
+								Source: "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+								Type:   "image/svg+xml",
+							},
+						},
+					},
+				}
+			}
+			sections[rd.Spec.Resource.Group] = section
+		}
+
+		if !section.Contains(rd) {
+			section.Entries = append(section.Entries, v1alpha1.PanelEntry{
+				Entry: v1alpha1.Entry{
+					Name: rd.Spec.Resource.Kind,
+					Type: &v1alpha1.GroupVersionResource{
+						Group:    rd.Spec.Resource.Group,
+						Version:  rd.Spec.Resource.Version,
+						Resource: rd.Spec.Resource.Name,
+					},
+				},
+				Namespaced: rd.Spec.Resource.Scope == v1alpha1.NamespaceScoped,
+				Icons:      rd.Spec.Icons,
+			})
+		}
+	})
+
+	out := &v1alpha1.ResourcePanel{
+		Sections: make([]v1alpha1.PanelSection, 0, len(sections)),
+	}
+	for key := range sections {
+		out.Sections = append(out.Sections, *sections[key])
+	}
+	return out, nil
 }
 
 type UnregisteredErr struct {

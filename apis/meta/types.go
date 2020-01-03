@@ -245,15 +245,24 @@ type ResourceClass struct {
 }
 
 type ResourceClassSpec struct {
-	Resources   []GroupVersionResource
+	ResourceClassInfo
+	Entries []Entry
+}
+
+type ResourceClassInfo struct {
 	APIGroup    string
 	Weight      int
-	Editable    bool
-	Visible     bool
-	Paths       []string
 	Icons       []ImageSpec
 	Maintainers []ContactData
 	Links       []Link
+}
+
+type Entry struct {
+	Name     string
+	Path     string
+	Type     *GroupVersionResource
+	Weight   int
+	Required bool
 }
 
 // +genclient:nonNamespaced
