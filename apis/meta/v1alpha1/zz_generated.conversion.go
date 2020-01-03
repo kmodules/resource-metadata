@@ -25,6 +25,8 @@ import (
 
 	meta "kmodules.xyz/resource-metadata/apis/meta"
 
+	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions"
+	v1beta1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	conversion "k8s.io/apimachinery/pkg/conversion"
 	runtime "k8s.io/apimachinery/pkg/runtime"
@@ -858,7 +860,17 @@ func Convert_meta_ResourceDescriptor_To_v1alpha1_ResourceDescriptor(in *meta.Res
 
 func autoConvert_v1alpha1_ResourceDescriptorList_To_meta_ResourceDescriptorList(in *ResourceDescriptorList, out *meta.ResourceDescriptorList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
-	out.Items = *(*[]meta.ResourceDescriptor)(unsafe.Pointer(&in.Items))
+	if in.Items != nil {
+		in, out := &in.Items, &out.Items
+		*out = make([]meta.ResourceDescriptor, len(*in))
+		for i := range *in {
+			if err := Convert_v1alpha1_ResourceDescriptor_To_meta_ResourceDescriptor(&(*in)[i], &(*out)[i], s); err != nil {
+				return err
+			}
+		}
+	} else {
+		out.Items = nil
+	}
 	return nil
 }
 
@@ -869,7 +881,17 @@ func Convert_v1alpha1_ResourceDescriptorList_To_meta_ResourceDescriptorList(in *
 
 func autoConvert_meta_ResourceDescriptorList_To_v1alpha1_ResourceDescriptorList(in *meta.ResourceDescriptorList, out *ResourceDescriptorList, s conversion.Scope) error {
 	out.ListMeta = in.ListMeta
-	out.Items = *(*[]ResourceDescriptor)(unsafe.Pointer(&in.Items))
+	if in.Items != nil {
+		in, out := &in.Items, &out.Items
+		*out = make([]ResourceDescriptor, len(*in))
+		for i := range *in {
+			if err := Convert_meta_ResourceDescriptor_To_v1alpha1_ResourceDescriptor(&(*in)[i], &(*out)[i], s); err != nil {
+				return err
+			}
+		}
+	} else {
+		out.Items = nil
+	}
 	return nil
 }
 
@@ -886,6 +908,16 @@ func autoConvert_v1alpha1_ResourceDescriptorSpec_To_meta_ResourceDescriptorSpec(
 	out.SubTables = *(*[]meta.ResourceSubTableDefinition)(unsafe.Pointer(&in.SubTables))
 	out.Connections = *(*[]meta.ResourceConnection)(unsafe.Pointer(&in.Connections))
 	out.KeyTargets = *(*[]v1.TypeMeta)(unsafe.Pointer(&in.KeyTargets))
+	if in.Validation != nil {
+		in, out := &in.Validation, &out.Validation
+		*out = new(apiextensions.CustomResourceValidation)
+		// TODO: Inefficient conversion - can we improve it?
+		if err := s.Convert(*in, *out, 0); err != nil {
+			return err
+		}
+	} else {
+		out.Validation = nil
+	}
 	out.Icons = *(*[]meta.ImageSpec)(unsafe.Pointer(&in.Icons))
 	out.Maintainers = *(*[]meta.ContactData)(unsafe.Pointer(&in.Maintainers))
 	out.Links = *(*[]meta.Link)(unsafe.Pointer(&in.Links))
@@ -905,6 +937,16 @@ func autoConvert_meta_ResourceDescriptorSpec_To_v1alpha1_ResourceDescriptorSpec(
 	out.SubTables = *(*[]ResourceSubTableDefinition)(unsafe.Pointer(&in.SubTables))
 	out.Connections = *(*[]ResourceConnection)(unsafe.Pointer(&in.Connections))
 	out.KeyTargets = *(*[]v1.TypeMeta)(unsafe.Pointer(&in.KeyTargets))
+	if in.Validation != nil {
+		in, out := &in.Validation, &out.Validation
+		*out = new(v1beta1.CustomResourceValidation)
+		// TODO: Inefficient conversion - can we improve it?
+		if err := s.Convert(*in, *out, 0); err != nil {
+			return err
+		}
+	} else {
+		out.Validation = nil
+	}
 	out.Icons = *(*[]ImageSpec)(unsafe.Pointer(&in.Icons))
 	out.Maintainers = *(*[]ContactData)(unsafe.Pointer(&in.Maintainers))
 	out.Links = *(*[]Link)(unsafe.Pointer(&in.Links))
