@@ -25,11 +25,11 @@ import (
 
 func TestRegistry_LoadDefaultResourceClass(t *testing.T) {
 	reg := NewRegistry("some-uid", NewKVLocal())
-	rcs, err := reg.LoadDefaultResourceClassList()
+	panel, err := reg.DefaultResourcePanel()
 	assert.NoError(t, err)
 
-	for _, rc := range rcs.Items {
-		for _, entry := range rc.Spec.Entries {
+	for _, rc := range panel.Sections {
+		for _, entry := range rc.Entries {
 			println(rc.Name)
 			fmt.Println(entry)
 		}

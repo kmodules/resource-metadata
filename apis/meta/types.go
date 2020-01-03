@@ -245,7 +245,11 @@ type ResourceClass struct {
 }
 
 type ResourceClassSpec struct {
-	Entries     []Entry
+	ResourceClassInfo
+	Entries []Entry
+}
+
+type ResourceClassInfo struct {
 	APIGroup    string
 	Weight      int
 	Icons       []ImageSpec
@@ -256,12 +260,9 @@ type ResourceClassSpec struct {
 type Entry struct {
 	Name     string
 	Path     string
-	Type     GroupVersionResource
+	Type     *GroupVersionResource
 	Weight   int
 	Required bool
-
-	Namespaced bool
-	Icons      []ImageSpec
 }
 
 // +genclient:nonNamespaced

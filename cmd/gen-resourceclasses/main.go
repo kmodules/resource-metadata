@@ -88,7 +88,9 @@ func createRegistry(kc kubernetes.Interface, dir string) error {
 					Name: name,
 				},
 				Spec: v1alpha1.ResourceClassSpec{
-					APIGroup: gv.Group,
+					ResourceClassInfo: v1alpha1.ResourceClassInfo{
+						APIGroup: gv.Group,
+					},
 				},
 			}
 			categories[name] = rd
@@ -97,7 +99,7 @@ func createRegistry(kc kubernetes.Interface, dir string) error {
 		for i := range rsList.APIResources {
 			rs := rsList.APIResources[i]
 			rd.Spec.Entries = append(rd.Spec.Entries, v1alpha1.Entry{
-				Type: v1alpha1.GroupVersionResource{
+				Type: &v1alpha1.GroupVersionResource{
 					Group:    gv.Group,
 					Version:  gv.Version,
 					Resource: rs.Name,

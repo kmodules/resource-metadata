@@ -6,21 +6,18 @@ spec:
   entries:
   - name: Policy
     required: false
-    namespaced: false
     type:
       group: policy
       resource: podsecuritypolicies
       version: v1beta1
   - name: Certificates
     required: false
-    namespaced: true
     type:
       group: voyager.appscode.com
       resource: certificates
       version: v1beta1
   - name: Service Accounts
     required: false
-    namespaced: true
     type:
       group: ""
       resource: serviceaccounts
