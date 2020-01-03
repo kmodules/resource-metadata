@@ -230,12 +230,12 @@ func (r *Registry) LoadByFile(filename string) (*v1alpha1.ResourceDescriptor, er
 	return obj, nil
 }
 
-func (r *Registry) CompleteResourcePanel() (*v1alpha1.ResourcePanel, error) {
-	return r.newPanel(false, true)
-}
-
 func (r *Registry) DefaultResourcePanel() (*v1alpha1.ResourcePanel, error) {
 	return r.newPanel(true, false)
+}
+
+func (r *Registry) AvailableResourcePanel() (*v1alpha1.ResourcePanel, error) {
+	return r.newPanel(false, true)
 }
 
 func (r *Registry) newPanel(skipK8sGroups, mutateRequiredSections bool) (*v1alpha1.ResourcePanel, error) {
@@ -271,7 +271,7 @@ func (r *Registry) newPanel(skipK8sGroups, mutateRequiredSections bool) (*v1alph
 	// now, auto discover sections from registry
 	r.Visit(func(_ string, rd *v1alpha1.ResourceDescriptor) {
 		if skipK8sGroups && (rd.Spec.Resource.Group == "" ||
-			strings.IndexRune(rd.Spec.Resource.Group, '.') == -1 ||
+			strings.ContainsRune(rd.Spec.Resource.Group, '.') ||
 			strings.HasSuffix(rd.Spec.Resource.Group, ".k8s.io")) {
 			return // skip k8s.io api groups
 		}
