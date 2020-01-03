@@ -270,9 +270,7 @@ func (r *Registry) newPanel(skipK8sGroups, mutateRequiredSections bool) (*v1alph
 
 	// now, auto discover sections from registry
 	r.Visit(func(_ string, rd *v1alpha1.ResourceDescriptor) {
-		if skipK8sGroups && (rd.Spec.Resource.Group == "" ||
-			strings.ContainsRune(rd.Spec.Resource.Group, '.') ||
-			strings.HasSuffix(rd.Spec.Resource.Group, ".k8s.io")) {
+		if skipK8sGroups && rd.Spec.Resource.IsOfficialType() {
 			return // skip k8s.io api groups
 		}
 

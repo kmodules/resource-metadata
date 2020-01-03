@@ -17,6 +17,8 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"strings"
+
 	"kmodules.xyz/resource-metadata/api/crds"
 
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1"
@@ -46,4 +48,10 @@ func (v ResourceDescriptor) CustomResourceDefinition() *apiextensions.CustomReso
 
 func (v ResourceDescriptor) IsValid() error {
 	return nil
+}
+
+func (r ResourceID) IsOfficialType() bool {
+	return r.Group == "" ||
+		strings.ContainsRune(r.Group, '.') ||
+		strings.HasSuffix(r.Group, ".k8s.io")
 }
