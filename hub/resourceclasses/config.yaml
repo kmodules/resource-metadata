@@ -6,14 +6,14 @@ spec:
   apiGroup: ""
   entries:
   - name: Config Maps
-    optional: false
+    required: true
     namespaced: true
     type:
       group: ""
       resource: configmaps
       version: v1
   - name: Secrets
-    optional: false
+    required: true
     namespaced: true
     type:
       group: ""

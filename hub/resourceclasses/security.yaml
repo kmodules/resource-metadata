@@ -5,21 +5,21 @@ metadata:
 spec:
   entries:
   - name: Policy
-    optional: true
+    required: false
     namespaced: false
     type:
       group: policy
       resource: podsecuritypolicies
       version: v1beta1
   - name: Certificates
-    optional: true
+    required: false
     namespaced: true
     type:
       group: voyager.appscode.com
       resource: certificates
       version: v1beta1
   - name: Service Accounts
-    optional: true
+    required: false
     namespaced: true
     type:
       group: ""

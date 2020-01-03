@@ -256,7 +256,7 @@ func (r *Registry) LoadDefaultResourceClassList() (v1alpha1.ResourceClassList, e
 				{
 					Name:     "Basic",
 					Path:     "",
-					Optional: false,
+					Required: true,
 				},
 				{
 					Name: "Machines",
@@ -266,7 +266,7 @@ func (r *Registry) LoadDefaultResourceClassList() (v1alpha1.ResourceClassList, e
 						Resource: "machines",
 					},
 					Namespaced: true,
-					Optional:   false,
+					Required:   true,
 				},
 				{
 					Name: "Machine Sets",
@@ -276,7 +276,7 @@ func (r *Registry) LoadDefaultResourceClassList() (v1alpha1.ResourceClassList, e
 						Resource: "machinesets",
 					},
 					Namespaced: true,
-					Optional:   false,
+					Required:   true,
 				},
 			},
 			Weight: 1,
@@ -297,7 +297,7 @@ func (r *Registry) LoadDefaultResourceClassList() (v1alpha1.ResourceClassList, e
 				{
 					Name:     "Releases",
 					Path:     "tiller/v2/releases",
-					Optional: false,
+					Required: true,
 				},
 			},
 			Weight: 6,
@@ -323,7 +323,7 @@ func (r *Registry) LoadDefaultResourceClassList() (v1alpha1.ResourceClassList, e
 						Resource: "prometheuses",
 					},
 					Namespaced: true,
-					Optional:   false,
+					Required:   true,
 				},
 				{
 					Name: "Service Monitors",
@@ -333,7 +333,7 @@ func (r *Registry) LoadDefaultResourceClassList() (v1alpha1.ResourceClassList, e
 						Resource: "servicemonitors",
 					},
 					Namespaced: true,
-					Optional:   false,
+					Required:   true,
 				},
 			},
 			Weight: 6,

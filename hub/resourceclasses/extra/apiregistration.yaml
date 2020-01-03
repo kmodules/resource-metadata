@@ -6,8 +6,7 @@ metadata:
 spec:
   apiGroup: apiregistration.k8s.io
   entries:
-  - optional: true
-    type:
+  - type:
       group: apiregistration.k8s.io
       resource: apiservices
       version: v1

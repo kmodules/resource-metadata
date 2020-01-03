@@ -6,8 +6,7 @@ metadata:
 spec:
   apiGroup: coordination.k8s.io
   entries:
-  - optional: true
-    type:
+  - type:
       group: coordination.k8s.io
       resource: leases
       version: v1

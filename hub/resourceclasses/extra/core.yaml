@@ -7,79 +7,64 @@ spec:
   apiGroup: ""
   editable: false
   entries:
-  - optional: true
-    type:
+  - type:
       group: ""
       resource: bindings
       version: v1
-  - optional: true
-    type:
+  - type:
       group: ""
       resource: componentstatuses
       version: v1
-  - optional: true
-    type:
+  - type:
       group: ""
       resource: configmaps
       version: v1
-  - optional: true
-    type:
+  - type:
       group: ""
       resource: endpoints
       version: v1
-  - optional: true
-    type:
+  - type:
       group: ""
       resource: events
       version: v1
-  - optional: true
-    type:
+  - type:
       group: ""
       resource: limitranges
       version: v1
-  - optional: true
-    type:
+  - type:
       group: ""
       resource: namespaces
       version: v1
-  - optional: true
-    type:
+  - type:
       group: ""
       resource: nodes
       version: v1
 
-  - optional: true
-    type:
+  - type:
       group: ""
       resource: pods
       version: v1
-  - optional: true
-    type:
+  - type:
       group: ""
       resource: podtemplates
       version: v1
-  - optional: true
-    type:
+  - type:
       group: ""
       resource: replicationcontrollers
       version: v1
-  - optional: true
-    type:
+  - type:
       group: ""
       resource: resourcequotas
       version: v1
-  - optional: true
-    type:
+  - type:
       group: ""
       resource: secrets
       version: v1
-  - optional: true
-    type:
+  - type:
       group: ""
       resource: serviceaccounts
       version: v1
-  - optional: true
-    type:
+  - type:
       group: ""
       resource: services
       version: v1

@@ -102,7 +102,7 @@ func createRegistry(kc kubernetes.Interface, dir string) error {
 					Version:  gv.Version,
 					Resource: rs.Name,
 				},
-				Optional: false,
+				Required: false,
 			})
 		}
 	}

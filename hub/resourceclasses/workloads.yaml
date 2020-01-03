@@ -5,56 +5,56 @@ metadata:
 spec:
   entries:
   - name: Deployments
-    optional: false
+    required: true
     namespaced: true
     type:
       group: apps
       resource: deployments
       version: v1
   - name: Replica Sets
-    optional: false
+    required: true
     namespaced: true
     type:
       group: apps
       resource: replicasets
       version: v1
   - name: Replication Controllers
-    optional: false
+    required: true
     namespaced: true
     type:
       group: ""
       resource: replicationcontrollers
       version: v1
   - name: Stateful Sets
-    optional: false
+    required: true
     namespaced: true
     type:
       group: apps
       resource: statefulsets
       version: v1
   - name: Daemon Sets
-    optional: false
+    required: true
     namespaced: true
     type:
       group: apps
       resource: daemonsets
       version: v1
   - name: Jobs
-    optional: false
+    required: true
     namespaced: true
     type:
       group: batch
       resource: jobs
       version: v1
   - name: Cron Jobs
-    optional: true
+    required: false
     namespaced: true
     type:
       group: batch
       resource: cronjobs
       version: v1beta1
   - name: Pods
-    optional: false
+    required: true
     namespaced: true
     type:
       group: ""

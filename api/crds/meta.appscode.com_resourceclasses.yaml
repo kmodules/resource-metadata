@@ -71,10 +71,10 @@ spec:
                     type: string
                   namespaced:
                     type: boolean
-                  optional:
-                    type: boolean
                   path:
                     type: string
+                  required:
+                    type: boolean
                   type:
                     description: GroupVersionResource unambiguously identifies a resource.  It
                       doesn't anonymously include GroupVersion to avoid automatic
@@ -96,7 +96,7 @@ spec:
                 required:
                 - name
                 - namespaced
-                - optional
+                - required
                 - type
                 - weight
                 type: object

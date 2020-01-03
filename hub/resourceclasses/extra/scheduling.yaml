@@ -7,8 +7,7 @@ spec:
   apiGroup: scheduling.k8s.io
   editable: false
   entries:
-  - optional: true
-    type:
+  - type:
       group: scheduling.k8s.io
       resource: priorityclasses
       version: v1

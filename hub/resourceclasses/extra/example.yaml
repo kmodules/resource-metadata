@@ -6,8 +6,7 @@ metadata:
 spec:
   apiGroup: example.com
   entries:
-  - optional: true
-    type:
+  - type:
       group: example.com
       resource: crontabs
       version: v1

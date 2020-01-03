@@ -249,12 +249,13 @@ type ResourceClassSpec struct {
 }
 
 type Entry struct {
-	Name       string
-	Path       string
-	Type       GroupVersionResource
+	Name     string
+	Path     string
+	Type     GroupVersionResource
+	Weight   int
+	Required bool
+
 	Namespaced bool
-	Weight     int
-	Optional   bool
 	Icons      []ImageSpec
 }
 

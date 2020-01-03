@@ -6,8 +6,7 @@ metadata:
 spec:
   apiGroup: autoscaling
   entries:
-  - optional: true
-    type:
+  - type:
       group: autoscaling
       resource: horizontalpodautoscalers
       version: v1

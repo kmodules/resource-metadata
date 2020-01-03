@@ -6,13 +6,11 @@ metadata:
 spec:
   apiGroup: admissionregistration.k8s.io
   entries:
-  - optional: true
-    type:
+  - type:
       group: admissionregistration.k8s.io
       resource: mutatingwebhookconfigurations
       version: v1
-  - optional: true
-    type:
+  - type:
       group: admissionregistration.k8s.io
       resource: validatingwebhookconfigurations
       version: v1
