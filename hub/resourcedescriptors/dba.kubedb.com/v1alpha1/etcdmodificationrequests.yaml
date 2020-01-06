@@ -1,0 +1,48 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: dba.kubedb.com
+    k8s.io/kind: EtcdModificationRequest
+    k8s.io/resource: etcdmodificationrequests
+    k8s.io/version: v1alpha1
+  name: dba.kubedb.com-v1alpha1-etcdmodificationrequests
+spec:
+  resource:
+    group: dba.kubedb.com
+    kind: EtcdModificationRequest
+    name: etcdmodificationrequests
+    scope: Namespaced
+    version: v1alpha1
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          type: string
+        kind:
+          type: string
+        metadata:
+          type: object
+        spec:
+          type: object
+        status:
+          properties:
+            conditions:
+              items:
+                properties:
+                  lastUpdateTime:
+                    format: date-time
+                    type: string
+                  message:
+                    type: string
+                  reason:
+                    type: string
+                  type:
+                    type: string
+                required:
+                - type
+                type: object
+              type: array
+          type: object
+      type: object

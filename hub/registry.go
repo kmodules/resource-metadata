@@ -25,9 +25,12 @@ import (
 	"kmodules.xyz/resource-metadata/hub/resourceclasses"
 	"kmodules.xyz/resource-metadata/hub/resourcedescriptors"
 
+	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1beta1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/discovery"
+	"k8s.io/client-go/kubernetes"
+	"k8s.io/client-go/rest"
 )
 
 type Registry struct {
@@ -58,7 +61,7 @@ func NewRegistryOfKnownResources() *Registry {
 	return NewRegistry(KnownUID, KnownResources)
 }
 
-func (r *Registry) Register(gvr schema.GroupVersionResource, dc discovery.ServerResourcesInterface) error {
+func (r *Registry) Register(gvr schema.GroupVersionResource, cfg *rest.Config) error {
 	r.m.RLock()
 	if _, found := r.regGVR[gvr]; found {
 		r.m.RUnlock()
@@ -66,7 +69,7 @@ func (r *Registry) Register(gvr schema.GroupVersionResource, dc discovery.Server
 	}
 	r.m.RUnlock()
 
-	reg, err := r.createRegistry(dc)
+	reg, err := r.createRegistry(cfg)
 	if err != nil {
 		return err
 	}
@@ -84,8 +87,18 @@ func (r *Registry) Register(gvr schema.GroupVersionResource, dc discovery.Server
 	return nil
 }
 
-func (r *Registry) createRegistry(dc discovery.ServerResourcesInterface) (map[string]*v1alpha1.ResourceDescriptor, error) {
-	rsLists, err := dc.ServerPreferredResources()
+func (r *Registry) createRegistry(cfg *rest.Config) (map[string]*v1alpha1.ResourceDescriptor, error) {
+	kc, err := kubernetes.NewForConfig(cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	apiext, err := crd_cs.NewForConfig(cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	rsLists, err := kc.Discovery().ServerPreferredResources()
 	if err != nil && !discovery.IsGroupDiscoveryFailedError(err) {
 		return nil, err
 	}
@@ -108,7 +121,7 @@ func (r *Registry) createRegistry(dc discovery.ServerResourcesInterface) (map[st
 			}
 
 			filename := fmt.Sprintf("%s/%s/%s.yaml", rs.Group, rs.Version, rs.Name)
-			reg[filename] = &v1alpha1.ResourceDescriptor{
+			rd := v1alpha1.ResourceDescriptor{
 				TypeMeta: metav1.TypeMeta{
 					APIVersion: v1alpha1.SchemeGroupVersion.String(),
 					Kind:       v1alpha1.ResourceKindResourceDescriptor,
@@ -132,6 +145,13 @@ func (r *Registry) createRegistry(dc discovery.ServerResourcesInterface) (map[st
 					},
 				},
 			}
+			if !rd.Spec.Resource.IsOfficialType() {
+				crd, err := apiext.CustomResourceDefinitions().Get(fmt.Sprintf("%s.%s", rd.Spec.Resource.Name, rd.Spec.Resource.Group), metav1.GetOptions{})
+				if err == nil {
+					rd.Spec.Validation = crd.Spec.Validation
+				}
+			}
+			reg[filename] = &rd
 		}
 	}
 

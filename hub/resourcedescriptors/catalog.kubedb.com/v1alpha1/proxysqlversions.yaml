@@ -18,3 +18,46 @@ spec:
   icons:
   - src: https://cdn.appscode.com/k8s/icons/catalog.kubedb.com/proxysqlversions.svg
     type: image/svg+xml
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          type: string
+        kind:
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            deprecated:
+              type: boolean
+            exporter:
+              properties:
+                image:
+                  type: string
+              required:
+              - image
+              type: object
+            podSecurityPolicies:
+              properties:
+                databasePolicyName:
+                  type: string
+              required:
+              - databasePolicyName
+              type: object
+            proxysql:
+              properties:
+                image:
+                  type: string
+              required:
+              - image
+              type: object
+            version:
+              type: string
+          required:
+          - exporter
+          - podSecurityPolicies
+          - proxysql
+          - version
+          type: object
+      type: object
