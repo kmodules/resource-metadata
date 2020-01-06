@@ -160,41 +160,53 @@ func WriteDesciptor(crd *apiextensions.CustomResourceDefinition, dir string) err
 	name := fmt.Sprintf("%s-%s-%s", crd.Spec.Group, version, plural)
 	baseDir := filepath.Join(dir, crd.Spec.Group, version)
 
-	rd := v1alpha1.ResourceDescriptor{
-		TypeMeta: metav1.TypeMeta{
-			APIVersion: v1alpha1.SchemeGroupVersion.String(),
-			Kind:       v1alpha1.ResourceKindResourceDescriptor,
-		},
-		ObjectMeta: metav1.ObjectMeta{
-			Name: name,
-			Labels: map[string]string{
-				"k8s.io/group":    crd.Spec.Group,
-				"k8s.io/version":  version,
-				"k8s.io/resource": plural,
-				"k8s.io/kind":     kind,
-			},
-		},
-		Spec: v1alpha1.ResourceDescriptorSpec{
-			Resource: v1alpha1.ResourceID{
-				Group:   crd.Spec.Group,
-				Version: version,
-				Name:    plural,
-				Kind:    kind,
-				Scope:   v1alpha1.ResourceScope(string(crd.Spec.Scope)),
-			},
-		},
+	err := os.MkdirAll(baseDir, 0755)
+	if err != nil {
+		return err
 	}
+
+	filename := filepath.Join(baseDir, plural+".yaml")
+
+	var rd v1alpha1.ResourceDescriptor
+	if existing, err := ioutil.ReadFile(filename); os.IsNotExist(err) {
+		rd = v1alpha1.ResourceDescriptor{
+			TypeMeta: metav1.TypeMeta{
+				APIVersion: v1alpha1.SchemeGroupVersion.String(),
+				Kind:       v1alpha1.ResourceKindResourceDescriptor,
+			},
+			ObjectMeta: metav1.ObjectMeta{
+				Name: name,
+				Labels: map[string]string{
+					"k8s.io/group":    crd.Spec.Group,
+					"k8s.io/version":  version,
+					"k8s.io/resource": plural,
+					"k8s.io/kind":     kind,
+				},
+			},
+			Spec: v1alpha1.ResourceDescriptorSpec{
+				Resource: v1alpha1.ResourceID{
+					Group:   crd.Spec.Group,
+					Version: version,
+					Name:    plural,
+					Kind:    kind,
+					Scope:   v1alpha1.ResourceScope(string(crd.Spec.Scope)),
+				},
+				Validation: crd.Spec.Validation,
+			},
+		}
+	} else {
+		err = yaml.Unmarshal(existing, &rd)
+		if err == nil {
+			rd.Spec.Validation = crd.Spec.Validation
+		}
+	}
+
 	data, err := yaml.Marshal(rd)
 	if err != nil {
 		return err
 	}
 
-	err = os.MkdirAll(baseDir, 0755)
-	if err != nil {
-		return err
-	}
-
-	err = ioutil.WriteFile(filepath.Join(baseDir, plural+".yaml"), data, 0644)
+	err = ioutil.WriteFile(filename, data, 0644)
 	if err != nil {
 		return err
 	}
