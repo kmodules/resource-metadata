@@ -83,22 +83,3 @@ type ResourceClassList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ResourceClass `json:"items,omitempty"`
 }
-
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-
-type ResourcePanel struct {
-	metav1.TypeMeta `json:",inline"`
-	Sections        []PanelSection `json:"sections,omitempty"`
-}
-
-type PanelSection struct {
-	Name              string `json:"name,omitempty"`
-	ResourceClassInfo `json:",inline"`
-	Entries           []PanelEntry `json:"entries"`
-}
-
-type PanelEntry struct {
-	Entry      `json:",inline"`
-	Namespaced bool        `json:"namespaced"`
-	Icons      []ImageSpec `json:"icons,omitempty"`
-}

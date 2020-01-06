@@ -16,11 +16,25 @@ limitations under the License.
 
 package v1alpha1
 
-func (s ResourceClass) IsRequired() bool {
-	for _, entry := range s.Spec.Entries {
-		if entry.Required {
-			return true
-		}
-	}
-	return false
+import (
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+)
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+type ResourcePanel struct {
+	metav1.TypeMeta `json:",inline"`
+	Sections        []PanelSection `json:"sections,omitempty"`
+}
+
+type PanelSection struct {
+	Name              string `json:"name,omitempty"`
+	ResourceClassInfo `json:",inline"`
+	Entries           []PanelEntry `json:"entries"`
+}
+
+type PanelEntry struct {
+	Entry      `json:",inline"`
+	Namespaced bool        `json:"namespaced"`
+	Icons      []ImageSpec `json:"icons,omitempty"`
 }
