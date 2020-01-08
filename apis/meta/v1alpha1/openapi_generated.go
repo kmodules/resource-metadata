@@ -13536,24 +13536,30 @@ func schema_resource_metadata_apis_meta_v1alpha1_Entry(ref common.ReferenceCallb
 							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource"),
 						},
 					},
-					"weight": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"integer"},
-							Format: "int32",
-						},
-					},
 					"required": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"boolean"},
 							Format: "",
 						},
 					},
+					"icons": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ImageSpec"),
+									},
+								},
+							},
+						},
+					},
 				},
-				Required: []string{"name", "weight"},
+				Required: []string{"name"},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ImageSpec"},
 	}
 }
 
@@ -13766,19 +13772,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_PanelEntry(ref common.Reference
 							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource"),
 						},
 					},
-					"weight": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"integer"},
-							Format: "int32",
-						},
-					},
 					"required": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"boolean"},
-							Format: "",
-						},
-					},
-					"namespaced": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"boolean"},
 							Format: "",
@@ -13796,8 +13790,14 @@ func schema_resource_metadata_apis_meta_v1alpha1_PanelEntry(ref common.Reference
 							},
 						},
 					},
+					"namespaced": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"boolean"},
+							Format: "",
+						},
+					},
 				},
-				Required: []string{"name", "weight", "namespaced"},
+				Required: []string{"name", "namespaced"},
 			},
 		},
 		Dependencies: []string{
@@ -13821,12 +13821,6 @@ func schema_resource_metadata_apis_meta_v1alpha1_PanelSection(ref common.Referen
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
 							Format: "",
-						},
-					},
-					"weight": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"integer"},
-							Format: "int32",
 						},
 					},
 					"icons": {
@@ -13881,7 +13875,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_PanelSection(ref common.Referen
 						},
 					},
 				},
-				Required: []string{"weight", "entries"},
+				Required: []string{"entries"},
 			},
 		},
 		Dependencies: []string{
@@ -14073,12 +14067,6 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceClassInfo(ref common.Re
 							Format: "",
 						},
 					},
-					"weight": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"integer"},
-							Format: "int32",
-						},
-					},
 					"icons": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Icons is an optional list of icons for an application. Icon information includes the source, size, and mime type.",
@@ -14119,7 +14107,6 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceClassInfo(ref common.Re
 						},
 					},
 				},
-				Required: []string{"weight"},
 			},
 		},
 		Dependencies: []string{
@@ -14184,12 +14171,6 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceClassSpec(ref common.Re
 							Format: "",
 						},
 					},
-					"weight": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"integer"},
-							Format: "int32",
-						},
-					},
 					"icons": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Icons is an optional list of icons for an application. Icon information includes the source, size, and mime type.",
@@ -14227,6 +14208,12 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceClassSpec(ref common.Re
 									},
 								},
 							},
+						},
+					},
+					"weight": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"integer"},
+							Format: "int32",
 						},
 					},
 					"entries": {

@@ -3,6 +3,10 @@ kind: ResourceClass
 metadata:
   name: Workloads
 spec:
+  weight: 2
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/workloads.svg
+    type: image/svg+xml
   entries:
   - name: Deployments
     required: true
@@ -52,7 +56,3 @@ spec:
       group: ""
       resource: pods
       version: v1
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/workloads.svg
-    type: image/svg+xml
-  weight: 1

@@ -45,6 +45,28 @@ spec:
             entries:
               items:
                 properties:
+                  icons:
+                    items:
+                      description: ImageSpec contains information about an image used
+                        as an icon.
+                      properties:
+                        size:
+                          description: (optional) The size of the image in pixels
+                            (e.g., 25x25).
+                          type: string
+                        src:
+                          description: The source for image represented as either
+                            an absolute URL to the image or a Data URL containing
+                            the image. Data URLs are defined in RFC 2397.
+                          type: string
+                        type:
+                          description: (optional) The mine type of the image (e.g.,
+                            "image/png").
+                          type: string
+                      required:
+                      - src
+                      type: object
+                    type: array
                   name:
                     type: string
                   path:
@@ -67,11 +89,8 @@ spec:
                     - resource
                     - version
                     type: object
-                  weight:
-                    type: integer
                 required:
                 - name
-                - weight
                 type: object
               type: array
             icons:

@@ -24,17 +24,17 @@ import (
 
 type ResourcePanel struct {
 	metav1.TypeMeta `json:",inline"`
-	Sections        []PanelSection `json:"sections,omitempty"`
+	Sections        []*PanelSection `json:"sections,omitempty"`
 }
 
 type PanelSection struct {
 	Name              string `json:"name,omitempty"`
 	ResourceClassInfo `json:",inline"`
+	Weight            int          `json:"-"`
 	Entries           []PanelEntry `json:"entries"`
 }
 
 type PanelEntry struct {
 	Entry      `json:",inline"`
-	Namespaced bool        `json:"namespaced"`
-	Icons      []ImageSpec `json:"icons,omitempty"`
+	Namespaced bool `json:"namespaced"`
 }
