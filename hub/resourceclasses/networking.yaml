@@ -3,7 +3,10 @@ kind: ResourceClass
 metadata:
   name: "Service & Discovery"
 spec:
-  apiGroup: networking.k8s.io
+  weight: 5
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/networking.svg
+    type: image/svg+xml
   entries:
   - name: Services
     required: true

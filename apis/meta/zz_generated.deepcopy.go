@@ -69,6 +69,11 @@ func (in *Entry) DeepCopyInto(out *Entry) {
 		*out = new(GroupVersionResource)
 		**out = **in
 	}
+	if in.Icons != nil {
+		in, out := &in.Icons, &out.Icons
+		*out = make([]ImageSpec, len(*in))
+		copy(*out, *in)
+	}
 	return
 }
 

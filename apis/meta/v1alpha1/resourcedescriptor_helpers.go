@@ -52,6 +52,6 @@ func (v ResourceDescriptor) IsValid() error {
 
 func (r ResourceID) IsOfficialType() bool {
 	return r.Group == "" ||
-		strings.ContainsRune(r.Group, '.') ||
+		!strings.ContainsRune(r.Group, '.') ||
 		strings.HasSuffix(r.Group, ".k8s.io")
 }

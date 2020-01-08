@@ -400,8 +400,8 @@ func autoConvert_v1alpha1_Entry_To_meta_Entry(in *Entry, out *meta.Entry, s conv
 	out.Name = in.Name
 	out.Path = in.Path
 	out.Type = (*meta.GroupVersionResource)(unsafe.Pointer(in.Type))
-	out.Weight = in.Weight
 	out.Required = in.Required
+	out.Icons = *(*[]meta.ImageSpec)(unsafe.Pointer(&in.Icons))
 	return nil
 }
 
@@ -414,8 +414,8 @@ func autoConvert_meta_Entry_To_v1alpha1_Entry(in *meta.Entry, out *Entry, s conv
 	out.Name = in.Name
 	out.Path = in.Path
 	out.Type = (*GroupVersionResource)(unsafe.Pointer(in.Type))
-	out.Weight = in.Weight
 	out.Required = in.Required
+	out.Icons = *(*[]ImageSpec)(unsafe.Pointer(&in.Icons))
 	return nil
 }
 
@@ -696,7 +696,6 @@ func Convert_meta_ResourceClass_To_v1alpha1_ResourceClass(in *meta.ResourceClass
 
 func autoConvert_v1alpha1_ResourceClassInfo_To_meta_ResourceClassInfo(in *ResourceClassInfo, out *meta.ResourceClassInfo, s conversion.Scope) error {
 	out.APIGroup = in.APIGroup
-	out.Weight = in.Weight
 	out.Icons = *(*[]meta.ImageSpec)(unsafe.Pointer(&in.Icons))
 	out.Maintainers = *(*[]meta.ContactData)(unsafe.Pointer(&in.Maintainers))
 	out.Links = *(*[]meta.Link)(unsafe.Pointer(&in.Links))
@@ -710,7 +709,6 @@ func Convert_v1alpha1_ResourceClassInfo_To_meta_ResourceClassInfo(in *ResourceCl
 
 func autoConvert_meta_ResourceClassInfo_To_v1alpha1_ResourceClassInfo(in *meta.ResourceClassInfo, out *ResourceClassInfo, s conversion.Scope) error {
 	out.APIGroup = in.APIGroup
-	out.Weight = in.Weight
 	out.Icons = *(*[]ImageSpec)(unsafe.Pointer(&in.Icons))
 	out.Maintainers = *(*[]ContactData)(unsafe.Pointer(&in.Maintainers))
 	out.Links = *(*[]Link)(unsafe.Pointer(&in.Links))
@@ -748,6 +746,7 @@ func autoConvert_v1alpha1_ResourceClassSpec_To_meta_ResourceClassSpec(in *Resour
 	if err := Convert_v1alpha1_ResourceClassInfo_To_meta_ResourceClassInfo(&in.ResourceClassInfo, &out.ResourceClassInfo, s); err != nil {
 		return err
 	}
+	out.Weight = in.Weight
 	out.Entries = *(*[]meta.Entry)(unsafe.Pointer(&in.Entries))
 	return nil
 }
@@ -761,6 +760,7 @@ func autoConvert_meta_ResourceClassSpec_To_v1alpha1_ResourceClassSpec(in *meta.R
 	if err := Convert_meta_ResourceClassInfo_To_v1alpha1_ResourceClassInfo(&in.ResourceClassInfo, &out.ResourceClassInfo, s); err != nil {
 		return err
 	}
+	out.Weight = in.Weight
 	out.Entries = *(*[]Entry)(unsafe.Pointer(&in.Entries))
 	return nil
 }

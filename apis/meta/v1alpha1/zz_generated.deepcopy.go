@@ -69,6 +69,11 @@ func (in *Entry) DeepCopyInto(out *Entry) {
 		*out = new(GroupVersionResource)
 		**out = **in
 	}
+	if in.Icons != nil {
+		in, out := &in.Icons, &out.Icons
+		*out = make([]ImageSpec, len(*in))
+		copy(*out, *in)
+	}
 	return
 }
 
@@ -210,11 +215,6 @@ func (in *Link) DeepCopy() *Link {
 func (in *PanelEntry) DeepCopyInto(out *PanelEntry) {
 	*out = *in
 	in.Entry.DeepCopyInto(&out.Entry)
-	if in.Icons != nil {
-		in, out := &in.Icons, &out.Icons
-		*out = make([]ImageSpec, len(*in))
-		copy(*out, *in)
-	}
 	return
 }
 
@@ -675,9 +675,13 @@ func (in *ResourcePanel) DeepCopyInto(out *ResourcePanel) {
 	out.TypeMeta = in.TypeMeta
 	if in.Sections != nil {
 		in, out := &in.Sections, &out.Sections
-		*out = make([]PanelSection, len(*in))
+		*out = make([]*PanelSection, len(*in))
 		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(PanelSection)
+				(*in).DeepCopyInto(*out)
+			}
 		}
 	}
 	return

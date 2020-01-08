@@ -8,7 +8,6 @@ import (
 
 	"kmodules.xyz/resource-metadata/hub"
 
-	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/util/homedir"
 )
@@ -22,19 +21,13 @@ func main() {
 		log.Fatalf("Could not get Kubernetes config: %s", err)
 	}
 
-	kc, err := kubernetes.NewForConfig(config)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	info, err := kc.Discovery().ServerVersion()
-	if err != nil {
-		log.Fatalln(err)
-	}
-	fmt.Printf("%+v", info)
-
 	reg := hub.NewRegistryOfKnownResources()
-	panel, err := reg.DefaultResourcePanel()
+	err = reg.DiscoverResources(config)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	panel, err := reg.DefaultResourcePanel(config)
 	if err != nil {
 		log.Fatalln(err)
 	}

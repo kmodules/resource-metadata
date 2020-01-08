@@ -4,6 +4,10 @@ metadata:
   name: Config
 spec:
   apiGroup: ""
+  weight: 6
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/config.svg
+    type: image/svg+xml
   entries:
   - name: Config Maps
     required: true
@@ -17,7 +21,3 @@ spec:
       group: ""
       resource: secrets
       version: v1
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/workloads.svg
-    type: image/svg+xml
-  weight: 1

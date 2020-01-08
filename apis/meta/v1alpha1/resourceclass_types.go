@@ -46,12 +46,12 @@ type ResourceClass struct {
 
 type ResourceClassSpec struct {
 	ResourceClassInfo `json:",inline"`
+	Weight            int     `json:"weight"`
 	Entries           []Entry `json:"entries"`
 }
 
 type ResourceClassInfo struct {
 	APIGroup string `json:"apiGroup,omitempty"`
-	Weight   int    `json:"weight"`
 
 	// Icons is an optional list of icons for an application. Icon information includes the source, size,
 	// and mime type.
@@ -68,11 +68,12 @@ type ResourceClassInfo struct {
 type Entry struct {
 	Name string `json:"name"`
 	// +optional
-	Path   string                `json:"path,omitempty"`
-	Type   *GroupVersionResource `json:"type,omitempty"`
-	Weight int                   `json:"weight"`
+	Path string                `json:"path,omitempty"`
+	Type *GroupVersionResource `json:"type,omitempty"`
 	// +optional
 	Required bool `json:"required,omitempty"`
+	// +optional
+	Icons []ImageSpec `json:"icons,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
