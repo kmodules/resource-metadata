@@ -278,7 +278,7 @@ func (r *Registry) newPanel(skipK8sGroups, mutateRequiredSections bool) (*v1alph
 				Icons:      nil,
 			}
 			if entry.Type != nil {
-				if rd, err := r.LoadByGVR(entry.Type.GVR()); err != nil {
+				if rd, err := r.LoadByGVR(entry.Type.GVR()); err == nil {
 					pe.Namespaced = rd.Spec.Resource.Scope == v1alpha1.NamespaceScoped
 					pe.Icons = rd.Spec.Icons
 				}
