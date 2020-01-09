@@ -417,12 +417,6 @@ func (r *Registry) DefaultResourcePanel(cfg *rest.Config) (*v1alpha1.ResourcePan
 					Name: name,
 					ResourceClassInfo: v1alpha1.ResourceClassInfo{
 						APIGroup: group,
-						Icons: []v1alpha1.ImageSpec{
-							{
-								Source: "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
-								Type:   "image/svg+xml",
-							},
-						},
 					},
 					Weight: math.MaxInt16,
 				}
@@ -437,12 +431,6 @@ func (r *Registry) DefaultResourcePanel(cfg *rest.Config) (*v1alpha1.ResourcePan
 					Group:    group,
 					Version:  version,
 					Resource: crd.Spec.Names.Plural,
-				},
-				Icons: []v1alpha1.ImageSpec{
-					{
-						Source: "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
-						Type:   "image/svg+xml",
-					},
 				},
 			},
 			Namespaced: crd.Spec.Scope == crdv1beta1.NamespaceScoped,
@@ -462,6 +450,29 @@ func toPanel(in map[string]*v1alpha1.PanelSection) (*v1alpha1.ResourcePanel, err
 				return section.Entries[i].Name < section.Entries[j].Name
 			})
 		}
+
+		// Set icon for sections missing icon
+		if len(section.Icons) == 0 {
+			// TODO: Use a different icon for section
+			section.Icons = []v1alpha1.ImageSpec{
+				{
+					Source: "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+					Type:   "image/svg+xml",
+				},
+			}
+		}
+		// set icons for entries missing icon
+		for _, entry := range section.Entries {
+			if len(entry.Icons) == 0 {
+				entry.Icons = []v1alpha1.ImageSpec{
+					{
+						Source: "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+						Type:   "image/svg+xml",
+					},
+				}
+			}
+		}
+
 		sections = append(sections, section)
 	}
 
