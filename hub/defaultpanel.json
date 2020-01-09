@@ -29,6 +29,12 @@
             "resource": "machines"
           },
           "required": true,
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/cluster.k8s.io/machine.svg",
+              "type": "image/svg+xml"
+            }
+          ],
           "namespaced": true
         },
         {
@@ -39,6 +45,12 @@
             "resource": "machinesets"
           },
           "required": true,
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/cluster.k8s.io/machinesset.svg",
+              "type": "image/svg+xml"
+            }
+          ],
           "namespaced": true
         }
       ]
