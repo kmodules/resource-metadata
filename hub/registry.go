@@ -462,9 +462,9 @@ func toPanel(in map[string]*v1alpha1.PanelSection) (*v1alpha1.ResourcePanel, err
 			}
 		}
 		// set icons for entries missing icon
-		for _, entry := range section.Entries {
-			if len(entry.Icons) == 0 {
-				entry.Icons = []v1alpha1.ImageSpec{
+		for i := range section.Entries {
+			if len(section.Entries[i].Icons) == 0 {
+				section.Entries[i].Icons = []v1alpha1.ImageSpec{
 					{
 						Source: "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
 						Type:   "image/svg+xml",
