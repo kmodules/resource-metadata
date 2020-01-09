@@ -389,6 +389,14 @@ func (r *Registry) DefaultResourcePanel(cfg *rest.Config) (*v1alpha1.ResourcePan
 				break
 			}
 		}
+		gvr := schema.GroupVersionResource{
+			Group:    group,
+			Version:  version,
+			Resource: crd.Spec.Names.Plural,
+		}
+		if _, found := existingGVRs[gvr]; found {
+			continue
+		}
 
 		section, found := sections[group]
 		if !found {
@@ -422,31 +430,24 @@ func (r *Registry) DefaultResourcePanel(cfg *rest.Config) (*v1alpha1.ResourcePan
 			sections[group] = section
 		}
 
-		gvr := schema.GroupVersionResource{
-			Group:    group,
-			Version:  version,
-			Resource: crd.Spec.Names.Plural,
-		}
-		if _, found = existingGVRs[gvr]; !found {
-			section.Entries = append(section.Entries, v1alpha1.PanelEntry{
-				Entry: v1alpha1.Entry{
-					Name: crd.Spec.Names.Kind,
-					Type: &v1alpha1.GroupVersionResource{
-						Group:    group,
-						Version:  version,
-						Resource: crd.Spec.Names.Plural,
-					},
-					Icons: []v1alpha1.ImageSpec{
-						{
-							Source: "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
-							Type:   "image/svg+xml",
-						},
+		section.Entries = append(section.Entries, v1alpha1.PanelEntry{
+			Entry: v1alpha1.Entry{
+				Name: crd.Spec.Names.Kind,
+				Type: &v1alpha1.GroupVersionResource{
+					Group:    group,
+					Version:  version,
+					Resource: crd.Spec.Names.Plural,
+				},
+				Icons: []v1alpha1.ImageSpec{
+					{
+						Source: "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+						Type:   "image/svg+xml",
 					},
 				},
-				Namespaced: crd.Spec.Scope == crdv1beta1.NamespaceScoped,
-			})
-			existingGVRs[gvr] = true
-		}
+			},
+			Namespaced: crd.Spec.Scope == crdv1beta1.NamespaceScoped,
+		})
+		existingGVRs[gvr] = true
 	}
 
 	return toPanel(sections)
