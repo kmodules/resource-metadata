@@ -1,0 +1,17 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: authentication.k8s.io
+    k8s.io/kind: TokenReview
+    k8s.io/resource: tokenreviews
+    k8s.io/version: v1beta1
+  name: authentication.k8s.io-v1beta1-tokenreviews
+spec:
+  resource:
+    group: authentication.k8s.io
+    kind: TokenReview
+    name: tokenreviews
+    scope: Cluster
+    version: v1beta1

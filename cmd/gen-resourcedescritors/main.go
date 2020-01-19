@@ -22,6 +22,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
@@ -58,7 +59,7 @@ func main() {
 }
 
 func createRegistry(kc kubernetes.Interface, dir string) error {
-	rsLists, err := kc.Discovery().ServerPreferredResources()
+	_, rsLists, err := kc.Discovery().ServerGroupsAndResources()
 	if err != nil && !discovery.IsGroupDiscoveryFailedError(err) {
 		return err
 	}
@@ -67,6 +68,10 @@ func createRegistry(kc kubernetes.Interface, dir string) error {
 		fmt.Println(rsList.GroupVersion)
 		for i := range rsList.APIResources {
 			rs := rsList.APIResources[i]
+			if strings.ContainsRune(rs.Name, '/') {
+				continue
+			}
+			fmt.Println(rs.Name)
 
 			gv, err := schema.ParseGroupVersion(rsList.GroupVersion)
 			if err != nil {
