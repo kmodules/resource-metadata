@@ -1,0 +1,17 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: authorization.k8s.io
+    k8s.io/kind: LocalSubjectAccessReview
+    k8s.io/resource: localsubjectaccessreviews
+    k8s.io/version: v1beta1
+  name: authorization.k8s.io-v1beta1-localsubjectaccessreviews
+spec:
+  resource:
+    group: authorization.k8s.io
+    kind: LocalSubjectAccessReview
+    name: localsubjectaccessreviews
+    scope: Namespaced
+    version: v1beta1
