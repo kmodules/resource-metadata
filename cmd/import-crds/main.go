@@ -45,6 +45,9 @@ go run cmd/import-crds/main.go --input=/home/tamal/go/src/stash.appscode.dev/sta
 go run cmd/import-crds/main.go --input=/home/tamal/go/src/kmodules.xyz/custom-resources/api/crds
 go run cmd/import-crds/main.go --input=/home/tamal/go/src/kubedb.dev/apimachinery/api/crds
 go run cmd/import-crds/main.go --input=/home/tamal/go/src/kubevault.dev/operator/api/crds
+go run cmd/import-crds/main.go --input=/home/tamal/go/src/stash.appscode.dev/installer/api/crds
+go run cmd/import-crds/main.go --input=/home/tamal/go/src/kubedb.dev/installer/api/crds
+go run cmd/import-crds/main.go --input=/home/tamal/go/src/kubevault.dev/installer/api/crds
 */
 func main() {
 	var input []string

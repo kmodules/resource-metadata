@@ -29,6 +29,11 @@ spec:
             submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
           type: string
         metadata:
+          properties:
+            name:
+              maxLength: 63
+              pattern: ^[a-z]([-a-z0-9]*[a-z0-9])?$
+              type: string
           type: object
         spec:
           description: KubeVaultOperatorSpec is the spec for redis version
@@ -676,6 +681,10 @@ spec:
               type: boolean
             imagePullPolicy:
               type: string
+            imagePullSecrets:
+              items:
+                type: string
+              type: array
             logLevel:
               format: int32
               type: integer
@@ -689,8 +698,6 @@ spec:
                   properties:
                     namespace:
                       type: string
-                  required:
-                  - namespace
                   type: object
                 serviceMonitor:
                   properties:
@@ -698,12 +705,9 @@ spec:
                       additionalProperties:
                         type: string
                       type: object
-                  required:
-                  - labels
                   type: object
               required:
               - agent
-              - operator
               - prometheus
               - serviceMonitor
               type: object
@@ -753,7 +757,6 @@ spec:
                   type: string
               required:
               - create
-              - name
               type: object
             tolerations:
               description: If specified, the pod's tolerations.
@@ -798,9 +801,7 @@ spec:
           required:
           - apiserver
           - cleaner
-          - enableAnalytics
           - imagePullPolicy
-          - logLevel
           - monitoring
           - operator
           - replicaCount
