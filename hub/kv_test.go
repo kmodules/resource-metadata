@@ -38,8 +38,6 @@ func TestRegister(t *testing.T) {
 	}
 	config, err := clientcmd.BuildConfigFromFlags("", kubecfg)
 	assert.NoError(t, err)
-	var dc discovery.DiscoveryInterface
-	dc, err = discovery.NewDiscoveryClientForConfig(config)
 	fmt.Println("config.Host: ", config.Host)
 	assert.NoError(t, err)
 	gvr := schema.GroupVersionResource{
@@ -48,7 +46,7 @@ func TestRegister(t *testing.T) {
 		Resource: "prometheuses",
 	}
 	reg := NewRegistry(config.Host, NewKVLocal())
-	assert.NoError(t, reg.Register(gvr, dc))
+	assert.NoError(t, reg.Register(gvr, config))
 	rd1, err := resourcedescriptors.LoadByGVR(gvr)
 	assert.NoError(t, err)
 	rd2, err := resourcedescriptors.LoadByFile("monitoring.coreos.com/v1/prometheuses.yaml")

@@ -1,0 +1,1023 @@
+{
+  "sections": [
+    {
+      "name": "Admissionregistration",
+      "apiGroup": "admissionregistration.k8s.io",
+      "icons": [
+        {
+          "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+          "type": "image/svg+xml"
+        }
+      ],
+      "entries": [
+        {
+          "name": "MutatingWebhookConfiguration",
+          "type": {
+            "group": "admissionregistration.k8s.io",
+            "version": "v1",
+            "resource": "mutatingwebhookconfigurations"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        },
+        {
+          "name": "ValidatingWebhookConfiguration",
+          "type": {
+            "group": "admissionregistration.k8s.io",
+            "version": "v1",
+            "resource": "validatingwebhookconfigurations"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        }
+      ]
+    },
+    {
+      "name": "Apiextension",
+      "apiGroup": "apiextensions.k8s.io",
+      "icons": [
+        {
+          "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+          "type": "image/svg+xml"
+        }
+      ],
+      "entries": [
+        {
+          "name": "CustomResourceDefinition",
+          "type": {
+            "group": "apiextensions.k8s.io",
+            "version": "v1",
+            "resource": "customresourcedefinitions"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        }
+      ]
+    },
+    {
+      "name": "Apiregistration",
+      "apiGroup": "apiregistration.k8s.io",
+      "icons": [
+        {
+          "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+          "type": "image/svg+xml"
+        }
+      ],
+      "entries": [
+        {
+          "name": "APIService",
+          "type": {
+            "group": "apiregistration.k8s.io",
+            "version": "v1",
+            "resource": "apiservices"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        }
+      ]
+    },
+    {
+      "name": "App",
+      "apiGroup": "apps",
+      "icons": [
+        {
+          "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+          "type": "image/svg+xml"
+        }
+      ],
+      "entries": [
+        {
+          "name": "ControllerRevision",
+          "type": {
+            "group": "apps",
+            "version": "v1",
+            "resource": "controllerrevisions"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        },
+        {
+          "name": "DaemonSet",
+          "type": {
+            "group": "apps",
+            "version": "v1",
+            "resource": "daemonsets"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apps/ds.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        },
+        {
+          "name": "Deployment",
+          "type": {
+            "group": "apps",
+            "version": "v1",
+            "resource": "deployments"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apps/deploy.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        },
+        {
+          "name": "ReplicaSet",
+          "type": {
+            "group": "apps",
+            "version": "v1",
+            "resource": "replicasets"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apps/rs.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        },
+        {
+          "name": "StatefulSet",
+          "type": {
+            "group": "apps",
+            "version": "v1",
+            "resource": "statefulsets"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apps/sts.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "apiGroup": "authentication.k8s.io",
+      "icons": [
+        {
+          "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+          "type": "image/svg+xml"
+        }
+      ],
+      "entries": [
+        {
+          "name": "TokenReview",
+          "type": {
+            "group": "authentication.k8s.io",
+            "version": "v1",
+            "resource": "tokenreviews"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        }
+      ]
+    },
+    {
+      "name": "Authorization",
+      "apiGroup": "authorization.k8s.io",
+      "icons": [
+        {
+          "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+          "type": "image/svg+xml"
+        }
+      ],
+      "entries": [
+        {
+          "name": "LocalSubjectAccessReview",
+          "type": {
+            "group": "authorization.k8s.io",
+            "version": "v1",
+            "resource": "localsubjectaccessreviews"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        },
+        {
+          "name": "SelfSubjectAccessReview",
+          "type": {
+            "group": "authorization.k8s.io",
+            "version": "v1",
+            "resource": "selfsubjectaccessreviews"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        },
+        {
+          "name": "SelfSubjectRulesReview",
+          "type": {
+            "group": "authorization.k8s.io",
+            "version": "v1",
+            "resource": "selfsubjectrulesreviews"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        },
+        {
+          "name": "SubjectAccessReview",
+          "type": {
+            "group": "authorization.k8s.io",
+            "version": "v1",
+            "resource": "subjectaccessreviews"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        }
+      ]
+    },
+    {
+      "name": "Authorization Rbac",
+      "apiGroup": "rbac.authorization.k8s.io",
+      "icons": [
+        {
+          "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+          "type": "image/svg+xml"
+        }
+      ],
+      "entries": [
+        {
+          "name": "ClusterRole",
+          "type": {
+            "group": "rbac.authorization.k8s.io",
+            "version": "v1",
+            "resource": "clusterroles"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/rbac.authorization.k8s.io/c-role.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        },
+        {
+          "name": "ClusterRoleBinding",
+          "type": {
+            "group": "rbac.authorization.k8s.io",
+            "version": "v1",
+            "resource": "clusterrolebindings"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/rbac.authorization.k8s.io/crb.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        },
+        {
+          "name": "Role",
+          "type": {
+            "group": "rbac.authorization.k8s.io",
+            "version": "v1",
+            "resource": "roles"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/rbac.authorization.k8s.io/role.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        },
+        {
+          "name": "RoleBinding",
+          "type": {
+            "group": "rbac.authorization.k8s.io",
+            "version": "v1",
+            "resource": "rolebindings"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/rbac.authorization.k8s.io/rb.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        }
+      ]
+    },
+    {
+      "name": "Autoscaling",
+      "apiGroup": "autoscaling",
+      "icons": [
+        {
+          "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+          "type": "image/svg+xml"
+        }
+      ],
+      "entries": [
+        {
+          "name": "HorizontalPodAutoscaler",
+          "type": {
+            "group": "autoscaling",
+            "version": "v1",
+            "resource": "horizontalpodautoscalers"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        }
+      ]
+    },
+    {
+      "name": "Batch",
+      "apiGroup": "batch",
+      "icons": [
+        {
+          "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+          "type": "image/svg+xml"
+        }
+      ],
+      "entries": [
+        {
+          "name": "CronJob",
+          "type": {
+            "group": "batch",
+            "version": "v1beta1",
+            "resource": "cronjobs"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/batch/cronjob.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        },
+        {
+          "name": "Job",
+          "type": {
+            "group": "batch",
+            "version": "v1",
+            "resource": "jobs"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/batch/job.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        }
+      ]
+    },
+    {
+      "name": "Certificate",
+      "apiGroup": "certificates.k8s.io",
+      "icons": [
+        {
+          "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+          "type": "image/svg+xml"
+        }
+      ],
+      "entries": [
+        {
+          "name": "CertificateSigningRequest",
+          "type": {
+            "group": "certificates.k8s.io",
+            "version": "v1beta1",
+            "resource": "certificatesigningrequests"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        }
+      ]
+    },
+    {
+      "name": "Coordination",
+      "apiGroup": "coordination.k8s.io",
+      "icons": [
+        {
+          "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+          "type": "image/svg+xml"
+        }
+      ],
+      "entries": [
+        {
+          "name": "Lease",
+          "type": {
+            "group": "coordination.k8s.io",
+            "version": "v1",
+            "resource": "leases"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        }
+      ]
+    },
+    {
+      "name": "Core",
+      "icons": [
+        {
+          "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+          "type": "image/svg+xml"
+        }
+      ],
+      "entries": [
+        {
+          "name": "Binding",
+          "type": {
+            "group": "",
+            "version": "v1",
+            "resource": "bindings"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        },
+        {
+          "name": "ComponentStatus",
+          "type": {
+            "group": "",
+            "version": "v1",
+            "resource": "componentstatuses"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        },
+        {
+          "name": "ConfigMap",
+          "type": {
+            "group": "",
+            "version": "v1",
+            "resource": "configmaps"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/core/cm.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        },
+        {
+          "name": "Endpoints",
+          "type": {
+            "group": "",
+            "version": "v1",
+            "resource": "endpoints"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/core/ep.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        },
+        {
+          "name": "Event",
+          "type": {
+            "group": "",
+            "version": "v1",
+            "resource": "events"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        },
+        {
+          "name": "LimitRange",
+          "type": {
+            "group": "",
+            "version": "v1",
+            "resource": "limitranges"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/core/limits.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        },
+        {
+          "name": "Namespace",
+          "type": {
+            "group": "",
+            "version": "v1",
+            "resource": "namespaces"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/core/ns.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        },
+        {
+          "name": "Node",
+          "type": {
+            "group": "",
+            "version": "v1",
+            "resource": "nodes"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/core/node.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        },
+        {
+          "name": "PersistentVolume",
+          "type": {
+            "group": "",
+            "version": "v1",
+            "resource": "persistentvolumes"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/core/pv.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        },
+        {
+          "name": "PersistentVolumeClaim",
+          "type": {
+            "group": "",
+            "version": "v1",
+            "resource": "persistentvolumeclaims"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/core/pvc.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        },
+        {
+          "name": "Pod",
+          "type": {
+            "group": "",
+            "version": "v1",
+            "resource": "pods"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/core/pod.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        },
+        {
+          "name": "ReplicationController",
+          "type": {
+            "group": "",
+            "version": "v1",
+            "resource": "replicationcontrollers"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        },
+        {
+          "name": "ResourceQuota",
+          "type": {
+            "group": "",
+            "version": "v1",
+            "resource": "resourcequotas"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/core/quota.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        },
+        {
+          "name": "Secret",
+          "type": {
+            "group": "",
+            "version": "v1",
+            "resource": "secrets"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/core/secret.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        },
+        {
+          "name": "Service",
+          "type": {
+            "group": "",
+            "version": "v1",
+            "resource": "services"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/core/svc.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        },
+        {
+          "name": "ServiceAccount",
+          "type": {
+            "group": "",
+            "version": "v1",
+            "resource": "serviceaccounts"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/core/sa.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        }
+      ]
+    },
+    {
+      "name": "Discovery",
+      "apiGroup": "discovery.k8s.io",
+      "icons": [
+        {
+          "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+          "type": "image/svg+xml"
+        }
+      ],
+      "entries": [
+        {
+          "name": "EndpointSlice",
+          "type": {
+            "group": "discovery.k8s.io",
+            "version": "v1beta1",
+            "resource": "endpointslices"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        }
+      ]
+    },
+    {
+      "name": "Event",
+      "apiGroup": "events.k8s.io",
+      "icons": [
+        {
+          "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+          "type": "image/svg+xml"
+        }
+      ],
+      "entries": [
+        {
+          "name": "Event",
+          "type": {
+            "group": "events.k8s.io",
+            "version": "v1beta1",
+            "resource": "events"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        }
+      ]
+    },
+    {
+      "name": "Extension",
+      "apiGroup": "extensions",
+      "icons": [
+        {
+          "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+          "type": "image/svg+xml"
+        }
+      ],
+      "entries": [
+        {
+          "name": "Ingress",
+          "type": {
+            "group": "extensions",
+            "version": "v1beta1",
+            "resource": "ingresses"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/networking.k8s.io/ing.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        }
+      ]
+    },
+    {
+      "name": "Networking",
+      "apiGroup": "networking.k8s.io",
+      "icons": [
+        {
+          "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+          "type": "image/svg+xml"
+        }
+      ],
+      "entries": [
+        {
+          "name": "Ingress",
+          "type": {
+            "group": "networking.k8s.io",
+            "version": "v1beta1",
+            "resource": "ingresses"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/networking.k8s.io/ing.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        },
+        {
+          "name": "NetworkPolicy",
+          "type": {
+            "group": "networking.k8s.io",
+            "version": "v1",
+            "resource": "networkpolicies"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/networking.k8s.io/netpol.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        }
+      ]
+    },
+    {
+      "name": "Node",
+      "apiGroup": "node.k8s.io",
+      "icons": [
+        {
+          "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+          "type": "image/svg+xml"
+        }
+      ],
+      "entries": [
+        {
+          "name": "RuntimeClass",
+          "type": {
+            "group": "node.k8s.io",
+            "version": "v1beta1",
+            "resource": "runtimeclasses"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        }
+      ]
+    },
+    {
+      "name": "Policy",
+      "apiGroup": "policy",
+      "icons": [
+        {
+          "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+          "type": "image/svg+xml"
+        }
+      ],
+      "entries": [
+        {
+          "name": "PodDisruptionBudget",
+          "type": {
+            "group": "policy",
+            "version": "v1beta1",
+            "resource": "poddisruptionbudgets"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": true
+        },
+        {
+          "name": "PodSecurityPolicy",
+          "type": {
+            "group": "policy",
+            "version": "v1beta1",
+            "resource": "podsecuritypolicies"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/policy/psp.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        }
+      ]
+    },
+    {
+      "name": "Scheduling",
+      "apiGroup": "scheduling.k8s.io",
+      "icons": [
+        {
+          "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+          "type": "image/svg+xml"
+        }
+      ],
+      "entries": [
+        {
+          "name": "PriorityClass",
+          "type": {
+            "group": "scheduling.k8s.io",
+            "version": "v1",
+            "resource": "priorityclasses"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        }
+      ]
+    },
+    {
+      "name": "Storage",
+      "apiGroup": "storage.k8s.io",
+      "icons": [
+        {
+          "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+          "type": "image/svg+xml"
+        }
+      ],
+      "entries": [
+        {
+          "name": "CSIDriver",
+          "type": {
+            "group": "storage.k8s.io",
+            "version": "v1beta1",
+            "resource": "csidrivers"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        },
+        {
+          "name": "CSINode",
+          "type": {
+            "group": "storage.k8s.io",
+            "version": "v1",
+            "resource": "csinodes"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        },
+        {
+          "name": "StorageClass",
+          "type": {
+            "group": "storage.k8s.io",
+            "version": "v1",
+            "resource": "storageclasses"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/storage.k8s.io/sc.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        },
+        {
+          "name": "VolumeAttachment",
+          "type": {
+            "group": "storage.k8s.io",
+            "version": "v1",
+            "resource": "volumeattachments"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        }
+      ]
+    }
+  ]
+}
