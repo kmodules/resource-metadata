@@ -25,7 +25,6 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/client-go/discovery"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/util/homedir"
 )
@@ -37,16 +36,13 @@ func TestLoadGraph(t *testing.T) {
 	}
 	config, err := clientcmd.BuildConfigFromFlags("", kubecfg)
 	assert.NoError(t, err)
-	var dc discovery.DiscoveryInterface
-	dc, err = discovery.NewDiscoveryClientForConfig(config)
-	assert.NoError(t, err)
 	gvr := schema.GroupVersionResource{
 		Group:    "monitoring.coreos.com",
 		Version:  "v1",
 		Resource: "alertmanagers",
 	}
 	reg := hub.NewRegistry(config.Host, hub.NewKVLocal())
-	assert.NoError(t, reg.Register(gvr, dc))
+	assert.NoError(t, reg.Register(gvr, config))
 	graph, err := LoadGraphOfKnownResources()
 	assert.NoError(t, err)
 	assert.NotNil(t, graph)
