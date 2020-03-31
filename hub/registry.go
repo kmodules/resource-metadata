@@ -296,7 +296,7 @@ func (r *Registry) LoadByFile(filename string) (*v1alpha1.ResourceDescriptor, er
 	return obj, nil
 }
 
-func (r *Registry) AvailableResourcePanel() (*v1alpha1.ResourcePanel, error) {
+func (r *Registry) CompleteResourcePanel() (*v1alpha1.ResourcePanel, error) {
 	sections := make(map[string]*v1alpha1.PanelSection)
 
 	// now, auto discover sections from registry

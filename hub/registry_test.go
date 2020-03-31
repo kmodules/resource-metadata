@@ -20,12 +20,15 @@ import (
 	"fmt"
 	"testing"
 
+	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+
 	"github.com/stretchr/testify/assert"
+	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 func TestRegistry_LoadDefaultResourceClass(t *testing.T) {
 	reg := NewRegistry("some-uid", NewKVLocal())
-	panel, err := reg.DefaultResourcePanel()
+	panel, err := reg.DefaultResourcePanel(nil)
 	assert.NoError(t, err)
 
 	for _, rc := range panel.Sections {
@@ -33,5 +36,76 @@ func TestRegistry_LoadDefaultResourceClass(t *testing.T) {
 			println(rc.Name)
 			fmt.Println(entry)
 		}
+	}
+}
+
+func TestResourcePanel_Minus(t *testing.T) {
+	reg := NewRegistryOfKnownResources()
+	panel, err := reg.CompleteResourcePanel()
+	assert.NoError(t, err)
+
+	type fields struct {
+		TypeMeta v1.TypeMeta
+		Sections []*v1alpha1.PanelSection
+	}
+	type args struct {
+		b *v1alpha1.ResourcePanel
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+	}{
+		{
+			name: "default",
+			fields: fields{
+				TypeMeta: panel.TypeMeta,
+				Sections: panel.Sections,
+			},
+			args: args{
+				b: &v1alpha1.ResourcePanel{
+					TypeMeta: panel.TypeMeta,
+					Sections: []*v1alpha1.PanelSection{
+						{
+							Name:   "Admissionregistration",
+							Weight: 2,
+							Entries: []v1alpha1.PanelEntry{
+								{
+									Entry: v1alpha1.Entry{
+										Name: "MutatingWebhookConfiguration",
+										Type: &v1alpha1.GroupVersionResource{
+											Group:    "admissionregistration.k8s.io",
+											Version:  "v1",
+											Resource: "mutatingwebhookconfigurations",
+										},
+									},
+									Namespaced: false,
+								},
+								{
+									Entry: v1alpha1.Entry{
+										Name: "ValidatingWebhookConfiguration",
+										Type: &v1alpha1.GroupVersionResource{
+											Group:    "admissionregistration.k8s.io",
+											Version:  "v1",
+											Resource: "validatingwebhookconfigurations",
+										},
+									},
+									Namespaced: false,
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			a := &v1alpha1.ResourcePanel{
+				TypeMeta: tt.fields.TypeMeta,
+				Sections: tt.fields.Sections,
+			}
+			a.Minus(tt.args.b)
+		})
 	}
 }
