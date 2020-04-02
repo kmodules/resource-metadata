@@ -296,32 +296,65 @@ func (r *Registry) LoadByFile(filename string) (*v1alpha1.ResourceDescriptor, er
 
 func (r *Registry) CompleteResourcePanel() (*v1alpha1.ResourcePanel, error) {
 	sections := make(map[string]*v1alpha1.PanelSection)
+	existingGVRs := map[schema.GroupVersionResource]bool{}
+
+	// first add the known required sections
+	for group, rc := range KnownClasses {
+		if !rc.IsRequired() {
+			continue
+		}
+
+		section := &v1alpha1.PanelSection{
+			Name:              rc.Name,
+			ResourceClassInfo: rc.Spec.ResourceClassInfo,
+			Weight:            rc.Spec.Weight,
+		}
+		for _, entry := range rc.Spec.Entries {
+			pe := v1alpha1.PanelEntry{
+				Entry:      entry,
+				Namespaced: false,
+			}
+			if entry.Type != nil {
+				gvr := entry.Type.GVR()
+				existingGVRs[gvr] = true
+				if rd, err := r.LoadByGVR(gvr); err == nil {
+					pe.Namespaced = rd.Spec.Resource.Scope == v1alpha1.NamespaceScoped
+					pe.Icons = rd.Spec.Icons
+				}
+			}
+			section.Entries = append(section.Entries, pe)
+		}
+		sections[group] = section
+	}
 
 	// now, auto discover sections from registry
 	r.Visit(func(_ string, rd *v1alpha1.ResourceDescriptor) {
-
-		name := resourceclasses.ResourceClassName(rd.Spec.Resource.Group)
+		gvr := rd.Spec.Resource.GroupVersionResource()
+		if _, found := existingGVRs[gvr]; found {
+			return
+		}
 
 		section, found := sections[rd.Spec.Resource.Group]
 		if !found {
 			if rc, found := KnownClasses[rd.Spec.Resource.Group]; found {
+				w := math.MaxInt16
+				if rc.Spec.Weight > 0 {
+					w = rc.Spec.Weight
+				}
 				section = &v1alpha1.PanelSection{
 					Name:              rc.Name,
 					ResourceClassInfo: rc.Spec.ResourceClassInfo,
+					Weight:            w,
 				}
 			} else {
 				// unknown api group, so use CRD icon
+				name := resourceclasses.ResourceClassName(rd.Spec.Resource.Group)
 				section = &v1alpha1.PanelSection{
 					Name: name,
 					ResourceClassInfo: v1alpha1.ResourceClassInfo{
 						APIGroup: rd.Spec.Resource.Group,
-						Icons: []v1alpha1.ImageSpec{
-							{
-								Source: "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
-								Type:   "image/svg+xml",
-							},
-						},
 					},
+					Weight: math.MaxInt16,
 				}
 			}
 			sections[rd.Spec.Resource.Group] = section
@@ -339,6 +372,7 @@ func (r *Registry) CompleteResourcePanel() (*v1alpha1.ResourcePanel, error) {
 			},
 			Namespaced: rd.Spec.Resource.Scope == v1alpha1.NamespaceScoped,
 		})
+		existingGVRs[gvr] = true
 	})
 
 	return toPanel(sections)
