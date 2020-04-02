@@ -379,20 +379,21 @@ func defaultDetailsColumns() []v1alpha1.ResourceColumnDefinition {
 			Priority: int32(v1alpha1.Field),
 			JSONPath: ".metadata.creationTimestamp",
 		},
-
-		{
-			Name:     "Selector",
-			Type:     "object",
-			Format:   "selector",
-			Priority: int32(v1alpha1.Field),
-			JSONPath: ".spec.selector",
-		},
-		{
-			Name:     "Desired Replicas",
-			Type:     "integer",
-			Format:   "",
-			Priority: int32(v1alpha1.Field),
-			JSONPath: ".spec.replicas",
-		},
+		/*
+			{
+				Name:     "Selector",
+				Type:     "object",
+				Format:   "selector",
+				Priority: int32(v1alpha1.Field),
+				JSONPath: ".spec.selector",
+			},
+			{
+				Name:     "Desired Replicas",
+				Type:     "integer",
+				Format:   "",
+				Priority: int32(v1alpha1.Field),
+				JSONPath: ".spec.replicas",
+			},
+		*/
 	}
 }
