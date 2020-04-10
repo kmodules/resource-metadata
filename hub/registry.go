@@ -31,14 +31,24 @@ import (
 	crdv1beta1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1"
 	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1beta1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/fields"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/discovery"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 )
 
+type HelmVersion string
+
+const (
+	HelmUnused HelmVersion = ""
+	Helm2      HelmVersion = "Helm 2"
+	Helm3      HelmVersion = "Helm 3"
+)
+
 type Registry struct {
 	uid       string
+	helm      HelmVersion
 	cache     KV
 	m         sync.RWMutex
 	preferred []schema.GroupVersionResource
@@ -46,9 +56,10 @@ type Registry struct {
 	regGVR    map[schema.GroupVersionResource]*v1alpha1.ResourceID
 }
 
-func NewRegistry(uid string, cache KV) *Registry {
+func NewRegistry(uid string, helm HelmVersion, cache KV) *Registry {
 	r := &Registry{
 		uid:    uid,
+		helm:   helm,
 		cache:  cache,
 		regGVK: map[schema.GroupVersionKind]*v1alpha1.ResourceID{},
 		regGVR: map[schema.GroupVersionResource]*v1alpha1.ResourceID{},
@@ -96,7 +107,7 @@ func compareVersions(x, y string) (int, error) {
 }
 
 func NewRegistryOfKnownResources() *Registry {
-	return NewRegistry(KnownUID, KnownResources)
+	return NewRegistry(KnownUID, Helm3, KnownResources)
 }
 
 func (r *Registry) DiscoverResources(cfg *rest.Config) error {
@@ -117,6 +128,29 @@ func (r *Registry) DiscoverResources(cfg *rest.Config) error {
 	r.m.Unlock()
 
 	return nil
+}
+
+func DiscoverHelm(cfg *rest.Config) (HelmVersion, string, error) {
+	kc, err := kubernetes.NewForConfig(cfg)
+	if err != nil {
+		return HelmUnused, "", err
+	}
+
+	services, err := kc.CoreV1().Services(metav1.NamespaceAll).List(metav1.ListOptions{
+		FieldSelector: fields.OneTermEqualSelector("metadata.name", "tiller-deploy").String(),
+	})
+	if err != nil {
+		return HelmUnused, "", err
+	}
+
+	if len(services.Items) == 1 {
+		return Helm2, services.Items[0].Namespace, nil
+	}
+	return Helm3, "", nil
+}
+
+func (r *Registry) SetHelmVersion(helm HelmVersion) {
+	r.helm = helm
 }
 
 func (r *Registry) Register(gvr schema.GroupVersionResource, cfg *rest.Config) error {
@@ -300,7 +334,7 @@ func (r *Registry) CompleteResourcePanel() (*v1alpha1.ResourcePanel, error) {
 
 	// first add the known required sections
 	for group, rc := range KnownClasses {
-		if !rc.IsRequired() {
+		if !rc.IsRequired() && string(r.helm) != rc.Name {
 			continue
 		}
 
@@ -312,7 +346,7 @@ func (r *Registry) CompleteResourcePanel() (*v1alpha1.ResourcePanel, error) {
 		for _, entry := range rc.Spec.Entries {
 			pe := v1alpha1.PanelEntry{
 				Entry:      entry,
-				Namespaced: false,
+				Namespaced: rc.Name == string(Helm3),
 			}
 			if entry.Type != nil {
 				gvr := entry.Type.GVR()
@@ -384,7 +418,7 @@ func (r *Registry) DefaultResourcePanel(cfg *rest.Config) (*v1alpha1.ResourcePan
 
 	// first add the known required sections
 	for group, rc := range KnownClasses {
-		if !rc.IsRequired() {
+		if !rc.IsRequired() && string(r.helm) != rc.Name {
 			continue
 		}
 
@@ -396,7 +430,7 @@ func (r *Registry) DefaultResourcePanel(cfg *rest.Config) (*v1alpha1.ResourcePan
 		for _, entry := range rc.Spec.Entries {
 			pe := v1alpha1.PanelEntry{
 				Entry:      entry,
-				Namespaced: false,
+				Namespaced: rc.Name == string(Helm3),
 			}
 			if entry.Type != nil {
 				gvr := entry.Type.GVR()

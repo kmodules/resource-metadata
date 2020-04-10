@@ -27,7 +27,7 @@ import (
 )
 
 func TestRegistry_LoadDefaultResourceClass(t *testing.T) {
-	reg := NewRegistry("some-uid", NewKVLocal())
+	reg := NewRegistry("some-uid", Helm3, NewKVLocal())
 	panel, err := reg.DefaultResourcePanel(nil)
 	assert.NoError(t, err)
 

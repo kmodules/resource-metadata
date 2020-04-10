@@ -194,7 +194,7 @@
       ]
     },
     {
-      "name": "Helm",
+      "name": "Helm 3",
       "icons": [
         {
           "src": "https://cdn.appscode.com/k8s/icons/resourceclasses/helm.svg",
@@ -203,16 +203,15 @@
       ],
       "entries": [
         {
-          "name": "Release",
-          "path": "/tiller/v2/releases",
-          "required": true,
+          "name": "Releases",
+          "path": "/helm/v3/releases",
           "icons": [
             {
               "src": "https://cdn.appscode.com/k8s/icons/resourceclasses/release.svg",
               "type": "image/svg+xml"
             }
           ],
-          "namespaced": false
+          "namespaced": true
         }
       ]
     },
