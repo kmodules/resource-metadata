@@ -37,8 +37,17 @@ import (
 	"k8s.io/client-go/rest"
 )
 
+type HelmVersion string
+
+const (
+	HelmUnused HelmVersion = ""
+	Helm2      HelmVersion = "Helm 2"
+	Helm3      HelmVersion = "Helm 3"
+)
+
 type Registry struct {
 	uid       string
+	helm      HelmVersion
 	cache     KV
 	m         sync.RWMutex
 	preferred []schema.GroupVersionResource
@@ -46,9 +55,10 @@ type Registry struct {
 	regGVR    map[schema.GroupVersionResource]*v1alpha1.ResourceID
 }
 
-func NewRegistry(uid string, cache KV) *Registry {
+func NewRegistry(uid string, helm HelmVersion, cache KV) *Registry {
 	r := &Registry{
 		uid:    uid,
+		helm:   helm,
 		cache:  cache,
 		regGVK: map[schema.GroupVersionKind]*v1alpha1.ResourceID{},
 		regGVR: map[schema.GroupVersionResource]*v1alpha1.ResourceID{},
@@ -96,7 +106,7 @@ func compareVersions(x, y string) (int, error) {
 }
 
 func NewRegistryOfKnownResources() *Registry {
-	return NewRegistry(KnownUID, KnownResources)
+	return NewRegistry(KnownUID, Helm3, KnownResources)
 }
 
 func (r *Registry) DiscoverResources(cfg *rest.Config) error {
@@ -300,7 +310,7 @@ func (r *Registry) CompleteResourcePanel() (*v1alpha1.ResourcePanel, error) {
 
 	// first add the known required sections
 	for group, rc := range KnownClasses {
-		if !rc.IsRequired() {
+		if !rc.IsRequired() && string(r.helm) != rc.Name {
 			continue
 		}
 
@@ -312,7 +322,7 @@ func (r *Registry) CompleteResourcePanel() (*v1alpha1.ResourcePanel, error) {
 		for _, entry := range rc.Spec.Entries {
 			pe := v1alpha1.PanelEntry{
 				Entry:      entry,
-				Namespaced: false,
+				Namespaced: rc.Name == string(Helm3),
 			}
 			if entry.Type != nil {
 				gvr := entry.Type.GVR()
@@ -384,7 +394,7 @@ func (r *Registry) DefaultResourcePanel(cfg *rest.Config) (*v1alpha1.ResourcePan
 
 	// first add the known required sections
 	for group, rc := range KnownClasses {
-		if !rc.IsRequired() {
+		if !rc.IsRequired() && string(r.helm) != rc.Name {
 			continue
 		}
 
@@ -396,7 +406,7 @@ func (r *Registry) DefaultResourcePanel(cfg *rest.Config) (*v1alpha1.ResourcePan
 		for _, entry := range rc.Spec.Entries {
 			pe := v1alpha1.PanelEntry{
 				Entry:      entry,
-				Namespaced: false,
+				Namespaced: rc.Name == string(Helm3),
 			}
 			if entry.Type != nil {
 				gvr := entry.Type.GVR()

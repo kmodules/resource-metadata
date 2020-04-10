@@ -41,7 +41,7 @@ func TestLoadGraph(t *testing.T) {
 		Version:  "v1",
 		Resource: "alertmanagers",
 	}
-	reg := hub.NewRegistry(config.Host, hub.NewKVLocal())
+	reg := hub.NewRegistry(config.Host, hub.Helm3, hub.NewKVLocal())
 	assert.NoError(t, reg.Register(gvr, config))
 	graph, err := LoadGraphOfKnownResources()
 	assert.NoError(t, err)

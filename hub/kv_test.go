@@ -22,6 +22,7 @@ import (
 	"path/filepath"
 	"testing"
 
+	"kmodules.xyz/resource-metadata/hub"
 	"kmodules.xyz/resource-metadata/hub/resourcedescriptors"
 
 	"github.com/stretchr/testify/assert"
@@ -45,7 +46,7 @@ func TestRegister(t *testing.T) {
 		Version:  "v1",
 		Resource: "prometheuses",
 	}
-	reg := NewRegistry(config.Host, NewKVLocal())
+	reg := NewRegistry(config.Host, hub.Helm3, NewKVLocal())
 	assert.NoError(t, reg.Register(gvr, config))
 	rd1, err := resourcedescriptors.LoadByGVR(gvr)
 	assert.NoError(t, err)
