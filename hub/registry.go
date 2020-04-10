@@ -31,6 +31,7 @@ import (
 	crdv1beta1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1"
 	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1beta1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/fields"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/discovery"
 	"k8s.io/client-go/kubernetes"
@@ -127,6 +128,29 @@ func (r *Registry) DiscoverResources(cfg *rest.Config) error {
 	r.m.Unlock()
 
 	return nil
+}
+
+func DiscoverHelm(cfg *rest.Config) (HelmVersion, string, error) {
+	kc, err := kubernetes.NewForConfig(cfg)
+	if err != nil {
+		return HelmUnused, "", err
+	}
+
+	services, err := kc.CoreV1().Services(metav1.NamespaceAll).List(metav1.ListOptions{
+		FieldSelector: fields.OneTermEqualSelector("metadata.name", "tiller-deploy").String(),
+	})
+	if err != nil {
+		return HelmUnused, "", err
+	}
+
+	if len(services.Items) == 1 {
+		return Helm2, services.Items[0].Namespace, nil
+	}
+	return Helm3, "", nil
+}
+
+func (r *Registry) SetHelmVersion(helm HelmVersion) {
+	r.helm = helm
 }
 
 func (r *Registry) Register(gvr schema.GroupVersionResource, cfg *rest.Config) error {

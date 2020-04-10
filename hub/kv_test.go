@@ -22,7 +22,6 @@ import (
 	"path/filepath"
 	"testing"
 
-	"kmodules.xyz/resource-metadata/hub"
 	"kmodules.xyz/resource-metadata/hub/resourcedescriptors"
 
 	"github.com/stretchr/testify/assert"
