@@ -475,72 +475,74 @@ func (r *Registry) DefaultResourcePanel(cfg *rest.Config) (*v1alpha1.ResourcePan
 	})
 
 	// now, auto discover sections from CRDs
-	apiext, err := crd_cs.NewForConfig(cfg)
-	if err != nil {
-		return nil, err
-	}
+	if cfg != nil {
+		apiext, err := crd_cs.NewForConfig(cfg)
+		if err != nil {
+			return nil, err
+		}
 
-	crds, err := apiext.CustomResourceDefinitions().List(metav1.ListOptions{})
-	if err != nil {
-		return nil, err
-	}
+		crds, err := apiext.CustomResourceDefinitions().List(metav1.ListOptions{})
+		if err != nil {
+			return nil, err
+		}
 
-	for _, crd := range crds.Items {
-		group := crd.Spec.Group
-		version := crd.Spec.Version
-		for _, v := range crd.Spec.Versions {
-			if v.Storage {
-				version = v.Name
-				break
+		for _, crd := range crds.Items {
+			group := crd.Spec.Group
+			version := crd.Spec.Version
+			for _, v := range crd.Spec.Versions {
+				if v.Storage {
+					version = v.Name
+					break
+				}
 			}
-		}
-		gvr := schema.GroupVersionResource{
-			Group:    group,
-			Version:  version,
-			Resource: crd.Spec.Names.Plural,
-		}
-		if _, found := existingGVRs[gvr]; found {
-			continue
-		}
+			gvr := schema.GroupVersionResource{
+				Group:    group,
+				Version:  version,
+				Resource: crd.Spec.Names.Plural,
+			}
+			if _, found := existingGVRs[gvr]; found {
+				continue
+			}
 
-		section, found := sections[group]
-		if !found {
-			if rc, found := KnownClasses[group]; found {
-				w := math.MaxInt16
-				if rc.Spec.Weight > 0 {
-					w = rc.Spec.Weight
+			section, found := sections[group]
+			if !found {
+				if rc, found := KnownClasses[group]; found {
+					w := math.MaxInt16
+					if rc.Spec.Weight > 0 {
+						w = rc.Spec.Weight
+					}
+					section = &v1alpha1.PanelSection{
+						Name:              rc.Name,
+						ResourceClassInfo: rc.Spec.ResourceClassInfo,
+						Weight:            w,
+					}
+				} else {
+					// unknown api group, so use CRD icon
+					name := resourceclasses.ResourceClassName(group)
+					section = &v1alpha1.PanelSection{
+						Name: name,
+						ResourceClassInfo: v1alpha1.ResourceClassInfo{
+							APIGroup: group,
+						},
+						Weight: math.MaxInt16,
+					}
 				}
-				section = &v1alpha1.PanelSection{
-					Name:              rc.Name,
-					ResourceClassInfo: rc.Spec.ResourceClassInfo,
-					Weight:            w,
-				}
-			} else {
-				// unknown api group, so use CRD icon
-				name := resourceclasses.ResourceClassName(group)
-				section = &v1alpha1.PanelSection{
-					Name: name,
-					ResourceClassInfo: v1alpha1.ResourceClassInfo{
-						APIGroup: group,
+				sections[group] = section
+			}
+
+			section.Entries = append(section.Entries, v1alpha1.PanelEntry{
+				Entry: v1alpha1.Entry{
+					Name: crd.Spec.Names.Kind,
+					Type: &v1alpha1.GroupVersionResource{
+						Group:    group,
+						Version:  version,
+						Resource: crd.Spec.Names.Plural,
 					},
-					Weight: math.MaxInt16,
-				}
-			}
-			sections[group] = section
-		}
-
-		section.Entries = append(section.Entries, v1alpha1.PanelEntry{
-			Entry: v1alpha1.Entry{
-				Name: crd.Spec.Names.Kind,
-				Type: &v1alpha1.GroupVersionResource{
-					Group:    group,
-					Version:  version,
-					Resource: crd.Spec.Names.Plural,
 				},
-			},
-			Namespaced: crd.Spec.Scope == crdv1beta1.NamespaceScoped,
-		})
-		existingGVRs[gvr] = true
+				Namespaced: crd.Spec.Scope == crdv1beta1.NamespaceScoped,
+			})
+			existingGVRs[gvr] = true
+		}
 	}
 
 	return toPanel(sections)

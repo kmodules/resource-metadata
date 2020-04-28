@@ -45,7 +45,7 @@ func TestRegister(t *testing.T) {
 		Version:  "v1",
 		Resource: "prometheuses",
 	}
-	reg := NewRegistry(config.Host, hub.Helm3, NewKVLocal())
+	reg := NewRegistry(config.Host, Helm3, NewKVLocal())
 	assert.NoError(t, reg.Register(gvr, config))
 	rd1, err := resourcedescriptors.LoadByGVR(gvr)
 	assert.NoError(t, err)
