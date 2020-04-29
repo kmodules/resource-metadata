@@ -22,6 +22,7 @@ import (
 	"sort"
 	"strings"
 	"sync"
+	"time"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"kmodules.xyz/resource-metadata/hub/resourceclasses"
@@ -46,14 +47,19 @@ const (
 	Helm3      HelmVersion = "Helm 3"
 )
 
+// ttl for cached preferred list
+const ttl = 5 * time.Minute
+
 type Registry struct {
-	uid       string
-	helm      HelmVersion
-	cache     KV
-	m         sync.RWMutex
-	preferred []schema.GroupVersionResource
-	regGVK    map[schema.GroupVersionKind]*v1alpha1.ResourceID
-	regGVR    map[schema.GroupVersionResource]*v1alpha1.ResourceID
+	uid           string
+	helm          HelmVersion
+	cache         KV
+	m             sync.RWMutex
+	// TODO: store in KV so cached for multiple instances of BB api server
+	preferred     []schema.GroupVersionResource
+	lastRefreshed time.Time
+	regGVK        map[schema.GroupVersionKind]*v1alpha1.ResourceID
+	regGVR        map[schema.GroupVersionResource]*v1alpha1.ResourceID
 }
 
 func NewRegistry(uid string, helm HelmVersion, cache KV) *Registry {
@@ -118,6 +124,7 @@ func (r *Registry) DiscoverResources(cfg *rest.Config) error {
 
 	r.m.Lock()
 	r.preferred = preferred
+	r.lastRefreshed = time.Now()
 	for filename, rd := range reg {
 		if _, found := r.cache.Get(filename); !found {
 			r.regGVK[rd.Spec.Resource.GroupVersionKind()] = &rd.Spec.Resource
@@ -127,6 +134,13 @@ func (r *Registry) DiscoverResources(cfg *rest.Config) error {
 	}
 	r.m.Unlock()
 
+	return nil
+}
+
+func (r *Registry) Refresh(cfg *rest.Config) error {
+	if time.Since(r.lastRefreshed) > ttl {
+		return r.DiscoverResources(cfg)
+	}
 	return nil
 }
 
@@ -253,6 +267,17 @@ func (r *Registry) Visit(f func(key string, val *v1alpha1.ResourceDescriptor)) {
 			f(key, rd)
 		}
 	}
+}
+
+func (r *Registry) Missing(in schema.GroupVersionResource) bool {
+	r.m.RLock()
+	defer r.m.RUnlock()
+	for _, gvr := range r.preferred {
+		if gvr == in {
+			return false
+		}
+	}
+	return true
 }
 
 func (r *Registry) GVR(gvk schema.GroupVersionKind) (schema.GroupVersionResource, error) {
