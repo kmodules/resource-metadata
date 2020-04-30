@@ -29,7 +29,6 @@ import (
 	"kmodules.xyz/resource-metadata/hub/resourcedescriptors"
 
 	"gomodules.xyz/version"
-	crdv1beta1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1"
 	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1beta1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/fields"
@@ -51,10 +50,10 @@ const (
 const ttl = 5 * time.Minute
 
 type Registry struct {
-	uid           string
-	helm          HelmVersion
-	cache         KV
-	m             sync.RWMutex
+	uid   string
+	helm  HelmVersion
+	cache KV
+	m     sync.RWMutex
 	// TODO: store in KV so cached for multiple instances of BB api server
 	preferred     []schema.GroupVersionResource
 	lastRefreshed time.Time
@@ -379,6 +378,8 @@ func (r *Registry) CompleteResourcePanel() (*v1alpha1.ResourcePanel, error) {
 				if rd, err := r.LoadByGVR(gvr); err == nil {
 					pe.Namespaced = rd.Spec.Resource.Scope == v1alpha1.NamespaceScoped
 					pe.Icons = rd.Spec.Icons
+					pe.Missing = r.Missing(gvr)
+					pe.Installer = rd.Spec.Installer
 				}
 			}
 			section.Entries = append(section.Entries, pe)
@@ -430,6 +431,8 @@ func (r *Registry) CompleteResourcePanel() (*v1alpha1.ResourcePanel, error) {
 				Icons: rd.Spec.Icons,
 			},
 			Namespaced: rd.Spec.Resource.Scope == v1alpha1.NamespaceScoped,
+			Missing:    r.Missing(gvr),
+			Installer:  rd.Spec.Installer,
 		})
 		existingGVRs[gvr] = true
 	})
@@ -463,6 +466,8 @@ func (r *Registry) DefaultResourcePanel(cfg *rest.Config) (*v1alpha1.ResourcePan
 				if rd, err := r.LoadByGVR(gvr); err == nil {
 					pe.Namespaced = rd.Spec.Resource.Scope == v1alpha1.NamespaceScoped
 					pe.Icons = rd.Spec.Icons
+					pe.Missing = r.Missing(gvr)
+					pe.Installer = rd.Spec.Installer
 				}
 			}
 			section.Entries = append(section.Entries, pe)
@@ -494,81 +499,12 @@ func (r *Registry) DefaultResourcePanel(cfg *rest.Config) (*v1alpha1.ResourcePan
 					Icons: rd.Spec.Icons,
 				},
 				Namespaced: rd.Spec.Resource.Scope == v1alpha1.NamespaceScoped,
+				Missing:    r.Missing(gvr),
+				Installer:  rd.Spec.Installer,
 			})
 			existingGVRs[gvr] = true
 		}
 	})
-
-	// now, auto discover sections from CRDs
-	if cfg != nil {
-		apiext, err := crd_cs.NewForConfig(cfg)
-		if err != nil {
-			return nil, err
-		}
-
-		crds, err := apiext.CustomResourceDefinitions().List(metav1.ListOptions{})
-		if err != nil {
-			return nil, err
-		}
-
-		for _, crd := range crds.Items {
-			group := crd.Spec.Group
-			version := crd.Spec.Version
-			for _, v := range crd.Spec.Versions {
-				if v.Storage {
-					version = v.Name
-					break
-				}
-			}
-			gvr := schema.GroupVersionResource{
-				Group:    group,
-				Version:  version,
-				Resource: crd.Spec.Names.Plural,
-			}
-			if _, found := existingGVRs[gvr]; found {
-				continue
-			}
-
-			section, found := sections[group]
-			if !found {
-				if rc, found := KnownClasses[group]; found {
-					w := math.MaxInt16
-					if rc.Spec.Weight > 0 {
-						w = rc.Spec.Weight
-					}
-					section = &v1alpha1.PanelSection{
-						Name:              rc.Name,
-						ResourceClassInfo: rc.Spec.ResourceClassInfo,
-						Weight:            w,
-					}
-				} else {
-					// unknown api group, so use CRD icon
-					name := resourceclasses.ResourceClassName(group)
-					section = &v1alpha1.PanelSection{
-						Name: name,
-						ResourceClassInfo: v1alpha1.ResourceClassInfo{
-							APIGroup: group,
-						},
-						Weight: math.MaxInt16,
-					}
-				}
-				sections[group] = section
-			}
-
-			section.Entries = append(section.Entries, v1alpha1.PanelEntry{
-				Entry: v1alpha1.Entry{
-					Name: crd.Spec.Names.Kind,
-					Type: &v1alpha1.GroupVersionResource{
-						Group:    group,
-						Version:  version,
-						Resource: crd.Spec.Names.Plural,
-					},
-				},
-				Namespaced: crd.Spec.Scope == crdv1beta1.NamespaceScoped,
-			})
-			existingGVRs[gvr] = true
-		}
-	}
 
 	return toPanel(sections)
 }
