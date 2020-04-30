@@ -44,7 +44,7 @@ func main() {
 	}
 
 	{
-		panel, err := reg.DefaultResourcePanel(config)
+		panel, err := reg.DefaultResourcePanel()
 		if err != nil {
 			log.Fatalln(err)
 		}

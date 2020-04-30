@@ -440,7 +440,7 @@ func (r *Registry) CompleteResourcePanel() (*v1alpha1.ResourcePanel, error) {
 	return toPanel(sections)
 }
 
-func (r *Registry) DefaultResourcePanel(cfg *rest.Config) (*v1alpha1.ResourcePanel, error) {
+func (r *Registry) DefaultResourcePanel() (*v1alpha1.ResourcePanel, error) {
 	sections := make(map[string]*v1alpha1.PanelSection)
 	existingGVRs := map[schema.GroupVersionResource]bool{}
 
