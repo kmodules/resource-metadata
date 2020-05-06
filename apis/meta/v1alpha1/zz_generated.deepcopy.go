@@ -252,6 +252,11 @@ func (in *Link) DeepCopy() *Link {
 func (in *PanelEntry) DeepCopyInto(out *PanelEntry) {
 	*out = *in
 	in.Entry.DeepCopyInto(&out.Entry)
+	if in.Installer != nil {
+		in, out := &in.Installer, &out.Installer
+		*out = new(DeploymentParameters)
+		(*in).DeepCopyInto(*out)
+	}
 	return
 }
 

@@ -35,7 +35,8 @@
               "type": "image/svg+xml"
             }
           ],
-          "namespaced": true
+          "namespaced": true,
+          "missing": true
         },
         {
           "name": "Machine Sets",
@@ -51,7 +52,8 @@
               "type": "image/svg+xml"
             }
           ],
-          "namespaced": true
+          "namespaced": true,
+          "missing": true
         }
       ]
     },
@@ -239,7 +241,11 @@
               "type": "image/svg+xml"
             }
           ],
-          "namespaced": true
+          "namespaced": true,
+          "missing": true,
+          "installer": {
+            "productID": "prod_Gnc33bJka9iRl9"
+          }
         }
       ]
     },
@@ -298,7 +304,8 @@
               "type": "image/svg+xml"
             }
           ],
-          "namespaced": true
+          "namespaced": true,
+          "missing": true
         },
         {
           "name": "Network Policies",
@@ -444,7 +451,8 @@
               "type": "image/svg+xml"
             }
           ],
-          "namespaced": true
+          "namespaced": true,
+          "missing": true
         }
       ]
     },
@@ -487,7 +495,8 @@
               "type": "image/svg+xml"
             }
           ],
-          "namespaced": true
+          "namespaced": true,
+          "missing": true
         },
         {
           "name": "Service Accounts",
@@ -607,7 +616,8 @@
               "type": "image/svg+xml"
             }
           ],
-          "namespaced": false
+          "namespaced": false,
+          "missing": true
         }
       ]
     }

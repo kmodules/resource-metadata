@@ -37,4 +37,7 @@ type PanelSection struct {
 type PanelEntry struct {
 	Entry      `json:",inline"`
 	Namespaced bool `json:"namespaced"`
+
+	Missing   bool                  `json:"missing,omitempty"`
+	Installer *DeploymentParameters `json:"installer,omitempty"`
 }
