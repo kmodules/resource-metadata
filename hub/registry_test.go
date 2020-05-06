@@ -71,24 +71,20 @@ func TestResourcePanel_Minus(t *testing.T) {
 							Weight: 2,
 							Entries: []v1alpha1.PanelEntry{
 								{
-									Entry: v1alpha1.Entry{
-										Name: "MutatingWebhookConfiguration",
-										Type: &v1alpha1.GroupVersionResource{
-											Group:    "admissionregistration.k8s.io",
-											Version:  "v1",
-											Resource: "mutatingwebhookconfigurations",
-										},
+									Name: "MutatingWebhookConfiguration",
+									Type: &v1alpha1.GroupVersionResource{
+										Group:    "admissionregistration.k8s.io",
+										Version:  "v1beta1",
+										Resource: "mutatingwebhookconfigurations",
 									},
 									Namespaced: false,
 								},
 								{
-									Entry: v1alpha1.Entry{
-										Name: "ValidatingWebhookConfiguration",
-										Type: &v1alpha1.GroupVersionResource{
-											Group:    "admissionregistration.k8s.io",
-											Version:  "v1",
-											Resource: "validatingwebhookconfigurations",
-										},
+									Name: "ValidatingWebhookConfiguration",
+									Type: &v1alpha1.GroupVersionResource{
+										Group:    "admissionregistration.k8s.io",
+										Version:  "v1beta1",
+										Resource: "validatingwebhookconfigurations",
 									},
 									Namespaced: false,
 								},

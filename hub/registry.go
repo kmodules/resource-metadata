@@ -56,7 +56,7 @@ type Registry struct {
 	cache KV
 	m     sync.RWMutex
 	// TODO: store in KV so cached for multiple instances of BB api server
-	preferred     []schema.GroupVersionResource
+	preferred     map[schema.GroupResource]schema.GroupVersionResource
 	lastRefreshed time.Time
 	regGVK        map[schema.GroupVersionKind]*v1alpha1.ResourceID
 	regGVR        map[schema.GroupVersionResource]*v1alpha1.ResourceID
@@ -84,9 +84,9 @@ func NewRegistry(uid string, helm HelmVersion, cache KV) *Registry {
 		}
 	})
 
-	r.preferred = make([]schema.GroupVersionResource, 0, len(guess))
-	for gr, version := range guess {
-		r.preferred = append(r.preferred, gr.WithVersion(version))
+	r.preferred = make(map[schema.GroupResource]schema.GroupVersionResource)
+	for gr, ver := range guess {
+		r.preferred[gr] = gr.WithVersion(ver)
 	}
 
 	return r
@@ -178,7 +178,7 @@ func (r *Registry) Register(gvr schema.GroupVersionResource, cfg *rest.Config) e
 	return r.DiscoverResources(cfg)
 }
 
-func (r *Registry) createRegistry(cfg *rest.Config) ([]schema.GroupVersionResource, map[string]*v1alpha1.ResourceDescriptor, error) {
+func (r *Registry) createRegistry(cfg *rest.Config) (map[schema.GroupResource]schema.GroupVersionResource, map[string]*v1alpha1.ResourceDescriptor, error) {
 	kc, err := kubernetes.NewForConfig(cfg)
 	if err != nil {
 		return nil, nil, err
@@ -245,7 +245,7 @@ func (r *Registry) createRegistry(cfg *rest.Config) ([]schema.GroupVersionResour
 					},
 				},
 			}
-			if !rd.Spec.Resource.IsOfficialType() {
+			if !v1alpha1.IsOfficialType(rd.Spec.Resource.Group) {
 				crd, err := apiext.CustomResourceDefinitions().Get(fmt.Sprintf("%s.%s", rd.Spec.Resource.Name, rd.Spec.Resource.Group), metav1.GetOptions{})
 				if err == nil {
 					rd.Spec.Validation = crd.Spec.Validation
@@ -255,9 +255,10 @@ func (r *Registry) createRegistry(cfg *rest.Config) ([]schema.GroupVersionResour
 		}
 	}
 
-	preferred := make([]schema.GroupVersionResource, 0, len(reg))
+	preferred := make(map[schema.GroupResource]schema.GroupVersionResource)
 	for _, rd := range reg {
-		preferred = append(preferred, rd.Spec.Resource.GroupVersionResource())
+		gvr := rd.Spec.Resource.GroupVersionResource()
+		preferred[gvr.GroupResource()] = gvr
 	}
 
 	for _, name := range resourcedescriptors.AssetNames() {
@@ -284,6 +285,23 @@ func (r *Registry) Missing(in schema.GroupVersionResource) bool {
 		}
 	}
 	return true
+}
+
+func (r *Registry) findGVR(in *v1alpha1.GroupResources, keepOfficialTypes bool) (schema.GroupVersionResource, bool) {
+	r.m.RLock()
+	defer r.m.RUnlock()
+	for _, group := range in.Groups {
+		if gvr, ok := r.preferred[schema.GroupResource{Group: group, Resource: in.Resource}]; ok {
+			return gvr, true
+		}
+	}
+	for _, group := range in.Groups {
+		if keepOfficialTypes || !v1alpha1.IsOfficialType(group) {
+			gvr, ok := LatestGVRs[schema.GroupResource{Group: group, Resource: in.Resource}]
+			return gvr, ok
+		}
+	}
+	return schema.GroupVersionResource{}, false
 }
 
 func (r *Registry) GVR(gvk schema.GroupVersionKind) (schema.GroupVersionResource, error) {
@@ -331,7 +349,9 @@ func (r *Registry) Resources() []schema.GroupVersionResource {
 	defer r.m.RUnlock()
 
 	out := make([]schema.GroupVersionResource, len(r.preferred))
-	copy(out, r.preferred)
+	for _, gvr := range r.preferred {
+		out = append(out, gvr)
+	}
 	return out
 }
 
@@ -360,96 +380,16 @@ func (r *Registry) LoadByFile(filename string) (*v1alpha1.ResourceDescriptor, er
 }
 
 func (r *Registry) CompleteResourcePanel() (*v1alpha1.ResourcePanel, error) {
-	sections := make(map[string]*v1alpha1.PanelSection)
-	existingGVRs := map[schema.GroupVersionResource]bool{}
-
-	// first add the known required sections
-	for group, rc := range KnownClasses {
-		if !rc.IsRequired() && string(r.helm) != rc.Name {
-			continue
-		}
-
-		section := &v1alpha1.PanelSection{
-			Name:              rc.Name,
-			ResourceClassInfo: rc.Spec.ResourceClassInfo,
-			Weight:            rc.Spec.Weight,
-		}
-		for _, entry := range rc.Spec.Entries {
-			pe := v1alpha1.PanelEntry{
-				Entry:      entry,
-				Namespaced: rc.Name == string(Helm3),
-			}
-			if entry.Type != nil {
-				gvr := entry.Type.GVR()
-				existingGVRs[gvr] = true
-				if rd, err := r.LoadByGVR(gvr); err == nil {
-					pe.Namespaced = rd.Spec.Resource.Scope == v1alpha1.NamespaceScoped
-					pe.Icons = rd.Spec.Icons
-					pe.Missing = r.Missing(gvr)
-					pe.Installer = rd.Spec.Installer
-				}
-			}
-			section.Entries = append(section.Entries, pe)
-		}
-		sections[group] = section
-	}
-
-	// now, auto discover sections from registry
-	r.Visit(func(_ string, rd *v1alpha1.ResourceDescriptor) {
-		gvr := rd.Spec.Resource.GroupVersionResource()
-		if _, found := existingGVRs[gvr]; found {
-			return
-		}
-
-		section, found := sections[rd.Spec.Resource.Group]
-		if !found {
-			if rc, found := KnownClasses[rd.Spec.Resource.Group]; found {
-				w := math.MaxInt16
-				if rc.Spec.Weight > 0 {
-					w = rc.Spec.Weight
-				}
-				section = &v1alpha1.PanelSection{
-					Name:              rc.Name,
-					ResourceClassInfo: rc.Spec.ResourceClassInfo,
-					Weight:            w,
-				}
-			} else {
-				// unknown api group, so use CRD icon
-				name := resourceclasses.ResourceClassName(rd.Spec.Resource.Group)
-				section = &v1alpha1.PanelSection{
-					Name: name,
-					ResourceClassInfo: v1alpha1.ResourceClassInfo{
-						APIGroup: rd.Spec.Resource.Group,
-					},
-					Weight: math.MaxInt16,
-				}
-			}
-			sections[rd.Spec.Resource.Group] = section
-		}
-
-		section.Entries = append(section.Entries, v1alpha1.PanelEntry{
-			Entry: v1alpha1.Entry{
-				Name: rd.Spec.Resource.Kind,
-				Type: &v1alpha1.GroupVersionResource{
-					Group:    rd.Spec.Resource.Group,
-					Version:  rd.Spec.Resource.Version,
-					Resource: rd.Spec.Resource.Name,
-				},
-				Icons: rd.Spec.Icons,
-			},
-			Namespaced: rd.Spec.Resource.Scope == v1alpha1.NamespaceScoped,
-			Missing:    r.Missing(gvr),
-			Installer:  rd.Spec.Installer,
-		})
-		existingGVRs[gvr] = true
-	})
-
-	return toPanel(sections)
+	return r.createResourcePanel(true)
 }
 
 func (r *Registry) DefaultResourcePanel() (*v1alpha1.ResourcePanel, error) {
+	return r.createResourcePanel(false)
+}
+
+func (r *Registry) createResourcePanel(keepOfficialTypes bool) (*v1alpha1.ResourcePanel, error) {
 	sections := make(map[string]*v1alpha1.PanelSection)
-	existingGVRs := map[schema.GroupVersionResource]bool{}
+	existingGRs := map[schema.GroupResource]bool{}
 
 	// first add the known required sections
 	for group, rc := range KnownClasses {
@@ -464,12 +404,23 @@ func (r *Registry) DefaultResourcePanel() (*v1alpha1.ResourcePanel, error) {
 		}
 		for _, entry := range rc.Spec.Entries {
 			pe := v1alpha1.PanelEntry{
-				Entry:      entry,
+				Name:       entry.Name,
+				Path:       entry.Path,
+				Required:   entry.Required,
+				Icons:      entry.Icons,
 				Namespaced: rc.Name == string(Helm3),
 			}
 			if entry.Type != nil {
-				gvr := entry.Type.GVR()
-				existingGVRs[gvr] = true
+				gvr, ok := r.findGVR(entry.Type, keepOfficialTypes)
+				if !ok {
+					continue
+				}
+				pe.Type = &v1alpha1.GroupVersionResource{
+					Group:    gvr.Group,
+					Version:  gvr.Version,
+					Resource: gvr.Resource,
+				}
+				existingGRs[gvr.GroupResource()] = true
 				if rd, err := r.LoadByGVR(gvr); err == nil {
 					pe.Namespaced = rd.Spec.Resource.Scope == v1alpha1.NamespaceScoped
 					pe.Icons = rd.Spec.Icons
@@ -484,12 +435,12 @@ func (r *Registry) DefaultResourcePanel() (*v1alpha1.ResourcePanel, error) {
 
 	// now, auto discover sections from registry
 	r.Visit(func(_ string, rd *v1alpha1.ResourceDescriptor) {
-		if rd.Spec.Resource.IsOfficialType() {
+		if !keepOfficialTypes && v1alpha1.IsOfficialType(rd.Spec.Resource.Group) {
 			return // skip k8s.io api groups
 		}
 
 		gvr := rd.Spec.Resource.GroupVersionResource()
-		if _, found := existingGVRs[gvr]; found {
+		if _, found := existingGRs[gvr.GroupResource()]; found {
 			return
 		}
 
@@ -520,20 +471,18 @@ func (r *Registry) DefaultResourcePanel() (*v1alpha1.ResourcePanel, error) {
 		}
 
 		section.Entries = append(section.Entries, v1alpha1.PanelEntry{
-			Entry: v1alpha1.Entry{
-				Name: rd.Spec.Resource.Kind,
-				Type: &v1alpha1.GroupVersionResource{
-					Group:    rd.Spec.Resource.Group,
-					Version:  rd.Spec.Resource.Version,
-					Resource: rd.Spec.Resource.Name,
-				},
-				Icons: rd.Spec.Icons,
+			Name: rd.Spec.Resource.Kind,
+			Type: &v1alpha1.GroupVersionResource{
+				Group:    rd.Spec.Resource.Group,
+				Version:  rd.Spec.Resource.Version,
+				Resource: rd.Spec.Resource.Name,
 			},
+			Icons:      rd.Spec.Icons,
 			Namespaced: rd.Spec.Resource.Scope == v1alpha1.NamespaceScoped,
 			Missing:    r.Missing(gvr),
 			Installer:  rd.Spec.Installer,
 		})
-		existingGVRs[gvr] = true
+		existingGRs[gvr.GroupResource()] = true
 	})
 
 	return toPanel(sections)

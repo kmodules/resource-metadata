@@ -99,9 +99,8 @@ func createRegistry(kc kubernetes.Interface, dir string) error {
 		for i := range rsList.APIResources {
 			rs := rsList.APIResources[i]
 			rd.Spec.Entries = append(rd.Spec.Entries, v1alpha1.Entry{
-				Type: &v1alpha1.GroupVersionResource{
-					Group:    gv.Group,
-					Version:  gv.Version,
+				Type: &v1alpha1.GroupResources{
+					Groups:   []string{gv.Group},
 					Resource: rs.Name,
 				},
 				Required: false,

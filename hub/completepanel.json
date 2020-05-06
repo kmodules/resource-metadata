@@ -24,14 +24,14 @@
         {
           "name": "Machines",
           "type": {
-            "group": "cluster.k8s.io",
-            "version": "v1alpha1",
+            "group": "cluster.x-k8s.io",
+            "version": "v1alpha3",
             "resource": "machines"
           },
           "required": true,
           "icons": [
             {
-              "src": "https://cdn.appscode.com/k8s/icons/cluster.k8s.io/machine.svg",
+              "src": "https://cdn.appscode.com/k8s/icons/cluster.x-k8s.io/machine.svg",
               "type": "image/svg+xml"
             }
           ],
@@ -41,14 +41,14 @@
         {
           "name": "Machine Sets",
           "type": {
-            "group": "cluster.k8s.io",
-            "version": "v1alpha1",
+            "group": "cluster.x-k8s.io",
+            "version": "v1alpha3",
             "resource": "machinesets"
           },
           "required": true,
           "icons": [
             {
-              "src": "https://cdn.appscode.com/k8s/icons/cluster.k8s.io/machinesset.svg",
+              "src": "https://cdn.appscode.com/k8s/icons/cluster.x-k8s.io/machinesset.svg",
               "type": "image/svg+xml"
             }
           ],
@@ -607,7 +607,7 @@
           "name": "CSI Drivers",
           "type": {
             "group": "storage.k8s.io",
-            "version": "v1beta1",
+            "version": "v1",
             "resource": "csidrivers"
           },
           "icons": [
@@ -616,8 +616,7 @@
               "type": "image/svg+xml"
             }
           ],
-          "namespaced": false,
-          "missing": true
+          "namespaced": false
         }
       ]
     },
@@ -1137,21 +1136,6 @@
         }
       ],
       "entries": [
-        {
-          "name": "CSIDriver",
-          "type": {
-            "group": "storage.k8s.io",
-            "version": "v1",
-            "resource": "csidrivers"
-          },
-          "icons": [
-            {
-              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
-              "type": "image/svg+xml"
-            }
-          ],
-          "namespaced": false
-        },
         {
           "name": "CSINode",
           "type": {
