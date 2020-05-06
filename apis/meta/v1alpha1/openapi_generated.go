@@ -298,6 +298,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GraphFinder":                schema_resource_metadata_apis_meta_v1alpha1_GraphFinder(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GraphRequest":               schema_resource_metadata_apis_meta_v1alpha1_GraphRequest(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GraphResponse":              schema_resource_metadata_apis_meta_v1alpha1_GraphResponse(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupResources":             schema_resource_metadata_apis_meta_v1alpha1_GroupResources(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource":       schema_resource_metadata_apis_meta_v1alpha1_GroupVersionResource(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ImageSpec":                  schema_resource_metadata_apis_meta_v1alpha1_ImageSpec(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Link":                       schema_resource_metadata_apis_meta_v1alpha1_Link(ref),
@@ -13597,7 +13598,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_Entry(ref common.ReferenceCallb
 					},
 					"type": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource"),
+							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupResources"),
 						},
 					},
 					"required": {
@@ -13623,7 +13624,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_Entry(ref common.ReferenceCallb
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ImageSpec"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupResources", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ImageSpec"},
 	}
 }
 
@@ -13719,11 +13720,43 @@ func schema_resource_metadata_apis_meta_v1alpha1_GraphResponse(ref common.Refere
 	}
 }
 
+func schema_resource_metadata_apis_meta_v1alpha1_GroupResources(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"groups": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Type:   []string{"string"},
+										Format: "",
+									},
+								},
+							},
+						},
+					},
+					"resource": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+				},
+				Required: []string{"groups", "resource"},
+			},
+		},
+	}
+}
+
 func schema_resource_metadata_apis_meta_v1alpha1_GroupVersionResource(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
-				Description: "GroupVersionResource unambiguously identifies a resource.  It doesn't anonymously include GroupVersion to avoid automatic coercion.  It doesn't use a GroupVersion to avoid custom marshalling",
+				Description: "GroupVersionResource unambiguously identifies a resource.",
 				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"group": {

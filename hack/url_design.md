@@ -39,7 +39,7 @@ https://console.byte.builders/{user_id}/kubernetes/{cluster_name}/{group}/{versi
         {
           "ref": {
             "kind": "Machine",
-            "group": "cluster.k8s.io",
+            "group": "cluster.x-k8s.io",
             "version": "v1alpha1",
             "resource": "machines",
             "namespaced": false
@@ -50,7 +50,7 @@ https://console.byte.builders/{user_id}/kubernetes/{cluster_name}/{group}/{versi
         {
           "ref": {
             "kind": "MachineSet",
-            "group": "cluster.k8s.io",
+            "group": "cluster.x-k8s.io",
             "version": "v1alpha1",
             "resource": "machinesets",
             "namespaced": true

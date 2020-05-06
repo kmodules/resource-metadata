@@ -20,40 +20,6 @@
             }
           ],
           "namespaced": false
-        },
-        {
-          "name": "Machines",
-          "type": {
-            "group": "cluster.k8s.io",
-            "version": "v1alpha1",
-            "resource": "machines"
-          },
-          "required": true,
-          "icons": [
-            {
-              "src": "https://cdn.appscode.com/k8s/icons/cluster.k8s.io/machine.svg",
-              "type": "image/svg+xml"
-            }
-          ],
-          "namespaced": true,
-          "missing": true
-        },
-        {
-          "name": "Machine Sets",
-          "type": {
-            "group": "cluster.k8s.io",
-            "version": "v1alpha1",
-            "resource": "machinesets"
-          },
-          "required": true,
-          "icons": [
-            {
-              "src": "https://cdn.appscode.com/k8s/icons/cluster.k8s.io/machinesset.svg",
-              "type": "image/svg+xml"
-            }
-          ],
-          "namespaced": true,
-          "missing": true
         }
       ]
     },
@@ -607,7 +573,7 @@
           "name": "CSI Drivers",
           "type": {
             "group": "storage.k8s.io",
-            "version": "v1beta1",
+            "version": "v1",
             "resource": "csidrivers"
           },
           "icons": [
@@ -616,8 +582,7 @@
               "type": "image/svg+xml"
             }
           ],
-          "namespaced": false,
-          "missing": true
+          "namespaced": false
         }
       ]
     }
