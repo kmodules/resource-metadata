@@ -35,7 +35,8 @@
               "type": "image/svg+xml"
             }
           ],
-          "namespaced": true
+          "namespaced": true,
+          "missing": true
         },
         {
           "name": "Machine Sets",
@@ -51,7 +52,8 @@
               "type": "image/svg+xml"
             }
           ],
-          "namespaced": true
+          "namespaced": true,
+          "missing": true
         }
       ]
     },
@@ -239,7 +241,11 @@
               "type": "image/svg+xml"
             }
           ],
-          "namespaced": true
+          "namespaced": true,
+          "missing": true,
+          "installer": {
+            "productID": "prod_Gnc33bJka9iRl9"
+          }
         }
       ]
     },
@@ -298,7 +304,8 @@
               "type": "image/svg+xml"
             }
           ],
-          "namespaced": true
+          "namespaced": true,
+          "missing": true
         },
         {
           "name": "Network Policies",
@@ -444,7 +451,8 @@
               "type": "image/svg+xml"
             }
           ],
-          "namespaced": true
+          "namespaced": true,
+          "missing": true
         }
       ]
     },
@@ -487,7 +495,8 @@
               "type": "image/svg+xml"
             }
           ],
-          "namespaced": true
+          "namespaced": true,
+          "missing": true
         },
         {
           "name": "Service Accounts",
@@ -607,7 +616,8 @@
               "type": "image/svg+xml"
             }
           ],
-          "namespaced": false
+          "namespaced": false,
+          "missing": true
         }
       ]
     },
@@ -731,105 +741,6 @@
             }
           ],
           "namespaced": true
-        }
-      ]
-    },
-    {
-      "name": "Authentication",
-      "apiGroup": "authentication.k8s.io",
-      "icons": [
-        {
-          "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
-          "type": "image/svg+xml"
-        }
-      ],
-      "entries": [
-        {
-          "name": "TokenReview",
-          "type": {
-            "group": "authentication.k8s.io",
-            "version": "v1",
-            "resource": "tokenreviews"
-          },
-          "icons": [
-            {
-              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
-              "type": "image/svg+xml"
-            }
-          ],
-          "namespaced": false
-        }
-      ]
-    },
-    {
-      "name": "Authorization",
-      "apiGroup": "authorization.k8s.io",
-      "icons": [
-        {
-          "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
-          "type": "image/svg+xml"
-        }
-      ],
-      "entries": [
-        {
-          "name": "LocalSubjectAccessReview",
-          "type": {
-            "group": "authorization.k8s.io",
-            "version": "v1",
-            "resource": "localsubjectaccessreviews"
-          },
-          "icons": [
-            {
-              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
-              "type": "image/svg+xml"
-            }
-          ],
-          "namespaced": true
-        },
-        {
-          "name": "SelfSubjectAccessReview",
-          "type": {
-            "group": "authorization.k8s.io",
-            "version": "v1",
-            "resource": "selfsubjectaccessreviews"
-          },
-          "icons": [
-            {
-              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
-              "type": "image/svg+xml"
-            }
-          ],
-          "namespaced": false
-        },
-        {
-          "name": "SelfSubjectRulesReview",
-          "type": {
-            "group": "authorization.k8s.io",
-            "version": "v1",
-            "resource": "selfsubjectrulesreviews"
-          },
-          "icons": [
-            {
-              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
-              "type": "image/svg+xml"
-            }
-          ],
-          "namespaced": false
-        },
-        {
-          "name": "SubjectAccessReview",
-          "type": {
-            "group": "authorization.k8s.io",
-            "version": "v1",
-            "resource": "subjectaccessreviews"
-          },
-          "icons": [
-            {
-              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
-              "type": "image/svg+xml"
-            }
-          ],
-          "namespaced": false
         }
       ]
     },
@@ -965,21 +876,6 @@
         }
       ],
       "entries": [
-        {
-          "name": "Binding",
-          "type": {
-            "group": "",
-            "version": "v1",
-            "resource": "bindings"
-          },
-          "icons": [
-            {
-              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
-              "type": "image/svg+xml"
-            }
-          ],
-          "namespaced": true
-        },
         {
           "name": "ComponentStatus",
           "type": {
@@ -1124,6 +1020,33 @@
       ]
     },
     {
+      "name": "Networking",
+      "apiGroup": "networking.k8s.io",
+      "icons": [
+        {
+          "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+          "type": "image/svg+xml"
+        }
+      ],
+      "entries": [
+        {
+          "name": "IngressClass",
+          "type": {
+            "group": "networking.k8s.io",
+            "version": "v1beta1",
+            "resource": "ingressclasses"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        }
+      ]
+    },
+    {
       "name": "Node",
       "apiGroup": "node.k8s.io",
       "icons": [
@@ -1214,6 +1137,21 @@
         }
       ],
       "entries": [
+        {
+          "name": "CSIDriver",
+          "type": {
+            "group": "storage.k8s.io",
+            "version": "v1",
+            "resource": "csidrivers"
+          },
+          "icons": [
+            {
+              "src": "https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/crd.svg",
+              "type": "image/svg+xml"
+            }
+          ],
+          "namespaced": false
+        },
         {
           "name": "CSINode",
           "type": {
