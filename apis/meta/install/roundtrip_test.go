@@ -23,5 +23,8 @@ import (
 )
 
 func TestRoundTripTypes(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping testing in short mode")
+	}
 	roundtrip.RoundTripTestForAPIGroup(t, Install, nil)
 }

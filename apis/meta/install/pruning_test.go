@@ -27,6 +27,9 @@ import (
 )
 
 func TestPruneTypes(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping testing in short mode")
+	}
 	Install(clientsetscheme.Scheme)
 	crdfuzz.SchemaFuzzTestForV1beta1CRD(t, clientsetscheme.Scheme, v1alpha1.ResourceDescriptor{}.CustomResourceDefinition(), fuzzer.Funcs)
 }
