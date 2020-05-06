@@ -18,6 +18,11 @@ spec:
   icons:
   - src: https://cdn.appscode.com/k8s/icons/cert-manager.io/certificates.svg
     type: image/svg+xml
+  installer:
+    chart:
+      url: https://charts.jetstack.io
+      name: cert-manager
+    version: v0.12.0
   validation:
     openAPIV3Schema:
       description: Certificate is a type to represent a Certificate from ACME
