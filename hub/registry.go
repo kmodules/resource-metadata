@@ -203,8 +203,8 @@ func (r *Registry) createRegistry(cfg *rest.Config) (map[schema.GroupResource]sc
 			if strings.ContainsRune(rs.Name, '/') {
 				continue
 			}
-			// if resource can't be listed skip it
-			if !stringz.Contains(rs.Verbs, "list") {
+			// if resource can't be listed or read (get) skip it
+			if !stringz.Contains(rs.Verbs, "list") || !stringz.Contains(rs.Verbs, "get") {
 				continue
 			}
 
