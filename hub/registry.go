@@ -29,7 +29,7 @@ import (
 	"kmodules.xyz/resource-metadata/hub/resourcedescriptors"
 
 	stringz "github.com/appscode/go/strings"
-	"gomodules.xyz/version"
+	"gomodules.xyz/apiversion"
 	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1beta1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/fields"
@@ -79,7 +79,7 @@ func NewRegistry(uid string, helm HelmVersion, cache KV) *Registry {
 		r.regGVR[v.GroupVersionResource()] = &v
 
 		gr := v.GroupResource()
-		if curVer, ok := guess[gr]; !ok || mustCompareVersions(v.Version, curVer) > 0 {
+		if curVer, ok := guess[gr]; !ok || apiversion.MustCompare(v.Version, curVer) > 0 {
 			guess[gr] = v.Version
 		}
 	})
@@ -90,26 +90,6 @@ func NewRegistry(uid string, helm HelmVersion, cache KV) *Registry {
 	}
 
 	return r
-}
-
-func mustCompareVersions(x, y string) int {
-	result, err := compareVersions(x, y)
-	if err != nil {
-		panic(err)
-	}
-	return result
-}
-
-func compareVersions(x, y string) (int, error) {
-	xv, err := version.NewVersion(x)
-	if err != nil {
-		return 0, err
-	}
-	yv, err := version.NewVersion(y)
-	if err != nil {
-		return 0, err
-	}
-	return xv.Compare(yv), nil
 }
 
 func NewRegistryOfKnownResources() *Registry {
