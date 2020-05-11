@@ -24,6 +24,7 @@ import (
 	"kmodules.xyz/resource-metadata/hub/resourceclasses"
 	"kmodules.xyz/resource-metadata/hub/resourcedescriptors"
 
+	"gomodules.xyz/apiversion"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
@@ -120,7 +121,7 @@ func init() {
 		gvr := rd.Spec.Resource.GroupVersionResource()
 		if existing, ok := LatestGVRs[gvr.GroupResource()]; !ok {
 			LatestGVRs[gvr.GroupResource()] = gvr
-		} else if diff, _ := compareVersions(existing.Version, gvr.Version); diff < 0 {
+		} else if diff, _ := apiversion.Compare(existing.Version, gvr.Version); diff < 0 {
 			LatestGVRs[gvr.GroupResource()] = gvr
 		}
 	}
