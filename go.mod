@@ -17,7 +17,6 @@ require (
 	github.com/spf13/pflag v1.0.3
 	github.com/stretchr/testify v1.4.0
 	golang.org/x/net v0.0.0-20190812203447-cdfb69ac37fc
-	gomodules.xyz/apiversion v0.1.1
 	gomodules.xyz/version v0.1.0
 	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
 	k8s.io/api v0.0.0-20191114100352-16d7abae0d2a
@@ -27,6 +26,7 @@ require (
 	k8s.io/client-go v12.0.0+incompatible
 	k8s.io/klog v0.4.0
 	k8s.io/kube-openapi v0.0.0-20190816220812-743ec37842bf
+	kmodules.xyz/apiversion v0.2.0
 	kmodules.xyz/client-go v0.0.0-20200201171629-70cdbdd3321b
 	kmodules.xyz/crd-schema-fuzz v0.0.0-20191129174258-81f984340891
 	sigs.k8s.io/yaml v1.1.0

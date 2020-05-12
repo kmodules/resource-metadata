@@ -20,11 +20,11 @@ import (
 	"strings"
 	"sync"
 
+	"kmodules.xyz/apiversion"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"kmodules.xyz/resource-metadata/hub/resourceclasses"
 	"kmodules.xyz/resource-metadata/hub/resourcedescriptors"
 
-	"gomodules.xyz/apiversion"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
