@@ -19,8 +19,12 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	"context"
 
+	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+
+	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	rest "k8s.io/client-go/rest"
 )
 
@@ -32,7 +36,7 @@ type PathFindersGetter interface {
 
 // PathFinderInterface has methods to work with PathFinder resources.
 type PathFinderInterface interface {
-	Create(*v1alpha1.PathFinder) (*v1alpha1.PathFinder, error)
+	Create(ctx context.Context, pathFinder *v1alpha1.PathFinder, opts v1.CreateOptions) (*v1alpha1.PathFinder, error)
 	PathFinderExpansion
 }
 
@@ -49,12 +53,13 @@ func newPathFinders(c *MetaV1alpha1Client) *pathFinders {
 }
 
 // Create takes the representation of a pathFinder and creates it.  Returns the server's representation of the pathFinder, and an error, if there is any.
-func (c *pathFinders) Create(pathFinder *v1alpha1.PathFinder) (result *v1alpha1.PathFinder, err error) {
+func (c *pathFinders) Create(ctx context.Context, pathFinder *v1alpha1.PathFinder, opts v1.CreateOptions) (result *v1alpha1.PathFinder, err error) {
 	result = &v1alpha1.PathFinder{}
 	err = c.client.Post().
 		Resource("pathfinders").
+		VersionedParams(&opts, scheme.ParameterCodec).
 		Body(pathFinder).
-		Do().
+		Do(ctx).
 		Into(result)
 	return
 }

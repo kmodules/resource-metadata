@@ -19,8 +19,11 @@ limitations under the License.
 package fake
 
 import (
+	"context"
+
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
+	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	testing "k8s.io/client-go/testing"
 )
@@ -35,7 +38,7 @@ var graphfindersResource = schema.GroupVersionResource{Group: "meta.appscode.com
 var graphfindersKind = schema.GroupVersionKind{Group: "meta.appscode.com", Version: "v1alpha1", Kind: "GraphFinder"}
 
 // Create takes the representation of a graphFinder and creates it.  Returns the server's representation of the graphFinder, and an error, if there is any.
-func (c *FakeGraphFinders) Create(graphFinder *v1alpha1.GraphFinder) (result *v1alpha1.GraphFinder, err error) {
+func (c *FakeGraphFinders) Create(ctx context.Context, graphFinder *v1alpha1.GraphFinder, opts v1.CreateOptions) (result *v1alpha1.GraphFinder, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewRootCreateAction(graphfindersResource, graphFinder), &v1alpha1.GraphFinder{})
 	if obj == nil {

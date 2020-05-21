@@ -19,6 +19,7 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"context"
 	time "time"
 
 	metav1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
@@ -61,13 +62,13 @@ func NewFilteredResourceClassInformer(client versioned.Interface, resyncPeriod t
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.MetaV1alpha1().ResourceClasses().List(options)
+				return client.MetaV1alpha1().ResourceClasses().List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.MetaV1alpha1().ResourceClasses().Watch(options)
+				return client.MetaV1alpha1().ResourceClasses().Watch(context.TODO(), options)
 			},
 		},
 		&metav1alpha1.ResourceClass{},
