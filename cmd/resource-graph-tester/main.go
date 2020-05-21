@@ -18,6 +18,7 @@ limitations under the License.
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"path/filepath"
@@ -61,7 +62,7 @@ func CheckNodeToPod(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "pods",
 	}
-	pod, err := dc.Resource(podGVR).Namespace("kube-system").Get("kube-apiserver-kind-control-plane", metav1.GetOptions{})
+	pod, err := dc.Resource(podGVR).Namespace("kube-system").Get(context.TODO(), "kube-apiserver-kind-control-plane", metav1.GetOptions{})
 	if err != nil {
 		return err
 	}
@@ -72,7 +73,7 @@ func CheckNodeToPod(dc dynamic.Interface, g *graph.Graph) error {
 		Resource: "nodes",
 	}
 
-	nodes, err := g.List(dc, *pod, nodeGVR)
+	nodes, err := g.List(context.TODO(), dc, *pod, nodeGVR)
 	if err != nil {
 		return err
 	}
@@ -89,7 +90,7 @@ func CheckPodToNode(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "nodes",
 	}
-	node, err := dc.Resource(nodeGVR).Get("kind-control-plane", metav1.GetOptions{})
+	node, err := dc.Resource(nodeGVR).Get(context.TODO(), "kind-control-plane", metav1.GetOptions{})
 	if err != nil {
 		return err
 	}
@@ -100,7 +101,7 @@ func CheckPodToNode(dc dynamic.Interface, g *graph.Graph) error {
 		Resource: "pods",
 	}
 
-	pods, err := g.List(dc, *node, podGVR)
+	pods, err := g.List(context.TODO(), dc, *node, podGVR)
 	if err != nil {
 		return err
 	}
@@ -117,7 +118,7 @@ func CheckDeployment(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "deployments",
 	}
-	busyDep, err := dc.Resource(depGVR).Namespace("default").Get("busy-dep", metav1.GetOptions{})
+	busyDep, err := dc.Resource(depGVR).Namespace("default").Get(context.TODO(), "busy-dep", metav1.GetOptions{})
 	if err != nil {
 		return err
 	}
@@ -127,7 +128,7 @@ func CheckDeployment(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "pods",
 	}
-	pods, err := g.List(dc, *busyDep, podGVR)
+	pods, err := g.List(context.TODO(), dc, *busyDep, podGVR)
 	if err != nil {
 		return err
 	}
@@ -140,7 +141,7 @@ func CheckDeployment(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "services",
 	}
-	services, err := g.List(dc, *busyDep, svcGVR)
+	services, err := g.List(context.TODO(), dc, *busyDep, svcGVR)
 	if err != nil {
 		return err
 	}
@@ -157,7 +158,7 @@ func checkPodToPVC(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "pods",
 	}
-	pod, err := dc.Resource(podGVR).Namespace("default").Get("mypod", metav1.GetOptions{})
+	pod, err := dc.Resource(podGVR).Namespace("default").Get(context.TODO(), "mypod", metav1.GetOptions{})
 	if err != nil {
 		return err
 	}
@@ -167,7 +168,7 @@ func checkPodToPVC(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "persistentvolumeclaims",
 	}
-	pvcs, err := g.List(dc, *pod, pvcGVR)
+	pvcs, err := g.List(context.TODO(), dc, *pod, pvcGVR)
 	if err != nil {
 		return err
 	}
@@ -184,7 +185,7 @@ func checkPVCToPod(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "persistentvolumeclaims",
 	}
-	pvc, err := dc.Resource(pvcGVR).Namespace("default").Get("myclaim", metav1.GetOptions{})
+	pvc, err := dc.Resource(pvcGVR).Namespace("default").Get(context.TODO(), "myclaim", metav1.GetOptions{})
 	if err != nil {
 		return err
 	}
@@ -195,7 +196,7 @@ func checkPVCToPod(dc dynamic.Interface, g *graph.Graph) error {
 		Resource: "pods",
 	}
 
-	pods, err := g.List(dc, *pvc, podGVR)
+	pods, err := g.List(context.TODO(), dc, *pvc, podGVR)
 	if err != nil {
 		return err
 	}
@@ -212,7 +213,7 @@ func checkDepToConfigMap(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "deployments",
 	}
-	pod, err := dc.Resource(depGVR).Namespace("default").Get("busy-dep", metav1.GetOptions{})
+	pod, err := dc.Resource(depGVR).Namespace("default").Get(context.TODO(), "busy-dep", metav1.GetOptions{})
 	if err != nil {
 		return err
 	}
@@ -222,7 +223,7 @@ func checkDepToConfigMap(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "configmaps",
 	}
-	cfgs, err := g.List(dc, *pod, cfgGVR)
+	cfgs, err := g.List(context.TODO(), dc, *pod, cfgGVR)
 	if err != nil {
 		return err
 	}
@@ -239,7 +240,7 @@ func checkConfigMapToDep(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "configmaps",
 	}
-	cfg, err := dc.Resource(cfgGVR).Namespace("default").Get("omni", metav1.GetOptions{})
+	cfg, err := dc.Resource(cfgGVR).Namespace("default").Get(context.TODO(), "omni", metav1.GetOptions{})
 	if err != nil {
 		return err
 	}
@@ -249,7 +250,7 @@ func checkConfigMapToDep(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "deployments",
 	}
-	deps, err := g.List(dc, *cfg, depGVR)
+	deps, err := g.List(context.TODO(), dc, *cfg, depGVR)
 	if err != nil {
 		return err
 	}
@@ -266,7 +267,7 @@ func checkKubeDBToService(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1alpha1",
 		Resource: "postgreses",
 	}
-	pg, err := dc.Resource(pgGVR).Namespace("demo").Get("quick-postgres", metav1.GetOptions{})
+	pg, err := dc.Resource(pgGVR).Namespace("demo").Get(context.TODO(), "quick-postgres", metav1.GetOptions{})
 	if err != nil {
 		return err
 	}
@@ -276,7 +277,7 @@ func checkKubeDBToService(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "services",
 	}
-	services, err := g.List(dc, *pg, svcGVR)
+	services, err := g.List(context.TODO(), dc, *pg, svcGVR)
 	if err != nil {
 		return err
 	}
@@ -293,7 +294,7 @@ func checkKubeDBToStatefulset(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1alpha1",
 		Resource: "postgreses",
 	}
-	pg, err := dc.Resource(pgGVR).Namespace("demo").Get("quick-postgres", metav1.GetOptions{})
+	pg, err := dc.Resource(pgGVR).Namespace("demo").Get(context.TODO(), "quick-postgres", metav1.GetOptions{})
 	if err != nil {
 		return err
 	}
@@ -303,7 +304,7 @@ func checkKubeDBToStatefulset(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "statefulsets",
 	}
-	statefulsets, err := g.List(dc, *pg, ssGVR)
+	statefulsets, err := g.List(context.TODO(), dc, *pg, ssGVR)
 	if err != nil {
 		return err
 	}
