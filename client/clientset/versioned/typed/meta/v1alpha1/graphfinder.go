@@ -19,8 +19,12 @@ limitations under the License.
 package v1alpha1
 
 import (
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	"context"
 
+	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+
+	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	rest "k8s.io/client-go/rest"
 )
 
@@ -32,7 +36,7 @@ type GraphFindersGetter interface {
 
 // GraphFinderInterface has methods to work with GraphFinder resources.
 type GraphFinderInterface interface {
-	Create(*v1alpha1.GraphFinder) (*v1alpha1.GraphFinder, error)
+	Create(ctx context.Context, graphFinder *v1alpha1.GraphFinder, opts v1.CreateOptions) (*v1alpha1.GraphFinder, error)
 	GraphFinderExpansion
 }
 
@@ -49,12 +53,13 @@ func newGraphFinders(c *MetaV1alpha1Client) *graphFinders {
 }
 
 // Create takes the representation of a graphFinder and creates it.  Returns the server's representation of the graphFinder, and an error, if there is any.
-func (c *graphFinders) Create(graphFinder *v1alpha1.GraphFinder) (result *v1alpha1.GraphFinder, err error) {
+func (c *graphFinders) Create(ctx context.Context, graphFinder *v1alpha1.GraphFinder, opts v1.CreateOptions) (result *v1alpha1.GraphFinder, err error) {
 	result = &v1alpha1.GraphFinder{}
 	err = c.client.Post().
 		Resource("graphfinders").
+		VersionedParams(&opts, scheme.ParameterCodec).
 		Body(graphFinder).
-		Do().
+		Do(ctx).
 		Into(result)
 	return
 }

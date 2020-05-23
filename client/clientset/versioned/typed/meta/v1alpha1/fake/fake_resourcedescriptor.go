@@ -19,6 +19,8 @@ limitations under the License.
 package fake
 
 import (
+	"context"
+
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -39,7 +41,7 @@ var resourcedescriptorsResource = schema.GroupVersionResource{Group: "meta.appsc
 var resourcedescriptorsKind = schema.GroupVersionKind{Group: "meta.appscode.com", Version: "v1alpha1", Kind: "ResourceDescriptor"}
 
 // Get takes name of the resourceDescriptor, and returns the corresponding resourceDescriptor object, and an error if there is any.
-func (c *FakeResourceDescriptors) Get(name string, options v1.GetOptions) (result *v1alpha1.ResourceDescriptor, err error) {
+func (c *FakeResourceDescriptors) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ResourceDescriptor, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewRootGetAction(resourcedescriptorsResource, name), &v1alpha1.ResourceDescriptor{})
 	if obj == nil {
@@ -49,7 +51,7 @@ func (c *FakeResourceDescriptors) Get(name string, options v1.GetOptions) (resul
 }
 
 // List takes label and field selectors, and returns the list of ResourceDescriptors that match those selectors.
-func (c *FakeResourceDescriptors) List(opts v1.ListOptions) (result *v1alpha1.ResourceDescriptorList, err error) {
+func (c *FakeResourceDescriptors) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.ResourceDescriptorList, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewRootListAction(resourcedescriptorsResource, resourcedescriptorsKind, opts), &v1alpha1.ResourceDescriptorList{})
 	if obj == nil {
@@ -70,13 +72,13 @@ func (c *FakeResourceDescriptors) List(opts v1.ListOptions) (result *v1alpha1.Re
 }
 
 // Watch returns a watch.Interface that watches the requested resourceDescriptors.
-func (c *FakeResourceDescriptors) Watch(opts v1.ListOptions) (watch.Interface, error) {
+func (c *FakeResourceDescriptors) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
 	return c.Fake.
 		InvokesWatch(testing.NewRootWatchAction(resourcedescriptorsResource, opts))
 }
 
 // Create takes the representation of a resourceDescriptor and creates it.  Returns the server's representation of the resourceDescriptor, and an error, if there is any.
-func (c *FakeResourceDescriptors) Create(resourceDescriptor *v1alpha1.ResourceDescriptor) (result *v1alpha1.ResourceDescriptor, err error) {
+func (c *FakeResourceDescriptors) Create(ctx context.Context, resourceDescriptor *v1alpha1.ResourceDescriptor, opts v1.CreateOptions) (result *v1alpha1.ResourceDescriptor, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewRootCreateAction(resourcedescriptorsResource, resourceDescriptor), &v1alpha1.ResourceDescriptor{})
 	if obj == nil {
@@ -86,7 +88,7 @@ func (c *FakeResourceDescriptors) Create(resourceDescriptor *v1alpha1.ResourceDe
 }
 
 // Update takes the representation of a resourceDescriptor and updates it. Returns the server's representation of the resourceDescriptor, and an error, if there is any.
-func (c *FakeResourceDescriptors) Update(resourceDescriptor *v1alpha1.ResourceDescriptor) (result *v1alpha1.ResourceDescriptor, err error) {
+func (c *FakeResourceDescriptors) Update(ctx context.Context, resourceDescriptor *v1alpha1.ResourceDescriptor, opts v1.UpdateOptions) (result *v1alpha1.ResourceDescriptor, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewRootUpdateAction(resourcedescriptorsResource, resourceDescriptor), &v1alpha1.ResourceDescriptor{})
 	if obj == nil {
@@ -96,22 +98,22 @@ func (c *FakeResourceDescriptors) Update(resourceDescriptor *v1alpha1.ResourceDe
 }
 
 // Delete takes name of the resourceDescriptor and deletes it. Returns an error if one occurs.
-func (c *FakeResourceDescriptors) Delete(name string, options *v1.DeleteOptions) error {
+func (c *FakeResourceDescriptors) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
 		Invokes(testing.NewRootDeleteAction(resourcedescriptorsResource, name), &v1alpha1.ResourceDescriptor{})
 	return err
 }
 
 // DeleteCollection deletes a collection of objects.
-func (c *FakeResourceDescriptors) DeleteCollection(options *v1.DeleteOptions, listOptions v1.ListOptions) error {
-	action := testing.NewRootDeleteCollectionAction(resourcedescriptorsResource, listOptions)
+func (c *FakeResourceDescriptors) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
+	action := testing.NewRootDeleteCollectionAction(resourcedescriptorsResource, listOpts)
 
 	_, err := c.Fake.Invokes(action, &v1alpha1.ResourceDescriptorList{})
 	return err
 }
 
 // Patch applies the patch and returns the patched resourceDescriptor.
-func (c *FakeResourceDescriptors) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *v1alpha1.ResourceDescriptor, err error) {
+func (c *FakeResourceDescriptors) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.ResourceDescriptor, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewRootPatchSubresourceAction(resourcedescriptorsResource, name, pt, data, subresources...), &v1alpha1.ResourceDescriptor{})
 	if obj == nil {

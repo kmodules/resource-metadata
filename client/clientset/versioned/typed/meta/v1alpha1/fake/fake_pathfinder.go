@@ -19,8 +19,11 @@ limitations under the License.
 package fake
 
 import (
+	"context"
+
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
+	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	testing "k8s.io/client-go/testing"
 )
@@ -35,7 +38,7 @@ var pathfindersResource = schema.GroupVersionResource{Group: "meta.appscode.com"
 var pathfindersKind = schema.GroupVersionKind{Group: "meta.appscode.com", Version: "v1alpha1", Kind: "PathFinder"}
 
 // Create takes the representation of a pathFinder and creates it.  Returns the server's representation of the pathFinder, and an error, if there is any.
-func (c *FakePathFinders) Create(pathFinder *v1alpha1.PathFinder) (result *v1alpha1.PathFinder, err error) {
+func (c *FakePathFinders) Create(ctx context.Context, pathFinder *v1alpha1.PathFinder, opts v1.CreateOptions) (result *v1alpha1.PathFinder, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewRootCreateAction(pathfindersResource, pathFinder), &v1alpha1.PathFinder{})
 	if obj == nil {

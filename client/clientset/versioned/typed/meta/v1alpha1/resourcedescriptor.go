@@ -19,6 +19,7 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"context"
 	"time"
 
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
@@ -38,14 +39,14 @@ type ResourceDescriptorsGetter interface {
 
 // ResourceDescriptorInterface has methods to work with ResourceDescriptor resources.
 type ResourceDescriptorInterface interface {
-	Create(*v1alpha1.ResourceDescriptor) (*v1alpha1.ResourceDescriptor, error)
-	Update(*v1alpha1.ResourceDescriptor) (*v1alpha1.ResourceDescriptor, error)
-	Delete(name string, options *v1.DeleteOptions) error
-	DeleteCollection(options *v1.DeleteOptions, listOptions v1.ListOptions) error
-	Get(name string, options v1.GetOptions) (*v1alpha1.ResourceDescriptor, error)
-	List(opts v1.ListOptions) (*v1alpha1.ResourceDescriptorList, error)
-	Watch(opts v1.ListOptions) (watch.Interface, error)
-	Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *v1alpha1.ResourceDescriptor, err error)
+	Create(ctx context.Context, resourceDescriptor *v1alpha1.ResourceDescriptor, opts v1.CreateOptions) (*v1alpha1.ResourceDescriptor, error)
+	Update(ctx context.Context, resourceDescriptor *v1alpha1.ResourceDescriptor, opts v1.UpdateOptions) (*v1alpha1.ResourceDescriptor, error)
+	Delete(ctx context.Context, name string, opts v1.DeleteOptions) error
+	DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error
+	Get(ctx context.Context, name string, opts v1.GetOptions) (*v1alpha1.ResourceDescriptor, error)
+	List(ctx context.Context, opts v1.ListOptions) (*v1alpha1.ResourceDescriptorList, error)
+	Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error)
+	Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.ResourceDescriptor, err error)
 	ResourceDescriptorExpansion
 }
 
@@ -62,19 +63,19 @@ func newResourceDescriptors(c *MetaV1alpha1Client) *resourceDescriptors {
 }
 
 // Get takes name of the resourceDescriptor, and returns the corresponding resourceDescriptor object, and an error if there is any.
-func (c *resourceDescriptors) Get(name string, options v1.GetOptions) (result *v1alpha1.ResourceDescriptor, err error) {
+func (c *resourceDescriptors) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ResourceDescriptor, err error) {
 	result = &v1alpha1.ResourceDescriptor{}
 	err = c.client.Get().
 		Resource("resourcedescriptors").
 		Name(name).
 		VersionedParams(&options, scheme.ParameterCodec).
-		Do().
+		Do(ctx).
 		Into(result)
 	return
 }
 
 // List takes label and field selectors, and returns the list of ResourceDescriptors that match those selectors.
-func (c *resourceDescriptors) List(opts v1.ListOptions) (result *v1alpha1.ResourceDescriptorList, err error) {
+func (c *resourceDescriptors) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.ResourceDescriptorList, err error) {
 	var timeout time.Duration
 	if opts.TimeoutSeconds != nil {
 		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
@@ -84,13 +85,13 @@ func (c *resourceDescriptors) List(opts v1.ListOptions) (result *v1alpha1.Resour
 		Resource("resourcedescriptors").
 		VersionedParams(&opts, scheme.ParameterCodec).
 		Timeout(timeout).
-		Do().
+		Do(ctx).
 		Into(result)
 	return
 }
 
 // Watch returns a watch.Interface that watches the requested resourceDescriptors.
-func (c *resourceDescriptors) Watch(opts v1.ListOptions) (watch.Interface, error) {
+func (c *resourceDescriptors) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
 	var timeout time.Duration
 	if opts.TimeoutSeconds != nil {
 		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
@@ -100,66 +101,69 @@ func (c *resourceDescriptors) Watch(opts v1.ListOptions) (watch.Interface, error
 		Resource("resourcedescriptors").
 		VersionedParams(&opts, scheme.ParameterCodec).
 		Timeout(timeout).
-		Watch()
+		Watch(ctx)
 }
 
 // Create takes the representation of a resourceDescriptor and creates it.  Returns the server's representation of the resourceDescriptor, and an error, if there is any.
-func (c *resourceDescriptors) Create(resourceDescriptor *v1alpha1.ResourceDescriptor) (result *v1alpha1.ResourceDescriptor, err error) {
+func (c *resourceDescriptors) Create(ctx context.Context, resourceDescriptor *v1alpha1.ResourceDescriptor, opts v1.CreateOptions) (result *v1alpha1.ResourceDescriptor, err error) {
 	result = &v1alpha1.ResourceDescriptor{}
 	err = c.client.Post().
 		Resource("resourcedescriptors").
+		VersionedParams(&opts, scheme.ParameterCodec).
 		Body(resourceDescriptor).
-		Do().
+		Do(ctx).
 		Into(result)
 	return
 }
 
 // Update takes the representation of a resourceDescriptor and updates it. Returns the server's representation of the resourceDescriptor, and an error, if there is any.
-func (c *resourceDescriptors) Update(resourceDescriptor *v1alpha1.ResourceDescriptor) (result *v1alpha1.ResourceDescriptor, err error) {
+func (c *resourceDescriptors) Update(ctx context.Context, resourceDescriptor *v1alpha1.ResourceDescriptor, opts v1.UpdateOptions) (result *v1alpha1.ResourceDescriptor, err error) {
 	result = &v1alpha1.ResourceDescriptor{}
 	err = c.client.Put().
 		Resource("resourcedescriptors").
 		Name(resourceDescriptor.Name).
+		VersionedParams(&opts, scheme.ParameterCodec).
 		Body(resourceDescriptor).
-		Do().
+		Do(ctx).
 		Into(result)
 	return
 }
 
 // Delete takes name of the resourceDescriptor and deletes it. Returns an error if one occurs.
-func (c *resourceDescriptors) Delete(name string, options *v1.DeleteOptions) error {
+func (c *resourceDescriptors) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	return c.client.Delete().
 		Resource("resourcedescriptors").
 		Name(name).
-		Body(options).
-		Do().
+		Body(&opts).
+		Do(ctx).
 		Error()
 }
 
 // DeleteCollection deletes a collection of objects.
-func (c *resourceDescriptors) DeleteCollection(options *v1.DeleteOptions, listOptions v1.ListOptions) error {
+func (c *resourceDescriptors) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
 	var timeout time.Duration
-	if listOptions.TimeoutSeconds != nil {
-		timeout = time.Duration(*listOptions.TimeoutSeconds) * time.Second
+	if listOpts.TimeoutSeconds != nil {
+		timeout = time.Duration(*listOpts.TimeoutSeconds) * time.Second
 	}
 	return c.client.Delete().
 		Resource("resourcedescriptors").
-		VersionedParams(&listOptions, scheme.ParameterCodec).
+		VersionedParams(&listOpts, scheme.ParameterCodec).
 		Timeout(timeout).
-		Body(options).
-		Do().
+		Body(&opts).
+		Do(ctx).
 		Error()
 }
 
 // Patch applies the patch and returns the patched resourceDescriptor.
-func (c *resourceDescriptors) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *v1alpha1.ResourceDescriptor, err error) {
+func (c *resourceDescriptors) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.ResourceDescriptor, err error) {
 	result = &v1alpha1.ResourceDescriptor{}
 	err = c.client.Patch(pt).
 		Resource("resourcedescriptors").
-		SubResource(subresources...).
 		Name(name).
+		SubResource(subresources...).
+		VersionedParams(&opts, scheme.ParameterCodec).
 		Body(data).
-		Do().
+		Do(ctx).
 		Into(result)
 	return
 }

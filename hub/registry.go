@@ -17,6 +17,7 @@ limitations under the License.
 package hub
 
 import (
+	"context"
 	"fmt"
 	"math"
 	"sort"
@@ -130,7 +131,7 @@ func DiscoverHelm(cfg *rest.Config) (HelmVersion, string, error) {
 		return HelmUnused, "", err
 	}
 
-	services, err := kc.CoreV1().Services(metav1.NamespaceAll).List(metav1.ListOptions{
+	services, err := kc.CoreV1().Services(metav1.NamespaceAll).List(context.TODO(), metav1.ListOptions{
 		FieldSelector: fields.OneTermEqualSelector("metadata.name", "tiller-deploy").String(),
 	})
 	if err != nil {
@@ -226,7 +227,7 @@ func (r *Registry) createRegistry(cfg *rest.Config) (map[schema.GroupResource]sc
 				},
 			}
 			if !v1alpha1.IsOfficialType(rd.Spec.Resource.Group) {
-				crd, err := apiext.CustomResourceDefinitions().Get(fmt.Sprintf("%s.%s", rd.Spec.Resource.Name, rd.Spec.Resource.Group), metav1.GetOptions{})
+				crd, err := apiext.CustomResourceDefinitions().Get(context.TODO(), fmt.Sprintf("%s.%s", rd.Spec.Resource.Name, rd.Spec.Resource.Group), metav1.GetOptions{})
 				if err == nil {
 					rd.Spec.Validation = crd.Spec.Validation
 				}

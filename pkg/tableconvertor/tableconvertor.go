@@ -91,7 +91,7 @@ func filterColumnsWithDefaults(client crd_cs.CustomResourceDefinitionInterface, 
 
 	var additionalColumns []v1alpha1.ResourceColumnDefinition
 	if client != nil {
-		crd, err := client.Get(fmt.Sprintf("%s.%s", gvr.Resource, gvr.Group), metav1.GetOptions{})
+		crd, err := client.Get(context.TODO(), fmt.Sprintf("%s.%s", gvr.Resource, gvr.Group), metav1.GetOptions{})
 		if err == nil {
 			for _, version := range crd.Spec.Versions {
 				if version.Name == gvr.Version && len(version.AdditionalPrinterColumns) > 0 {

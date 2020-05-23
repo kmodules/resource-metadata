@@ -19,6 +19,7 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"context"
 	"time"
 
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
@@ -38,14 +39,14 @@ type ResourceClassesGetter interface {
 
 // ResourceClassInterface has methods to work with ResourceClass resources.
 type ResourceClassInterface interface {
-	Create(*v1alpha1.ResourceClass) (*v1alpha1.ResourceClass, error)
-	Update(*v1alpha1.ResourceClass) (*v1alpha1.ResourceClass, error)
-	Delete(name string, options *v1.DeleteOptions) error
-	DeleteCollection(options *v1.DeleteOptions, listOptions v1.ListOptions) error
-	Get(name string, options v1.GetOptions) (*v1alpha1.ResourceClass, error)
-	List(opts v1.ListOptions) (*v1alpha1.ResourceClassList, error)
-	Watch(opts v1.ListOptions) (watch.Interface, error)
-	Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *v1alpha1.ResourceClass, err error)
+	Create(ctx context.Context, resourceClass *v1alpha1.ResourceClass, opts v1.CreateOptions) (*v1alpha1.ResourceClass, error)
+	Update(ctx context.Context, resourceClass *v1alpha1.ResourceClass, opts v1.UpdateOptions) (*v1alpha1.ResourceClass, error)
+	Delete(ctx context.Context, name string, opts v1.DeleteOptions) error
+	DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error
+	Get(ctx context.Context, name string, opts v1.GetOptions) (*v1alpha1.ResourceClass, error)
+	List(ctx context.Context, opts v1.ListOptions) (*v1alpha1.ResourceClassList, error)
+	Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error)
+	Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.ResourceClass, err error)
 	ResourceClassExpansion
 }
 
@@ -62,19 +63,19 @@ func newResourceClasses(c *MetaV1alpha1Client) *resourceClasses {
 }
 
 // Get takes name of the resourceClass, and returns the corresponding resourceClass object, and an error if there is any.
-func (c *resourceClasses) Get(name string, options v1.GetOptions) (result *v1alpha1.ResourceClass, err error) {
+func (c *resourceClasses) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ResourceClass, err error) {
 	result = &v1alpha1.ResourceClass{}
 	err = c.client.Get().
 		Resource("resourceclasses").
 		Name(name).
 		VersionedParams(&options, scheme.ParameterCodec).
-		Do().
+		Do(ctx).
 		Into(result)
 	return
 }
 
 // List takes label and field selectors, and returns the list of ResourceClasses that match those selectors.
-func (c *resourceClasses) List(opts v1.ListOptions) (result *v1alpha1.ResourceClassList, err error) {
+func (c *resourceClasses) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.ResourceClassList, err error) {
 	var timeout time.Duration
 	if opts.TimeoutSeconds != nil {
 		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
@@ -84,13 +85,13 @@ func (c *resourceClasses) List(opts v1.ListOptions) (result *v1alpha1.ResourceCl
 		Resource("resourceclasses").
 		VersionedParams(&opts, scheme.ParameterCodec).
 		Timeout(timeout).
-		Do().
+		Do(ctx).
 		Into(result)
 	return
 }
 
 // Watch returns a watch.Interface that watches the requested resourceClasses.
-func (c *resourceClasses) Watch(opts v1.ListOptions) (watch.Interface, error) {
+func (c *resourceClasses) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
 	var timeout time.Duration
 	if opts.TimeoutSeconds != nil {
 		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
@@ -100,66 +101,69 @@ func (c *resourceClasses) Watch(opts v1.ListOptions) (watch.Interface, error) {
 		Resource("resourceclasses").
 		VersionedParams(&opts, scheme.ParameterCodec).
 		Timeout(timeout).
-		Watch()
+		Watch(ctx)
 }
 
 // Create takes the representation of a resourceClass and creates it.  Returns the server's representation of the resourceClass, and an error, if there is any.
-func (c *resourceClasses) Create(resourceClass *v1alpha1.ResourceClass) (result *v1alpha1.ResourceClass, err error) {
+func (c *resourceClasses) Create(ctx context.Context, resourceClass *v1alpha1.ResourceClass, opts v1.CreateOptions) (result *v1alpha1.ResourceClass, err error) {
 	result = &v1alpha1.ResourceClass{}
 	err = c.client.Post().
 		Resource("resourceclasses").
+		VersionedParams(&opts, scheme.ParameterCodec).
 		Body(resourceClass).
-		Do().
+		Do(ctx).
 		Into(result)
 	return
 }
 
 // Update takes the representation of a resourceClass and updates it. Returns the server's representation of the resourceClass, and an error, if there is any.
-func (c *resourceClasses) Update(resourceClass *v1alpha1.ResourceClass) (result *v1alpha1.ResourceClass, err error) {
+func (c *resourceClasses) Update(ctx context.Context, resourceClass *v1alpha1.ResourceClass, opts v1.UpdateOptions) (result *v1alpha1.ResourceClass, err error) {
 	result = &v1alpha1.ResourceClass{}
 	err = c.client.Put().
 		Resource("resourceclasses").
 		Name(resourceClass.Name).
+		VersionedParams(&opts, scheme.ParameterCodec).
 		Body(resourceClass).
-		Do().
+		Do(ctx).
 		Into(result)
 	return
 }
 
 // Delete takes name of the resourceClass and deletes it. Returns an error if one occurs.
-func (c *resourceClasses) Delete(name string, options *v1.DeleteOptions) error {
+func (c *resourceClasses) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	return c.client.Delete().
 		Resource("resourceclasses").
 		Name(name).
-		Body(options).
-		Do().
+		Body(&opts).
+		Do(ctx).
 		Error()
 }
 
 // DeleteCollection deletes a collection of objects.
-func (c *resourceClasses) DeleteCollection(options *v1.DeleteOptions, listOptions v1.ListOptions) error {
+func (c *resourceClasses) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
 	var timeout time.Duration
-	if listOptions.TimeoutSeconds != nil {
-		timeout = time.Duration(*listOptions.TimeoutSeconds) * time.Second
+	if listOpts.TimeoutSeconds != nil {
+		timeout = time.Duration(*listOpts.TimeoutSeconds) * time.Second
 	}
 	return c.client.Delete().
 		Resource("resourceclasses").
-		VersionedParams(&listOptions, scheme.ParameterCodec).
+		VersionedParams(&listOpts, scheme.ParameterCodec).
 		Timeout(timeout).
-		Body(options).
-		Do().
+		Body(&opts).
+		Do(ctx).
 		Error()
 }
 
 // Patch applies the patch and returns the patched resourceClass.
-func (c *resourceClasses) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *v1alpha1.ResourceClass, err error) {
+func (c *resourceClasses) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.ResourceClass, err error) {
 	result = &v1alpha1.ResourceClass{}
 	err = c.client.Patch(pt).
 		Resource("resourceclasses").
-		SubResource(subresources...).
 		Name(name).
+		SubResource(subresources...).
+		VersionedParams(&opts, scheme.ParameterCodec).
 		Body(data).
-		Do().
+		Do(ctx).
 		Into(result)
 	return
 }

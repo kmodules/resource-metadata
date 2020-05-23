@@ -18,6 +18,7 @@ package graph
 
 import (
 	"bytes"
+	"context"
 	"encoding/csv"
 	"errors"
 	"fmt"
@@ -36,7 +37,7 @@ import (
 	"k8s.io/client-go/util/jsonpath"
 )
 
-func (g *Graph) List(dc dynamic.Interface, src unstructured.Unstructured, dstGVR schema.GroupVersionResource) ([]unstructured.Unstructured, error) {
+func (g *Graph) List(ctx context.Context, dc dynamic.Interface, src unstructured.Unstructured, dstGVR schema.GroupVersionResource) ([]unstructured.Unstructured, error) {
 	srcGVR, err := g.r.GVR(src.GroupVersionKind())
 	if err != nil {
 		return nil, err
@@ -54,7 +55,7 @@ func (g *Graph) List(dc dynamic.Interface, src unstructured.Unstructured, dstGVR
 	for _, e := range path.Edges {
 		out = nil
 		for _, inObj := range in {
-			result, err := g.ResourcesFor(dc, inObj, *e)
+			result, err := g.ResourcesFor(ctx, dc, inObj, *e)
 			if err != nil {
 				return nil, err
 			}
@@ -88,7 +89,7 @@ func appendObjects(arr []unstructured.Unstructured, items ...unstructured.Unstru
 	return out
 }
 
-func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured, e Edge) ([]unstructured.Unstructured, error) {
+func (g *Graph) ResourcesFor(ctx context.Context, dc dynamic.Interface, src unstructured.Unstructured, e Edge) ([]unstructured.Unstructured, error) {
 	gvr, err := g.r.GVR(src.GroupVersionKind())
 	if err != nil {
 		return nil, err
@@ -147,7 +148,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 				if !selInApp {
 					opts.LabelSelector = ls
 				}
-				result, err := ri.List(opts)
+				result, err := ri.List(ctx, opts)
 				if err != nil {
 					return nil, err
 				}
@@ -193,7 +194,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 				} else if namespaced {
 					ri = dc.Resource(e.Dst).Namespace(ns)
 				}
-				rs, err := ri.Get(name, metav1.GetOptions{})
+				rs, err := ri.Get(ctx, name, metav1.GetOptions{})
 				if err != nil {
 					return nil, err
 				}
@@ -204,7 +205,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 			}
 			return out, nil
 		} else if e.Connection.Type == v1alpha1.OwnedBy {
-			return g.findOwners(dc, e, src.GetOwnerReferences(), src.GetNamespace())
+			return g.findOwners(ctx, dc, e, src.GetOwnerReferences(), src.GetNamespace())
 		} else if e.Connection.Type == v1alpha1.MatchRef {
 			// TODO: check that namespacePath must be empty
 
@@ -266,7 +267,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 						}
 						ri = dc.Resource(e.Dst).Namespace(ns)
 					}
-					rs, err := ri.Get(ref.Name, metav1.GetOptions{})
+					rs, err := ri.Get(ctx, ref.Name, metav1.GetOptions{})
 					if err != nil {
 						return nil, err
 					}
@@ -307,7 +308,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 			} else if namespaced {
 				ri = dc.Resource(e.Dst).Namespace(namespace)
 			}
-			result, err := ri.List(metav1.ListOptions{})
+			result, err := ri.List(ctx, metav1.ListOptions{})
 			if err != nil {
 				return nil, err
 			}
@@ -371,7 +372,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 				} else if namespaced {
 					ri = dc.Resource(e.Dst).Namespace(namespace)
 				}
-				rs, err := ri.Get(name, metav1.GetOptions{})
+				rs, err := ri.Get(ctx, name, metav1.GetOptions{})
 				if err != nil {
 					return nil, err
 				}
@@ -383,7 +384,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 				return out, nil
 			}
 		} else if e.Connection.Type == v1alpha1.OwnedBy {
-			return g.findChildren(dc, e, src)
+			return g.findChildren(ctx, dc, e, src)
 		} else if e.Connection.Type == v1alpha1.MatchRef {
 			// TODO: check that namespacePath must be empty
 
@@ -398,7 +399,7 @@ func (g *Graph) ResourcesFor(dc dynamic.Interface, src unstructured.Unstructured
 				}
 				ri = dc.Resource(e.Dst).Namespace(ns)
 			}
-			result, err := ri.List(metav1.ListOptions{})
+			result, err := ri.List(ctx, metav1.ListOptions{})
 			if err != nil {
 				return nil, err
 			}
@@ -558,7 +559,7 @@ func evalJsonPath(src unstructured.Unstructured, template string) (string, error
 	return strings.TrimSpace(buf.String()), nil
 }
 
-func (g *Graph) findOwners(dc dynamic.Interface, e Edge, srcOwnerRefs []metav1.OwnerReference, namespace string) ([]unstructured.Unstructured, error) {
+func (g *Graph) findOwners(ctx context.Context, dc dynamic.Interface, e Edge, srcOwnerRefs []metav1.OwnerReference, namespace string) ([]unstructured.Unstructured, error) {
 	var out []unstructured.Unstructured
 
 	var ri dynamic.ResourceInterface
@@ -576,7 +577,7 @@ func (g *Graph) findOwners(dc dynamic.Interface, e Edge, srcOwnerRefs []metav1.O
 		if ref.APIVersion == t.APIVersion && ref.Kind == t.Kind {
 			if e.Connection.Level == v1alpha1.Controller {
 				if ref.Controller != nil && *ref.Controller {
-					rs, err := ri.Get(ref.Name, metav1.GetOptions{})
+					rs, err := ri.Get(ctx, ref.Name, metav1.GetOptions{})
 					if err != nil {
 						return nil, err
 					}
@@ -584,7 +585,7 @@ func (g *Graph) findOwners(dc dynamic.Interface, e Edge, srcOwnerRefs []metav1.O
 					break
 				}
 			} else if e.Connection.Level == v1alpha1.Owner {
-				rs, err := ri.Get(ref.Name, metav1.GetOptions{})
+				rs, err := ri.Get(ctx, ref.Name, metav1.GetOptions{})
 				if err != nil {
 					return nil, err
 				}
@@ -598,7 +599,7 @@ func (g *Graph) findOwners(dc dynamic.Interface, e Edge, srcOwnerRefs []metav1.O
 	return out, nil
 }
 
-func (g *Graph) findChildren(dc dynamic.Interface, e Edge, src unstructured.Unstructured) ([]unstructured.Unstructured, error) {
+func (g *Graph) findChildren(ctx context.Context, dc dynamic.Interface, e Edge, src unstructured.Unstructured) ([]unstructured.Unstructured, error) {
 	if e.Connection.Level != v1alpha1.Owner && e.Connection.Level != v1alpha1.Controller {
 		return nil, fmt.Errorf("connection level should be Owner or Controller, found %v", e.Connection.Level)
 	}
@@ -613,7 +614,7 @@ func (g *Graph) findChildren(dc dynamic.Interface, e Edge, src unstructured.Unst
 		ri = dc.Resource(e.Dst).Namespace(src.GetNamespace())
 	}
 
-	result, err := ri.List(metav1.ListOptions{})
+	result, err := ri.List(ctx, metav1.ListOptions{})
 	if err != nil {
 		return nil, err
 	}

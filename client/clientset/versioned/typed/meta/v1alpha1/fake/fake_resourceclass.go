@@ -19,6 +19,8 @@ limitations under the License.
 package fake
 
 import (
+	"context"
+
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -39,7 +41,7 @@ var resourceclassesResource = schema.GroupVersionResource{Group: "meta.appscode.
 var resourceclassesKind = schema.GroupVersionKind{Group: "meta.appscode.com", Version: "v1alpha1", Kind: "ResourceClass"}
 
 // Get takes name of the resourceClass, and returns the corresponding resourceClass object, and an error if there is any.
-func (c *FakeResourceClasses) Get(name string, options v1.GetOptions) (result *v1alpha1.ResourceClass, err error) {
+func (c *FakeResourceClasses) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ResourceClass, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewRootGetAction(resourceclassesResource, name), &v1alpha1.ResourceClass{})
 	if obj == nil {
@@ -49,7 +51,7 @@ func (c *FakeResourceClasses) Get(name string, options v1.GetOptions) (result *v
 }
 
 // List takes label and field selectors, and returns the list of ResourceClasses that match those selectors.
-func (c *FakeResourceClasses) List(opts v1.ListOptions) (result *v1alpha1.ResourceClassList, err error) {
+func (c *FakeResourceClasses) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.ResourceClassList, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewRootListAction(resourceclassesResource, resourceclassesKind, opts), &v1alpha1.ResourceClassList{})
 	if obj == nil {
@@ -70,13 +72,13 @@ func (c *FakeResourceClasses) List(opts v1.ListOptions) (result *v1alpha1.Resour
 }
 
 // Watch returns a watch.Interface that watches the requested resourceClasses.
-func (c *FakeResourceClasses) Watch(opts v1.ListOptions) (watch.Interface, error) {
+func (c *FakeResourceClasses) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
 	return c.Fake.
 		InvokesWatch(testing.NewRootWatchAction(resourceclassesResource, opts))
 }
 
 // Create takes the representation of a resourceClass and creates it.  Returns the server's representation of the resourceClass, and an error, if there is any.
-func (c *FakeResourceClasses) Create(resourceClass *v1alpha1.ResourceClass) (result *v1alpha1.ResourceClass, err error) {
+func (c *FakeResourceClasses) Create(ctx context.Context, resourceClass *v1alpha1.ResourceClass, opts v1.CreateOptions) (result *v1alpha1.ResourceClass, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewRootCreateAction(resourceclassesResource, resourceClass), &v1alpha1.ResourceClass{})
 	if obj == nil {
@@ -86,7 +88,7 @@ func (c *FakeResourceClasses) Create(resourceClass *v1alpha1.ResourceClass) (res
 }
 
 // Update takes the representation of a resourceClass and updates it. Returns the server's representation of the resourceClass, and an error, if there is any.
-func (c *FakeResourceClasses) Update(resourceClass *v1alpha1.ResourceClass) (result *v1alpha1.ResourceClass, err error) {
+func (c *FakeResourceClasses) Update(ctx context.Context, resourceClass *v1alpha1.ResourceClass, opts v1.UpdateOptions) (result *v1alpha1.ResourceClass, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewRootUpdateAction(resourceclassesResource, resourceClass), &v1alpha1.ResourceClass{})
 	if obj == nil {
@@ -96,22 +98,22 @@ func (c *FakeResourceClasses) Update(resourceClass *v1alpha1.ResourceClass) (res
 }
 
 // Delete takes name of the resourceClass and deletes it. Returns an error if one occurs.
-func (c *FakeResourceClasses) Delete(name string, options *v1.DeleteOptions) error {
+func (c *FakeResourceClasses) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
 		Invokes(testing.NewRootDeleteAction(resourceclassesResource, name), &v1alpha1.ResourceClass{})
 	return err
 }
 
 // DeleteCollection deletes a collection of objects.
-func (c *FakeResourceClasses) DeleteCollection(options *v1.DeleteOptions, listOptions v1.ListOptions) error {
-	action := testing.NewRootDeleteCollectionAction(resourceclassesResource, listOptions)
+func (c *FakeResourceClasses) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
+	action := testing.NewRootDeleteCollectionAction(resourceclassesResource, listOpts)
 
 	_, err := c.Fake.Invokes(action, &v1alpha1.ResourceClassList{})
 	return err
 }
 
 // Patch applies the patch and returns the patched resourceClass.
-func (c *FakeResourceClasses) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *v1alpha1.ResourceClass, err error) {
+func (c *FakeResourceClasses) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.ResourceClass, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewRootPatchSubresourceAction(resourceclassesResource, name, pt, data, subresources...), &v1alpha1.ResourceClass{})
 	if obj == nil {

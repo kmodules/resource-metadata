@@ -35,6 +35,7 @@ import (
 )
 
 type Storage struct {
+	convertor rest.TableConvertor
 }
 
 var _ rest.GroupVersionKindProvider = &Storage{}
@@ -43,7 +44,12 @@ var _ rest.Getter = &Storage{}
 var _ rest.Lister = &Storage{}
 
 func NewStorage() *Storage {
-	return &Storage{}
+	return &Storage{
+		convertor: rest.NewDefaultTableConvertor(schema.GroupResource{
+			Group:    v1alpha1.SchemeGroupVersion.Group,
+			Resource: v1alpha1.ResourceResourceDescriptors,
+		}),
+	}
 }
 
 func (r *Storage) GroupVersionKind(containingGV schema.GroupVersion) schema.GroupVersionKind {
@@ -116,4 +122,8 @@ func (r *Storage) List(ctx context.Context, options *metainternalversion.ListOpt
 	}
 
 	return &meta.ResourceDescriptorList{Items: items}, nil
+}
+
+func (r *Storage) ConvertToTable(ctx context.Context, object runtime.Object, tableOptions runtime.Object) (*metav1.Table, error) {
+	return r.convertor.ConvertToTable(ctx, object, tableOptions)
 }

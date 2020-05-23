@@ -17,6 +17,7 @@ limitations under the License.
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -60,7 +61,7 @@ func main() {
 	r := hub.NewRegistryOfKnownResources()
 
 	{
-		list, err := dc.Resource(gvr).Namespace("default").List(metav1.ListOptions{})
+		list, err := dc.Resource(gvr).Namespace("default").List(context.TODO(), metav1.ListOptions{})
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -78,7 +79,7 @@ func main() {
 	}
 
 	{
-		dep, err := dc.Resource(gvr).Namespace("default").Get("busy-dep", metav1.GetOptions{})
+		dep, err := dc.Resource(gvr).Namespace("default").Get(context.TODO(), "busy-dep", metav1.GetOptions{})
 		if err != nil {
 			log.Fatalln(err)
 		}
