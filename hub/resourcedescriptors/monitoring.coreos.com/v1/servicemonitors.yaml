@@ -9,15 +9,6 @@ metadata:
     k8s.io/version: v1
   name: monitoring.coreos.com-v1-servicemonitors
 spec:
-  resource:
-    group: monitoring.coreos.com
-    kind: ServiceMonitor
-    name: servicemonitors
-    scope: Namespaced
-    version: v1
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/monitoring.coreos.com/servicemonitor.svg
-    type: image/svg+xml
   connections:
   - namespacePath: spec.namespaceSelector
     selectorPath: spec.selector
@@ -25,6 +16,11 @@ spec:
       apiVersion: v1
       kind: Service
     type: MatchSelector
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/monitoring.coreos.com/servicemonitors.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/monitoring.coreos.com/servicemonitors.png
+    type: image/png
   keyTargets:
   - apiVersion: apps/v1
     kind: ReplicaSet
@@ -32,6 +28,12 @@ spec:
     kind: Pod
   - apiVersion: v1
     kind: Service
+  resource:
+    group: monitoring.coreos.com
+    kind: ServiceMonitor
+    name: servicemonitors
+    scope: Namespaced
+    version: v1
   validation:
     openAPIV3Schema:
       properties:

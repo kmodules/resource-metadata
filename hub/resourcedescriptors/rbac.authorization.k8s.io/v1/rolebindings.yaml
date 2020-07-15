@@ -9,15 +9,17 @@ metadata:
     k8s.io/version: v1
   name: rbac.authorization.k8s.io-v1-rolebindings
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/rbac.authorization.k8s.io/rolebindings.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/rbac.authorization.k8s.io/rolebindings.png
+    type: image/png
   resource:
     group: rbac.authorization.k8s.io
     kind: RoleBinding
     name: rolebindings
     scope: Namespaced
     version: v1
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/rbac.authorization.k8s.io/rb.svg
-    type: image/svg+xml
   validation:
     openAPIV3Schema:
       description: RoleBinding references a role, but does not contain it.  It can

@@ -9,15 +9,17 @@ metadata:
     k8s.io/version: v1
   name: networking.k8s.io-v1-networkpolicies
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/networking.k8s.io/networkpolicies.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/networking.k8s.io/networkpolicies.png
+    type: image/png
   resource:
     group: networking.k8s.io
     kind: NetworkPolicy
     name: networkpolicies
     scope: Namespaced
     version: v1
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/networking.k8s.io/netpol.svg
-    type: image/svg+xml
   validation:
     openAPIV3Schema:
       description: NetworkPolicy describes what network traffic is allowed for a set

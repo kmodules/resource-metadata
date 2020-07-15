@@ -21,12 +21,12 @@ spec:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
             of an object. Servers should convert recognized schemas to the latest
-            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
           type: string
         kind:
           description: 'Kind is a string value representing the REST resource this
             object represents. Servers may infer this from the endpoint the client
-            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
@@ -99,6 +99,8 @@ spec:
                 parameters that contain secret information, you should ALWAYS store
                 that information in a Secret."
               type: object
+              x-kubernetes-embedded-resource: true
+              x-kubernetes-preserve-unknown-fields: true
             secret:
               description: Secret is the name of the secret to create in the AppBinding's
                 namespace that will hold the credentials associated with the AppBinding.
@@ -131,14 +133,6 @@ spec:
                     description: AddKey represents a transform that adds an additional
                       key to the credentials Secret
                     properties:
-                      jsonPathExpression:
-                        description: 'The JSONPath expression, the result of which
-                          will be added to the Secret under the specified key. For
-                          example, given the following credentials: { "foo": { "bar":
-                          "foobar" } } and the jsonPathExpression "{.foo.bar}", the
-                          value "foobar" will be stored in the credentials Secret
-                          under the specified key.'
-                        type: string
                       key:
                         description: The name of the key to add
                         type: string
@@ -154,7 +148,6 @@ spec:
                         format: byte
                         type: string
                     required:
-                    - jsonPathExpression
                     - key
                     - stringValue
                     - value

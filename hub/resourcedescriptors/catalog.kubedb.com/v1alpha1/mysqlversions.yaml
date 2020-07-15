@@ -9,15 +9,17 @@ metadata:
     k8s.io/version: v1alpha1
   name: catalog.kubedb.com-v1alpha1-mysqlversions
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/catalog.kubedb.com/mysqlversions.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/catalog.kubedb.com/mysqlversions.png
+    type: image/png
   resource:
     group: catalog.kubedb.com
     kind: MySQLVersion
     name: mysqlversions
     scope: Cluster
     version: v1alpha1
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/catalog.kubedb.com/mysqlversions.svg
-    type: image/svg+xml
   validation:
     openAPIV3Schema:
       properties:
@@ -34,7 +36,7 @@ spec:
         metadata:
           type: object
         spec:
-          description: MySQLVersionSpec is the spec for postgres version
+          description: MySQLVersionSpec is the spec for MySQL version
           properties:
             db:
               description: Database Image
@@ -88,6 +90,42 @@ spec:
               required:
               - image
               type: object
+            upgradeConstraints:
+              description: upgrade constraints
+              properties:
+                allowlist:
+                  description: List of all accepted versions for uprade request
+                  properties:
+                    groupReplication:
+                      description: List of all accepted versions for upgrade request
+                        of a GroupReplication cluster. empty indicates all accepted
+                      items:
+                        type: string
+                      type: array
+                    standalone:
+                      description: List of all accepted versions for upgrade request
+                        of a Standalone server. empty indicates all accepted
+                      items:
+                        type: string
+                      type: array
+                  type: object
+                denylist:
+                  description: List of all rejected versions for uprade request
+                  properties:
+                    groupReplication:
+                      description: List of all rejected versions for upgrade request
+                        of a GroupReplication cluster
+                      items:
+                        type: string
+                      type: array
+                    standalone:
+                      description: List of all rejected versions for upgrade request
+                        of a Standalone server
+                      items:
+                        type: string
+                      type: array
+                  type: object
+              type: object
             version:
               description: Version
               type: string
@@ -98,6 +136,7 @@ spec:
           - podSecurityPolicies
           - replicationModeDetector
           - tools
+          - upgradeConstraints
           - version
           type: object
       type: object

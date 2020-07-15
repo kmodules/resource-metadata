@@ -9,15 +9,17 @@ metadata:
     k8s.io/version: v1beta1
   name: voyager.appscode.com-v1beta1-certificates
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/voyager.appscode.com/certificates.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/voyager.appscode.com/certificates.png
+    type: image/png
   resource:
     group: voyager.appscode.com
     kind: Certificate
     name: certificates
     scope: Namespaced
     version: v1beta1
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/voyager.appscode.com/certificate.svg
-    type: image/svg+xml
   validation:
     openAPIV3Schema:
       properties:

@@ -9,51 +9,62 @@ metadata:
     k8s.io/version: v1
   name: core-v1-replicationcontrollers
 spec:
+  columns:
+  - jsonPath: .metadata.name
+    name: Name
+    priority: 0
+    type: string
+  - jsonPath: .metadata.namespace
+    name: Namespace
+    priority: 0
+    type: string
+  - jsonPath: .metadata.labels
+    name: Labels
+    priority: 0
+    type: object
+  - jsonPath: .metadata.annotations
+    name: Annotations
+    priority: 0
+    type: object
+  - jsonPath: .metadata.creationTimestamp
+    name: Age
+    priority: 0
+    type: date
+  - jsonPath: '{.status.readyReplicas}/{.spec.replicas}'
+    name: Pods
+    priority: 0
+    type: string
+  - format: csv
+    jsonPath: '{range .spec.template.spec.containers[*]}{.image}{"\n"}{end}'
+    name: Images
+    priority: 0
+    type: string
+  connections:
+  - level: Controller
+    namespacePath: metadata.namespace
+    selectorPath: spec.selector
+    target:
+      apiVersion: v1
+      kind: Pod
+    type: MatchSelector
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/core/replicationcontrollers.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/core/replicationcontrollers.png
+    type: image/png
+  keyTargets:
+  - apiVersion: v1
+    kind: Pod
+  - apiVersion: v1
+    kind: Service
+  - apiVersion: autoscaling/v2beta2
+    kind: HorizontalPodAutoscaler
   resource:
     group: ""
     kind: ReplicationController
     name: replicationcontrollers
     scope: Namespaced
     version: v1
-  columns:
-    - jsonPath: .metadata.name
-      name: Name
-      type: string
-    - jsonPath: .metadata.namespace
-      name: Namespace
-      type: string
-    - jsonPath: .metadata.labels
-      name: Labels
-      type: object
-    - jsonPath: .metadata.annotations
-      name: Annotations
-      type: object
-    - jsonPath: .metadata.creationTimestamp
-      name: Age
-      type: date
-    # custom columns
-    - jsonPath: '{.status.readyReplicas}/{.spec.replicas}'
-      name: Pods
-      type: string
-    - jsonPath: '{range .spec.template.spec.containers[*]}{.image}{"\n"}{end}'
-      name: Images
-      type: string
-      format: csv
-  keyTargets:
-    - apiVersion: v1
-      kind: Pod
-    - apiVersion: v1
-      kind: Service
-    - apiVersion: autoscaling/v2beta2
-      kind: HorizontalPodAutoscaler
-  connections:
-    - target:
-        apiVersion: v1
-        kind: Pod
-      type: MatchSelector
-      namespacePath: "metadata.namespace"
-      selectorPath: "spec.selector"
-      level: Controller
   validation:
     openAPIV3Schema:
       description: ReplicationController represents the configuration of a replication

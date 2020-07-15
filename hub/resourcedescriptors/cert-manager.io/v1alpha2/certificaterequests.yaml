@@ -9,20 +9,22 @@ metadata:
     k8s.io/version: v1alpha2
   name: cert-manager.io-v1alpha2-certificaterequests
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/cert-manager.io/certificaterequests.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/cert-manager.io/certificaterequests.png
+    type: image/png
+  installer:
+    chart:
+      name: cert-manager
+      url: https://charts.jetstack.io
+    version: v0.12.0
   resource:
     group: cert-manager.io
     kind: CertificateRequest
     name: certificaterequests
     scope: Namespaced
     version: v1alpha2
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/cert-manager.io/certificaterequests.svg
-    type: image/svg+xml
-  installer:
-    chart:
-      url: https://charts.jetstack.io
-      name: cert-manager
-    version: v0.12.0
   validation:
     openAPIV3Schema:
       description: CertificateRequest is a type to represent a Certificate Signing

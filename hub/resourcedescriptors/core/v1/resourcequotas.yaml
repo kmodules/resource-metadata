@@ -9,15 +9,17 @@ metadata:
     k8s.io/version: v1
   name: core-v1-resourcequotas
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/core/resourcequotas.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/core/resourcequotas.png
+    type: image/png
   resource:
     group: ""
     kind: ResourceQuota
     name: resourcequotas
     scope: Namespaced
     version: v1
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/core/quota.svg
-    type: image/svg+xml
   validation:
     openAPIV3Schema:
       description: ResourceQuota sets aggregate quota restrictions enforced per namespace

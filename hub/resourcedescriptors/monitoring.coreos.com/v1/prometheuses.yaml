@@ -9,15 +9,6 @@ metadata:
     k8s.io/version: v1
   name: monitoring.coreos.com-v1-prometheuses
 spec:
-  resource:
-    group: monitoring.coreos.com
-    kind: Prometheus
-    name: prometheuses
-    scope: Namespaced
-    version: v1
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/monitoring.coreos.com/prometheus.svg
-    type: image/svg+xml
   connections:
   - namespacePath: spec.namespaceSelector
     selectorPath: spec.selector
@@ -25,11 +16,22 @@ spec:
       apiVersion: monitoring.coreos.com/v1
       kind: ServiceMonitor
     type: MatchSelector
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/monitoring.coreos.com/prometheuses.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/monitoring.coreos.com/prometheuses.png
+    type: image/png
   keyTargets:
   - apiVersion: v1
     kind: Pod
   - apiVersion: v1
     kind: Service
+  resource:
+    group: monitoring.coreos.com
+    kind: Prometheus
+    name: prometheuses
+    scope: Namespaced
+    version: v1
   validation:
     openAPIV3Schema:
       properties:

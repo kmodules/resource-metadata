@@ -9,20 +9,22 @@ metadata:
     k8s.io/version: v1alpha2
   name: acme.cert-manager.io-v1alpha2-challenges
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/acme.cert-manager.io/challenges.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/acme.cert-manager.io/challenges.png
+    type: image/png
+  installer:
+    chart:
+      name: cert-manager
+      url: https://charts.jetstack.io
+    version: v0.12.0
   resource:
     group: acme.cert-manager.io
     kind: Challenge
     name: challenges
     scope: Namespaced
     version: v1alpha2
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/acme.cert-manager.io/challenges.svg
-    type: image/svg+xml
-  installer:
-    chart:
-      url: https://charts.jetstack.io
-      name: cert-manager
-    version: v0.12.0
   validation:
     openAPIV3Schema:
       description: Challenge is a type to represent a Challenge request with an ACME

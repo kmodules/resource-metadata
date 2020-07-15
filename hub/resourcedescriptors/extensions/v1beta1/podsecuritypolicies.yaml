@@ -9,15 +9,17 @@ metadata:
     k8s.io/version: v1beta1
   name: extensions-v1beta1-podsecuritypolicies
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/extensions/podsecuritypolicies.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/extensions/podsecuritypolicies.png
+    type: image/png
   resource:
     group: extensions
     kind: PodSecurityPolicy
     name: podsecuritypolicies
     scope: Cluster
     version: v1beta1
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/policy/psp.svg
-    type: image/svg+xml
   validation:
     openAPIV3Schema:
       description: 'PodSecurityPolicy governs the ability to make requests that affect

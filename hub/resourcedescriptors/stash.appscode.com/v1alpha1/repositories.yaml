@@ -9,15 +9,17 @@ metadata:
     k8s.io/version: v1alpha1
   name: stash.appscode.com-v1alpha1-repositories
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/repositories.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/repositories.png
+    type: image/png
   resource:
     group: stash.appscode.com
     kind: Repository
     name: repositories
     scope: Namespaced
     version: v1alpha1
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/repository.svg
-    type: image/svg+xml
   validation:
     openAPIV3Schema:
       properties:
@@ -390,9 +392,13 @@ spec:
                                       optional for env vars'
                                     type: string
                                   divisor:
+                                    anyOf:
+                                    - type: integer
+                                    - type: string
                                     description: Specifies the output format of the
                                       exposed resources, defaults to "1"
-                                    type: string
+                                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                    x-kubernetes-int-or-string: true
                                   resource:
                                     description: 'Required: resource to select'
                                     type: string
@@ -415,6 +421,9 @@ spec:
                             More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir'
                           type: string
                         sizeLimit:
+                          anyOf:
+                          - type: integer
+                          - type: string
                           description: 'Total amount of local storage required for
                             this EmptyDir volume. The size limit is also applicable
                             for memory medium. The maximum usage on memory medium
@@ -422,7 +431,8 @@ spec:
                             specified here and the sum of memory limits of all containers
                             in a pod. The default is nil which means that the limit
                             is undefined. More info: http://kubernetes.io/docs/user-guide/volumes#emptydir'
-                          type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
                       type: object
                     fc:
                       description: FC represents a Fibre Channel resource that is
@@ -883,10 +893,14 @@ spec:
                                                 for volumes, optional for env vars'
                                               type: string
                                             divisor:
+                                              anyOf:
+                                              - type: integer
+                                              - type: string
                                               description: Specifies the output format
                                                 of the exposed resources, defaults
                                                 to "1"
-                                              type: string
+                                              pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                              x-kubernetes-int-or-string: true
                                             resource:
                                               description: 'Required: resource to
                                                 select'

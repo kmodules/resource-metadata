@@ -9,15 +9,17 @@ metadata:
     k8s.io/version: v2beta2
   name: autoscaling-v2beta2-horizontalpodautoscalers
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/autoscaling/horizontalpodautoscalers.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/autoscaling/horizontalpodautoscalers.png
+    type: image/png
   resource:
     group: autoscaling
     kind: HorizontalPodAutoscaler
     name: horizontalpodautoscalers
     scope: Namespaced
     version: v2beta2
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/autoscaling/hpa.svg
-    type: image/svg+xml
   validation:
     openAPIV3Schema:
       description: HorizontalPodAutoscaler is the configuration for a horizontal pod

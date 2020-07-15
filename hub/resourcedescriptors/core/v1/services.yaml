@@ -9,32 +9,34 @@ metadata:
     k8s.io/version: v1
   name: core-v1-services
 spec:
+  connections:
+  - namespacePath: metadata.namespace
+    selectorPath: spec.selector
+    target:
+      apiVersion: v1
+      kind: Pod
+    type: MatchSelector
+  - namespacePath: metadata.namespace
+    selectorPath: spec.selector
+    target:
+      apiVersion: apps/v1
+      kind: Deployment
+    targetLabelPath: spec.template.metadata.labels
+    type: MatchSelector
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/core/services.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/core/services.png
+    type: image/png
+  keyTargets:
+  - apiVersion: v1
+    kind: Pod
   resource:
     group: ""
     kind: Service
     name: services
     scope: Namespaced
     version: v1
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/core/svc.svg
-    type: image/svg+xml
-  keyTargets:
-    - apiVersion: v1
-      kind: Pod
-  connections:
-    - target:
-        apiVersion: v1
-        kind: Pod
-      type: MatchSelector
-      namespacePath: "metadata.namespace"
-      selectorPath: "spec.selector"
-    - target:
-        apiVersion: apps/v1
-        kind: Deployment
-      type: MatchSelector
-      namespacePath: "metadata.namespace"
-      selectorPath: "spec.selector"
-      targetLabelPath: "spec.template.metadata.labels"
   validation:
     openAPIV3Schema:
       description: Service is a named abstraction of software service (for example,
