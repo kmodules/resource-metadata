@@ -9,6 +9,11 @@ metadata:
     k8s.io/version: v1
   name: autoscaling-v1-horizontalpodautoscalers
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/autoscaling/horizontalpodautoscalers.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/autoscaling/horizontalpodautoscalers.png
+    type: image/png
   resource:
     group: autoscaling
     kind: HorizontalPodAutoscaler

@@ -9,18 +9,20 @@ metadata:
     k8s.io/version: v1
   name: core-v1-configmaps
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/core/configmaps.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/core/configmaps.png
+    type: image/png
+  keyTargets:
+  - apiVersion: v1
+    kind: Pod
   resource:
     group: ""
     kind: ConfigMap
     name: configmaps
     scope: Namespaced
     version: v1
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/core/cm.svg
-    type: image/svg+xml
-  keyTargets:
-    - apiVersion: v1
-      kind: Pod
   validation:
     openAPIV3Schema:
       description: ConfigMap holds configuration data for pods to consume.

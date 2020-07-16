@@ -9,43 +9,52 @@ metadata:
     k8s.io/version: v1
   name: apps-v1-daemonsets
 spec:
+  columns:
+  - jsonPath: .metadata.name
+    name: Name
+    priority: 0
+    type: string
+  - jsonPath: .metadata.namespace
+    name: Namespace
+    priority: 0
+    type: string
+  - jsonPath: .metadata.labels
+    name: Labels
+    priority: 0
+    type: object
+  - jsonPath: .metadata.annotations
+    name: Annotations
+    priority: 0
+    type: object
+  - jsonPath: .metadata.creationTimestamp
+    name: Age
+    priority: 0
+    type: date
+  - jsonPath: '{.status.numberReady}/{.status.desiredNumberScheduled}'
+    name: Pods
+    priority: 0
+    type: string
+  - format: csv
+    jsonPath: '{range .spec.template.spec.containers[*]}{.image}{"\n"}{end}'
+    name: Images
+    priority: 0
+    type: string
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/apps/daemonsets.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/apps/daemonsets.png
+    type: image/png
+  keyTargets:
+  - apiVersion: v1
+    kind: Pod
+  - apiVersion: v1
+    kind: Service
   resource:
     group: apps
     kind: DaemonSet
     name: daemonsets
     scope: Namespaced
     version: v1
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/apps/ds.svg
-    type: image/svg+xml
-  columns:
-    - jsonPath: .metadata.name
-      name: Name
-      type: string
-    - jsonPath: .metadata.namespace
-      name: Namespace
-      type: string
-    - jsonPath: .metadata.labels
-      name: Labels
-      type: object
-    - jsonPath: .metadata.annotations
-      name: Annotations
-      type: object
-    - jsonPath: .metadata.creationTimestamp
-      name: Age
-      type: date
-    - jsonPath: '{.status.numberReady}/{.status.desiredNumberScheduled}'
-      name: Pods
-      type: string
-    - jsonPath: '{range .spec.template.spec.containers[*]}{.image}{"\n"}{end}'
-      name: Images
-      type: string
-      format: csv
-  keyTargets:
-    - apiVersion: v1
-      kind: Pod
-    - apiVersion: v1
-      kind: Service
   validation:
     openAPIV3Schema:
       description: DaemonSet represents the configuration of a daemon set.
@@ -5973,4 +5982,3 @@ spec:
           - numberReady
           type: object
       type: object
-

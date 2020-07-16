@@ -9,110 +9,118 @@ metadata:
     k8s.io/version: v1
   name: apps-v1-deployments
 spec:
+  columns:
+  - jsonPath: .metadata.name
+    name: Name
+    priority: 3
+    type: string
+  - jsonPath: .metadata.namespace
+    name: Namespace
+    priority: 3
+    type: string
+  - jsonPath: .metadata.labels
+    name: Labels
+    priority: 3
+    type: object
+  - jsonPath: .metadata.annotations
+    name: Annotations
+    priority: 3
+    type: object
+  - format: selector
+    jsonPath: .spec.selector
+    name: Selector
+    priority: 1
+    type: object
+  - jsonPath: .spec.strategy.type
+    name: Strategy
+    priority: 1
+    type: string
+  - jsonPath: .spec.minReadySeconds
+    name: Min Ready Seconds
+    priority: 1
+    type: integer
+  - jsonPath: .spec.revisionHistoryLimit
+    name: Revision History Limit
+    priority: 1
+    type: integer
+  - jsonPath: .spec.strategy.rollingUpdate
+    name: Rolling Update Strategy
+    priority: 1
+    type: object
+  - jsonPath: '{.status.updatedReplicas} updated, {.status.replicas} total, {.status.availableReplicas}
+      available, {.status.unavailableReplicas} unavailable'
+    name: Status
+    priority: 1
+    type: string
+  - jsonPath: .spec.replicas
+    name: Desired Replicas
+    priority: 1
+    type: integer
+  - jsonPath: .metadata.creationTimestamp
+    name: Age
+    priority: 2
+    type: date
+  - jsonPath: '{.status.readyReplicas}/{.spec.replicas}'
+    name: Pods
+    priority: 2
+    type: string
+  - format: csv
+    jsonPath: '{range .spec.template.spec.containers[*]}{.image}{"\n"}{end}'
+    name: Images
+    priority: 2
+    type: string
+  connections:
+  - level: Controller
+    namespacePath: metadata.namespace
+    selectorPath: spec.selector
+    target:
+      apiVersion: apps/v1
+      kind: ReplicaSet
+    type: MatchSelector
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/apps/deployments.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/apps/deployments.png
+    type: image/png
+  keyTargets:
+  - apiVersion: apps/v1
+    kind: ReplicaSet
+  - apiVersion: v1
+    kind: Pod
+  - apiVersion: v1
+    kind: Service
+  - apiVersion: autoscaling/v2beta2
+    kind: HorizontalPodAutoscaler
   resource:
     group: apps
     kind: Deployment
     name: deployments
     scope: Namespaced
     version: v1
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/apps/deploy.svg
-    type: image/svg+xml
-  columns:
-    - jsonPath: .metadata.name
-      name: Name
-      type: string
-      priority: 3
-    - jsonPath: .metadata.namespace
-      name: Namespace
-      type: string
-      priority: 3
-    - jsonPath: .metadata.labels
-      name: Labels
-      type: object
-      priority: 3
-    - jsonPath: .metadata.annotations
-      name: Annotations
-      type: object
-      priority: 3
-    - jsonPath: .spec.selector
-      name: Selector
-      type: object
-      format: selector
-      priority: 1
-    - jsonPath: .spec.strategy.type
-      name: Strategy
-      type: string
-      priority: 1
-    - jsonPath: .spec.minReadySeconds
-      name: Min Ready Seconds
-      type: integer
-      priority: 1
-    - jsonPath: .spec.revisionHistoryLimit
-      name: Revision History Limit
-      type: integer
-      priority: 1
-    - jsonPath: .spec.strategy.rollingUpdate
-      name: Rolling Update Strategy
-      type: object
-      priority: 1
-    - jsonPath: "{.status.updatedReplicas} updated, {.status.replicas} total, {.status.availableReplicas} available, {.status.unavailableReplicas} unavailable"
-      name: Status
-      type: string
-      priority: 1
-    - jsonPath: .spec.replicas
-      name: Desired Replicas
-      type: integer
-      priority: 1
-    - jsonPath: .metadata.creationTimestamp
-      name: Age
-      type: date
-      priority: 2
-    - jsonPath: '{.status.readyReplicas}/{.spec.replicas}'
-      name: Pods
-      type: string
-      priority: 2
-    - jsonPath: '{range .spec.template.spec.containers[*]}{.image}{"\n"}{end}'
-      name: Images
-      type: string
-      format: csv
-      priority: 2
   subTables:
-    - name: Conditions
-      fieldPath: .status.conditions
-      columns:
-        - jsonPath: .type
-          name: Type
-          type: string
-        - jsonPath: .status
-          name: Status
-          type: string
-        - jsonPath: .lastTransitionTime
-          name: "Last Transition Time"
-          type: date
-        - jsonPath: .reason
-          name: Reason
-          type: string
-        - jsonPath: .lastUpdateTime
-          name: "Last Update Time"
-          type: date
-  keyTargets:
-    - apiVersion: apps/v1
-      kind: ReplicaSet
-    - apiVersion: v1
-      kind: Pod
-    - apiVersion: v1
-      kind: Service
-    - apiVersion: autoscaling/v2beta2
-      kind: HorizontalPodAutoscaler
-  connections:
-    - target:
-        apiVersion: apps/v1
-        kind: ReplicaSet
-      type: MatchSelector
-      namespacePath: "metadata.namespace"
-      selectorPath: "spec.selector"
-      level: Controller
+  - columns:
+    - jsonPath: .type
+      name: Type
+      priority: 0
+      type: string
+    - jsonPath: .status
+      name: Status
+      priority: 0
+      type: string
+    - jsonPath: .lastTransitionTime
+      name: Last Transition Time
+      priority: 0
+      type: date
+    - jsonPath: .reason
+      name: Reason
+      priority: 0
+      type: string
+    - jsonPath: .lastUpdateTime
+      name: Last Update Time
+      priority: 0
+      type: date
+    fieldPath: .status.conditions
+    name: Conditions
   validation:
     openAPIV3Schema:
       description: Deployment enables declarative updates for Pods and ReplicaSets.

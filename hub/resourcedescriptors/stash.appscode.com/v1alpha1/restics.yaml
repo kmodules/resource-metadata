@@ -9,15 +9,17 @@ metadata:
     k8s.io/version: v1alpha1
   name: stash.appscode.com-v1alpha1-restics
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/restics.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/restics.png
+    type: image/png
   resource:
     group: stash.appscode.com
     kind: Restic
     name: restics
     scope: Namespaced
     version: v1alpha1
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/restic.svg
-    type: image/svg+xml
   validation:
     openAPIV3Schema:
       properties:
@@ -388,9 +390,13 @@ spec:
                                       optional for env vars'
                                     type: string
                                   divisor:
+                                    anyOf:
+                                    - type: integer
+                                    - type: string
                                     description: Specifies the output format of the
                                       exposed resources, defaults to "1"
-                                    type: string
+                                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                    x-kubernetes-int-or-string: true
                                   resource:
                                     description: 'Required: resource to select'
                                     type: string
@@ -413,6 +419,9 @@ spec:
                             More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir'
                           type: string
                         sizeLimit:
+                          anyOf:
+                          - type: integer
+                          - type: string
                           description: 'Total amount of local storage required for
                             this EmptyDir volume. The size limit is also applicable
                             for memory medium. The maximum usage on memory medium
@@ -420,7 +429,8 @@ spec:
                             specified here and the sum of memory limits of all containers
                             in a pod. The default is nil which means that the limit
                             is undefined. More info: http://kubernetes.io/docs/user-guide/volumes#emptydir'
-                          type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
                       type: object
                     fc:
                       description: FC represents a Fibre Channel resource that is
@@ -881,10 +891,14 @@ spec:
                                                 for volumes, optional for env vars'
                                               type: string
                                             divisor:
+                                              anyOf:
+                                              - type: integer
+                                              - type: string
                                               description: Specifies the output format
                                                 of the exposed resources, defaults
                                                 to "1"
-                                              type: string
+                                              pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                              x-kubernetes-int-or-string: true
                                             resource:
                                               description: 'Required: resource to
                                                 select'
@@ -1324,13 +1338,21 @@ spec:
               properties:
                 limits:
                   additionalProperties:
-                    type: string
+                    anyOf:
+                    - type: integer
+                    - type: string
+                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                    x-kubernetes-int-or-string: true
                   description: 'Limits describes the maximum amount of compute resources
                     allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/'
                   type: object
                 requests:
                   additionalProperties:
-                    type: string
+                    anyOf:
+                    - type: integer
+                    - type: string
+                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                    x-kubernetes-int-or-string: true
                   description: 'Requests describes the minimum amount of compute resources
                     required. If Requests is omitted for a container, it defaults
                     to Limits if that is explicitly specified, otherwise to an implementation-defined
@@ -1423,6 +1445,9 @@ spec:
               type: object
             type:
               description: https://github.com/stashed/stash/issues/225
+              enum:
+              - online
+              - offline
               type: string
             volumeMounts:
               description: Pod volumes to mount into the sidecar container's filesystem.
@@ -1455,7 +1480,7 @@ spec:
                       volume should be mounted. Behaves similarly to SubPath but environment
                       variable references $(VAR_NAME) are expanded using the container's
                       environment. Defaults to "" (volume's root). SubPathExpr and
-                      SubPath are mutually exclusive. This field is beta in 1.15.
+                      SubPath are mutually exclusive.
                     type: string
                 required:
                 - mountPath

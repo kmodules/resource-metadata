@@ -9,100 +9,113 @@ metadata:
     k8s.io/version: v1
   name: core-v1-pods
 spec:
+  columns:
+  - jsonPath: .metadata.name
+    name: Name
+    priority: 0
+    type: string
+  - jsonPath: .metadata.namespace
+    name: Namespace
+    priority: 0
+    type: string
+  - jsonPath: .metadata.labels
+    name: Labels
+    priority: 0
+    type: object
+  - jsonPath: .metadata.annotations
+    name: Annotations
+    priority: 0
+    type: object
+  - jsonPath: .metadata.creationTimestamp
+    name: Age
+    priority: 0
+    type: date
+  - jsonPath: ""
+    name: Ready
+    priority: 0
+    type: string
+  - jsonPath: .status.phase
+    name: Status
+    priority: 0
+    type: string
+  - jsonPath: ""
+    name: Restarts
+    priority: 0
+    type: string
+  - jsonPath: .status.podIP
+    name: IP
+    priority: 0
+    type: string
+  - jsonPath: .spec.nodeName
+    name: Node
+    priority: 0
+    type: string
+  - jsonPath: .spec.nominatedNodeName
+    name: Nominated Node
+    priority: 0
+    type: string
+  - jsonPath: .spec.readinessGates
+    name: Readiness Gates
+    priority: 0
+    type: object
+  connections:
+  - level: Controller
+    target:
+      apiVersion: apps/v1
+      kind: StatefulSet
+    type: OwnedBy
+  - level: Controller
+    target:
+      apiVersion: apps/v1
+      kind: ReplicaSet
+    type: OwnedBy
+  - references:
+    - '{.spec.nodeName}'
+    target:
+      apiVersion: v1
+      kind: Node
+    type: MatchRef
+  - namespacePath: metadata.namespace
+    references:
+    - '{range .spec.volumes[*]}{.persistentVolumeClaim.claimName}{"\n"}{end}'
+    target:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+    type: MatchRef
+  - namespacePath: metadata.namespace
+    references:
+    - '{range .spec.containers[*].envFrom[*]}{.configMapRef.name}{"\n"}{end}'
+    - '{range .spec.containers[*].env[*]}{.valueFrom.configMapKeyRef.name}{"\n"}{end}'
+    - '{range .spec.volumes[*]}{.configMap.name}{"\n"}{end}'
+    target:
+      apiVersion: v1
+      kind: ConfigMap
+    type: MatchRef
+  - namespacePath: metadata.namespace
+    references:
+    - '{range .spec.containers[*].envFrom[*]}{.secretRef.name}{"\n"}{end}'
+    - '{range .spec.containers[*].env[*]}{.valueFrom.secretKeyRef.name}{"\n"}{end}'
+    - '{range .spec.volumes[*]}{.secret.secretName}{"\n"}{end}'
+    target:
+      apiVersion: v1
+      kind: Secret
+    type: MatchRef
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/core/pods.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/core/pods.png
+    type: image/png
+  keyTargets:
+  - apiVersion: v1
+    kind: Service
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
   resource:
     group: ""
     kind: Pod
     name: pods
     scope: Namespaced
     version: v1
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/core/pod.svg
-    type: image/svg+xml
-  columns:
-    - jsonPath: .metadata.name
-      name: Name
-      type: string
-    - jsonPath: .metadata.namespace
-      name: Namespace
-      type: string
-    - jsonPath: .metadata.labels
-      name: Labels
-      type: object
-    - jsonPath: .metadata.annotations
-      name: Annotations
-      type: object
-    - jsonPath: .metadata.creationTimestamp
-      name: Age
-      type: date
-    # custom columns
-    - jsonPath:
-      name: Ready
-      type: string
-    - jsonPath: .status.phase
-      name: Status
-      type: string
-    - jsonPath:
-      name: Restarts
-      type: string
-    - jsonPath: .status.podIP
-      name: IP
-      type: string
-    - jsonPath: .spec.nodeName
-      name: Node
-      type: string
-    - jsonPath: .spec.nominatedNodeName
-      name: Nominated Node
-      type: string
-    - jsonPath: .spec.readinessGates
-      name: Readiness Gates
-      type: object
-  keyTargets:
-    - apiVersion: v1
-      kind: Service
-    - apiVersion: v1
-      kind: PersistentVolumeClaim
-  connections:
-    - target:
-        apiVersion: apps/v1
-        kind: StatefulSet
-      type: OwnedBy
-      level: Controller
-    - target:
-        apiVersion: apps/v1
-        kind: ReplicaSet
-      type: OwnedBy
-      level: Controller
-    - target:
-        apiVersion: v1
-        kind: Node
-      type: MatchRef
-      references:
-      - '{.spec.nodeName}'
-    - target:
-        apiVersion: v1
-        kind: PersistentVolumeClaim
-      type: MatchRef
-      namespacePath: "metadata.namespace"
-      references:
-      - '{range .spec.volumes[*]}{.persistentVolumeClaim.claimName}{"\n"}{end}'
-    - target:
-        apiVersion: v1
-        kind: ConfigMap
-      type: MatchRef
-      namespacePath: "metadata.namespace"
-      references:
-      - '{range .spec.containers[*].envFrom[*]}{.configMapRef.name}{"\n"}{end}'
-      - '{range .spec.containers[*].env[*]}{.valueFrom.configMapKeyRef.name}{"\n"}{end}'
-      - '{range .spec.volumes[*]}{.configMap.name}{"\n"}{end}'
-    - target:
-        apiVersion: v1
-        kind: Secret
-      type: MatchRef
-      namespacePath: "metadata.namespace"
-      references:
-      - '{range .spec.containers[*].envFrom[*]}{.secretRef.name}{"\n"}{end}'
-      - '{range .spec.containers[*].env[*]}{.valueFrom.secretKeyRef.name}{"\n"}{end}'
-      - '{range .spec.volumes[*]}{.secret.secretName}{"\n"}{end}'
   validation:
     openAPIV3Schema:
       description: Pod is a collection of containers that can run on a host. This

@@ -41,9 +41,9 @@ import (
 go run cmd/import-crds/main.go --input=/home/tamal/go/src/github.com/coreos/prometheus-operator/example/prometheus-operator-crd
 go run cmd/import-crds/main.go --input=/home/tamal/go/src/github.com/jetstack/cert-manager/deploy/charts/cert-manager/crds
 go run cmd/import-crds/main.go --input=/home/tamal/go/src/github.com/appscode/voyager/api/crds
-go run cmd/import-crds/main.go --input=/home/tamal/go/src/stash.appscode.dev/stash/api/crds
-go run cmd/import-crds/main.go --input=/home/tamal/go/src/kmodules.xyz/custom-resources/api/crds
-go run cmd/import-crds/main.go --input=/home/tamal/go/src/kubedb.dev/apimachinery/api/crds
+go run cmd/import-crds/main.go --input=/home/tamal/go/src/stash.appscode.dev/apimachinery/crds
+go run cmd/import-crds/main.go --input=/home/tamal/go/src/kmodules.xyz/custom-resources/crds
+go run cmd/import-crds/main.go --input=/home/tamal/go/src/kubedb.dev/apimachinery/crds
 go run cmd/import-crds/main.go --input=/home/tamal/go/src/kubevault.dev/operator/api/crds
 go run cmd/import-crds/main.go --input=/home/tamal/go/src/stash.appscode.dev/installer/api/crds
 go run cmd/import-crds/main.go --input=/home/tamal/go/src/kubedb.dev/installer/api/crds

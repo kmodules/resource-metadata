@@ -9,20 +9,22 @@ metadata:
     k8s.io/version: v1
   name: rbac.authorization.k8s.io-v1-clusterroles
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/rbac.authorization.k8s.io/clusterroles.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/rbac.authorization.k8s.io/clusterroles.png
+    type: image/png
+  keyTargets:
+  - apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+  - apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
   resource:
     group: rbac.authorization.k8s.io
     kind: ClusterRole
     name: clusterroles
     scope: Cluster
     version: v1
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/rbac.authorization.k8s.io/c-role.svg
-    type: image/svg+xml
-  keyTargets:
-    - apiVersion: rbac.authorization.k8s.io/v1
-      kind: ClusterRoleBinding
-    - apiVersion: rbac.authorization.k8s.io/v1
-      kind: RoleBinding
   validation:
     openAPIV3Schema:
       description: ClusterRole is a cluster level, logical grouping of PolicyRules
