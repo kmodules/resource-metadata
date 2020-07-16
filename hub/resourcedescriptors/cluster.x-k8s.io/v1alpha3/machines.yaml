@@ -9,6 +9,9 @@ metadata:
     k8s.io/version: v1alpha3
   name: cluster.x-k8s.io-v1alpha3-machines
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/cluster.x-k8s.io/machines.svg
+    type: image/svg+xml
   resource:
     group: cluster.x-k8s.io
     kind: Machine
