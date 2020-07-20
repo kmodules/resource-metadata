@@ -9,6 +9,11 @@ metadata:
     k8s.io/version: v1alpha1
   name: grafana.searchlight.dev-v1alpha1-datasources
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/grafana.searchlight.dev/datasources.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/grafana.searchlight.dev/datasources.png
+    type: image/png
   resource:
     group: grafana.searchlight.dev
     kind: Datasource

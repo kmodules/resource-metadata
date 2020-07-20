@@ -30,6 +30,8 @@ import (
 	"sigs.k8s.io/yaml"
 )
 
+const iconURLPrefix = "https://cdn.appscode.com/k8s/icons/"
+
 var (
 	repoRoot     = "/home/tamal/go/src/kmodules.xyz/resource-metadata"
 	dirResources = path.Join(repoRoot, "hub/resourcedescriptors")
@@ -78,7 +80,7 @@ func main() {
 		} else {
 			allIcons.Insert(img)
 			rd.Spec.Icons = append(rd.Spec.Icons, v1alpha1.ImageSpec{
-				Source: "https://cdn.appscode.com/k8s/icons/" + img,
+				Source: iconURLPrefix + img,
 				Type:   "image/svg+xml",
 			})
 		}
@@ -88,7 +90,7 @@ func main() {
 		} else {
 			allIcons.Insert(img)
 			rd.Spec.Icons = append(rd.Spec.Icons, v1alpha1.ImageSpec{
-				Source: "https://cdn.appscode.com/k8s/icons/" + img,
+				Source: iconURLPrefix + img,
 				Type:   "image/png",
 			})
 		}
@@ -202,7 +204,7 @@ func processIcons(icons []v1alpha1.ImageSpec, allIcons sets.String, missing []st
 
 	icons = nil
 	if u, ok := m["image/svg+xml"]; ok {
-		img := strings.TrimPrefix(u, "https://cdn.appscode.com/k8s/icons/")
+		img := strings.TrimPrefix(u, iconURLPrefix)
 		if !Exists(filepath.Join(dirIcons, img)) {
 			missing = append(missing, img)
 		} else {
@@ -219,7 +221,7 @@ func processIcons(icons []v1alpha1.ImageSpec, allIcons sets.String, missing []st
 		} else {
 			allIcons.Insert(img)
 			icons = append(icons, v1alpha1.ImageSpec{
-				Source: u,
+				Source: iconURLPrefix + img,
 				Type:   "image/png",
 			})
 		}
