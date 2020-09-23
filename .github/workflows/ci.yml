@@ -12,25 +12,22 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        k8s: [v1.18.4]
     steps:
-      - name: Set up Go 1.14
+      - name: Set up Go 1.15
         uses: actions/setup-go@v1
         with:
-          go-version: 1.14
+          go-version: 1.15
         id: go
 
       - uses: actions/checkout@v1
 
-      - name: Create Kubernetes ${{ matrix.k8s }} cluster
+      - name: Create Kubernetes cluster
         id: kind
         uses: engineerd/setup-kind@v0.3.0
         with:
           version: v0.8.1
           config: hack/kubernetes/kind.yaml
-          image: kindest/node:${{ matrix.k8s }}
+          image: kindest/node:v1.18.4
 
       - name: Prepare host
         run: |
