@@ -481,5 +481,5 @@ clean:
 .PHONY: publish-icons
 publish-icons:
 	@echo "publishing icons"
-	gsutil rsync -d -r $$(pwd)/icons gs://appscode-cdn/k8s/icons
-	gsutil acl ch -u AllUsers:R -r gs://appscode-cdn/k8s/icons
+	gsutil -m rsync -d -r $$(pwd)/icons gs://appscode-cdn/k8s/icons
+	gsutil -m acl ch -u AllUsers:R -r gs://appscode-cdn/k8s/icons
