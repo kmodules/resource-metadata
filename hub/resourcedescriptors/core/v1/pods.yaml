@@ -800,7 +800,7 @@ spec:
                               description: 'Selects a field of the pod: supports metadata.name,
                                 metadata.namespace, metadata.labels, metadata.annotations,
                                 spec.nodeName, spec.serviceAccountName, status.hostIP,
-                                status.podIP.'
+                                status.podIP, status.podIPs.'
                               properties:
                                 apiVersion:
                                   description: Version of the schema the FieldPath
@@ -824,9 +824,13 @@ spec:
                                     optional for env vars'
                                   type: string
                                 divisor:
+                                  anyOf:
+                                  - type: integer
+                                  - type: string
                                   description: Specifies the output format of the
                                     exposed resources, defaults to "1"
-                                  type: string
+                                  pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  x-kubernetes-int-or-string: true
                                 resource:
                                   description: 'Required: resource to select'
                                   type: string
@@ -1261,6 +1265,10 @@ spec:
                       - containerPort
                       type: object
                     type: array
+                    x-kubernetes-list-map-keys:
+                    - containerPort
+                    - protocol
+                    x-kubernetes-list-type: map
                   readinessProbe:
                     description: 'Periodic probe of container service readiness. Container
                       will be removed from service endpoints if the probe fails. Cannot
@@ -1383,13 +1391,21 @@ spec:
                     properties:
                       limits:
                         additionalProperties:
-                          type: string
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
                         description: 'Limits describes the maximum amount of compute
                           resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/'
                         type: object
                       requests:
                         additionalProperties:
-                          type: string
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
                         description: 'Requests describes the minimum amount of compute
                           resources required. If Requests is omitted for a container,
                           it defaults to Limits if that is explicitly specified, otherwise
@@ -1505,15 +1521,11 @@ spec:
                             description: GMSACredentialSpec is where the GMSA admission
                               webhook (https://github.com/kubernetes-sigs/windows-gmsa)
                               inlines the contents of the GMSA credential spec named
-                              by the GMSACredentialSpecName field. This field is alpha-level
-                              and is only honored by servers that enable the WindowsGMSA
-                              feature flag.
+                              by the GMSACredentialSpecName field.
                             type: string
                           gmsaCredentialSpecName:
                             description: GMSACredentialSpecName is the name of the
-                              GMSA credential spec to use. This field is alpha-level
-                              and is only honored by servers that enable the WindowsGMSA
-                              feature flag.
+                              GMSA credential spec to use.
                             type: string
                           runAsUserName:
                             description: The UserName in Windows to run the entrypoint
@@ -1521,9 +1533,7 @@ spec:
                               in image metadata if unspecified. May also be set in
                               PodSecurityContext. If set in both SecurityContext and
                               PodSecurityContext, the value specified in SecurityContext
-                              takes precedence. This field is alpha-level and it is
-                              only honored by servers that enable the WindowsRunAsUserName
-                              feature flag.
+                              takes precedence.
                             type: string
                         type: object
                     type: object
@@ -1535,7 +1545,7 @@ spec:
                       be used to provide different probe parameters at the beginning
                       of a Pod''s lifecycle, when it might take a long time to load
                       data or warm a cache, than during steady-state operation. This
-                      cannot be updated. This is an alpha feature enabled by the StartupProbe
+                      cannot be updated. This is a beta feature enabled by the StartupProbe
                       feature flag. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
                     properties:
                       exec:
@@ -1690,7 +1700,7 @@ spec:
                     type: boolean
                   volumeDevices:
                     description: volumeDevices is the list of block devices to be
-                      used by the container. This is a beta feature.
+                      used by the container.
                     items:
                       description: volumeDevice describes a mapping of a raw block
                         device within a container.
@@ -1742,7 +1752,7 @@ spec:
                             to SubPath but environment variable references $(VAR_NAME)
                             are expanded using the container's environment. Defaults
                             to "" (volume's root). SubPathExpr and SubPath are mutually
-                            exclusive. This field is beta in 1.15.
+                            exclusive.
                           type: string
                       required:
                       - mountPath
@@ -1896,7 +1906,7 @@ spec:
                               description: 'Selects a field of the pod: supports metadata.name,
                                 metadata.namespace, metadata.labels, metadata.annotations,
                                 spec.nodeName, spec.serviceAccountName, status.hostIP,
-                                status.podIP.'
+                                status.podIP, status.podIPs.'
                               properties:
                                 apiVersion:
                                   description: Version of the schema the FieldPath
@@ -1920,9 +1930,13 @@ spec:
                                     optional for env vars'
                                   type: string
                                 divisor:
+                                  anyOf:
+                                  - type: integer
+                                  - type: string
                                   description: Specifies the output format of the
                                     exposed resources, defaults to "1"
-                                  type: string
+                                  pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  x-kubernetes-int-or-string: true
                                 resource:
                                   description: 'Required: resource to select'
                                   type: string
@@ -2466,13 +2480,21 @@ spec:
                     properties:
                       limits:
                         additionalProperties:
-                          type: string
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
                         description: 'Limits describes the maximum amount of compute
                           resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/'
                         type: object
                       requests:
                         additionalProperties:
-                          type: string
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
                         description: 'Requests describes the minimum amount of compute
                           resources required. If Requests is omitted for a container,
                           it defaults to Limits if that is explicitly specified, otherwise
@@ -2586,15 +2608,11 @@ spec:
                             description: GMSACredentialSpec is where the GMSA admission
                               webhook (https://github.com/kubernetes-sigs/windows-gmsa)
                               inlines the contents of the GMSA credential spec named
-                              by the GMSACredentialSpecName field. This field is alpha-level
-                              and is only honored by servers that enable the WindowsGMSA
-                              feature flag.
+                              by the GMSACredentialSpecName field.
                             type: string
                           gmsaCredentialSpecName:
                             description: GMSACredentialSpecName is the name of the
-                              GMSA credential spec to use. This field is alpha-level
-                              and is only honored by servers that enable the WindowsGMSA
-                              feature flag.
+                              GMSA credential spec to use.
                             type: string
                           runAsUserName:
                             description: The UserName in Windows to run the entrypoint
@@ -2602,9 +2620,7 @@ spec:
                               in image metadata if unspecified. May also be set in
                               PodSecurityContext. If set in both SecurityContext and
                               PodSecurityContext, the value specified in SecurityContext
-                              takes precedence. This field is alpha-level and it is
-                              only honored by servers that enable the WindowsRunAsUserName
-                              feature flag.
+                              takes precedence.
                             type: string
                         type: object
                     type: object
@@ -2771,7 +2787,7 @@ spec:
                     type: boolean
                   volumeDevices:
                     description: volumeDevices is the list of block devices to be
-                      used by the container. This is a beta feature.
+                      used by the container.
                     items:
                       description: volumeDevice describes a mapping of a raw block
                         device within a container.
@@ -2823,7 +2839,7 @@ spec:
                             to SubPath but environment variable references $(VAR_NAME)
                             are expanded using the container's environment. Defaults
                             to "" (volume's root). SubPathExpr and SubPath are mutually
-                            exclusive. This field is beta in 1.15.
+                            exclusive.
                           type: string
                       required:
                       - mountPath
@@ -2977,7 +2993,7 @@ spec:
                               description: 'Selects a field of the pod: supports metadata.name,
                                 metadata.namespace, metadata.labels, metadata.annotations,
                                 spec.nodeName, spec.serviceAccountName, status.hostIP,
-                                status.podIP.'
+                                status.podIP, status.podIPs.'
                               properties:
                                 apiVersion:
                                   description: Version of the schema the FieldPath
@@ -3001,9 +3017,13 @@ spec:
                                     optional for env vars'
                                   type: string
                                 divisor:
+                                  anyOf:
+                                  - type: integer
+                                  - type: string
                                   description: Specifies the output format of the
                                     exposed resources, defaults to "1"
-                                  type: string
+                                  pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  x-kubernetes-int-or-string: true
                                 resource:
                                   description: 'Required: resource to select'
                                   type: string
@@ -3438,6 +3458,10 @@ spec:
                       - containerPort
                       type: object
                     type: array
+                    x-kubernetes-list-map-keys:
+                    - containerPort
+                    - protocol
+                    x-kubernetes-list-type: map
                   readinessProbe:
                     description: 'Periodic probe of container service readiness. Container
                       will be removed from service endpoints if the probe fails. Cannot
@@ -3560,13 +3584,21 @@ spec:
                     properties:
                       limits:
                         additionalProperties:
-                          type: string
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
                         description: 'Limits describes the maximum amount of compute
                           resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/'
                         type: object
                       requests:
                         additionalProperties:
-                          type: string
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
                         description: 'Requests describes the minimum amount of compute
                           resources required. If Requests is omitted for a container,
                           it defaults to Limits if that is explicitly specified, otherwise
@@ -3682,15 +3714,11 @@ spec:
                             description: GMSACredentialSpec is where the GMSA admission
                               webhook (https://github.com/kubernetes-sigs/windows-gmsa)
                               inlines the contents of the GMSA credential spec named
-                              by the GMSACredentialSpecName field. This field is alpha-level
-                              and is only honored by servers that enable the WindowsGMSA
-                              feature flag.
+                              by the GMSACredentialSpecName field.
                             type: string
                           gmsaCredentialSpecName:
                             description: GMSACredentialSpecName is the name of the
-                              GMSA credential spec to use. This field is alpha-level
-                              and is only honored by servers that enable the WindowsGMSA
-                              feature flag.
+                              GMSA credential spec to use.
                             type: string
                           runAsUserName:
                             description: The UserName in Windows to run the entrypoint
@@ -3698,9 +3726,7 @@ spec:
                               in image metadata if unspecified. May also be set in
                               PodSecurityContext. If set in both SecurityContext and
                               PodSecurityContext, the value specified in SecurityContext
-                              takes precedence. This field is alpha-level and it is
-                              only honored by servers that enable the WindowsRunAsUserName
-                              feature flag.
+                              takes precedence.
                             type: string
                         type: object
                     type: object
@@ -3712,7 +3738,7 @@ spec:
                       be used to provide different probe parameters at the beginning
                       of a Pod''s lifecycle, when it might take a long time to load
                       data or warm a cache, than during steady-state operation. This
-                      cannot be updated. This is an alpha feature enabled by the StartupProbe
+                      cannot be updated. This is a beta feature enabled by the StartupProbe
                       feature flag. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
                     properties:
                       exec:
@@ -3867,7 +3893,7 @@ spec:
                     type: boolean
                   volumeDevices:
                     description: volumeDevices is the list of block devices to be
-                      used by the container. This is a beta feature.
+                      used by the container.
                     items:
                       description: volumeDevice describes a mapping of a raw block
                         device within a container.
@@ -3919,7 +3945,7 @@ spec:
                             to SubPath but environment variable references $(VAR_NAME)
                             are expanded using the container's environment. Defaults
                             to "" (volume's root). SubPathExpr and SubPath are mutually
-                            exclusive. This field is beta in 1.15.
+                            exclusive.
                           type: string
                       required:
                       - mountPath
@@ -3949,7 +3975,11 @@ spec:
               type: object
             overhead:
               additionalProperties:
-                type: string
+                anyOf:
+                - type: integer
+                - type: string
+                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                x-kubernetes-int-or-string: true
               description: 'Overhead represents the resource overhead associated with
                 running a pod for a given RuntimeClass. This field will be autopopulated
                 at admission time by the RuntimeClass admission controller. If the
@@ -4032,6 +4062,15 @@ spec:
                     ownership and permissions of any volume."
                   format: int64
                   type: integer
+                fsGroupChangePolicy:
+                  description: 'fsGroupChangePolicy defines behavior of changing ownership
+                    and permission of the volume before being exposed inside Pod.
+                    This field will only apply to volume types which support fsGroup
+                    based ownership(and permissions). It will have no effect on ephemeral
+                    volume types such as: secret, configmaps and emptydir. Valid values
+                    are "OnRootMismatch" and "Always". If not specified defaults to
+                    "Always".'
+                  type: string
                 runAsGroup:
                   description: The GID to run the entrypoint of the container process.
                     Uses runtime default if unset. May also be set in SecurityContext.  If
@@ -4116,23 +4155,18 @@ spec:
                       description: GMSACredentialSpec is where the GMSA admission
                         webhook (https://github.com/kubernetes-sigs/windows-gmsa)
                         inlines the contents of the GMSA credential spec named by
-                        the GMSACredentialSpecName field. This field is alpha-level
-                        and is only honored by servers that enable the WindowsGMSA
-                        feature flag.
+                        the GMSACredentialSpecName field.
                       type: string
                     gmsaCredentialSpecName:
                       description: GMSACredentialSpecName is the name of the GMSA
-                        credential spec to use. This field is alpha-level and is only
-                        honored by servers that enable the WindowsGMSA feature flag.
+                        credential spec to use.
                       type: string
                     runAsUserName:
                       description: The UserName in Windows to run the entrypoint of
                         the container process. Defaults to the user specified in image
                         metadata if unspecified. May also be set in PodSecurityContext.
                         If set in both SecurityContext and PodSecurityContext, the
-                        value specified in SecurityContext takes precedence. This
-                        field is alpha-level and it is only honored by servers that
-                        enable the WindowsRunAsUserName feature flag.
+                        value specified in SecurityContext takes precedence.
                       type: string
                   type: object
               type: object
@@ -4149,8 +4183,7 @@ spec:
                 in a pod. When this is set containers will be able to view and signal
                 processes from other containers in the same pod, and the first process
                 in each container will not be assigned PID 1. HostPID and ShareProcessNamespace
-                cannot both be set. Optional: Default to false. This field is beta-level
-                and may be disabled with the PodShareProcessNamespace feature.'
+                cannot both be set. Optional: Default to false.'
               type: boolean
             subdomain:
               description: If specified, the fully qualified Pod hostname will be
@@ -4211,9 +4244,9 @@ spec:
             topologySpreadConstraints:
               description: TopologySpreadConstraints describes how a group of pods
                 ought to spread across topology domains. Scheduler will schedule pods
-                in a way which abides by the constraints. This field is alpha-level
-                and is only honored by clusters that enables the EvenPodsSpread feature.
-                All topologySpreadConstraints are ANDed.
+                in a way which abides by the constraints. This field is only honored
+                by clusters that enable the EvenPodsSpread feature. All topologySpreadConstraints
+                are ANDed.
               items:
                 description: TopologySpreadConstraint specifies how to spread matching
                   pods among the given topology.
@@ -4306,6 +4339,10 @@ spec:
                 - whenUnsatisfiable
                 type: object
               type: array
+              x-kubernetes-list-map-keys:
+              - topologyKey
+              - whenUnsatisfiable
+              x-kubernetes-list-type: map
             volumes:
               description: 'List of volumes that can be mounted by containers belonging
                 to the pod. More info: https://kubernetes.io/docs/concepts/storage/volumes'
@@ -4628,9 +4665,13 @@ spec:
                                     optional for env vars'
                                   type: string
                                 divisor:
+                                  anyOf:
+                                  - type: integer
+                                  - type: string
                                   description: Specifies the output format of the
                                     exposed resources, defaults to "1"
-                                  type: string
+                                  pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  x-kubernetes-int-or-string: true
                                 resource:
                                   description: 'Required: resource to select'
                                   type: string
@@ -4653,6 +4694,9 @@ spec:
                           More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir'
                         type: string
                       sizeLimit:
+                        anyOf:
+                        - type: integer
+                        - type: string
                         description: 'Total amount of local storage required for this
                           EmptyDir volume. The size limit is also applicable for memory
                           medium. The maximum usage on memory medium EmptyDir would
@@ -4660,7 +4704,8 @@ spec:
                           and the sum of memory limits of all containers in a pod.
                           The default is nil which means that the limit is undefined.
                           More info: http://kubernetes.io/docs/user-guide/volumes#emptydir'
-                        type: string
+                        pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                        x-kubernetes-int-or-string: true
                     type: object
                   fc:
                     description: FC represents a Fibre Channel resource that is attached
@@ -5117,10 +5162,14 @@ spec:
                                               for volumes, optional for env vars'
                                             type: string
                                           divisor:
+                                            anyOf:
+                                            - type: integer
+                                            - type: string
                                             description: Specifies the output format
                                               of the exposed resources, defaults to
                                               "1"
-                                            type: string
+                                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                            x-kubernetes-int-or-string: true
                                           resource:
                                             description: 'Required: resource to select'
                                             type: string

@@ -100,13 +100,13 @@ spec:
                           properties:
                             cidr:
                               description: CIDR is a string representing the IP Block
-                                Valid examples are "192.168.1.1/24"
+                                Valid examples are "192.168.1.1/24" or "2001:db9::/64"
                               type: string
                             except:
                               description: Except is a slice of CIDRs that should
                                 not be included within an IP Block Valid examples
-                                are "192.168.1.1/24" Except values will be rejected
-                                if they are outside the CIDR range
+                                are "192.168.1.1/24" or "2001:db9::/64" Except values
+                                will be rejected if they are outside the CIDR range
                               items:
                                 type: string
                               type: array
@@ -252,13 +252,13 @@ spec:
                           properties:
                             cidr:
                               description: CIDR is a string representing the IP Block
-                                Valid examples are "192.168.1.1/24"
+                                Valid examples are "192.168.1.1/24" or "2001:db9::/64"
                               type: string
                             except:
                               description: Except is a slice of CIDRs that should
                                 not be included within an IP Block Valid examples
-                                are "192.168.1.1/24" Except values will be rejected
-                                if they are outside the CIDR range
+                                are "192.168.1.1/24" or "2001:db9::/64" Except values
+                                will be rejected if they are outside the CIDR range
                               items:
                                 type: string
                               type: array
