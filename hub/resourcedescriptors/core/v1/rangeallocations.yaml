@@ -1,0 +1,46 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ""
+    k8s.io/kind: RangeAllocation
+    k8s.io/resource: rangeallocations
+    k8s.io/version: v1
+  name: core-v1-rangeallocations
+spec:
+  resource:
+    group: ""
+    kind: RangeAllocation
+    name: rangeallocations
+    scope: Namespaced
+    version: v1
+  validation:
+    openAPIV3Schema:
+      description: RangeAllocation is not a public type.
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        data:
+          description: Data is a bit array containing all allocated addresses in the
+            previous segment.
+          format: byte
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          description: 'Standard object''s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata'
+          type: object
+        range:
+          description: Range is string that identifies the range represented by 'data'.
+          type: string
+      required:
+      - data
+      - range
+      type: object
