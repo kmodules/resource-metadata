@@ -1,0 +1,68 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: catalog.kubedb.com
+    k8s.io/kind: MariaDBVersion
+    k8s.io/resource: mariadbversions
+    k8s.io/version: v1alpha1
+  name: catalog.kubedb.com-v1alpha1-mariadbversions
+spec:
+  resource:
+    group: catalog.kubedb.com
+    kind: MariaDBVersion
+    name: mariadbversions
+    scope: Cluster
+    version: v1alpha1
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          type: string
+        kind:
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            db:
+              properties:
+                image:
+                  type: string
+              required:
+              - image
+              type: object
+            deprecated:
+              type: boolean
+            exporter:
+              properties:
+                image:
+                  type: string
+              required:
+              - image
+              type: object
+            initContainer:
+              properties:
+                image:
+                  type: string
+              required:
+              - image
+              type: object
+            podSecurityPolicies:
+              properties:
+                databasePolicyName:
+                  type: string
+              required:
+              - databasePolicyName
+              type: object
+            version:
+              type: string
+          required:
+          - db
+          - exporter
+          - initContainer
+          - podSecurityPolicies
+          - version
+          type: object
+      type: object

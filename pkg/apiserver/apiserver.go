@@ -26,8 +26,8 @@ import (
 	"kmodules.xyz/resource-metadata/pkg/registry/meta/pathfinder"
 	"kmodules.xyz/resource-metadata/pkg/registry/meta/resourcedescriptor"
 
-	v "github.com/appscode/go/version"
 	semver "gomodules.xyz/version"
+	v "gomodules.xyz/x/version"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"

@@ -1,0 +1,79 @@
+apiVersion: meta.appscode.com/v1alpha1
+kind: ResourceDescriptor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: autoscaling.kubedb.com
+    k8s.io/kind: VerticalAutoscalerCheckpoint
+    k8s.io/resource: verticalautoscalercheckpoints
+    k8s.io/version: v1alpha1
+  name: autoscaling.kubedb.com-v1alpha1-verticalautoscalercheckpoints
+spec:
+  resource:
+    group: autoscaling.kubedb.com
+    kind: VerticalAutoscalerCheckpoint
+    name: verticalautoscalercheckpoints
+    scope: Namespaced
+    version: v1alpha1
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          type: string
+        kind:
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            containerName:
+              type: string
+            vpaObjectName:
+              type: string
+          type: object
+        status:
+          properties:
+            cpuHistogram:
+              properties:
+                bucketWeights:
+                  additionalProperties:
+                    format: int32
+                    type: integer
+                  type: object
+                referenceTimestamp:
+                  format: date-time
+                  type: string
+                totalWeight:
+                  format: float
+                  type: number
+              type: object
+            firstSampleStart:
+              format: date-time
+              type: string
+            lastSampleStart:
+              format: date-time
+              type: string
+            lastUpdateTime:
+              format: date-time
+              type: string
+            memoryHistogram:
+              properties:
+                bucketWeights:
+                  additionalProperties:
+                    format: int32
+                    type: integer
+                  type: object
+                referenceTimestamp:
+                  format: date-time
+                  type: string
+                totalWeight:
+                  format: float
+                  type: number
+              type: object
+            totalSamplesCount:
+              format: int64
+              type: integer
+            version:
+              type: string
+          type: object
+      type: object

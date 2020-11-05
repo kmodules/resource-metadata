@@ -26,7 +26,7 @@ import (
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
-	"github.com/appscode/go/sets"
+	"k8s.io/apimachinery/pkg/util/sets"
 	"sigs.k8s.io/yaml"
 )
 
