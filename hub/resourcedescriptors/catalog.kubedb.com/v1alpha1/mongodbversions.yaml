@@ -61,6 +61,13 @@ spec:
               required:
               - databasePolicyName
               type: object
+            replicationModeDetector:
+              properties:
+                image:
+                  type: string
+              required:
+              - image
+              type: object
             tools:
               properties:
                 image:
@@ -75,6 +82,7 @@ spec:
           - exporter
           - initContainer
           - podSecurityPolicies
+          - replicationModeDetector
           - tools
           - version
           type: object
