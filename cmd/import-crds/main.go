@@ -32,7 +32,9 @@ import (
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
 	flag "github.com/spf13/pflag"
-	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions"
+	crdv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+	crdv1beta1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/yaml"
 )
@@ -65,9 +67,36 @@ func main() {
 	}
 }
 
-func CustomResourceDefinition(data []byte) (*apiextensions.CustomResourceDefinition, error) {
-	var out apiextensions.CustomResourceDefinition
-	err := yaml.Unmarshal(data, &out)
+func CustomResourceDefinition(data []byte) (*crdv1beta1.CustomResourceDefinition, error) {
+	var tm metav1.TypeMeta
+	err := yaml.Unmarshal(data, &tm)
+	if err != nil {
+		return nil, err
+	}
+
+	if tm.APIVersion == crdv1beta1.SchemeGroupVersion.String() {
+		var out crdv1beta1.CustomResourceDefinition
+		err := yaml.Unmarshal(data, &out)
+		if err != nil {
+			return nil, err
+		}
+		return &out, nil
+	}
+
+	var defv1 crdv1.CustomResourceDefinition
+	err = yaml.Unmarshal(data, &defv1)
+	if err != nil {
+		return nil, err
+	}
+
+	var inner apiextensions.CustomResourceDefinition
+	err = crdv1.Convert_v1_CustomResourceDefinition_To_apiextensions_CustomResourceDefinition(&defv1, &inner, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	var out crdv1beta1.CustomResourceDefinition
+	err = crdv1beta1.Convert_apiextensions_CustomResourceDefinition_To_v1beta1_CustomResourceDefinition(&inner, &out, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -151,7 +180,7 @@ func processLocation(location, dir string) error {
 	return nil
 }
 
-func WriteDesciptor(crd *apiextensions.CustomResourceDefinition, dir string) error {
+func WriteDesciptor(crd *crdv1beta1.CustomResourceDefinition, dir string) error {
 	version := crd.Spec.Version
 	if len(crd.Spec.Versions) > 0 {
 		version = crd.Spec.Versions[0].Name
