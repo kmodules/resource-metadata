@@ -38,6 +38,8 @@ import (
 )
 
 /*
+go run cmd/import-crds/main.go --input=/home/tamal/go/src/k8s.io/kube-aggregator/crds
+
 go run cmd/import-crds/main.go --input=/home/tamal/go/src/github.com/coreos/prometheus-operator/example/prometheus-operator-crd
 go run cmd/import-crds/main.go --input=/home/tamal/go/src/github.com/jetstack/cert-manager/deploy/charts/cert-manager/crds
 go run cmd/import-crds/main.go --input=/home/tamal/go/src/github.com/appscode/voyager/api/crds
