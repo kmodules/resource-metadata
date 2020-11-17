@@ -20,3 +20,49 @@ spec:
     name: leases
     scope: Namespaced
     version: v1beta1
+  validation:
+    openAPIV3Schema:
+      description: Lease defines a lease concept.
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          description: 'More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata'
+          type: object
+        spec:
+          description: 'Specification of the Lease. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status'
+          properties:
+            acquireTime:
+              description: acquireTime is a time when the current lease was acquired.
+              format: date-time
+              type: string
+            holderIdentity:
+              description: holderIdentity contains the identity of the holder of a
+                current lease.
+              type: string
+            leaseDurationSeconds:
+              description: leaseDurationSeconds is a duration that candidates for
+                a lease need to wait to force acquire it. This is measure against
+                time of last observed RenewTime.
+              format: int32
+              type: integer
+            leaseTransitions:
+              description: leaseTransitions is the number of transitions of a lease
+                between holders.
+              format: int32
+              type: integer
+            renewTime:
+              description: renewTime is a time when the current holder of a lease
+                has last updated the lease.
+              format: date-time
+              type: string
+          type: object
+      type: object

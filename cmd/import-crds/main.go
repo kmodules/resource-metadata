@@ -40,6 +40,7 @@ import (
 )
 
 /*
+go run cmd/import-crds/main.go --input=/home/tamal/go/src/k8s.io/api/crds
 go run cmd/import-crds/main.go --input=/home/tamal/go/src/k8s.io/kube-aggregator/crds
 
 go run cmd/import-crds/main.go --input=/home/tamal/go/src/github.com/coreos/prometheus-operator/example/prometheus-operator-crd
@@ -67,15 +68,15 @@ func main() {
 	}
 }
 
-func CustomResourceDefinition(data []byte) (*crdv1beta1.CustomResourceDefinition, error) {
+func CustomResourceDefinition(data []byte) (*crdv1.CustomResourceDefinition, error) {
 	var tm metav1.TypeMeta
 	err := yaml.Unmarshal(data, &tm)
 	if err != nil {
 		return nil, err
 	}
 
-	if tm.APIVersion == crdv1beta1.SchemeGroupVersion.String() {
-		var out crdv1beta1.CustomResourceDefinition
+	if tm.APIVersion == crdv1.SchemeGroupVersion.String() {
+		var out crdv1.CustomResourceDefinition
 		err := yaml.Unmarshal(data, &out)
 		if err != nil {
 			return nil, err
@@ -83,20 +84,20 @@ func CustomResourceDefinition(data []byte) (*crdv1beta1.CustomResourceDefinition
 		return &out, nil
 	}
 
-	var defv1 crdv1.CustomResourceDefinition
+	var defv1 crdv1beta1.CustomResourceDefinition
 	err = yaml.Unmarshal(data, &defv1)
 	if err != nil {
 		return nil, err
 	}
 
 	var inner apiextensions.CustomResourceDefinition
-	err = crdv1.Convert_v1_CustomResourceDefinition_To_apiextensions_CustomResourceDefinition(&defv1, &inner, nil)
+	err = crdv1beta1.Convert_v1beta1_CustomResourceDefinition_To_apiextensions_CustomResourceDefinition(&defv1, &inner, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	var out crdv1beta1.CustomResourceDefinition
-	err = crdv1beta1.Convert_apiextensions_CustomResourceDefinition_To_v1beta1_CustomResourceDefinition(&inner, &out, nil)
+	var out crdv1.CustomResourceDefinition
+	err = crdv1.Convert_apiextensions_CustomResourceDefinition_To_v1_CustomResourceDefinition(&inner, &out, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -124,7 +125,7 @@ func processLocation(location, dir string) error {
 		if err != nil {
 			return err
 		}
-		err = WriteDesciptor(crd, dir)
+		err = WriteDescriptor(crd, dir)
 		if err != nil {
 			return err
 		}
@@ -134,6 +135,8 @@ func processLocation(location, dir string) error {
 			return err
 		}
 		if fi.IsDir() {
+			ext := crdFileExtension(location)
+
 			err = filepath.Walk(location, func(path string, info os.FileInfo, err error) error {
 				if err != nil {
 					return err
@@ -141,7 +144,7 @@ func processLocation(location, dir string) error {
 				if info.IsDir() {
 					return nil
 				}
-				if !strings.HasSuffix(info.Name(), "yaml") {
+				if !strings.HasSuffix(info.Name(), ext) {
 					return nil
 				}
 
@@ -153,7 +156,7 @@ func processLocation(location, dir string) error {
 				if err != nil {
 					return err
 				}
-				err = WriteDesciptor(crd, dir)
+				err = WriteDescriptor(crd, dir)
 				if err != nil {
 					return err
 				}
@@ -171,7 +174,7 @@ func processLocation(location, dir string) error {
 			if err != nil {
 				return err
 			}
-			err = WriteDesciptor(crd, dir)
+			err = WriteDescriptor(crd, dir)
 			if err != nil {
 				return err
 			}
@@ -180,67 +183,83 @@ func processLocation(location, dir string) error {
 	return nil
 }
 
-func WriteDesciptor(crd *crdv1beta1.CustomResourceDefinition, dir string) error {
-	version := crd.Spec.Version
-	if len(crd.Spec.Versions) > 0 {
-		version = crd.Spec.Versions[0].Name
-	}
-
-	kind := crd.Spec.Names.Kind
-	plural := crd.Spec.Names.Plural
-
-	name := fmt.Sprintf("%s-%s-%s", crd.Spec.Group, version, plural)
-	baseDir := filepath.Join(dir, crd.Spec.Group, version)
-
-	err := os.MkdirAll(baseDir, 0755)
+func crdFileExtension(dir string) string {
+	entries, err := ioutil.ReadDir(dir)
 	if err != nil {
-		return err
+		panic(err)
 	}
-
-	filename := filepath.Join(baseDir, plural+".yaml")
-
-	var rd v1alpha1.ResourceDescriptor
-	if existing, err := ioutil.ReadFile(filename); os.IsNotExist(err) {
-		rd = v1alpha1.ResourceDescriptor{
-			TypeMeta: metav1.TypeMeta{
-				APIVersion: v1alpha1.SchemeGroupVersion.String(),
-				Kind:       v1alpha1.ResourceKindResourceDescriptor,
-			},
-			ObjectMeta: metav1.ObjectMeta{
-				Name: name,
-				Labels: map[string]string{
-					"k8s.io/group":    crd.Spec.Group,
-					"k8s.io/version":  version,
-					"k8s.io/resource": plural,
-					"k8s.io/kind":     kind,
-				},
-			},
-			Spec: v1alpha1.ResourceDescriptorSpec{
-				Resource: v1alpha1.ResourceID{
-					Group:   crd.Spec.Group,
-					Version: version,
-					Name:    plural,
-					Kind:    kind,
-					Scope:   v1alpha1.ResourceScope(string(crd.Spec.Scope)),
-				},
-				Validation: crd.Spec.Validation,
-			},
+	for _, entry := range entries {
+		if entry.IsDir() {
+			continue
 		}
-	} else {
-		err = yaml.Unmarshal(existing, &rd)
-		if err == nil {
-			rd.Spec.Validation = crd.Spec.Validation
+		if strings.HasSuffix(entry.Name(), ".v1.yaml") {
+			return ".v1.yaml"
 		}
 	}
+	return ".yaml"
+}
 
-	data, err := yaml.Marshal(rd)
-	if err != nil {
-		return err
+func WriteDescriptor(crd *crdv1.CustomResourceDefinition, dir string) error {
+	for _, v := range crd.Spec.Versions {
+		version := v.Name
+
+		kind := crd.Spec.Names.Kind
+		plural := crd.Spec.Names.Plural
+
+		name := fmt.Sprintf("%s-%s-%s", crd.Spec.Group, version, plural)
+		baseDir := filepath.Join(dir, crd.Spec.Group, version)
+
+		err := os.MkdirAll(baseDir, 0755)
+		if err != nil {
+			return err
+		}
+
+		filename := filepath.Join(baseDir, plural+".yaml")
+
+		var rd v1alpha1.ResourceDescriptor
+		if existing, err := ioutil.ReadFile(filename); os.IsNotExist(err) {
+			rd = v1alpha1.ResourceDescriptor{
+				TypeMeta: metav1.TypeMeta{
+					APIVersion: v1alpha1.SchemeGroupVersion.String(),
+					Kind:       v1alpha1.ResourceKindResourceDescriptor,
+				},
+				ObjectMeta: metav1.ObjectMeta{
+					Name: name,
+					Labels: map[string]string{
+						"k8s.io/group":    crd.Spec.Group,
+						"k8s.io/version":  version,
+						"k8s.io/resource": plural,
+						"k8s.io/kind":     kind,
+					},
+				},
+				Spec: v1alpha1.ResourceDescriptorSpec{
+					Resource: v1alpha1.ResourceID{
+						Group:   crd.Spec.Group,
+						Version: version,
+						Name:    plural,
+						Kind:    kind,
+						Scope:   v1alpha1.ResourceScope(string(crd.Spec.Scope)),
+					},
+					Validation: v.Schema,
+				},
+			}
+		} else {
+			err = yaml.Unmarshal(existing, &rd)
+			if err == nil {
+				rd.Spec.Validation = v.Schema
+			}
+		}
+
+		data, err := yaml.Marshal(rd)
+		if err != nil {
+			return err
+		}
+
+		err = ioutil.WriteFile(filename, data, 0644)
+		if err != nil {
+			return err
+		}
 	}
 
-	err = ioutil.WriteFile(filename, data, 0644)
-	if err != nil {
-		return err
-	}
 	return nil
 }

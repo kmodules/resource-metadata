@@ -693,6 +693,7 @@ spec:
                                     name:
                                       type: string
                                     protocol:
+                                      default: TCP
                                       type: string
                                   required:
                                   - containerPort
@@ -1394,6 +1395,8 @@ spec:
                   - name
                   type: object
                 remove:
+                  type: boolean
+                requireSSL:
                   type: boolean
                 rotateCertificates:
                   type: boolean

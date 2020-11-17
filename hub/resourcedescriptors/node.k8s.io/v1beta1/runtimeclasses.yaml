@@ -60,7 +60,11 @@ spec:
           properties:
             podFixed:
               additionalProperties:
-                type: string
+                anyOf:
+                - type: integer
+                - type: string
+                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                x-kubernetes-int-or-string: true
               description: PodFixed represents the fixed resource overhead associated
                 with running a pod.
               type: object
@@ -122,6 +126,7 @@ spec:
                     type: string
                 type: object
               type: array
+              x-kubernetes-list-type: atomic
           type: object
       required:
       - handler

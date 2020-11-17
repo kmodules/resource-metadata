@@ -23,11 +23,6 @@ spec:
         kind:
           type: string
         metadata:
-          properties:
-            name:
-              maxLength: 63
-              pattern: ^[a-z]([-a-z0-9]*[a-z0-9])?$
-              type: string
           type: object
         spec:
           properties:
@@ -1410,6 +1405,7 @@ spec:
                             type: object
                           type: array
                         port:
+                          default: 56790
                           format: int32
                           type: integer
                         resources:
@@ -2146,6 +2142,7 @@ spec:
                                 name:
                                   type: string
                                 protocol:
+                                  default: TCP
                                   type: string
                               required:
                               - containerPort
