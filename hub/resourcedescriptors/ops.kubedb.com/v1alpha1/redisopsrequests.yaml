@@ -693,6 +693,7 @@ spec:
                                     name:
                                       type: string
                                     protocol:
+                                      default: TCP
                                       type: string
                                   required:
                                   - containerPort
