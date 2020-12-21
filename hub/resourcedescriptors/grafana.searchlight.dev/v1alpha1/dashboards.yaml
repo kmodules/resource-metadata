@@ -20,6 +20,9 @@ spec:
     name: dashboards
     scope: Namespaced
     version: v1alpha1
+  resourceRequirements:
+  - resources: spec.podTemplate.spec.resources
+    units: spec.replicas
   validation:
     openAPIV3Schema:
       properties:
@@ -34,11 +37,6 @@ spec:
             submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
           type: string
         metadata:
-          properties:
-            name:
-              maxLength: 63
-              pattern: ^[a-z]([-a-z0-9]*[a-z0-9])?$
-              type: string
           type: object
         spec:
           properties:

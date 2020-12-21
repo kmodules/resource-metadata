@@ -55,6 +55,7 @@ type ResourceDescriptorSpec struct {
 
 type ResourceRequirements struct {
 	Units     string
+	Shards    string
 	Resources string
 }
 
