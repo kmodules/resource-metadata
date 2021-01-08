@@ -13958,6 +13958,11 @@ func schema_resource_metadata_apis_meta_v1alpha1_PanelEntry(ref common.Reference
 							Format: "",
 						},
 					},
+					"ui": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.UIParameters"),
+						},
+					},
 					"installer": {
 						SchemaProps: spec.SchemaProps{
 							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DeploymentParameters"),
@@ -13968,7 +13973,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_PanelEntry(ref common.Reference
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DeploymentParameters", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ImageSpec"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DeploymentParameters", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ImageSpec", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.UIParameters"},
 	}
 }
 
@@ -15166,17 +15171,12 @@ func schema_resource_metadata_apis_meta_v1alpha1_UIParameters(ref common.Referen
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
-					"options": {
+					"optionsEditor": {
 						SchemaProps: spec.SchemaProps{
 							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ChartRef"),
 						},
 					},
-					"create": {
-						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ChartRef"),
-						},
-					},
-					"edit": {
+					"editor": {
 						SchemaProps: spec.SchemaProps{
 							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ChartRef"),
 						},
