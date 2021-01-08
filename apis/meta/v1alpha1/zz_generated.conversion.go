@@ -1277,9 +1277,8 @@ func Convert_meta_TableRow_To_v1alpha1_TableRow(in *meta.TableRow, out *TableRow
 }
 
 func autoConvert_v1alpha1_UIParameters_To_meta_UIParameters(in *UIParameters, out *meta.UIParameters, s conversion.Scope) error {
-	out.Options = (*meta.ChartRef)(unsafe.Pointer(in.Options))
-	out.Create = (*meta.ChartRef)(unsafe.Pointer(in.Create))
-	out.Edit = (*meta.ChartRef)(unsafe.Pointer(in.Edit))
+	out.OptionsEditor = (*meta.ChartRef)(unsafe.Pointer(in.OptionsEditor))
+	out.Editor = (*meta.ChartRef)(unsafe.Pointer(in.Editor))
 	return nil
 }
 
@@ -1289,9 +1288,8 @@ func Convert_v1alpha1_UIParameters_To_meta_UIParameters(in *UIParameters, out *m
 }
 
 func autoConvert_meta_UIParameters_To_v1alpha1_UIParameters(in *meta.UIParameters, out *UIParameters, s conversion.Scope) error {
-	out.Options = (*ChartRef)(unsafe.Pointer(in.Options))
-	out.Create = (*ChartRef)(unsafe.Pointer(in.Create))
-	out.Edit = (*ChartRef)(unsafe.Pointer(in.Edit))
+	out.OptionsEditor = (*ChartRef)(unsafe.Pointer(in.OptionsEditor))
+	out.Editor = (*ChartRef)(unsafe.Pointer(in.Editor))
 	return nil
 }
 

@@ -108,9 +108,8 @@ type ResourceRequirements struct {
 }
 
 type UIParameters struct {
-	Options *ChartRef `json:"options,omitempty"`
-	Create  *ChartRef `json:"create,omitempty"`
-	Edit    *ChartRef `json:"edit,omitempty"`
+	OptionsEditor *ChartRef `json:"optionsEditor,omitempty"`
+	Editor        *ChartRef `json:"editor,omitempty"`
 }
 
 type DeploymentParameters struct {

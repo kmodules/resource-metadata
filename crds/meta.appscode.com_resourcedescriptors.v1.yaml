@@ -376,7 +376,7 @@ spec:
                 type: array
               ui:
                 properties:
-                  create:
+                  editor:
                     properties:
                       name:
                         type: string
@@ -386,17 +386,7 @@ spec:
                     - name
                     - url
                     type: object
-                  edit:
-                    properties:
-                      name:
-                        type: string
-                      url:
-                        type: string
-                    required:
-                    - name
-                    - url
-                    type: object
-                  options:
+                  optionsEditor:
                     properties:
                       name:
                         type: string

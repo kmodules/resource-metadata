@@ -59,9 +59,8 @@ type ResourceRequirements struct {
 }
 
 type UIParameters struct {
-	Options *ChartRef
-	Create  *ChartRef
-	Edit    *ChartRef
+	OptionsEditor *ChartRef
+	Editor        *ChartRef
 }
 
 type DeploymentParameters struct {
