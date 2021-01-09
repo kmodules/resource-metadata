@@ -15,6 +15,15 @@ spec:
     name: redises
     scope: Namespaced
     version: v1alpha2
+  ui:
+    options:
+      url: https://bundles.byte.builders/ui/
+      name: redis-editor-options
+      version: 0.1.0
+    editor:
+      url: https://bundles.byte.builders/ui/
+      name: redis-editor
+      version: 0.1.0
   validation:
     openAPIV3Schema:
       properties:

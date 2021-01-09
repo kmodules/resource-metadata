@@ -290,7 +290,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"k8s.io/apimachinery/pkg/runtime.Unknown":                                      schema_k8sio_apimachinery_pkg_runtime_Unknown(ref),
 		"k8s.io/apimachinery/pkg/util/intstr.IntOrString":                              schema_apimachinery_pkg_util_intstr_IntOrString(ref),
 		"k8s.io/apimachinery/pkg/version.Info":                                         schema_k8sio_apimachinery_pkg_version_Info(ref),
-		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ChartRef":                   schema_resource_metadata_apis_meta_v1alpha1_ChartRef(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ChartRepoRef":               schema_resource_metadata_apis_meta_v1alpha1_ChartRepoRef(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ContactData":                schema_resource_metadata_apis_meta_v1alpha1_ContactData(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DeploymentParameters":       schema_resource_metadata_apis_meta_v1alpha1_DeploymentParameters(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Edge":                       schema_resource_metadata_apis_meta_v1alpha1_Edge(ref),
@@ -13499,26 +13499,33 @@ func schema_k8sio_apimachinery_pkg_version_Info(ref common.ReferenceCallback) co
 	}
 }
 
-func schema_resource_metadata_apis_meta_v1alpha1_ChartRef(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_resource_metadata_apis_meta_v1alpha1_ChartRepoRef(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
-				Type: []string{"object"},
+				Description: "ChartRepoRef references to a single version of a Chart",
+				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
-					"url": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
 					"name": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
 							Format: "",
 						},
 					},
+					"url": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"version": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
 				},
-				Required: []string{"url", "name"},
+				Required: []string{"name", "url", "version"},
 			},
 		},
 	}
@@ -13576,22 +13583,16 @@ func schema_resource_metadata_apis_meta_v1alpha1_DeploymentParameters(ref common
 							Format: "",
 						},
 					},
-					"version": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
 					"chart": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ChartRef"),
+							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ChartRepoRef"),
 						},
 					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ChartRef"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ChartRepoRef"},
 	}
 }
 
@@ -15171,20 +15172,20 @@ func schema_resource_metadata_apis_meta_v1alpha1_UIParameters(ref common.Referen
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
-					"optionsEditor": {
+					"options": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ChartRef"),
+							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ChartRepoRef"),
 						},
 					},
 					"editor": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ChartRef"),
+							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ChartRepoRef"),
 						},
 					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ChartRef"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ChartRepoRef"},
 	}
 }

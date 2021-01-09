@@ -15,6 +15,15 @@ spec:
     name: elasticsearches
     scope: Namespaced
     version: v1alpha2
+  ui:
+    options:
+      url: https://bundles.byte.builders/ui/
+      name: elasticsearch-editor-options
+      version: 0.1.0
+    editor:
+      url: https://bundles.byte.builders/ui/
+      name: elasticsearch-editor
+      version: 0.1.0
   validation:
     openAPIV3Schema:
       properties:
