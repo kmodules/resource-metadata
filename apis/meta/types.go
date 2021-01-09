@@ -59,20 +59,20 @@ type ResourceRequirements struct {
 }
 
 type UIParameters struct {
-	OptionsEditor *ChartRef
-	Editor        *ChartRef
+	Options *ChartRepoRef
+	Editor  *ChartRepoRef
 }
 
 type DeploymentParameters struct {
 	ProductID string
 	PlanID    string
-	Version   string
-	Chart     *ChartRef
+	Chart     *ChartRepoRef
 }
 
-type ChartRef struct {
-	URL  string
-	Name string
+type ChartRepoRef struct {
+	Name    string
+	URL     string
+	Version string
 }
 
 type ResourceID struct {

@@ -209,20 +209,23 @@ spec:
               installer:
                 properties:
                   chart:
+                    description: ChartRepoRef references to a single version of a
+                      Chart
                     properties:
                       name:
                         type: string
                       url:
                         type: string
+                      version:
+                        type: string
                     required:
                     - name
                     - url
+                    - version
                     type: object
                   planID:
                     type: string
                   productID:
-                    type: string
-                  version:
                     type: string
                 type: object
               keyTargets:
@@ -377,24 +380,34 @@ spec:
               ui:
                 properties:
                   editor:
+                    description: ChartRepoRef references to a single version of a
+                      Chart
                     properties:
                       name:
                         type: string
                       url:
                         type: string
+                      version:
+                        type: string
                     required:
                     - name
                     - url
+                    - version
                     type: object
-                  optionsEditor:
+                  options:
+                    description: ChartRepoRef references to a single version of a
+                      Chart
                     properties:
                       name:
                         type: string
                       url:
                         type: string
+                      version:
+                        type: string
                     required:
                     - name
                     - url
+                    - version
                     type: object
                 type: object
               validation:

@@ -108,20 +108,21 @@ type ResourceRequirements struct {
 }
 
 type UIParameters struct {
-	OptionsEditor *ChartRef `json:"optionsEditor,omitempty"`
-	Editor        *ChartRef `json:"editor,omitempty"`
+	Options *ChartRepoRef `json:"options,omitempty"`
+	Editor  *ChartRepoRef `json:"editor,omitempty"`
 }
 
 type DeploymentParameters struct {
-	ProductID string    `json:"productID,omitempty"`
-	PlanID    string    `json:"planID,omitempty"`
-	Version   string    `json:"version,omitempty"`
-	Chart     *ChartRef `json:"chart,omitempty"`
+	ProductID string        `json:"productID,omitempty"`
+	PlanID    string        `json:"planID,omitempty"`
+	Chart     *ChartRepoRef `json:"chart,omitempty"`
 }
 
-type ChartRef struct {
-	URL  string `json:"url"`
-	Name string `json:"name"`
+// ChartRepoRef references to a single version of a Chart
+type ChartRepoRef struct {
+	Name    string `json:"name"`
+	URL     string `json:"url"`
+	Version string `json:"version"`
 }
 
 // ResourceID identifies a resource
