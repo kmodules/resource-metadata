@@ -1140,6 +1140,7 @@ func Convert_meta_ResourceID_To_v1alpha1_ResourceID(in *meta.ResourceID, out *Re
 
 func autoConvert_v1alpha1_ResourceRequirements_To_meta_ResourceRequirements(in *ResourceRequirements, out *meta.ResourceRequirements, s conversion.Scope) error {
 	out.Units = in.Units
+	out.Shards = in.Shards
 	out.Resources = in.Resources
 	return nil
 }
@@ -1151,6 +1152,7 @@ func Convert_v1alpha1_ResourceRequirements_To_meta_ResourceRequirements(in *Reso
 
 func autoConvert_meta_ResourceRequirements_To_v1alpha1_ResourceRequirements(in *meta.ResourceRequirements, out *ResourceRequirements, s conversion.Scope) error {
 	out.Units = in.Units
+	out.Shards = in.Shards
 	out.Resources = in.Resources
 	return nil
 }

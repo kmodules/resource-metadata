@@ -14930,6 +14930,13 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceRequirements(ref common
 							Format:      "",
 						},
 					},
+					"shards": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Shards represents number of shards not available for all resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
 					"resources": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Json path to resources of type core.ResourceRequirements",

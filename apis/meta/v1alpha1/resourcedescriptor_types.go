@@ -103,6 +103,9 @@ type ResourceRequirements struct {
 	// json path to replicas of type int
 	// if missing or zero(0), then don't extract resources.
 	Units string `json:"units,omitempty"`
+	// Shards represents number of shards
+	// not available for all resources
+	Shards string `json:"shards,omitempty"`
 	// Json path to resources of type core.ResourceRequirements
 	Resources string `json:"resources,omitempty"`
 }
