@@ -51,6 +51,8 @@ go run cmd/import-crds/main.go --input=/home/tamal/go/src/kmodules.xyz/custom-re
 go run cmd/import-crds/main.go --input=/home/tamal/go/src/kubedb.dev/apimachinery/crds
 go run cmd/import-crds/main.go --input=/home/tamal/go/src/kubevault.dev/operator/api/crds
 go run cmd/import-crds/main.go --input=/home/tamal/go/src/go.searchlight.dev/grafana-operator/crds
+
+go run cmd/import-crds/main.go --input=/home/tamal/go/src/sigs.k8s.io/application/config/crd/bases
 */
 func main() {
 	var input []string
