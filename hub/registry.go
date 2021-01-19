@@ -428,6 +428,7 @@ func (r *Registry) createResourcePanel(keepOfficialTypes bool) (*v1alpha1.Resour
 					pe.Icons = rd.Spec.Icons
 					pe.Missing = r.Missing(gvr)
 					pe.Installer = rd.Spec.Installer
+					pe.UI = rd.Spec.UI
 				}
 			}
 			section.Entries = append(section.Entries, pe)
