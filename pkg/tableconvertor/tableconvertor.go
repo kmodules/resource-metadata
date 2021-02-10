@@ -34,6 +34,7 @@ import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/client-go/util/jsonpath"
 )
 
@@ -84,9 +85,22 @@ func filterColumns(columns []v1alpha1.ResourceColumnDefinition, priority v1alpha
 }
 
 func filterColumnsWithDefaults(client crd_cs.CustomResourceDefinitionInterface, gvr schema.GroupVersionResource, columns []v1alpha1.ResourceColumnDefinition, priority v1alpha1.Priority) []v1alpha1.ResourceColumnDefinition {
+	// columns are specified in resource description, so use those.
 	out := filterColumns(columns, priority)
 	if len(out) > 0 {
 		return out
+	}
+
+	// generate column list by merging default columns + crd additional columns
+	var defaultColumns []v1alpha1.ResourceColumnDefinition
+	if priority == v1alpha1.List {
+		defaultColumns = defaultListColumns()
+	} else {
+		defaultColumns = defaultDetailsColumns()
+	}
+	defaultJsonPaths := sets.NewString()
+	for _, col := range defaultColumns {
+		defaultJsonPaths.Insert(col.JSONPath)
 	}
 
 	var additionalColumns []v1alpha1.ResourceColumnDefinition
@@ -97,23 +111,23 @@ func filterColumnsWithDefaults(client crd_cs.CustomResourceDefinitionInterface, 
 				if version.Name == gvr.Version && len(version.AdditionalPrinterColumns) > 0 {
 					additionalColumns = make([]v1alpha1.ResourceColumnDefinition, 0, len(version.AdditionalPrinterColumns))
 					for _, col := range version.AdditionalPrinterColumns {
-						additionalColumns = append(additionalColumns, v1alpha1.ResourceColumnDefinition{
-							Name:   col.Name,
-							Type:   col.Type,
-							Format: col.Format,
-							// Description: col.Description,
-							// Priority:    int32(v1alpha1.Field | v1alpha1.List),
-							// JSONPath:    col.JSONPath,
-						})
+						if !defaultJsonPaths.Has(col.JSONPath) {
+							additionalColumns = append(additionalColumns, v1alpha1.ResourceColumnDefinition{
+								Name:        col.Name,
+								Type:        col.Type,
+								Format:      col.Format,
+								Description: col.Description,
+								Priority:    col.Priority,
+								JSONPath:    col.JSONPath,
+							})
+						}
 					}
 				}
 			}
 		}
 	}
-	if priority == v1alpha1.List {
-		return append(defaultListColumns(), additionalColumns...)
-	}
-	return append(defaultDetailsColumns(), additionalColumns...)
+
+	return append(defaultColumns, additionalColumns...)
 }
 
 func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition) error {
@@ -136,12 +150,12 @@ func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition) error {
 
 		c.columns = append(c.columns, path)
 		c.headers = append(c.headers, v1alpha1.ResourceColumnDefinition{
-			Name:   col.Name,
-			Type:   col.Type,
-			Format: col.Format,
-			// Description: desc,
-			// Priority:    col.Priority,
-			// JSONPath:    col.JSONPath,
+			Name:        col.Name,
+			Type:        col.Type,
+			Format:      col.Format,
+			Description: col.Description,
+			Priority:    col.Priority,
+			JSONPath:    col.JSONPath,
 		})
 	}
 	return nil
@@ -178,12 +192,10 @@ func (c *convertor) ConvertToTable(ctx context.Context, obj runtime.Object, tabl
 	}
 	if m, err := meta.ListAccessor(obj); err == nil {
 		table.ResourceVersion = m.GetResourceVersion()
-		table.SelfLink = m.GetSelfLink()
 		table.Continue = m.GetContinue()
 	} else {
 		if m, err := meta.CommonAccessor(obj); err == nil {
 			table.ResourceVersion = m.GetResourceVersion()
-			table.SelfLink = m.GetSelfLink()
 		}
 	}
 
