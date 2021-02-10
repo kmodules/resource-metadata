@@ -82,15 +82,17 @@ spec:
     type: image/svg+xml
   - src: https://cdn.appscode.com/k8s/icons/apps/deployments.png
     type: image/png
-  keyTargets:
-  - apiVersion: apps/v1
-    kind: ReplicaSet
-  - apiVersion: v1
-    kind: Pod
-  - apiVersion: v1
-    kind: Service
-  - apiVersion: autoscaling/v2beta2
-    kind: HorizontalPodAutoscaler
+  pages:
+  - name: Basic
+    resources:
+    - apiVersion: apps/v1
+      kind: ReplicaSet
+    - apiVersion: v1
+      kind: Pod
+    - apiVersion: v1
+      kind: Service
+    - apiVersion: autoscaling/v2beta2
+      kind: HorizontalPodAutoscaler
   resource:
     group: apps
     kind: Deployment

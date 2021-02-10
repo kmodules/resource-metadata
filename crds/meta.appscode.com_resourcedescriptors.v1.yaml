@@ -228,27 +228,6 @@ spec:
                   productID:
                     type: string
                 type: object
-              keyTargets:
-                items:
-                  description: TypeMeta describes an individual object in an API response
-                    or request with strings representing the type of the object and
-                    its API schema version. Structures that are versioned or persisted
-                    should inline TypeMeta.
-                  properties:
-                    apiVersion:
-                      description: 'APIVersion defines the versioned schema of this
-                        representation of an object. Servers should convert recognized
-                        schemas to the latest internal value, and may reject unrecognized
-                        values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
-                      type: string
-                    kind:
-                      description: 'Kind is a string value representing the REST resource
-                        this object represents. Servers may infer this from the endpoint
-                        the client submits requests to. Cannot be updated. In CamelCase.
-                        More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
-                      type: string
-                  type: object
-                type: array
               links:
                 description: Links are a list of descriptive URLs intended to be used
                   to surface additional documentation, dashboards, etc.
@@ -282,6 +261,37 @@ spec:
                     url:
                       description: Url could typically be a website address.
                       type: string
+                  type: object
+                type: array
+              pages:
+                items:
+                  properties:
+                    keyTargets:
+                      items:
+                        description: TypeMeta describes an individual object in an
+                          API response or request with strings representing the type
+                          of the object and its API schema version. Structures that
+                          are versioned or persisted should inline TypeMeta.
+                        properties:
+                          apiVersion:
+                            description: 'APIVersion defines the versioned schema
+                              of this representation of an object. Servers should
+                              convert recognized schemas to the latest internal value,
+                              and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+                            type: string
+                          kind:
+                            description: 'Kind is a string value representing the
+                              REST resource this object represents. Servers may infer
+                              this from the endpoint the client submits requests to.
+                              Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                            type: string
+                        type: object
+                      type: array
+                    name:
+                      type: string
+                  required:
+                  - keyTargets
+                  - name
                   type: object
                 type: array
               resource:
@@ -328,6 +338,7 @@ spec:
                   type: object
                 type: array
               subTables:
+                description: For array type fields of the resource
                 items:
                   properties:
                     columns:

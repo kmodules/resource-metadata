@@ -15,6 +15,35 @@ spec:
     name: mongodbs
     scope: Namespaced
     version: v1alpha2
+  connections:
+  - level: Controller
+    namespacePath: metadata.namespace
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: mongodbs.kubedb.com
+        app.kubernetes.io/instance: {.metadata.name}
+        app.kubernetes.io/managed-by: kubedb.com
+    target:
+      apiVersion: apps/v1
+      kind: StatefulSet
+    type: MatchSelector
+  pages:
+  - name: Basic
+    resources:
+    - apiVersion: v1
+      kind: Pod
+    - apiVersion: v1
+      kind: Service
+  - name: Backups
+    resources:
+    - apiVersion: stash.appscode.com/v1beta1
+      kind: BackupConfiguration
+    - apiVersion: stash.appscode.com/v1beta1
+      kind: BackupSession
+  - name: Operations
+    resources:
+    - apiVersion: ops.kubedb.com/v1alpha1
+      kind: MongoDBOpsRequest
   resourceRequirements:
   - resources: spec.podTemplate.spec.resources
     units: spec.replicas

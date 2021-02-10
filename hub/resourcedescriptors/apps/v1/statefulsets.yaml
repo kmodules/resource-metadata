@@ -52,11 +52,13 @@ spec:
     type: image/svg+xml
   - src: https://cdn.appscode.com/k8s/icons/apps/statefulsets.png
     type: image/png
-  keyTargets:
-  - apiVersion: v1
-    kind: Pod
-  - apiVersion: v1
-    kind: Service
+  pages:
+  - name: Basic
+    resources:
+    - apiVersion: v1
+      kind: Pod
+    - apiVersion: v1
+      kind: Service
   resource:
     group: apps
     kind: StatefulSet

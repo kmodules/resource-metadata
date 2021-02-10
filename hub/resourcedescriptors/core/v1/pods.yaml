@@ -105,11 +105,13 @@ spec:
     type: image/svg+xml
   - src: https://cdn.appscode.com/k8s/icons/core/pods.png
     type: image/png
-  keyTargets:
-  - apiVersion: v1
-    kind: Service
-  - apiVersion: v1
-    kind: PersistentVolumeClaim
+  pages:
+  - name: Basic
+    resources:
+    - apiVersion: v1
+      kind: Service
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
   resource:
     group: ""
     kind: Pod

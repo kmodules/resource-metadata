@@ -57,13 +57,15 @@ spec:
     type: image/svg+xml
   - src: https://cdn.appscode.com/k8s/icons/apps/replicasets.png
     type: image/png
-  keyTargets:
-  - apiVersion: v1
-    kind: Pod
-  - apiVersion: v1
-    kind: Service
-  - apiVersion: autoscaling/v2beta2
-    kind: HorizontalPodAutoscaler
+  pages:
+  - name: Basic
+    resources:
+    - apiVersion: v1
+      kind: Pod
+    - apiVersion: v1
+      kind: Service
+    - apiVersion: autoscaling/v2beta2
+      kind: HorizontalPodAutoscaler
   resource:
     group: apps
     kind: ReplicaSet

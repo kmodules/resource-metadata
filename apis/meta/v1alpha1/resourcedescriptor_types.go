@@ -45,12 +45,18 @@ type ResourceDescriptor struct {
 	Spec              ResourceDescriptorSpec `json:"spec,omitempty"`
 }
 
+type RelatedResourcePage struct {
+	Name      string            `json:"name"`
+	Resources []metav1.TypeMeta `json:"keyTargets"`
+}
+
 type ResourceDescriptorSpec struct {
-	Resource    ResourceID                   `json:"resource"`
-	Columns     []ResourceColumnDefinition   `json:"columns,omitempty"`
+	Resource ResourceID                 `json:"resource"`
+	Columns  []ResourceColumnDefinition `json:"columns,omitempty"`
+	// For array type fields of the resource
 	SubTables   []ResourceSubTableDefinition `json:"subTables,omitempty"`
 	Connections []ResourceConnection         `json:"connections,omitempty"`
-	KeyTargets  []metav1.TypeMeta            `json:"keyTargets,omitempty"`
+	Pages       []RelatedResourcePage        `json:"pages,omitempty"`
 
 	// validation describes the schema used for validation and pruning of the custom resource.
 	// If present, this validation schema is used to validate all versions.
