@@ -21,12 +21,30 @@ spec:
     selector:
       matchLabels:
         app.kubernetes.io/name: mongodbs.kubedb.com
-        app.kubernetes.io/instance: {.metadata.name}
+        app.kubernetes.io/instance: '{.metadata.name}'
         app.kubernetes.io/managed-by: kubedb.com
     target:
       apiVersion: apps/v1
       kind: StatefulSet
     type: MatchSelector
+  - level: Owner
+    namespacePath: metadata.namespace
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: postgreses.kubedb.com
+        app.kubernetes.io/instance: '{.metadata.name}'
+        app.kubernetes.io/managed-by: kubedb.com
+    target:
+      apiVersion: v1
+      kind: Service
+    type: MatchSelector
+  - level: Owner
+    nameTemplate: '{.metadata.name}'
+    namespacePath: metadata.namespace
+    target:
+      apiVersion: appcatalog.appscode.com/v1alpha1
+      kind: AppBinding
+    type: MatchName
   pages:
   - name: Basic
     resources:
