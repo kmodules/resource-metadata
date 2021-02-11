@@ -66,6 +66,20 @@ spec:
       kind: Service
     - apiVersion: autoscaling/v2beta2
       kind: HorizontalPodAutoscaler
+  - name: Backups
+    resources:
+    - apiVersion: stash.appscode.com/v1beta1
+      kind: BackupConfiguration
+    - apiVersion: stash.appscode.com/v1beta1
+      kind: BackupSession
+  - name: Monitoring
+    resources:
+    - apiVersion: coreos.kubedb.com/v1
+      kind: ServiceMonitor
+    - apiVersion: coreos.kubedb.com/v1
+      kind: PodMonitor
+    - apiVersion: coreos.kubedb.com/v1
+      kind: Prometheus
   resource:
     group: apps
     kind: ReplicaSet

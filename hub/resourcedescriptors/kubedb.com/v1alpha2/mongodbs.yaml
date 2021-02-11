@@ -31,7 +31,7 @@ spec:
     namespacePath: metadata.namespace
     selector:
       matchLabels:
-        app.kubernetes.io/name: postgreses.kubedb.com
+        app.kubernetes.io/name: mongodbs.kubedb.com
         app.kubernetes.io/instance: '{.metadata.name}'
         app.kubernetes.io/managed-by: kubedb.com
     target:
@@ -62,6 +62,14 @@ spec:
     resources:
     - apiVersion: ops.kubedb.com/v1alpha1
       kind: MongoDBOpsRequest
+  - name: Monitoring
+    resources:
+    - apiVersion: coreos.kubedb.com/v1
+      kind: ServiceMonitor
+    - apiVersion: coreos.kubedb.com/v1
+      kind: PodMonitor
+    - apiVersion: coreos.kubedb.com/v1
+      kind: Prometheus
   resourceRequirements:
   - resources: spec.podTemplate.spec.resources
     units: spec.replicas
