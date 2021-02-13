@@ -14,11 +14,13 @@ spec:
     type: image/svg+xml
   - src: https://cdn.appscode.com/k8s/icons/rbac.authorization.k8s.io/clusterroles.png
     type: image/png
-  keyTargets:
-  - apiVersion: rbac.authorization.k8s.io/v1
-    kind: ClusterRoleBinding
-  - apiVersion: rbac.authorization.k8s.io/v1
-    kind: RoleBinding
+  pages:
+  - name: Basic
+    resources:
+    - apiVersion: rbac.authorization.k8s.io/v1
+      kind: ClusterRoleBinding
+    - apiVersion: rbac.authorization.k8s.io/v1
+      kind: RoleBinding
   resource:
     group: rbac.authorization.k8s.io
     kind: ClusterRole

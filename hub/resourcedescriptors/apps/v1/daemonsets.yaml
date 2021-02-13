@@ -44,11 +44,27 @@ spec:
     type: image/svg+xml
   - src: https://cdn.appscode.com/k8s/icons/apps/daemonsets.png
     type: image/png
-  keyTargets:
-  - apiVersion: v1
-    kind: Pod
-  - apiVersion: v1
-    kind: Service
+  pages:
+  - name: Basic
+    resources:
+    - apiVersion: v1
+      kind: Pod
+    - apiVersion: v1
+      kind: Service
+  - name: Backups
+    resources:
+    - apiVersion: stash.appscode.com/v1beta1
+      kind: BackupConfiguration
+    - apiVersion: stash.appscode.com/v1beta1
+      kind: BackupSession
+  - name: Monitoring
+    resources:
+    - apiVersion: coreos.kubedb.com/v1
+      kind: ServiceMonitor
+    - apiVersion: coreos.kubedb.com/v1
+      kind: PodMonitor
+    - apiVersion: coreos.kubedb.com/v1
+      kind: Prometheus
   resource:
     group: apps
     kind: DaemonSet

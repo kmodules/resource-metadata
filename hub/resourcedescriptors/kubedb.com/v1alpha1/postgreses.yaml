@@ -10,19 +10,24 @@ metadata:
   name: kubedb.com-v1alpha1-postgreses
 spec:
   connections:
-  - level: Owner
-    nameTemplate: '{.metadata.name}'
+  - level: Controller
     namespacePath: metadata.namespace
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: postgreses.kubedb.com
+        app.kubernetes.io/instance: '{.metadata.name}'
+        app.kubernetes.io/managed-by: kubedb.com
     target:
       apiVersion: apps/v1
       kind: StatefulSet
-    type: MatchName
+    type: MatchSelector
   - level: Owner
     namespacePath: metadata.namespace
     selector:
       matchLabels:
-        kubedb.com/kind: Postgres
-        kubedb.com/name: '{.metadata.name}'
+        app.kubernetes.io/name: postgreses.kubedb.com
+        app.kubernetes.io/instance: '{.metadata.name}'
+        app.kubernetes.io/managed-by: kubedb.com
     target:
       apiVersion: v1
       kind: Service

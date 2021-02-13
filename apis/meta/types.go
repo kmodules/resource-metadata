@@ -33,12 +33,17 @@ type ResourceDescriptor struct {
 	Spec ResourceDescriptorSpec
 }
 
+type RelatedResourcePage struct {
+	Name      string
+	Resources []metav1.TypeMeta
+}
+
 type ResourceDescriptorSpec struct {
 	Resource    ResourceID
 	Columns     []ResourceColumnDefinition
 	SubTables   []ResourceSubTableDefinition
 	Connections []ResourceConnection
-	KeyTargets  []metav1.TypeMeta
+	Pages       []RelatedResourcePage
 
 	Validation *apiextensions.CustomResourceValidation
 
