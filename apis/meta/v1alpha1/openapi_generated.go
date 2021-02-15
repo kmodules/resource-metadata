@@ -14203,7 +14203,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_RelatedResourcePage(ref common.
 							Format: "",
 						},
 					},
-					"keyTargets": {
+					"resources": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
 							Items: &spec.SchemaOrArray{
@@ -14216,7 +14216,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_RelatedResourcePage(ref common.
 						},
 					},
 				},
-				Required: []string{"name", "keyTargets"},
+				Required: []string{"name", "resources"},
 			},
 		},
 		Dependencies: []string{

@@ -47,7 +47,7 @@ type ResourceDescriptor struct {
 
 type RelatedResourcePage struct {
 	Name      string            `json:"name"`
-	Resources []metav1.TypeMeta `json:"keyTargets"`
+	Resources []metav1.TypeMeta `json:"resources"`
 }
 
 type ResourceDescriptorSpec struct {
