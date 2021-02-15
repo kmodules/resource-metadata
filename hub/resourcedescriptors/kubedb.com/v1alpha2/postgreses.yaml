@@ -64,11 +64,11 @@ spec:
       kind: MongoDBOpsRequest
   - name: Monitoring
     resources:
-    - apiVersion: coreos.kubedb.com/v1
+    - apiVersion: monitoring.coreos.com/v1
       kind: ServiceMonitor
-    - apiVersion: coreos.kubedb.com/v1
+    - apiVersion: monitoring.coreos.com/v1
       kind: PodMonitor
-    - apiVersion: coreos.kubedb.com/v1
+    - apiVersion: monitoring.coreos.com/v1
       kind: Prometheus
   resourceRequirements:
   - resources: spec.podTemplate.spec.resources
