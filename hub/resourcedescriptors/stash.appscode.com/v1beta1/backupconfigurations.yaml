@@ -20,6 +20,11 @@ spec:
     name: backupconfigurations
     scope: Namespaced
     version: v1beta1
+  ui:
+    editor:
+      url: https://bundles.byte.builders/ui/
+      name: backupconfiguration-editor
+      version: v0.1.0
   validation:
     openAPIV3Schema:
       properties:
