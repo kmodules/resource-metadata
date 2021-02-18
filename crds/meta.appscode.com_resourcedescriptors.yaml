@@ -347,6 +347,21 @@ spec:
                     type: string
                 type: object
               type: array
+            status:
+              properties:
+                green:
+                  items:
+                    type: string
+                  type: array
+                red:
+                  items:
+                    type: string
+                  type: array
+                yellow:
+                  items:
+                    type: string
+                  type: array
+              type: object
             subTables:
               description: For array type fields of the resource
               items:
