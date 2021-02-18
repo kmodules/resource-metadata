@@ -309,6 +309,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PathRequest":                schema_resource_metadata_apis_meta_v1alpha1_PathRequest(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PathResponse":               schema_resource_metadata_apis_meta_v1alpha1_PathResponse(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RelatedResourcePage":        schema_resource_metadata_apis_meta_v1alpha1_RelatedResourcePage(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceActions":            schema_resource_metadata_apis_meta_v1alpha1_ResourceActions(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceClass":              schema_resource_metadata_apis_meta_v1alpha1_ResourceClass(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceClassInfo":          schema_resource_metadata_apis_meta_v1alpha1_ResourceClassInfo(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceClassList":          schema_resource_metadata_apis_meta_v1alpha1_ResourceClassList(ref),
@@ -14215,12 +14216,42 @@ func schema_resource_metadata_apis_meta_v1alpha1_RelatedResourcePage(ref common.
 							},
 						},
 					},
+					"displayMode": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"actions": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceActions"),
+						},
+					},
 				},
-				Required: []string{"name", "resources"},
+				Required: []string{"name", "resources", "displayMode", "actions"},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.TypeMeta"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.TypeMeta", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceActions"},
+	}
+}
+
+func schema_resource_metadata_apis_meta_v1alpha1_ResourceActions(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"create": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+				},
+				Required: []string{"create"},
+			},
+		},
 	}
 }
 

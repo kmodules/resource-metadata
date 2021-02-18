@@ -45,11 +45,6 @@ type ResourceDescriptor struct {
 	Spec              ResourceDescriptorSpec `json:"spec,omitempty"`
 }
 
-type RelatedResourcePage struct {
-	Name      string            `json:"name"`
-	Resources []metav1.TypeMeta `json:"resources"`
-}
-
 type ResourceDescriptorSpec struct {
 	Resource ResourceID                 `json:"resource"`
 	Columns  []ResourceColumnDefinition `json:"columns,omitempty"`
@@ -115,6 +110,32 @@ type ResourceRequirements struct {
 	// Json path to resources of type core.ResourceRequirements
 	Resources string `json:"resources,omitempty"`
 }
+
+type RelatedResourcePage struct {
+	Name        string              `json:"name"`
+	Resources   []metav1.TypeMeta   `json:"resources"`
+	DisplayMode ResourceDisplayMode `json:"displayMode"`
+	Actions     ResourceActions     `json:"actions"`
+}
+
+type ResourceDisplayMode string
+
+const (
+	DisplayModeList   = "List"
+	DisplayModeFields = "Fields"
+)
+
+type ResourceActions struct {
+	Create ResourceAction `json:"create"`
+}
+
+type ResourceAction string
+
+const (
+	ActionNever   = "Never"
+	ActionAlways  = "Always"
+	ActionIfEmpty = "IfEmpty"
+)
 
 type UIParameters struct {
 	Options *ChartRepoRef `json:"options,omitempty"`

@@ -20,6 +20,21 @@ spec:
     name: appbindings
     scope: Namespaced
     version: v1alpha1
+  connections:
+    - target:
+        apiVersion: v1
+        kind: Service
+      type: MatchRef
+      namespacePath: "metadata.namespace"
+      references:
+      - '{.spec.clientConfig.service.name}'
+    - target:
+        apiVersion: v1
+        kind: Secret
+      type: MatchRef
+      namespacePath: "metadata.namespace"
+      references:
+      - '{.spec.clientConfig.secret.name}'
   validation:
     openAPIV3Schema:
       properties:

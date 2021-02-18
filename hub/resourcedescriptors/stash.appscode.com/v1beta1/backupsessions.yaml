@@ -20,6 +20,14 @@ spec:
     name: backupsessions
     scope: Namespaced
     version: v1beta1
+  connections:
+    - target:
+        apiVersion: stash.appscode.com/v1beta1
+        kind: BackupConfiguration
+      type: MatchRef
+      namespacePath: "metadata.namespace"
+      references:
+      - '{.spec.invoker.name},{.metadata.namespace},{.spec.invoker.kind},{.spec.invoker.apiVersion}'
   validation:
     openAPIV3Schema:
       properties:

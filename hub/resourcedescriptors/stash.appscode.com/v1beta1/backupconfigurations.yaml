@@ -20,6 +20,19 @@ spec:
     name: backupconfigurations
     scope: Namespaced
     version: v1beta1
+  connections:
+    - target:
+        apiVersion: appcatalog.appscode.com/v1alpha1
+        kind: AppBinding
+      type: MatchRef
+      namespacePath: "metadata.namespace"
+      references:
+      - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
+  pages:
+  - name: Basic
+    resources:
+    - apiVersion: stash.appscode.com/v1beta1
+      kind: BackupSession
   ui:
     editor:
       url: https://bundles.byte.builders/ui/

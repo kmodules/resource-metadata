@@ -266,6 +266,15 @@ spec:
               pages:
                 items:
                   properties:
+                    actions:
+                      properties:
+                        create:
+                          type: string
+                      required:
+                      - create
+                      type: object
+                    displayMode:
+                      type: string
                     name:
                       type: string
                     resources:
@@ -290,6 +299,8 @@ spec:
                         type: object
                       type: array
                   required:
+                  - actions
+                  - displayMode
                   - name
                   - resources
                   type: object

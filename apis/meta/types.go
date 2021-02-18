@@ -33,11 +33,6 @@ type ResourceDescriptor struct {
 	Spec ResourceDescriptorSpec
 }
 
-type RelatedResourcePage struct {
-	Name      string
-	Resources []metav1.TypeMeta
-}
-
 type ResourceDescriptorSpec struct {
 	Resource    ResourceID
 	Columns     []ResourceColumnDefinition
@@ -63,6 +58,32 @@ type ResourceRequirements struct {
 	Shards    string
 	Resources string
 }
+
+type RelatedResourcePage struct {
+	Name        string
+	Resources   []metav1.TypeMeta
+	DisplayMode ResourceDisplayMode
+	Actions     ResourceActions
+}
+
+type ResourceDisplayMode string
+
+const (
+	DisplayModeList   = "List"
+	DisplayModeFields = "Fields"
+)
+
+type ResourceActions struct {
+	Create ResourceAction
+}
+
+type ResourceAction string
+
+const (
+	ActionNever   = "Never"
+	ActionAlways  = "Always"
+	ActionIfEmpty = "IfEmpty"
+)
 
 type UIParameters struct {
 	Options *ChartRepoRef
