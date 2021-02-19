@@ -323,6 +323,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceID":                 schema_resource_metadata_apis_meta_v1alpha1_ResourceID(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourcePanel":              schema_resource_metadata_apis_meta_v1alpha1_ResourcePanel(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceRequirements":       schema_resource_metadata_apis_meta_v1alpha1_ResourceRequirements(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceSection":            schema_resource_metadata_apis_meta_v1alpha1_ResourceSection(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceSubTableDefinition": schema_resource_metadata_apis_meta_v1alpha1_ResourceSubTableDefinition(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.StatusCodes":                schema_resource_metadata_apis_meta_v1alpha1_StatusCodes(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.SubTable":                   schema_resource_metadata_apis_meta_v1alpha1_SubTable(ref),
@@ -14211,29 +14212,18 @@ func schema_resource_metadata_apis_meta_v1alpha1_RelatedResourcePage(ref common.
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
-										Ref: ref("k8s.io/apimachinery/pkg/apis/meta/v1.TypeMeta"),
+										Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceSection"),
 									},
 								},
 							},
 						},
 					},
-					"displayMode": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
-					"actions": {
-						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceActions"),
-						},
-					},
 				},
-				Required: []string{"name", "resources", "displayMode", "actions"},
+				Required: []string{"name", "resources"},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.TypeMeta", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceActions"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceSection"},
 	}
 }
 
@@ -15019,6 +15009,46 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceRequirements(ref common
 				},
 			},
 		},
+	}
+}
+
+func schema_resource_metadata_apis_meta_v1alpha1_ResourceSection(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"displayMode": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"actions": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceActions"),
+						},
+					},
+				},
+				Required: []string{"displayMode", "actions"},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceActions"},
 	}
 }
 

@@ -61,8 +61,12 @@ type ResourceRequirements struct {
 }
 
 type RelatedResourcePage struct {
-	Name        string
-	Resources   []metav1.TypeMeta
+	Name      string
+	Resources []ResourceSection
+}
+
+type ResourceSection struct {
+	metav1.TypeMeta
 	DisplayMode ResourceDisplayMode
 	Actions     ResourceActions
 }

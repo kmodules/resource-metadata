@@ -113,10 +113,14 @@ type ResourceRequirements struct {
 }
 
 type RelatedResourcePage struct {
-	Name        string              `json:"name"`
-	Resources   []metav1.TypeMeta   `json:"resources"`
-	DisplayMode ResourceDisplayMode `json:"displayMode"`
-	Actions     ResourceActions     `json:"actions"`
+	Name      string            `json:"name"`
+	Resources []ResourceSection `json:"resources"`
+}
+
+type ResourceSection struct {
+	metav1.TypeMeta `json:",inline,omitempty"`
+	DisplayMode     ResourceDisplayMode `json:"displayMode"`
+	Actions         ResourceActions     `json:"actions"`
 }
 
 type ResourceDisplayMode string
