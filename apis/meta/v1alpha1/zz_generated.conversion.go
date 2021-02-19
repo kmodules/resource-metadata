@@ -1136,9 +1136,7 @@ func autoConvert_v1alpha1_ResourceDescriptorSpec_To_meta_ResourceDescriptorSpec(
 	out.SubTables = *(*[]meta.ResourceSubTableDefinition)(unsafe.Pointer(&in.SubTables))
 	out.Connections = *(*[]meta.ResourceConnection)(unsafe.Pointer(&in.Connections))
 	out.Pages = *(*[]meta.RelatedResourcePage)(unsafe.Pointer(&in.Pages))
-	if err := Convert_v1alpha1_StatusCodes_To_meta_StatusCodes(&in.Status, &out.Status, s); err != nil {
-		return err
-	}
+	out.Status = (*meta.StatusCodes)(unsafe.Pointer(in.Status))
 	if in.Validation != nil {
 		in, out := &in.Validation, &out.Validation
 		*out = new(apiextensions.CustomResourceValidation)
@@ -1171,9 +1169,7 @@ func autoConvert_meta_ResourceDescriptorSpec_To_v1alpha1_ResourceDescriptorSpec(
 	out.SubTables = *(*[]ResourceSubTableDefinition)(unsafe.Pointer(&in.SubTables))
 	out.Connections = *(*[]ResourceConnection)(unsafe.Pointer(&in.Connections))
 	out.Pages = *(*[]RelatedResourcePage)(unsafe.Pointer(&in.Pages))
-	if err := Convert_meta_StatusCodes_To_v1alpha1_StatusCodes(&in.Status, &out.Status, s); err != nil {
-		return err
-	}
+	out.Status = (*StatusCodes)(unsafe.Pointer(in.Status))
 	if in.Validation != nil {
 		in, out := &in.Validation, &out.Validation
 		*out = new(apiextensionsv1.CustomResourceValidation)

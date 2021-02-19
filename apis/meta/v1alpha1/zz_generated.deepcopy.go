@@ -736,7 +736,11 @@ func (in *ResourceDescriptorSpec) DeepCopyInto(out *ResourceDescriptorSpec) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	in.Status.DeepCopyInto(&out.Status)
+	if in.Status != nil {
+		in, out := &in.Status, &out.Status
+		*out = new(StatusCodes)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Validation != nil {
 		in, out := &in.Validation, &out.Validation
 		*out = new(apiextensionsv1.CustomResourceValidation)

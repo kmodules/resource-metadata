@@ -52,7 +52,7 @@ type ResourceDescriptorSpec struct {
 	SubTables   []ResourceSubTableDefinition `json:"subTables,omitempty"`
 	Connections []ResourceConnection         `json:"connections,omitempty"`
 	Pages       []RelatedResourcePage        `json:"pages,omitempty"`
-	Status      StatusCodes                  `json:"status,omitempty"`
+	Status      *StatusCodes                 `json:"status,omitempty"`
 
 	// validation describes the schema used for validation and pruning of the custom resource.
 	// If present, this validation schema is used to validate all versions.

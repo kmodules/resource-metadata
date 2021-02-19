@@ -39,7 +39,7 @@ type ResourceDescriptorSpec struct {
 	SubTables   []ResourceSubTableDefinition
 	Connections []ResourceConnection
 	Pages       []RelatedResourcePage
-	Status      StatusCodes
+	Status      *StatusCodes
 
 	Validation *apiextensions.CustomResourceValidation
 
