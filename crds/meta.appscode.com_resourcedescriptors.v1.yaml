@@ -350,15 +350,15 @@ spec:
                 type: array
               status:
                 properties:
-                  green:
+                  danger:
                     items:
                       type: string
                     type: array
-                  red:
+                  success:
                     items:
                       type: string
                     type: array
-                  yellow:
+                  warning:
                     items:
                       type: string
                     type: array

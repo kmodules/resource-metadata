@@ -37,8 +37,8 @@ type PanelSection struct {
 type PanelEntry struct {
 	Name string `json:"name"`
 	// +optional
-	Path string                `json:"path,omitempty"`
-	Type *GroupVersionResource `json:"type,omitempty"`
+	Path     string      `json:"path,omitempty"`
+	Resource *ResourceID `json:"resource,omitempty"`
 	// +optional
 	Required bool `json:"required,omitempty"`
 	// +optional

@@ -39,7 +39,7 @@ type ResourceDescriptorSpec struct {
 	SubTables   []ResourceSubTableDefinition
 	Connections []ResourceConnection
 	Pages       []RelatedResourcePage
-	Status      StatusColorCode
+	Status      StatusCodes
 
 	Validation *apiextensions.CustomResourceValidation
 
@@ -86,10 +86,10 @@ const (
 	ActionIfEmpty = "IfEmpty"
 )
 
-type StatusColorCode struct {
-	Green  []string
-	Red    []string
-	Yellow []string
+type StatusCodes struct {
+	Success []string
+	Danger  []string
+	Warning []string
 }
 
 type UIParameters struct {
