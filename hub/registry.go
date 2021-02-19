@@ -417,6 +417,11 @@ func (r *Registry) createResourcePanel(keepOfficialTypes bool) (*v1alpha1.Resour
 				if !ok {
 					continue
 				}
+				pe.Resource = &v1alpha1.ResourceID{
+					Group:   gvr.Group,
+					Version: gvr.Version,
+					Name:    gvr.Resource,
+				}
 				existingGRs[gvr.GroupResource()] = true
 				if rd, err := r.LoadByGVR(gvr); err == nil {
 					pe.Resource = &rd.Spec.Resource

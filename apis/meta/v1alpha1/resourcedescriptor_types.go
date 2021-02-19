@@ -122,8 +122,8 @@ type RelatedResourcePage struct {
 type ResourceDisplayMode string
 
 const (
-	DisplayModeList   = "List"
-	DisplayModeFields = "Fields"
+	DisplayModeList  = "List"
+	DisplayModeField = "Field"
 )
 
 type ResourceActions struct {

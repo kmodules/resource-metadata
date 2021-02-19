@@ -19,8 +19,14 @@ spec:
     resources:
     - apiVersion: rbac.authorization.k8s.io/v1
       kind: ClusterRoleBinding
+      displayMode: List
+      actions:
+        create: Always
     - apiVersion: rbac.authorization.k8s.io/v1
       kind: RoleBinding
+      displayMode: List
+      actions:
+        create: Always
   resource:
     group: rbac.authorization.k8s.io
     kind: ClusterRole

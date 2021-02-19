@@ -24,12 +24,16 @@ spec:
   pages:
   - name: Basic
     resources:
-    - apiVersion: apps/v1
-      kind: ReplicaSet
     - apiVersion: v1
       kind: Pod
+      displayMode: List
+      actions:
+        create: Never
     - apiVersion: v1
       kind: Service
+      displayMode: List
+      actions:
+        create: Never
   resource:
     group: monitoring.coreos.com
     kind: ServiceMonitor

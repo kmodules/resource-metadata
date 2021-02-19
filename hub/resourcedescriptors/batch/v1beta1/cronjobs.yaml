@@ -47,10 +47,16 @@ spec:
   pages:
   - name: Basic
     resources:
+    - apiVersion: batch/v1
+      kind: Job
+      displayMode: List
+      actions:
+        create: Never
     - apiVersion: v1
       kind: Pod
-    - apiVersion: v1
-      kind: Service
+      displayMode: List
+      actions:
+        create: Never
   resource:
     group: batch
     kind: CronJob

@@ -33,6 +33,9 @@ spec:
     resources:
     - apiVersion: stash.appscode.com/v1beta1
       kind: BackupSession
+      displayMode: List
+      actions:
+        create: Always
   ui:
     editor:
       url: https://bundles.byte.builders/ui/

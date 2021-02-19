@@ -50,26 +50,50 @@ spec:
     resources:
     - apiVersion: v1
       kind: Pod
+      displayMode: List
+      actions:
+        create: Never
     - apiVersion: v1
       kind: Service
+      displayMode: List
+      actions:
+        create: Never
   - name: Backups
     resources:
     - apiVersion: stash.appscode.com/v1beta1
       kind: BackupConfiguration
+      displayMode: Field
+      actions:
+        create: IfEmpty
     - apiVersion: stash.appscode.com/v1beta1
       kind: BackupSession
+      displayMode: List
+      actions:
+        create: Never
   - name: Operations
     resources:
     - apiVersion: ops.kubedb.com/v1alpha1
-      kind: MongoDBOpsRequest
+      kind: MySQLOpsRequest
+      displayMode: List
+      actions:
+        create: Always
   - name: Monitoring
     resources:
     - apiVersion: monitoring.coreos.com/v1
       kind: ServiceMonitor
+      displayMode: Field
+      actions:
+        create: IfEmpty
     - apiVersion: monitoring.coreos.com/v1
       kind: PodMonitor
+      displayMode: Field
+      actions:
+        create: IfEmpty
     - apiVersion: monitoring.coreos.com/v1
       kind: Prometheus
+      displayMode: Field
+      actions:
+        create: Never
   resourceRequirements:
   - resources: spec.podTemplate.spec.resources
     units: spec.replicas

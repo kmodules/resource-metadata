@@ -87,26 +87,53 @@ spec:
     resources:
     - apiVersion: apps/v1
       kind: ReplicaSet
+      displayMode: List
+      actions:
+        create: Never
     - apiVersion: v1
       kind: Pod
+      displayMode: List
+      actions:
+        create: Never
     - apiVersion: v1
       kind: Service
+      displayMode: List
+      actions:
+        create: Never
     - apiVersion: autoscaling/v2beta2
       kind: HorizontalPodAutoscaler
+      displayMode: Field
+      actions:
+        create: IfEmpty
   - name: Backups
     resources:
     - apiVersion: stash.appscode.com/v1beta1
       kind: BackupConfiguration
+      displayMode: Field
+      actions:
+        create: IfEmpty
     - apiVersion: stash.appscode.com/v1beta1
       kind: BackupSession
+      displayMode: List
+      actions:
+        create: Never
   - name: Monitoring
     resources:
     - apiVersion: monitoring.coreos.com/v1
       kind: ServiceMonitor
+      displayMode: Field
+      actions:
+        create: IfEmpty
     - apiVersion: monitoring.coreos.com/v1
       kind: PodMonitor
+      displayMode: Field
+      actions:
+        create: IfEmpty
     - apiVersion: monitoring.coreos.com/v1
       kind: Prometheus
+      displayMode: Field
+      actions:
+        create: Never
   resource:
     group: apps
     kind: Deployment

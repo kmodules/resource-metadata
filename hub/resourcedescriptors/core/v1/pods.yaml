@@ -110,8 +110,14 @@ spec:
     resources:
     - apiVersion: v1
       kind: Service
+      displayMode: List
+      actions:
+        create: Never
     - apiVersion: v1
       kind: PersistentVolumeClaim
+      displayMode: List
+      actions:
+        create: Never
   resource:
     group: ""
     kind: Pod
