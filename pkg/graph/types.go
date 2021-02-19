@@ -119,16 +119,3 @@ func contains(arr []string, item string) bool {
 	}
 	return false
 }
-
-func equalsGV(apiGroup string, t schema.GroupVersionResource) bool {
-	gv1, err := schema.ParseGroupVersion(apiGroup)
-	if err != nil {
-		return false
-	}
-	gv2 := t.GroupVersion()
-	if gv1.Version != "" && gv1.Version != gv2.Version {
-		// if gv2 has version, than version must match
-		return false
-	}
-	return gv1.Group != gv2.Group
-}

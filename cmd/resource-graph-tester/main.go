@@ -21,7 +21,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"path/filepath"
 
 	"kmodules.xyz/resource-metadata/pkg/graph"
 
@@ -29,12 +28,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/tools/clientcmd"
-	"k8s.io/client-go/util/homedir"
 )
 
 func main() {
 	masterURL := ""
-	kubeconfigPath := filepath.Join(homedir.HomeDir(), ".kube", "config")
+	// kubeconfigPath := filepath.Join(homedir.HomeDir(), ".kube", "config")
+	kubeconfigPath := "/home/tamal/Downloads/ui-builder-demo-kubeconfig.yaml"
 
 	config, err := clientcmd.BuildConfigFromFlags(masterURL, kubeconfigPath)
 	if err != nil {
@@ -51,7 +50,7 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	if err := CheckPodToNode(dc, g); err != nil {
+	if err := CheckBackupConfigToAppBinding(dc, g); err != nil {
 		log.Fatalln(err)
 	}
 }
@@ -309,6 +308,34 @@ func checkKubeDBToStatefulset(dc dynamic.Interface, g *graph.Graph) error {
 		return err
 	}
 	for _, obj := range statefulsets {
+		fmt.Println(obj.GetObjectKind().GroupVersionKind(), ":", obj.GetNamespace()+"/"+obj.GetName())
+	}
+
+	return nil
+}
+
+func CheckBackupConfigToAppBinding(dc dynamic.Interface, g *graph.Graph) error {
+	bkcfgGVR := schema.GroupVersionResource{
+		Group:    "stash.appscode.com",
+		Version:  "v1beta1",
+		Resource: "backupconfigurations",
+	}
+	node, err := dc.Resource(bkcfgGVR).Namespace("test-namespace").Get(context.TODO(), "demo-backup-config", metav1.GetOptions{})
+	if err != nil {
+		return err
+	}
+
+	appBindingGVR := schema.GroupVersionResource{
+		Group:    "appcatalog.appscode.com",
+		Version:  "v1alpha1",
+		Resource: "appbindings",
+	}
+
+	pods, err := g.List(context.TODO(), dc, *node, appBindingGVR)
+	if err != nil {
+		return err
+	}
+	for _, obj := range pods {
 		fmt.Println(obj.GetObjectKind().GroupVersionKind(), ":", obj.GetNamespace()+"/"+obj.GetName())
 	}
 

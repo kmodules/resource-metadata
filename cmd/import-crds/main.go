@@ -240,7 +240,7 @@ func WriteDescriptor(crd *crdv1.CustomResourceDefinition, dir string) error {
 						Version: version,
 						Name:    plural,
 						Kind:    kind,
-						Scope:   v1alpha1.ResourceScope(string(crd.Spec.Scope)),
+						Scope:   v1alpha1.ResourceScope(crd.Spec.Scope),
 					},
 					Validation: v.Schema,
 				},

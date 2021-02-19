@@ -224,7 +224,7 @@ func (g *Graph) ResourcesFor(ctx context.Context, dc dynamic.Interface, src unst
 					return nil, fmt.Errorf("fails to execute reference %q between %s -> %s. err:%v", e.Connection.References, e.Src, e.Dst, err)
 				}
 				r := csv.NewReader(buf)
-				r.Comma = ';'
+				// r.Comma = ';'
 				r.Comment = '#'
 				records, err := r.ReadAll()
 				if err != nil {
@@ -238,7 +238,7 @@ func (g *Graph) ResourcesFor(ctx context.Context, dc dynamic.Interface, src unst
 				var objects []unstructured.Unstructured
 				for _, ref := range refs {
 					// if apiGroup is set, it must match
-					if ref.APIGroup != "" && !equalsGV(ref.APIGroup, e.Dst) {
+					if ref.APIGroup != "" && ref.APIGroup != e.Dst.Group {
 						continue
 					}
 					// if apiGroup is set, it must match
@@ -424,7 +424,7 @@ func (g *Graph) ResourcesFor(ctx context.Context, dc dynamic.Interface, src unst
 						return nil, fmt.Errorf("fails to execute reference %q between %s -> %s. err:%v", e.Connection.References, e.Src, e.Dst, err)
 					}
 					r := csv.NewReader(buf)
-					r.Comma = ';'
+					// r.Comma = ';'
 					r.Comment = '#'
 					records, err := r.ReadAll()
 					if err != nil {
@@ -436,7 +436,7 @@ func (g *Graph) ResourcesFor(ctx context.Context, dc dynamic.Interface, src unst
 					}
 					for _, ref := range refs {
 						// if apiGroup is set, it must match
-						if ref.APIGroup != "" && !equalsGV(ref.APIGroup, e.Src) {
+						if ref.APIGroup != "" && ref.APIGroup != e.Src.Group {
 							continue
 						}
 
@@ -773,11 +773,16 @@ func ParseResourceRefs(records [][]string) ([]ResourceRef, error) {
 				Kind:      rec[2],
 			})
 		case 4:
+			gv := rec[3]
+			idx := strings.Index(gv, "/")
+			if idx == -1 {
+				idx = len(gv)
+			}
 			refs = append(refs, ResourceRef{
 				Name:      rec[0],
 				Namespace: rec[1],
 				Kind:      rec[2],
-				APIGroup:  rec[3],
+				APIGroup:  gv[:idx],
 			})
 		default:
 			return nil, fmt.Errorf("maximum 4 columns can be present, found %d", n)

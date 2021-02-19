@@ -9,20 +9,14 @@ metadata:
     k8s.io/version: v1alpha2
   name: kubedb.com-v1alpha2-mongodbs
 spec:
-  resource:
-    group: kubedb.com
-    kind: MongoDB
-    name: mongodbs
-    scope: Namespaced
-    version: v1alpha2
   connections:
   - level: Controller
     namespacePath: metadata.namespace
     selector:
       matchLabels:
-        app.kubernetes.io/name: mongodbs.kubedb.com
         app.kubernetes.io/instance: '{.metadata.name}'
         app.kubernetes.io/managed-by: kubedb.com
+        app.kubernetes.io/name: mongodbs.kubedb.com
     target:
       apiVersion: apps/v1
       kind: StatefulSet
@@ -31,14 +25,14 @@ spec:
     namespacePath: metadata.namespace
     selector:
       matchLabels:
-        app.kubernetes.io/name: mongodbs.kubedb.com
         app.kubernetes.io/instance: '{.metadata.name}'
         app.kubernetes.io/managed-by: kubedb.com
+        app.kubernetes.io/name: mongodbs.kubedb.com
     target:
       apiVersion: v1
       kind: Service
     type: MatchSelector
-  - level: Owner
+  - level: Controller
     nameTemplate: '{.metadata.name}'
     namespacePath: metadata.namespace
     target:
@@ -48,28 +42,58 @@ spec:
   pages:
   - name: Basic
     resources:
-    - apiVersion: v1
+    - actions:
+        create: Never
+      apiVersion: v1
+      displayMode: List
       kind: Pod
-    - apiVersion: v1
+    - actions:
+        create: Never
+      apiVersion: v1
+      displayMode: List
       kind: Service
   - name: Backups
     resources:
-    - apiVersion: stash.appscode.com/v1beta1
+    - actions:
+        create: IfEmpty
+      apiVersion: stash.appscode.com/v1beta1
+      displayMode: Field
       kind: BackupConfiguration
-    - apiVersion: stash.appscode.com/v1beta1
+    - actions:
+        create: Never
+      apiVersion: stash.appscode.com/v1beta1
+      displayMode: List
       kind: BackupSession
   - name: Operations
     resources:
-    - apiVersion: ops.kubedb.com/v1alpha1
+    - actions:
+        create: Always
+      apiVersion: ops.kubedb.com/v1alpha1
+      displayMode: List
       kind: MongoDBOpsRequest
   - name: Monitoring
     resources:
-    - apiVersion: monitoring.coreos.com/v1
+    - actions:
+        create: IfEmpty
+      apiVersion: monitoring.coreos.com/v1
+      displayMode: Field
       kind: ServiceMonitor
-    - apiVersion: monitoring.coreos.com/v1
+    - actions:
+        create: IfEmpty
+      apiVersion: monitoring.coreos.com/v1
+      displayMode: Field
       kind: PodMonitor
-    - apiVersion: monitoring.coreos.com/v1
+    - actions:
+        create: Never
+      apiVersion: monitoring.coreos.com/v1
+      displayMode: Field
       kind: Prometheus
+  resource:
+    group: kubedb.com
+    kind: MongoDB
+    name: mongodbs
+    scope: Namespaced
+    version: v1alpha2
   resourceRequirements:
   - resources: spec.podTemplate.spec.resources
     units: spec.replicas
@@ -83,13 +107,9 @@ spec:
     shards: spec.shardTopology.mongos.replicas
     units: spec.shardTopology.mongos.shards
   ui:
-    options:
-      url: https://bundles.byte.builders/ui/
-      name: mongodb-editor-options
-      version: v0.1.0
     editor:
+      name: kubedbcom-mongodb-editor
       url: https://bundles.byte.builders/ui/
-      name: mongodb-editor
       version: v0.1.0
   validation:
     openAPIV3Schema:
