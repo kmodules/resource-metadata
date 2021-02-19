@@ -9,11 +9,6 @@ metadata:
     k8s.io/version: v1alpha1
   name: ops.kubedb.com-v1alpha1-mongodbopsrequests
 spec:
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/ops.kubedb.com/mongodbopsrequests.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/ops.kubedb.com/mongodbopsrequests.png
-    type: image/png
   connections:
   - references:
     - '{.spec.databaseRef.name}'
@@ -21,6 +16,11 @@ spec:
       apiVersion: kubedb.com/v1alpha2
       kind: MongoDB
     type: MatchRef
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/ops.kubedb.com/mongodbopsrequests.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/ops.kubedb.com/mongodbopsrequests.png
+    type: image/png
   resource:
     group: ops.kubedb.com
     kind: MongoDBOpsRequest
@@ -32,8 +32,8 @@ spec:
     units: spec.replicas
   ui:
     editor:
+      name: opskubedbcom-mongodbopsrequest-editor
       url: https://bundles.byte.builders/ui/
-      name: mongodbopsrequest-editor
       version: v0.1.0
   validation:
     openAPIV3Schema:
