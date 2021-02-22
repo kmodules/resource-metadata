@@ -1247,6 +1247,9 @@ func Convert_meta_ResourceRequirements_To_v1alpha1_ResourceRequirements(in *meta
 }
 
 func autoConvert_v1alpha1_ResourceSection_To_meta_ResourceSection(in *ResourceSection, out *meta.ResourceSection, s conversion.Scope) error {
+	if err := Convert_v1alpha1_GroupVersionResource_To_meta_GroupVersionResource(&in.Ref, &out.Ref, s); err != nil {
+		return err
+	}
 	out.DisplayMode = meta.ResourceDisplayMode(in.DisplayMode)
 	if err := Convert_v1alpha1_ResourceActions_To_meta_ResourceActions(&in.Actions, &out.Actions, s); err != nil {
 		return err
@@ -1260,6 +1263,9 @@ func Convert_v1alpha1_ResourceSection_To_meta_ResourceSection(in *ResourceSectio
 }
 
 func autoConvert_meta_ResourceSection_To_v1alpha1_ResourceSection(in *meta.ResourceSection, out *ResourceSection, s conversion.Scope) error {
+	if err := Convert_meta_GroupVersionResource_To_v1alpha1_GroupVersionResource(&in.Ref, &out.Ref, s); err != nil {
+		return err
+	}
 	out.DisplayMode = ResourceDisplayMode(in.DisplayMode)
 	if err := Convert_meta_ResourceActions_To_v1alpha1_ResourceActions(&in.Actions, &out.Actions, s); err != nil {
 		return err

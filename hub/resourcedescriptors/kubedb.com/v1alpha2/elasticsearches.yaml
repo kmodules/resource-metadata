@@ -44,50 +44,66 @@ spec:
     resources:
     - actions:
         create: Never
-      apiVersion: v1
       displayMode: List
-      kind: Pod
+      ref:
+        group: ""
+        resource: pods
+        version: v1
     - actions:
         create: Never
-      apiVersion: v1
       displayMode: List
-      kind: Service
+      ref:
+        group: ""
+        resource: services
+        version: v1
   - name: Backups
     resources:
     - actions:
         create: IfEmpty
-      apiVersion: stash.appscode.com/v1beta1
       displayMode: Field
-      kind: BackupConfiguration
+      ref:
+        group: stash.appscode.com
+        resource: backupconfigurations
+        version: v1beta1
     - actions:
         create: Never
-      apiVersion: stash.appscode.com/v1beta1
       displayMode: List
-      kind: BackupSession
+      ref:
+        group: stash.appscode.com
+        resource: backupsessions
+        version: v1beta1
   - name: Operations
     resources:
     - actions:
         create: Always
-      apiVersion: ops.kubedb.com/v1alpha1
       displayMode: List
-      kind: ElasticsearchOpsRequest
+      ref:
+        group: ops.kubedb.com
+        resource: elasticsearchopsrequests
+        version: v1alpha1
   - name: Monitoring
     resources:
     - actions:
         create: IfEmpty
-      apiVersion: monitoring.coreos.com/v1
       displayMode: Field
-      kind: ServiceMonitor
+      ref:
+        group: monitoring.coreos.com
+        resource: servicemonitors
+        version: v1
     - actions:
         create: IfEmpty
-      apiVersion: monitoring.coreos.com/v1
       displayMode: Field
-      kind: PodMonitor
+      ref:
+        group: monitoring.coreos.com
+        resource: podmonitors
+        version: v1
     - actions:
         create: Never
-      apiVersion: monitoring.coreos.com/v1
       displayMode: Field
-      kind: Prometheus
+      ref:
+        group: monitoring.coreos.com
+        resource: prometheuses
+        version: v1
   resource:
     group: kubedb.com
     kind: Elasticsearch
@@ -103,6 +119,14 @@ spec:
     units: spec.topology.data.replicas
   - resources: spec.topology.ingest.resources
     units: spec.topology.ingest.replicas
+  status:
+    danger:
+    - NotReady
+    success:
+    - Ready
+    warning:
+    - Critical
+    - Halted
   ui:
     editor:
       name: kubedbcom-elasticsearch-editor

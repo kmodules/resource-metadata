@@ -27,28 +27,35 @@ spec:
       version: v0.1.0
   validation:
     openAPIV3Schema:
-      description: Event is a report of an event somewhere in the cluster. It generally denotes some state change in the system.
+      description: Event is a report of an event somewhere in the cluster. It generally
+        denotes some state change in the system.
       properties:
         action:
           description: What action was taken/failed regarding to the regarding object.
           type: string
         apiVersion:
-          description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
           type: string
         deprecatedCount:
-          description: Deprecated field assuring backward compatibility with core.v1 Event type
+          description: Deprecated field assuring backward compatibility with core.v1
+            Event type
           format: int32
           type: integer
         deprecatedFirstTimestamp:
-          description: Deprecated field assuring backward compatibility with core.v1 Event type
+          description: Deprecated field assuring backward compatibility with core.v1
+            Event type
           format: date-time
           type: string
         deprecatedLastTimestamp:
-          description: Deprecated field assuring backward compatibility with core.v1 Event type
+          description: Deprecated field assuring backward compatibility with core.v1
+            Event type
           format: date-time
           type: string
         deprecatedSource:
-          description: Deprecated field assuring backward compatibility with core.v1 Event type
+          description: Deprecated field assuring backward compatibility with core.v1
+            Event type
           properties:
             component:
               description: Component from which the event is generated.
@@ -62,24 +69,40 @@ spec:
           format: date-time
           type: string
         kind:
-          description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
           type: string
         metadata:
           type: object
         note:
-          description: Optional. A human-readable description of the status of this operation. Maximal length of the note is 1kB, but libraries should be prepared to handle values up to 64kB.
+          description: Optional. A human-readable description of the status of this
+            operation. Maximal length of the note is 1kB, but libraries should be
+            prepared to handle values up to 64kB.
           type: string
         reason:
           description: Why the action was taken.
           type: string
         regarding:
-          description: The object this Event is about. In most cases it's an Object reporting controller implements. E.g. ReplicaSetController implements ReplicaSets and this event is emitted because it acts on some changes in a ReplicaSet object.
+          description: The object this Event is about. In most cases it's an Object
+            reporting controller implements. E.g. ReplicaSetController implements
+            ReplicaSets and this event is emitted because it acts on some changes
+            in a ReplicaSet object.
           properties:
             apiVersion:
               description: API version of the referent.
               type: string
             fieldPath:
-              description: 'If referring to a piece of an object instead of an entire object, this string should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2]. For example, if the object reference is to a container within a pod, this would take on a value like: "spec.containers{name}" (where "name" refers to the name of the container that triggered the event) or if no container name is specified "spec.containers[2]" (container with index 2 in this pod). This syntax is chosen only to have some well-defined way of referencing a part of an object. TODO: this design is not final and this field is subject to change in the future.'
+              description: 'If referring to a piece of an object instead of an entire
+                object, this string should contain a valid JSON/Go field access statement,
+                such as desiredState.manifest.containers[2]. For example, if the object
+                reference is to a container within a pod, this would take on a value
+                like: "spec.containers{name}" (where "name" refers to the name of
+                the container that triggered the event) or if no container name is
+                specified "spec.containers[2]" (container with index 2 in this pod).
+                This syntax is chosen only to have some well-defined way of referencing
+                a part of an object. TODO: this design is not final and this field
+                is subject to change in the future.'
               type: string
             kind:
               description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
@@ -91,20 +114,31 @@ spec:
               description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
               type: string
             resourceVersion:
-              description: 'Specific resourceVersion to which this reference is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
+              description: 'Specific resourceVersion to which this reference is made,
+                if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
               type: string
             uid:
               description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
               type: string
           type: object
         related:
-          description: Optional secondary object for more complex actions. E.g. when regarding object triggers a creation or deletion of related object.
+          description: Optional secondary object for more complex actions. E.g. when
+            regarding object triggers a creation or deletion of related object.
           properties:
             apiVersion:
               description: API version of the referent.
               type: string
             fieldPath:
-              description: 'If referring to a piece of an object instead of an entire object, this string should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2]. For example, if the object reference is to a container within a pod, this would take on a value like: "spec.containers{name}" (where "name" refers to the name of the container that triggered the event) or if no container name is specified "spec.containers[2]" (container with index 2 in this pod). This syntax is chosen only to have some well-defined way of referencing a part of an object. TODO: this design is not final and this field is subject to change in the future.'
+              description: 'If referring to a piece of an object instead of an entire
+                object, this string should contain a valid JSON/Go field access statement,
+                such as desiredState.manifest.containers[2]. For example, if the object
+                reference is to a container within a pod, this would take on a value
+                like: "spec.containers{name}" (where "name" refers to the name of
+                the container that triggered the event) or if no container name is
+                specified "spec.containers[2]" (container with index 2 in this pod).
+                This syntax is chosen only to have some well-defined way of referencing
+                a part of an object. TODO: this design is not final and this field
+                is subject to change in the future.'
               type: string
             kind:
               description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
@@ -116,7 +150,8 @@ spec:
               description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
               type: string
             resourceVersion:
-              description: 'Specific resourceVersion to which this reference is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
+              description: 'Specific resourceVersion to which this reference is made,
+                if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
               type: string
             uid:
               description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
@@ -129,18 +164,22 @@ spec:
           description: ID of the controller instance, e.g. `kubelet-xyzf`.
           type: string
         series:
-          description: Data about the Event series this event represents or nil if it's a singleton Event.
+          description: Data about the Event series this event represents or nil if
+            it's a singleton Event.
           properties:
             count:
-              description: Number of occurrences in this series up to the last heartbeat time
+              description: Number of occurrences in this series up to the last heartbeat
+                time
               format: int32
               type: integer
             lastObservedTime:
-              description: Time when last Event from the series was seen before last heartbeat.
+              description: Time when last Event from the series was seen before last
+                heartbeat.
               format: date-time
               type: string
             state:
-              description: Information whether this series is ongoing or finished. Deprecated. Planned removal for 1.18
+              description: Information whether this series is ongoing or finished.
+                Deprecated. Planned removal for 1.18
               type: string
           required:
           - count
@@ -148,7 +187,8 @@ spec:
           - state
           type: object
         type:
-          description: Type of this event (Normal, Warning), new types could be added in the future.
+          description: Type of this event (Normal, Warning), new types could be added
+            in the future.
           type: string
       required:
       - eventTime

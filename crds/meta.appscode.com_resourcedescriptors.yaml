@@ -277,23 +277,27 @@ spec:
                           required:
                           - create
                           type: object
-                        apiVersion:
-                          description: 'APIVersion defines the versioned schema of
-                            this representation of an object. Servers should convert
-                            recognized schemas to the latest internal value, and may
-                            reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
-                          type: string
                         displayMode:
                           type: string
-                        kind:
-                          description: 'Kind is a string value representing the REST
-                            resource this object represents. Servers may infer this
-                            from the endpoint the client submits requests to. Cannot
-                            be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
-                          type: string
+                        ref:
+                          description: GroupVersionResource unambiguously identifies
+                            a resource.
+                          properties:
+                            group:
+                              type: string
+                            resource:
+                              type: string
+                            version:
+                              type: string
+                          required:
+                          - group
+                          - resource
+                          - version
+                          type: object
                       required:
                       - actions
                       - displayMode
+                      - ref
                       type: object
                     type: array
                 required:

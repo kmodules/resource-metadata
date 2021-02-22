@@ -27,13 +27,18 @@ spec:
       version: v0.1.0
   validation:
     openAPIV3Schema:
-      description: LimitRange sets resource usage limits for each kind of resource in a Namespace.
+      description: LimitRange sets resource usage limits for each kind of resource
+        in a Namespace.
       properties:
         apiVersion:
-          description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
           type: string
         kind:
-          description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
           type: string
         metadata:
           description: 'Standard object''s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata'
@@ -44,7 +49,8 @@ spec:
             limits:
               description: Limits is the list of LimitRangeItem objects that are enforced.
               items:
-                description: LimitRangeItem defines a min/max usage limit for any resource that matches on kind.
+                description: LimitRangeItem defines a min/max usage limit for any
+                  resource that matches on kind.
                 properties:
                   default:
                     additionalProperties:
@@ -53,7 +59,8 @@ spec:
                       - type: string
                       pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                       x-kubernetes-int-or-string: true
-                    description: Default resource requirement limit value by resource name if resource limit is omitted.
+                    description: Default resource requirement limit value by resource
+                      name if resource limit is omitted.
                     type: object
                   defaultRequest:
                     additionalProperties:
@@ -62,7 +69,8 @@ spec:
                       - type: string
                       pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                       x-kubernetes-int-or-string: true
-                    description: DefaultRequest is the default resource requirement request value by resource name if resource request is omitted.
+                    description: DefaultRequest is the default resource requirement
+                      request value by resource name if resource request is omitted.
                     type: object
                   max:
                     additionalProperties:
@@ -80,7 +88,10 @@ spec:
                       - type: string
                       pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                       x-kubernetes-int-or-string: true
-                    description: MaxLimitRequestRatio if specified, the named resource must have a request and limit that are both non-zero where limit divided by request is less than or equal to the enumerated value; this represents the max burst for the named resource.
+                    description: MaxLimitRequestRatio if specified, the named resource
+                      must have a request and limit that are both non-zero where limit
+                      divided by request is less than or equal to the enumerated value;
+                      this represents the max burst for the named resource.
                     type: object
                   min:
                     additionalProperties:

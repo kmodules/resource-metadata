@@ -45,6 +45,5 @@ type PanelEntry struct {
 	Icons      []ImageSpec           `json:"icons,omitempty"`
 	Namespaced bool                  `json:"namespaced"`
 	Missing    bool                  `json:"missing,omitempty"`
-	UI         *UIParameters         `json:"ui,omitempty"`
 	Installer  *DeploymentParameters `json:"installer,omitempty"`
 }
