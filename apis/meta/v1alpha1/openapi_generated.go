@@ -13963,11 +13963,6 @@ func schema_resource_metadata_apis_meta_v1alpha1_PanelEntry(ref common.Reference
 							Format: "",
 						},
 					},
-					"ui": {
-						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.UIParameters"),
-						},
-					},
 					"installer": {
 						SchemaProps: spec.SchemaProps{
 							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DeploymentParameters"),
@@ -13978,7 +13973,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_PanelEntry(ref common.Reference
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DeploymentParameters", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ImageSpec", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceID", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.UIParameters"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DeploymentParameters", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ImageSpec", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceID"},
 	}
 }
 
@@ -15018,18 +15013,9 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceSection(ref common.Refe
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
-					"kind": {
+					"ref": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"apiVersion": {
-						SchemaProps: spec.SchemaProps{
-							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-							Type:        []string{"string"},
-							Format:      "",
+							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource"),
 						},
 					},
 					"displayMode": {
@@ -15044,11 +15030,11 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceSection(ref common.Refe
 						},
 					},
 				},
-				Required: []string{"displayMode", "actions"},
+				Required: []string{"ref", "displayMode", "actions"},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceActions"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceActions"},
 	}
 }
 

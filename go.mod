@@ -23,6 +23,7 @@ require (
 	github.com/spf13/cobra v1.1.1
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.5.1
+	github.com/yudai/gojsondiff v1.0.0
 	go.uber.org/atomic v1.5.0 // indirect
 	golang.org/x/crypto v0.0.0-20200429183012-4b2356b1ed79 // indirect
 	golang.org/x/lint v0.0.0-20200302205851-738671d3881b // indirect

@@ -66,7 +66,7 @@ type RelatedResourcePage struct {
 }
 
 type ResourceSection struct {
-	metav1.TypeMeta
+	Ref         GroupVersionResource
 	DisplayMode ResourceDisplayMode
 	Actions     ResourceActions
 }

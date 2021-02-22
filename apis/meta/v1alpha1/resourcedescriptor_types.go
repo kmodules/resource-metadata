@@ -118,9 +118,9 @@ type RelatedResourcePage struct {
 }
 
 type ResourceSection struct {
-	metav1.TypeMeta `json:",inline,omitempty"`
-	DisplayMode     ResourceDisplayMode `json:"displayMode"`
-	Actions         ResourceActions     `json:"actions"`
+	Ref         GroupVersionResource `json:"ref"`
+	DisplayMode ResourceDisplayMode  `json:"displayMode"`
+	Actions     ResourceActions      `json:"actions"`
 }
 
 type ResourceDisplayMode string
