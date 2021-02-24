@@ -33,7 +33,7 @@ import (
 func main() {
 	masterURL := ""
 	// kubeconfigPath := filepath.Join(homedir.HomeDir(), ".kube", "config")
-	kubeconfigPath := "/home/tamal/Downloads/ui-builder-demo-kubeconfig.yaml"
+	kubeconfigPath := "$HOME/Downloads/ui-builder-demo-kubeconfig.yaml"
 
 	config, err := clientcmd.BuildConfigFromFlags(masterURL, kubeconfigPath)
 	if err != nil {

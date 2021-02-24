@@ -33,7 +33,7 @@ import (
 const iconURLPrefix = "https://cdn.appscode.com/k8s/icons/"
 
 var (
-	repoRoot     = "/home/tamal/go/src/kmodules.xyz/resource-metadata"
+	repoRoot     = "$HOME/go/src/kmodules.xyz/resource-metadata"
 	dirResources = path.Join(repoRoot, "hub/resourcedescriptors")
 	dirClasses   = path.Join(repoRoot, "hub/resourceclasses")
 	dirIcons     = path.Join(repoRoot, "icons")
@@ -70,7 +70,7 @@ func main() {
 			  - src: https://cdn.appscode.com/k8s/icons/acme.cert-manager.io/challenges.svg
 			    type: image/svg+xml
 
-				/home/tamal/go/src/kmodules.xyz/resource-metadata/icons/acme.cert-manager.io/challenges.png
+				$HOME/go/src/kmodules.xyz/resource-metadata/icons/acme.cert-manager.io/challenges.png
 				image/png
 		*/
 		rd.Spec.Icons = nil

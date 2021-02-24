@@ -51,7 +51,7 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	err = createRegistry(kc, filepath.Join("/home/tamal/go/src/kmodules.xyz/resource-metadata", "hub", "resourceclasses"))
+	err = createRegistry(kc, filepath.Join("$HOME/go/src/kmodules.xyz/resource-metadata", "hub", "resourceclasses"))
 	if err != nil {
 		log.Fatalln(err)
 	}
