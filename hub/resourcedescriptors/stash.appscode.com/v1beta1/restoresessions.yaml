@@ -20,6 +20,9 @@ spec:
     name: restoresessions
     scope: Namespaced
     version: v1beta1
+  resourceRequirements:
+  - resources: spec.podTemplate.spec.resources
+    units: spec.replicas
   ui:
     editor:
       name: stashappscodecom-restoresession-editor
@@ -217,6 +220,7 @@ spec:
         spec:
           properties:
             driver:
+              default: Restic
               description: Driver indicates the name of the agent to use to restore
                 the target. Supported values are "Restic", "VolumeSnapshotter". Default
                 value is "Restic".
