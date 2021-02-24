@@ -28,6 +28,7 @@ import (
 
 	diff "github.com/yudai/gojsondiff"
 	"github.com/yudai/gojsondiff/formatter"
+	crdv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"sigs.k8s.io/yaml"
 )
 
@@ -78,6 +79,17 @@ func check(filename string) (string, error) {
 		}
 		return result, nil
 	} else {
+		if rd.Spec.Validation != nil &&
+			rd.Spec.Validation.OpenAPIV3Schema != nil {
+
+			var mc crdv1.JSONSchemaProps
+			err = yaml.Unmarshal([]byte(v1alpha1.ObjectMetaSchema), &mc)
+			if err != nil {
+				return "", err
+			}
+			rd.Spec.Validation.OpenAPIV3Schema.Properties["metadata"] = mc
+		}
+
 		data, err := yaml.Marshal(rd)
 		if err != nil {
 			return "", err

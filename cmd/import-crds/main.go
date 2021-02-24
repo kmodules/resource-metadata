@@ -253,6 +253,17 @@ func WriteDescriptor(crd *crdv1.CustomResourceDefinition, dir string) error {
 		}
 		addResourceRequirements(&rd)
 
+		if rd.Spec.Validation != nil &&
+			rd.Spec.Validation.OpenAPIV3Schema != nil {
+
+			var mc crdv1.JSONSchemaProps
+			err = yaml.Unmarshal([]byte(v1alpha1.ObjectMetaSchema), &mc)
+			if err != nil {
+				return err
+			}
+			rd.Spec.Validation.OpenAPIV3Schema.Properties["metadata"] = mc
+		}
+
 		data, err := yaml.Marshal(rd)
 		if err != nil {
 			return err
