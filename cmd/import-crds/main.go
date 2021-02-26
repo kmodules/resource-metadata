@@ -53,6 +53,12 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/kubevault.dev/operator/api/c
 go run cmd/import-crds/main.go --input=$HOME/go/src/go.searchlight.dev/grafana-operator/crds
 
 go run cmd/import-crds/main.go --input=$HOME/go/src/sigs.k8s.io/application/config/crd/bases
+
+go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/kubernetes-csi/external-snapshotter/client/config/crd
+
+go run cmd/import-crds/main.go --input=$HOME/go/src/k8s.io/autoscaler/vertical-pod-autoscaler/deploy/vpa-v1-crd-gen.yaml
+go run cmd/import-crds/main.go --input=$HOME/go/src/k8s.io/autoscaler/vertical-pod-autoscaler/deploy/vpa-v1-crd.yaml
+
 */
 func main() {
 	var input []string

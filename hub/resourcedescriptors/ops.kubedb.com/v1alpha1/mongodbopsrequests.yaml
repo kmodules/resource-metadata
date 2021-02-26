@@ -6509,7 +6509,7 @@ spec:
               properties:
                 readinessCriteria:
                   properties:
-                    dbSizeDiffPercentage:
+                    objectsCountDiffPercentage:
                       format: int32
                       maximum: 100
                       minimum: 0
@@ -6583,7 +6583,7 @@ spec:
                   type: object
                 readinessCriteria:
                   properties:
-                    dbSizeDiffPercentage:
+                    objectsCountDiffPercentage:
                       format: int32
                       maximum: 100
                       minimum: 0
