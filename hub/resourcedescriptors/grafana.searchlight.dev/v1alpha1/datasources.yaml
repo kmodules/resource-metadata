@@ -76,13 +76,4 @@ spec:
           type: object
         spec:
           type: object
-        status:
-          properties:
-            observedGeneration:
-              description: ObservedGeneration is the most recent generation observed
-                for this resource. It corresponds to the resource's generation, which
-                is updated on mutation by the API Server.
-              format: int64
-              type: integer
-          type: object
       type: object

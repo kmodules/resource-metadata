@@ -63,14 +63,6 @@ spec:
                 is primarily intended for creation idempotence and configuration definition.
                 Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
               type: string
-            namespace:
-              description: "Namespace defines the space within which each name must
-                be unique. An empty namespace is equivalent to the \"default\" namespace,
-                but \"default\" is the canonical representation. Not all objects are
-                required to be scoped to a namespace - the value of this field for
-                those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated.
-                More info: http://kubernetes.io/docs/user-guide/namespaces"
-              type: string
           type: object
         spec:
           description: The certificate request itself and any additional information.
@@ -121,37 +113,5 @@ spec:
               type: string
           required:
           - request
-          type: object
-        status:
-          description: Derived information about the request.
-          properties:
-            certificate:
-              description: If request was approved, the controller will place the
-                issued certificate here.
-              format: byte
-              type: string
-            conditions:
-              description: Conditions applied to the request, such as approval or
-                denial.
-              items:
-                properties:
-                  lastUpdateTime:
-                    description: timestamp for the last update to this condition
-                    format: date-time
-                    type: string
-                  message:
-                    description: human readable message with details about the request
-                      state
-                    type: string
-                  reason:
-                    description: brief reason for the request state
-                    type: string
-                  type:
-                    description: request approval state, currently Approved or Denied.
-                    type: string
-                required:
-                - type
-                type: object
-              type: array
           type: object
       type: object

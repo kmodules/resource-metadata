@@ -55,14 +55,6 @@ spec:
                 is primarily intended for creation idempotence and configuration definition.
                 Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
               type: string
-            namespace:
-              description: "Namespace defines the space within which each name must
-                be unique. An empty namespace is equivalent to the \"default\" namespace,
-                but \"default\" is the canonical representation. Not all objects are
-                required to be scoped to a namespace - the value of this field for
-                those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated.
-                More info: http://kubernetes.io/docs/user-guide/namespaces"
-              type: string
           type: object
         spec:
           description: Spec holds information about the request being evaluated
@@ -79,57 +71,6 @@ spec:
             token:
               description: Token is the opaque bearer token.
               type: string
-          type: object
-        status:
-          description: Status is filled in by the server and indicates whether the
-            request can be authenticated.
-          properties:
-            audiences:
-              description: Audiences are audience identifiers chosen by the authenticator
-                that are compatible with both the TokenReview and token. An identifier
-                is any identifier in the intersection of the TokenReviewSpec audiences
-                and the token's audiences. A client of the TokenReview API that sets
-                the spec.audiences field should validate that a compatible audience
-                identifier is returned in the status.audiences field to ensure that
-                the TokenReview server is audience aware. If a TokenReview returns
-                an empty status.audience field where status.authenticated is "true",
-                the token is valid against the audience of the Kubernetes API server.
-              items:
-                type: string
-              type: array
-            authenticated:
-              description: Authenticated indicates that the token was associated with
-                a known user.
-              type: boolean
-            error:
-              description: Error indicates that the token couldn't be checked
-              type: string
-            user:
-              description: User is the UserInfo associated with the provided token.
-              properties:
-                extra:
-                  additionalProperties:
-                    description: ExtraValue masks the value so protobuf can generate
-                    items:
-                      type: string
-                    type: array
-                  description: Any additional information provided by the authenticator.
-                  type: object
-                groups:
-                  description: The names of groups this user is a part of.
-                  items:
-                    type: string
-                  type: array
-                uid:
-                  description: A unique value that identifies this user across time.
-                    If this user is deleted and another user by the same name is added,
-                    they will have different UIDs.
-                  type: string
-                username:
-                  description: The name that uniquely identifies this user among all
-                    active users.
-                  type: string
-              type: object
           type: object
       required:
       - spec

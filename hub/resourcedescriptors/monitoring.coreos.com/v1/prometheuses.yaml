@@ -3542,40 +3542,4 @@ spec:
               description: Version of Prometheus to be deployed.
               type: string
           type: object
-        status:
-          description: 'PrometheusStatus is the most recent observed status of the
-            Prometheus cluster. Read-only. Not included when requesting from the apiserver,
-            only from the Prometheus Operator API itself. More info: https://github.com/kubernetes/community/blob/master/contributors/devel/api-conventions.md#spec-and-status'
-          properties:
-            availableReplicas:
-              description: Total number of available pods (ready for at least minReadySeconds)
-                targeted by this Prometheus deployment.
-              format: int32
-              type: integer
-            paused:
-              description: Represents whether any actions on the underlaying managed
-                objects are being performed. Only delete actions will be performed.
-              type: boolean
-            replicas:
-              description: Total number of non-terminated pods targeted by this Prometheus
-                deployment (their labels match the selector).
-              format: int32
-              type: integer
-            unavailableReplicas:
-              description: Total number of unavailable pods targeted by this Prometheus
-                deployment.
-              format: int32
-              type: integer
-            updatedReplicas:
-              description: Total number of non-terminated pods targeted by this Prometheus
-                deployment that have the desired version spec.
-              format: int32
-              type: integer
-          required:
-          - paused
-          - replicas
-          - updatedReplicas
-          - availableReplicas
-          - unavailableReplicas
-          type: object
       type: object

@@ -64,37 +64,4 @@ spec:
                 More info: http://kubernetes.io/docs/user-guide/namespaces"
               type: string
           type: object
-        status:
-          properties:
-            gid:
-              format: int32
-              type: integer
-            hostname:
-              type: string
-            paths:
-              items:
-                type: string
-              type: array
-            repository:
-              type: string
-            tags:
-              items:
-                type: string
-              type: array
-            tree:
-              type: string
-            uid:
-              format: int32
-              type: integer
-            username:
-              type: string
-          required:
-          - gid
-          - hostname
-          - paths
-          - repository
-          - tree
-          - uid
-          - username
-          type: object
       type: object

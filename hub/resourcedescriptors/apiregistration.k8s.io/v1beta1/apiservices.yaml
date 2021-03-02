@@ -59,14 +59,6 @@ spec:
                 is primarily intended for creation idempotence and configuration definition.
                 Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
               type: string
-            namespace:
-              description: "Namespace defines the space within which each name must
-                be unique. An empty namespace is equivalent to the \"default\" namespace,
-                but \"default\" is the canonical representation. Not all objects are
-                required to be scoped to a namespace - the value of this field for
-                those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated.
-                More info: http://kubernetes.io/docs/user-guide/namespaces"
-              type: string
           type: object
         spec:
           description: Spec contains information for locating and communicating with
@@ -142,40 +134,5 @@ spec:
           required:
           - groupPriorityMinimum
           - versionPriority
-          type: object
-        status:
-          description: Status contains derived information about an API server
-          properties:
-            conditions:
-              description: Current service state of apiService.
-              items:
-                description: APIServiceCondition describes the state of an APIService
-                  at a particular point
-                properties:
-                  lastTransitionTime:
-                    description: Last time the condition transitioned from one status
-                      to another.
-                    format: date-time
-                    type: string
-                  message:
-                    description: Human-readable message indicating details about last
-                      transition.
-                    type: string
-                  reason:
-                    description: Unique, one-word, CamelCase reason for the condition's
-                      last transition.
-                    type: string
-                  status:
-                    description: Status is the status of the condition. Can be True,
-                      False, Unknown.
-                    type: string
-                  type:
-                    description: Type is the type of the condition.
-                    type: string
-                required:
-                - status
-                - type
-                type: object
-              type: array
           type: object
       type: object

@@ -111,21 +111,6 @@ spec:
           required:
           - audiences
           type: object
-        status:
-          description: TokenRequestStatus is the result of a token request.
-          properties:
-            expirationTimestamp:
-              description: ExpirationTimestamp is the time of expiration of the returned
-                token.
-              format: date-time
-              type: string
-            token:
-              description: Token is the opaque bearer token.
-              type: string
-          required:
-          - expirationTimestamp
-          - token
-          type: object
       required:
       - spec
       type: object

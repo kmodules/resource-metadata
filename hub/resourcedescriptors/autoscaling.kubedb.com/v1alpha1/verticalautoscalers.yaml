@@ -295,34 +295,6 @@ spec:
           required:
           - databaseRef
           type: object
-        status:
-          properties:
-            conditions:
-              items:
-                properties:
-                  lastTransitionTime:
-                    format: date-time
-                    type: string
-                  message:
-                    type: string
-                  observedGeneration:
-                    format: int64
-                    type: integer
-                  reason:
-                    type: string
-                  status:
-                    type: string
-                  type:
-                    type: string
-                required:
-                - lastTransitionTime
-                - message
-                - reason
-                - status
-                - type
-                type: object
-              type: array
-          type: object
       required:
       - spec
       type: object

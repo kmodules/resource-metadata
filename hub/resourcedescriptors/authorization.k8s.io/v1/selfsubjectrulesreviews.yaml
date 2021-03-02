@@ -66,14 +66,6 @@ spec:
                 is primarily intended for creation idempotence and configuration definition.
                 Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
               type: string
-            namespace:
-              description: "Namespace defines the space within which each name must
-                be unique. An empty namespace is equivalent to the \"default\" namespace,
-                but \"default\" is the canonical representation. Not all objects are
-                required to be scoped to a namespace - the value of this field for
-                those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated.
-                More info: http://kubernetes.io/docs/user-guide/namespaces"
-              type: string
           type: object
         spec:
           description: Spec holds information about the request being evaluated.
@@ -81,94 +73,6 @@ spec:
             namespace:
               description: Namespace to evaluate rules for. Required.
               type: string
-          type: object
-        status:
-          description: Status is filled in by the server and indicates the set of
-            actions a user can perform.
-          properties:
-            evaluationError:
-              description: EvaluationError can appear in combination with Rules. It
-                indicates an error occurred during rule evaluation, such as an authorizer
-                that doesn't support rule evaluation, and that ResourceRules and/or
-                NonResourceRules may be incomplete.
-              type: string
-            incomplete:
-              description: Incomplete is true when the rules returned by this call
-                are incomplete. This is most commonly encountered when an authorizer,
-                such as an external authorizer, doesn't support rules evaluation.
-              type: boolean
-            nonResourceRules:
-              description: NonResourceRules is the list of actions the subject is
-                allowed to perform on non-resources. The list ordering isn't significant,
-                may contain duplicates, and possibly be incomplete.
-              items:
-                description: NonResourceRule holds information that describes a rule
-                  for the non-resource
-                properties:
-                  nonResourceURLs:
-                    description: NonResourceURLs is a set of partial urls that a user
-                      should have access to.  *s are allowed, but only as the full,
-                      final step in the path.  "*" means all.
-                    items:
-                      type: string
-                    type: array
-                  verbs:
-                    description: 'Verb is a list of kubernetes non-resource API verbs,
-                      like: get, post, put, delete, patch, head, options.  "*" means
-                      all.'
-                    items:
-                      type: string
-                    type: array
-                required:
-                - verbs
-                type: object
-              type: array
-            resourceRules:
-              description: ResourceRules is the list of actions the subject is allowed
-                to perform on resources. The list ordering isn't significant, may
-                contain duplicates, and possibly be incomplete.
-              items:
-                description: ResourceRule is the list of actions the subject is allowed
-                  to perform on resources. The list ordering isn't significant, may
-                  contain duplicates, and possibly be incomplete.
-                properties:
-                  apiGroups:
-                    description: APIGroups is the name of the APIGroup that contains
-                      the resources.  If multiple API groups are specified, any action
-                      requested against one of the enumerated resources in any API
-                      group will be allowed.  "*" means all.
-                    items:
-                      type: string
-                    type: array
-                  resourceNames:
-                    description: ResourceNames is an optional white list of names
-                      that the rule applies to.  An empty set means that everything
-                      is allowed.  "*" means all.
-                    items:
-                      type: string
-                    type: array
-                  resources:
-                    description: Resources is a list of resources this rule applies
-                      to.  "*" means all in the specified apiGroups.  "*/foo" represents
-                      the subresource 'foo' for all resources in the specified apiGroups.
-                    items:
-                      type: string
-                    type: array
-                  verbs:
-                    description: 'Verb is a list of kubernetes resource API verbs,
-                      like: get, list, watch, create, update, delete, proxy.  "*"
-                      means all.'
-                    items:
-                      type: string
-                    type: array
-                required:
-                - verbs
-                type: object
-              type: array
-          required:
-          - incomplete
-          - nonResourceRules
-          - resourceRules
           type: object
       required:
       - spec

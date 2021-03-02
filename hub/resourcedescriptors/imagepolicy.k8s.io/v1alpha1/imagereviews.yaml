@@ -94,29 +94,6 @@ spec:
               description: Namespace is the namespace the pod is being created in.
               type: string
           type: object
-        status:
-          description: Status is filled in by the backend and indicates whether the
-            pod should be allowed.
-          properties:
-            allowed:
-              description: Allowed indicates that all images were allowed to be run.
-              type: boolean
-            auditAnnotations:
-              additionalProperties:
-                type: string
-              description: AuditAnnotations will be added to the attributes object
-                of the admission controller request using 'AddAnnotation'.  The keys
-                should be prefix-less (i.e., the admission controller will add an
-                appropriate prefix).
-              type: object
-            reason:
-              description: Reason should be empty unless Allowed is false in which
-                case it may contain a short description of what is wrong.  Kubernetes
-                may truncate excessively long errors when displaying to the user.
-              type: string
-          required:
-          - allowed
-          type: object
       required:
       - spec
       type: object

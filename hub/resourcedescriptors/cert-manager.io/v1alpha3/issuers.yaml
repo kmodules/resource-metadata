@@ -9,6 +9,11 @@ metadata:
     k8s.io/version: v1alpha3
   name: cert-manager.io-v1alpha3-issuers
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/cert-manager.io/issuers.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/cert-manager.io/issuers.png
+    type: image/png
   resource:
     group: cert-manager.io
     kind: Issuer
@@ -1871,59 +1876,5 @@ spec:
               required:
               - zone
               type: object
-          type: object
-        status:
-          description: Status of the Issuer. This is set and managed automatically.
-          properties:
-            acme:
-              description: ACME specific status options. This field should only be
-                set if the Issuer is configured to use an ACME server to issue certificates.
-              properties:
-                lastRegisteredEmail:
-                  description: LastRegisteredEmail is the email associated with the
-                    latest registered ACME account, in order to track changes made
-                    to registered account associated with the  Issuer
-                  type: string
-                uri:
-                  description: URI is the unique account identifier, which can also
-                    be used to retrieve account details from the CA
-                  type: string
-              type: object
-            conditions:
-              description: List of status conditions to indicate the status of a CertificateRequest.
-                Known condition types are `Ready`.
-              items:
-                description: IssuerCondition contains condition information for an
-                  Issuer.
-                properties:
-                  lastTransitionTime:
-                    description: LastTransitionTime is the timestamp corresponding
-                      to the last status change of this condition.
-                    format: date-time
-                    type: string
-                  message:
-                    description: Message is a human readable description of the details
-                      of the last transition, complementing reason.
-                    type: string
-                  reason:
-                    description: Reason is a brief machine readable explanation for
-                      the condition's last transition.
-                    type: string
-                  status:
-                    description: Status of the condition, one of ('True', 'False',
-                      'Unknown').
-                    enum:
-                    - "True"
-                    - "False"
-                    - Unknown
-                    type: string
-                  type:
-                    description: Type of the condition, known values are ('Ready').
-                    type: string
-                required:
-                - status
-                - type
-                type: object
-              type: array
           type: object
       type: object
