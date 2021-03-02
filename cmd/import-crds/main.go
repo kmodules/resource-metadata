@@ -40,6 +40,11 @@ import (
 )
 
 /*
+# Add icons
+go run cmd/icon-namer/main.go
+
+# Import crds
+
 go run cmd/import-crds/main.go --input=$HOME/go/src/k8s.io/api/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/k8s.io/kube-aggregator/crds
 
@@ -275,6 +280,11 @@ func WriteDescriptor(crd *crdv1.CustomResourceDefinition, dir string) error {
 		}
 
 		data, err := yaml.Marshal(rd)
+		if err != nil {
+			return err
+		}
+
+		data, err = v1alpha1.FormatMetadata(data)
 		if err != nil {
 			return err
 		}

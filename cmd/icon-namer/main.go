@@ -99,6 +99,12 @@ func main() {
 		if err != nil {
 			return err
 		}
+
+		data, err = v1alpha1.FormatMetadata(data)
+		if err != nil {
+			return err
+		}
+
 		return ioutil.WriteFile(path, data, 0644)
 	})
 	if err != nil {
