@@ -9,6 +9,11 @@ metadata:
     k8s.io/version: v1alpha3
   name: acme.cert-manager.io-v1alpha3-orders
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/acme.cert-manager.io/orders.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/acme.cert-manager.io/orders.png
+    type: image/png
   resource:
     group: acme.cert-manager.io
     kind: Order
@@ -120,126 +125,6 @@ spec:
           required:
           - csr
           - issuerRef
-          type: object
-        status:
-          properties:
-            authorizations:
-              description: Authorizations contains data returned from the ACME server
-                on what authorizations must be completed in order to validate the
-                DNS names specified on the Order.
-              items:
-                description: ACMEAuthorization contains data returned from the ACME
-                  server on an authorization that must be completed in order validate
-                  a DNS name on an ACME Order resource.
-                properties:
-                  challenges:
-                    description: Challenges specifies the challenge types offered
-                      by the ACME server. One of these challenge types will be selected
-                      when validating the DNS name and an appropriate Challenge resource
-                      will be created to perform the ACME challenge process.
-                    items:
-                      description: Challenge specifies a challenge offered by the
-                        ACME server for an Order. An appropriate Challenge resource
-                        can be created to perform the ACME challenge process.
-                      properties:
-                        token:
-                          description: Token is the token that must be presented for
-                            this challenge. This is used to compute the 'key' that
-                            must also be presented.
-                          type: string
-                        type:
-                          description: Type is the type of challenge being offered,
-                            e.g. 'http-01', 'dns-01', 'tls-sni-01', etc. This is the
-                            raw value retrieved from the ACME server. Only 'http-01'
-                            and 'dns-01' are supported by cert-manager, other values
-                            will be ignored.
-                          type: string
-                        url:
-                          description: URL is the URL of this challenge. It can be
-                            used to retrieve additional metadata about the Challenge
-                            from the ACME server.
-                          type: string
-                      required:
-                      - token
-                      - type
-                      - url
-                      type: object
-                    type: array
-                  identifier:
-                    description: Identifier is the DNS name to be validated as part
-                      of this authorization
-                    type: string
-                  initialState:
-                    description: InitialState is the initial state of the ACME authorization
-                      when first fetched from the ACME server. If an Authorization
-                      is already 'valid', the Order controller will not create a Challenge
-                      resource for the authorization. This will occur when working
-                      with an ACME server that enables 'authz reuse' (such as Let's
-                      Encrypt's production endpoint). If not set and 'identifier'
-                      is set, the state is assumed to be pending and a Challenge will
-                      be created.
-                    enum:
-                    - valid
-                    - ready
-                    - pending
-                    - processing
-                    - invalid
-                    - expired
-                    - errored
-                    type: string
-                  url:
-                    description: URL is the URL of the Authorization that must be
-                      completed
-                    type: string
-                  wildcard:
-                    description: Wildcard will be true if this authorization is for
-                      a wildcard DNS name. If this is true, the identifier will be
-                      the *non-wildcard* version of the DNS name. For example, if
-                      '*.example.com' is the DNS name being validated, this field
-                      will be 'true' and the 'identifier' field will be 'example.com'.
-                    type: boolean
-                required:
-                - url
-                type: object
-              type: array
-            certificate:
-              description: Certificate is a copy of the PEM encoded certificate for
-                this Order. This field will be populated after the order has been
-                successfully finalized with the ACME server, and the order has transitioned
-                to the 'valid' state.
-              format: byte
-              type: string
-            failureTime:
-              description: FailureTime stores the time that this order failed. This
-                is used to influence garbage collection and back-off.
-              format: date-time
-              type: string
-            finalizeURL:
-              description: FinalizeURL of the Order. This is used to obtain certificates
-                for this order once it has been completed.
-              type: string
-            reason:
-              description: Reason optionally provides more information about a why
-                the order is in the current state.
-              type: string
-            state:
-              description: State contains the current state of this Order resource.
-                States 'success' and 'expired' are 'final'
-              enum:
-              - valid
-              - ready
-              - pending
-              - processing
-              - invalid
-              - expired
-              - errored
-              type: string
-            url:
-              description: URL of the Order. This will initially be empty when the
-                resource is first created. The Order controller will populate this
-                field when the Order is first processed. This field will be immutable
-                after it is initially set.
-              type: string
           type: object
       required:
       - metadata

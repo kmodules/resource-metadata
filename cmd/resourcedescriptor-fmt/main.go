@@ -87,7 +87,11 @@ func check(filename string) (string, error) {
 			if err != nil {
 				return "", err
 			}
+			if rd.Spec.Resource.Scope == v1alpha1.ClusterScoped {
+				delete(mc.Properties, "namespace")
+			}
 			rd.Spec.Validation.OpenAPIV3Schema.Properties["metadata"] = mc
+			delete(rd.Spec.Validation.OpenAPIV3Schema.Properties, "status")
 		}
 
 		data, err := yaml.Marshal(rd)

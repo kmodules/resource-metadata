@@ -9,6 +9,11 @@ metadata:
     k8s.io/version: v1alpha2
   name: cert-manager.io-v1alpha2-certificaterequests
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/cert-manager.io/certificaterequests.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/cert-manager.io/certificaterequests.png
+    type: image/png
   resource:
     group: cert-manager.io
     kind: CertificateRequest
@@ -151,65 +156,5 @@ spec:
           required:
           - csr
           - issuerRef
-          type: object
-        status:
-          description: Status of the CertificateRequest. This is set and managed automatically.
-          properties:
-            ca:
-              description: The PEM encoded x509 certificate of the signer, also known
-                as the CA (Certificate Authority). This is set on a best-effort basis
-                by different issuers. If not set, the CA is assumed to be unknown/not
-                available.
-              format: byte
-              type: string
-            certificate:
-              description: The PEM encoded x509 certificate resulting from the certificate
-                signing request. If not set, the CertificateRequest has either not
-                been completed or has failed. More information on failure can be found
-                by checking the `conditions` field.
-              format: byte
-              type: string
-            conditions:
-              description: List of status conditions to indicate the status of a CertificateRequest.
-                Known condition types are `Ready` and `InvalidRequest`.
-              items:
-                description: CertificateRequestCondition contains condition information
-                  for a CertificateRequest.
-                properties:
-                  lastTransitionTime:
-                    description: LastTransitionTime is the timestamp corresponding
-                      to the last status change of this condition.
-                    format: date-time
-                    type: string
-                  message:
-                    description: Message is a human readable description of the details
-                      of the last transition, complementing reason.
-                    type: string
-                  reason:
-                    description: Reason is a brief machine readable explanation for
-                      the condition's last transition.
-                    type: string
-                  status:
-                    description: Status of the condition, one of ('True', 'False',
-                      'Unknown').
-                    enum:
-                    - "True"
-                    - "False"
-                    - Unknown
-                    type: string
-                  type:
-                    description: Type of the condition, known values are ('Ready',
-                      'InvalidRequest').
-                    type: string
-                required:
-                - status
-                - type
-                type: object
-              type: array
-            failureTime:
-              description: FailureTime stores the time that this CertificateRequest
-                failed. This is used to influence garbage collection and back-off.
-              format: date-time
-              type: string
           type: object
       type: object

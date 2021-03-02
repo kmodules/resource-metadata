@@ -33,7 +33,7 @@ import (
 const iconURLPrefix = "https://cdn.appscode.com/k8s/icons/"
 
 var (
-	repoRoot     = "$HOME/go/src/kmodules.xyz/resource-metadata"
+	repoRoot     = os.ExpandEnv("$HOME/go/src/kmodules.xyz/resource-metadata")
 	dirResources = path.Join(repoRoot, "hub/resourcedescriptors")
 	dirClasses   = path.Join(repoRoot, "hub/resourceclasses")
 	dirIcons     = path.Join(repoRoot, "icons")

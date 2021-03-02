@@ -39,6 +39,11 @@ spec:
       apiVersion: appcatalog.appscode.com/v1alpha1
       kind: AppBinding
     type: MatchName
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/kubedb.com/proxysqls.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/kubedb.com/proxysqls.png
+    type: image/png
   pages:
   - name: Basic
     resources:
@@ -1764,45 +1769,5 @@ spec:
               type: string
           required:
           - version
-          type: object
-        status:
-          properties:
-            conditions:
-              items:
-                properties:
-                  lastTransitionTime:
-                    format: date-time
-                    type: string
-                  message:
-                    type: string
-                  observedGeneration:
-                    format: int64
-                    type: integer
-                  reason:
-                    type: string
-                  status:
-                    type: string
-                  type:
-                    type: string
-                required:
-                - lastTransitionTime
-                - message
-                - reason
-                - status
-                - type
-                type: object
-              type: array
-            observedGeneration:
-              format: int64
-              type: integer
-            phase:
-              enum:
-              - Provisioning
-              - DataRestoring
-              - Ready
-              - Critical
-              - NotReady
-              - Halted
-              type: string
           type: object
       type: object

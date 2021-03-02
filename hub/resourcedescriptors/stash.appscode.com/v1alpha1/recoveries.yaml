@@ -9,6 +9,11 @@ metadata:
     k8s.io/version: v1alpha1
   name: stash.appscode.com-v1alpha1-recoveries
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/recoveries.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/recoveries.png
+    type: image/png
   resource:
     group: stash.appscode.com
     kind: Recovery
@@ -1336,39 +1341,5 @@ spec:
               type: string
           required:
           - repository
-          type: object
-        status:
-          properties:
-            observedGeneration:
-              description: observedGeneration is the most recent generation observed
-                for this resource. It corresponds to the resource's generation, which
-                is updated on mutation by the API Server.
-              format: int64
-              type: integer
-            phase:
-              enum:
-              - Pending
-              - Running
-              - Succeeded
-              - Failed
-              - Unknown
-              type: string
-            stats:
-              items:
-                properties:
-                  duration:
-                    type: string
-                  path:
-                    type: string
-                  phase:
-                    enum:
-                    - Pending
-                    - Running
-                    - Succeeded
-                    - Failed
-                    - Unknown
-                    type: string
-                type: object
-              type: array
           type: object
       type: object

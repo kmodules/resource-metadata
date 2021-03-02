@@ -70,49 +70,4 @@ spec:
             vpaObjectName:
               type: string
           type: object
-        status:
-          properties:
-            cpuHistogram:
-              properties:
-                bucketWeights:
-                  additionalProperties:
-                    format: int32
-                    type: integer
-                  type: object
-                referenceTimestamp:
-                  format: date-time
-                  type: string
-                totalWeight:
-                  format: float
-                  type: number
-              type: object
-            firstSampleStart:
-              format: date-time
-              type: string
-            lastSampleStart:
-              format: date-time
-              type: string
-            lastUpdateTime:
-              format: date-time
-              type: string
-            memoryHistogram:
-              properties:
-                bucketWeights:
-                  additionalProperties:
-                    format: int32
-                    type: integer
-                  type: object
-                referenceTimestamp:
-                  format: date-time
-                  type: string
-                totalWeight:
-                  format: float
-                  type: number
-              type: object
-            totalSamplesCount:
-              format: int64
-              type: integer
-            version:
-              type: string
-          type: object
       type: object

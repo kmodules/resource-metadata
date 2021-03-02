@@ -4867,42 +4867,6 @@ spec:
                 type: object
               type: array
           type: object
-        status:
-          description: 'Most recent observed status of the ThanosRuler cluster. Read-only.
-            Not included when requesting from the apiserver, only from the ThanosRuler
-            Operator API itself. More info: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#spec-and-status'
-          properties:
-            availableReplicas:
-              description: Total number of available pods (ready for at least minReadySeconds)
-                targeted by this ThanosRuler deployment.
-              format: int32
-              type: integer
-            paused:
-              description: Represents whether any actions on the underlying managed
-                objects are being performed. Only delete actions will be performed.
-              type: boolean
-            replicas:
-              description: Total number of non-terminated pods targeted by this ThanosRuler
-                deployment (their labels match the selector).
-              format: int32
-              type: integer
-            unavailableReplicas:
-              description: Total number of unavailable pods targeted by this ThanosRuler
-                deployment.
-              format: int32
-              type: integer
-            updatedReplicas:
-              description: Total number of non-terminated pods targeted by this ThanosRuler
-                deployment that have the desired version spec.
-              format: int32
-              type: integer
-          required:
-          - availableReplicas
-          - paused
-          - replicas
-          - unavailableReplicas
-          - updatedReplicas
-          type: object
       required:
       - spec
       type: object

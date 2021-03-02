@@ -59,14 +59,6 @@ spec:
                 is primarily intended for creation idempotence and configuration definition.
                 Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
               type: string
-            namespace:
-              description: "Namespace defines the space within which each name must
-                be unique. An empty namespace is equivalent to the \"default\" namespace,
-                but \"default\" is the canonical representation. Not all objects are
-                required to be scoped to a namespace - the value of this field for
-                those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated.
-                More info: http://kubernetes.io/docs/user-guide/namespaces"
-              type: string
           type: object
         spec:
           description: Specification of the desired attach/detach volume behavior.
@@ -1110,56 +1102,6 @@ spec:
           - attacher
           - nodeName
           - source
-          type: object
-        status:
-          description: Status of the VolumeAttachment request. Populated by the entity
-            completing the attach or detach operation, i.e. the external-attacher.
-          properties:
-            attachError:
-              description: The last error encountered during attach operation, if
-                any. This field must only be set by the entity completing the attach
-                operation, i.e. the external-attacher.
-              properties:
-                message:
-                  description: String detailing the error encountered during Attach
-                    or Detach operation. This string may be logged, so it should not
-                    contain sensitive information.
-                  type: string
-                time:
-                  description: Time the error was encountered.
-                  format: date-time
-                  type: string
-              type: object
-            attached:
-              description: Indicates the volume is successfully attached. This field
-                must only be set by the entity completing the attach operation, i.e.
-                the external-attacher.
-              type: boolean
-            attachmentMetadata:
-              additionalProperties:
-                type: string
-              description: Upon successful attach, this field is populated with any
-                information returned by the attach operation that must be passed into
-                subsequent WaitForAttach or Mount calls. This field must only be set
-                by the entity completing the attach operation, i.e. the external-attacher.
-              type: object
-            detachError:
-              description: The last error encountered during detach operation, if
-                any. This field must only be set by the entity completing the detach
-                operation, i.e. the external-attacher.
-              properties:
-                message:
-                  description: String detailing the error encountered during Attach
-                    or Detach operation. This string may be logged, so it should not
-                    contain sensitive information.
-                  type: string
-                time:
-                  description: Time the error was encountered.
-                  format: date-time
-                  type: string
-              type: object
-          required:
-          - attached
           type: object
       required:
       - spec
