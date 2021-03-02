@@ -98,6 +98,12 @@ func check(filename string) (string, error) {
 		if err != nil {
 			return "", err
 		}
+
+		data, err = v1alpha1.FormatMetadata(data)
+		if err != nil {
+			return "", err
+		}
+
 		err = ioutil.WriteFile(filename, data, 0644)
 		if err != nil {
 			return "", err

@@ -16,6 +16,8 @@ limitations under the License.
 
 package v1alpha1
 
+import "gopkg.in/yaml.v2"
+
 const (
 	ObjectMetaSchema = `properties:
   name:
@@ -147,3 +149,69 @@ type: object`
     type: string
 type: object`
 )
+
+func FormatMetadata(data []byte) ([]byte, error) {
+	var root yaml.MapSlice
+	err := yaml.Unmarshal(data, &root)
+	if err != nil {
+		return nil, err
+	}
+
+	spec := find(root, "spec")
+	if spec == nil {
+		return data, nil
+	}
+	validation := find(spec.(yaml.MapSlice), "validation")
+	if validation == nil {
+		return data, nil
+	}
+	openAPIV3Schema := find(validation.(yaml.MapSlice), "openAPIV3Schema")
+	if openAPIV3Schema == nil {
+		return data, nil
+	}
+	prop1 := find(openAPIV3Schema.(yaml.MapSlice), "properties")
+	if prop1 == nil {
+		return data, nil
+	}
+	metadata := find(prop1.(yaml.MapSlice), "metadata")
+	if metadata == nil {
+		return data, nil
+	}
+	prop2 := find(metadata.(yaml.MapSlice), "properties")
+	if prop2 == nil {
+		return data, nil
+	}
+	p := prop2.(yaml.MapSlice)
+	moveToIndex(0, "name", p)
+	if _, ok := moveToIndex(1, "namespace", p); ok {
+		moveToIndex(2, "labels", p)
+		moveToIndex(3, "annotations", p)
+	} else {
+		moveToIndex(1, "labels", p)
+		moveToIndex(2, "annotations", p)
+	}
+
+	return yaml.Marshal(root)
+}
+
+func find(node yaml.MapSlice, key string) interface{} {
+	for i := range node {
+		if node[i].Key.(string) == key {
+			return node[i].Value
+		}
+	}
+	return nil
+}
+
+func moveToIndex(idx int, needle string, haystack yaml.MapSlice) (yaml.MapSlice, bool) {
+	if len(haystack) != idx && haystack[0].Key.(string) == needle {
+		return haystack, true
+	}
+	for i, elem := range haystack {
+		if elem.Key.(string) == needle {
+			haystack[idx], haystack[i] = haystack[i], haystack[idx]
+			return haystack, true
+		}
+	}
+	return nil, false
+}
