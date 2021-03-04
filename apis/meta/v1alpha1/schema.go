@@ -183,7 +183,7 @@ func FormatMetadata(data []byte) ([]byte, error) {
 	}
 	p := prop2.(yaml.MapSlice)
 	moveToIndex(0, "name", p)
-	if _, ok := moveToIndex(1, "namespace", p); ok {
+	if moveToIndex(1, "namespace", p) {
 		moveToIndex(2, "labels", p)
 		moveToIndex(3, "annotations", p)
 	} else {
@@ -203,15 +203,15 @@ func find(node yaml.MapSlice, key string) interface{} {
 	return nil
 }
 
-func moveToIndex(idx int, needle string, haystack yaml.MapSlice) (yaml.MapSlice, bool) {
+func moveToIndex(idx int, needle string, haystack yaml.MapSlice) bool {
 	if len(haystack) != idx && haystack[0].Key.(string) == needle {
-		return haystack, true
+		return true
 	}
 	for i, elem := range haystack {
 		if elem.Key.(string) == needle {
 			haystack[idx], haystack[i] = haystack[i], haystack[idx]
-			return haystack, true
+			return true
 		}
 	}
-	return nil, false
+	return false
 }
