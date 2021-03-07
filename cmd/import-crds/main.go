@@ -48,7 +48,7 @@ go run cmd/icon-namer/main.go
 go run cmd/import-crds/main.go --input=$HOME/go/src/k8s.io/api/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/k8s.io/kube-aggregator/crds
 
-go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/coreos/prometheus-operator/example/prometheus-operator-crd
+go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/prometheus-operator/prometheus-operator/example/prometheus-operator-crd
 go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/jetstack/cert-manager/deploy/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/appscode/voyager/api/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/stash.appscode.dev/apimachinery/crds
