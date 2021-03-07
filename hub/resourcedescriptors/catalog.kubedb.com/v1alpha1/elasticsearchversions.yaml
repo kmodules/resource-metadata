@@ -64,9 +64,9 @@ spec:
           properties:
             authPlugin:
               enum:
+              - OpenDistro
               - SearchGuard
               - X-Pack
-              - OpenDistro
               type: string
             db:
               properties:
@@ -77,6 +77,12 @@ spec:
               type: object
             deprecated:
               type: boolean
+            distribution:
+              enum:
+              - ElasticStack
+              - OpenDistro
+              - SearchGuard
+              type: string
             exporter:
               properties:
                 image:
@@ -147,13 +153,6 @@ spec:
                   - backupTask
                   - restoreTask
                   type: object
-              type: object
-            tools:
-              properties:
-                image:
-                  type: string
-              required:
-              - image
               type: object
             version:
               type: string

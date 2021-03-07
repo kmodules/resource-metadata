@@ -62,6 +62,13 @@ spec:
           type: object
         spec:
           properties:
+            coordinator:
+              properties:
+                image:
+                  type: string
+              required:
+              - image
+              type: object
             db:
               properties:
                 image:
@@ -71,7 +78,19 @@ spec:
               type: object
             deprecated:
               type: boolean
+            distribution:
+              enum:
+              - PostgreSQL
+              - TimescaleDB
+              type: string
             exporter:
+              properties:
+                image:
+                  type: string
+              required:
+              - image
+              type: object
+            initContainer:
               properties:
                 image:
                   type: string
@@ -132,20 +151,12 @@ spec:
                   - restoreTask
                   type: object
               type: object
-            tools:
-              properties:
-                image:
-                  type: string
-              required:
-              - image
-              type: object
             version:
               type: string
           required:
           - db
           - exporter
           - podSecurityPolicies
-          - tools
           - version
           type: object
       type: object

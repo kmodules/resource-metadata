@@ -71,6 +71,11 @@ spec:
               type: object
             deprecated:
               type: boolean
+            distribution:
+              enum:
+              - Oracle
+              - Percona
+              type: string
             exporter:
               properties:
                 image:
@@ -146,13 +151,6 @@ spec:
                   - restoreTask
                   type: object
               type: object
-            tools:
-              properties:
-                image:
-                  type: string
-              required:
-              - image
-              type: object
             upgradeConstraints:
               properties:
                 allowlist:
@@ -186,7 +184,6 @@ spec:
           - initContainer
           - podSecurityPolicies
           - replicationModeDetector
-          - tools
           - upgradeConstraints
           - version
           type: object
