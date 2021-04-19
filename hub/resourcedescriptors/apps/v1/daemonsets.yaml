@@ -39,6 +39,22 @@ spec:
     name: Images
     priority: 0
     type: string
+  - jsonPath: .status.currentNumberScheduled
+    name: Current
+    priority: 0
+    type: string
+  - jsonPath: .status.updatedNumberScheduled
+    name: Up-To-Date
+    priority: 0
+    type: string
+  - jsonPath: '{.status.numberAvailable}{"/"}{.status.numberAvailable}'
+    name: Available
+    priority: 0
+    type: string
+  - jsonPath: .spec.template.spec.nodeSelector
+    name: 'Node Selector'
+    priority: 0
+    type: object
   icons:
   - src: https://cdn.appscode.com/k8s/icons/apps/daemonsets.svg
     type: image/svg+xml

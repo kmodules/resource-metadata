@@ -9,6 +9,40 @@ metadata:
     k8s.io/version: v1
   name: core-v1-persistentvolumes
 spec:
+  columns:
+  - jsonPath: .metadata.name
+    name: Name
+    priority: 0
+    type: string
+  - jsonPath: .spec.capacity
+    name: Capacity
+    priority: 0
+    type: string
+  - jsonPath: .spec.accessModes
+    name: 'Access Modes'
+    priority: 0
+    type: string
+    format: csv
+  - jsonPath: spec.persistentVolumeReclaimPolicy
+    name: 'Reclaim Policy'
+    priority: 0
+    type: string
+  - jsonPath: status.phase
+    name: Status
+    priority: 0
+    type: string
+  - jsonPath: .spec.storageClassName
+    name: 'Storage Class'
+    priority: 0
+    type: string
+  - jsonPath:
+    name: Reason
+    priority: 0
+    type:
+  - jsonPath: .metadata.creationTimestamp
+    name: Age
+    priority: 0
+    type: date
   icons:
   - src: https://cdn.appscode.com/k8s/icons/core/persistentvolumes.svg
     type: image/svg+xml

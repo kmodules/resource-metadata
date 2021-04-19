@@ -170,17 +170,25 @@ func (c *convertor) rowFn(data interface{}) ([]interface{}, error) {
 			continue
 		}
 
-		// as we only support simple JSON path, we can assume to have only one result (or none, filtered out above)
-		value := results[0][0].Interface()
+		values := make([]reflect.Value, 0)
+		for idx := range results {
+			if len(results[idx]) > 0 {
+				values = append(values, results[idx][0])
+			}
+		}
+
 		if c.headers[i].Type == "string" {
-			if err := column.PrintResults(c.buf, []reflect.Value{reflect.ValueOf(value)}); err == nil {
+			if err := column.PrintResults(c.buf, values); err == nil {
 				cells = append(cells, c.buf.String())
 				c.buf.Reset()
 			} else {
 				cells = append(cells, nil)
 			}
 		} else {
-			cells = append(cells, cellForJSONValue(c.headers[i].Type, value))
+			// if headers type isn't string, we only support simple JSON path
+			// we are assuming to have only one result (or none, filtered out above)
+
+			cells = append(cells, cellForJSONValue(c.headers[i].Type, values[0].Interface()))
 		}
 	}
 	return cells, nil

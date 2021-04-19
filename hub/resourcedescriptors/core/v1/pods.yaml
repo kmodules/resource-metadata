@@ -30,7 +30,7 @@ spec:
     name: Age
     priority: 0
     type: date
-  - jsonPath: ""
+  - jsonPath: ".status.phase"
     name: Ready
     priority: 0
     type: string
@@ -38,7 +38,7 @@ spec:
     name: Status
     priority: 0
     type: string
-  - jsonPath: ""
+  - jsonPath: ".status.phase"
     name: Restarts
     priority: 0
     type: string
