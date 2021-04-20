@@ -14,58 +14,57 @@ spec:
     name: Name
     priority: 3
     type: string
-  - jsonPath: .metadata.namespace
-    name: Namespace
-    priority: 3
-    type: string
-  - jsonPath: .metadata.labels
-    name: Labels
-    priority: 3
-    type: object
-  - jsonPath: .metadata.annotations
-    name: Annotations
-    priority: 3
-    type: object
-  - format: selector
-    jsonPath: .spec.selector
-    name: Selector
-    priority: 1
-    type: object
-  - jsonPath: .spec.strategy.type
-    name: Strategy
-    priority: 1
-    type: string
-  - jsonPath: .spec.minReadySeconds
-    name: Min Ready Seconds
-    priority: 1
-    type: integer
-  - jsonPath: .spec.revisionHistoryLimit
-    name: Revision History Limit
-    priority: 1
-    type: integer
-  - jsonPath: .spec.strategy.rollingUpdate
-    name: Rolling Update Strategy
-    priority: 1
-    type: object
-  - jsonPath: '{.status.updatedReplicas} updated, {.status.replicas} total, {.status.availableReplicas}
-      available, {.status.unavailableReplicas} unavailable'
-    name: Status
-    priority: 1
-    type: string
-  - jsonPath: .spec.replicas
-    name: Desired Replicas
-    priority: 1
-    type: integer
-  - jsonPath: .metadata.creationTimestamp
-    name: Age
-    priority: 2
-    type: date
-  - jsonPath: '{.status.readyReplicas}/{.spec.replicas}'
-    name: Pods
-    priority: 2
-    type: string
-  - format: csv
-    jsonPath: '{range .spec.template.spec.containers[*]}{.image}{"\n"}{end}'
+   - jsonPath: .metadata.namespace
+     name: Namespace
+     priority: 3
+     type: string
+   - jsonPath: .metadata.labels
+     name: Labels
+     priority: 3
+     type: object
+   - jsonPath: .metadata.annotations
+     name: Annotations
+     priority: 1
+     type: object
+   - format: selector
+     jsonPath: .spec.selector
+     name: Selector
+     priority: 1
+     type: object
+   - jsonPath: .spec.strategy.type
+     name: Strategy
+     priority: 1
+     type: string
+   - jsonPath: .spec.minReadySeconds
+     name: Min Ready Seconds
+     priority: 1
+     type: integer
+   - jsonPath: .spec.revisionHistoryLimit
+     name: Revision History Limit
+     priority: 1
+     type: integer
+   - jsonPath: .spec.strategy.rollingUpdate
+     name: Rolling Update Strategy
+     priority: 1
+     type: object
+   - jsonPath: '{.status.updatedReplicas} updated, {.status.replicas} total, {.status.availableReplicas}
+       available, {.status.unavailableReplicas} unavailable'
+     name: Status
+     priority: 1
+     type: string
+   - jsonPath: .spec.replicas
+     name: Desired Replicas
+     priority: 1
+     type: integer
+   - jsonPath: '{.status.readyReplicas}/{.spec.replicas}'
+     name: Pods
+     priority: 2
+     type: string
+   - jsonPath: .metadata.creationTimestamp
+     name: Age
+     priority: 3
+     type: date
+  - jsonPath: '{range .spec.template.spec.containers[*]}{.image}{"\n"}{end}'
     name: Images
     priority: 2
     type: string
@@ -168,18 +167,22 @@ spec:
       name: Status
       priority: 0
       type: string
-    - jsonPath: .lastTransitionTime
-      name: Last Transition Time
-      priority: 0
-      type: date
     - jsonPath: .reason
       name: Reason
       priority: 0
       type: string
+    - jsonPath: .lastTransitionTime
+      name: Last Transition Time
+      priority: 0
+      type: date
     - jsonPath: .lastUpdateTime
       name: Last Update Time
       priority: 0
       type: date
+    - jsonPath: .message
+      name: Message
+      priority: 0
+      type: string
     fieldPath: .status.conditions
     name: Conditions
   ui:
