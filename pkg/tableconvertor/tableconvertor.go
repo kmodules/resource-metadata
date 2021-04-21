@@ -29,8 +29,6 @@ import (
 	"kmodules.xyz/resource-metadata/hub"
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor/printers"
 
-	"github.com/Masterminds/sprig/v3"
-	"gomodules.xyz/jsonpath"
 	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metatable "k8s.io/apimachinery/pkg/api/meta/table"
@@ -186,7 +184,7 @@ func (c *convertor) rowFn(data interface{}) ([]interface{}, error) {
 			return nil, fmt.Errorf("invalid column definition %q", col.PathTemplate)
 		}
 
-		v, err := cellForJSONValue(col.Type, c.buf.String())
+		v, err := cellForJSONValue(col.Name, col.Type, c.buf.String())
 		if err != nil {
 			return nil, err
 		}
@@ -241,21 +239,30 @@ func fields(path string) []string {
 	return strings.Split(strings.Trim(path, "."), ".")
 }
 
-func cellForJSONValue(headerType string, value string) (interface{}, error) {
+func cellForJSONValue(colName, headerType string, value string) (interface{}, error) {
 	switch headerType {
 	case "integer":
+		if value == "" {
+			return "<unknown>", nil
+		}
 		i64, err := strconv.ParseInt(value, 10, 64)
 		if err != nil {
 			return nil, err
 		}
 		return i64, nil
 	case "number":
+		if value == "" {
+			return "<unknown>", nil
+		}
 		f64, err := strconv.ParseFloat(value, 64)
 		if err != nil {
 			return nil, err
 		}
 		return f64, nil
 	case "boolean":
+		if value == "" {
+			return "<unknown>", nil
+		}
 		b, err := strconv.ParseBool(value)
 		if err != nil {
 			return nil, err
@@ -275,7 +282,7 @@ func cellForJSONValue(headerType string, value string) (interface{}, error) {
 		var obj interface{}
 		err := json.Unmarshal([]byte(value), &obj)
 		if err != nil {
-			return nil, err
+			return fmt.Sprintf("col %s, type %s,  err %v", colName, headerType, err.Error()), nil
 		}
 		return obj, nil
 	}
@@ -406,34 +413,4 @@ func defaultDetailsColumns() []v1alpha1.ResourceColumnDefinition {
 			},
 		*/
 	}
-}
-
-func jpfn(expr string, data interface{}, jsonoutput ...bool) (interface{}, error) {
-	enableJSONoutput := len(jsonoutput) > 0 && jsonoutput[0]
-
-	jp := jsonpath.New("jp")
-	if err := jp.Parse(expr); err != nil {
-		return nil, fmt.Errorf("unrecognized column definition %q", expr)
-	}
-	jp.AllowMissingKeys(true)
-	jp.EnableJSONOutput(enableJSONoutput)
-
-	var buf bytes.Buffer
-	err := jp.Execute(&buf, data)
-	if err != nil {
-		return nil, err
-	}
-
-	if enableJSONoutput {
-		var v []interface{}
-		err = json.Unmarshal(buf.Bytes(), &v)
-		return v, err
-	}
-	return buf.String(), err
-}
-
-var templateFns = sprig.TxtFuncMap()
-
-func init() {
-	templateFns["jp"] = jpfn
 }
