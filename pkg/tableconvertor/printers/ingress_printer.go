@@ -48,7 +48,7 @@ func (p IngressPrinter) Convert(o runtime.Object) (map[string]interface{}, error
 
 	row := map[string]interface{}{}
 
-	className := "<none>"
+	className := None
 	if obj.Spec.IngressClassName != nil {
 		className = *obj.Spec.IngressClassName
 	}

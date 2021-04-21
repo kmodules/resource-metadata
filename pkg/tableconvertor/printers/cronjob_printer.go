@@ -48,7 +48,7 @@ func (p CronJobPrinter) Convert(o runtime.Object) (map[string]interface{}, error
 
 	row := map[string]interface{}{}
 
-	lastScheduleTime := "<none>"
+	lastScheduleTime := None
 	if obj.Status.LastScheduleTime != nil {
 		lastScheduleTime = translateTimestampSince(*obj.Status.LastScheduleTime)
 	}

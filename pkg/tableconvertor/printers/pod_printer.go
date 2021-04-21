@@ -155,16 +155,16 @@ func (p PodPrinter) Convert(o runtime.Object) (map[string]interface{}, error) {
 	}
 
 	if podIP == "" {
-		podIP = "<none>"
+		podIP = None
 	}
 	if nodeName == "" {
-		nodeName = "<none>"
+		nodeName = None
 	}
 	if nominatedNodeName == "" {
-		nominatedNodeName = "<none>"
+		nominatedNodeName = None
 	}
 
-	readinessGates := "<none>"
+	readinessGates := None
 	if len(pod.Spec.ReadinessGates) > 0 {
 		trueConditions := 0
 		for _, readinessGate := range pod.Spec.ReadinessGates {

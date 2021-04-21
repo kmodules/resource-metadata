@@ -62,7 +62,7 @@ func (p CSIDriverPrinter) Convert(o runtime.Object) (map[string]interface{}, err
 	}
 	modes := strings.Join(allModes, ",")
 	if len(modes) == 0 {
-		modes = "<none>"
+		modes = None
 	}
 
 	row["Name"] = obj.Name

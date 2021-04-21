@@ -51,18 +51,18 @@ func (p ServicePrinter) Convert(o runtime.Object) (map[string]interface{}, error
 	row := map[string]interface{}{}
 
 	svcType := obj.Spec.Type
-	internalIP := "<none>"
+	// internalIP := None
 	/*
 		if len(obj.Spec.ClusterIPs) > 0 {
 			internalIP = obj.Spec.ClusterIPs[0]
 		}
 	*/
-	internalIP = obj.Spec.ClusterIP
+	internalIP := obj.Spec.ClusterIP
 
 	externalIP := getServiceExternalIP(obj)
 	svcPorts := makePortString(obj.Spec.Ports)
 	if len(svcPorts) == 0 {
-		svcPorts = "<none>"
+		svcPorts = None
 	}
 
 	row["Name"] = obj.Name
@@ -82,12 +82,12 @@ func getServiceExternalIP(svc *core.Service) string {
 		if len(svc.Spec.ExternalIPs) > 0 {
 			return strings.Join(svc.Spec.ExternalIPs, ",")
 		}
-		return "<none>"
+		return None
 	case core.ServiceTypeNodePort:
 		if len(svc.Spec.ExternalIPs) > 0 {
 			return strings.Join(svc.Spec.ExternalIPs, ",")
 		}
-		return "<none>"
+		return None
 	case core.ServiceTypeLoadBalancer:
 		lbIps := loadBalancerStatusStringer(svc.Status.LoadBalancer)
 		if len(svc.Spec.ExternalIPs) > 0 {

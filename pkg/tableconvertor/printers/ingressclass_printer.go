@@ -47,7 +47,7 @@ func (p IngressClassPrinter) Convert(o runtime.Object) (map[string]interface{}, 
 
 	row := map[string]interface{}{}
 
-	parameters := "<none>"
+	parameters := None
 	if obj.Spec.Parameters != nil {
 		parameters = obj.Spec.Parameters.Kind
 		if obj.Spec.Parameters.APIGroup != nil {
