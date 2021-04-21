@@ -30,6 +30,7 @@ require (
 	golang.org/x/net v0.0.0-20200324143707-d3edc9973b7e
 	golang.org/x/sys v0.0.0-20200509044756-6aff5f38e54f // indirect
 	golang.org/x/time v0.0.0-20191024005414-555d28b269f0 // indirect
+	gomodules.xyz/jsonpath v0.0.1
 	gomodules.xyz/pointer v0.0.0-20201105040656-991dd254b680
 	gomodules.xyz/version v0.1.0
 	gomodules.xyz/x v0.0.0-20201105065653-91c568df6331

@@ -30,6 +30,7 @@ import (
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor/printers"
 
 	"github.com/Masterminds/sprig/v3"
+	"gomodules.xyz/jsonpath"
 	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metatable "k8s.io/apimachinery/pkg/api/meta/table"
@@ -38,7 +39,6 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/util/sets"
-	"k8s.io/client-go/util/jsonpath"
 )
 
 type TableConvertor interface {
@@ -416,8 +416,7 @@ func jpfn(expr string, data interface{}, jsonoutput ...bool) (interface{}, error
 		return nil, fmt.Errorf("unrecognized column definition %q", expr)
 	}
 	jp.AllowMissingKeys(true)
-	// TODO(tamal): Enable when updated to k8s 1.21 client libraries
-	// jp.EnableJSONOutput(enableJSONoutput)
+	jp.EnableJSONOutput(enableJSONoutput)
 
 	var buf bytes.Buffer
 	err := jp.Execute(&buf, data)
