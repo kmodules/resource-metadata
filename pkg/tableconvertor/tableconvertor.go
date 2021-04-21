@@ -157,12 +157,13 @@ func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition) error {
 func (c *convertor) rowFn(data interface{}) ([]interface{}, error) {
 	knownCells := map[string]interface{}{}
 
-	if obj, ok := data.(runtime.Object); ok {
+	if obj, ok := data.(runtime.Unstructured); ok {
 		var err error
 		knownCells, err = printers.Convert(obj)
 		if err != nil {
 			return nil, err
 		}
+		data = obj.UnstructuredContent()
 	}
 
 	cells := make([]interface{}, 0, len(c.headers))
@@ -336,7 +337,7 @@ func metaToTableRow(obj runtime.Object, rowFn func(obj interface{}) ([]interface
 	rows := make([]v1alpha1.TableRow, 0, 1)
 	var row v1alpha1.TableRow
 	var err error
-	row.Cells, err = rowFn(obj.(runtime.Unstructured).UnstructuredContent())
+	row.Cells, err = rowFn(obj)
 	if err != nil {
 		return nil, err
 	}

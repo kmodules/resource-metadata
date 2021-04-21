@@ -20,7 +20,10 @@ import (
 	"fmt"
 	"reflect"
 
+	meta_util "kmodules.xyz/client-go/meta"
+
 	core "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -51,8 +54,15 @@ func (_ PodPrinter) GVK() schema.GroupVersionKind {
 	"name": "Readiness Gates",
 */
 func (p PodPrinter) Convert(o runtime.Object) (map[string]interface{}, error) {
-	pod, ok := o.(*core.Pod)
-	if !ok {
+	var pod *core.Pod
+	switch obj := o.(type) {
+	case *unstructured.Unstructured:
+		if err := meta_util.Decode(o, pod); err != nil {
+			return nil, err
+		}
+	case *core.Pod:
+		pod = obj
+	default:
 		return nil, fmt.Errorf("expected %v, received %v", p.GVK().Kind, reflect.TypeOf(o))
 	}
 
