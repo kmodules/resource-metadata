@@ -14511,7 +14511,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceColumnDefinition(ref co
 						},
 					},
 				},
-				Required: []string{"name", "type", "priority", "jsonPath"},
+				Required: []string{"name", "type", "priority"},
 			},
 		},
 	}

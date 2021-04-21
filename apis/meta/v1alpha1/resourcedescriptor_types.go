@@ -270,7 +270,8 @@ type ResourceColumnDefinition struct {
 	// should be given a higher priority.
 	Priority int32 `json:"priority"`
 	// JSONPath is a simple JSON path, i.e. with array notation.
-	JSONPath string `json:"jsonPath"`
+	// +optional
+	JSONPath string `json:"jsonPath,omitempty"`
 }
 
 type ResourceSubTableDefinition struct {
