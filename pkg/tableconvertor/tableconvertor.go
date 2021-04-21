@@ -172,6 +172,11 @@ func (c *convertor) rowFn(data interface{}) ([]interface{}, error) {
 			continue
 		}
 
+		if col.JSONPath == "" {
+			cells = append(cells, nil)
+			continue
+		}
+
 		jp := jsonpath.New(col.Name)
 		if err := jp.Parse(col.JSONPath); err != nil {
 			return nil, fmt.Errorf("unrecognized column definition %q", col.JSONPath)
@@ -182,7 +187,6 @@ func (c *convertor) rowFn(data interface{}) ([]interface{}, error) {
 		if err != nil {
 			return nil, err
 		}
-
 		if len(results) == 0 || len(results[0]) == 0 {
 			cells = append(cells, nil)
 			continue
