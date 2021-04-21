@@ -35,10 +35,6 @@ spec:
     name: 'Storage Class'
     priority: 0
     type: string
-  - jsonPath:
-    name: Reason
-    priority: 0
-    type:
   - jsonPath: .metadata.creationTimestamp
     name: Age
     priority: 0
