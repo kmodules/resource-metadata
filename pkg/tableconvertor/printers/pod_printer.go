@@ -57,7 +57,7 @@ func (p PodPrinter) Convert(o runtime.Object) (map[string]interface{}, error) {
 	var pod *core.Pod
 	switch obj := o.(type) {
 	case *unstructured.Unstructured:
-		if err := meta_util.Decode(o, pod); err != nil {
+		if err := meta_util.DecodeObject(o, pod); err != nil {
 			return nil, err
 		}
 	case *core.Pod:
