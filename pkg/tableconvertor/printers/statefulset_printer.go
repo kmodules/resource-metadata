@@ -22,6 +22,7 @@ import (
 
 	"gomodules.xyz/pointer"
 	apps "k8s.io/api/apps/v1"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -41,8 +42,15 @@ func (_ StatefulSetPrinter) GVK() schema.GroupVersionKind {
 }
 
 func (p StatefulSetPrinter) Convert(o runtime.Object) (map[string]interface{}, error) {
-	obj, ok := o.(*apps.StatefulSet)
-	if !ok {
+	obj := new(apps.StatefulSet)
+	switch to := o.(type) {
+	case *unstructured.Unstructured:
+		if err := runtime.DefaultUnstructuredConverter.FromUnstructured(to.UnstructuredContent(), obj); err != nil {
+			return nil, err
+		}
+	case *apps.StatefulSet:
+		obj = to
+	default:
 		return nil, fmt.Errorf("expected %v, received %v", p.GVK().Kind, reflect.TypeOf(o))
 	}
 

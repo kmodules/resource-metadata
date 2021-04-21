@@ -21,6 +21,7 @@ import (
 	"reflect"
 
 	networking "k8s.io/api/networking/v1beta1"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -40,8 +41,15 @@ func (_ IngressClassPrinter) GVK() schema.GroupVersionKind {
 }
 
 func (p IngressClassPrinter) Convert(o runtime.Object) (map[string]interface{}, error) {
-	obj, ok := o.(*networking.IngressClass)
-	if !ok {
+	obj := new(networking.IngressClass)
+	switch to := o.(type) {
+	case *unstructured.Unstructured:
+		if err := runtime.DefaultUnstructuredConverter.FromUnstructured(to.UnstructuredContent(), obj); err != nil {
+			return nil, err
+		}
+	case *networking.IngressClass:
+		obj = to
+	default:
 		return nil, fmt.Errorf("expected %v, received %v", p.GVK().Kind, reflect.TypeOf(o))
 	}
 

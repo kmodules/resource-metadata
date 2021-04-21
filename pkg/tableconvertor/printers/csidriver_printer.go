@@ -22,6 +22,7 @@ import (
 	"strings"
 
 	storage "k8s.io/api/storage/v1"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -41,8 +42,15 @@ func (_ CSIDriverPrinter) GVK() schema.GroupVersionKind {
 }
 
 func (p CSIDriverPrinter) Convert(o runtime.Object) (map[string]interface{}, error) {
-	obj, ok := o.(*storage.CSIDriver)
-	if !ok {
+	obj := new(storage.CSIDriver)
+	switch to := o.(type) {
+	case *unstructured.Unstructured:
+		if err := runtime.DefaultUnstructuredConverter.FromUnstructured(to.UnstructuredContent(), obj); err != nil {
+			return nil, err
+		}
+	case *storage.CSIDriver:
+		obj = to
+	default:
 		return nil, fmt.Errorf("expected %v, received %v", p.GVK().Kind, reflect.TypeOf(o))
 	}
 

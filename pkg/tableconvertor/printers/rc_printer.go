@@ -22,6 +22,7 @@ import (
 
 	"gomodules.xyz/pointer"
 	core "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,8 +43,15 @@ func (_ ReplicationControllerPrinter) GVK() schema.GroupVersionKind {
 }
 
 func (p ReplicationControllerPrinter) Convert(o runtime.Object) (map[string]interface{}, error) {
-	obj, ok := o.(*core.ReplicationController)
-	if !ok {
+	obj := new(core.ReplicationController)
+	switch to := o.(type) {
+	case *unstructured.Unstructured:
+		if err := runtime.DefaultUnstructuredConverter.FromUnstructured(to.UnstructuredContent(), obj); err != nil {
+			return nil, err
+		}
+	case *core.ReplicationController:
+		obj = to
+	default:
 		return nil, fmt.Errorf("expected %v, received %v", p.GVK().Kind, reflect.TypeOf(o))
 	}
 
