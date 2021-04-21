@@ -21,6 +21,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strconv"
 	"strings"
 	"text/template"
 
@@ -184,7 +185,12 @@ func (c *convertor) rowFn(data interface{}) ([]interface{}, error) {
 		if err != nil {
 			return nil, fmt.Errorf("invalid column definition %q", col.PathTemplate)
 		}
-		cells = append(cells, c.buf.String())
+
+		v, err := cellForJSONValue(col.Type, c.buf.String())
+		if err != nil {
+			return nil, err
+		}
+		cells = append(cells, v)
 		c.buf.Reset()
 	}
 	return cells, nil
@@ -235,57 +241,45 @@ func fields(path string) []string {
 	return strings.Split(strings.Trim(path, "."), ".")
 }
 
-func cellForJSONValue(headerType string, value interface{}) interface{} {
-	if value == nil {
-		return nil
-	}
-
+func cellForJSONValue(headerType string, value string) (interface{}, error) {
 	switch headerType {
 	case "integer":
-		switch typed := value.(type) {
-		case int64:
-			return typed
-		case float64:
-			return int64(typed)
-		case json.Number:
-			if i64, err := typed.Int64(); err == nil {
-				return i64
-			}
+		i64, err := strconv.ParseInt(value, 10, 64)
+		if err != nil {
+			return nil, err
 		}
+		return i64, nil
 	case "number":
-		switch typed := value.(type) {
-		case int64:
-			return float64(typed)
-		case float64:
-			return typed
-		case json.Number:
-			if f, err := typed.Float64(); err == nil {
-				return f
-			}
+		f64, err := strconv.ParseFloat(value, 64)
+		if err != nil {
+			return nil, err
 		}
+		return f64, nil
 	case "boolean":
-		if b, ok := value.(bool); ok {
-			return b
+		b, err := strconv.ParseBool(value)
+		if err != nil {
+			return nil, err
 		}
+		return b, nil
 	case "string":
-		if s, ok := value.(string); ok {
-			return s
-		}
+		return value, nil
 	case "date":
-		if typed, ok := value.(string); ok {
-			var timestamp metav1.Time
-			err := timestamp.UnmarshalQueryParameter(typed)
-			if err != nil {
-				return "<invalid>"
-			}
-			return metatable.ConvertToHumanReadableDateType(timestamp)
+		var timestamp metav1.Time
+		err := timestamp.UnmarshalQueryParameter(value)
+		if err != nil {
+			return nil, err
 		}
+		return metatable.ConvertToHumanReadableDateType(timestamp), nil
 		// TODO: Fix things
 	case "object":
-		return value
+		var obj interface{}
+		err := json.Unmarshal([]byte(value), &obj)
+		if err != nil {
+			return nil, err
+		}
+		return obj, nil
 	}
-
-	return nil
+	return nil, fmt.Errorf("unknown format %s with value %s", headerType, value)
 }
 
 // metaToTableRow converts a list or object into one or more table rows. The provided rowFn is invoked for
