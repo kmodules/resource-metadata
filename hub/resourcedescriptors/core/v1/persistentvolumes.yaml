@@ -18,13 +18,13 @@ spec:
     name: Capacity
     priority: 0
     type: string
-  - jsonPath: .spec.accessModes
-    name: 'Access Modes'
+  - format: csv
+    jsonPath: .spec.accessModes
+    name: Access Modes
     priority: 0
     type: string
-    format: csv
   - jsonPath: spec.persistentVolumeReclaimPolicy
-    name: 'Reclaim Policy'
+    name: Reclaim Policy
     priority: 0
     type: string
   - jsonPath: status.phase
@@ -32,7 +32,7 @@ spec:
     priority: 0
     type: string
   - jsonPath: .spec.storageClassName
-    name: 'Storage Class'
+    name: Storage Class
     priority: 0
     type: string
   - jsonPath: .metadata.creationTimestamp
