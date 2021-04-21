@@ -59,9 +59,9 @@ spec:
     priority: 2
     type: string
   - name: Age
-    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . | k8s_age }}'
     priority: 3
-    type: date
+    type: string
   - name: Images
     priority: 2
     type: string
@@ -188,13 +188,13 @@ spec:
       priority: 0
       type: string
     - name: Last Transition Time
-      pathTemplate: '{{ jp "{.lastTransitionTime}" . }}'
+      pathTemplate: '{{ jp "{.lastTransitionTime}" . | k8s_age }}'
       priority: 0
-      type: date
+      type: string
     - name: Last Update Time
-      pathTemplate: '{{ jp "{.lastUpdateTime}" . }}'
+      pathTemplate: '{{ jp "{.lastUpdateTime}" . | k8s_age }}'
       priority: 0
-      type: date
+      type: string
     - name: Message
       pathTemplate: '{{ jp "{.message}" . }}'
       priority: 0

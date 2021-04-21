@@ -36,9 +36,9 @@ spec:
     priority: 0
     type: string
   - name: Age
-    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . | k8s_age }}'
     priority: 0
-    type: date
+    type: string
   icons:
   - src: https://cdn.appscode.com/k8s/icons/core/persistentvolumes.svg
     type: image/svg+xml

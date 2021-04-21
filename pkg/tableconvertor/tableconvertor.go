@@ -31,7 +31,6 @@ import (
 
 	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
-	metatable "k8s.io/apimachinery/pkg/api/meta/table"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -261,7 +260,7 @@ func cellForJSONValue(colName, headerType string, value string) (interface{}, er
 		return f64, nil
 	case "boolean":
 		if value == "" {
-			return "<unknown>", nil
+			return "<unset>", nil
 		}
 		b, err := strconv.ParseBool(value)
 		if err != nil {
@@ -270,14 +269,6 @@ func cellForJSONValue(colName, headerType string, value string) (interface{}, er
 		return b, nil
 	case "string":
 		return value, nil
-	case "date":
-		var timestamp metav1.Time
-		err := timestamp.UnmarshalQueryParameter(value)
-		if err != nil {
-			return nil, err
-		}
-		return metatable.ConvertToHumanReadableDateType(timestamp), nil
-		// TODO: Fix things
 	case "object":
 		var obj interface{}
 		err := json.Unmarshal([]byte(value), &obj)
