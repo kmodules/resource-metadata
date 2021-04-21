@@ -10,7 +10,8 @@ metadata:
   name: core-v1-pods
 spec:
   columns:
-  - jsonPath: .metadata.name
+  - format: name
+    jsonPath: .metadata.name
     name: Name
     priority: 0
     type: string
@@ -30,18 +31,16 @@ spec:
     name: Age
     priority: 0
     type: date
-  - jsonPath: ".status.phase"
-    name: Ready
+  - name: Ready
     priority: 0
     type: string
   - jsonPath: .status.phase
     name: Status
     priority: 0
     type: string
-  - jsonPath: ".status.phase"
-    name: Restarts
+  - name: Restarts
     priority: 0
-    type: string
+    type: integer
   - jsonPath: .status.podIP
     name: IP
     priority: 0
@@ -50,14 +49,13 @@ spec:
     name: Node
     priority: 0
     type: string
-  - jsonPath: .spec.nominatedNodeName
+  - jsonPath: .status.nominatedNodeName
     name: Nominated Node
     priority: 0
     type: string
-  - jsonPath: .spec.readinessGates
-    name: Readiness Gates
+  - name: Readiness Gates
     priority: 0
-    type: object
+    type: string
   connections:
   - level: Controller
     target:
