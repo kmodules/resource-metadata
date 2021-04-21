@@ -11,24 +11,24 @@ metadata:
 spec:
   columns:
   - format: name
-    pathTemplate: '{{ jp "{.metadata.name}" . }}'
     name: Name
+    pathTemplate: '{{ jp "{.metadata.name}" . }}'
     priority: 0
     type: string
-  - pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
-    name: Namespace
+  - name: Namespace
+    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
     priority: 0
     type: string
-  - pathTemplate: '{{ jp "{.metadata.labels}" . }}'
-    name: Labels
+  - name: Labels
+    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
     priority: 0
     type: object
-  - pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
-    name: Annotations
+  - name: Annotations
+    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
     priority: 0
     type: object
-  - pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
-    name: Age
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
     priority: 0
     type: date
   - name: Ready
@@ -40,16 +40,16 @@ spec:
   - name: Restarts
     priority: 0
     type: integer
-  - pathTemplate: '{{ jp "{.status.podIP}" . }}'
-    name: IP
+  - name: IP
+    pathTemplate: '{{ jp "{.status.podIP}" . }}'
     priority: 0
     type: string
-  - pathTemplate: '{{ jp "{.spec.nodeName}" . }}'
-    name: Node
+  - name: Node
+    pathTemplate: '{{ jp "{.spec.nodeName}" . }}'
     priority: 0
     type: string
-  - pathTemplate: '{{ jp "{.status.nominatedNodeName}" . }}'
-    name: Nominated Node
+  - name: Nominated Node
+    pathTemplate: '{{ jp "{.status.nominatedNodeName}" . }}'
     priority: 0
     type: string
   - name: Readiness Gates

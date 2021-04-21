@@ -10,55 +10,56 @@ metadata:
   name: apps-v1-deployments
 spec:
   columns:
-  - pathTemplate: '{{ jp "{.metadata.name}" . }}'
-    name: Name
+  - name: Name
+    pathTemplate: '{{ jp "{.metadata.name}" . }}'
     priority: 3
     type: string
-  - pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
-    name: Namespace
+  - name: Namespace
+    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
     priority: 3
     type: string
-  - pathTemplate: '{{ jp "{.metadata.labels}" . }}'
-    name: Labels
+  - name: Labels
+    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
     priority: 3
     type: object
-  - pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
-    name: Annotations
+  - name: Annotations
+    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
     priority: 1
     type: object
   - name: Selector
     priority: 1
     type: object
-  - pathTemplate: '{{ jp "{.spec.strategy.type}" . }}'
-    name: Strategy
+  - name: Strategy
+    pathTemplate: '{{ jp "{.spec.strategy.type}" . }}'
     priority: 1
     type: string
-  - pathTemplate: '{{ jp "{.spec.minReadySeconds}" . }}'
-    name: Min Ready Seconds
+  - name: Min Ready Seconds
+    pathTemplate: '{{ jp "{.spec.minReadySeconds}" . }}'
     priority: 1
     type: integer
-  - pathTemplate: '{{ jp "{.spec.revisionHistoryLimit}" . }}'
-    name: Revision History Limit
+  - name: Revision History Limit
+    pathTemplate: '{{ jp "{.spec.revisionHistoryLimit}" . }}'
     priority: 1
     type: integer
-  - pathTemplate: '{{ jp "{.spec.strategy.rollingUpdate}" . }}'
-    name: Rolling Update Strategy
+  - name: Rolling Update Strategy
+    pathTemplate: '{{ jp "{.spec.strategy.rollingUpdate}" . }}'
     priority: 1
     type: object
-  - pathTemplate: '{{ jp "{.spec.replicas}" . }}'
-    name: Desired Replicas
+  - name: Desired Replicas
+    pathTemplate: '{{ jp "{.spec.replicas}" . }}'
     priority: 1
     type: integer
-  - pathTemplate: '{{ Total: (jp "{.status.replicas}" .), Available: ( jp "{.status.availableReplicas}" .), Updated: ( jp "{.status.updatedReplicas}" .)'
-    name: Pod Status
+  - name: Pod Status
+    pathTemplate: '{{ Total: (jp "{.status.replicas}" .), Available: ( jp "{.status.availableReplicas}"
+      .), Updated: ( jp "{.status.updatedReplicas}" .)'
     priority: 1
     type: string
-  - pathTemplate: '{{ jp "{.status.readyReplicas}/{.spec.replicas}" . }}'
-    name: Pods
+  - name: Pods
+    pathTemplate: '{{ jp "{.status.readyReplicas}/{.spec.replicas}" . }}'
     priority: 2
     type: string
-  - pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
-    name: Age
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
     priority: 3
     type: date
   - name: Images
@@ -154,9 +155,7 @@ spec:
     scope: Namespaced
     version: v1
   subTables:
-  - name: Containers
-    fieldPath: .spec.template.spec.containers
-    columns:
+  - columns:
     - name: Name
       pathTemplate: '{{ jp "{.name}" . }}'
       priority: 0
@@ -173,33 +172,35 @@ spec:
       pathTemplate: '{{ jp "{range .env[*]}{@}{,}{end}" . }}'
       priority: 0
       type: string
-  - name: Conditions
+    fieldPath: .spec.template.spec.containers
+    name: Containers
+  - columns:
+    - name: Type
+      pathTemplate: '{{ jp "{.type}" . }}'
+      priority: 0
+      type: string
+    - name: Status
+      pathTemplate: '{{ jp "{.status}" . }}'
+      priority: 0
+      type: string
+    - name: Reason
+      pathTemplate: '{{ jp "{.reason}" . }}'
+      priority: 0
+      type: string
+    - name: Last Transition Time
+      pathTemplate: '{{ jp "{.lastTransitionTime}" . }}'
+      priority: 0
+      type: date
+    - name: Last Update Time
+      pathTemplate: '{{ jp "{.lastUpdateTime}" . }}'
+      priority: 0
+      type: date
+    - name: Message
+      pathTemplate: '{{ jp "{.message}" . }}'
+      priority: 0
+      type: string
     fieldPath: .status.conditions
-    columns:
-      - name: Type
-        pathTemplate: '{{ jp "{.type}" . }}'
-        priority: 0
-        type: string
-      - name: Status
-        pathTemplate: '{{ jp "{.status}" . }}'
-        priority: 0
-        type: string
-      - name: Reason
-        pathTemplate: '{{ jp "{.reason}" . }}'
-        priority: 0
-        type: string
-      - name: Last Transition Time
-        pathTemplate: '{{ jp "{.lastTransitionTime}" . }}'
-        priority: 0
-        type: date
-      - name: Last Update Time
-        pathTemplate: '{{ jp "{.lastUpdateTime}" . }}'
-        priority: 0
-        type: date
-      - name: Message
-        pathTemplate: '{{ jp "{.message}" . }}'
-        priority: 0
-        type: string
+    name: Conditions
   ui:
     editor:
       name: apps-deployment-editor

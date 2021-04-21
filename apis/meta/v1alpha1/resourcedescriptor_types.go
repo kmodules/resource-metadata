@@ -272,7 +272,7 @@ type ResourceColumnDefinition struct {
 	// PathTemplate is a Go text template that will be evaluated to determine cell value.
 	// Users can use JSONPath expression to extract nested fields and apply template functions from Masterminds/sprig library.
 	// The template function for JSON path is called `jp`.
-	// Example: {{ jp ".a.b" . }} or {{ jp ".a.b" true }}, if json output is desired from JSONPath parser
+	// Example: {{ jp "{.a.b}" . }} or {{ jp "{.a.b}" true }}, if json output is desired from JSONPath parser
 	// +optional
 	PathTemplate string `json:"pathTemplate,omitempty"`
 }

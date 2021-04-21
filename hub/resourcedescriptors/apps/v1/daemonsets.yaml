@@ -10,47 +10,48 @@ metadata:
   name: apps-v1-daemonsets
 spec:
   columns:
-  - pathTemplate: '{{ jp "{.metadata.name}" . }}'
-    name: Name
+  - name: Name
+    pathTemplate: '{{ jp "{.metadata.name}" . }}'
     priority: 0
     type: string
-  - pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
-    name: Namespace
+  - name: Namespace
+    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
     priority: 0
     type: string
-  - pathTemplate: '{{ jp "{.metadata.labels}" . }}'
-    name: Labels
+  - name: Labels
+    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
     priority: 0
     type: object
-  - pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
-    name: Annotations
+  - name: Annotations
+    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
     priority: 0
     type: object
-  - pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
-    name: Age
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
     priority: 0
     type: date
-  - pathTemplate: '{{ jp "{.status.numberReady}/{.status.desiredNumberScheduled}" . }}'
-    name: Pods
+  - name: Pods
+    pathTemplate: '{{ jp "{.status.numberReady}/{.status.desiredNumberScheduled}"
+      . }}'
     priority: 0
     type: string
   - name: Images
     priority: 0
     type: string
-  - pathTemplate: '{{ jp "{.status.currentNumberScheduled}" . }}'
-    name: Current
+  - name: Current
+    pathTemplate: '{{ jp "{.status.currentNumberScheduled}" . }}'
     priority: 0
     type: string
-  - pathTemplate: '{{ jp "{.status.updatedNumberScheduled}" . }}'
-    name: Up-To-Date
+  - name: Up-To-Date
+    pathTemplate: '{{ jp "{.status.updatedNumberScheduled}" . }}'
     priority: 0
     type: string
-  - pathTemplate: '{{ jp "{.status.numberAvailable}/{.status.numberAvailable}" . }}'
-    name: Available
+  - name: Available
+    pathTemplate: '{{ jp "{.status.numberAvailable}/{.status.numberAvailable}" . }}'
     priority: 0
     type: string
-  - pathTemplate: '{{ jp "{.spec.template.spec.nodeSelector}" . }}'
-    name: Node Selector
+  - name: Node Selector
+    pathTemplate: '{{ jp "{.spec.template.spec.nodeSelector}" . }}'
     priority: 0
     type: object
   icons:

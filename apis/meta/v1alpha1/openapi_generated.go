@@ -14505,7 +14505,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceColumnDefinition(ref co
 					},
 					"pathTemplate": {
 						SchemaProps: spec.SchemaProps{
-							Description: "PathTemplate is a Go text template that will be evaluated to determine cell value. Users can use JSONPath expression to extract nested fields and apply template functions from Masterminds/sprig library. The template function for JSON path is called `jp`. Example: {{ jp \".a.b\" . }} or {{ jp \".a.b\" true }}, if json output is desired from JSONPath parser",
+							Description: "PathTemplate is a Go text template that will be evaluated to determine cell value. Users can use JSONPath expression to extract nested fields and apply template functions from Masterminds/sprig library. The template function for JSON path is called `jp`. Example: {{ jp \"{.a.b}\" . }} or {{ jp \"{.a.b}\" true }}, if json output is desired from JSONPath parser",
 							Type:        []string{"string"},
 							Format:      "",
 						},
