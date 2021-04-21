@@ -26,6 +26,7 @@ import (
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"kmodules.xyz/resource-metadata/hub"
+	"kmodules.xyz/resource-metadata/pkg/tableconvertor/printers"
 
 	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
@@ -70,7 +71,6 @@ type convertor struct {
 	buf       *bytes.Buffer
 	fieldPath string
 	headers   []v1alpha1.ResourceColumnDefinition
-	columns   []*jsonpath.JSONPath
 }
 
 func filterColumns(columns []v1alpha1.ResourceColumnDefinition, priority v1alpha1.Priority) []v1alpha1.ResourceColumnDefinition {
@@ -132,23 +132,16 @@ func filterColumnsWithDefaults(client crd_cs.CustomResourceDefinitionInterface, 
 
 func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition) error {
 	for _, col := range columns {
-		path := jsonpath.New(col.Name)
-
 		col.JSONPath = strings.TrimSpace(col.JSONPath)
 		if !strings.HasPrefix(col.JSONPath, "{") {
 			col.JSONPath = fmt.Sprintf("{%s}", col.JSONPath)
 		}
-		if err := path.Parse(col.JSONPath); err != nil {
-			return fmt.Errorf("unrecognized column definition %q", col.JSONPath)
-		}
-		path.AllowMissingKeys(true)
 
 		//desc := fmt.Sprintf("Custom resource definition column (in JSONPath format): %s", col.JSONPath)
 		//if len(col.Description) > 0 {
 		//	desc = col.Description
 		//}
 
-		c.columns = append(c.columns, path)
 		c.headers = append(c.headers, v1alpha1.ResourceColumnDefinition{
 			Name:        col.Name,
 			Type:        col.Type,
@@ -162,10 +155,35 @@ func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition) error {
 }
 
 func (c *convertor) rowFn(data interface{}) ([]interface{}, error) {
-	cells := make([]interface{}, 0, len(c.columns))
-	for i, column := range c.columns {
-		results, err := column.FindResults(data)
-		if err != nil || len(results) == 0 || len(results[0]) == 0 {
+	knownCells := map[string]interface{}{}
+
+	if obj, ok := data.(runtime.Object); ok {
+		var err error
+		knownCells, err = printers.Convert(obj)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	cells := make([]interface{}, 0, len(c.headers))
+	for i, col := range c.headers {
+		if v, ok := knownCells[col.Name]; ok {
+			cells = append(cells, v)
+			continue
+		}
+
+		jp := jsonpath.New(col.Name)
+		if err := jp.Parse(col.JSONPath); err != nil {
+			return nil, fmt.Errorf("unrecognized column definition %q", col.JSONPath)
+		}
+		jp.AllowMissingKeys(true)
+
+		results, err := jp.FindResults(data)
+		if err != nil {
+			return nil, err
+		}
+
+		if len(results) == 0 || len(results[0]) == 0 {
 			cells = append(cells, nil)
 			continue
 		}
@@ -178,7 +196,7 @@ func (c *convertor) rowFn(data interface{}) ([]interface{}, error) {
 		}
 
 		if c.headers[i].Type == "string" {
-			if err := column.PrintResults(c.buf, values); err == nil {
+			if err := jp.PrintResults(c.buf, values); err == nil {
 				cells = append(cells, c.buf.String())
 				c.buf.Reset()
 			} else {
