@@ -47,15 +47,14 @@ spec:
     name: Rolling Update Strategy
     priority: 1
     type: object
-  - jsonPath: '{.status.updatedReplicas} updated, {.status.replicas} total, {.status.availableReplicas}
-      available, {.status.unavailableReplicas} unavailable'
-    name: Status
-    priority: 1
-    type: string
   - jsonPath: .spec.replicas
     name: Desired Replicas
     priority: 1
     type: integer
+  - jsonPath: '{"Total: "}{.status.replicas}, {"Available: "}{.status.availableReplicas}, {"Updated: "}{.status.updatedReplicas}'
+    name: Pod Status
+    priority: 1
+    type: string
   - jsonPath: '{.status.readyReplicas}/{.spec.replicas}'
     name: Pods
     priority: 2
@@ -64,7 +63,8 @@ spec:
     name: Age
     priority: 3
     type: date
-  - jsonPath: '{range .spec.template.spec.containers[*]}{.image}{"\n"}{end}'
+  - format: csv
+    jsonPath: '{range .spec.template.spec.containers[*]}{.image}{"\n"}{end}'
     name: Images
     priority: 2
     type: string
@@ -158,33 +158,52 @@ spec:
     scope: Namespaced
     version: v1
   subTables:
-  - columns:
-    - jsonPath: .type
-      name: Type
+  - name: Containers
+    fieldPath: .spec.template.spec.containers
+    columns:
+    - name: Name
+      jsonPath: .name
       priority: 0
       type: string
-    - jsonPath: .status
-      name: Status
+    - name: Image
+      jsonPath: .image
       priority: 0
       type: string
-    - jsonPath: .reason
-      name: Reason
+    - name: Arguments
+      jsonPath: '{range .args[*]}{@}{","}{end}'
       priority: 0
       type: string
-    - jsonPath: .lastTransitionTime
-      name: Last Transition Time
-      priority: 0
-      type: date
-    - jsonPath: .lastUpdateTime
-      name: Last Update Time
-      priority: 0
-      type: date
-    - jsonPath: .message
-      name: Message
+    - name: Environment Variables
+      jsonPath: '{range .env[*]}{@}{","}{end}'
       priority: 0
       type: string
+  - name: Conditions
     fieldPath: .status.conditions
-    name: Conditions
+    columns:
+      - name: Type
+        jsonPath: .type
+        priority: 0
+        type: string
+      - name: Status
+        jsonPath: .status
+        priority: 0
+        type: string
+      - name: Reason
+        jsonPath: .reason
+        priority: 0
+        type: string
+      - name: Last Transition Time
+        jsonPath: .lastTransitionTime
+        priority: 0
+        type: date
+      - name: Last Update Time
+        jsonPath: .lastUpdateTime
+        priority: 0
+        type: date
+      - name: Message
+        jsonPath: .message
+        priority: 0
+        type: string
   ui:
     editor:
       name: apps-deployment-editor
