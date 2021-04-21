@@ -10,48 +10,46 @@ metadata:
   name: apps-v1-daemonsets
 spec:
   columns:
-  - jsonPath: .metadata.name
+  - pathTemplate: '{{ jp "{.metadata.name}" . }}'
     name: Name
     priority: 0
     type: string
-  - jsonPath: .metadata.namespace
+  - pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
     name: Namespace
     priority: 0
     type: string
-  - jsonPath: .metadata.labels
+  - pathTemplate: '{{ jp "{.metadata.labels}" . }}'
     name: Labels
     priority: 0
     type: object
-  - jsonPath: .metadata.annotations
+  - pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
     name: Annotations
     priority: 0
     type: object
-  - jsonPath: .metadata.creationTimestamp
+  - pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
     name: Age
     priority: 0
     type: date
-  - jsonPath: '{.status.numberReady}/{.status.desiredNumberScheduled}'
+  - pathTemplate: '{{ jp "{.status.numberReady}/{.status.desiredNumberScheduled}" . }}'
     name: Pods
     priority: 0
     type: string
-  - format: csv
-    jsonPath: '{range .spec.template.spec.containers[*]}{.image}{"\n"}{end}'
-    name: Images
+  - name: Images
     priority: 0
     type: string
-  - jsonPath: .status.currentNumberScheduled
+  - pathTemplate: '{{ jp "{.status.currentNumberScheduled}" . }}'
     name: Current
     priority: 0
     type: string
-  - jsonPath: .status.updatedNumberScheduled
+  - pathTemplate: '{{ jp "{.status.updatedNumberScheduled}" . }}'
     name: Up-To-Date
     priority: 0
     type: string
-  - jsonPath: '{.status.numberAvailable}{"/"}{.status.numberAvailable}'
+  - pathTemplate: '{{ jp "{.status.numberAvailable}/{.status.numberAvailable}" . }}'
     name: Available
     priority: 0
     type: string
-  - jsonPath: .spec.template.spec.nodeSelector
+  - pathTemplate: '{{ jp "{.spec.template.spec.nodeSelector}" . }}'
     name: Node Selector
     priority: 0
     type: object

@@ -3,6 +3,7 @@ module kmodules.xyz/resource-metadata
 go 1.12
 
 require (
+	github.com/Masterminds/sprig/v3 v3.2.2
 	github.com/NYTimes/gziphandler v1.1.1 // indirect
 	github.com/blang/semver v3.5.1+incompatible // indirect
 	github.com/emicklei/dot v0.11.0
@@ -14,7 +15,6 @@ require (
 	github.com/grpc-ecosystem/go-grpc-middleware v1.1.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.12.1 // indirect
 	github.com/hashicorp/golang-lru v0.5.3
-	github.com/imdario/mergo v0.3.6 // indirect
 	github.com/mitchellh/mapstructure v1.1.2
 	github.com/onsi/gomega v1.8.1 // indirect
 	github.com/prometheus/client_golang v1.2.1 // indirect

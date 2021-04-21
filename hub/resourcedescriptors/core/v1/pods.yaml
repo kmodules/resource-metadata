@@ -11,45 +11,44 @@ metadata:
 spec:
   columns:
   - format: name
-    jsonPath: .metadata.name
+    pathTemplate: '{{ jp "{.metadata.name}" . }}'
     name: Name
     priority: 0
     type: string
-  - jsonPath: .metadata.namespace
+  - pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
     name: Namespace
     priority: 0
     type: string
-  - jsonPath: .metadata.labels
+  - pathTemplate: '{{ jp "{.metadata.labels}" . }}'
     name: Labels
     priority: 0
     type: object
-  - jsonPath: .metadata.annotations
+  - pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
     name: Annotations
     priority: 0
     type: object
-  - jsonPath: .metadata.creationTimestamp
+  - pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
     name: Age
     priority: 0
     type: date
   - name: Ready
     priority: 0
     type: string
-  - jsonPath: .status.phase
-    name: Status
+  - name: Status
     priority: 0
     type: string
   - name: Restarts
     priority: 0
     type: integer
-  - jsonPath: .status.podIP
+  - pathTemplate: '{{ jp "{.status.podIP}" . }}'
     name: IP
     priority: 0
     type: string
-  - jsonPath: .spec.nodeName
+  - pathTemplate: '{{ jp "{.spec.nodeName}" . }}'
     name: Node
     priority: 0
     type: string
-  - jsonPath: .status.nominatedNodeName
+  - pathTemplate: '{{ jp "{.status.nominatedNodeName}" . }}'
     name: Nominated Node
     priority: 0
     type: string

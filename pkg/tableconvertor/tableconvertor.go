@@ -21,13 +21,14 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"reflect"
 	"strings"
+	"text/template"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"kmodules.xyz/resource-metadata/hub"
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor/printers"
 
+	"github.com/Masterminds/sprig/v3"
 	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metatable "k8s.io/apimachinery/pkg/api/meta/table"
@@ -100,7 +101,7 @@ func filterColumnsWithDefaults(client crd_cs.CustomResourceDefinitionInterface, 
 	}
 	defaultJsonPaths := sets.NewString()
 	for _, col := range defaultColumns {
-		defaultJsonPaths.Insert(col.JSONPath)
+		defaultJsonPaths.Insert(col.Name)
 	}
 
 	var additionalColumns []v1alpha1.ResourceColumnDefinition
@@ -111,15 +112,19 @@ func filterColumnsWithDefaults(client crd_cs.CustomResourceDefinitionInterface, 
 				if version.Name == gvr.Version && len(version.AdditionalPrinterColumns) > 0 {
 					additionalColumns = make([]v1alpha1.ResourceColumnDefinition, 0, len(version.AdditionalPrinterColumns))
 					for _, col := range version.AdditionalPrinterColumns {
-						if !defaultJsonPaths.Has(col.JSONPath) {
-							additionalColumns = append(additionalColumns, v1alpha1.ResourceColumnDefinition{
+						if !defaultJsonPaths.Has(col.Name) {
+							def := v1alpha1.ResourceColumnDefinition{
 								Name:        col.Name,
 								Type:        col.Type,
 								Format:      col.Format,
 								Description: col.Description,
 								Priority:    col.Priority,
-								JSONPath:    col.JSONPath,
-							})
+							}
+							col.JSONPath = strings.TrimSpace(col.JSONPath)
+							if col.JSONPath != "" {
+								def.PathTemplate = fmt.Sprintf(`{{ jp "{%s}" . }}`, col.JSONPath)
+							}
+							additionalColumns = append(additionalColumns, def)
 						}
 					}
 				}
@@ -132,10 +137,6 @@ func filterColumnsWithDefaults(client crd_cs.CustomResourceDefinitionInterface, 
 
 func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition) error {
 	for _, col := range columns {
-		col.JSONPath = strings.TrimSpace(col.JSONPath)
-		if !strings.HasPrefix(col.JSONPath, "{") {
-			col.JSONPath = fmt.Sprintf("{%s}", col.JSONPath)
-		}
 
 		//desc := fmt.Sprintf("Custom resource definition column (in JSONPath format): %s", col.JSONPath)
 		//if len(col.Description) > 0 {
@@ -143,12 +144,12 @@ func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition) error {
 		//}
 
 		c.headers = append(c.headers, v1alpha1.ResourceColumnDefinition{
-			Name:        col.Name,
-			Type:        col.Type,
-			Format:      col.Format,
-			Description: col.Description,
-			Priority:    col.Priority,
-			JSONPath:    col.JSONPath,
+			Name:         col.Name,
+			Type:         col.Type,
+			Format:       col.Format,
+			Description:  col.Description,
+			Priority:     col.Priority,
+			PathTemplate: col.PathTemplate,
 		})
 	}
 	return nil
@@ -167,52 +168,24 @@ func (c *convertor) rowFn(data interface{}) ([]interface{}, error) {
 	}
 
 	cells := make([]interface{}, 0, len(c.headers))
-	for i, col := range c.headers {
+	for _, col := range c.headers {
 		if v, ok := knownCells[col.Name]; ok {
 			cells = append(cells, v)
 			continue
 		}
 
-		if col.JSONPath == "" {
+		if col.PathTemplate == "" {
 			cells = append(cells, nil)
 			continue
 		}
 
-		jp := jsonpath.New(col.Name)
-		if err := jp.Parse(col.JSONPath); err != nil {
-			return nil, fmt.Errorf("unrecognized column definition %q", col.JSONPath)
-		}
-		jp.AllowMissingKeys(true)
-
-		results, err := jp.FindResults(data)
+		tpl := template.Must(template.New("").Funcs(templateFns).Parse(col.PathTemplate))
+		err := tpl.Execute(c.buf, data)
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("invalid column definition %q", col.PathTemplate)
 		}
-		if len(results) == 0 || len(results[0]) == 0 {
-			cells = append(cells, nil)
-			continue
-		}
-
-		values := make([]reflect.Value, 0)
-		for idx := range results {
-			if len(results[idx]) > 0 {
-				values = append(values, results[idx][0])
-			}
-		}
-
-		if c.headers[i].Type == "string" {
-			if err := jp.PrintResults(c.buf, values); err == nil {
-				cells = append(cells, c.buf.String())
-				c.buf.Reset()
-			} else {
-				cells = append(cells, nil)
-			}
-		} else {
-			// if headers type isn't string, we only support simple JSON path
-			// we are assuming to have only one result (or none, filtered out above)
-
-			cells = append(cells, cellForJSONValue(c.headers[i].Type, values[0].Interface()))
-		}
+		cells = append(cells, c.buf.String())
+		c.buf.Reset()
 	}
 	return cells, nil
 }
@@ -348,39 +321,39 @@ func metaToTableRow(obj runtime.Object, rowFn func(obj interface{}) ([]interface
 func defaultListColumns() []v1alpha1.ResourceColumnDefinition {
 	return []v1alpha1.ResourceColumnDefinition{
 		{
-			Name:     "Name",
-			Type:     "string",
-			Format:   "",
-			Priority: int32(v1alpha1.List),
-			JSONPath: ".metadata.name",
+			Name:         "Name",
+			Type:         "string",
+			Format:       "",
+			Priority:     int32(v1alpha1.List),
+			PathTemplate: `{{ jp "{.metadata.name}" . }}`,
 		},
 		{
-			Name:     "Namespace",
-			Type:     "string",
-			Format:   "",
-			Priority: int32(v1alpha1.List),
-			JSONPath: ".metadata.namespace",
+			Name:         "Namespace",
+			Type:         "string",
+			Format:       "",
+			Priority:     int32(v1alpha1.List),
+			PathTemplate: `{{ jp "{.metadata.namespace}" . }}`,
 		},
 		{
-			Name:     "Labels",
-			Type:     "object",
-			Format:   "",
-			Priority: int32(v1alpha1.List),
-			JSONPath: ".metadata.labels",
+			Name:         "Labels",
+			Type:         "object",
+			Format:       "",
+			Priority:     int32(v1alpha1.List),
+			PathTemplate: `{{ jp "{.metadata.labels}" . }}`,
 		},
 		{
-			Name:     "Annotations",
-			Type:     "object",
-			Format:   "",
-			Priority: int32(v1alpha1.List),
-			JSONPath: ".metadata.annotations",
+			Name:         "Annotations",
+			Type:         "object",
+			Format:       "",
+			Priority:     int32(v1alpha1.List),
+			PathTemplate: `{{ jp "{.metadata.annotations}" . }}`,
 		},
 		{
-			Name:     "Age",
-			Type:     "date",
-			Format:   "",
-			Priority: int32(v1alpha1.List),
-			JSONPath: ".metadata.creationTimestamp",
+			Name:         "Age",
+			Type:         "date",
+			Format:       "",
+			Priority:     int32(v1alpha1.List),
+			PathTemplate: `{{ jp "{.metadata.creationTimestamp}" . }}`,
 		},
 	}
 }
@@ -388,39 +361,39 @@ func defaultListColumns() []v1alpha1.ResourceColumnDefinition {
 func defaultDetailsColumns() []v1alpha1.ResourceColumnDefinition {
 	return []v1alpha1.ResourceColumnDefinition{
 		{
-			Name:     "Name",
-			Type:     "string",
-			Format:   "",
-			Priority: int32(v1alpha1.Field),
-			JSONPath: ".metadata.name",
+			Name:         "Name",
+			Type:         "string",
+			Format:       "",
+			Priority:     int32(v1alpha1.Field),
+			PathTemplate: `{{ jp "{.metadata.name}" . }}`,
 		},
 		{
-			Name:     "Namespace",
-			Type:     "string",
-			Format:   "",
-			Priority: int32(v1alpha1.Field),
-			JSONPath: ".metadata.namespace",
+			Name:         "Namespace",
+			Type:         "string",
+			Format:       "",
+			Priority:     int32(v1alpha1.Field),
+			PathTemplate: `{{ jp "{.metadata.namespace}" . }}`,
 		},
 		{
-			Name:     "Labels",
-			Type:     "object",
-			Format:   "",
-			Priority: int32(v1alpha1.Field),
-			JSONPath: ".metadata.labels",
+			Name:         "Labels",
+			Type:         "object",
+			Format:       "",
+			Priority:     int32(v1alpha1.Field),
+			PathTemplate: `{{ jp "{.metadata.labels}" . }}`,
 		},
 		{
-			Name:     "Annotations",
-			Type:     "object",
-			Format:   "",
-			Priority: int32(v1alpha1.Field),
-			JSONPath: ".metadata.annotations",
+			Name:         "Annotations",
+			Type:         "object",
+			Format:       "",
+			Priority:     int32(v1alpha1.Field),
+			PathTemplate: `{{ jp "{.metadata.annotations}" . }}`,
 		},
 		{
-			Name:     "Age",
-			Type:     "date",
-			Format:   "",
-			Priority: int32(v1alpha1.Field),
-			JSONPath: ".metadata.creationTimestamp",
+			Name:         "Age",
+			Type:         "date",
+			Format:       "",
+			Priority:     int32(v1alpha1.Field),
+			PathTemplate: `{{ jp "{.metadata.creationTimestamp}" . }}`,
 		},
 		/*
 			{
@@ -439,4 +412,35 @@ func defaultDetailsColumns() []v1alpha1.ResourceColumnDefinition {
 			},
 		*/
 	}
+}
+
+func jpfn(expr string, data interface{}, jsonoutput ...bool) (interface{}, error) {
+	enableJSONoutput := len(jsonoutput) > 0 && jsonoutput[0]
+
+	jp := jsonpath.New("jp")
+	if err := jp.Parse(expr); err != nil {
+		return nil, fmt.Errorf("unrecognized column definition %q", expr)
+	}
+	jp.AllowMissingKeys(true)
+	// TODO(tamal): Enable when updated to k8s 1.21 client libraries
+	// jp.EnableJSONOutput(enableJSONoutput)
+
+	var buf bytes.Buffer
+	err := jp.Execute(&buf, data)
+	if err != nil {
+		return nil, err
+	}
+
+	if enableJSONoutput {
+		var v []interface{}
+		err = json.Unmarshal(buf.Bytes(), &v)
+		return v, err
+	}
+	return buf.String(), err
+}
+
+var templateFns = sprig.TxtFuncMap()
+
+func init() {
+	templateFns["jp"] = jpfn
 }

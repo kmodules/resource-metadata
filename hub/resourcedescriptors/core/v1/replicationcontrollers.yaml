@@ -10,33 +10,31 @@ metadata:
   name: core-v1-replicationcontrollers
 spec:
   columns:
-  - jsonPath: .metadata.name
+  - pathTemplate: '{{ jp "{.metadata.name}" . }}'
     name: Name
     priority: 0
     type: string
-  - jsonPath: .metadata.namespace
+  - pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
     name: Namespace
     priority: 0
     type: string
-  - jsonPath: .metadata.labels
+  - pathTemplate: '{{ jp "{.metadata.labels}" . }}'
     name: Labels
     priority: 0
     type: object
-  - jsonPath: .metadata.annotations
+  - pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
     name: Annotations
     priority: 0
     type: object
-  - jsonPath: .metadata.creationTimestamp
+  - pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
     name: Age
     priority: 0
     type: date
-  - jsonPath: '{.status.readyReplicas}/{.spec.replicas}'
+  - pathTemplate: '{{ jp "{.status.readyReplicas}/{.spec.replicas}" . }}'
     name: Pods
     priority: 0
     type: string
-  - format: csv
-    jsonPath: '{range .spec.template.spec.containers[*]}{.image}{"\n"}{end}'
-    name: Images
+  - name: Images
     priority: 0
     type: string
   connections:

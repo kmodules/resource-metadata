@@ -10,32 +10,32 @@ metadata:
   name: core-v1-persistentvolumes
 spec:
   columns:
-  - jsonPath: .metadata.name
+  - pathTemplate: '{{ jp "{.metadata.name}" . }}'
     name: Name
     priority: 0
     type: string
-  - jsonPath: .spec.capacity
+  - pathTemplate: '{{ jp "{.spec.capacity}" . }}'
     name: Capacity
     priority: 0
     type: string
-  - format: csv
-    jsonPath: .spec.accessModes
+  - format: array
+    pathTemplate: '{{ jp "{.spec.accessModes}" . }}'
     name: Access Modes
     priority: 0
     type: string
-  - jsonPath: spec.persistentVolumeReclaimPolicy
+  - pathTemplate: '{{ jp "{.spec.persistentVolumeReclaimPolicy}" . }}'
     name: Reclaim Policy
     priority: 0
     type: string
-  - jsonPath: status.phase
+  - pathTemplate: '{{ jp "{.status.phase}" . }}'
     name: Status
     priority: 0
     type: string
-  - jsonPath: .spec.storageClassName
+  - pathTemplate: '{{ jp "{.spec.storageClassName}" . }}'
     name: Storage Class
     priority: 0
     type: string
-  - jsonPath: .metadata.creationTimestamp
+  - pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
     name: Age
     priority: 0
     type: date

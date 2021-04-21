@@ -978,7 +978,7 @@ func autoConvert_v1alpha1_ResourceColumnDefinition_To_meta_ResourceColumnDefinit
 	out.Format = in.Format
 	out.Description = in.Description
 	out.Priority = in.Priority
-	out.JSONPath = in.JSONPath
+	out.PathTemplate = in.PathTemplate
 	return nil
 }
 
@@ -993,7 +993,7 @@ func autoConvert_meta_ResourceColumnDefinition_To_v1alpha1_ResourceColumnDefinit
 	out.Format = in.Format
 	out.Description = in.Description
 	out.Priority = in.Priority
-	out.JSONPath = in.JSONPath
+	out.PathTemplate = in.PathTemplate
 	return nil
 }
 

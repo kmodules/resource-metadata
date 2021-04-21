@@ -10,62 +10,58 @@ metadata:
   name: apps-v1-deployments
 spec:
   columns:
-  - jsonPath: .metadata.name
+  - pathTemplate: '{{ jp "{.metadata.name}" . }}'
     name: Name
     priority: 3
     type: string
-  - jsonPath: .metadata.namespace
+  - pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
     name: Namespace
     priority: 3
     type: string
-  - jsonPath: .metadata.labels
+  - pathTemplate: '{{ jp "{.metadata.labels}" . }}'
     name: Labels
     priority: 3
     type: object
-  - jsonPath: .metadata.annotations
+  - pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
     name: Annotations
     priority: 1
     type: object
-  - format: selector
-    jsonPath: .spec.selector
-    name: Selector
+  - name: Selector
     priority: 1
     type: object
-  - jsonPath: .spec.strategy.type
+  - pathTemplate: '{{ jp "{.spec.strategy.type}" . }}'
     name: Strategy
     priority: 1
     type: string
-  - jsonPath: .spec.minReadySeconds
+  - pathTemplate: '{{ jp "{.spec.minReadySeconds}" . }}'
     name: Min Ready Seconds
     priority: 1
     type: integer
-  - jsonPath: .spec.revisionHistoryLimit
+  - pathTemplate: '{{ jp "{.spec.revisionHistoryLimit}" . }}'
     name: Revision History Limit
     priority: 1
     type: integer
-  - jsonPath: .spec.strategy.rollingUpdate
+  - pathTemplate: '{{ jp "{.spec.strategy.rollingUpdate}" . }}'
     name: Rolling Update Strategy
     priority: 1
     type: object
-  - jsonPath: .spec.replicas
+  - pathTemplate: '{{ jp "{.spec.replicas}" . }}'
     name: Desired Replicas
     priority: 1
     type: integer
-  - jsonPath: '{"Total: "}{.status.replicas}, {"Available: "}{.status.availableReplicas}, {"Updated: "}{.status.updatedReplicas}'
+  - pathTemplate: '{{ Total: (jp "{.status.replicas}" .), Available: ( jp "{.status.availableReplicas}" .), Updated: ( jp "{.status.updatedReplicas}" .)'
     name: Pod Status
     priority: 1
     type: string
-  - jsonPath: '{.status.readyReplicas}/{.spec.replicas}'
+  - pathTemplate: '{{ jp "{.status.readyReplicas}/{.spec.replicas}" . }}'
     name: Pods
     priority: 2
     type: string
-  - jsonPath: .metadata.creationTimestamp
+  - pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
     name: Age
     priority: 3
     type: date
-  - format: csv
-    jsonPath: '{range .spec.template.spec.containers[*]}{.image}{"\n"}{end}'
-    name: Images
+  - name: Images
     priority: 2
     type: string
   connections:
@@ -162,46 +158,46 @@ spec:
     fieldPath: .spec.template.spec.containers
     columns:
     - name: Name
-      jsonPath: .name
+      pathTemplate: '{{ jp "{.name}" . }}'
       priority: 0
       type: string
     - name: Image
-      jsonPath: .image
+      pathTemplate: '{{ jp "{.image}" . }}'
       priority: 0
       type: string
     - name: Arguments
-      jsonPath: '{range .args[*]}{@}{","}{end}'
+      pathTemplate: '{{ jp "{range .args[*]}{@}{,}{end}" . }}'
       priority: 0
       type: string
     - name: Environment Variables
-      jsonPath: '{range .env[*]}{@}{","}{end}'
+      pathTemplate: '{{ jp "{range .env[*]}{@}{,}{end}" . }}'
       priority: 0
       type: string
   - name: Conditions
     fieldPath: .status.conditions
     columns:
       - name: Type
-        jsonPath: .type
+        pathTemplate: '{{ jp "{.type}" . }}'
         priority: 0
         type: string
       - name: Status
-        jsonPath: .status
+        pathTemplate: '{{ jp "{.status}" . }}'
         priority: 0
         type: string
       - name: Reason
-        jsonPath: .reason
+        pathTemplate: '{{ jp "{.reason}" . }}'
         priority: 0
         type: string
       - name: Last Transition Time
-        jsonPath: .lastTransitionTime
+        pathTemplate: '{{ jp "{.lastTransitionTime}" . }}'
         priority: 0
         type: date
       - name: Last Update Time
-        jsonPath: .lastUpdateTime
+        pathTemplate: '{{ jp "{.lastUpdateTime}" . }}'
         priority: 0
         type: date
       - name: Message
-        jsonPath: .message
+        pathTemplate: '{{ jp "{.message}" . }}'
         priority: 0
         type: string
   ui:
