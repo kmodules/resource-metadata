@@ -25,6 +25,9 @@ func init() {
 	templateFns["k8s_age"] = ageFn
 	templateFns["k8s_svc_ports"] = servicePortsFn
 	templateFns["k8s_container_ports"] = containerPortFn
+	templateFns["k8s_container_args"] = containerArgsFn
+	templateFns["k8s_volumes"] = volumesFn
+	templateFns["k8s_volumeMounts"] = volumeMountsFn
 }
 
 func jsonpathFn(expr string, data interface{}, jsonoutput ...bool) (interface{}, error) {
@@ -61,12 +64,12 @@ func formatLabelSelectorFn(data string) (string, error) {
 }
 
 func formatLabelsFn(data string) (string, error) {
-	var sel map[string]string
-	err := json.Unmarshal([]byte(data), &sel)
+	var label map[string]string
+	err := json.Unmarshal([]byte(data), &label)
 	if err != nil {
 		return "", err
 	}
-	return labels.FormatLabels(sel), nil
+	return labels.FormatLabels(label), nil
 }
 
 func ageFn(data string) (string, error) {
@@ -103,4 +106,46 @@ func containerPortFn(data string) (string, error) {
 		}
 	}
 	return strings.Join(pieces, ","), nil
+}
+
+func containerArgsFn(data string) (string, error) {
+	var ss []string
+	err := json.Unmarshal([]byte(data), &ss)
+	if err != nil {
+		return "", err
+	}
+	return strings.Join(ss, "\n"), nil
+}
+
+func volumesFn(data string) (string, error) {
+	var volumes []core.Volume
+	ss := make([]string, 0)
+	err := json.Unmarshal([]byte(data), &volumes)
+	if err != nil {
+		return "", err
+	}
+
+	// TODO
+	//for i := range volumes {
+	//}
+
+	return strings.Join(ss, "\n"), nil
+}
+
+func volumeMountsFn(data string) (string, error) {
+	var mounts []core.VolumeMount
+	ss := make([]string, 0)
+	err := json.Unmarshal([]byte(data), &mounts)
+	if err != nil {
+		return "", err
+	}
+
+	for i := range mounts {
+		mnt := fmt.Sprintf("%s:%s", mounts[i].Name, mounts[i].MountPath)
+		if mounts[i].SubPath != "" {
+			mnt = fmt.Sprintf("%s:%s:%s", mounts[i].Name, mounts[i].MountPath, mounts[i].SubPath)
+		}
+		ss = append(ss, mnt)
+	}
+	return strings.Join(ss, "\n"), nil
 }
