@@ -19,7 +19,7 @@ spec:
     priority: 3
     type: string
   - name: Labels
-    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
+    pathTemplate: '{{ jp "{.metadata.labels}" .}}'
     priority: 3
     type: object
   - name: Annotations
@@ -28,7 +28,7 @@ spec:
     type: object
   - name: Selector
     priority: 1
-    type: object
+    type: string
   - name: Strategy
     pathTemplate: '{{ jp "{.spec.strategy.type}" . }}'
     priority: 1
@@ -50,8 +50,7 @@ spec:
     priority: 1
     type: integer
   - name: Pod Status
-    pathTemplate: '{{ Total: (jp "{.status.replicas}" .), Available: ( jp "{.status.availableReplicas}"
-      .), Updated: ( jp "{.status.updatedReplicas}" .)'
+    pathTemplate: 'Total: {{jp "{.status.replicas}" . }}, Available: {{ jp "{.status.availableReplicas}" . }}, Updated: {{ jp "{.status.updatedReplicas}" . }}'
     priority: 1
     type: string
   - name: Pods
@@ -165,13 +164,17 @@ spec:
       priority: 0
       type: string
     - name: Arguments
-      pathTemplate: '{{ jp "{range .args[*]}{@}{,}{end}" . }}'
+      pathTemplate: '{{ jp "{range .args[*]}{@}{\", \"}{end}" . }}'
       priority: 0
       type: string
     - name: Environment Variables
-      pathTemplate: '{{ jp "{range .env[*]}{@}{,}{end}" . }}'
+      pathTemplate: '{{ jp "{range .env[*]}{@}{\", \"}{end}" . }}'
       priority: 0
       type: string
+#    - name: Ports
+#      pathTemplate: '{{ jp ".ports" . | k8s_ports }}'
+#      priority: 0
+#      type: string
     fieldPath: .spec.template.spec.containers
     name: Containers
   - columns:

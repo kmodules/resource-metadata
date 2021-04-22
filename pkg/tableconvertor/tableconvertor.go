@@ -273,7 +273,7 @@ func cellForJSONValue(colName, headerType string, value string) (interface{}, er
 		var obj interface{}
 		err := json.Unmarshal([]byte(value), &obj)
 		if err != nil {
-			return fmt.Sprintf("col %s, type %s,  err %v", colName, headerType, err.Error()), nil
+			return fmt.Sprintf("col %s, type %s, err %v, value %s", colName, headerType, err.Error(), value), nil
 		}
 		return obj, nil
 	}
