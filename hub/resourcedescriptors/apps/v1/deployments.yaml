@@ -51,7 +51,9 @@ spec:
     priority: 1
     type: integer
   - name: Pod Status
-    pathTemplate: '{ "Total": "{{jp "{.status.replicas}" . }}", "Available": "{{ jp "{.status.availableReplicas}" . }}", "Updated": "{{ jp "{.status.updatedReplicas}" . }}" }'
+    pathTemplate: '{ "Total": "{{jp "{.status.replicas}" . }}", "Available": "{{ jp
+      "{.status.availableReplicas}" . }}", "Updated": "{{ jp "{.status.updatedReplicas}"
+      . }}" }'
     priority: 1
     type: object
   - name: Pods
@@ -66,13 +68,12 @@ spec:
     priority: 2
     type: string
   - name: Security Context
-    pathTemplate: '{ "runAsUser": "{{ jp "{.spec.template.spec.securityContext.runAsUser}" . }}", "runAsGroup": "{{ jp "{.spec.template.spec.securityContext.runAsGroup}" . }}","fsGroup": "{{ jp "{.spec.template.spec.securityContext.fsGroup}" . }}" }'
+    pathTemplate: '{ "runAsUser": "{{ jp "{.spec.template.spec.securityContext.runAsUser}"
+      . }}", "runAsGroup": "{{ jp "{.spec.template.spec.securityContext.runAsGroup}"
+      . }}","fsGroup": "{{ jp "{.spec.template.spec.securityContext.fsGroup}" . }}"
+      }'
     priority: 1
     type: object
-#  - name: Volumes
-#    pathTemplate: '{{ jp "{.spec.template.spec.volumes}" . | k8s_volumes }}'
-#    priority: 1
-#    type: string
   connections:
   - level: Controller
     namespacePath: metadata.namespace
