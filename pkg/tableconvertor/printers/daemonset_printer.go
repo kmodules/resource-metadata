@@ -63,19 +63,19 @@ func (p DaemonSetPrinter) Convert(o runtime.Object) (map[string]interface{}, err
 	numberUpdated := obj.Status.UpdatedNumberScheduled
 	numberAvailable := obj.Status.NumberAvailable
 
-	row["Name"] = obj.Name
-	row["Desired"] = int64(desiredScheduled)
-	row["Current"] = int64(currentScheduled)
-	row["Ready"] = int64(numberReady)
-	row["Up-to-date"] = int64(numberUpdated)
-	row["Available"] = int64(numberAvailable)
-	row["Node Selector"] = labels.FormatLabels(obj.Spec.Template.Spec.NodeSelector)
-	row["Age"] = translateTimestampSince(obj.CreationTimestamp)
+	row["_Name"] = obj.Name
+	row["_Desired"] = int64(desiredScheduled)
+	row["_Current"] = int64(currentScheduled)
+	row["_Ready"] = int64(numberReady)
+	row["_Up-to-date"] = int64(numberUpdated)
+	row["_Available"] = int64(numberAvailable)
+	row["_Node Selector"] = labels.FormatLabels(obj.Spec.Template.Spec.NodeSelector)
+	row["_Age"] = translateTimestampSince(obj.CreationTimestamp)
 
 	names, images := layoutContainerCells(obj.Spec.Template.Spec.Containers)
-	row["Containers"] = names
-	row["Images"] = images
-	row["Selector"] = metav1.FormatLabelSelector(obj.Spec.Selector)
+	row["_Containers"] = names
+	row["_Images"] = images
+	row["_Selector"] = metav1.FormatLabelSelector(obj.Spec.Selector)
 
 	return row, nil
 }

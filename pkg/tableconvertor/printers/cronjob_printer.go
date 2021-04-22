@@ -61,17 +61,17 @@ func (p CronJobPrinter) Convert(o runtime.Object) (map[string]interface{}, error
 		lastScheduleTime = translateTimestampSince(*obj.Status.LastScheduleTime)
 	}
 
-	row["Name"] = obj.Name
-	row["Schedule"] = obj.Spec.Schedule
-	row["Suspend"] = printBoolPtr(obj.Spec.Suspend)
-	row["Active"] = int64(len(obj.Status.Active))
-	row["Last Schedule"] = lastScheduleTime
-	row["Age"] = translateTimestampSince(obj.CreationTimestamp)
+	row["_Name"] = obj.Name
+	row["_Schedule"] = obj.Spec.Schedule
+	row["_Suspend"] = printBoolPtr(obj.Spec.Suspend)
+	row["_Active"] = int64(len(obj.Status.Active))
+	row["_Last Schedule"] = lastScheduleTime
+	row["_Age"] = translateTimestampSince(obj.CreationTimestamp)
 
 	names, images := layoutContainerCells(obj.Spec.JobTemplate.Spec.Template.Spec.Containers)
-	row["Containers"] = names
-	row["Images"] = images
-	row["Selector"] = metav1.FormatLabelSelector(obj.Spec.JobTemplate.Spec.Selector)
+	row["_Containers"] = names
+	row["_Images"] = images
+	row["_Selector"] = metav1.FormatLabelSelector(obj.Spec.JobTemplate.Spec.Selector)
 
 	return row, nil
 }

@@ -60,13 +60,13 @@ func (p StatefulSetPrinter) Convert(o runtime.Object) (map[string]interface{}, e
 	readyReplicas := obj.Status.ReadyReplicas
 	createTime := translateTimestampSince(obj.CreationTimestamp)
 
-	row["Name"] = obj.Name
-	row["Ready"] = fmt.Sprintf("%d/%d", int64(readyReplicas), int64(pointer.Int32(desiredReplicas)))
-	row["Age"] = createTime
+	row["_Name"] = obj.Name
+	row["_Ready"] = fmt.Sprintf("%d/%d", int64(readyReplicas), int64(pointer.Int32(desiredReplicas)))
+	row["_Age"] = createTime
 
 	names, images := layoutContainerCells(obj.Spec.Template.Spec.Containers)
-	row["Containers"] = names
-	row["Images"] = images
+	row["_Containers"] = names
+	row["_Images"] = images
 
 	return row, nil
 }

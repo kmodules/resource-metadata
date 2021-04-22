@@ -65,12 +65,12 @@ func (p IngressPrinter) Convert(o runtime.Object) (map[string]interface{}, error
 	ports := formatPorts(obj.Spec.TLS)
 	createTime := translateTimestampSince(obj.CreationTimestamp)
 
-	row["Name"] = obj.Name
-	row["Class"] = className
+	row["_Name"] = obj.Name
+	row["_Class"] = className
 	row["Hosts"] = hosts
 	row["Address"] = address
 	row["Ports"] = ports
-	row["Age"] = createTime
+	row["_Age"] = createTime
 
 	return row, nil
 }

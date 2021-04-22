@@ -61,16 +61,16 @@ func (p ReplicationControllerPrinter) Convert(o runtime.Object) (map[string]inte
 	currentReplicas := obj.Status.Replicas
 	readyReplicas := obj.Status.ReadyReplicas
 
-	row["Name"] = obj.Name
-	row["Desired"] = int64(pointer.Int32(desiredReplicas))
-	row["Current"] = int64(currentReplicas)
-	row["Ready"] = int64(readyReplicas)
-	row["Age"] = translateTimestampSince(obj.CreationTimestamp)
+	row["_Name"] = obj.Name
+	row["_Desired"] = int64(pointer.Int32(desiredReplicas))
+	row["_Current"] = int64(currentReplicas)
+	row["_Ready"] = int64(readyReplicas)
+	row["_Age"] = translateTimestampSince(obj.CreationTimestamp)
 
 	names, images := layoutContainerCells(obj.Spec.Template.Spec.Containers)
-	row["Containers"] = names
-	row["Images"] = images
-	row["Selector"] = labels.FormatLabels(obj.Spec.Selector)
+	row["_Containers"] = names
+	row["_Images"] = images
+	row["_Selector"] = labels.FormatLabels(obj.Spec.Selector)
 
 	return row, nil
 }

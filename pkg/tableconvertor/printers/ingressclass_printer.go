@@ -65,10 +65,10 @@ func (p IngressClassPrinter) Convert(o runtime.Object) (map[string]interface{}, 
 	}
 	createTime := translateTimestampSince(obj.CreationTimestamp)
 
-	row["Name"] = obj.Name
-	row["Controller"] = obj.Spec.Controller
+	row["_Name"] = obj.Name
+	row["_Controller"] = obj.Spec.Controller
 	row["Parameters"] = parameters
-	row["Age"] = createTime
+	row["_Age"] = createTime
 
 	return row, nil
 }

@@ -68,7 +68,7 @@ func (p ServicePrinter) Convert(o runtime.Object) (map[string]interface{}, error
 	internalIP := obj.Spec.ClusterIP
 
 	externalIP := getServiceExternalIP(obj)
-	svcPorts := MakePortString(obj.Spec.Ports)
+	svcPorts := MakeServicePortString(obj.Spec.Ports)
 	if len(svcPorts) == 0 {
 		svcPorts = None
 	}
@@ -132,7 +132,7 @@ func loadBalancerStatusStringer(s core.LoadBalancerStatus) string {
 	return strings.Join(result.List(), ",")
 }
 
-func MakePortString(ports []core.ServicePort) string {
+func MakeServicePortString(ports []core.ServicePort) string {
 	pieces := make([]string, len(ports))
 	for ix := range ports {
 		port := &ports[ix]

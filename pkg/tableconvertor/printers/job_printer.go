@@ -81,15 +81,15 @@ func (p JobPrinter) Convert(o runtime.Object) (map[string]interface{}, error) {
 		jobDuration = duration.HumanDuration(obj.Status.CompletionTime.Sub(obj.Status.StartTime.Time))
 	}
 
-	row["Name"] = obj.Name
+	row["_Name"] = obj.Name
 	row["Completions"] = completions
 	row["Duration"] = jobDuration
-	row["Age"] = translateTimestampSince(obj.CreationTimestamp)
+	row["_Age"] = translateTimestampSince(obj.CreationTimestamp)
 
 	names, images := layoutContainerCells(obj.Spec.Template.Spec.Containers)
-	row["Containers"] = names
-	row["Images"] = images
-	row["Selector"] = metav1.FormatLabelSelector(obj.Spec.Selector)
+	row["_Containers"] = names
+	row["_Images"] = images
+	row["_Selector"] = metav1.FormatLabelSelector(obj.Spec.Selector)
 
 	return row, nil
 }

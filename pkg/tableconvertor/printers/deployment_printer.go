@@ -57,9 +57,9 @@ func (p DeploymentPrinter) Convert(o runtime.Object) (map[string]interface{}, er
 	row := map[string]interface{}{}
 
 	names, images := layoutContainerCells(obj.Spec.Template.Spec.Containers)
-	row["Containers"] = names
-	row["Images"] = images
-	row["Selector"] = metav1.FormatLabelSelector(obj.Spec.Selector)
+	row["_Containers"] = names
+	row["_Images"] = images
+	row["_Selector"] = metav1.FormatLabelSelector(obj.Spec.Selector)
 
 	return row, nil
 }

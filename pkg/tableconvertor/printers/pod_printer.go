@@ -142,18 +142,11 @@ func (p PodPrinter) Convert(o runtime.Object) (map[string]interface{}, error) {
 		reason = "Terminating"
 	}
 
-	/*
-		"name": "Name",
-		"name": "Ready",
-		"name": "Status",
-		"name": "Restarts",
-		"name": "Age",
-	*/
-	row["Name"] = pod.Name
+	row["_Name"] = pod.Name
 	row["Ready"] = fmt.Sprintf("%d/%d", readyContainers, totalContainers)
 	row["Status"] = reason
 	row["Restarts"] = int64(restarts)
-	row["Age"] = translateTimestampSince(pod.CreationTimestamp)
+	row["_Age"] = translateTimestampSince(pod.CreationTimestamp)
 
 	nodeName := pod.Spec.NodeName
 	nominatedNodeName := pod.Status.NominatedNodeName
@@ -189,12 +182,6 @@ func (p PodPrinter) Convert(o runtime.Object) (map[string]interface{}, error) {
 		readinessGates = fmt.Sprintf("%d/%d", trueConditions, len(pod.Spec.ReadinessGates))
 	}
 
-	/*
-		"name": "IP",
-		"name": "Node",
-		"name": "Nominated Node",
-		"name": "Readiness Gates",
-	*/
 	row["IP"] = podIP
 	row["Node"] = nodeName
 	row["Nominated Node"] = nominatedNodeName

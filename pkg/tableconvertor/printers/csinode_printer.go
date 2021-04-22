@@ -55,9 +55,9 @@ func (p CSINodePrinter) Convert(o runtime.Object) (map[string]interface{}, error
 
 	row := map[string]interface{}{}
 
-	row["Name"] = obj.Name
-	row["Drivers"] = len(obj.Spec.Drivers)
-	row["Age"] = translateTimestampSince(obj.CreationTimestamp)
+	row["_Name"] = obj.Name
+	row["_Drivers"] = len(obj.Spec.Drivers)
+	row["_Age"] = translateTimestampSince(obj.CreationTimestamp)
 
 	return row, nil
 }
