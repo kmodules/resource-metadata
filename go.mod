@@ -3,6 +3,7 @@ module kmodules.xyz/resource-metadata
 go 1.12
 
 require (
+	github.com/Masterminds/sprig/v3 v3.2.2
 	github.com/NYTimes/gziphandler v1.1.1 // indirect
 	github.com/blang/semver v3.5.1+incompatible // indirect
 	github.com/emicklei/dot v0.11.0
@@ -14,7 +15,6 @@ require (
 	github.com/grpc-ecosystem/go-grpc-middleware v1.1.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.12.1 // indirect
 	github.com/hashicorp/golang-lru v0.5.3
-	github.com/imdario/mergo v0.3.6 // indirect
 	github.com/mitchellh/mapstructure v1.1.2
 	github.com/onsi/gomega v1.8.1 // indirect
 	github.com/prometheus/client_golang v1.2.1 // indirect
@@ -30,6 +30,8 @@ require (
 	golang.org/x/net v0.0.0-20200324143707-d3edc9973b7e
 	golang.org/x/sys v0.0.0-20200509044756-6aff5f38e54f // indirect
 	golang.org/x/time v0.0.0-20191024005414-555d28b269f0 // indirect
+	gomodules.xyz/jsonpath v0.0.1
+	gomodules.xyz/pointer v0.0.0-20201105040656-991dd254b680
 	gomodules.xyz/version v0.1.0
 	gomodules.xyz/x v0.0.0-20201105065653-91c568df6331
 	google.golang.org/appengine v1.6.5 // indirect
@@ -44,7 +46,7 @@ require (
 	k8s.io/klog v1.0.0
 	k8s.io/kube-openapi v0.0.0-20200410145947-61e04a5be9a6
 	kmodules.xyz/apiversion v0.2.0
-	kmodules.xyz/client-go v0.0.0-20201105071625-0b277310b9b8
+	kmodules.xyz/client-go v0.0.0-20210416084329-f27f7a411d5c
 	kmodules.xyz/crd-schema-fuzz v0.0.0-20200521005638-2433a187de95
 	sigs.k8s.io/yaml v1.2.0
 )

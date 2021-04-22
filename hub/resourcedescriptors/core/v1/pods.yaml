@@ -10,54 +10,51 @@ metadata:
   name: core-v1-pods
 spec:
   columns:
-  - jsonPath: .metadata.name
+  - format: name
     name: Name
+    pathTemplate: '{{ jp "{.metadata.name}" . }}'
     priority: 0
     type: string
-  - jsonPath: .metadata.namespace
-    name: Namespace
+  - name: Namespace
+    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
     priority: 0
     type: string
-  - jsonPath: .metadata.labels
-    name: Labels
+  - name: Labels
+    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
     priority: 0
     type: object
-  - jsonPath: .metadata.annotations
-    name: Annotations
+  - name: Annotations
+    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
     priority: 0
     type: object
-  - jsonPath: .metadata.creationTimestamp
-    name: Age
-    priority: 0
-    type: date
-  - jsonPath: ""
-    name: Ready
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . | k8s_age }}'
     priority: 0
     type: string
-  - jsonPath: .status.phase
-    name: Status
+  - name: Ready
     priority: 0
     type: string
-  - jsonPath: ""
-    name: Restarts
+  - name: Status
     priority: 0
     type: string
-  - jsonPath: .status.podIP
-    name: IP
+  - name: Restarts
+    priority: 0
+    type: integer
+  - name: IP
+    pathTemplate: '{{ jp "{.status.podIP}" . }}'
     priority: 0
     type: string
-  - jsonPath: .spec.nodeName
-    name: Node
+  - name: Node
+    pathTemplate: '{{ jp "{.spec.nodeName}" . }}'
     priority: 0
     type: string
-  - jsonPath: .spec.nominatedNodeName
-    name: Nominated Node
+  - name: Nominated Node
+    pathTemplate: '{{ jp "{.status.nominatedNodeName}" . }}'
     priority: 0
     type: string
-  - jsonPath: .spec.readinessGates
-    name: Readiness Gates
+  - name: Readiness Gates
     priority: 0
-    type: object
+    type: string
   connections:
   - level: Controller
     target:

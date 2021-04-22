@@ -269,8 +269,12 @@ type ResourceColumnDefinition struct {
 	// numbers are considered higher priority. Columns that may be omitted in limited space scenarios
 	// should be given a higher priority.
 	Priority int32 `json:"priority"`
-	// JSONPath is a simple JSON path, i.e. with array notation.
-	JSONPath string `json:"jsonPath"`
+	// PathTemplate is a Go text template that will be evaluated to determine cell value.
+	// Users can use JSONPath expression to extract nested fields and apply template functions from Masterminds/sprig library.
+	// The template function for JSON path is called `jp`.
+	// Example: {{ jp "{.a.b}" . }} or {{ jp "{.a.b}" true }}, if json output is desired from JSONPath parser
+	// +optional
+	PathTemplate string `json:"pathTemplate,omitempty"`
 }
 
 type ResourceSubTableDefinition struct {

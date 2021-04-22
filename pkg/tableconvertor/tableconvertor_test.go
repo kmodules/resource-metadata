@@ -20,48 +20,48 @@ import (
 	"fmt"
 	"reflect"
 	"testing"
-	"time"
 )
 
 func Test_cellForJSONValue(t *testing.T) {
 	tests := []struct {
 		headerType string
-		value      interface{}
+		value      string
 		want       interface{}
+		wantErr    bool
 	}{
-		{"integer", int64(42), int64(42)},
-		{"integer", float64(3.14), int64(3)},
-		{"integer", true, nil},
-		{"integer", "foo", nil},
+		{"integer", "42", int64(42), false},
+		{"integer", "3.14", nil, true},
+		{"integer", "true", nil, true},
+		{"integer", "foo", nil, true},
 
-		{"number", int64(42), float64(42)},
-		{"number", float64(3.14), float64(3.14)},
-		{"number", true, nil},
-		{"number", "foo", nil},
+		{"number", "42", float64(42), false},
+		{"number", "3.14", float64(3.14), false},
+		{"number", "true", nil, true},
+		{"number", "foo", nil, true},
 
-		{"boolean", int64(42), nil},
-		{"boolean", float64(3.14), nil},
-		{"boolean", true, true},
-		{"boolean", "foo", nil},
+		{"boolean", "42", nil, true},
+		{"boolean", "3.14", nil, true},
+		{"boolean", "true", true, false},
+		{"boolean", "foo", nil, true},
 
-		{"string", int64(42), nil},
-		{"string", float64(3.14), nil},
-		{"string", true, nil},
-		{"string", "foo", "foo"},
+		{"string", "42", "42", false},
+		{"string", "3.14", "3.14", false},
+		{"string", "true", "true", false},
+		{"string", "foo", "foo", false},
 
-		{"date", int64(42), nil},
-		{"date", float64(3.14), nil},
-		{"date", true, nil},
-		{"date", time.Now().Add(-time.Hour*12 - 30*time.Minute).UTC().Format(time.RFC3339), "12h"},
-		{"date", time.Now().Add(+time.Hour*12 + 30*time.Minute).UTC().Format(time.RFC3339), "<invalid>"},
-		{"date", "", "<unknown>"},
+		{"object", `{"app": "xyz"}`, map[string]interface{}{"app": "xyz"}, false},
 
-		{"unknown", "foo", nil},
+		{"unknown", "foo", nil, true},
 	}
 	for _, tt := range tests {
 		t.Run(fmt.Sprintf("%#v of type %s", tt.value, tt.headerType), func(t *testing.T) {
-			if got := cellForJSONValue(tt.headerType, tt.value); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("cellForJSONValue() = %#v, want %#v", got, tt.want)
+			got, err := cellForJSONValue("", tt.headerType, tt.value)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("cellForJSONValue() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("cellForJSONValue() got = %v, want %v", got, tt.want)
 			}
 		})
 	}

@@ -9,6 +9,36 @@ metadata:
     k8s.io/version: v1
   name: core-v1-persistentvolumes
 spec:
+  columns:
+  - name: Name
+    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    priority: 0
+    type: string
+  - name: Capacity
+    pathTemplate: '{{ jp "{.spec.capacity}" . }}'
+    priority: 0
+    type: string
+  - format: array
+    name: Access Modes
+    pathTemplate: '{{ jp "{.spec.accessModes}" . }}'
+    priority: 0
+    type: string
+  - name: Reclaim Policy
+    pathTemplate: '{{ jp "{.spec.persistentVolumeReclaimPolicy}" . }}'
+    priority: 0
+    type: string
+  - name: Status
+    pathTemplate: '{{ jp "{.status.phase}" . }}'
+    priority: 0
+    type: string
+  - name: Storage Class
+    pathTemplate: '{{ jp "{.spec.storageClassName}" . }}'
+    priority: 0
+    type: string
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . | k8s_age }}'
+    priority: 0
+    type: string
   icons:
   - src: https://cdn.appscode.com/k8s/icons/core/persistentvolumes.svg
     type: image/svg+xml

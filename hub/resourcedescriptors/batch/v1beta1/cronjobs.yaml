@@ -10,33 +10,31 @@ metadata:
   name: batch-v1beta1-cronjobs
 spec:
   columns:
-  - jsonPath: .metadata.name
-    name: Name
+  - name: Name
+    pathTemplate: '{{ jp "{.metadata.name}" . }}'
     priority: 0
     type: string
-  - jsonPath: .metadata.namespace
-    name: Namespace
+  - name: Namespace
+    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
     priority: 0
     type: string
-  - jsonPath: .metadata.labels
-    name: Labels
+  - name: Labels
+    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
     priority: 0
     type: object
-  - jsonPath: .metadata.annotations
-    name: Annotations
+  - name: Annotations
+    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
     priority: 0
     type: object
-  - jsonPath: .metadata.creationTimestamp
-    name: Age
-    priority: 0
-    type: date
-  - jsonPath: .spec.schedule
-    name: Schedule
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . | k8s_age }}'
     priority: 0
     type: string
-  - format: csv
-    jsonPath: '{range .spec.jobTemplate.spec.template.spec.containers[*]}{.image}{"\n"}{end}'
-    name: Images
+  - name: Schedule
+    pathTemplate: '{{ jp "{.spec.schedule}" . }}'
+    priority: 0
+    type: string
+  - name: Images
     priority: 0
     type: string
   icons:

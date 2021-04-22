@@ -178,8 +178,8 @@ type ResourceColumnDefinition struct {
 	// numbers are considered higher priority. Columns that may be omitted in limited space scenarios
 	// should be given a higher priority.
 	Priority int32
-	// JSONPath is a simple JSON path, i.e. without array notation.
-	JSONPath string
+	// PathTemplate is a Go text template that will be evaluated to determine cell value.
+	PathTemplate string
 }
 
 type ResourceSubTableDefinition struct {

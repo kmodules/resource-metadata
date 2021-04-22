@@ -14503,15 +14503,15 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceColumnDefinition(ref co
 							Format:      "int32",
 						},
 					},
-					"jsonPath": {
+					"pathTemplate": {
 						SchemaProps: spec.SchemaProps{
-							Description: "JSONPath is a simple JSON path, i.e. with array notation.",
+							Description: "PathTemplate is a Go text template that will be evaluated to determine cell value. Users can use JSONPath expression to extract nested fields and apply template functions from Masterminds/sprig library. The template function for JSON path is called `jp`. Example: {{ jp \"{.a.b}\" . }} or {{ jp \"{.a.b}\" true }}, if json output is desired from JSONPath parser",
 							Type:        []string{"string"},
 							Format:      "",
 						},
 					},
 				},
-				Required: []string{"name", "type", "priority", "jsonPath"},
+				Required: []string{"name", "type", "priority"},
 			},
 		},
 	}

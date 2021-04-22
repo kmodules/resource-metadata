@@ -58,11 +58,16 @@ spec:
                       name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
                       for more.
                     type: string
-                  jsonPath:
-                    description: JSONPath is a simple JSON path, i.e. with array notation.
-                    type: string
                   name:
                     description: name is a human readable name for the column.
+                    type: string
+                  pathTemplate:
+                    description: 'PathTemplate is a Go text template that will be
+                      evaluated to determine cell value. Users can use JSONPath expression
+                      to extract nested fields and apply template functions from Masterminds/sprig
+                      library. The template function for JSON path is called `jp`.
+                      Example: {{ jp "{.a.b}" . }} or {{ jp "{.a.b}" true }}, if json
+                      output is desired from JSONPath parser'
                     type: string
                   priority:
                     description: priority is an integer defining the relative importance
@@ -77,7 +82,6 @@ spec:
                       for more.
                     type: string
                 required:
-                - jsonPath
                 - name
                 - priority
                 - type
@@ -383,12 +387,17 @@ spec:
                             is the resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
                             for more.
                           type: string
-                        jsonPath:
-                          description: JSONPath is a simple JSON path, i.e. with array
-                            notation.
-                          type: string
                         name:
                           description: name is a human readable name for the column.
+                          type: string
+                        pathTemplate:
+                          description: 'PathTemplate is a Go text template that will
+                            be evaluated to determine cell value. Users can use JSONPath
+                            expression to extract nested fields and apply template
+                            functions from Masterminds/sprig library. The template
+                            function for JSON path is called `jp`. Example: {{ jp
+                            "{.a.b}" . }} or {{ jp "{.a.b}" true }}, if json output
+                            is desired from JSONPath parser'
                           type: string
                         priority:
                           description: priority is an integer defining the relative
@@ -403,7 +412,6 @@ spec:
                             for more.
                           type: string
                       required:
-                      - jsonPath
                       - name
                       - priority
                       - type
