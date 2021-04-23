@@ -278,6 +278,9 @@ func cellForJSONValue(colName, headerType string, value string) (interface{}, er
 		}
 		return metatable.ConvertToHumanReadableDateType(timestamp), nil
 	case "object":
+		if strings.TrimSpace(value) == "" {
+			return map[string]interface{}{}, nil
+		}
 		var obj interface{}
 		err := json.Unmarshal([]byte(value), &obj)
 		if err != nil {
