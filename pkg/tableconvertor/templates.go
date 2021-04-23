@@ -71,6 +71,10 @@ func jsonpathFn(expr string, data interface{}, jsonoutput ...bool) (interface{},
 }
 
 func formatLabelSelectorFn(data string) (string, error) {
+	if strings.TrimSpace(data) == "" {
+		return "", nil
+	}
+
 	var sel metav1.LabelSelector
 	err := json.Unmarshal([]byte(data), &sel)
 	if err != nil {
@@ -80,6 +84,10 @@ func formatLabelSelectorFn(data string) (string, error) {
 }
 
 func formatLabelsFn(data string) (string, error) {
+	if strings.TrimSpace(data) == "" {
+		return "", nil
+	}
+
 	var label map[string]string
 	err := json.Unmarshal([]byte(data), &label)
 	if err != nil {
@@ -98,6 +106,10 @@ func ageFn(data string) (string, error) {
 }
 
 func servicePortsFn(data string) (string, error) {
+	if strings.TrimSpace(data) == "" {
+		return "", nil
+	}
+
 	var ports []core.ServicePort
 	err := json.Unmarshal([]byte(data), &ports)
 	if err != nil {
@@ -107,6 +119,10 @@ func servicePortsFn(data string) (string, error) {
 }
 
 func containerPortFn(data string) (string, error) {
+	if strings.TrimSpace(data) == "" {
+		return "", nil
+	}
+
 	var ports []core.ContainerPort
 	err := json.Unmarshal([]byte(data), &ports)
 	if err != nil {
@@ -125,6 +141,10 @@ func containerPortFn(data string) (string, error) {
 }
 
 func containerArgsFn(data string) (string, error) {
+	if strings.TrimSpace(data) == "" {
+		return "", nil
+	}
+
 	var ss []string
 	err := json.Unmarshal([]byte(data), &ss)
 	if err != nil {
@@ -134,6 +154,10 @@ func containerArgsFn(data string) (string, error) {
 }
 
 func volumesFn(data string) (string, error) {
+	if strings.TrimSpace(data) == "" {
+		return "", nil
+	}
+
 	var volumes []core.Volume
 	ss := make([]string, 0)
 	err := json.Unmarshal([]byte(data), &volumes)
@@ -149,6 +173,10 @@ func volumesFn(data string) (string, error) {
 }
 
 func volumeMountsFn(data string) (string, error) {
+	if strings.TrimSpace(data) == "" {
+		return "", nil
+	}
+
 	var mounts []core.VolumeMount
 	ss := make([]string, 0)
 	err := json.Unmarshal([]byte(data), &mounts)
