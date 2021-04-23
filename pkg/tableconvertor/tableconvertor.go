@@ -31,6 +31,7 @@ import (
 
 	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
+	metatable "k8s.io/apimachinery/pkg/api/meta/table"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -269,15 +270,22 @@ func cellForJSONValue(colName, headerType string, value string) (interface{}, er
 		return b, nil
 	case "string":
 		return value, nil
+	case "date":
+		var timestamp metav1.Time
+		err := timestamp.UnmarshalQueryParameter(value)
+		if err != nil {
+			return "<invalid>", nil
+		}
+		return metatable.ConvertToHumanReadableDateType(timestamp), nil
 	case "object":
 		var obj interface{}
 		err := json.Unmarshal([]byte(value), &obj)
 		if err != nil {
-			return fmt.Sprintf("col %s, type %s, err %v, value %s", colName, headerType, err.Error(), value), nil
+			return nil, fmt.Errorf("col %s, type %s, err %v, value %s", colName, headerType, err.Error(), value)
 		}
 		return obj, nil
 	}
-	return nil, fmt.Errorf("unknown format %s with value %s", headerType, value)
+	return nil, fmt.Errorf("unknown type %s in header %s with value %s", headerType, colName, value)
 }
 
 // metaToTableRow converts a list or object into one or more table rows. The provided rowFn is invoked for
