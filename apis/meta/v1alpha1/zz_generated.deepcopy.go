@@ -1040,6 +1040,11 @@ func (in *UIParameters) DeepCopyInto(out *UIParameters) {
 		*out = new(ChartRepoRef)
 		**out = **in
 	}
+	if in.InstanceLabelPaths != nil {
+		in, out := &in.InstanceLabelPaths, &out.InstanceLabelPaths
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
 	return
 }
 

@@ -444,6 +444,12 @@ spec:
                     - url
                     - version
                     type: object
+                  instanceLabelPaths:
+                    description: app.kubernetes.io/instance label must be updated
+                      at these paths when refilling metadata
+                    items:
+                      type: string
+                    type: array
                   options:
                     description: ChartRepoRef references to a single version of a
                       Chart

@@ -52,6 +52,8 @@ spec:
       name: monitoringcoreoscom-servicemonitor-editor
       url: https://raw.githubusercontent.com/bytebuilders/ui-wizards/master/stable
       version: v0.1.0
+    instanceLabelPaths:
+    - spec.selector.matchLabels
   validation:
     openAPIV3Schema:
       description: ServiceMonitor defines monitoring for a set of services.

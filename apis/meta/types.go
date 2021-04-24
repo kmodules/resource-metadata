@@ -97,8 +97,9 @@ type StatusCodes struct {
 }
 
 type UIParameters struct {
-	Options *ChartRepoRef
-	Editor  *ChartRepoRef
+	Options            *ChartRepoRef
+	Editor             *ChartRepoRef
+	InstanceLabelPaths []string
 }
 
 type DeploymentParameters struct {
