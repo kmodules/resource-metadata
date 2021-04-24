@@ -1421,6 +1421,7 @@ func Convert_meta_TableRow_To_v1alpha1_TableRow(in *meta.TableRow, out *TableRow
 func autoConvert_v1alpha1_UIParameters_To_meta_UIParameters(in *UIParameters, out *meta.UIParameters, s conversion.Scope) error {
 	out.Options = (*meta.ChartRepoRef)(unsafe.Pointer(in.Options))
 	out.Editor = (*meta.ChartRepoRef)(unsafe.Pointer(in.Editor))
+	out.InstanceLabelPaths = *(*[]string)(unsafe.Pointer(&in.InstanceLabelPaths))
 	return nil
 }
 
@@ -1432,6 +1433,7 @@ func Convert_v1alpha1_UIParameters_To_meta_UIParameters(in *UIParameters, out *m
 func autoConvert_meta_UIParameters_To_v1alpha1_UIParameters(in *meta.UIParameters, out *UIParameters, s conversion.Scope) error {
 	out.Options = (*ChartRepoRef)(unsafe.Pointer(in.Options))
 	out.Editor = (*ChartRepoRef)(unsafe.Pointer(in.Editor))
+	out.InstanceLabelPaths = *(*[]string)(unsafe.Pointer(&in.InstanceLabelPaths))
 	return nil
 }
 

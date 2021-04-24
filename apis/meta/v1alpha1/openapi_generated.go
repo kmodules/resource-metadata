@@ -15328,6 +15328,20 @@ func schema_resource_metadata_apis_meta_v1alpha1_UIParameters(ref common.Referen
 							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ChartRepoRef"),
 						},
 					},
+					"instanceLabelPaths": {
+						SchemaProps: spec.SchemaProps{
+							Description: "app.kubernetes.io/instance label must be updated at these paths when refilling metadata",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Type:   []string{"string"},
+										Format: "",
+									},
+								},
+							},
+						},
+					},
 				},
 			},
 		},

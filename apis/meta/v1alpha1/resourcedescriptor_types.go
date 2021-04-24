@@ -151,6 +151,9 @@ type StatusCodes struct {
 type UIParameters struct {
 	Options *ChartRepoRef `json:"options,omitempty"`
 	Editor  *ChartRepoRef `json:"editor,omitempty"`
+	// app.kubernetes.io/instance label must be updated at these paths when refilling metadata
+	// +optional
+	InstanceLabelPaths []string `json:"instanceLabelPaths,omitempty"`
 }
 
 type DeploymentParameters struct {
