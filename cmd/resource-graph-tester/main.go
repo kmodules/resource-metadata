@@ -18,13 +18,12 @@ limitations under the License.
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 
+	dynamicfactory "kmodules.xyz/client-go/dynamic/factory"
 	"kmodules.xyz/resource-metadata/pkg/graph"
 
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/tools/clientcmd"
@@ -50,18 +49,20 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	if err := CheckBackupConfigToAppBinding(dc, g); err != nil {
+	f := dynamicfactory.New(dc)
+
+	if err := CheckBackupConfigToAppBinding(f, g); err != nil {
 		log.Fatalln(err)
 	}
 }
 
-func CheckNodeToPod(dc dynamic.Interface, g *graph.Graph) error {
+func CheckNodeToPod(f dynamicfactory.Factory, g *graph.Graph) error {
 	podGVR := schema.GroupVersionResource{
 		Group:    "",
 		Version:  "v1",
 		Resource: "pods",
 	}
-	pod, err := dc.Resource(podGVR).Namespace("kube-system").Get(context.TODO(), "kube-apiserver-kind-control-plane", metav1.GetOptions{})
+	pod, err := f.ForResource(podGVR).Namespace("kube-system").Get("kube-apiserver-kind-control-plane")
 	if err != nil {
 		return err
 	}
@@ -72,7 +73,7 @@ func CheckNodeToPod(dc dynamic.Interface, g *graph.Graph) error {
 		Resource: "nodes",
 	}
 
-	nodes, err := g.List(context.TODO(), dc, *pod, nodeGVR)
+	nodes, err := g.List(f, pod, nodeGVR)
 	if err != nil {
 		return err
 	}
@@ -83,13 +84,13 @@ func CheckNodeToPod(dc dynamic.Interface, g *graph.Graph) error {
 	return nil
 }
 
-func CheckPodToNode(dc dynamic.Interface, g *graph.Graph) error {
+func CheckPodToNode(f dynamicfactory.Factory, g *graph.Graph) error {
 	nodeGVR := schema.GroupVersionResource{
 		Group:    "",
 		Version:  "v1",
 		Resource: "nodes",
 	}
-	node, err := dc.Resource(nodeGVR).Get(context.TODO(), "kind-control-plane", metav1.GetOptions{})
+	node, err := f.ForResource(nodeGVR).Get("kind-control-plane")
 	if err != nil {
 		return err
 	}
@@ -100,7 +101,7 @@ func CheckPodToNode(dc dynamic.Interface, g *graph.Graph) error {
 		Resource: "pods",
 	}
 
-	pods, err := g.List(context.TODO(), dc, *node, podGVR)
+	pods, err := g.List(f, node, podGVR)
 	if err != nil {
 		return err
 	}
@@ -111,13 +112,13 @@ func CheckPodToNode(dc dynamic.Interface, g *graph.Graph) error {
 	return nil
 }
 
-func CheckDeployment(dc dynamic.Interface, g *graph.Graph) error {
+func CheckDeployment(f dynamicfactory.Factory, g *graph.Graph) error {
 	depGVR := schema.GroupVersionResource{
 		Group:    "apps",
 		Version:  "v1",
 		Resource: "deployments",
 	}
-	busyDep, err := dc.Resource(depGVR).Namespace("default").Get(context.TODO(), "busy-dep", metav1.GetOptions{})
+	busyDep, err := f.ForResource(depGVR).Namespace("default").Get("busy-dep")
 	if err != nil {
 		return err
 	}
@@ -127,7 +128,7 @@ func CheckDeployment(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "pods",
 	}
-	pods, err := g.List(context.TODO(), dc, *busyDep, podGVR)
+	pods, err := g.List(f, busyDep, podGVR)
 	if err != nil {
 		return err
 	}
@@ -140,7 +141,7 @@ func CheckDeployment(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "services",
 	}
-	services, err := g.List(context.TODO(), dc, *busyDep, svcGVR)
+	services, err := g.List(f, busyDep, svcGVR)
 	if err != nil {
 		return err
 	}
@@ -151,13 +152,13 @@ func CheckDeployment(dc dynamic.Interface, g *graph.Graph) error {
 	return nil
 }
 
-func checkPodToPVC(dc dynamic.Interface, g *graph.Graph) error {
+func checkPodToPVC(f dynamicfactory.Factory, g *graph.Graph) error {
 	podGVR := schema.GroupVersionResource{
 		Group:    "",
 		Version:  "v1",
 		Resource: "pods",
 	}
-	pod, err := dc.Resource(podGVR).Namespace("default").Get(context.TODO(), "mypod", metav1.GetOptions{})
+	pod, err := f.ForResource(podGVR).Namespace("default").Get("mypod")
 	if err != nil {
 		return err
 	}
@@ -167,7 +168,7 @@ func checkPodToPVC(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "persistentvolumeclaims",
 	}
-	pvcs, err := g.List(context.TODO(), dc, *pod, pvcGVR)
+	pvcs, err := g.List(f, pod, pvcGVR)
 	if err != nil {
 		return err
 	}
@@ -178,13 +179,13 @@ func checkPodToPVC(dc dynamic.Interface, g *graph.Graph) error {
 	return nil
 }
 
-func checkPVCToPod(dc dynamic.Interface, g *graph.Graph) error {
+func checkPVCToPod(f dynamicfactory.Factory, g *graph.Graph) error {
 	pvcGVR := schema.GroupVersionResource{
 		Group:    "",
 		Version:  "v1",
 		Resource: "persistentvolumeclaims",
 	}
-	pvc, err := dc.Resource(pvcGVR).Namespace("default").Get(context.TODO(), "myclaim", metav1.GetOptions{})
+	pvc, err := f.ForResource(pvcGVR).Namespace("default").Get("myclaim")
 	if err != nil {
 		return err
 	}
@@ -195,7 +196,7 @@ func checkPVCToPod(dc dynamic.Interface, g *graph.Graph) error {
 		Resource: "pods",
 	}
 
-	pods, err := g.List(context.TODO(), dc, *pvc, podGVR)
+	pods, err := g.List(f, pvc, podGVR)
 	if err != nil {
 		return err
 	}
@@ -206,13 +207,13 @@ func checkPVCToPod(dc dynamic.Interface, g *graph.Graph) error {
 	return nil
 }
 
-func checkDepToConfigMap(dc dynamic.Interface, g *graph.Graph) error {
+func checkDepToConfigMap(f dynamicfactory.Factory, g *graph.Graph) error {
 	depGVR := schema.GroupVersionResource{
 		Group:    "apps",
 		Version:  "v1",
 		Resource: "deployments",
 	}
-	pod, err := dc.Resource(depGVR).Namespace("default").Get(context.TODO(), "busy-dep", metav1.GetOptions{})
+	pod, err := f.ForResource(depGVR).Namespace("default").Get("busy-dep")
 	if err != nil {
 		return err
 	}
@@ -222,7 +223,7 @@ func checkDepToConfigMap(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "configmaps",
 	}
-	cfgs, err := g.List(context.TODO(), dc, *pod, cfgGVR)
+	cfgs, err := g.List(f, pod, cfgGVR)
 	if err != nil {
 		return err
 	}
@@ -233,13 +234,13 @@ func checkDepToConfigMap(dc dynamic.Interface, g *graph.Graph) error {
 	return nil
 }
 
-func checkConfigMapToDep(dc dynamic.Interface, g *graph.Graph) error {
+func checkConfigMapToDep(f dynamicfactory.Factory, g *graph.Graph) error {
 	cfgGVR := schema.GroupVersionResource{
 		Group:    "",
 		Version:  "v1",
 		Resource: "configmaps",
 	}
-	cfg, err := dc.Resource(cfgGVR).Namespace("default").Get(context.TODO(), "omni", metav1.GetOptions{})
+	cfg, err := f.ForResource(cfgGVR).Namespace("default").Get("omni")
 	if err != nil {
 		return err
 	}
@@ -249,7 +250,7 @@ func checkConfigMapToDep(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "deployments",
 	}
-	deps, err := g.List(context.TODO(), dc, *cfg, depGVR)
+	deps, err := g.List(f, cfg, depGVR)
 	if err != nil {
 		return err
 	}
@@ -260,13 +261,13 @@ func checkConfigMapToDep(dc dynamic.Interface, g *graph.Graph) error {
 	return nil
 }
 
-func checkKubeDBToService(dc dynamic.Interface, g *graph.Graph) error {
+func checkKubeDBToService(f dynamicfactory.Factory, g *graph.Graph) error {
 	pgGVR := schema.GroupVersionResource{
 		Group:    "kubedb.com",
 		Version:  "v1alpha1",
 		Resource: "postgreses",
 	}
-	pg, err := dc.Resource(pgGVR).Namespace("demo").Get(context.TODO(), "quick-postgres", metav1.GetOptions{})
+	pg, err := f.ForResource(pgGVR).Namespace("demo").Get("quick-postgres")
 	if err != nil {
 		return err
 	}
@@ -276,7 +277,7 @@ func checkKubeDBToService(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "services",
 	}
-	services, err := g.List(context.TODO(), dc, *pg, svcGVR)
+	services, err := g.List(f, pg, svcGVR)
 	if err != nil {
 		return err
 	}
@@ -287,13 +288,13 @@ func checkKubeDBToService(dc dynamic.Interface, g *graph.Graph) error {
 	return nil
 }
 
-func checkKubeDBToStatefulset(dc dynamic.Interface, g *graph.Graph) error {
+func checkKubeDBToStatefulset(f dynamicfactory.Factory, g *graph.Graph) error {
 	pgGVR := schema.GroupVersionResource{
 		Group:    "kubedb.com",
 		Version:  "v1alpha1",
 		Resource: "postgreses",
 	}
-	pg, err := dc.Resource(pgGVR).Namespace("demo").Get(context.TODO(), "quick-postgres", metav1.GetOptions{})
+	pg, err := f.ForResource(pgGVR).Namespace("demo").Get("quick-postgres")
 	if err != nil {
 		return err
 	}
@@ -303,7 +304,7 @@ func checkKubeDBToStatefulset(dc dynamic.Interface, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "statefulsets",
 	}
-	statefulsets, err := g.List(context.TODO(), dc, *pg, ssGVR)
+	statefulsets, err := g.List(f, pg, ssGVR)
 	if err != nil {
 		return err
 	}
@@ -314,13 +315,13 @@ func checkKubeDBToStatefulset(dc dynamic.Interface, g *graph.Graph) error {
 	return nil
 }
 
-func CheckBackupConfigToAppBinding(dc dynamic.Interface, g *graph.Graph) error {
+func CheckBackupConfigToAppBinding(f dynamicfactory.Factory, g *graph.Graph) error {
 	bkcfgGVR := schema.GroupVersionResource{
 		Group:    "stash.appscode.com",
 		Version:  "v1beta1",
 		Resource: "backupconfigurations",
 	}
-	node, err := dc.Resource(bkcfgGVR).Namespace("test-namespace").Get(context.TODO(), "demo-backup-config", metav1.GetOptions{})
+	node, err := f.ForResource(bkcfgGVR).Namespace("test-namespace").Get("demo-backup-config")
 	if err != nil {
 		return err
 	}
@@ -331,7 +332,7 @@ func CheckBackupConfigToAppBinding(dc dynamic.Interface, g *graph.Graph) error {
 		Resource: "appbindings",
 	}
 
-	pods, err := g.List(context.TODO(), dc, *node, appBindingGVR)
+	pods, err := g.List(f, node, appBindingGVR)
 	if err != nil {
 		return err
 	}
