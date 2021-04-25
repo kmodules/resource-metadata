@@ -28,13 +28,13 @@ import (
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
 	"github.com/mitchellh/mapstructure"
+	"gomodules.xyz/jsonpath"
 	core "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/dynamic/dynamiclister"
-	"k8s.io/client-go/util/jsonpath"
 )
 
 func (g *Graph) List(f dynamicfactory.Factory, src *unstructured.Unstructured, dstGVR schema.GroupVersionResource) ([]*unstructured.Unstructured, error) {

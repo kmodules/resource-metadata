@@ -20,6 +20,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"path/filepath"
 
 	dynamicfactory "kmodules.xyz/client-go/dynamic/factory"
 	"kmodules.xyz/resource-metadata/pkg/graph"
@@ -27,12 +28,13 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/tools/clientcmd"
+	"k8s.io/client-go/util/homedir"
 )
 
 func main() {
 	masterURL := ""
-	// kubeconfigPath := filepath.Join(homedir.HomeDir(), ".kube", "config")
-	kubeconfigPath := "$HOME/Downloads/ui-builder-demo-kubeconfig.yaml"
+	kubeconfigPath := filepath.Join(homedir.HomeDir(), ".kube", "config")
+	// kubeconfigPath := "$HOME/Downloads/ui-builder-demo-kubeconfig.yaml"
 
 	config, err := clientcmd.BuildConfigFromFlags(masterURL, kubeconfigPath)
 	if err != nil {
@@ -51,7 +53,7 @@ func main() {
 
 	f := dynamicfactory.New(dc)
 
-	if err := CheckBackupConfigToAppBinding(f, g); err != nil {
+	if err := CheckPodToNode(f, g); err != nil {
 		log.Fatalln(err)
 	}
 }

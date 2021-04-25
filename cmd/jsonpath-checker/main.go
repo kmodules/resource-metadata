@@ -22,7 +22,7 @@ import (
 	"fmt"
 	"os"
 
-	"k8s.io/client-go/util/jsonpath"
+	"gomodules.xyz/jsonpath"
 	"sigs.k8s.io/yaml"
 )
 
