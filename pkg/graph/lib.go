@@ -18,13 +18,13 @@ package graph
 
 import (
 	"bytes"
-	"context"
 	"encoding/csv"
 	"errors"
 	"fmt"
 	"regexp"
 	"strings"
 
+	dynamicfactory "kmodules.xyz/client-go/dynamic/factory"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
 	"github.com/mitchellh/mapstructure"
@@ -33,11 +33,11 @@ import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/client-go/dynamic"
+	"k8s.io/client-go/dynamic/dynamiclister"
 	"k8s.io/client-go/util/jsonpath"
 )
 
-func (g *Graph) List(ctx context.Context, dc dynamic.Interface, src unstructured.Unstructured, dstGVR schema.GroupVersionResource) ([]unstructured.Unstructured, error) {
+func (g *Graph) List(f dynamicfactory.Factory, src *unstructured.Unstructured, dstGVR schema.GroupVersionResource) ([]*unstructured.Unstructured, error) {
 	srcGVR, err := g.r.GVR(src.GroupVersionKind())
 	if err != nil {
 		return nil, err
@@ -50,12 +50,12 @@ func (g *Graph) List(ctx context.Context, dc dynamic.Interface, src unstructured
 		return nil, nil
 	}
 
-	in := []unstructured.Unstructured{src}
-	var out []unstructured.Unstructured
+	in := []*unstructured.Unstructured{src}
+	var out []*unstructured.Unstructured
 	for _, e := range path.Edges {
 		out = nil
 		for _, inObj := range in {
-			result, err := g.ResourcesFor(ctx, dc, inObj, *e)
+			result, err := g.ResourcesFor(f, inObj, e)
 			if err != nil {
 				return nil, err
 			}
@@ -72,8 +72,8 @@ type objectKey struct {
 	namespace string
 }
 
-func appendObjects(arr []unstructured.Unstructured, items ...unstructured.Unstructured) []unstructured.Unstructured {
-	m := make(map[objectKey]unstructured.Unstructured)
+func appendObjects(arr []*unstructured.Unstructured, items ...*unstructured.Unstructured) []*unstructured.Unstructured {
+	m := make(map[objectKey]*unstructured.Unstructured)
 
 	for i := range arr {
 		m[objectKey{namespace: arr[i].GetNamespace(), name: arr[i].GetName()}] = arr[i]
@@ -82,14 +82,14 @@ func appendObjects(arr []unstructured.Unstructured, items ...unstructured.Unstru
 		m[objectKey{namespace: items[i].GetNamespace(), name: items[i].GetName()}] = items[i]
 	}
 
-	out := make([]unstructured.Unstructured, 0, len(m))
+	out := make([]*unstructured.Unstructured, 0, len(m))
 	for _, obj := range m {
 		out = append(out, obj)
 	}
 	return out
 }
 
-func (g *Graph) ResourcesFor(ctx context.Context, dc dynamic.Interface, src unstructured.Unstructured, e Edge) ([]unstructured.Unstructured, error) {
+func (g *Graph) ResourcesFor(f dynamicfactory.Factory, src *unstructured.Unstructured, e *Edge) ([]*unstructured.Unstructured, error) {
 	gvr, err := g.r.GVR(src.GroupVersionKind())
 	if err != nil {
 		return nil, err
@@ -101,12 +101,12 @@ func (g *Graph) ResourcesFor(ctx context.Context, dc dynamic.Interface, src unst
 	if e.Forward {
 		// FIXME: How to handle namespace for Backward direction
 		if e.Connection.Type == v1alpha1.MatchSelector {
-			var ls string
+			// var ls string
 			var selector labels.Selector
 			var err error
 
 			if e.Connection.SelectorPath != "" {
-				ls, selector, err = ExtractSelector(src, e.Connection.SelectorPath)
+				_, selector, err = ExtractSelector(src, e.Connection.SelectorPath)
 				if err != nil {
 					return nil, err
 				}
@@ -119,7 +119,7 @@ func (g *Graph) ResourcesFor(ctx context.Context, dc dynamic.Interface, src unst
 				if err != nil {
 					return nil, err
 				}
-				ls = selector.String()
+				// ls = selector.String()
 			} else {
 				return nil, fmt.Errorf("edge %v is missing selectorPath and selector", e)
 			}
@@ -132,28 +132,29 @@ func (g *Graph) ResourcesFor(ctx context.Context, dc dynamic.Interface, src unst
 				namespaces = []string{metav1.NamespaceAll}
 			}
 
-			var out []unstructured.Unstructured
+			var out []*unstructured.Unstructured
 			for _, ns := range namespaces {
-				var ri dynamic.ResourceInterface
-				ri = dc.Resource(e.Dst)
+				var ri dynamiclister.NamespaceLister
+				ri = f.ForResource(e.Dst)
 				if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 					return nil, err
 				} else if namespaced {
-					ri = dc.Resource(e.Dst).Namespace(ns)
+					ri = f.ForResource(e.Dst).Namespace(ns)
 				}
 
 				selInApp := e.Connection.TargetLabelPath != "" && strings.Trim(e.Connection.TargetLabelPath, ".") != MetadataLabels
 
-				var opts metav1.ListOptions
+				var opts = labels.Everything()
 				if !selInApp {
-					opts.LabelSelector = ls
+					// TODO(tamal): check for correctness
+					opts = selector
 				}
-				result, err := ri.List(ctx, opts)
+				result, err := ri.List(opts)
 				if err != nil {
 					return nil, err
 				}
-				for i := range result.Items {
-					rs := result.Items[i]
+				for i := range result {
+					rs := result[i]
 
 					if selInApp {
 						lbl, ok, err := unstructured.NestedStringMap(rs.Object, fields(e.Connection.TargetLabelPath)...)
@@ -185,31 +186,31 @@ func (g *Graph) ResourcesFor(ctx context.Context, dc dynamic.Interface, src unst
 				namespaces = []string{metav1.NamespaceAll}
 			}
 
-			var out []unstructured.Unstructured
+			var out []*unstructured.Unstructured
 			for _, ns := range namespaces {
-				var ri dynamic.ResourceInterface
-				ri = dc.Resource(e.Dst)
+				var ri dynamiclister.NamespaceLister
+				ri = f.ForResource(e.Dst)
 				if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 					return nil, err
 				} else if namespaced {
-					ri = dc.Resource(e.Dst).Namespace(ns)
+					ri = f.ForResource(e.Dst).Namespace(ns)
 				}
-				rs, err := ri.Get(ctx, name, metav1.GetOptions{})
+				rs, err := ri.Get(name)
 				if err != nil {
 					return nil, err
 				}
 
-				if isConnected(e.Connection.Level, *rs, src) {
-					out = append(out, *rs)
+				if isConnected(e.Connection.Level, rs, src) {
+					out = append(out, rs)
 				}
 			}
 			return out, nil
 		} else if e.Connection.Type == v1alpha1.OwnedBy {
-			return g.findOwners(ctx, dc, e, src.GetOwnerReferences(), src.GetNamespace())
+			return g.findOwners(f, e, src.GetOwnerReferences(), src.GetNamespace())
 		} else if e.Connection.Type == v1alpha1.MatchRef {
 			// TODO: check that namespacePath must be empty
 
-			var out []unstructured.Unstructured
+			var out []*unstructured.Unstructured
 
 			for _, reference := range e.Connection.References {
 				j := jsonpath.New("jsonpath")
@@ -235,7 +236,7 @@ func (g *Graph) ResourcesFor(ctx context.Context, dc dynamic.Interface, src unst
 					return nil, err
 				}
 
-				var objects []unstructured.Unstructured
+				var objects []*unstructured.Unstructured
 				for _, ref := range refs {
 					// if apiGroup is set, it must match
 					if ref.APIGroup != "" && ref.APIGroup != e.Dst.Group {
@@ -250,8 +251,8 @@ func (g *Graph) ResourcesFor(ctx context.Context, dc dynamic.Interface, src unst
 						continue
 					}
 
-					var ri dynamic.ResourceInterface
-					ri = dc.Resource(e.Dst)
+					var ri dynamiclister.NamespaceLister
+					ri = f.ForResource(e.Dst)
 					if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 						return nil, err
 					} else if namespaced {
@@ -265,15 +266,15 @@ func (g *Graph) ResourcesFor(ctx context.Context, dc dynamic.Interface, src unst
 							// src is not-namespaced
 							return nil, errors.New("namespace must be defined in reference")
 						}
-						ri = dc.Resource(e.Dst).Namespace(ns)
+						ri = f.ForResource(e.Dst).Namespace(ns)
 					}
-					rs, err := ri.Get(ctx, ref.Name, metav1.GetOptions{})
+					rs, err := ri.Get(ref.Name)
 					if err != nil {
 						return nil, err
 					}
 
-					if isConnected(e.Connection.Level, *rs, src) {
-						objects = append(objects, *rs)
+					if isConnected(e.Connection.Level, rs, src) {
+						objects = append(objects, rs)
 					}
 				}
 				out = appendObjects(out, objects...)
@@ -287,7 +288,7 @@ func (g *Graph) ResourcesFor(ctx context.Context, dc dynamic.Interface, src unst
 		} // else all namespace RETHINK
 
 		if e.Connection.Type == v1alpha1.MatchSelector {
-			var out []unstructured.Unstructured
+			var out []*unstructured.Unstructured
 
 			lbl := src.GetLabels()
 			if e.Connection.TargetLabelPath != "" && strings.Trim(e.Connection.TargetLabelPath, ".") != MetadataLabels {
@@ -301,19 +302,19 @@ func (g *Graph) ResourcesFor(ctx context.Context, dc dynamic.Interface, src unst
 				lbl = l2
 			}
 
-			var ri dynamic.ResourceInterface
-			ri = dc.Resource(e.Dst)
+			var ri dynamiclister.NamespaceLister
+			ri = f.ForResource(e.Dst)
 			if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 				return nil, err
 			} else if namespaced {
-				ri = dc.Resource(e.Dst).Namespace(namespace)
+				ri = f.ForResource(e.Dst).Namespace(namespace)
 			}
-			result, err := ri.List(ctx, metav1.ListOptions{})
+			result, err := ri.List(labels.Everything())
 			if err != nil {
 				return nil, err
 			}
-			for i := range result.Items {
-				rs := result.Items[i]
+			for i := range result {
+				rs := result[i]
 
 				if e.Connection.NamespacePath != "" && e.Connection.NamespacePath != MetadataNamespace {
 					namespaces, err := Namespaces(rs, e.Connection.NamespacePath)
@@ -364,32 +365,32 @@ func (g *Graph) ResourcesFor(ctx context.Context, dc dynamic.Interface, src unst
 					return nil, fmt.Errorf("failed to detect name from %s and %s", src.GetName(), e.Connection.NameTemplate)
 				}
 
-				var out []unstructured.Unstructured
-				var ri dynamic.ResourceInterface
-				ri = dc.Resource(e.Dst)
+				var out []*unstructured.Unstructured
+				var ri dynamiclister.NamespaceLister
+				ri = f.ForResource(e.Dst)
 				if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 					return nil, err
 				} else if namespaced {
-					ri = dc.Resource(e.Dst).Namespace(namespace)
+					ri = f.ForResource(e.Dst).Namespace(namespace)
 				}
-				rs, err := ri.Get(ctx, name, metav1.GetOptions{})
+				rs, err := ri.Get(name)
 				if err != nil {
 					return nil, err
 				}
 
-				if isConnected(e.Connection.Level, src, *rs) {
-					out = append(out, *rs)
+				if isConnected(e.Connection.Level, src, rs) {
+					out = append(out, rs)
 				}
 
 				return out, nil
 			}
 		} else if e.Connection.Type == v1alpha1.OwnedBy {
-			return g.findChildren(ctx, dc, e, src)
+			return g.findChildren(f, e, src)
 		} else if e.Connection.Type == v1alpha1.MatchRef {
 			// TODO: check that namespacePath must be empty
 
-			var ri dynamic.ResourceInterface
-			ri = dc.Resource(e.Dst)
+			var ri dynamiclister.NamespaceLister
+			ri = f.ForResource(e.Dst)
 			if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 				return nil, err
 			} else if namespaced {
@@ -397,17 +398,17 @@ func (g *Graph) ResourcesFor(ctx context.Context, dc dynamic.Interface, src unst
 				if e.Connection.NamespacePath == MetadataNamespace {
 					ns = src.GetNamespace()
 				}
-				ri = dc.Resource(e.Dst).Namespace(ns)
+				ri = f.ForResource(e.Dst).Namespace(ns)
 			}
-			result, err := ri.List(ctx, metav1.ListOptions{})
+			result, err := ri.List(labels.Everything())
 			if err != nil {
 				return nil, err
 			}
 
-			var out []unstructured.Unstructured
+			var out []*unstructured.Unstructured
 		NextItem:
-			for i := range result.Items {
-				rs := result.Items[i]
+			for i := range result {
+				rs := result[i]
 
 				for _, reference := range e.Connection.References {
 
@@ -486,14 +487,14 @@ func (g *Graph) ResourcesFor(ctx context.Context, dc dynamic.Interface, src unst
 	return nil, nil
 }
 
-func isConnected(conn v1alpha1.OwnershipLevel, obj unstructured.Unstructured, owner unstructured.Unstructured) bool {
+func isConnected(conn v1alpha1.OwnershipLevel, obj *unstructured.Unstructured, owner *unstructured.Unstructured) bool {
 	switch conn {
 	case v1alpha1.Controller:
-		if metav1.IsControlledBy(&obj, &owner) {
+		if metav1.IsControlledBy(obj, owner) {
 			return true
 		}
 	case v1alpha1.Owner:
-		if IsOwnedBy(&obj, &owner) {
+		if IsOwnedBy(obj, owner) {
 			return true
 		}
 	default:
@@ -502,7 +503,7 @@ func isConnected(conn v1alpha1.OwnershipLevel, obj unstructured.Unstructured, ow
 	return false
 }
 
-func evalLabelSelector(obj unstructured.Unstructured, in *metav1.LabelSelector) (*metav1.LabelSelector, error) {
+func evalLabelSelector(obj *unstructured.Unstructured, in *metav1.LabelSelector) (*metav1.LabelSelector, error) {
 	out := in.DeepCopy()
 	for k, v := range out.MatchLabels {
 		if strings.ContainsRune(k, '{') {
@@ -544,7 +545,7 @@ func evalLabelSelector(obj unstructured.Unstructured, in *metav1.LabelSelector) 
 	return out, nil
 }
 
-func evalJsonPath(src unstructured.Unstructured, template string) (string, error) {
+func evalJsonPath(src *unstructured.Unstructured, template string) (string, error) {
 	j := jsonpath.New("jsonpath")
 	j.AllowMissingKeys(true)
 	err := j.Parse(template)
@@ -559,15 +560,15 @@ func evalJsonPath(src unstructured.Unstructured, template string) (string, error
 	return strings.TrimSpace(buf.String()), nil
 }
 
-func (g *Graph) findOwners(ctx context.Context, dc dynamic.Interface, e Edge, srcOwnerRefs []metav1.OwnerReference, namespace string) ([]unstructured.Unstructured, error) {
-	var out []unstructured.Unstructured
+func (g *Graph) findOwners(f dynamicfactory.Factory, e *Edge, srcOwnerRefs []metav1.OwnerReference, namespace string) ([]*unstructured.Unstructured, error) {
+	var out []*unstructured.Unstructured
 
-	var ri dynamic.ResourceInterface
-	ri = dc.Resource(e.Dst)
+	var ri dynamiclister.NamespaceLister
+	ri = f.ForResource(e.Dst)
 	if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 		return nil, err
 	} else if namespaced {
-		ri = dc.Resource(e.Dst).Namespace(namespace)
+		ri = f.ForResource(e.Dst).Namespace(namespace)
 	}
 	t, err := g.r.TypeMeta(e.Dst)
 	if err != nil {
@@ -577,19 +578,19 @@ func (g *Graph) findOwners(ctx context.Context, dc dynamic.Interface, e Edge, sr
 		if ref.APIVersion == t.APIVersion && ref.Kind == t.Kind {
 			if e.Connection.Level == v1alpha1.Controller {
 				if ref.Controller != nil && *ref.Controller {
-					rs, err := ri.Get(ctx, ref.Name, metav1.GetOptions{})
+					rs, err := ri.Get(ref.Name)
 					if err != nil {
 						return nil, err
 					}
-					out = append(out, *rs)
+					out = append(out, rs)
 					break
 				}
 			} else if e.Connection.Level == v1alpha1.Owner {
-				rs, err := ri.Get(ctx, ref.Name, metav1.GetOptions{})
+				rs, err := ri.Get(ref.Name)
 				if err != nil {
 					return nil, err
 				}
-				out = append(out, *rs)
+				out = append(out, rs)
 			} else {
 				return nil, fmt.Errorf("connection level should be Owner or Controller, found %v", e.Connection.Level)
 			}
@@ -599,27 +600,27 @@ func (g *Graph) findOwners(ctx context.Context, dc dynamic.Interface, e Edge, sr
 	return out, nil
 }
 
-func (g *Graph) findChildren(ctx context.Context, dc dynamic.Interface, e Edge, src unstructured.Unstructured) ([]unstructured.Unstructured, error) {
+func (g *Graph) findChildren(f dynamicfactory.Factory, e *Edge, src *unstructured.Unstructured) ([]*unstructured.Unstructured, error) {
 	if e.Connection.Level != v1alpha1.Owner && e.Connection.Level != v1alpha1.Controller {
 		return nil, fmt.Errorf("connection level should be Owner or Controller, found %v", e.Connection.Level)
 	}
 
-	var out []unstructured.Unstructured
+	var out []*unstructured.Unstructured
 
-	var ri dynamic.ResourceInterface
-	ri = dc.Resource(e.Dst)
+	var ri dynamiclister.NamespaceLister
+	ri = f.ForResource(e.Dst)
 	if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 		return nil, err
 	} else if namespaced {
-		ri = dc.Resource(e.Dst).Namespace(src.GetNamespace())
+		ri = f.ForResource(e.Dst).Namespace(src.GetNamespace())
 	}
 
-	result, err := ri.List(ctx, metav1.ListOptions{})
+	result, err := ri.List(labels.Everything())
 	if err != nil {
 		return nil, err
 	}
-	for i := range result.Items {
-		rs := result.Items[i]
+	for i := range result {
+		rs := result[i]
 		if isConnected(e.Connection.Level, rs, src) {
 			out = append(out, rs)
 		}
@@ -638,7 +639,7 @@ func IsOwnedBy(obj metav1.Object, owner metav1.Object) bool {
 }
 
 // len([]string) == 0 && err == nil => all namespaces
-func Namespaces(ref unstructured.Unstructured, nsSelector string) ([]string, error) {
+func Namespaces(ref *unstructured.Unstructured, nsSelector string) ([]string, error) {
 	if nsSelector == MetadataNamespace {
 		return []string{ref.GetNamespace()}, nil
 	} else if nsSelector != "" {
@@ -660,7 +661,7 @@ func Namespaces(ref unstructured.Unstructured, nsSelector string) ([]string, err
 	return nil, nil
 }
 
-func Extract(u unstructured.Unstructured, fieldPath string, v interface{}) (bool, error) {
+func Extract(u *unstructured.Unstructured, fieldPath string, v interface{}) (bool, error) {
 	if fieldPath == "" {
 		return false, errors.New("fieldPath can't be empty")
 	}
@@ -677,7 +678,7 @@ func keyExists(m map[string]interface{}, key string) bool {
 	return ok
 }
 
-func ExtractSelector(u unstructured.Unstructured, fieldPath string) (string, labels.Selector, error) {
+func ExtractSelector(u *unstructured.Unstructured, fieldPath string) (string, labels.Selector, error) {
 	nothing := labels.Nothing().String()
 
 	if fieldPath == "" {
