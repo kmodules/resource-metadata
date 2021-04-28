@@ -9,12 +9,67 @@ metadata:
     k8s.io/version: v1
   name: monitoring.coreos.com-v1-prometheuses
 spec:
+  columns:
+    - name: Name
+      pathTemplate: '{{ jp "{.metadata.name}" . }}'
+      priority: 3
+      type: string
+    - name: Namespace
+      pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
+      priority: 3
+      type: string
+    - name: Labels
+      pathTemplate: '{{ jp "{.metadata.labels}" . }}'
+      priority: 3
+      type: object
+    - name: Annotations
+      pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
+      priority: 1
+      type: object
+    - name: Retention
+      pathTemplate: '{{ jp "{.spec.retention}" . }}'
+      priority: 1
+      type: string
+    - name: Scrape Interval
+      pathTemplate: '{{ jp "{.spec.scrapeInterval}" . }}'
+      priority: 3
+      type: string
+    - name: Scrape Timeout
+      pathTemplate: '{{ jp "{.spec.scrapeTimeout}" . }}'
+      priority: 3
+      type: string
+    - name: Evaluation Interval
+      pathTemplate: '{{ jp "{.spec.evaluationInterval}" . }}'
+      priority: 3
+      type: string
+    - name: Admin API
+      pathTemplate: '{{ jp "{.spec.enableAdminAPI}" . }}'
+      priority: 3
+      type: string
+    - name: Storage
+      pathTemplate: '{{ jp "{.spec.storage.volumeClaimTemplate.resources.requests.storage}" . }}'
+      priority: 3
+      type: string
+    - name: Paused
+      pathTemplate: '{{ jp "{.spec.paused}" . }}'
+      priority: 3
+      type: string
+    - name: Age
+      pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+      priority: 3
+      type: date
   connections:
-  - namespacePath: spec.namespaceSelector
-    selectorPath: spec.selector
+  - namespacePath: spec.serviceMonitorNamespaceSelector
+    selectorPath: spec.serviceMonitorSelector
     target:
       apiVersion: monitoring.coreos.com/v1
       kind: ServiceMonitor
+    type: MatchSelector
+  - namespacePath: spec.podMonitorNamespaceSelector
+    selectorPath: spec.podMonitorSelector
+    target:
+      apiVersion: monitoring.coreos.com/v1
+      kind: PodMonitor
     type: MatchSelector
   icons:
   - src: https://cdn.appscode.com/k8s/icons/monitoring.coreos.com/prometheuses.svg

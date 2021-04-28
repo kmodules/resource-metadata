@@ -9,13 +9,111 @@ metadata:
     k8s.io/version: v1beta1
   name: stash.appscode.com-v1beta1-backupconfigurations
 spec:
+  columns:
+  - name: Name
+    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
+    priority: 3
+    type: string
+  - name: Labels
+    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
+    priority: 3
+    type: object
+  - name: Annotations
+    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
+    priority: 1
+    type: object
+  - name: Driver
+    pathTemplate: '{{ jp "{.spec.driver}" . }}'
+    priority: 3
+    type: string
+  - name: Schedule
+    pathTemplate: '{{ jp "{.spec.schedule}" . }}'
+    priority: 3
+    type: string
+  - name: Paused
+    pathTemplate: '{{ jp "{.spec.paused}" . }}'
+    priority: 3
+    type: string
+  - name: Repository
+    pathTemplate: '{{ jp "{.spec.repository.name}" . }}'
+    priority: 3
+    type: string
+  - name: Target
+    pathTemplate: '{{ jp "{.spec.target.ref.kind}/{.spec.target.ref.name}" . }}'
+    priority: 3
+    type: string
+  - name: Task
+    pathTemplate: '{{ jp "{.spec.task.name}" . }}'
+    priority: 3
+    type: string
+  - name: RetentionPolicy
+    pathTemplate: '{{ jp "{.spec.retentionPolicy.name}" . }}'
+    priority: 3
+    type: string
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    priority: 3
+    type: date
   connections:
+  - namespacePath: metadata.namespace
+    references:
+    - '{.spec.repository.name},{.metadata.namespace},{"Repository"},{"stash.appscode.com/v1beta1"}'
+    target:
+      apiVersion: stash.appscode.com/v1alpha1
+      kind: Repository
+    type: MatchRef
   - namespacePath: metadata.namespace
     references:
     - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
     target:
       apiVersion: appcatalog.appscode.com/v1alpha1
       kind: AppBinding
+    type: MatchRef
+  - namespacePath: metadata.namespace
+    references:
+    - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
+    target:
+      apiVersion: apps/v1
+      kind: Deployment
+    type: MatchRef
+  - namespacePath: metadata.namespace
+    references:
+      - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
+    target:
+      apiVersion: apps/v1
+      kind: ReplicaSet
+    type: MatchRef
+  - namespacePath: metadata.namespace
+    references:
+      - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind}'
+    target:
+      apiVersion: v1
+      kind: ReplicationController
+    type: MatchRef
+  - namespacePath: metadata.namespace
+    references:
+      - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
+    target:
+      apiVersion: apps/v1
+      kind: StatefulSet
+    type: MatchRef
+  - namespacePath: metadata.namespace
+    references:
+      - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
+    target:
+      apiVersion: apps/v1
+      kind: DaemonSet
+    type: MatchRef
+  - namespacePath: metadata.namespace
+    references:
+      - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
+    target:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
     type: MatchRef
   icons:
   - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/backupconfigurations.svg
@@ -26,11 +124,25 @@ spec:
   - name: Basic
     resources:
     - actions:
+        create: IfEmpty
+      displayMode: List
+      ref:
+        group: stash.appscode.com
+        resource: repositories
+        version: v1alpha1
+    - actions:
         create: Always
       displayMode: List
       ref:
         group: stash.appscode.com
         resource: backupsessions
+        version: v1beta1
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: batch
+        resource: cronjobs
         version: v1beta1
   resource:
     group: stash.appscode.com

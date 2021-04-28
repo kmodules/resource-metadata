@@ -73,12 +73,12 @@ func (p ServicePrinter) Convert(o runtime.Object) (map[string]interface{}, error
 		svcPorts = None
 	}
 
-	row["Name"] = obj.Name
-	row["Type"] = string(svcType)
-	row["Cluster-IP"] = internalIP
+	row["_Name"] = obj.Name
+	row["_Type"] = string(svcType)
+	row["_Cluster-IP"] = internalIP
 	row["External-IP"] = externalIP
-	row["Port(s)"] = svcPorts
-	row["Age"] = translateTimestampSince(obj.CreationTimestamp)
+	row["_Port(s)"] = svcPorts
+	row["_Age"] = translateTimestampSince(obj.CreationTimestamp)
 	row["Selector"] = labels.FormatLabels(obj.Spec.Selector)
 
 	return row, nil

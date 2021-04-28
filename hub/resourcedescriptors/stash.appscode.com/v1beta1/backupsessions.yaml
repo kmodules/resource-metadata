@@ -28,6 +28,43 @@ spec:
     name: backupsessions
     scope: Namespaced
     version: v1beta1
+  columns:
+  - name: Name
+    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
+    priority: 3
+    type: string
+  - name: Labels
+    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
+    priority: 3
+    type: object
+  - name: Annotations
+    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
+    priority: 1
+    type: object
+  - name: Invoker Kind
+    pathTemplate: '{{ jp "{.spec.invoker.kind}" . }}'
+    priority: 3
+    type: string
+  - name: Invoker Name
+    pathTemplate: '{{ jp "{.spec.invoker.name}" . }}'
+    priority: 3
+    type: string
+  - name: Phase
+    pathTemplate: '{{ jp "{.status.phase}" . }}'
+    priority: 3
+    type: string
+  - name: Duration
+    pathTemplate: '{{ jp "{.status.sessionDuration}" . }}'
+    priority: 3
+    type: string
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    priority: 3
+    type: date
   resourceRequirements:
   - resources: spec.podTemplate.spec.resources
     units: spec.replicas

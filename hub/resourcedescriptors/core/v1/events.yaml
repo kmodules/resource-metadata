@@ -9,6 +9,39 @@ metadata:
     k8s.io/version: v1
   name: core-v1-events
 spec:
+  columns:
+  - name: Type
+    pathTemplate: '{{ jp "{.type}" . }}'
+    priority: 3
+    type: string
+  - name: Reason
+    pathTemplate: '{{ jp "{.reason}" . }}'
+    priority: 3
+    type: string
+  - name: Source
+    pathTemplate: '{{ jp "{.source.component}" . }}'
+    priority: 3
+    type: string
+  - name: Involved Object
+    pathTemplate: '{{ jp "{.involvedObject.kind}/{.involvedObject.name}" . }}'
+    priority: 3
+    type: string
+  - name: Count
+    pathTemplate: '{{ jp "{.count}" . }}'
+    priority: 3
+    type: string
+  - name: First Seen
+    pathTemplate: '{{ jp "{.firstTimestamp}" . }}'
+    priority: 0
+    type: date
+  - name: Last Seen
+    pathTemplate: '{{ jp "{.firstTimestamp}" . }}'
+    priority: 0
+    type: date
+  - name: Message
+    pathTemplate: '{{ jp "{.message}" . }}'
+    priority: 0
+    type: string
   icons:
   - src: https://cdn.appscode.com/k8s/icons/core/events.svg
     type: image/svg+xml
