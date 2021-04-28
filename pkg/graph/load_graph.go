@@ -17,8 +17,6 @@ limitations under the License.
 package graph
 
 import (
-	"strings"
-
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"kmodules.xyz/resource-metadata/hub"
 
@@ -54,17 +52,17 @@ func addRDConnectionsToGraph(graph *Graph, rd *v1alpha1.ResourceDescriptor) erro
 			return err
 		}
 
-		var w uint64 = 1
-		if conn.ResourceConnectionSpec.Type == v1alpha1.MatchSelector &&
-			conn.TargetLabelPath != "" &&
-			strings.Trim(conn.TargetLabelPath, ".") != "metadata.labels" {
-			w = 1 + CostFactorOfInAppFiltering
-		}
+		//var w uint64 = 1
+		//if conn.ResourceConnectionSpec.Type == v1alpha1.MatchSelector &&
+		//	conn.TargetLabelPath != "" &&
+		//	strings.Trim(conn.TargetLabelPath, ".") != "metadata.labels" {
+		//	w = 1 + CostFactorOfInAppFiltering
+		//}
 
 		graph.AddEdge(&Edge{
 			Src:        src,
 			Dst:        dstGVR,
-			W:          w,
+			W:          getWeight(conn.Type),
 			Connection: conn.ResourceConnectionSpec,
 			Forward:    true,
 		})
@@ -72,19 +70,34 @@ func addRDConnectionsToGraph(graph *Graph, rd *v1alpha1.ResourceDescriptor) erro
 		backEdge := &Edge{
 			Src:        dstGVR,
 			Dst:        src,
+			W:          getWeight(conn.Type),
 			Connection: conn.ResourceConnectionSpec,
 			Forward:    false,
 		}
-		switch conn.Type {
-		case v1alpha1.MatchName:
-			backEdge.W = 1
-		case v1alpha1.MatchSelector, v1alpha1.OwnedBy:
-			backEdge.W = 1 + CostFactorOfInAppFiltering
-		case v1alpha1.MatchRef:
-			backEdge.W = 1 + CostFactorOfInAppFiltering<<1
-		}
+		//switch conn.Type {
+		//case v1alpha1.MatchName:
+		//	backEdge.W = 1
+		//case v1alpha1.MatchSelector, v1alpha1.OwnedBy:
+		//	backEdge.W = 1 + CostFactorOfInAppFiltering
+		//case v1alpha1.MatchRef:
+		//	backEdge.W = 1 + CostFactorOfInAppFiltering<<1
+		//}
 
 		graph.AddEdge(backEdge)
 	}
 	return nil
+}
+
+func getWeight(connType v1alpha1.ConnectionType) uint64 {
+	switch connType {
+	case v1alpha1.MatchName:
+		return 1
+	case v1alpha1.OwnedBy:
+		return 2
+	case v1alpha1.MatchSelector:
+		return 4
+	case v1alpha1.MatchRef:
+		return 4
+	}
+	return 99999999
 }

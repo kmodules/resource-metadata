@@ -17,6 +17,7 @@ require (
 	github.com/hashicorp/golang-lru v0.5.3
 	github.com/mitchellh/mapstructure v1.1.2
 	github.com/onsi/gomega v1.8.1 // indirect
+	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.47.0
 	github.com/prometheus/client_golang v1.2.1 // indirect
 	github.com/prometheus/common v0.7.0 // indirect
 	github.com/prometheus/procfs v0.0.6 // indirect

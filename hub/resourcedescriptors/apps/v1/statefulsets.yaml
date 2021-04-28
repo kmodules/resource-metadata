@@ -12,31 +12,82 @@ spec:
   columns:
   - name: Name
     pathTemplate: '{{ jp "{.metadata.name}" . }}'
-    priority: 0
+    priority: 3
     type: string
   - name: Namespace
     pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
-    priority: 0
+    priority: 3
     type: string
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    priority: 3
+    type: date
   - name: Labels
     pathTemplate: '{{ jp "{.metadata.labels}" . }}'
-    priority: 0
+    priority: 3
     type: object
   - name: Annotations
     pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
-    priority: 0
+    priority: 1
     type: object
-  - name: Age
-    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
-    priority: 0
-    type: date
+  - name: Selector
+    pathTemplate: '{{ jp "{.spec.selector }" . | k8s_fmt_selector }}'
+    priority: 1
+    type: string
+  - name: Revision History Limit
+    pathTemplate: '{{ jp "{.spec.revisionHistoryLimit}" . }}'
+    priority: 1
+    type: integer
+  - name: Update Strategy
+    pathTemplate: '{{ jp "{.spec.updateStrategy.type}" . }}'
+    priority: 1
+    type: string
+  - name: Rolling Update Strategy
+    pathTemplate: '{{ jp "{.spec.updateStrategy.rollingUpdate}" . }}'
+    priority: 1
+    type: object
+  - name: Pod Management Policy
+    pathTemplate: '{{ jp "{.spec.podManagementPolicy}" . }}'
+    priority: 1
+    type: string
+  - name: Desired Replicas
+    pathTemplate: '{{ jp "{.spec.replicas}" . }}'
+    priority: 1
+    type: integer
+  - name: Pod Status
+    pathTemplate: '{ "Total": "{{jp "{.status.replicas}" . }}", "Current Replicas":
+      "{{ jp "{.status.currentReplicas}" . }}", "Updated": "{{ jp "{.status.updatedReplicas}"
+      . }}" }'
+    priority: 1
+    type: object
   - name: Pods
     pathTemplate: '{{ jp "{.status.readyReplicas}/{.spec.replicas}" . }}'
-    priority: 0
+    priority: 2
     type: string
   - name: Images
-    priority: 0
+    pathTemplate: '{{ jp "{.spec.template.spec.containers}" . | k8s_container_images
+      }}'
+    priority: 2
     type: string
+  - name: Service Name
+    pathTemplate: '{{ jp "{.spec.serviceName}" . }}'
+    priority: 1
+    type: string
+  - name: Security Context
+    pathTemplate: '{ "runAsUser": "{{ jp "{.spec.template.spec.securityContext.runAsUser}"
+      . }}", "runAsGroup": "{{ jp "{.spec.template.spec.securityContext.runAsGroup}"
+      . }}","fsGroup": "{{ jp "{.spec.template.spec.securityContext.fsGroup}" . }}"
+      }'
+    priority: 1
+    type: object
+  - name: ServiceAccount Name
+    pathTemplate: '{{ jp "{.spec.template.spec.serviceAccountName}" . }}'
+    priority: 1
+    type: string
+  - name: Volumes
+    pathTemplate: '{{ jp "{.spec.template.spec.volumes}" . | k8s_volumes }}'
+    priority: 1
+    type: object
   connections:
   - level: Controller
     namespacePath: metadata.namespace
@@ -45,6 +96,13 @@ spec:
       apiVersion: v1
       kind: Pod
     type: MatchSelector
+  - namespacePath: metadata.namespace
+    references:
+    - '{range .spec.template.spec.volumes[*]}{.persistentVolumeClaim.claimName}{"\n"}{end}'
+    target:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+    type: MatchRef
   icons:
   - src: https://cdn.appscode.com/k8s/icons/apps/statefulsets.svg
     type: image/svg+xml
@@ -67,41 +125,62 @@ spec:
         group: ""
         resource: services
         version: v1
+    - actions:
+        create: IfEmpty
+      displayMode: List
+      ref:
+        group: autoscaling
+        resource: horizontalpodautoscalers
+        version: v1
   - name: Backups
     resources:
     - actions:
         create: IfEmpty
-      displayMode: Field
+      displayMode: List
+      ref:
+        group: stash.appscode.com
+        resource: repositories
+        version: v1alpha1
+    - actions:
+        create: IfEmpty
+      displayMode: List
       ref:
         group: stash.appscode.com
         resource: backupconfigurations
         version: v1beta1
     - actions:
-        create: Never
+        create: Always
       displayMode: List
       ref:
         group: stash.appscode.com
         resource: backupsessions
         version: v1beta1
+    - actions:
+        create: Always
+      displayMode: List
+      ref:
+        group: stash.appscode.com
+        resource: restoresessions
+        version: v1beta1
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: batch
+        resource: cronjobs
+        version: v1beta1
   - name: Monitoring
     resources:
     - actions:
         create: IfEmpty
-      displayMode: Field
+      displayMode: List
       ref:
         group: monitoring.coreos.com
         resource: servicemonitors
         version: v1
     - actions:
-        create: IfEmpty
-      displayMode: Field
-      ref:
-        group: monitoring.coreos.com
-        resource: podmonitors
-        version: v1
-    - actions:
         create: Never
-      displayMode: Field
+      displayMode: List
       ref:
         group: monitoring.coreos.com
         resource: prometheuses
@@ -112,6 +191,88 @@ spec:
     name: statefulsets
     scope: Namespaced
     version: v1
+  subTables:
+  - columns:
+    - name: Name
+      pathTemplate: '{{ jp "{.name}" . }}'
+      priority: 0
+      type: string
+    - name: Image
+      pathTemplate: '{{ jp "{.image}" . }}'
+      priority: 0
+      type: string
+    - name: Arguments
+      pathTemplate: '{{ jp "{.args}" . | fmt_list }}'
+      priority: 0
+      type: object
+    - name: Environment Variables
+      pathTemplate: '{{ jp "{.env}" . | fmt_list }}'
+      priority: 0
+      type: object
+    - name: Ports
+      pathTemplate: '{{ jp "{.ports}" . | k8s_container_ports }}'
+      priority: 0
+      type: string
+    - name: Volume Mounts
+      pathTemplate: '{{ jp "{.volumeMounts}" . | k8s_volumeMounts }}'
+      priority: 0
+      type: string
+    fieldPath: .spec.template.spec.containers
+    name: Containers
+  - columns:
+    - name: Name
+      pathTemplate: '{{ jp "{.name}" . }}'
+      priority: 0
+      type: string
+    - name: Image
+      pathTemplate: '{{ jp "{.image}" . }}'
+      priority: 0
+      type: string
+    - name: Arguments
+      pathTemplate: '{{ jp "{.args}" . | fmt_list }}'
+      priority: 0
+      type: object
+    - name: Environment Variables
+      pathTemplate: '{{ jp "{.env}" . | fmt_list }}'
+      priority: 0
+      type: object
+    - name: Ports
+      pathTemplate: '{{ jp "{.ports}" . | k8s_container_ports }}'
+      priority: 0
+      type: string
+    - name: Volume Mounts
+      pathTemplate: '{{ jp "{.volumeMounts}" . | k8s_volumeMounts }}'
+      priority: 0
+      type: string
+    fieldPath: .spec.template.spec.initContainers
+    name: Init-Containers
+  - columns:
+    - name: Type
+      pathTemplate: '{{ jp "{.type}" . }}'
+      priority: 0
+      type: string
+    - name: Status
+      pathTemplate: '{{ jp "{.status}" . }}'
+      priority: 0
+      type: string
+    - name: Reason
+      pathTemplate: '{{ jp "{.reason}" . }}'
+      priority: 0
+      type: string
+    - name: Last Transition Time
+      pathTemplate: '{{ jp "{.lastTransitionTime}" . }}'
+      priority: 0
+      type: date
+    - name: Last Update Time
+      pathTemplate: '{{ jp "{.lastUpdateTime}" . }}'
+      priority: 0
+      type: date
+    - name: Message
+      pathTemplate: '{{ jp "{.message}" . }}'
+      priority: 0
+      type: string
+    fieldPath: .status.conditions
+    name: Conditions
   ui:
     editor:
       name: apps-statefulset-editor

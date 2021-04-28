@@ -1,0 +1,180 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: bb-deployment-test
+  namespace: monitoring
+spec:
+  serviceAccountName: prometheus
+  serviceMonitorSelector:
+    matchLabels:
+      env: bb-deployment-test
+  resources:
+    requests:
+      memory: 400Mi
+  enableAdminAPI: true
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: bb-deployment-test-1
+  namespace: monitoring
+  labels:
+    env: bb-deployment-test
+spec:
+  selector:
+    matchLabels:
+      run: my-nginx
+  endpoints:
+    - port: http
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: bb-deployment-test-2
+  namespace: monitoring
+  labels:
+    env: bb-deployment-test
+spec:
+  namespaceSelector:
+    any: false
+  selector:
+    matchLabels:
+      run: my-nginx
+  endpoints:
+    - port: http
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: bb-deployment-test-3
+  namespace: monitoring
+  labels:
+    env: bb-deployment-test
+spec:
+  namespaceSelector:
+    any: false
+    matchNames: ["bb-test","kube-system"]
+  selector:
+    matchLabels:
+      run: my-nginx
+  endpoints:
+    - port: http
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: bb-deployment-test-4
+  namespace: monitoring
+  labels:
+    env: bb-deployment-test
+spec:
+  namespaceSelector:
+    any: true
+    matchNames: ["bb-test","kube-system"]
+  selector:
+    matchLabels:
+      run: my-nginx
+  endpoints:
+    - port: http
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: bb-deployment-test-5
+  namespace: monitoring
+  labels:
+    env: bb-deployment-test
+spec:
+  namespaceSelector:
+    matchNames: ["bb-test","kube-system"]
+  selector:
+    matchLabels:
+      run: my-nginx
+  endpoints:
+    - port: http
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: bb-deployment-test-6
+  namespace: bb-test
+  labels:
+    env: bb-deployment-test
+spec:
+  selector:
+    matchLabels:
+      run: my-nginx
+  endpoints:
+    - port: http
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: bb-deployment-test-7
+  namespace: bb-test
+  labels:
+    env: bb-deployment-test
+spec:
+  namespaceSelector:
+    any: false
+  selector:
+    matchLabels:
+      run: my-nginx
+  endpoints:
+    - port: http
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: bb-deployment-test-8
+  namespace: bb-test
+  labels:
+    env: bb-deployment-test
+spec:
+  namespaceSelector:
+    any: false
+    matchNames: ["bb-test","kube-system"]
+  selector:
+    matchLabels:
+      run: my-nginx
+  endpoints:
+    - port: http
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: bb-deployment-test-9
+  namespace: bb-test
+  labels:
+    env: bb-deployment-test
+spec:
+  namespaceSelector:
+    any: true
+    matchNames: ["bb-test","kube-system"]
+  selector:
+    matchLabels:
+      run: my-nginx
+  endpoints:
+    - port: http
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: bb-deployment-test-10
+  namespace: bb-test
+  labels:
+    env: bb-deployment-test
+spec:
+  namespaceSelector:
+    matchNames: ["bb-test","kube-system"]
+  selector:
+    matchLabels:
+      run: my-nginx
+  endpoints:
+    - port: http
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: prometheus
+  namespace: monitoring

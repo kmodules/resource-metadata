@@ -1,0 +1,164 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: bb-cronjob-test
+  namespace: bb-test
+  labels:
+    apps.kubernetes.io/instance: bb-cronjob-test
+    apps.kubernetes.io/managed-by: nobody
+    apps.kubernetes.io/components: php
+    sample-label-key: sample-label-value
+  annotations:
+    key-1: value-1
+    key-2: value-2
+    key-3: value-3
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: bb-cronjob-test
+            key-1: value-1
+            key-2: value-2
+            key-3: value-3
+        spec:
+          restartPolicy: Never
+          initContainers:
+            - name: myapp-container
+              image: busybox:1.28
+              command: [ 'sh', '-c', 'echo The app is initializing! && sleep 20' ]
+          containers:
+            - name: nginxhttps
+              image: ymqytw/nginxhttps:1.5
+              command: [ "/bin/sh","-c","echo Hello World && sleep 60" ]
+              ports:
+                - containerPort: 443
+                - containerPort: 80
+              resources:
+                limits:
+                  cpu: 500m
+                requests:
+                  cpu: 200m
+              env:
+                - name: SAMPLE_ENV
+                  value: sample-value
+                - name: CONFIGMAP_KEY
+                  valueFrom:
+                    configMapKeyRef:
+                      name: bb-cronjob-test-configmap
+                      key: color
+                - name: SECRET_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: bb-cronjob-test-secret
+                      key: password
+                - name: MY_POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+              volumeMounts:
+                - name: hostpath-example
+                  mountPath: /hostpath-example
+                  subPath: sample-subpath/demo
+                - name: emptydir-example
+                  mountPath: /emptydir-example
+                - name: certs
+                  mountPath: /etc/nginx/ssl
+                - name: projected-example
+                  mountPath: /projected-example
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+            fsGroup: 65535
+          volumes:
+            - name: hostpath-example
+              hostPath:
+                path: /bb-example-data
+                type: DirectoryOrCreate
+            - name: emptydir-example
+              emptyDir: {}
+            - name: certs
+              secret:
+                secretName: bb-cronjob-test-certs
+            - name: pvc-example
+              persistentVolumeClaim:
+                claimName: bb-cronjob-test-pvc
+            - name: projected-example
+              projected:
+                sources:
+                  - secret:
+                      name: bb-cronjob-test-secret
+                      items:
+                        - key: username
+                          path: projected-example/my-username
+                  - downwardAPI:
+                      items:
+                        - path: "labels"
+                          fieldRef:
+                            fieldPath: metadata.labels
+                  - configMap:
+                      name: bb-cronjob-test-configmap
+                      items:
+                        - key: color
+                          path: projected-example/color
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: bb-cronjob-test-secret
+  namespace: bb-test
+type: kubernetes.io/basic-auth
+stringData:
+  username: admin
+  password: t0p-Secret
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bb-cronjob-test-configmap
+  namespace: bb-test
+data:
+  color: purple
+  how: fairlyNice
+  textmode: "true"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bb-cronjob-test-pvc
+  namespace: bb-test
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: "v1"
+kind: "Secret"
+metadata:
+  name: bb-cronjob-test-certs
+  namespace: bb-test
+type: kubernetes.io/tls
+data:
+  tls.crt: "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURWVENDQWoyZ0F3SUJBZ0lVSWtGWkJPRXoveFlZQ3ZOaTl1ZnRlQm5VTjMwd0RRWUpLb1pJaHZjTkFRRUwKQlFBd09qRWJNQmtHQTFVRUF3d1NZbUl0WkdWd2JHOTViV1Z1ZEMxMFpYTjBNUnN3R1FZRFZRUUtEQkppWWkxawpaWEJzYjNsdFpXNTBMWFJsYzNRd0hoY05NakV3TkRJeU1qQTBPRE16V2hjTk1qWXdOREl4TWpBME9ETXpXakE2Ck1Sc3dHUVlEVlFRRERCSmlZaTFrWlhCc2IzbHRaVzUwTFhSbGMzUXhHekFaQmdOVkJBb01FbUppTFdSbGNHeHYKZVcxbGJuUXRkR1Z6ZERDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBS3Bua3ppawpiREhqSUJabHBuWkhia1lNUG1JWnNremVLY2tkRHJmK2hDK2VFaVNyNEZVSm9lWjMycjlOZjlTaGI2YzhqSjhyClgzZlluSE9YVHh3K1dsTGV6V2pvUWU4TWJ3KzNVR1hmTjVEa3VhSEpIcmtCWjZzWVplSTJaQ2QwdnEwNklaN1IKZnRtVXRja2ZmbkIrSm9XWSsyamNLaEtzOFc2cXlrRkZhWlRLb3EyaUFEb1JiTkduVkJTaUZCbWp5OWlyd2Z1UQpENHdUWWhqVThmTXJmc1Zoc0ppOUxIaXRVdW1PSkRaTlp0bWl5R1VtVG5Ed1BqM1lBWVVuVkk0cEFsR1JLTS8yCjkvZHhaSTNWY2tZamh3SzBwa3pqMVZPeVVDc0tIZW8ybHhzTnY4blZ5cmg0MzlrQmI4SGRKcjVFU1QrZGswbmsKZzVuclFRS3NaTUZZUlRFQ0F3RUFBYU5UTUZFd0hRWURWUjBPQkJZRUZEWUdxMTJpWjFRaEdtVTNBNTQ2WVhBbgp6aTJxTUI4R0ExVWRJd1FZTUJhQUZEWUdxMTJpWjFRaEdtVTNBNTQ2WVhBbnppMnFNQThHQTFVZEV3RUIvd1FGCk1BTUJBZjh3RFFZSktvWklodmNOQVFFTEJRQURnZ0VCQUMzVy9NUVZ6ajFDMWFPai9QTm5ETWIyZ1hWZXB5dEoKRzN4Y3gybTYvRzd2bXJjcCtrR210NjFyaXhjcjVpSTd4bWhUR2JYZDZQV1o4K3lJRlIvbVFmUHMxUW9rTDA0MQo2YWdWK2ZqemlBY3Vvb3VFaytmeWRrMGI2OUVSaGg3aXhBWjRRbnJpUU5kVk1FaXhMNFFxVEpjMUJ0Z2tac3ZICkcwZ293V3ZobG56eWhIN000YmhZdGpEY1lva0UzeTJZcFVrUmJlTTFnTjhYbUppVWhUQVVCa1BpRVR4akFHR0YKMEhac0ZvWUhlbEsvbE9kWTVvbHRtb3UrTUIxSER4WGh0bzdZZEFNNE5mUXQ0SWV3eWZxSytIVWJaTEM4WU5iUwovY2xVYTd2L2FJRjFCdnVjQnZySmMwTnBKSXF2SDZOblJHQ0hYaFVhVk9aTk9MNjFaR0wwQ0lJPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg=="
+  tls.key: "LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUV2QUlCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktZd2dnU2lBZ0VBQW9JQkFRQ3FaNU00cEd3eDR5QVcKWmFaMlIyNUdERDVpR2JKTTNpbkpIUTYzL29Rdm5oSWtxK0JWQ2FIbWQ5cS9UWC9Vb1crblBJeWZLMTkzMkp4egpsMDhjUGxwUzNzMW82RUh2REc4UHQxQmwzemVRNUxtaHlSNjVBV2VyR0dYaU5tUW5kTDZ0T2lHZTBYN1psTFhKCkgzNXdmaWFGbVB0bzNDb1NyUEZ1cXNwQlJXbVV5cUt0b2dBNkVXelJwMVFVb2hRWm84dllxOEg3a0ErTUUySVkKMVBIekszN0ZZYkNZdlN4NHJWTHBqaVEyVFdiWm9zaGxKazV3OEQ0OTJBR0ZKMVNPS1FKUmtTalA5dmYzY1dTTgoxWEpHSTRjQ3RLWk00OVZUc2xBckNoM3FOcGNiRGIvSjFjcTRlTi9aQVcvQjNTYStSRWsvblpOSjVJT1o2MEVDCnJHVEJXRVV4QWdNQkFBRUNnZ0VBZURMZk1oRXBFSGQ1WnRNRS9HR2VjMktuam1NNTFlYlA2c0RJWlJqdS9QZXYKTEpiZ2dwdHN6RGkyNEVJMmJUSUNwQ0Nkd0pqRG1ySDhpYnl0WE9yT282M3RqcFptQzh6bGVseUFKWnV5Z2s0VQpjdjUrNFZrUVd5dTJrajV6bnpGR1hzS21mSFNoMmJDQUdnSlJHZUNpSTVLcHBHbkljNnZ5RVhIL2dOTUppcDNOCnF0ZGlWQkUyQ25icGt4c3Q3aDQ0ejh0SEdFQzBoRllJS2toRHUxbHpJZkpuMjFoRk9tRHFnWmNDUkpwby9mNXcKbkdobU9QVVU0LzBGVlRSankyRGZ2MzFVRGo1bGNmelBhWmFJU1B0UUp5SHFSb1dtYnJPc2w2TjdMRWlCdzUzQgo1RElFdVVaaklWY1JId1JIUXVVMVFIZE5YZEowZ2VzSTJoQk5Ec29CMFFLQmdRRGVoa2JVczdwUDV0QzhoZ2RWCjZKNllnNWdzVzBiOThxMzdaekFDdXlrS3VXL2dIdnBVTHM3WXB0L01YQzBMSnJ0VHpTZWUyN04zTStyRll4S1IKbW41anN6ZVR3S1phcTF0UW5ZczZ2QWt0bVdiVmo5MkJraEplbWF0Qlh4ekk5aEhRVVFHRlc1Vzc4T3RaamJlYQpyZUd2WXZDdVV3Z29wRk5oMHQ4RFEwRXlQd0tCZ1FERUNoYTNlbktjNkhaNmNIbU9ETTF1Rm9WNEpVZ1cvNUNkCmVNZXpVd3lzWVZRV3RQNE5NVnVycW1mNFVRMUJVSTUxeTloT1BsMWZwMTJ3Ui9Nc3ludml1eW1iQlZWVmw1Q0wKSHN2aEJTSGFLWG1xcmk4VWNsV2J4OUZIUk1BeFc4UXg2aGFRWkhmRmtSQ090MWI1eUdubytmUytDZU8zL2VjRwpRVkZBUlYzTWp3S0JnQUVFeEZZODdHRnBRUk5iMmJTKzk5cmkzMU4wcDRLS0Zkbk13eCtBRTlRRXZVcGRXZkFBCnR0bXZDZDg1bk1zc1JqYy8vU3B3L3dWUXE0Wnp5YVg0K3hNaHd1TmVRbVN2M0I4bVdYalBXNHRsNUY2ZDVmbXQKM1grcFhHdFVNQ0dMWHRHQlRXeDYydGlkWmJabk82dnRsOWJoc1JCYk9QSldyanNJYUJUdnZlQ3BBb0dBSEVxZwpjS1k1T0MvTU9XdFYvNHdWY1pmS2QwWmFHd2VTNVVieSt3dzNQZ0ZsMDBrWGlPdmdvT3VjeVpkWTVGNHQwUTQwCkQwYXN6d3NtV0RScUFjTFBFaStVbDR5emZnQzdtWGcrVUNFZmU0NlV3bThVMkV5UDBrV0tERkQ5czZIY3RKOWwKMWp6SmxEZVZQaU56WitUbWMvcnV1U1pRT05OcHJkdHJVRzB5VmowQ2dZQk5GTExXQi9DbDFoakI2TnhTMWJDUAozSmQremdBMGFNMVJlRDBZRDBFN2lzeC9RWU54T3lZc0pzRVhrYjJ2cVRxVVQ4Wks5bTBYYWxEWGNQNDRkNnE2CkRXc1FpWTdLQ0xFbFp6aW9YZis2dkZ2dFN4S1gzQUVrclRpbHoreStMNGlJaHRENXNmSGJoTEs4T3NZa3NEK20KVUdsajJ3SGk2WjlFeUdDSnl0ZTJBdz09Ci0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS0K"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bb-cronjob-test
+  namespace: bb-test
+  labels:
+    app: bb-cronjob-test
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+  selector:
+    app: bb-cronjob-test
+
+# 01716710491
+# 01622284061

@@ -82,8 +82,8 @@ func (p JobPrinter) Convert(o runtime.Object) (map[string]interface{}, error) {
 	}
 
 	row["_Name"] = obj.Name
-	row["Completions"] = completions
-	row["Duration"] = jobDuration
+	row["_Completions"] = completions
+	row["_Duration"] = jobDuration
 	row["_Age"] = translateTimestampSince(obj.CreationTimestamp)
 
 	names, images := layoutContainerCells(obj.Spec.Template.Spec.Containers)
