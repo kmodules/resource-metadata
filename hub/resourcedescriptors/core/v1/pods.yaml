@@ -57,10 +57,9 @@ spec:
     priority: 1
     type: string
   - name: Security Context
-    pathTemplate: '{ "runAsUser": "{{ jp "{.spec.securityContext.runAsUser}"
-      . }}", "runAsGroup": "{{ jp "{.spec.securityContext.runAsGroup}"
-      . }}","fsGroup": "{{ jp "{.spec.securityContext.fsGroup}" . }}"
-      }'
+    pathTemplate: '{ "runAsUser": "{{ jp "{.spec.securityContext.runAsUser}" . }}",
+      "runAsGroup": "{{ jp "{.spec.securityContext.runAsGroup}" . }}","fsGroup": "{{
+      jp "{.spec.securityContext.fsGroup}" . }}" }'
     priority: 1
     type: object
   - name: ServiceAccount Name
@@ -161,27 +160,27 @@ spec:
         version: v1
   - name: Monitoring
     resources:
-      - actions:
-          create: IfEmpty
-        displayMode: List
-        ref:
-          group: monitoring.coreos.com
-          resource: servicemonitors
-          version: v1
-      - actions:
-          create: IfEmpty
-        displayMode: List
-        ref:
-          group: monitoring.coreos.com
-          resource: podmonitors
-          version: v1
-      - actions:
-          create: Never
-        displayMode: List
-        ref:
-          group: monitoring.coreos.com
-          resource: prometheuses
-          version: v1
+    - actions:
+        create: IfEmpty
+      displayMode: List
+      ref:
+        group: monitoring.coreos.com
+        resource: servicemonitors
+        version: v1
+    - actions:
+        create: IfEmpty
+      displayMode: List
+      ref:
+        group: monitoring.coreos.com
+        resource: podmonitors
+        version: v1
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: monitoring.coreos.com
+        resource: prometheuses
+        version: v1
   resource:
     group: ""
     kind: Pod
@@ -189,121 +188,121 @@ spec:
     scope: Namespaced
     version: v1
   subTables:
-    - columns:
-        - name: Name
-          pathTemplate: '{{ jp "{.name}" . }}'
-          priority: 0
-          type: string
-        - name: Image
-          pathTemplate: '{{ jp "{.image}" . }}'
-          priority: 0
-          type: string
-        - name: Arguments
-          pathTemplate: '{{ jp "{.args}" . | fmt_list }}'
-          priority: 0
-          type: object
-        - name: Environment Variables
-          pathTemplate: '{{ jp "{.env}" . | fmt_list }}'
-          priority: 0
-          type: object
-        - name: Ports
-          pathTemplate: '{{ jp "{.ports}" . | k8s_container_ports }}'
-          priority: 0
-          type: string
-        - name: Volume Mounts
-          pathTemplate: '{{ jp "{.volumeMounts}" . | k8s_volumeMounts }}'
-          priority: 0
-          type: string
-      fieldPath: .spec.containers
-      name: Containers
-    - columns:
-        - name: Name
-          pathTemplate: '{{ jp "{.name}" . }}'
-          priority: 0
-          type: string
-        - name: Image
-          pathTemplate: '{{ jp "{.image}" . }}'
-          priority: 0
-          type: string
-        - name: Arguments
-          pathTemplate: '{{ jp "{.args}" . | fmt_list }}'
-          priority: 0
-          type: object
-        - name: Environment Variables
-          pathTemplate: '{{ jp "{.env}" . | fmt_list }}'
-          priority: 0
-          type: object
-        - name: Ports
-          pathTemplate: '{{ jp "{.ports}" . | k8s_container_ports }}'
-          priority: 0
-          type: string
-        - name: Volume Mounts
-          pathTemplate: '{{ jp "{.volumeMounts}" . | k8s_volumeMounts }}'
-          priority: 0
-          type: string
-      fieldPath: .spec.initContainers
-      name: Init-Containers
-    - columns:
-        - name: Effect
-          pathTemplate: '{{ jp "{.effect}" . }}'
-          priority: 0
-          type: string
-        - name: Key
-          pathTemplate: '{{ jp "{.key}" . }}'
-          priority: 0
-          type: string
-        - name: Operator
-          pathTemplate: '{{ jp "{.operator}" . }}'
-          priority: 0
-          type: string
-        - name: Toleration Seconds
-          pathTemplate: '{{ jp "{.tolerationSeconds}" . }}'
-          priority: 0
-          type: string
-      fieldPath: .spec.tolerations
-      name: Tolerations
-    - columns:
-        - name: Type
-          pathTemplate: '{{ jp "{.type}" . }}'
-          priority: 0
-          type: string
-        - name: Status
-          pathTemplate: '{{ jp "{.status}" . }}'
-          priority: 0
-          type: string
-        - name: Last Transition Time
-          pathTemplate: '{{ jp "{.lastTransitionTime}" . }}'
-          priority: 0
-          type: string
-        - name: Last Probe Time
-          pathTemplate: '{{ jp "{.lastProbeTime}" . }}'
-          priority: 0
-          type: string
-      fieldPath: .status.conditions
-      name: Conditions
-    - columns:
-        - name: API Version
-          pathTemplate: '{{ jp "{.apiVersion}" . }}'
-          priority: 0
-          type: string
-        - name: Kind
-          pathTemplate: '{{ jp "{.kind}" . }}'
-          priority: 0
-          type: string
-        - name: Name
-          pathTemplate: '{{ jp "{.name}" . }}'
-          priority: 0
-          type: string
-        - name: Controller
-          pathTemplate: '{{ jp "{.controller}" . }}'
-          priority: 0
-          type: string
-        - name: Block Onwer Deletion
-          pathTemplate: '{{ jp "{.blockOwnerDeletion}" . }}'
-          priority: 0
-          type: string
-      fieldPath: .metadata.ownerReferences
-      name: Owners
+  - columns:
+    - name: Name
+      pathTemplate: '{{ jp "{.name}" . }}'
+      priority: 0
+      type: string
+    - name: Image
+      pathTemplate: '{{ jp "{.image}" . }}'
+      priority: 0
+      type: string
+    - name: Arguments
+      pathTemplate: '{{ jp "{.args}" . | fmt_list }}'
+      priority: 0
+      type: object
+    - name: Environment Variables
+      pathTemplate: '{{ jp "{.env}" . | fmt_list }}'
+      priority: 0
+      type: object
+    - name: Ports
+      pathTemplate: '{{ jp "{.ports}" . | k8s_container_ports }}'
+      priority: 0
+      type: string
+    - name: Volume Mounts
+      pathTemplate: '{{ jp "{.volumeMounts}" . | k8s_volumeMounts }}'
+      priority: 0
+      type: string
+    fieldPath: .spec.containers
+    name: Containers
+  - columns:
+    - name: Name
+      pathTemplate: '{{ jp "{.name}" . }}'
+      priority: 0
+      type: string
+    - name: Image
+      pathTemplate: '{{ jp "{.image}" . }}'
+      priority: 0
+      type: string
+    - name: Arguments
+      pathTemplate: '{{ jp "{.args}" . | fmt_list }}'
+      priority: 0
+      type: object
+    - name: Environment Variables
+      pathTemplate: '{{ jp "{.env}" . | fmt_list }}'
+      priority: 0
+      type: object
+    - name: Ports
+      pathTemplate: '{{ jp "{.ports}" . | k8s_container_ports }}'
+      priority: 0
+      type: string
+    - name: Volume Mounts
+      pathTemplate: '{{ jp "{.volumeMounts}" . | k8s_volumeMounts }}'
+      priority: 0
+      type: string
+    fieldPath: .spec.initContainers
+    name: Init-Containers
+  - columns:
+    - name: Effect
+      pathTemplate: '{{ jp "{.effect}" . }}'
+      priority: 0
+      type: string
+    - name: Key
+      pathTemplate: '{{ jp "{.key}" . }}'
+      priority: 0
+      type: string
+    - name: Operator
+      pathTemplate: '{{ jp "{.operator}" . }}'
+      priority: 0
+      type: string
+    - name: Toleration Seconds
+      pathTemplate: '{{ jp "{.tolerationSeconds}" . }}'
+      priority: 0
+      type: string
+    fieldPath: .spec.tolerations
+    name: Tolerations
+  - columns:
+    - name: Type
+      pathTemplate: '{{ jp "{.type}" . }}'
+      priority: 0
+      type: string
+    - name: Status
+      pathTemplate: '{{ jp "{.status}" . }}'
+      priority: 0
+      type: string
+    - name: Last Transition Time
+      pathTemplate: '{{ jp "{.lastTransitionTime}" . }}'
+      priority: 0
+      type: string
+    - name: Last Probe Time
+      pathTemplate: '{{ jp "{.lastProbeTime}" . }}'
+      priority: 0
+      type: string
+    fieldPath: .status.conditions
+    name: Conditions
+  - columns:
+    - name: API Version
+      pathTemplate: '{{ jp "{.apiVersion}" . }}'
+      priority: 0
+      type: string
+    - name: Kind
+      pathTemplate: '{{ jp "{.kind}" . }}'
+      priority: 0
+      type: string
+    - name: Name
+      pathTemplate: '{{ jp "{.name}" . }}'
+      priority: 0
+      type: string
+    - name: Controller
+      pathTemplate: '{{ jp "{.controller}" . }}'
+      priority: 0
+      type: string
+    - name: Block Onwer Deletion
+      pathTemplate: '{{ jp "{.blockOwnerDeletion}" . }}'
+      priority: 0
+      type: string
+    fieldPath: .metadata.ownerReferences
+    name: Owners
   ui:
     editor:
       name: core-pod-editor

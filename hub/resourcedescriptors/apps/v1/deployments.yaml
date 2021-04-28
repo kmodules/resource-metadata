@@ -65,7 +65,8 @@ spec:
     priority: 2
     type: string
   - name: Images
-    pathTemplate: '{{ jp "{.spec.template.spec.containers}" . | k8s_container_images }}'
+    pathTemplate: '{{ jp "{.spec.template.spec.containers}" . | k8s_container_images
+      }}'
     priority: 2
     type: string
   - name: Security Context
@@ -215,30 +216,30 @@ spec:
     fieldPath: .spec.template.spec.containers
     name: Containers
   - columns:
-      - name: Name
-        pathTemplate: '{{ jp "{.name}" . }}'
-        priority: 0
-        type: string
-      - name: Image
-        pathTemplate: '{{ jp "{.image}" . }}'
-        priority: 0
-        type: string
-      - name: Arguments
-        pathTemplate: '{{ jp "{.args}" . | fmt_list }}'
-        priority: 0
-        type: object
-      - name: Environment Variables
-        pathTemplate: '{{ jp "{.env}" . | fmt_list }}'
-        priority: 0
-        type: object
-      - name: Ports
-        pathTemplate: '{{ jp "{.ports}" . | k8s_container_ports }}'
-        priority: 0
-        type: string
-      - name: Volume Mounts
-        pathTemplate: '{{ jp "{.volumeMounts}" . | k8s_volumeMounts }}'
-        priority: 0
-        type: string
+    - name: Name
+      pathTemplate: '{{ jp "{.name}" . }}'
+      priority: 0
+      type: string
+    - name: Image
+      pathTemplate: '{{ jp "{.image}" . }}'
+      priority: 0
+      type: string
+    - name: Arguments
+      pathTemplate: '{{ jp "{.args}" . | fmt_list }}'
+      priority: 0
+      type: object
+    - name: Environment Variables
+      pathTemplate: '{{ jp "{.env}" . | fmt_list }}'
+      priority: 0
+      type: object
+    - name: Ports
+      pathTemplate: '{{ jp "{.ports}" . | k8s_container_ports }}'
+      priority: 0
+      type: string
+    - name: Volume Mounts
+      pathTemplate: '{{ jp "{.volumeMounts}" . | k8s_volumeMounts }}'
+      priority: 0
+      type: string
     fieldPath: .spec.template.spec.initContainers
     name: Init-Containers
   - columns:

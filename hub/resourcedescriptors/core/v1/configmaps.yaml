@@ -10,30 +10,30 @@ metadata:
   name: core-v1-configmaps
 spec:
   columns:
-    - name: Name
-      pathTemplate: '{{ jp "{.metadata.name}" . }}'
-      priority: 3
-      type: string
-    - name: Namespace
-      pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
-      priority: 3
-      type: string
-    - name: Labels
-      pathTemplate: '{{ jp "{.metadata.labels}" . }}'
-      priority: 3
-      type: object
-    - name: Annotations
-      pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
-      priority: 3
-      type: object
-    - name: Data
-      pathTemplate: '{{ jp "{.data}" .  | map_key_count }}'
-      priority: 3
-      type: string
-    - name: Age
-      pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
-      priority: 3
-      type: date
+  - name: Name
+    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
+    priority: 3
+    type: string
+  - name: Labels
+    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
+    priority: 3
+    type: object
+  - name: Annotations
+    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
+    priority: 3
+    type: object
+  - name: Data
+    pathTemplate: '{{ jp "{.data}" .  | map_key_count }}'
+    priority: 3
+    type: string
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    priority: 3
+    type: date
   icons:
   - src: https://cdn.appscode.com/k8s/icons/core/configmaps.svg
     type: image/svg+xml

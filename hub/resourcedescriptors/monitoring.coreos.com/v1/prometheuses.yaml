@@ -10,54 +10,55 @@ metadata:
   name: monitoring.coreos.com-v1-prometheuses
 spec:
   columns:
-    - name: Name
-      pathTemplate: '{{ jp "{.metadata.name}" . }}'
-      priority: 3
-      type: string
-    - name: Namespace
-      pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
-      priority: 3
-      type: string
-    - name: Labels
-      pathTemplate: '{{ jp "{.metadata.labels}" . }}'
-      priority: 3
-      type: object
-    - name: Annotations
-      pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
-      priority: 1
-      type: object
-    - name: Retention
-      pathTemplate: '{{ jp "{.spec.retention}" . }}'
-      priority: 1
-      type: string
-    - name: Scrape Interval
-      pathTemplate: '{{ jp "{.spec.scrapeInterval}" . }}'
-      priority: 3
-      type: string
-    - name: Scrape Timeout
-      pathTemplate: '{{ jp "{.spec.scrapeTimeout}" . }}'
-      priority: 3
-      type: string
-    - name: Evaluation Interval
-      pathTemplate: '{{ jp "{.spec.evaluationInterval}" . }}'
-      priority: 3
-      type: string
-    - name: Admin API
-      pathTemplate: '{{ jp "{.spec.enableAdminAPI}" . }}'
-      priority: 3
-      type: string
-    - name: Storage
-      pathTemplate: '{{ jp "{.spec.storage.volumeClaimTemplate.resources.requests.storage}" . }}'
-      priority: 3
-      type: string
-    - name: Paused
-      pathTemplate: '{{ jp "{.spec.paused}" . }}'
-      priority: 3
-      type: string
-    - name: Age
-      pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
-      priority: 3
-      type: date
+  - name: Name
+    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
+    priority: 3
+    type: string
+  - name: Labels
+    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
+    priority: 3
+    type: object
+  - name: Annotations
+    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
+    priority: 1
+    type: object
+  - name: Retention
+    pathTemplate: '{{ jp "{.spec.retention}" . }}'
+    priority: 1
+    type: string
+  - name: Scrape Interval
+    pathTemplate: '{{ jp "{.spec.scrapeInterval}" . }}'
+    priority: 3
+    type: string
+  - name: Scrape Timeout
+    pathTemplate: '{{ jp "{.spec.scrapeTimeout}" . }}'
+    priority: 3
+    type: string
+  - name: Evaluation Interval
+    pathTemplate: '{{ jp "{.spec.evaluationInterval}" . }}'
+    priority: 3
+    type: string
+  - name: Admin API
+    pathTemplate: '{{ jp "{.spec.enableAdminAPI}" . }}'
+    priority: 3
+    type: string
+  - name: Storage
+    pathTemplate: '{{ jp "{.spec.storage.volumeClaimTemplate.resources.requests.storage}"
+      . }}'
+    priority: 3
+    type: string
+  - name: Paused
+    pathTemplate: '{{ jp "{.spec.paused}" . }}'
+    priority: 3
+    type: string
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    priority: 3
+    type: date
   connections:
   - namespacePath: spec.serviceMonitorNamespaceSelector
     selectorPath: spec.serviceMonitorSelector

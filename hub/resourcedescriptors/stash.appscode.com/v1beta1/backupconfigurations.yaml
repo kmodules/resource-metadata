@@ -82,35 +82,35 @@ spec:
     type: MatchRef
   - namespacePath: metadata.namespace
     references:
-      - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
+    - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
     target:
       apiVersion: apps/v1
       kind: ReplicaSet
     type: MatchRef
   - namespacePath: metadata.namespace
     references:
-      - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind}'
+    - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind}'
     target:
       apiVersion: v1
       kind: ReplicationController
     type: MatchRef
   - namespacePath: metadata.namespace
     references:
-      - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
+    - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
     target:
       apiVersion: apps/v1
       kind: StatefulSet
     type: MatchRef
   - namespacePath: metadata.namespace
     references:
-      - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
+    - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
     target:
       apiVersion: apps/v1
       kind: DaemonSet
     type: MatchRef
   - namespacePath: metadata.namespace
     references:
-      - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
+    - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
     target:
       apiVersion: v1
       kind: PersistentVolumeClaim

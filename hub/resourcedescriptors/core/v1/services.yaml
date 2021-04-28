@@ -10,44 +10,44 @@ metadata:
   name: core-v1-services
 spec:
   columns:
-    - name: Name
-      pathTemplate: '{{ jp "{.metadata.name}" . }}'
-      priority: 3
-      type: string
-    - name: Namespace
-      pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
-      priority: 3
-      type: string
-    - name: Labels
-      pathTemplate: '{{ jp "{.metadata.labels}" . }}'
-      priority: 3
-      type: object
-    - name: Annotations
-      pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
-      priority: 1
-      type: object
-    - name: Age
-      pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . | k8s_age }}'
-      priority: 3
-      type: string
-    - name: Type
-      pathTemplate: '{{ jp "{.spec.type}" . }}'
-      priority: 3
-      type: string
-    - name: Cluster-IP
-      pathTemplate: '{{ jp "{.spec.clusterIP}" . }}'
-      priority: 3
-      type: string
-    - name: External-IP
-      priority: 3
-      type: string
-    - name: Port(s)
-      pathTemplate: '{{ jp "{.spec.ports}" . | k8s_svc_ports }}'
-      priority: 2
-      type: string
-    - name: Selector
-      priority: 3
-      type: string
+  - name: Name
+    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
+    priority: 3
+    type: string
+  - name: Labels
+    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
+    priority: 3
+    type: object
+  - name: Annotations
+    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
+    priority: 1
+    type: object
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . | k8s_age }}'
+    priority: 3
+    type: string
+  - name: Type
+    pathTemplate: '{{ jp "{.spec.type}" . }}'
+    priority: 3
+    type: string
+  - name: Cluster-IP
+    pathTemplate: '{{ jp "{.spec.clusterIP}" . }}'
+    priority: 3
+    type: string
+  - name: External-IP
+    priority: 3
+    type: string
+  - name: Port(s)
+    pathTemplate: '{{ jp "{.spec.ports}" . | k8s_svc_ports }}'
+    priority: 2
+    type: string
+  - name: Selector
+    priority: 3
+    type: string
   connections:
   - namespacePath: metadata.namespace
     selectorPath: spec.selector

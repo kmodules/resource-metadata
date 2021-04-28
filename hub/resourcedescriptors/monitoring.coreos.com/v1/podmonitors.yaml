@@ -10,45 +10,45 @@ metadata:
   name: monitoring.coreos.com-v1-podmonitors
 spec:
   columns:
-    - name: Name
-      pathTemplate: '{{ jp "{.metadata.name}" . }}'
-      priority: 3
-      type: string
-    - name: Namespace
-      pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
-      priority: 3
-      type: string
-    - name: Labels
-      pathTemplate: '{{ jp "{.metadata.labels}" . }}'
-      priority: 3
-      type: object
-    - name: Annotations
-      pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
-      priority: 1
-      type: object
-    - name: Selector
-      pathTemplate: '{{ jp "{.spec.selector }" . | k8s_fmt_selector }}'
-      priority: 3
-      type: string
-    - name: Target Namespace(s)
-      pathTemplate: '{{ jp "{$}" . | prom_ns_selector }}'
-      priority: 3
-      type: string
-    - name: Job Label
-      pathTemplate: '{{ jp "{.spec.jobLabel }" . }}'
-      priority: 3
-      type: string
-    - name: Age
-      pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
-      priority: 3
-      type: date
+  - name: Name
+    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
+    priority: 3
+    type: string
+  - name: Labels
+    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
+    priority: 3
+    type: object
+  - name: Annotations
+    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
+    priority: 1
+    type: object
+  - name: Selector
+    pathTemplate: '{{ jp "{.spec.selector }" . | k8s_fmt_selector }}'
+    priority: 3
+    type: string
+  - name: Target Namespace(s)
+    pathTemplate: '{{ jp "{$}" . | prom_ns_selector }}'
+    priority: 3
+    type: string
+  - name: Job Label
+    pathTemplate: '{{ jp "{.spec.jobLabel }" . }}'
+    priority: 3
+    type: string
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    priority: 3
+    type: date
   connections:
-    - namespacePath: spec.namespaceSelector
-      selectorPath: spec.selector
-      target:
-        apiVersion: v1
-        kind: Pod
-      type: MatchSelector
+  - namespacePath: spec.namespaceSelector
+    selectorPath: spec.selector
+    target:
+      apiVersion: v1
+      kind: Pod
+    type: MatchSelector
   icons:
   - src: https://cdn.appscode.com/k8s/icons/monitoring.coreos.com/podmonitors.svg
     type: image/svg+xml

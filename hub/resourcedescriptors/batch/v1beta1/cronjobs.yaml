@@ -47,24 +47,33 @@ spec:
     priority: 3
     type: date
   - name: Images
-    pathTemplate: '{{ jp "{.spec.jobTemplate.spec.template.spec.containers}" . | k8s_container_images }}'
+    pathTemplate: '{{ jp "{.spec.jobTemplate.spec.template.spec.containers}" . | k8s_container_images
+      }}'
     priority: 2
     type: string
   - name: Security Context
     pathTemplate: '{ "runAsUser": "{{ jp "{.spec.jobTemplate.spec.template.spec.securityContext.runAsUser}"
       . }}", "runAsGroup": "{{ jp "{.spec.jobTemplate.spec.template.spec.securityContext.runAsGroup}"
-      . }}","fsGroup": "{{ jp "{.spec.jobTemplate.spec.template.spec.securityContext.fsGroup}" . }}"
-      }'
+      . }}","fsGroup": "{{ jp "{.spec.jobTemplate.spec.template.spec.securityContext.fsGroup}"
+      . }}" }'
     priority: 1
     type: object
   - name: ServiceAccount Name
-    pathTemplate: '{{ jp "{.spec.jobTemplate.spec.template.spec.serviceAccountName}" . }}'
+    pathTemplate: '{{ jp "{.spec.jobTemplate.spec.template.spec.serviceAccountName}"
+      . }}'
     priority: 1
     type: string
   - name: Volumes
-    pathTemplate: '{{ jp "{.spec.jobTemplate.spec.template.spec.volumes}" . | k8s_volumes }}'
+    pathTemplate: '{{ jp "{.spec.jobTemplate.spec.template.spec.volumes}" . | k8s_volumes
+      }}'
     priority: 1
     type: object
+  connections:
+  - level: Controller
+    target:
+      apiVersion: stash.appscode.com/v1beta1
+      kind: BackupConfiguration
+    type: OwnedBy
   icons:
   - src: https://cdn.appscode.com/k8s/icons/batch/cronjobs.svg
     type: image/svg+xml
@@ -87,12 +96,6 @@ spec:
         group: ""
         resource: pods
         version: v1
-  connections:
-  - level: Controller
-    target:
-      apiVersion: stash.appscode.com/v1beta1
-      kind: BackupConfiguration
-    type: OwnedBy
   resource:
     group: batch
     kind: CronJob
@@ -182,26 +185,26 @@ spec:
     fieldPath: .status.conditions
     name: Conditions
   - columns:
-      - name: API Version
-        pathTemplate: '{{ jp "{.apiVersion}" . }}'
-        priority: 0
-        type: string
-      - name: Kind
-        pathTemplate: '{{ jp "{.kind}" . }}'
-        priority: 0
-        type: string
-      - name: Name
-        pathTemplate: '{{ jp "{.name}" . }}'
-        priority: 0
-        type: string
-      - name: Controller
-        pathTemplate: '{{ jp "{.controller}" . }}'
-        priority: 0
-        type: string
-      - name: Block Onwer Deletion
-        pathTemplate: '{{ jp "{.blockOwnerDeletion}" . }}'
-        priority: 0
-        type: string
+    - name: API Version
+      pathTemplate: '{{ jp "{.apiVersion}" . }}'
+      priority: 0
+      type: string
+    - name: Kind
+      pathTemplate: '{{ jp "{.kind}" . }}'
+      priority: 0
+      type: string
+    - name: Name
+      pathTemplate: '{{ jp "{.name}" . }}'
+      priority: 0
+      type: string
+    - name: Controller
+      pathTemplate: '{{ jp "{.controller}" . }}'
+      priority: 0
+      type: string
+    - name: Block Onwer Deletion
+      pathTemplate: '{{ jp "{.blockOwnerDeletion}" . }}'
+      priority: 0
+      type: string
     fieldPath: .metadata.ownerReferences
     name: Owners
   ui:

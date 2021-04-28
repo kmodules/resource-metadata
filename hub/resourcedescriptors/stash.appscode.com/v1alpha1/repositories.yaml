@@ -9,6 +9,51 @@ metadata:
     k8s.io/version: v1alpha1
   name: stash.appscode.com-v1alpha1-repositories
 spec:
+  columns:
+  - name: Name
+    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
+    priority: 3
+    type: string
+  - name: Labels
+    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
+    priority: 3
+    type: object
+  - name: Annotations
+    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
+    priority: 1
+    type: object
+  - name: Size
+    pathTemplate: '{{ jp "{.status.size}" . }}'
+    priority: 3
+    type: string
+  - name: Integrity
+    pathTemplate: '{{ jp "{.status.integrity}" . }}'
+    priority: 3
+    type: string
+  - name: Snapshot Count
+    pathTemplate: '{{ jp "{.status.snapshotCount}" . }}'
+    priority: 3
+    type: string
+  - name: Last-Successful-Backup
+    pathTemplate: '{{ jp "{.status.lastBackupTime}" . }}'
+    priority: 3
+    type: date
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    priority: 3
+    type: date
+  connections:
+  - namespacePath: metadata.namespace
+    references:
+    - '{.spec.repository.name},{.metadata.namespace},{"BackupConfiguration"},{"stash.appscode.com/v1beta1"}'
+    target:
+      apiVersion: stash.appscode.com/v1beta1
+      kind: BackupConfiguration
+    type: MatchRef
   icons:
   - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/repositories.svg
     type: image/svg+xml
@@ -20,51 +65,6 @@ spec:
     name: repositories
     scope: Namespaced
     version: v1alpha1
-  connections:
-    - namespacePath: metadata.namespace
-      references:
-      - '{.spec.repository.name},{.metadata.namespace},{"BackupConfiguration"},{"stash.appscode.com/v1beta1"}'
-      target:
-        apiVersion: stash.appscode.com/v1beta1
-        kind: BackupConfiguration
-      type: MatchRef
-  columns:
-    - name: Name
-      pathTemplate: '{{ jp "{.metadata.name}" . }}'
-      priority: 3
-      type: string
-    - name: Namespace
-      pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
-      priority: 3
-      type: string
-    - name: Labels
-      pathTemplate: '{{ jp "{.metadata.labels}" . }}'
-      priority: 3
-      type: object
-    - name: Annotations
-      pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
-      priority: 1
-      type: object
-    - name: Size
-      pathTemplate: '{{ jp "{.status.size}" . }}'
-      priority: 3
-      type: string
-    - name: Integrity
-      pathTemplate: '{{ jp "{.status.integrity}" . }}'
-      priority: 3
-      type: string
-    - name: Snapshot Count
-      pathTemplate: '{{ jp "{.status.snapshotCount}" . }}'
-      priority: 3
-      type: string
-    - name: Last-Successful-Backup
-      pathTemplate: '{{ jp "{.status.lastBackupTime}" . }}'
-      priority: 3
-      type: date
-    - name: Age
-      pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
-      priority: 3
-      type: date
   ui:
     editor:
       name: stashappscodecom-repository-editor
