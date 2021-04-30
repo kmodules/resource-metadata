@@ -87,18 +87,18 @@ func convertPath(in graph.Path) v1alpha1.Path {
 		Source:   v1alpha1.FromGVR(in.Source),
 		Target:   v1alpha1.FromGVR(in.Target),
 		Distance: in.Distance,
-		Edges:    make([]v1alpha1.Edge, len(in.Edges)),
+		Edges:    make([]*v1alpha1.Edge, len(in.Edges)),
 	}
 
 	for i := range in.Edges {
-		out.Edges[i] = convertEdge(*in.Edges[i])
+		out.Edges[i] = convertEdge(in.Edges[i])
 	}
 
 	return out
 }
 
-func convertEdge(in graph.Edge) v1alpha1.Edge {
-	return v1alpha1.Edge{
+func convertEdge(in *graph.Edge) *v1alpha1.Edge {
+	return &v1alpha1.Edge{
 		Src:        v1alpha1.FromGVR(in.Src),
 		Dst:        v1alpha1.FromGVR(in.Dst),
 		W:          in.W,

@@ -28,6 +28,7 @@ import (
 	"github.com/gregjones/httpcache"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/rest"
 )
@@ -152,7 +153,7 @@ func LoadFromCluster(f dynamicfactory.Factory, r *hub.Registry, src *unstructure
 	return g, nil
 }
 
-func GetConnectedGraph(config *rest.Config, reg *hub.Registry, srcGVR schema.GroupVersionResource, name, namespace string) ([]*Edge, error) {
+func GetConnectedGraph(config *rest.Config, reg *hub.Registry, srcGVR schema.GroupVersionResource, ref types.NamespacedName) ([]*Edge, error) {
 	cfg := clientcache.ConfigFor(config, 5*time.Minute, httpcache.NewMemoryCache())
 
 	if err := reg.Register(srcGVR, cfg); err != nil {
@@ -172,15 +173,15 @@ func GetConnectedGraph(config *rest.Config, reg *hub.Registry, srcGVR schema.Gro
 
 	var src *unstructured.Unstructured
 	if rd.Spec.Resource.Scope == v1alpha1.NamespaceScoped {
-		if namespace == "" {
-			return nil, fmt.Errorf("missing namespace query parameter for %s with name %s", srcGVR, name)
+		if ref.Namespace == "" {
+			return nil, fmt.Errorf("missing namespace query parameter for %s with name %s", srcGVR, ref.Name)
 		}
-		src, err = f.ForResource(srcGVR).Namespace(namespace).Get(name)
+		src, err = f.ForResource(srcGVR).Namespace(ref.Namespace).Get(ref.Name)
 		if err != nil {
 			return nil, err
 		}
 	} else {
-		src, err = f.ForResource(srcGVR).Get(name)
+		src, err = f.ForResource(srcGVR).Get(ref.Name)
 		if err != nil {
 			return nil, err
 		}
