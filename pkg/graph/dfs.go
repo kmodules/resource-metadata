@@ -24,6 +24,7 @@ import (
 
 // https://efficientcodeblog.wordpress.com/2018/02/15/finding-all-paths-between-two-nodes-in-a-graph/
 // https://www.baeldung.com/cs/simple-paths-between-two-vertices
+// FindPaths returns all simple paths betweek 2 vertices of a graph.
 func FindPaths(graph *Graph, src, dst schema.GroupVersionResource) []*Path {
 	var paths []*Path
 

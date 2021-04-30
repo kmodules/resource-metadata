@@ -17,12 +17,19 @@ limitations under the License.
 package graph
 
 import (
+	"fmt"
+	"time"
+
 	dynamicfactory "kmodules.xyz/client-go/dynamic/factory"
+	"kmodules.xyz/client-go/tools/clientcache"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"kmodules.xyz/resource-metadata/hub"
 
+	"github.com/gregjones/httpcache"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/client-go/dynamic"
+	"k8s.io/client-go/rest"
 )
 
 var empty = struct{}{}
@@ -146,4 +153,61 @@ func LoadFromCluster(f dynamicfactory.Factory, r *hub.Registry, src *unstructure
 		}
 	}
 	return g, nil
+}
+
+func GetConnectedGraph(cfg2 *rest.Config, srcGVR schema.GroupVersionResource, name, namespace string, reg *hub.Registry) ([]*Edge, error) {
+	// TODO(tamal): Use disk based cache?
+	cfg := clientcache.ConfigFor(cfg2, 5*time.Minute, httpcache.NewMemoryCache())
+
+	if err := reg.Register(srcGVR, cfg); err != nil {
+		return nil, err
+	}
+	rd, err := reg.LoadByGVR(srcGVR)
+	if err != nil {
+		return nil, err
+	}
+
+	dc, err := dynamic.NewForConfig(cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	f := dynamicfactory.New(dc)
+
+	var src *unstructured.Unstructured
+	if rd.Spec.Resource.Scope == v1alpha1.NamespaceScoped {
+		if namespace == "" {
+			return nil, fmt.Errorf("missing namespace query parameter for %s with name %s", srcGVR, name)
+		}
+		src, err = f.ForResource(srcGVR).Namespace(namespace).Get(name)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		src, err = f.ForResource(srcGVR).Get(name)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	g, err := LoadFromCluster(f, reg, src)
+	if err != nil {
+		return nil, err
+	}
+
+	dist, prev := Dijkstra(g, srcGVR)
+
+	out := make([]*Edge, 0, len(prev))
+	for target, edge := range prev {
+		if target != srcGVR && edge != nil {
+			out = append(out, &Edge{
+				Src:        edge.Src,
+				Dst:        edge.Dst,
+				W:          dist[target],
+				Connection: edge.Connection,
+				Forward:    edge.Forward,
+			})
+		}
+	}
+	return out, nil
 }
