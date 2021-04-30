@@ -23,6 +23,7 @@ import (
 	"path/filepath"
 
 	dynamicfactory "kmodules.xyz/client-go/dynamic/factory"
+	"kmodules.xyz/resource-metadata/hub"
 	"kmodules.xyz/resource-metadata/pkg/graph"
 
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -32,6 +33,42 @@ import (
 )
 
 func main() {
+	masterURL := ""
+	// kubeconfigPath := filepath.Join(homedir.HomeDir(), ".kube", "config")
+	kubeconfigPath := "/home/tamal/Downloads/kubedb-demo-ui-kubeconfig.yaml"
+
+	config, err := clientcmd.BuildConfigFromFlags(masterURL, kubeconfigPath)
+	if err != nil {
+		log.Fatalf("Could not get Kubernetes config: %s", err)
+	}
+
+	reg := hub.NewRegistryOfKnownResources()
+	err = reg.DiscoverResources(config)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	gvr := schema.GroupVersionResource{
+		Group:    "kubedb.com",
+		Version:  "v1alpha2",
+		Resource: "mongodbs",
+	}
+	//gvr := schema.GroupVersionResource{
+	//	Group:    "",
+	//	Version:  "v1",
+	//	Resource: "pods",
+	//}
+	//edges, err := graph.GetConnectedGraph(config, reg, gvr, "kube-apiserver-kind-control-plane", "kube-system")
+	edges, err := graph.GetConnectedGraph(config, reg, gvr, "mongo-rs", "default")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	for _, edge := range edges {
+		fmt.Printf("%v -> %v\n", edge.Src, edge.Dst)
+	}
+}
+
+func main_list() {
 	masterURL := ""
 	kubeconfigPath := filepath.Join(homedir.HomeDir(), ".kube", "config")
 	// kubeconfigPath := "$HOME/Downloads/ui-builder-demo-kubeconfig.yaml"
@@ -53,7 +90,7 @@ func main() {
 
 	f := dynamicfactory.New(dc)
 
-	if err := CheckPodToNode(f, g); err != nil {
+	if err := CheckNodeToPod(f, g); err != nil {
 		log.Fatalln(err)
 	}
 }

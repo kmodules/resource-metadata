@@ -35,7 +35,7 @@ func FindPaths(graph *Graph, src, dst schema.GroupVersionResource) []*Path {
 		Distance: 0,
 		Edges:    nil,
 	}
-	dfs(graph, src, dst, visited, curPath, paths)
+	paths = dfs(graph, src, dst, visited, curPath, paths)
 
 	sort.Slice(paths, func(i, j int) bool {
 		return paths[i].Distance < paths[j].Distance
@@ -43,7 +43,7 @@ func FindPaths(graph *Graph, src, dst schema.GroupVersionResource) []*Path {
 	return paths
 }
 
-func dfs(g *Graph, u, d schema.GroupVersionResource, visited map[schema.GroupVersionResource]bool, curPath *Path, paths []*Path) {
+func dfs(g *Graph, u, d schema.GroupVersionResource, visited map[schema.GroupVersionResource]bool, curPath *Path, paths []*Path) []*Path {
 	visited[u] = true
 	if u == d {
 		copyPath := *curPath
@@ -52,17 +52,19 @@ func dfs(g *Graph, u, d schema.GroupVersionResource, visited map[schema.GroupVer
 			copyPath.Edges[i] = curPath.Edges[i]
 		}
 		paths = append(paths, &copyPath)
-		return
+		return paths
 	}
 
 	for next, edge := range g.edges[u] {
 		if !visited[next] {
 			curPath.Edges = append(curPath.Edges, edge)
 			curPath.Distance += edge.W
-			dfs(g, next, d, visited, curPath, paths)
+			paths = dfs(g, next, d, visited, curPath, paths)
 			curPath.Edges = curPath.Edges[:len(curPath.Edges)-1]
 			curPath.Distance -= edge.W
 		}
 	}
 	visited[u] = false
+
+	return paths
 }

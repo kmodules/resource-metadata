@@ -37,7 +37,7 @@ import (
 	"k8s.io/client-go/dynamic/dynamiclister"
 )
 
-func (g *Graph) LisUsingDijkstra(f dynamicfactory.Factory, src *unstructured.Unstructured, dstGVR schema.GroupVersionResource) ([]*unstructured.Unstructured, error) {
+func (g *Graph) ListUsingDijkstra(f dynamicfactory.Factory, src *unstructured.Unstructured, dstGVR schema.GroupVersionResource) ([]*unstructured.Unstructured, error) {
 	srcGVR, err := g.r.GVR(src.GroupVersionKind())
 	if err != nil {
 		return nil, err

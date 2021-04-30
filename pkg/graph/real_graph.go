@@ -55,9 +55,6 @@ func LoadFromCluster(f dynamicfactory.Factory, r *hub.Registry, src *unstructure
 
 	g.r.Visit(func(key string, rd *v1alpha1.ResourceDescriptor) {
 		gvr := rd.Spec.Resource.GroupVersionResource()
-		if _, exists := travered[gvr.GroupResource()]; exists {
-			return
-		}
 
 		for _, conn := range rd.Spec.Connections {
 			dst := conn.Target
@@ -114,7 +111,7 @@ func LoadFromCluster(f dynamicfactory.Factory, r *hub.Registry, src *unstructure
 			}
 
 			edge := &Edge{
-				Src:        srcGVR,
+				Src:        gvr,
 				Dst:        dstGVR,
 				W:          getWeight(conn.Type),
 				Connection: conn.ResourceConnectionSpec,
@@ -133,7 +130,7 @@ func LoadFromCluster(f dynamicfactory.Factory, r *hub.Registry, src *unstructure
 				g.AddEdge(edge)
 				backEdge := &Edge{
 					Src:        dstGVR,
-					Dst:        srcGVR,
+					Dst:        gvr,
 					W:          getWeight(conn.Type),
 					Connection: conn.ResourceConnectionSpec,
 					Forward:    false,
@@ -155,9 +152,8 @@ func LoadFromCluster(f dynamicfactory.Factory, r *hub.Registry, src *unstructure
 	return g, nil
 }
 
-func GetConnectedGraph(cfg2 *rest.Config, srcGVR schema.GroupVersionResource, name, namespace string, reg *hub.Registry) ([]*Edge, error) {
-	// TODO(tamal): Use disk based cache?
-	cfg := clientcache.ConfigFor(cfg2, 5*time.Minute, httpcache.NewMemoryCache())
+func GetConnectedGraph(config *rest.Config, reg *hub.Registry, srcGVR schema.GroupVersionResource, name, namespace string) ([]*Edge, error) {
+	cfg := clientcache.ConfigFor(config, 5*time.Minute, httpcache.NewMemoryCache())
 
 	if err := reg.Register(srcGVR, cfg); err != nil {
 		return nil, err
