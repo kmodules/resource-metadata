@@ -1140,8 +1140,7 @@ func autoConvert_v1alpha1_ResourceDescriptorSpec_To_meta_ResourceDescriptorSpec(
 	if in.Validation != nil {
 		in, out := &in.Validation, &out.Validation
 		*out = new(apiextensions.CustomResourceValidation)
-		// TODO: Inefficient conversion - can we improve it?
-		if err := s.Convert(*in, *out, 0); err != nil {
+		if err := apiextensionsv1.Convert_v1_CustomResourceValidation_To_apiextensions_CustomResourceValidation(*in, *out, s); err != nil {
 			return err
 		}
 	} else {
@@ -1173,8 +1172,7 @@ func autoConvert_meta_ResourceDescriptorSpec_To_v1alpha1_ResourceDescriptorSpec(
 	if in.Validation != nil {
 		in, out := &in.Validation, &out.Validation
 		*out = new(apiextensionsv1.CustomResourceValidation)
-		// TODO: Inefficient conversion - can we improve it?
-		if err := s.Convert(*in, *out, 0); err != nil {
+		if err := apiextensionsv1.Convert_apiextensions_CustomResourceValidation_To_v1_CustomResourceValidation(*in, *out, s); err != nil {
 			return err
 		}
 	} else {

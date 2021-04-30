@@ -30,7 +30,10 @@ func IPv6EnabledInCluster(kc kubernetes.Interface) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	clusterIPs := []string{svc.Spec.ClusterIP}
+	clusterIPs := svc.Spec.ClusterIPs
+	if len(clusterIPs) == 0 {
+		clusterIPs = []string{svc.Spec.ClusterIP}
+	}
 	for _, ip := range clusterIPs {
 		if strings.ContainsRune(ip, ':') {
 			return true, nil

@@ -46,8 +46,6 @@ type ResourceMetadataServerOptions struct {
 	InsecureServing         *genericoptions.DeprecatedInsecureServingOptionsWithLoopback
 	Audit                   *genericoptions.AuditOptions
 	Features                *genericoptions.FeatureOptions
-	ProcessInfo             *genericoptions.ProcessInfo
-	Webhook                 *genericoptions.WebhookOptions
 
 	StdOut io.Writer
 	StdErr io.Writer
@@ -68,8 +66,6 @@ func NewResourceMetadataServerOptions(out, errOut io.Writer) *ResourceMetadataSe
 		InsecureServing:         NewInsecureServingOptions(),
 		Audit:                   genericoptions.NewAuditOptions(),
 		Features:                genericoptions.NewFeatureOptions(),
-		ProcessInfo:             genericoptions.NewProcessInfo("resource-metadata-server", "resource-metadata"),
-		Webhook:                 genericoptions.NewWebhookOptions(),
 
 		StdOut: out,
 		StdErr: errOut,
@@ -150,14 +146,13 @@ func (o *ResourceMetadataServerOptions) Config() (*apiserver.Config, error) {
 		return nil, err
 	}
 	serverConfig.Config.Authentication = genericapiserver.AuthenticationInfo{
-		APIAudiences:      nil,
-		Authenticator:     anonymous.NewAuthenticator(),
-		SupportsBasicAuth: false,
+		APIAudiences:  nil,
+		Authenticator: anonymous.NewAuthenticator(),
 	}
 	serverConfig.Config.Authorization = genericapiserver.AuthorizationInfo{
 		Authorizer: authorizerfactory.NewAlwaysAllowAuthorizer(),
 	}
-	if err := o.Audit.ApplyTo(&serverConfig.Config, serverConfig.ClientConfig, serverConfig.SharedInformerFactory, o.ProcessInfo, o.Webhook); err != nil {
+	if err := o.Audit.ApplyTo(&serverConfig.Config); err != nil {
 		return nil, err
 	}
 	if err := o.Features.ApplyTo(&serverConfig.Config); err != nil {
@@ -214,11 +209,11 @@ func BuildInsecureHandlerChain(apiHandler http.Handler, c *server.Config) http.H
 	handler = genericapifilters.WithAudit(handler, c.AuditBackend, c.AuditPolicyChecker, c.LongRunningFunc)
 	handler = genericapifilters.WithAuthentication(handler, server.InsecureSuperuser{}, nil, nil)
 	handler = genericfilters.WithCORS(handler, c.CorsAllowedOriginList, nil, nil, nil, "true")
-	handler = genericfilters.WithTimeoutForNonLongRunningRequests(handler, c.LongRunningFunc, c.RequestTimeout)
+	handler = genericfilters.WithTimeoutForNonLongRunningRequests(handler, c.LongRunningFunc)
 	handler = genericfilters.WithMaxInFlightLimit(handler, c.MaxRequestsInFlight, c.MaxMutatingRequestsInFlight, c.LongRunningFunc)
 	handler = genericfilters.WithWaitGroup(handler, c.LongRunningFunc, c.HandlerChainWaitGroup)
 	handler = genericapifilters.WithRequestInfo(handler, server.NewRequestInfoResolver(c))
-	handler = genericfilters.WithPanicRecovery(handler)
+	handler = genericfilters.WithPanicRecovery(handler, c.RequestInfoResolver)
 
 	return handler
 }

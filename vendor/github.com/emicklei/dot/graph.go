@@ -20,6 +20,9 @@ type Graph struct {
 	subgraphs map[string]*Graph
 	parent    *Graph
 	sameRank  map[string][]Node
+	//
+	nodeInitializer func(Node)
+	edgeInitializer func(Edge)
 }
 
 // NewGraph return a new initialized Graph.
@@ -65,6 +68,17 @@ func (g *Graph) Root() *Graph {
 	return g.parent.Root()
 }
 
+// FindSubgraph returns the subgraph of the graph or one from its parents.
+func (g *Graph) FindSubgraph(id string) (*Graph, bool) {
+	sub, ok := g.subgraphs[id]
+	if !ok {
+		if g.parent != nil {
+			return g.parent.FindSubgraph(id)
+		}
+	}
+	return sub, ok
+}
+
 // Subgraph returns the Graph with the given id ; creates one if absent.
 // The label attribute is also set to the id ; use Label() to overwrite it.
 func (g *Graph) Subgraph(id string, options ...GraphOption) *Graph {
@@ -79,6 +93,8 @@ func (g *Graph) Subgraph(id string, options ...GraphOption) *Graph {
 		each.Apply(sub)
 	}
 	sub.parent = g
+	sub.edgeInitializer = g.edgeInitializer
+	sub.nodeInitializer = g.nodeInitializer
 	g.subgraphs[id] = sub
 	return sub
 }
@@ -100,6 +116,16 @@ func (g *Graph) nextSeq() int {
 	return root.seq
 }
 
+// NodeInitializer sets a function that is called (if not nil) when a Node is implicitly created.
+func (g *Graph) NodeInitializer(callback func(n Node)) {
+	g.nodeInitializer = callback
+}
+
+// EdgeInitializer sets a function that is called (if not nil) when an Edge is implicitly created.
+func (g *Graph) EdgeInitializer(callback func(e Edge)) {
+	g.edgeInitializer = callback
+}
+
 // Node returns the node created with this id or creates a new node if absent.
 // The node will have a label attribute with the id as its value. Use Label() to overwrite this.
 // This method can be used as both a constructor and accessor.
@@ -114,6 +140,9 @@ func (g *Graph) Node(id string) Node {
 		AttributesMap: AttributesMap{attributes: map[string]interface{}{
 			"label": id}},
 		graph: g,
+	}
+	if g.nodeInitializer != nil {
+		g.nodeInitializer(n)
 	}
 	// store local
 	g.nodes[id] = n
@@ -136,6 +165,9 @@ func (g *Graph) Edge(fromNode, toNode Node, labels ...string) Edge {
 		graph:         edgeOwner}
 	if len(labels) > 0 {
 		e.Attr("label", strings.Join(labels, ","))
+	}
+	if g.edgeInitializer != nil {
+		g.edgeInitializer(e)
 	}
 	edgeOwner.edgesFrom[fromNode.id] = append(edgeOwner.edgesFrom[fromNode.id], e)
 	return e
