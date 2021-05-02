@@ -25,7 +25,7 @@ import (
 	"kmodules.xyz/resource-metadata/pkg/cmd/server"
 
 	genericapiserver "k8s.io/apiserver/pkg/server"
-	"k8s.io/klog"
+	"k8s.io/klog/v2"
 )
 
 func main() {

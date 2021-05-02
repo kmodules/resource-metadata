@@ -21,8 +21,8 @@ COMPRESS ?= no
 
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 # CRD_OPTIONS          ?= "crd:trivialVersions=true"
-CRD_OPTIONS          ?= "crd:trivialVersions=true,preserveUnknownFields=false,crdVersions={v1beta1,v1}"
-CODE_GENERATOR_IMAGE ?= appscode/gengo:release-1.18
+CRD_OPTIONS          ?= "crd:trivialVersions=true,preserveUnknownFields=false,allowDangerousTypes=true,crdVersions={v1beta1,v1}"
+CODE_GENERATOR_IMAGE ?= appscode/gengo:release-1.21
 API_GROUPS           ?= meta:v1alpha1
 
 # Where to push the docker image.
@@ -134,6 +134,7 @@ version:
 .PHONY: clientset
 clientset:
 	# for EAS types
+	@rm -rf ./apis/meta/v1alpha1/zz_generated.conversion.go
 	@docker run --rm                                              \
 		-u $$(id -u):$$(id -g)                                    \
 		-v /tmp:/.cache                                           \
@@ -143,12 +144,27 @@ clientset:
 		--env HTTPS_PROXY=$(HTTPS_PROXY)                          \
 		$(CODE_GENERATOR_IMAGE)                                   \
 		/go/src/k8s.io/code-generator/generate-internal-groups.sh \
-			"deepcopy,defaulter,conversion"                       \
+			"deepcopy,defaulter"                                  \
 			$(GO_PKG)/$(REPO)/client                              \
 			$(GO_PKG)/$(REPO)/apis                                \
 			$(GO_PKG)/$(REPO)/apis                                \
 			"$(API_GROUPS)"                                       \
 			--go-header-file "./hack/license/go.txt"
+	@docker run --rm                                              \
+		-u $$(id -u):$$(id -g)                                    \
+		-v /tmp:/.cache                                           \
+		-v $$(pwd):$(DOCKER_REPO_ROOT)                            \
+		-w $(DOCKER_REPO_ROOT)                                    \
+		--env HTTP_PROXY=$(HTTP_PROXY)                            \
+		--env HTTPS_PROXY=$(HTTPS_PROXY)                          \
+		$(CODE_GENERATOR_IMAGE)                                   \
+		/go/src/k8s.io/code-generator/generate-internal-groups.sh \
+			"conversion"                                          \
+			$(GO_PKG)/$(REPO)/client                              \
+			$(GO_PKG)/$(REPO)/apis                                \
+			$(GO_PKG)/$(REPO)/apis                                \
+			"$(API_GROUPS)"                                       \
+			--go-header-file "./hack/license/go.txt" --extra-dirs k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1
 	# for both CRD and EAS types
 	@docker run --rm                                              \
 		-u $$(id -u):$$(id -g)                                    \
