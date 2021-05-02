@@ -116,11 +116,13 @@ github.com/modern-go/concurrent
 github.com/modern-go/reflect2
 # github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822
 github.com/munnerz/goautoneg
+# github.com/onsi/gomega v1.8.1
+## explicit
 # github.com/pkg/errors v0.9.1
 github.com/pkg/errors
 # github.com/pmezard/go-difflib v1.0.0
 github.com/pmezard/go-difflib/difflib
-# github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.0.0-00010101000000-000000000000 => github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.47.0
+# github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.47.0 => github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.47.0
 ## explicit
 github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring
 github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1
@@ -289,7 +291,8 @@ gomodules.xyz/version
 ## explicit
 gomodules.xyz/x/strings
 gomodules.xyz/x/version
-# google.golang.org/appengine v1.5.0
+# google.golang.org/appengine v1.6.5
+## explicit
 google.golang.org/appengine/internal
 google.golang.org/appengine/internal/base
 google.golang.org/appengine/internal/datastore
@@ -959,6 +962,7 @@ sigs.k8s.io/yaml
 # github.com/golang/protobuf => github.com/golang/protobuf v1.4.3
 # github.com/googleapis/gnostic => github.com/googleapis/gnostic v0.4.1
 # github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
+# github.com/jetstack/cert-manager => github.com/kmodules/cert-manager v1.3.1-0.20210429172957-c5436c14ce0e
 # github.com/prometheus-operator/prometheus-operator => github.com/prometheus-operator/prometheus-operator v0.47.0
 # github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring => github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.47.0
 # github.com/prometheus/client_golang => github.com/prometheus/client_golang v1.10.0
@@ -966,6 +970,7 @@ sigs.k8s.io/yaml
 # google.golang.org/api => google.golang.org/api v0.20.0
 # google.golang.org/genproto => google.golang.org/genproto v0.0.0-20201110150050-8816d57aaa9a
 # google.golang.org/grpc => google.golang.org/grpc v1.27.1
+# helm.sh/helm/v3 => github.com/kubepack/helm/v3 v3.1.0-rc.1.0.20210427034123-21364f60dbb1
 # k8s.io/api => k8s.io/api v0.21.0
 # k8s.io/apimachinery => github.com/kmodules/apimachinery v0.21.1-rc.0.0.20210405112358-ad4c2289ba4c
 # k8s.io/apiserver => github.com/kmodules/apiserver v0.21.1-0.20210427013338-53dee545b83c
@@ -975,3 +980,4 @@ sigs.k8s.io/yaml
 # k8s.io/kube-openapi => k8s.io/kube-openapi v0.0.0-20201113171705-d219536bb9fd
 # k8s.io/kubernetes => github.com/kmodules/kubernetes v1.22.0-alpha.0.0.20210427080452-22d2e66bae50
 # k8s.io/utils => k8s.io/utils v0.0.0-20201110183641-67b214c5f920
+# sigs.k8s.io/application => github.com/kmodules/application v0.8.4-0.20210427030912-90eeee3bc4ad
