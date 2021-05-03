@@ -10,7 +10,6 @@ require (
 	github.com/google/gofuzz v1.1.0
 	github.com/hashicorp/golang-lru v0.5.1
 	github.com/mitchellh/mapstructure v1.1.2
-	github.com/onsi/gomega v1.8.1 // indirect
 	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.47.0
 	github.com/spf13/cobra v1.1.1
 	github.com/spf13/pflag v1.0.5
@@ -21,7 +20,6 @@ require (
 	gomodules.xyz/pointer v0.0.0-20201105071923-daf60fa55209
 	gomodules.xyz/version v0.1.0
 	gomodules.xyz/x v0.0.0-20201105065653-91c568df6331
-	google.golang.org/appengine v1.6.5 // indirect
 	gopkg.in/yaml.v2 v2.4.0
 	k8s.io/api v0.21.0
 	k8s.io/apiextensions-apiserver v0.21.0
@@ -31,8 +29,8 @@ require (
 	k8s.io/klog/v2 v2.8.0
 	k8s.io/kube-openapi v0.0.0-20210305001622-591a79e4bda7
 	kmodules.xyz/apiversion v0.2.0
-	kmodules.xyz/client-go v0.0.0-20210429233600-944c5ec810d6
-	kmodules.xyz/crd-schema-fuzz v0.0.0-20210427142518-307383b79acb
+	kmodules.xyz/client-go v0.0.0-20210502215034-b73197efff3f
+	kmodules.xyz/crd-schema-fuzz v0.0.0-20210503010137-7a9466ed654d
 	sigs.k8s.io/yaml v1.2.0
 )
 
@@ -71,6 +69,10 @@ replace github.com/Azure/go-autorest/autorest/validation => github.com/Azure/go-
 replace github.com/Azure/go-autorest/logger => github.com/Azure/go-autorest/logger v0.2.0
 
 replace github.com/Azure/go-autorest/tracing => github.com/Azure/go-autorest/tracing v0.6.0
+
+replace github.com/docker/distribution => github.com/docker/distribution v0.0.0-20191216044856-a8371794149d
+
+replace github.com/docker/docker => github.com/moby/moby v17.12.0-ce-rc1.0.20200618181300-9dc6525e6118+incompatible
 
 replace github.com/go-openapi/analysis => github.com/go-openapi/analysis v0.19.5
 
@@ -116,7 +118,7 @@ replace google.golang.org/genproto => google.golang.org/genproto v0.0.0-20201110
 
 replace google.golang.org/grpc => google.golang.org/grpc v1.27.1
 
-replace helm.sh/helm/v3 => github.com/kubepack/helm/v3 v3.1.0-rc.1.0.20210427034123-21364f60dbb1
+replace helm.sh/helm/v3 => github.com/kubepack/helm/v3 v3.1.0-rc.1.0.20210503022716-7e2d4913a125
 
 replace k8s.io/api => k8s.io/api v0.21.0
 
@@ -130,7 +132,7 @@ replace k8s.io/client-go => k8s.io/client-go v0.21.0
 
 replace k8s.io/component-base => k8s.io/component-base v0.21.0
 
-replace k8s.io/kube-openapi => k8s.io/kube-openapi v0.0.0-20201113171705-d219536bb9fd
+replace k8s.io/kube-openapi => k8s.io/kube-openapi v0.0.0-20210305001622-591a79e4bda7
 
 replace k8s.io/kubernetes => github.com/kmodules/kubernetes v1.22.0-alpha.0.0.20210427080452-22d2e66bae50
 
