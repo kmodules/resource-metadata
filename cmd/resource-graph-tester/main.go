@@ -27,6 +27,7 @@ import (
 	"kmodules.xyz/resource-metadata/pkg/graph"
 
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/util/homedir"
@@ -59,7 +60,7 @@ func main() {
 	//	Resource: "pods",
 	//}
 	//edges, err := graph.GetConnectedGraph(config, reg, gvr, "kube-apiserver-kind-control-plane", "kube-system")
-	edges, err := graph.GetConnectedGraph(config, reg, gvr, "mongo-rs", "default")
+	edges, err := graph.GetConnectedGraph(config, reg, gvr, types.NamespacedName{Namespace: "default", Name: "mongo-rs"})
 	if err != nil {
 		log.Fatalln(err)
 	}

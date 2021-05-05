@@ -52,6 +52,7 @@ func dfs(g *Graph, u, d schema.GroupVersionResource, visited map[schema.GroupVer
 			copyPath.Edges[i] = curPath.Edges[i]
 		}
 		paths = append(paths, &copyPath)
+		visited[u] = false
 		return paths
 	}
 

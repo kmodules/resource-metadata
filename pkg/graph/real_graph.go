@@ -26,6 +26,7 @@ import (
 	"kmodules.xyz/resource-metadata/hub"
 
 	"github.com/gregjones/httpcache"
+	kerr "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/types"
@@ -33,125 +34,10 @@ import (
 	"k8s.io/client-go/rest"
 )
 
-var empty = struct{}{}
-
 /*
 - Handle when multiple version of resources are available
 - How to handle preferred version path missing
 */
-func LoadFromCluster(f dynamicfactory.Factory, r *hub.Registry, src *unstructured.Unstructured) (*Graph, error) {
-	g := NewGraph(r)
-
-	srcGVK := schema.FromAPIVersionAndKind(src.GetAPIVersion(), src.GetKind())
-	srcGVR, err := g.r.GVR(srcGVK)
-	if err != nil {
-		return nil, err
-	}
-
-	travered := map[schema.GroupResource]struct{}{}
-	toBeTravered := []schema.GroupVersionResource{srcGVR}
-	objMap := map[schema.GroupVersionResource][]*unstructured.Unstructured{
-		srcGVR: {src},
-	}
-
-	g.r.Visit(func(key string, rd *v1alpha1.ResourceDescriptor) {
-		gvr := rd.Spec.Resource.GroupVersionResource()
-
-		for _, conn := range rd.Spec.Connections {
-			dst := conn.Target
-			dstGVR, err := g.r.GVR(dst.GroupVersionKind())
-			if err != nil {
-				// TODO: should panic ?
-				panic(err)
-			}
-			if dstGVR != srcGVR {
-				continue
-			}
-
-			backEdge := &Edge{
-				Src:        srcGVR, // == dstGVR
-				Dst:        gvr,
-				W:          getWeight(conn.Type),
-				Connection: conn.ResourceConnectionSpec,
-				Forward:    false,
-			}
-			objects, err := g.ResourcesFor(f, src, backEdge)
-			if err != nil {
-				panic(err)
-			}
-			if len(objects) > 0 {
-				// real edge exists, so need to traverse
-				toBeTravered = append(toBeTravered, gvr)
-				objMap[gvr] = objects
-			}
-
-			break // since we found the edge to the srcGVR
-		}
-	})
-
-	for {
-		var gvr schema.GroupVersionResource
-
-		// https://github.com/golang/go/wiki/SliceTricks
-		gvr, toBeTravered = toBeTravered[0], toBeTravered[1:]
-		srcObjects := objMap[gvr]
-
-		rd, err := g.r.LoadByGVR(gvr)
-		if err != nil {
-			return nil, err
-		}
-		for _, conn := range rd.Spec.Connections {
-			dst := conn.Target
-			dstGVR, err := g.r.GVR(dst.GroupVersionKind())
-			if err != nil {
-				return nil, err
-			}
-
-			if dstGVR == srcGVR {
-				continue // already added to graph in g.r.Visit(...)
-			}
-
-			edge := &Edge{
-				Src:        gvr,
-				Dst:        dstGVR,
-				W:          getWeight(conn.Type),
-				Connection: conn.ResourceConnectionSpec,
-				Forward:    true,
-			}
-
-			var dstObjects []*unstructured.Unstructured
-			for _, srcObj := range srcObjects {
-				objects, err := g.ResourcesFor(f, srcObj, edge)
-				if err != nil {
-					return nil, err
-				}
-				dstObjects = appendObjects(dstObjects, objects...)
-			}
-			if len(dstObjects) > 0 {
-				g.AddEdge(edge)
-				backEdge := &Edge{
-					Src:        dstGVR,
-					Dst:        gvr,
-					W:          getWeight(conn.Type),
-					Connection: conn.ResourceConnectionSpec,
-					Forward:    false,
-				}
-				g.AddEdge(backEdge)
-
-				if _, exists := travered[dstGVR.GroupResource()]; !exists {
-					toBeTravered = append(toBeTravered, dstGVR)
-					objMap[dstGVR] = dstObjects
-				}
-			}
-		}
-		travered[gvr.GroupResource()] = empty
-
-		if len(toBeTravered) == 0 {
-			break
-		}
-	}
-	return g, nil
-}
 
 func GetConnectedGraph(config *rest.Config, reg *hub.Registry, srcGVR schema.GroupVersionResource, ref types.NamespacedName) ([]*Edge, error) {
 	cfg := clientcache.ConfigFor(config, 5*time.Minute, httpcache.NewMemoryCache())
@@ -187,12 +73,16 @@ func GetConnectedGraph(config *rest.Config, reg *hub.Registry, srcGVR schema.Gro
 		}
 	}
 
-	g, err := LoadFromCluster(f, reg, src)
+	g, err := LoadGraph(reg)
+	if err != nil {
+		return nil, err
+	}
+	realGraph, err := g.generateRealGraph(f, src)
 	if err != nil {
 		return nil, err
 	}
 
-	dist, prev := Dijkstra(g, srcGVR)
+	dist, prev := Dijkstra(realGraph, srcGVR)
 
 	out := make([]*Edge, 0, len(prev))
 	for target, edge := range prev {
@@ -207,4 +97,57 @@ func GetConnectedGraph(config *rest.Config, reg *hub.Registry, srcGVR schema.Gro
 		}
 	}
 	return out, nil
+}
+
+// getRealGraph runs BFS on the original graph and returns a graph that has real connection
+// with the source resource.
+func (g *Graph) generateRealGraph(f dynamicfactory.Factory, src *unstructured.Unstructured) (*Graph, error) {
+	srcGVK := schema.FromAPIVersionAndKind(src.GetAPIVersion(), src.GetKind())
+	srcGVR, err := g.r.GVR(srcGVK)
+	if err != nil {
+		return nil, err
+	}
+	objMap := map[schema.GroupVersionResource][]*unstructured.Unstructured{
+		srcGVR: {src},
+	}
+
+	visited := map[schema.GroupVersionResource]bool{}
+	realGraph := NewGraph(g.r)
+	// Queue for the BSF
+	q := make([]schema.GroupVersionResource, 0)
+
+	// Push the source node
+	q = append(q, srcGVR)
+	visited[srcGVR] = true
+	for {
+		// Pop the first item
+		u := q[0]
+		q = q[1:]
+		for v, e := range g.edges[u] {
+			if !visited[v] {
+				// Find the connected objects. The object might be connected via multiple paths.
+				// Hence, we are checking connection from all the child object of u.
+				srcObjects := objMap[u]
+				var dstObjects []*unstructured.Unstructured
+				for _, srcObj := range srcObjects {
+					objects, err := g.ResourcesFor(f, srcObj, e)
+					if err != nil && !kerr.IsNotFound(err) {
+						return nil, err
+					}
+					dstObjects = appendObjects(dstObjects, objects...)
+				}
+				if len(dstObjects) > 0 {
+					// Real edge exists, we need to traverse. So, add it to the queue.
+					q = append(q, v)
+					realGraph.AddEdge(e)
+					objMap[v] = dstObjects
+					visited[v] = true
+				}
+			}
+		}
+		if len(q) == 0 {
+			break
+		}
+	}
+	return realGraph, nil
 }

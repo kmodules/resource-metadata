@@ -30,6 +30,7 @@ import (
 	"github.com/mitchellh/mapstructure"
 	"gomodules.xyz/jsonpath"
 	core "k8s.io/api/core/v1"
+	kerr "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/labels"
@@ -83,7 +84,7 @@ func (g *Graph) List(f dynamicfactory.Factory, src *unstructured.Unstructured, d
 			out = nil
 			for _, inObj := range in {
 				result, err := g.ResourcesFor(f, inObj, e)
-				if err != nil {
+				if err != nil && !kerr.IsNotFound(err) {
 					return nil, err
 				}
 				out = appendObjects(out, result...)
