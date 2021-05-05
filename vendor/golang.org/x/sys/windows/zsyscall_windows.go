@@ -942,8 +942,8 @@ func QueryServiceConfig(service Handle, serviceConfig *QUERY_SERVICE_CONFIG, buf
 	return
 }
 
-func ConvertSidToStringSid(sid *SID, stringSid **uint16) (err error) {
-	r1, _, e1 := syscall.Syscall(procConvertSidToStringSidW.Addr(), 2, uintptr(unsafe.Pointer(sid)), uintptr(unsafe.Pointer(stringSid)), 0)
+func QueryServiceLockStatus(mgr Handle, lockStatus *QUERY_SERVICE_LOCK_STATUS, bufSize uint32, bytesNeeded *uint32) (err error) {
+	r1, _, e1 := syscall.Syscall6(procQueryServiceLockStatusW.Addr(), 4, uintptr(mgr), uintptr(unsafe.Pointer(lockStatus)), uintptr(bufSize), uintptr(unsafe.Pointer(bytesNeeded)), 0, 0)
 	if r1 == 0 {
 		err = errnoErr(e1)
 	}
@@ -955,7 +955,7 @@ func QueryServiceStatus(service Handle, status *SERVICE_STATUS) (err error) {
 	if r1 == 0 {
 		err = errnoErr(e1)
 	}
-	return _convertStringSecurityDescriptorToSecurityDescriptor(_p0, revision, sd, size)
+	return
 }
 
 func QueryServiceStatusEx(service Handle, infoLevel uint32, buff *byte, buffSize uint32, bytesNeeded *uint32) (err error) {
@@ -1569,8 +1569,8 @@ func CreateNamedPipe(name *uint16, flags uint32, pipeMode uint32, maxInstances u
 	return
 }
 
-func SetServiceStatus(service Handle, serviceStatus *SERVICE_STATUS) (err error) {
-	r1, _, e1 := syscall.Syscall(procSetServiceStatus.Addr(), 2, uintptr(service), uintptr(unsafe.Pointer(serviceStatus)), 0)
+func CreatePipe(readhandle *Handle, writehandle *Handle, sa *SecurityAttributes, size uint32) (err error) {
+	r1, _, e1 := syscall.Syscall6(procCreatePipe.Addr(), 4, uintptr(unsafe.Pointer(readhandle)), uintptr(unsafe.Pointer(writehandle)), uintptr(unsafe.Pointer(sa)), uintptr(size), 0, 0)
 	if r1 == 0 {
 		err = errnoErr(e1)
 	}
@@ -1782,8 +1782,8 @@ func FindVolumeMountPointClose(findVolumeMountPoint Handle) (err error) {
 	return
 }
 
-func CancelIo(s Handle) (err error) {
-	r1, _, e1 := syscall.Syscall(procCancelIo.Addr(), 1, uintptr(s), 0, 0)
+func FlushFileBuffers(handle Handle) (err error) {
+	r1, _, e1 := syscall.Syscall(procFlushFileBuffers.Addr(), 1, uintptr(handle), 0, 0)
 	if r1 == 0 {
 		err = errnoErr(e1)
 	}
@@ -2339,7 +2339,7 @@ func IsWow64Process(handle Handle, isWow64 *bool) (err error) {
 	if r1 == 0 {
 		err = errnoErr(e1)
 	}
-	return _GetProcAddress(module, _p0)
+	return
 }
 
 func IsWow64Process2(handle Handle, processMachine *uint16, nativeMachine *uint16) (err error) {
@@ -2582,7 +2582,7 @@ func QueryInformationJobObject(job Handle, JobObjectInformationClass int32, JobO
 	if r1 == 0 {
 		err = errnoErr(e1)
 	}
-	return _LoadLibraryEx(_p0, zero, flags)
+	return
 }
 
 func ReadConsole(console Handle, buf *uint16, toread uint32, read *uint32, inputControl *byte) (err error) {
@@ -2602,7 +2602,7 @@ func ReadDirectoryChanges(handle Handle, buf *byte, buflen uint32, watchSubTree 
 	if r1 == 0 {
 		err = errnoErr(e1)
 	}
-	return _LoadLibrary(_p0)
+	return
 }
 
 func ReadFile(handle Handle, buf []byte, done *uint32, overlapped *Overlapped) (err error) {
@@ -3047,8 +3047,6 @@ func NetApiBufferFree(buf *byte) (neterr error) {
 	if r0 != 0 {
 		neterr = syscall.Errno(r0)
 	}
-	r0, _, _ := syscall.Syscall(procSleepEx.Addr(), 2, uintptr(milliseconds), uintptr(_p0), 0)
-	ret = uint32(r0)
 	return
 }
 
@@ -3333,12 +3331,8 @@ func DestroyEnvironmentBlock(block *uint16) (err error) {
 	return
 }
 
-func CreateEnvironmentBlock(block **uint16, token Token, inheritExisting bool) (err error) {
-	var _p0 uint32
-	if inheritExisting {
-		_p0 = 1
-	}
-	r1, _, e1 := syscall.Syscall(procCreateEnvironmentBlock.Addr(), 3, uintptr(unsafe.Pointer(block)), uintptr(token), uintptr(_p0))
+func GetUserProfileDirectory(t Token, dir *uint16, dirLen *uint32) (err error) {
+	r1, _, e1 := syscall.Syscall(procGetUserProfileDirectoryW.Addr(), 3, uintptr(t), uintptr(unsafe.Pointer(dir)), uintptr(unsafe.Pointer(dirLen)))
 	if r1 == 0 {
 		err = errnoErr(e1)
 	}

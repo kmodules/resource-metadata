@@ -456,19 +456,6 @@ func InstrumentHandlerFunc(verb, group, version, resource, subresource, scope, c
 	}
 }
 
-// cleanContentType binds the contentType (for metrics related purposes) to a
-// bounded set of known/expected content-types.
-func cleanContentType(contentType string) string {
-	normalizedContentType := strings.ToLower(contentType)
-	if strings.HasSuffix(contentType, " stream=watch") || strings.HasSuffix(contentType, " charset=utf-8") {
-		normalizedContentType = strings.ReplaceAll(contentType, " ", "")
-	}
-	if knownMetricContentTypes.Has(normalizedContentType) {
-		return normalizedContentType
-	}
-	return OtherContentType
-}
-
 // CleanScope returns the scope of the request.
 func CleanScope(requestInfo *request.RequestInfo) string {
 	if requestInfo.Namespace != "" {

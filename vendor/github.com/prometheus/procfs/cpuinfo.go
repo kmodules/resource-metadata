@@ -250,16 +250,6 @@ func parseCPUInfoARM(info []byte) ([]CPUInfo, error) {
 	}
 	return cpuinfo, nil
 
-// firstNonEmptyLine advances the scanner to the first non-empty line
-// and returns the contents of that line
-func firstNonEmptyLine(scanner *bufio.Scanner) string {
-	for scanner.Scan() {
-		line := scanner.Text()
-		if strings.TrimSpace(line) != "" {
-			return line
-		}
-	}
-	return ""
 }
 
 func parseCPUInfoS390X(info []byte) ([]CPUInfo, error) {

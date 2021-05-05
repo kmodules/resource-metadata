@@ -325,18 +325,6 @@ func NewInformer(
 	return clientState, newInformer(lw, objType, resyncPeriod, h, clientState)
 }
 
-func NewLiteInformer(
-	lw ListerWatcher,
-	objType runtime.Object,
-	resyncPeriod time.Duration,
-	h ResourceEventHandler,
-) (Store, Controller) {
-	// This will hold the client state, as we know it.
-	clientState := NewLiteStore(DeletionHandlingMetaNamespaceKeyFunc)
-
-	return clientState, newInformer(lw, objType, resyncPeriod, h, clientState)
-}
-
 // NewIndexerInformer returns a Indexer and a controller for populating the index
 // while also providing event notifications. You should only used the returned
 // Index for Get/List operations; Add/Modify/Deletes will cause the event
@@ -362,19 +350,6 @@ func NewIndexerInformer(
 ) (Indexer, Controller) {
 	// This will hold the client state, as we know it.
 	clientState := NewIndexer(DeletionHandlingMetaNamespaceKeyFunc, indexers)
-
-	return clientState, newInformer(lw, objType, resyncPeriod, h, clientState)
-}
-
-func NewLiteIndexerInformer(
-	lw ListerWatcher,
-	objType runtime.Object,
-	resyncPeriod time.Duration,
-	h ResourceEventHandler,
-	indexers Indexers,
-) (Indexer, Controller) {
-	// This will hold the client state, as we know it.
-	clientState := NewLiteIndexer(DeletionHandlingMetaNamespaceKeyFunc, indexers)
 
 	return clientState, newInformer(lw, objType, resyncPeriod, h, clientState)
 }
