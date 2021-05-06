@@ -38,6 +38,17 @@ import (
 	"k8s.io/client-go/dynamic/dynamiclister"
 )
 
+func (g *Graph) List(f dynamicfactory.Factory, src *unstructured.Unstructured, dstGVR schema.GroupVersionResource) ([]*unstructured.Unstructured, error) {
+	result, err := g.ListUsingDijkstra(f, src, dstGVR)
+	if err != nil {
+		return nil, err
+	}
+	if len(result) > 0 {
+		return result, nil
+	}
+	return g.ListUsingDFS(f, src, dstGVR)
+}
+
 func (g *Graph) ListUsingDijkstra(f dynamicfactory.Factory, src *unstructured.Unstructured, dstGVR schema.GroupVersionResource) ([]*unstructured.Unstructured, error) {
 	srcGVR, err := g.r.GVR(src.GroupVersionKind())
 	if err != nil {
@@ -68,7 +79,7 @@ func (g *Graph) ListUsingDijkstra(f dynamicfactory.Factory, src *unstructured.Un
 	return out, nil
 }
 
-func (g *Graph) List(f dynamicfactory.Factory, src *unstructured.Unstructured, dstGVR schema.GroupVersionResource) ([]*unstructured.Unstructured, error) {
+func (g *Graph) ListUsingDFS(f dynamicfactory.Factory, src *unstructured.Unstructured, dstGVR schema.GroupVersionResource) ([]*unstructured.Unstructured, error) {
 	srcGVR, err := g.r.GVR(src.GroupVersionKind())
 	if err != nil {
 		return nil, err
