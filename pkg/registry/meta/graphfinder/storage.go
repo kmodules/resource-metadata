@@ -64,11 +64,11 @@ func (r *Storage) Create(ctx context.Context, obj runtime.Object, createValidati
 	srcGVR := gf.Request.Source.GVR()
 	dist, prev := graph.Dijkstra(g, srcGVR)
 
-	out := make([]v1alpha1.Edge, 0, len(prev))
+	out := make([]*v1alpha1.Edge, 0, len(prev))
 
 	for target, edge := range prev {
 		if target != srcGVR && edge != nil {
-			out = append(out, v1alpha1.Edge{
+			out = append(out, &v1alpha1.Edge{
 				Src:        v1alpha1.FromGVR(edge.Src),
 				Dst:        v1alpha1.FromGVR(edge.Dst),
 				W:          dist[target],

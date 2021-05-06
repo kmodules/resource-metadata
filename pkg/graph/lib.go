@@ -30,6 +30,7 @@ import (
 	"github.com/mitchellh/mapstructure"
 	"gomodules.xyz/jsonpath"
 	core "k8s.io/api/core/v1"
+	kerr "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/labels"
@@ -37,7 +38,7 @@ import (
 	"k8s.io/client-go/dynamic/dynamiclister"
 )
 
-func (g *Graph) List(f dynamicfactory.Factory, src *unstructured.Unstructured, dstGVR schema.GroupVersionResource) ([]*unstructured.Unstructured, error) {
+func (g *Graph) ListUsingDijkstra(f dynamicfactory.Factory, src *unstructured.Unstructured, dstGVR schema.GroupVersionResource) ([]*unstructured.Unstructured, error) {
 	srcGVR, err := g.r.GVR(src.GroupVersionKind())
 	if err != nil {
 		return nil, err
@@ -65,6 +66,39 @@ func (g *Graph) List(f dynamicfactory.Factory, src *unstructured.Unstructured, d
 	}
 
 	return out, nil
+}
+
+func (g *Graph) List(f dynamicfactory.Factory, src *unstructured.Unstructured, dstGVR schema.GroupVersionResource) ([]*unstructured.Unstructured, error) {
+	srcGVR, err := g.r.GVR(src.GroupVersionKind())
+	if err != nil {
+		return nil, err
+	}
+	paths := FindPaths(g, srcGVR, dstGVR)
+	if len(paths) == 0 {
+		return nil, nil
+	}
+	for _, path := range paths {
+		in := []*unstructured.Unstructured{src}
+		var out []*unstructured.Unstructured
+		for _, e := range path.Edges {
+			out = nil
+			for _, inObj := range in {
+				result, err := g.ResourcesFor(f, inObj, e)
+				if err != nil && !kerr.IsNotFound(err) {
+					return nil, err
+				}
+				out = appendObjects(out, result...)
+			}
+			if len(out) == 0 {
+				break
+			}
+			in = out
+		}
+		if len(out) > 0 {
+			return out, nil
+		}
+	}
+	return nil, nil
 }
 
 type objectKey struct {

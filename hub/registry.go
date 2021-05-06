@@ -309,8 +309,8 @@ func (r *Registry) findGVR(in *v1alpha1.GroupResources, keepOfficialTypes bool) 
 func (r *Registry) GVR(gvk schema.GroupVersionKind) (schema.GroupVersionResource, error) {
 	r.m.RLock()
 	defer r.m.RUnlock()
-	rid, exist := r.regGVK[gvk]
-	if !exist {
+	rid, exists := r.regGVK[gvk]
+	if !exists {
 		return schema.GroupVersionResource{}, UnregisteredErr{gvk.String()}
 	}
 	return rid.GroupVersionResource(), nil
@@ -319,8 +319,8 @@ func (r *Registry) GVR(gvk schema.GroupVersionKind) (schema.GroupVersionResource
 func (r *Registry) TypeMeta(gvr schema.GroupVersionResource) (metav1.TypeMeta, error) {
 	r.m.RLock()
 	defer r.m.RUnlock()
-	rid, exist := r.regGVR[gvr]
-	if !exist {
+	rid, exists := r.regGVR[gvr]
+	if !exists {
 		return metav1.TypeMeta{}, UnregisteredErr{gvr.String()}
 	}
 	return rid.TypeMeta(), nil
@@ -329,8 +329,8 @@ func (r *Registry) TypeMeta(gvr schema.GroupVersionResource) (metav1.TypeMeta, e
 func (r *Registry) GVK(gvr schema.GroupVersionResource) (schema.GroupVersionKind, error) {
 	r.m.RLock()
 	defer r.m.RUnlock()
-	rid, exist := r.regGVR[gvr]
-	if !exist {
+	rid, exists := r.regGVR[gvr]
+	if !exists {
 		return schema.GroupVersionKind{}, UnregisteredErr{gvr.String()}
 	}
 	return rid.GroupVersionKind(), nil
@@ -344,6 +344,24 @@ func (r *Registry) IsNamespaced(gvr schema.GroupVersionResource) (bool, error) {
 		return false, UnregisteredErr{gvr.String()}
 	}
 	return rid.Scope == v1alpha1.NamespaceScoped, nil
+}
+
+func (r *Registry) IsPreferred(gvr schema.GroupVersionResource) bool {
+	r.m.RLock()
+	defer r.m.RUnlock()
+	if preferred, exists := r.preferred[gvr.GroupResource()]; exists {
+		return preferred == gvr
+	}
+	return false
+}
+
+func (r *Registry) Preferred(gvr schema.GroupVersionResource) schema.GroupVersionResource {
+	r.m.RLock()
+	defer r.m.RUnlock()
+	if preferred, exists := r.preferred[gvr.GroupResource()]; exists {
+		return preferred
+	}
+	return gvr
 }
 
 func (r *Registry) Resources() []schema.GroupVersionResource {

@@ -14607,8 +14607,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_GraphResponse(ref common.Refere
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
-										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Edge"),
+										Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Edge"),
 									},
 								},
 							},
@@ -14938,8 +14937,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_Path(ref common.ReferenceCallba
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
-										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Edge"),
+										Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Edge"),
 									},
 								},
 							},
