@@ -10,7 +10,6 @@ require (
 	github.com/google/gofuzz v1.1.0
 	github.com/hashicorp/golang-lru v0.5.1
 	github.com/mitchellh/mapstructure v1.1.2
-	github.com/onsi/gomega v1.8.1 // indirect
 	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.47.0
 	github.com/spf13/cobra v1.1.3
 	github.com/spf13/pflag v1.0.5
@@ -18,10 +17,10 @@ require (
 	github.com/yudai/gojsondiff v1.0.0
 	golang.org/x/net v0.0.0-20210224082022-3d97a244fca7
 	gomodules.xyz/jsonpath v0.0.1
+	gomodules.xyz/kglog v0.0.1
 	gomodules.xyz/pointer v0.0.0-20201105071923-daf60fa55209
 	gomodules.xyz/version v0.1.0
-	gomodules.xyz/x v0.0.3
-	google.golang.org/appengine v1.6.5 // indirect
+	gomodules.xyz/x v0.0.4
 	gopkg.in/yaml.v2 v2.4.0
 	k8s.io/api v0.21.0
 	k8s.io/apiextensions-apiserver v0.21.0
@@ -30,9 +29,8 @@ require (
 	k8s.io/client-go v0.21.0
 	k8s.io/klog/v2 v2.8.0
 	k8s.io/kube-openapi v0.0.0-20210305001622-591a79e4bda7
-	k8s.io/utils v0.0.0-20210111153108-fddb29f9d009 // indirect
 	kmodules.xyz/apiversion v0.2.0
-	kmodules.xyz/client-go v0.0.0-20210504024435-1eb80721e9b8
+	kmodules.xyz/client-go v0.0.0-20210505231546-fa4fb8e1d04e
 	kmodules.xyz/crd-schema-fuzz v0.0.0-20210503192455-da44af375c4c
 	sigs.k8s.io/yaml v1.2.0
 )

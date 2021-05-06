@@ -21,22 +21,22 @@ import (
 	"flag"
 	"os"
 
-	"kmodules.xyz/client-go/logs"
 	"kmodules.xyz/resource-metadata/pkg/cmd/server"
 
+	"gomodules.xyz/kglog"
 	genericapiserver "k8s.io/apiserver/pkg/server"
 	"k8s.io/klog/v2"
 )
 
 func main() {
-	logs.InitLogs()
-	defer logs.FlushLogs()
+	kglog.InitLogs()
+	defer kglog.FlushLogs()
 
 	stopCh := genericapiserver.SetupSignalHandler()
 	options := server.NewResourceMetadataServerOptions(os.Stdout, os.Stderr)
 	cmd := server.NewCommandStartResourceMetadataServer(options, stopCh)
 	cmd.Flags().AddGoFlagSet(flag.CommandLine)
-	logs.ParseFlags()
+	kglog.ParseFlags()
 	if err := cmd.Execute(); err != nil {
 		klog.Fatal(err)
 	}

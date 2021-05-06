@@ -57,6 +57,8 @@ github.com/gogo/protobuf/gogoproto
 github.com/gogo/protobuf/proto
 github.com/gogo/protobuf/protoc-gen-gogo/descriptor
 github.com/gogo/protobuf/sortkeys
+# github.com/golang/glog v0.0.0-20210429001901-424d2337a529
+github.com/golang/glog
 # github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e
 github.com/golang/groupcache/lru
 # github.com/golang/protobuf v1.4.3 => github.com/golang/protobuf v1.4.3
@@ -114,8 +116,6 @@ github.com/modern-go/concurrent
 github.com/modern-go/reflect2
 # github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822
 github.com/munnerz/goautoneg
-# github.com/onsi/gomega v1.8.1
-## explicit
 # github.com/pkg/errors v0.9.1
 github.com/pkg/errors
 # github.com/pmezard/go-difflib v1.0.0
@@ -273,24 +273,32 @@ golang.org/x/tools/internal/typesinternal
 # golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
 golang.org/x/xerrors
 golang.org/x/xerrors/internal
+# gomodules.xyz/clock v0.0.0-20200817085942-06523dba733f
+gomodules.xyz/clock
 # gomodules.xyz/jsonpatch/v2 v2.1.0
 gomodules.xyz/jsonpatch/v2
 # gomodules.xyz/jsonpath v0.0.1
 ## explicit
 gomodules.xyz/jsonpath
 gomodules.xyz/jsonpath/third_party/forked/golang/template
+# gomodules.xyz/kglog v0.0.1
+## explicit
+gomodules.xyz/kglog
 # gomodules.xyz/pointer v0.0.0-20201105071923-daf60fa55209
 ## explicit
 gomodules.xyz/pointer
+# gomodules.xyz/runtime v0.2.0
+gomodules.xyz/runtime
 # gomodules.xyz/version v0.1.0
 ## explicit
 gomodules.xyz/version
-# gomodules.xyz/x v0.0.3
+# gomodules.xyz/wait v0.0.0-20210218105358-639bd9211545
+gomodules.xyz/wait
+# gomodules.xyz/x v0.0.4
 ## explicit
 gomodules.xyz/x/strings
 gomodules.xyz/x/version
 # google.golang.org/appengine v1.6.5
-## explicit
 google.golang.org/appengine/internal
 google.golang.org/appengine/internal/base
 google.golang.org/appengine/internal/datastore
@@ -894,7 +902,6 @@ k8s.io/kube-openapi/pkg/util
 k8s.io/kube-openapi/pkg/util/proto
 k8s.io/kube-openapi/pkg/validation/spec
 # k8s.io/utils v0.0.0-20210111153108-fddb29f9d009 => k8s.io/utils v0.0.0-20201110183641-67b214c5f920
-## explicit
 k8s.io/utils/buffer
 k8s.io/utils/integer
 k8s.io/utils/net
@@ -904,7 +911,7 @@ k8s.io/utils/trace
 # kmodules.xyz/apiversion v0.2.0
 ## explicit
 kmodules.xyz/apiversion
-# kmodules.xyz/client-go v0.0.0-20210504024435-1eb80721e9b8
+# kmodules.xyz/client-go v0.0.0-20210505231546-fa4fb8e1d04e
 ## explicit
 kmodules.xyz/client-go
 kmodules.xyz/client-go/apiextensions
@@ -912,7 +919,6 @@ kmodules.xyz/client-go/apiextensions/v1
 kmodules.xyz/client-go/apiextensions/v1beta1
 kmodules.xyz/client-go/discovery
 kmodules.xyz/client-go/dynamic/factory
-kmodules.xyz/client-go/logs
 kmodules.xyz/client-go/meta
 # kmodules.xyz/crd-schema-fuzz v0.0.0-20210503192455-da44af375c4c
 ## explicit
