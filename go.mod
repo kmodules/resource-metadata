@@ -120,7 +120,7 @@ replace google.golang.org/genproto => google.golang.org/genproto v0.0.0-20201110
 
 replace google.golang.org/grpc => google.golang.org/grpc v1.27.1
 
-// replace gopkg.in/yaml.v2 => gopkg.in/yaml.v2 v2.3.0
+replace gopkg.in/yaml.v2 => gopkg.in/yaml.v2 v2.3.0
 
 replace helm.sh/helm/v3 => github.com/kubepack/helm/v3 v3.1.0-rc.1.0.20210503022716-7e2d4913a125
 
