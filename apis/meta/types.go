@@ -74,7 +74,7 @@ type ResourceSection struct {
 type ResourceDisplayMode string
 
 const (
-	DisplayModeList  = "List"
+	DisplayModeList  = "ListUsingDFS"
 	DisplayModeField = "Field"
 )
 

@@ -38,7 +38,7 @@ $ jsonpath-checker "{range .items[*]}{.metadata.name},{.status.capacity.cpu}{\"\
 127.0.0.2,8
 */
 var in = `{
-  "kind": "List",
+  "kind": "ListUsingDFS",
   "items":[
     {
       "kind":"None",

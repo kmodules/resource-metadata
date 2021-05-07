@@ -18,10 +18,6 @@ spec:
     pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
     priority: 3
     type: string
-  - name: Age
-    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
-    priority: 3
-    type: date
   - name: Labels
     pathTemplate: '{{ jp "{.metadata.labels}" . }}'
     priority: 3
@@ -30,6 +26,10 @@ spec:
     pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
     priority: 1
     type: object
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    priority: 3
+    type: date
   - name: Selector
     pathTemplate: '{{ jp "{.spec.selector }" . | k8s_fmt_selector }}'
     priority: 1
@@ -121,7 +121,7 @@ spec:
       ref:
         group: autoscaling
         resource: horizontalpodautoscalers
-        version: v2beta2
+        version: v1
   - name: Backups
     resources:
     - actions:

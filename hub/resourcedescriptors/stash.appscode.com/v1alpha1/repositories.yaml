@@ -46,14 +46,6 @@ spec:
     pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
     priority: 3
     type: date
-  connections:
-  - namespacePath: metadata.namespace
-    references:
-    - '{.spec.repository.name},{.metadata.namespace},{"BackupConfiguration"},{"stash.appscode.com/v1beta1"}'
-    target:
-      apiVersion: stash.appscode.com/v1beta1
-      kind: BackupConfiguration
-    type: MatchRef
   icons:
   - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/repositories.svg
     type: image/svg+xml
