@@ -9,6 +9,47 @@ metadata:
     k8s.io/version: v1alpha1
   name: catalog.kubedb.com-v1alpha1-mongodbversions
 spec:
+  columns:
+  - name: Name
+    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    priority: 3
+    type: string
+  - name: Labels
+    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
+    priority: 3
+    type: object
+  - name: Annotations
+    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
+    priority: 1
+    type: object
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    priority: 3
+    type: date
+  - name: Version
+    pathTemplate: '{{ jp "{.spec.version}" . }}'
+    priority: 3
+    type: string
+  - name: Distribution
+    pathTemplate: '{{ jp "{.spec.distribution}" . }}'
+    priority: 3
+    type: string
+  - name: DB Image
+    pathTemplate: '{{ jp "{.spec.db.image}" . }}'
+    priority: 3
+    type: string
+  - name: Deprecated
+    pathTemplate: '{{ jp "{.spec.deprecated}" . }}'
+    priority: 3
+    type: string
+  - name: Backup Task
+    pathTemplate: '{{ jp "{.spec.stash.addon.backupTask.name}" . }}'
+    priority: 3
+    type: string
+  - name: Restore Task
+    pathTemplate: '{{ jp "{.spec.stash.addon.restoreTask.name}" . }}'
+    priority: 3
+    type: string
   icons:
   - src: https://cdn.appscode.com/k8s/icons/catalog.kubedb.com/mongodbversions.svg
     type: image/svg+xml

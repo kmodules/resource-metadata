@@ -104,6 +104,25 @@ spec:
       apiVersion: appcatalog.appscode.com/v1alpha1
       kind: AppBinding
     type: MatchName
+  - references:
+    - '{.spec.version}'
+    target:
+      apiVersion: catalog.kubedb.com/v1alpha1
+      kind: MongoDBVersion
+    type: MatchRef
+  - namespacePath: metadata.namespace
+    references:
+    - '{.spec.tls.issuerRef.name},{.metadata.namespace}'
+    target:
+      apiVersion: cert-manager.io/v1
+      kind: Issuer
+    type: MatchRef
+  - references:
+    - '{.spec.tls.issuerRef.name}'
+    target:
+      apiVersion: cert-manager.io/v1
+      kind: ClusterIssuer
+    type: MatchRef
   icons:
   - src: https://cdn.appscode.com/k8s/icons/kubedb.com/mongodbs.svg
     type: image/svg+xml
@@ -112,6 +131,20 @@ spec:
   pages:
   - name: Basic
     resources:
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: appcatalog.appscode.com
+        resource: appbindings
+        version: v1alpha1
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: catalog.kubedb.com
+        resource: mongodbversions
+        version: v1alpha1
     - actions:
         create: Never
       displayMode: List
@@ -147,21 +180,100 @@ spec:
         group: ""
         resource: persistentvolumeclaims
         version: v1
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: policy
+        resource: poddisruptionbudgets
+        version: v1beta1
   - name: Backups
     resources:
     - actions:
         create: IfEmpty
-      displayMode: Field
+      displayMode: List
+      ref:
+        group: stash.appscode.com
+        resource: repositories
+        version: v1alpha1
+    - actions:
+        create: IfEmpty
+      displayMode: List
       ref:
         group: stash.appscode.com
         resource: backupconfigurations
         version: v1beta1
     - actions:
-        create: Never
+        create: Always
       displayMode: List
       ref:
         group: stash.appscode.com
         resource: backupsessions
+        version: v1beta1
+    - actions:
+        create: Always
+      displayMode: List
+      ref:
+        group: stash.appscode.com
+        resource: restoresessions
+        version: v1beta1
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: batch
+        resource: cronjobs
+        version: v1beta1
+  - name: Security
+    resources:
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: ""
+        resource: serviceaccounts
+        version: v1
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: rbac.authorization.k8s.io
+        resource: roles
+        version: v1
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: rbac.authorization.k8s.io
+        resource: rolebindings
+        version: v1
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: cert-manager.io
+        resource: certificates
+        version: v1
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: cert-manager.io
+        resource: issuers
+        version: v1
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: cert-manager.io
+        resource: clusterissuers
+        version: v1
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: policy
+        resource: podsecuritypolicies
         version: v1beta1
   - name: Operations
     resources:
@@ -176,21 +288,14 @@ spec:
     resources:
     - actions:
         create: IfEmpty
-      displayMode: Field
+      displayMode: List
       ref:
         group: monitoring.coreos.com
         resource: servicemonitors
         version: v1
     - actions:
-        create: IfEmpty
-      displayMode: Field
-      ref:
-        group: monitoring.coreos.com
-        resource: podmonitors
-        version: v1
-    - actions:
         create: Never
-      displayMode: Field
+      displayMode: List
       ref:
         group: monitoring.coreos.com
         resource: prometheuses

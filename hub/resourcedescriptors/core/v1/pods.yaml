@@ -95,6 +95,12 @@ spec:
       apiVersion: v1
       kind: Node
     type: MatchRef
+  - references:
+    - '{.spec.serviceAccountName}'
+    target:
+      apiVersion: v1
+      kind: ServiceAccount
+    type: MatchRef
   - namespacePath: metadata.namespace
     references:
     - '{range .spec.volumes[*]}{.persistentVolumeClaim.claimName}{"\n"}{end}'

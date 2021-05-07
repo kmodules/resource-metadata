@@ -179,8 +179,12 @@ func (c *convertor) rowFn(data interface{}) ([]interface{}, error) {
 			continue
 		}
 
-		tpl := template.Must(template.New("").Funcs(templateFns).Parse(col.PathTemplate))
-		err := tpl.Execute(c.buf, data)
+		tpl, err := template.New("").Funcs(templateFns).Parse(col.PathTemplate)
+		if err != nil {
+			log.Printf("Failed to parse. Reason: %v", err)
+			return nil, fmt.Errorf("invalid column definition %q", col.PathTemplate)
+		}
+		err = tpl.Execute(c.buf, data)
 		if err != nil {
 			log.Printf("Failed to resolve template. Reason: %v", err)
 			return nil, fmt.Errorf("invalid column definition %q", col.PathTemplate)

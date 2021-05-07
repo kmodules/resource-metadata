@@ -9,6 +9,19 @@ metadata:
     k8s.io/version: v1
   name: rbac.authorization.k8s.io-v1-clusterrolebindings
 spec:
+  connections:
+  - references:
+    - '{range .subjects[*]}{.name},{.namespace},{.kind}{"\n"}{end}'
+    target:
+      apiVersion: v1
+      kind: ServiceAccount
+    type: MatchRef
+  - references:
+    - '{.roleRef.name}'
+    target:
+      apiVersion: rbac.authorization.k8s.io/v1
+      kind: ClusterRole
+    type: MatchRef
   icons:
   - src: https://cdn.appscode.com/k8s/icons/rbac.authorization.k8s.io/clusterrolebindings.svg
     type: image/svg+xml
