@@ -19,6 +19,8 @@ package resourcedescriptor
 import (
 	"context"
 	"fmt"
+	"io/fs"
+	"path"
 	"strconv"
 
 	"kmodules.xyz/resource-metadata/apis/meta"
@@ -86,7 +88,16 @@ func (r *Storage) List(ctx context.Context, options *metainternalversion.ListOpt
 		return nil, kerr.NewBadRequest("fieldSelector is not a supported")
 	}
 
-	names := resourcedescriptors.AssetNames()
+	var names []string
+	err := fs.WalkDir(resourcedescriptors.FS(), ".", func(p string, e fs.DirEntry, err error) error {
+		if !e.IsDir() {
+			names = append(names, path.Join(p, e.Name()))
+		}
+		return err
+	})
+	if err != nil {
+		return nil, err
+	}
 
 	if options.Continue != "" {
 		start, err := strconv.Atoi(options.Continue)
@@ -103,7 +114,7 @@ func (r *Storage) List(ctx context.Context, options *metainternalversion.ListOpt
 	}
 
 	items := make([]meta.ResourceDescriptor, 0, len(names))
-	for _, filename := range resourcedescriptors.AssetNames() {
+	for _, filename := range names {
 		obj, err := resourcedescriptors.LoadByFile(filename)
 		if err != nil {
 			return nil, err
