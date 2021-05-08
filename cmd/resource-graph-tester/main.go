@@ -113,7 +113,7 @@ func CheckNodeToPod(f dynamicfactory.Factory, g *graph.Graph) error {
 		Resource: "nodes",
 	}
 
-	nodes, err := g.ListUsingDFS(f, pod, nodeGVR)
+	nodes, err := g.List(f, pod, nodeGVR)
 	if err != nil {
 		return err
 	}
@@ -141,7 +141,7 @@ func CheckPodToNode(f dynamicfactory.Factory, g *graph.Graph) error {
 		Resource: "pods",
 	}
 
-	pods, err := g.ListUsingDFS(f, node, podGVR)
+	pods, err := g.List(f, node, podGVR)
 	if err != nil {
 		return err
 	}
@@ -168,7 +168,7 @@ func CheckDeployment(f dynamicfactory.Factory, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "pods",
 	}
-	pods, err := g.ListUsingDFS(f, busyDep, podGVR)
+	pods, err := g.List(f, busyDep, podGVR)
 	if err != nil {
 		return err
 	}
@@ -181,7 +181,7 @@ func CheckDeployment(f dynamicfactory.Factory, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "services",
 	}
-	services, err := g.ListUsingDFS(f, busyDep, svcGVR)
+	services, err := g.List(f, busyDep, svcGVR)
 	if err != nil {
 		return err
 	}
@@ -208,7 +208,7 @@ func checkPodToPVC(f dynamicfactory.Factory, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "persistentvolumeclaims",
 	}
-	pvcs, err := g.ListUsingDFS(f, pod, pvcGVR)
+	pvcs, err := g.List(f, pod, pvcGVR)
 	if err != nil {
 		return err
 	}
@@ -236,7 +236,7 @@ func checkPVCToPod(f dynamicfactory.Factory, g *graph.Graph) error {
 		Resource: "pods",
 	}
 
-	pods, err := g.ListUsingDFS(f, pvc, podGVR)
+	pods, err := g.List(f, pvc, podGVR)
 	if err != nil {
 		return err
 	}
@@ -263,7 +263,7 @@ func checkDepToConfigMap(f dynamicfactory.Factory, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "configmaps",
 	}
-	cfgs, err := g.ListUsingDFS(f, pod, cfgGVR)
+	cfgs, err := g.List(f, pod, cfgGVR)
 	if err != nil {
 		return err
 	}
@@ -290,7 +290,7 @@ func checkConfigMapToDep(f dynamicfactory.Factory, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "deployments",
 	}
-	deps, err := g.ListUsingDFS(f, cfg, depGVR)
+	deps, err := g.List(f, cfg, depGVR)
 	if err != nil {
 		return err
 	}
@@ -317,7 +317,7 @@ func checkKubeDBToService(f dynamicfactory.Factory, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "services",
 	}
-	services, err := g.ListUsingDFS(f, pg, svcGVR)
+	services, err := g.List(f, pg, svcGVR)
 	if err != nil {
 		return err
 	}
@@ -344,7 +344,7 @@ func checkKubeDBToStatefulset(f dynamicfactory.Factory, g *graph.Graph) error {
 		Version:  "v1",
 		Resource: "statefulsets",
 	}
-	statefulsets, err := g.ListUsingDFS(f, pg, ssGVR)
+	statefulsets, err := g.List(f, pg, ssGVR)
 	if err != nil {
 		return err
 	}
@@ -372,7 +372,7 @@ func CheckBackupConfigToAppBinding(f dynamicfactory.Factory, g *graph.Graph) err
 		Resource: "appbindings",
 	}
 
-	pods, err := g.ListUsingDFS(f, node, appBindingGVR)
+	pods, err := g.List(f, node, appBindingGVR)
 	if err != nil {
 		return err
 	}

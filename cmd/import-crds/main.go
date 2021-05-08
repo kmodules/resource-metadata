@@ -67,7 +67,7 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/k8s.io/autoscaler/vertical-p
 */
 func main() {
 	var input []string
-	flag.StringSliceVar(&input, "input", nil, "ListUsingDFS of crd urls or dir/files")
+	flag.StringSliceVar(&input, "input", nil, "List of crd urls or dir/files")
 	flag.CommandLine.AddGoFlagSet(goflag.CommandLine)
 	flag.Parse()
 

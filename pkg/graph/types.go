@@ -87,7 +87,7 @@ type NamespaceSelector struct {
 	// Boolean describing whether all namespaces are selected in contrast to a
 	// list restricting them.
 	Any bool `json:"any,omitempty"`
-	// ListUsingDFS of namespace names.
+	// List of namespace names.
 	MatchNames []string `json:"matchNames,omitempty"`
 
 	// TODO(fabxc): this should embed metav1.LabelSelector eventually.
