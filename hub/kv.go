@@ -18,6 +18,8 @@ package hub
 
 import (
 	"fmt"
+	"io/fs"
+	"path"
 	"strings"
 	"sync"
 
@@ -112,7 +114,11 @@ var (
 )
 
 func init() {
-	for _, filename := range resourcedescriptors.AssetNames() {
+	e2 := fs.WalkDir(resourcedescriptors.FS(), ".", func(p string, e fs.DirEntry, err error) error {
+		if e.IsDir() {
+			return err
+		}
+		filename := path.Join(p, e.Name())
 		rd, err := resourcedescriptors.LoadByFile(filename)
 		if err != nil {
 			panic(fmt.Errorf("failed to load file: %q. Reason: %v", filename, err))
@@ -125,9 +131,17 @@ func init() {
 		} else if diff, _ := apiversion.Compare(existing.Version, gvr.Version); diff < 0 {
 			LatestGVRs[gvr.GroupResource()] = gvr
 		}
+		return err
+	})
+	if e2 != nil {
+		panic(fmt.Errorf("failed to load resource descriptors: err %v", e2))
 	}
 
-	for _, filename := range resourceclasses.AssetNames() {
+	e2 = fs.WalkDir(resourceclasses.FS(), ".", func(p string, e fs.DirEntry, err error) error {
+		if e.IsDir() {
+			return err
+		}
+		filename := path.Join(p, e.Name())
 		rc, err := resourceclasses.LoadByFile(filename)
 		if err != nil {
 			panic(err)
@@ -137,5 +151,9 @@ func init() {
 		} else {
 			KnownClasses[strings.ToLower(rc.Name)+".local"] = rc
 		}
+		return err
+	})
+	if e2 != nil {
+		panic(fmt.Errorf("failed to load resource panels: err %v", e2))
 	}
 }

@@ -19,7 +19,9 @@ package hub
 import (
 	"context"
 	"fmt"
+	"io/fs"
 	"math"
+	"path"
 	"sort"
 	"strings"
 	"sync"
@@ -263,10 +265,13 @@ func (r *Registry) createRegistry(cfg *rest.Config) (map[schema.GroupResource]sc
 		preferred[gvr.GroupResource()] = gvr
 	}
 
-	for _, name := range resourcedescriptors.AssetNames() {
-		delete(reg, name)
-	}
-	return preferred, reg, nil
+	err = fs.WalkDir(resourcedescriptors.FS(), ".", func(p string, e fs.DirEntry, err error) error {
+		if !e.IsDir() {
+			delete(reg, path.Join(p, e.Name()))
+		}
+		return err
+	})
+	return preferred, reg, err
 }
 
 func (r *Registry) Visit(f func(key string, val *v1alpha1.ResourceDescriptor)) {
