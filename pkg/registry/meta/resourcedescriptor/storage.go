@@ -20,7 +20,6 @@ import (
 	"context"
 	"fmt"
 	"io/fs"
-	"path"
 	"strconv"
 
 	"kmodules.xyz/resource-metadata/apis/meta"
@@ -89,9 +88,9 @@ func (r *Storage) List(ctx context.Context, options *metainternalversion.ListOpt
 	}
 
 	var names []string
-	err := fs.WalkDir(resourcedescriptors.FS(), ".", func(p string, e fs.DirEntry, err error) error {
+	err := fs.WalkDir(resourcedescriptors.FS(), ".", func(filename string, e fs.DirEntry, err error) error {
 		if !e.IsDir() {
-			names = append(names, path.Join(p, e.Name()))
+			names = append(names, filename)
 		}
 		return err
 	})

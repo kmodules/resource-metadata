@@ -21,7 +21,6 @@ import (
 	"fmt"
 	"io/fs"
 	"math"
-	"path"
 	"sort"
 	"strings"
 	"sync"
@@ -265,9 +264,9 @@ func (r *Registry) createRegistry(cfg *rest.Config) (map[schema.GroupResource]sc
 		preferred[gvr.GroupResource()] = gvr
 	}
 
-	err = fs.WalkDir(resourcedescriptors.FS(), ".", func(p string, e fs.DirEntry, err error) error {
+	err = fs.WalkDir(resourcedescriptors.FS(), ".", func(filename string, e fs.DirEntry, err error) error {
 		if !e.IsDir() {
-			delete(reg, path.Join(p, e.Name()))
+			delete(reg, filename)
 		}
 		return err
 	})
