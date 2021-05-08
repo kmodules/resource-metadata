@@ -9,6 +9,35 @@ metadata:
     k8s.io/version: v1
   name: rbac.authorization.k8s.io-v1-roles
 spec:
+  columns:
+  - name: Name
+    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
+    priority: 3
+    type: string
+  - name: Labels
+    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
+    priority: 3
+    type: object
+  - name: Annotations
+    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
+    priority: 1
+    type: object
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    priority: 3
+    type: date
+  connections:
+  - namespacePath: metadata.namespace
+    references:
+    - '{range .rules[?(@.resources[*]=="podsecuritypolicies")]}{range @.resourceNames[*]}{@}{"\n"}{end}{end}'
+    target:
+      apiVersion: policy/v1beta1
+      kind: PodSecurityPolicy
+    type: MatchRef
   icons:
   - src: https://cdn.appscode.com/k8s/icons/rbac.authorization.k8s.io/roles.svg
     type: image/svg+xml

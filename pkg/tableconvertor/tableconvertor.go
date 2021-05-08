@@ -21,7 +21,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
 	"strconv"
 	"strings"
 	"text/template"
@@ -38,6 +37,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/util/sets"
+	"k8s.io/klog/v2"
 )
 
 type TableConvertor interface {
@@ -179,10 +179,14 @@ func (c *convertor) rowFn(data interface{}) ([]interface{}, error) {
 			continue
 		}
 
-		tpl := template.Must(template.New("").Funcs(templateFns).Parse(col.PathTemplate))
-		err := tpl.Execute(c.buf, data)
+		tpl, err := template.New("").Funcs(templateFns).Parse(col.PathTemplate)
 		if err != nil {
-			log.Printf("Failed to resolve template. Reason: %v", err)
+			klog.Infof("Failed to parse. Reason: %v", err)
+			return nil, fmt.Errorf("invalid column definition %q", col.PathTemplate)
+		}
+		err = tpl.Execute(c.buf, data)
+		if err != nil {
+			klog.Infof("Failed to resolve template. Reason: %v", err)
 			return nil, fmt.Errorf("invalid column definition %q", col.PathTemplate)
 		}
 

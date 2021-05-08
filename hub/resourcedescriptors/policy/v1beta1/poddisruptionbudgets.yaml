@@ -9,6 +9,54 @@ metadata:
     k8s.io/version: v1beta1
   name: policy-v1beta1-poddisruptionbudgets
 spec:
+  columns:
+  - name: Name
+    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
+    priority: 3
+    type: string
+  - name: Labels
+    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
+    priority: 3
+    type: object
+  - name: Annotations
+    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
+    priority: 1
+    type: object
+  - name: Max Unavailable
+    pathTemplate: '{{ jp "{.spec.maxUnavailable}" . }}'
+    priority: 3
+    type: integer
+  - name: Expected Pods
+    pathTemplate: '{{ jp "{.status.expectedPods}" . }}'
+    priority: 3
+    type: integer
+  - name: Currently Healthy
+    pathTemplate: '{{ jp "{.status.currentHealthy}" . }}'
+    priority: 3
+    type: integer
+  - name: Disruptions Allowed
+    pathTemplate: '{{ jp "{.status.disruptionsAllowed}" . }}'
+    priority: 3
+    type: integer
+  - name: Selector
+    pathTemplate: '{{ jp "{.spec.selector }" . | k8s_fmt_selector }}'
+    priority: 3
+    type: string
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    priority: 3
+    type: date
+  connections:
+  - namespacePath: metadata.namespace
+    selectorPath: spec.selector
+    target:
+      apiVersion: v1
+      kind: Pod
+    type: MatchSelector
   icons:
   - src: https://cdn.appscode.com/k8s/icons/policy/poddisruptionbudgets.svg
     type: image/svg+xml

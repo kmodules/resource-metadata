@@ -18,10 +18,6 @@ spec:
     pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
     priority: 3
     type: string
-  - name: Age
-    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
-    priority: 3
-    type: date
   - name: Labels
     pathTemplate: '{{ jp "{.metadata.labels}" . }}'
     priority: 3
@@ -62,6 +58,10 @@ spec:
     pathTemplate: '{{ jp "{.spec.jobTemplate.spec.template.spec.volumes}" . | k8s_volumes }}'
     priority: 1
     type: object
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    priority: 3
+    type: date
   connections:
   - level: Controller
     target:

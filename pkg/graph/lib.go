@@ -68,7 +68,7 @@ func (g *Graph) ListUsingDijkstra(f dynamicfactory.Factory, src *unstructured.Un
 		out = nil
 		for _, inObj := range in {
 			result, err := g.ResourcesFor(f, inObj, e)
-			if err != nil {
+			if err != nil && !kerr.IsNotFound(err) {
 				return nil, err
 			}
 			out = appendObjects(out, result...)
@@ -88,7 +88,7 @@ func (g *Graph) ListUsingDFS(f dynamicfactory.Factory, src *unstructured.Unstruc
 	if len(paths) == 0 {
 		return nil, nil
 	}
-	for _, path := range paths {
+	for i, path := range paths {
 		in := []*unstructured.Unstructured{src}
 		var out []*unstructured.Unstructured
 		for _, e := range path.Edges {
@@ -105,7 +105,9 @@ func (g *Graph) ListUsingDFS(f dynamicfactory.Factory, src *unstructured.Unstruc
 			}
 			in = out
 		}
-		if len(out) > 0 {
+		// If there is not resource in the current path, we don't need to continue traversing the path anymore.
+		// The target resource should be found within first 15 paths. If not found, don't traverse anymore.
+		if len(out) > 0 || i >= 14 {
 			return out, nil
 		}
 	}

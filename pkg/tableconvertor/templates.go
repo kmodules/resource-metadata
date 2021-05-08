@@ -30,10 +30,14 @@ import (
 	prom_op "github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1"
 	"gomodules.xyz/jsonpath"
 	core "k8s.io/api/core/v1"
+	rbac "k8s.io/api/rbac/v1"
 	metatable "k8s.io/apimachinery/pkg/api/meta/table"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/labels"
+	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/duration"
+	kubedb "kubedb.dev/apimachinery/apis/kubedb/v1alpha2"
 )
 
 var templateFns = sprig.TxtFuncMap()
@@ -52,6 +56,11 @@ func init() {
 	templateFns["fmt_list"] = fmtListFn
 	templateFns["prom_ns_selector"] = promNamespaceSelectorFn
 	templateFns["map_key_count"] = mapKeyCountFn
+	templateFns["kubedb_db_mode"] = kubedbDBModeFn
+	templateFns["kubedb_db_replicas"] = kubedbDBReplicasFn
+	templateFns["kubedb_db_resources"] = kubedbDBResourcesFn
+	templateFns["rbac_subjects"] = rbacSubjects
+	templateFns["cert_validity"] = certificateValidity
 }
 
 func jsonpathFn(expr string, data interface{}, jsonoutput ...bool) (interface{}, error) {
@@ -287,4 +296,120 @@ func mapKeyCountFn(data string) (string, error) {
 	}
 
 	return strconv.Itoa(len(m)), nil
+}
+
+func kubedbDBModeFn(data string) (string, error) {
+	if strings.TrimSpace(data) == "" {
+		return "", nil
+	}
+	var obj unstructured.Unstructured
+	err := json.Unmarshal([]byte(data), &obj)
+	if err != nil {
+		return "", err
+	}
+
+	switch obj.GetKind() {
+	case kubedb.ResourceKindMongoDB:
+		db := new(kubedb.MongoDB)
+		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.UnstructuredContent(), db)
+		if err != nil {
+			return "", err
+		}
+		if db.Spec.ShardTopology != nil {
+			return "Sharded", nil
+		} else if db.Spec.ReplicaSet != nil {
+			return "ReplicaSet", nil
+		}
+		return "Standalone", nil
+	}
+	return "", fmt.Errorf("failed to detectect database mode. Reason: Unknown database type")
+}
+
+func kubedbDBReplicasFn(data string) (string, error) {
+	var obj unstructured.Unstructured
+	err := json.Unmarshal([]byte(data), &obj)
+	if err != nil {
+		return "", err
+	}
+
+	switch obj.GetKind() {
+	case kubedb.ResourceKindMongoDB:
+		db := new(kubedb.MongoDB)
+		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.UnstructuredContent(), db)
+		if err != nil {
+			return "", err
+		}
+		if db.Spec.ShardTopology != nil {
+			t := db.Spec.ShardTopology
+			return fmt.Sprintf("%d, %d, %d", t.Shard.Replicas, t.ConfigServer.Replicas, t.Mongos.Replicas), nil
+		} else if db.Spec.ReplicaSet != nil {
+			return fmt.Sprintf("%d", *db.Spec.Replicas), nil
+		} else {
+			return "1", nil
+		}
+	}
+	return "", fmt.Errorf("failed to detect replica number. Reason: Unknown database type")
+}
+
+func kubedbDBResourcesFn(data string) (string, error) {
+	var obj unstructured.Unstructured
+	err := json.Unmarshal([]byte(data), &obj)
+	if err != nil {
+		return "", err
+	}
+
+	switch obj.GetKind() {
+	case kubedb.ResourceKindMongoDB:
+		db := new(kubedb.MongoDB)
+		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.UnstructuredContent(), db)
+		if err != nil {
+			return "", err
+		}
+		cpu, memory, storage := mongoDBResources(db.Spec)
+		return fmt.Sprintf("{%q:%q, %q:%q, %q:%q}", core.ResourceCPU, cpu, core.ResourceMemory, memory, core.ResourceStorage, storage), nil
+	}
+	return "", fmt.Errorf("failed to extract CPU information. Reason: Unknown database type")
+}
+
+func rbacSubjects(data string) (string, error) {
+	if strings.TrimSpace(data) == "" {
+		return "", nil
+	}
+
+	var subjects []rbac.Subject
+	err := json.Unmarshal([]byte(data), &subjects)
+	if err != nil {
+		return "", err
+	}
+	var ss []string
+	for i := range subjects {
+		s := fmt.Sprintf("%s %s", subjects[i].Kind, subjects[i].Name)
+		if subjects[i].Namespace != "" {
+			s = fmt.Sprintf("%s %s/%s", subjects[i].Kind, subjects[i].Namespace, subjects[i].Name)
+		}
+		ss = append(ss, s)
+	}
+	return strings.Join(ss, ","), nil
+}
+
+func certificateValidity(data string) (string, error) {
+	if strings.TrimSpace(data) == "" {
+		return "", nil
+	}
+
+	certStatus := struct {
+		NotBefore metav1.Time `json:"notBefore"`
+		NotAfter  metav1.Time `json:"notAfter"`
+	}{}
+	err := json.Unmarshal([]byte(data), &certStatus)
+	if err != nil {
+		return "", err
+	}
+
+	if certStatus.NotBefore.After(time.Now()) {
+		return "Not valid yet", nil
+	} else if time.Now().After(certStatus.NotAfter.Time) {
+		return "Expired", nil
+	}
+	return duration.HumanDuration(time.Until(certStatus.NotAfter.Time)), nil
 }

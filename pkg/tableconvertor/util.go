@@ -23,6 +23,7 @@ import (
 
 	core "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
+	kubedb "kubedb.dev/apimachinery/apis/kubedb/v1alpha2"
 )
 
 const ValueNone = "<none>"
@@ -353,4 +354,56 @@ func describeVolume(volume core.Volume) string {
 	}
 
 	return fmt.Sprintf("{\"name\": %q,\"Type\":\"<unknown>\"}", volume.Name)
+}
+
+func formatBytes(c int64) string {
+	b := float64(c)
+
+	switch {
+	case c > 1<<40:
+		return fmt.Sprintf("%.1f Ti", b/(1<<40))
+	case c > 1<<30:
+		return fmt.Sprintf("%.1f Gi", b/(1<<30))
+	case c > 1<<20:
+		return fmt.Sprintf("%.1f Mi", b/(1<<20))
+	case c > 1<<10:
+		return fmt.Sprintf("%.1f Ki", b/(1<<10))
+	default:
+		return fmt.Sprintf("%d B", c)
+	}
+}
+
+func mongoDBResources(db kubedb.MongoDBSpec) (string, string, string) {
+	totalCPU := int64(0)
+	totalMemory := int64(0)
+	totalStorage := int64(0)
+	if db.ShardTopology != nil {
+		t := db.ShardTopology
+		// Shard nodes resources
+		totalCPU += int64(t.Shard.Replicas) * t.Shard.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue()
+		totalMemory += int64(t.Shard.Replicas) * t.Shard.PodTemplate.Spec.Resources.Limits.Memory().Value()
+		totalStorage += int64(t.Shard.Replicas) * t.Shard.Storage.Resources.Requests.Storage().Value()
+		// ConfigServer nodes resources
+		totalCPU += int64(t.ConfigServer.Replicas) * t.ConfigServer.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue()
+		totalMemory += int64(t.ConfigServer.Replicas) * t.ConfigServer.PodTemplate.Spec.Resources.Limits.Memory().Value()
+		totalStorage += int64(t.ConfigServer.Replicas) * t.ConfigServer.Storage.Resources.Requests.Storage().Value()
+		// Mongos node resources
+		totalCPU += int64(t.Mongos.Replicas) * t.Mongos.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue()
+		totalMemory += int64(t.Mongos.Replicas) * t.Mongos.PodTemplate.Spec.Resources.Limits.Memory().Value()
+	} else if db.ReplicaSet != nil {
+		totalCPU += int64(*db.Replicas) * db.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue()
+		totalMemory += int64(*db.Replicas) * db.PodTemplate.Spec.Resources.Limits.Memory().Value()
+		totalStorage += int64(*db.Replicas) * db.Storage.Resources.Requests.Storage().Value()
+	} else {
+		totalCPU += db.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue()
+		totalMemory += db.PodTemplate.Spec.Resources.Limits.Memory().Value()
+		totalStorage += db.Storage.Resources.Requests.Storage().Value()
+	}
+	// add exporter cpu
+	if db.Monitor != nil && db.Monitor.Prometheus != nil {
+		totalCPU += db.Monitor.Prometheus.Exporter.Resources.Limits.Cpu().MilliValue()
+		totalMemory += db.Monitor.Prometheus.Exporter.Resources.Limits.Memory().Value()
+	}
+
+	return fmt.Sprintf("%dm", totalCPU), formatBytes(totalMemory), formatBytes(totalStorage)
 }

@@ -1,0 +1,199 @@
+apiVersion: kubedb.com/v1alpha2
+kind: MongoDB
+metadata:
+  name: bb-mongodb-test
+  namespace: bb-test
+spec:
+  version: "4.2.3"
+  sslMode: requireSSL
+  tls:
+    issuerRef:
+      name: bb-mongodb-test-ca
+      kind: Issuer
+      apiGroup: "cert-manager.io"
+  storageType: Durable
+  shardTopology:
+    configServer:
+      configSecret:
+        name: bb-mongodb-test-configserver-config
+      replicas: 2
+      storage:
+        resources:
+          requests:
+            storage: 1Gi
+    mongos:
+      configSecret:
+        name: bb-mongodb-test-mongos-config
+      replicas: 2
+    shard:
+      configSecret:
+        name: bb-mongodb-test-shard-config
+      replicas: 2
+      shards: 2
+      storage:
+        resources:
+          requests:
+            storage: 1Gi
+  init:
+    waitForInitialRestore: true
+  monitor:
+    agent: prometheus.io/operator
+    prometheus:
+      serviceMonitor:
+        labels:
+          app: bb-mongodb-test
+        interval: 30s
+      exporter:
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 100m
+            memory: 128Mi
+  terminationPolicy: WipeOut
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: bb-mongodb-test-ca
+  namespace: bb-test
+spec:
+  ca:
+    secretName: bb-mongodb-test-ca
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: bb-mongodb-test-ca
+  namespace: bb-test
+type: kubernetes.io/tls
+data:
+  tls.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURJekNDQWd1Z0F3SUJBZ0lVTlZLZ3VOREZ2bXc3aHlHaGgxcmZFNi9WSit3d0RRWUpLb1pJaHZjTkFRRUwKQlFBd0lURU9NQXdHQTFVRUF3d0ZiVzl1WjI4eER6QU5CZ05WQkFvTUJtdDFZbVZrWWpBZUZ3MHlNREE1TXpBeApOak15TXpCYUZ3MHlNVEE1TXpBeE5qTXlNekJhTUNFeERqQU1CZ05WQkFNTUJXMXZibWR2TVE4d0RRWURWUVFLCkRBWnJkV0psWkdJd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3Z2dFS0FvSUJBUURKaThKRFBpV1IKUGlndnVEbzdpRHd2U2R6aWVtVkxjTDNPbjluR3EveTB1SnVnb05aNkp1SDFLRkFiVFZ3NW9ZVE8xTmQ4NUF4RgpuUDhZbHN3TlNJOGhTcUJyVy81bE5vRmxEYm9rYzYrT0NCOUhiTW1iaE9LVFJJTWNSSHZPaVM5TTdoelE0TG9LCktOVDZEd1RVa3I2T09sTVZYS3hwaWhweWxpU1QwUVUvR2dyNmJYaFNnV1hGQ1JXNDhuZW9UT2xrWFZtdDZIU2IKNDZKdmhkZk40b0NyV2xic3haRGlvSjF3WEUwVWprUDVqNUkyOE9ZSTV0SkFjM1FTUXRpN3huWlRZZkoyZVhOaQpibm94UFk5eGg0MkdhV0Z3ZXhIaXlFM2VuNGQreU5QZFlzbHBPYUMrdzloRWl1QWszSCs4RFBBa0Z2WjNkMXZGCnVtZjRmMmZlSmhsSkFnTUJBQUdqVXpCUk1CMEdBMVVkRGdRV0JCVEFWRUJZWGVzVEhmTVI0cmlPMzVyR3ZjYWkKK3pBZkJnTlZIU01FR0RBV2dCVEFWRUJZWGVzVEhmTVI0cmlPMzVyR3ZjYWkrekFQQmdOVkhSTUJBZjhFQlRBRApBUUgvTUEwR0NTcUdTSWIzRFFFQkN3VUFBNElCQVFBdTJEWXhuYzdjN1EyTVQ4dXJtK1VHRnFBWldhWkI2aDd2CkgydnUyVUcrVjZOVnZCZTg5ZzQ5eU1GOWFUT09YN0dTMG4zdzE4L1hsRVhPdGlNVHVsbGRHaVMzTWVFdzludzcKTmRmd3RZc2pJOE16MFFYck5NOGpuYjZyaUlHRGtpcno1UG13QVhVVTdFRG5Gb3FuaFBuK2U1V3ZOMjMyTElISwowWXRabW9oRDhEUkhrNlVqWTlTYUxLQ0VsbHhvM2VxMHpTSlRVQWlEaEd3SG96UWhWRWsvd2pRT205NTBZYysyCmZyRTB4Z01MOXdYM0thaVZQZ0dGK3hGUDZKVlVSR0MveVdVSjg4K1BkMkQ2TXMyVjkwUVp5cnZ0VjJXZGFSU04KditOMzA5cWY2ZWxuaHVhR25MbzZweWhqYXphaTZ6QjFiek9yY1E3ZFpvZkE2OVV6ZUxiaQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+  tls.key: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUV2Z0lCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktnd2dnU2tBZ0VBQW9JQkFRREppOEpEUGlXUlBpZ3YKdURvN2lEd3ZTZHppZW1WTGNMM09uOW5HcS95MHVKdWdvTlo2SnVIMUtGQWJUVnc1b1lUTzFOZDg1QXhGblA4WQpsc3dOU0k4aFNxQnJXLzVsTm9GbERib2tjNitPQ0I5SGJNbWJoT0tUUklNY1JIdk9pUzlNN2h6UTRMb0tLTlQ2CkR3VFVrcjZPT2xNVlhLeHBpaHB5bGlTVDBRVS9HZ3I2YlhoU2dXWEZDUlc0OG5lb1RPbGtYVm10NkhTYjQ2SnYKaGRmTjRvQ3JXbGJzeFpEaW9KMXdYRTBVamtQNWo1STI4T1lJNXRKQWMzUVNRdGk3eG5aVFlmSjJlWE5pYm5veApQWTl4aDQyR2FXRndleEhpeUUzZW40ZCt5TlBkWXNscE9hQyt3OWhFaXVBazNIKzhEUEFrRnZaM2QxdkZ1bWY0CmYyZmVKaGxKQWdNQkFBRUNnZ0VBZFdXQkRHWUF2Kzl5dlFrVWNtVFNtY0R1ZHNWUWgzYnVPSk1INlI5NUhWT0MKNHplTWRxNTdZNi9OcVhtUVJNbCtjSE90NlVOMG1uL3VYMFpIS1YyZ2NZWGtsMlNJZERBaGd0bFNHYldCQnJ4WQphK1JFTXVCZWtlV1FjVUM2MVAwM25objhrdmF6cHdOTnV6SlFYL255SVNwOEJxOXFoamM1WEpGMFVOMnBycXpWCnd0K21nbDdEcG85eFdUd1ZmTEYvRFdiM3d1cVRYL1Q5QktkelgzblZNNmZvQUcwWUtDNmpmU3kyYjlnR1o2Y1gKMVFZdk40ZmxwN0dxYzR1SnZuUzZjQVlXbjJuZnR5TEVOVkhPTTJYRDVTenhnYjNEYUpWL2lNK2JJVHFJajVhcwp1bU1VZzMyei9WQW5BY0lweHV0TGRCbTMrV3NPM2ZoODF3Nk9BbFliNFFLQmdRRHZ0NTFOR2JJTVZxMk41VHkvCmdNeHhUb0phWnRGVmZGd0lMdlFRbjRwOGlmb2pUV29jQzYvZ0x6NDhrTHN4R2dVMy9FTmR6cnpmc0E0QWplQzMKdXF1djVXZkZCdDI2WjdXTWpMK0ZBS3Yyc1UyS2IrRjFyQ3hpcUJ2czZjTkhhWE9sc0doSUxudVB2bGpodnB4NgpsRGx6dGQzejJnRGt3YWQ2cWhwWUVZMUpuUUtCZ1FEWFBHU0RQeHJ0WmxmVVUzY3NVQkUrS2tnKzZBSXJicHNqClAxOWpVZ29JVzlHcjkvT01NZnBBTXhtcSt2WnRRcnBBU2dJS2psODlhN0VEMXFRT0ZHTmxoVm52ejFkOG5nM0QKNnBrakJIa3pscmtBRU8xN214TUUydW4rVmtTV2RTVjRkQnVrMWRtd2I0Y1F6VGk5aWtxMGljTjl6SlluKytJawpJQTgzVGtlRW5RS0JnUUNsVVo3MUJpeUpYOW12U3hHN0RFdHlOTytuQXRPSlBndUdSVU5pbDNSOWNQYUdGQ1NDCmxQakZCaS9JdXhPdHlFRWpIQ0VsZDZkQUtQMXZHbW1JcS84dGZtc3pNUW9IUFBDeXJucUNjalVtRzU3YlEwOWMKeE5HVGRGWlY2OTBWeWI3TTNMeitVcmc2S003SldKZzMzVE5GL24zRVoydElWOWwxdWd3VEFuL0s3UUtCZ1FDTwpvUW1tWTVvUGVZTjRRM3MwbFRabjhKTUJoTE56WG85VnN6Z2QxQTZyN1ZTclZkdEJxeGkvbEYxTkRaTmhZaGVVClpMYW5raU1ReTUxNUFyS2lWZVpzTHdzalBFNG9XWUNidEltWVIrMmRQeU1ISlRDS2VZQUg5cDJiR2tYSFFvZjcKSTAzeVZIZzJVQ0c4QTVLM0g3NVRsdnRDRU9Ic1N5RlhlUnM4TmhaMGpRS0JnRFlHMmZhaDVqeTQwZmRud2JCdgpnL0xyTTN2WWk3UHZONC9MTWlGL3VGY242aXdES0ZmblZUcWIxM0lLeG5pei9zcmhIdTlqaVZyWVluK3VQS3ROClNzaEJ5b3p6NEN4eE9wNHFUMlRyak9CeXZTaDVaQVdhL1dFTlNhQWpUeTkxcE9ROXFsK0h0TW1iMUs3bVJXblcKUC82VmtCZEtiVTA2VitQT0ZSN3Rqcnd1Ci0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS0K
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: bb-mongodb-test-configserver-config
+  namespace: bb-test
+type: Opaque
+stringData:
+  mongod.conf: |
+    net:
+      maxIncomingConnections: 20000
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: bb-mongodb-test-mongos-config
+  namespace: bb-test
+type: Opaque
+stringData:
+  mongod.conf: |
+    net:
+      maxIncomingConnections: 30000
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: bb-mongodb-test-shard-config
+  namespace: bb-test
+type: Opaque
+stringData:
+  mongod.conf: |
+    net:
+      maxIncomingConnections: 40000
+---
+# ====================== Backup Resources ==================================
+apiVersion: v1
+kind: Secret
+metadata:
+  name: bb-mongodb-test-repo-secret
+  namespace: bb-test
+type: Opaque
+stringData:
+  RESTIC_PASSWORD: not@secret
+  GOOGLE_PROJECT_ID: "123456789"
+  GOOGLE_SERVICE_ACCOUNT_JSON_KEY: 'ServiceAccount JSON Key placeholder'
+---
+apiVersion: stash.appscode.com/v1alpha1
+kind: Repository
+metadata:
+  name: bb-mongodb-test-repo
+  namespace: bb-test
+spec:
+  backend:
+    gcs:
+      bucket: stash-testing
+      prefix: /demo/mongodb
+    storageSecretName: bb-mongodb-test-repo-secret
+---
+apiVersion: stash.appscode.com/v1beta1
+kind: BackupConfiguration
+metadata:
+  name: bb-mongodb-test-backup
+  namespace: bb-test
+spec:
+  schedule: "*/5 * * * *"
+  repository:
+    name: bb-mongodb-test-repo
+  target:
+    ref:
+      apiVersion: appcatalog.appscode.com/v1alpha1
+      kind: AppBinding
+      name: bb-mongodb-test
+  retentionPolicy:
+    name: keep-last-5
+    keepLast: 5
+    prune: true
+---
+apiVersion: stash.appscode.com/v1alpha1
+kind: Repository
+metadata:
+  name: bb-mongodb-test-init-repo
+  namespace: bb-test
+spec:
+  backend:
+    gcs:
+      bucket: stash-testing
+      prefix: /demo/mongodb
+    storageSecretName: bb-mongodb-test-repo-secret
+---
+apiVersion: stash.appscode.com/v1beta1
+kind: RestoreSession
+metadata:
+  name: bb-mongodb-test-init
+  namespace: bb-test
+spec:
+  repository:
+    name: bb-mongodb-test-init-repo
+  target:
+    ref:
+      apiVersion: appcatalog.appscode.com/v1alpha1
+      kind: AppBinding
+      name: bb-mongodb-test
+  rules:
+    - snapshots: [latest]
+---
+# ============================== Monitoring Resources =======================
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: bb-mongodb-test
+  namespace: monitoring
+spec:
+  serviceAccountName: prometheus
+  serviceMonitorSelector:
+    matchLabels:
+      app: bb-mongodb-test
+  resources:
+    requests:
+      memory: 400Mi
+  enableAdminAPI: true
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: prometheus
+  namespace: monitoring

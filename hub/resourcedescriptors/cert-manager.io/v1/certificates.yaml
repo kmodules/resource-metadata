@@ -9,6 +9,65 @@ metadata:
     k8s.io/version: v1
   name: cert-manager.io-v1-certificates
 spec:
+  columns:
+  - name: Name
+    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
+    priority: 3
+    type: string
+  - name: Labels
+    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
+    priority: 3
+    type: object
+  - name: Annotations
+    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
+    priority: 1
+    type: object
+  - name: CN
+    pathTemplate: '{{ jp "{.spec.commonName}" . }}'
+    priority: 3
+    type: string
+  - name: Issuer Kind
+    pathTemplate: '{{ jp "{.spec.issuerRef.kind}" . }}'
+    priority: 3
+    type: string
+  - name: Issuer Name
+    pathTemplate: '{{ jp "{.spec.issuerRef.name}" . }}'
+    priority: 3
+    type: string
+  - name: Secret Name
+    pathTemplate: '{{ jp "{.spec.secretName}" . }}'
+    priority: 3
+    type: string
+  - name: Validity
+    pathTemplate: '{{ jp "{.status}" . | cert_validity }}'
+    priority: 3
+    type: string
+  - name: Renewal Date
+    pathTemplate: '{{ jp "{.status.renewalTime}" . }}'
+    priority: 3
+    type: string
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    priority: 3
+    type: date
+  connections:
+  - namespacePath: metadata.namespace
+    references:
+    - '{.spec.issuerRef.name},{.metadata.namespace}'
+    target:
+      apiVersion: cert-manager.io/v1
+      kind: Issuer
+    type: MatchRef
+  - references:
+    - '{.spec.issuerRef.name}'
+    target:
+      apiVersion: cert-manager.io/v1
+      kind: ClusterIssuer
+    type: MatchRef
   icons:
   - src: https://cdn.appscode.com/k8s/icons/cert-manager.io/certificates.svg
     type: image/svg+xml
@@ -28,6 +87,30 @@ spec:
   resourceRequirements:
   - resources: spec.podTemplate.spec.resources
     units: spec.replicas
+  subTables:
+  - columns:
+    - name: Type
+      pathTemplate: '{{ jp "{.type}" . }}'
+      priority: 0
+      type: string
+    - name: Status
+      pathTemplate: '{{ jp "{.status}" . }}'
+      priority: 0
+      type: string
+    - name: Reason
+      pathTemplate: '{{ jp "{.reason}" . }}'
+      priority: 0
+      type: string
+    - name: Last Transition Time
+      pathTemplate: '{{ jp "{.lastTransitionTime}" . }}'
+      priority: 0
+      type: date
+    - name: Message
+      pathTemplate: '{{ jp "{.message}" . }}'
+      priority: 0
+      type: string
+    fieldPath: .status.conditions
+    name: Conditions
   ui:
     editor:
       name: certmanagerio-certificate-editor

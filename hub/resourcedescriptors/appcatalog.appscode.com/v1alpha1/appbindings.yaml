@@ -9,6 +9,51 @@ metadata:
     k8s.io/version: v1alpha1
   name: appcatalog.appscode.com-v1alpha1-appbindings
 spec:
+  columns:
+  - name: Name
+    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
+    priority: 3
+    type: string
+  - name: Labels
+    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
+    priority: 3
+    type: object
+  - name: Annotations
+    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
+    priority: 1
+    type: object
+  - name: Type
+    pathTemplate: '{{ jp "{.spec.type}" . }}'
+    priority: 3
+    type: string
+  - name: Version
+    pathTemplate: '{{ jp "{.spec.version}" . }}'
+    priority: 3
+    type: string
+  - name: Service
+    pathTemplate: '{{ jp "{.spec.clientConfig.service.name}" . }}'
+    priority: 3
+    type: string
+  - name: Secret
+    pathTemplate: '{{ jp "{.spec.secret.name}" . }}'
+    priority: 3
+    type: string
+  - name: Backup Task
+    pathTemplate: '{{ jp "{.spec.parameters.stash.addon.backupTask.name }" . }}'
+    priority: 1
+    type: string
+  - name: Restore Task
+    pathTemplate: '{{ jp "{.spec.parameters.stash.addon.restoreTask.name }" . }}'
+    priority: 1
+    type: string
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    priority: 3
+    type: date
   connections:
   - namespacePath: metadata.namespace
     references:

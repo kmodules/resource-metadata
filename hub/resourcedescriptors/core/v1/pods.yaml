@@ -27,10 +27,6 @@ spec:
     pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
     priority: 1
     type: object
-  - name: Age
-    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
-    priority: 3
-    type: date
   - name: Ready
     priority: 3
     type: string
@@ -68,6 +64,10 @@ spec:
     pathTemplate: '{{ jp "{.spec.volumes}" . | k8s_volumes }}'
     priority: 1
     type: object
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    priority: 3
+    type: date
   connections:
   - level: Controller
     target:
@@ -94,6 +94,12 @@ spec:
     target:
       apiVersion: v1
       kind: Node
+    type: MatchRef
+  - references:
+    - '{.spec.serviceAccountName}'
+    target:
+      apiVersion: v1
+      kind: ServiceAccount
     type: MatchRef
   - namespacePath: metadata.namespace
     references:

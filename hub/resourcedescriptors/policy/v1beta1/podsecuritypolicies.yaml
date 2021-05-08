@@ -9,6 +9,59 @@ metadata:
     k8s.io/version: v1beta1
   name: policy-v1beta1-podsecuritypolicies
 spec:
+  columns:
+  - name: Name
+    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
+    priority: 3
+    type: string
+  - name: Labels
+    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
+    priority: 3
+    type: object
+  - name: Annotations
+    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
+    priority: 1
+    type: object
+  - name: PRIV
+    pathTemplate: '{{ jp "{.spec.allowPrivilegeEscalation}" . }}'
+    priority: 3
+    type: string
+  - name: CAPS
+    pathTemplate: '{{ jp "{.spec.allowedCapabilities}" . }}'
+    priority: 3
+    type: string
+  - name: SELINUX
+    pathTemplate: '{{ jp "{.spec.seLinux.rule}" . }}'
+    priority: 3
+    type: string
+  - name: RUNASUSER
+    pathTemplate: '{{ jp "{.spec.runAsUser.rule}" . }}'
+    priority: 3
+    type: string
+  - name: FSGROUP
+    pathTemplate: '{{ jp "{.spec.fsGroup.rule}" . }}'
+    priority: 3
+    type: string
+  - name: SUPGROUP
+    pathTemplate: '{{ jp "{.spec.supplementalGroups.rule}" . }}'
+    priority: 3
+    type: string
+  - name: READONLYROOTFS
+    pathTemplate: '{{ jp "{.spec.readOnlyRootFilesystem}" . }}'
+    priority: 3
+    type: string
+  - name: VOLUMES
+    pathTemplate: '{{ jp "{.spec.volumes}" . }}'
+    priority: 3
+    type: string
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    priority: 3
+    type: date
   icons:
   - src: https://cdn.appscode.com/k8s/icons/policy/podsecuritypolicies.svg
     type: image/svg+xml

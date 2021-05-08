@@ -17,6 +17,7 @@ limitations under the License.
 package hub
 
 import (
+	"fmt"
 	"strings"
 	"sync"
 
@@ -114,7 +115,7 @@ func init() {
 	for _, filename := range resourcedescriptors.AssetNames() {
 		rd, err := resourcedescriptors.LoadByFile(filename)
 		if err != nil {
-			panic(err)
+			panic(fmt.Errorf("failed to load file: %q. Reason: %v", filename, err))
 		}
 		KnownResources.Set(filename, rd)
 
