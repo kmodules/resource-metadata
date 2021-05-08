@@ -5,16 +5,16 @@ go 1.15
 require (
 	github.com/Masterminds/sprig/v3 v3.2.2
 	github.com/emicklei/dot v0.15.0
-	github.com/go-openapi/spec v0.19.8
+	github.com/go-openapi/spec v0.19.5
 	github.com/gobuffalo/flect v0.2.2
 	github.com/google/gofuzz v1.2.0
 	github.com/gregjones/httpcache v0.0.0-20180305231024-9cad4c3443a7
 	github.com/hashicorp/golang-lru v0.5.4
-	github.com/mitchellh/mapstructure v1.2.2
+	github.com/mitchellh/mapstructure v1.1.2
 	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.47.0
 	github.com/spf13/cobra v1.1.3
 	github.com/spf13/pflag v1.0.5
-	github.com/stretchr/testify v1.7.0
+	github.com/stretchr/testify v1.6.1
 	github.com/yudai/gojsondiff v1.0.0
 	golang.org/x/net v0.0.0-20210226172049-e18ecbb05110
 	gomodules.xyz/jsonpath v0.0.1
@@ -27,13 +27,13 @@ require (
 	k8s.io/apiextensions-apiserver v0.21.0
 	k8s.io/apimachinery v0.21.0
 	k8s.io/apiserver v0.21.0
-	k8s.io/client-go v12.0.0+incompatible
+	k8s.io/client-go v0.21.0
 	k8s.io/klog/v2 v2.8.0
 	k8s.io/kube-openapi v0.0.0-20210305001622-591a79e4bda7
 	kmodules.xyz/apiversion v0.2.0
 	kmodules.xyz/client-go v0.0.0-20210505231546-fa4fb8e1d04e
 	kmodules.xyz/crd-schema-fuzz v0.0.0-20210503192455-da44af375c4c
-	kubedb.dev/apimachinery v0.18.0
+	kubedb.dev/apimachinery v0.18.1-0.20210506003355-e982e5902ad2
 	sigs.k8s.io/yaml v1.2.0
 )
 

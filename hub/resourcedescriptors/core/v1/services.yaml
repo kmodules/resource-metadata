@@ -26,10 +26,6 @@ spec:
     pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
     priority: 1
     type: object
-  - name: Age
-    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . | k8s_age }}'
-    priority: 3
-    type: string
   - name: Type
     pathTemplate: '{{ jp "{.spec.type}" . }}'
     priority: 3
@@ -46,6 +42,10 @@ spec:
     priority: 2
     type: string
   - name: Selector
+    priority: 3
+    type: string
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . | k8s_age }}'
     priority: 3
     type: string
   connections:

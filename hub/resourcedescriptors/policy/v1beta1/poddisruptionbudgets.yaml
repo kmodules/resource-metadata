@@ -26,10 +26,6 @@ spec:
     pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
     priority: 1
     type: object
-  - name: Age
-    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
-    priority: 3
-    type: date
   - name: Max Unavailable
     pathTemplate: '{{ jp "{.spec.maxUnavailable}" . }}'
     priority: 3
@@ -50,6 +46,10 @@ spec:
     pathTemplate: '{{ jp "{.spec.selector }" . | k8s_fmt_selector }}'
     priority: 3
     type: string
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    priority: 3
+    type: date
   connections:
   - namespacePath: metadata.namespace
     selectorPath: spec.selector

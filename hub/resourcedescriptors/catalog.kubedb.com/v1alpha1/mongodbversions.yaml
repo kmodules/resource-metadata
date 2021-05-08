@@ -22,10 +22,6 @@ spec:
     pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
     priority: 1
     type: object
-  - name: Age
-    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
-    priority: 3
-    type: date
   - name: Version
     pathTemplate: '{{ jp "{.spec.version}" . }}'
     priority: 3
@@ -50,6 +46,10 @@ spec:
     pathTemplate: '{{ jp "{.spec.stash.addon.restoreTask.name}" . }}'
     priority: 3
     type: string
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    priority: 3
+    type: date
   icons:
   - src: https://cdn.appscode.com/k8s/icons/catalog.kubedb.com/mongodbversions.svg
     type: image/svg+xml

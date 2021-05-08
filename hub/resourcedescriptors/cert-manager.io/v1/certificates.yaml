@@ -26,10 +26,6 @@ spec:
     pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
     priority: 1
     type: object
-  - name: Age
-    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
-    priority: 3
-    type: date
   - name: CN
     pathTemplate: '{{ jp "{.spec.commonName}" . }}'
     priority: 3
@@ -54,6 +50,10 @@ spec:
     pathTemplate: '{{ jp "{.status.renewalTime}" . }}'
     priority: 3
     type: string
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    priority: 3
+    type: date
   connections:
   - namespacePath: metadata.namespace
     references:

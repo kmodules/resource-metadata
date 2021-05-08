@@ -18,10 +18,6 @@ spec:
     pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
     priority: 3
     type: string
-  - name: Age
-    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
-    priority: 3
-    type: date
   - name: Labels
     pathTemplate: '{{ jp "{.metadata.labels}" . }}'
     priority: 3
@@ -30,10 +26,6 @@ spec:
     pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
     priority: 1
     type: object
-  - name: Phase
-    pathTemplate: '{{ jp "{.status.phase}" . }}'
-    priority: 3
-    type: string
   - name: Version
     pathTemplate: '{{ jp "{.spec.version}" . }}'
     priority: 3
@@ -44,6 +36,10 @@ spec:
     type: string
   - name: Replicas
     pathTemplate: '{{ jp "{$}" . | kubedb_db_replicas }}'
+    priority: 3
+    type: string
+  - name: Phase
+    pathTemplate: '{{ jp "{.status.phase}" . }}'
     priority: 3
     type: string
   - name: Total Resources
@@ -74,6 +70,10 @@ spec:
     pathTemplate: '{{ jp "{.spec.halted}" . }}'
     priority: 1
     type: string
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    priority: 3
+    type: date
   connections:
   - level: Controller
     namespacePath: metadata.namespace

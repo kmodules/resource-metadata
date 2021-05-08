@@ -26,10 +26,6 @@ spec:
     pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
     priority: 1
     type: object
-  - name: Age
-    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
-    priority: 3
-    type: date
   - name: Selector
     pathTemplate: '{{ jp "{.spec.selector }" . | k8s_fmt_selector }}'
     priority: 1
@@ -78,6 +74,10 @@ spec:
     pathTemplate: '{{ jp "{.spec.template.spec.volumes}" . | k8s_volumes }}'
     priority: 1
     type: object
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    priority: 3
+    type: date
   connections:
   - level: Controller
     namespacePath: metadata.namespace

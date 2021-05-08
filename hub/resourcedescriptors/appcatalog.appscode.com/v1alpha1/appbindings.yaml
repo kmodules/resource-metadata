@@ -26,10 +26,6 @@ spec:
     pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
     priority: 1
     type: object
-  - name: Age
-    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
-    priority: 3
-    type: date
   - name: Type
     pathTemplate: '{{ jp "{.spec.type}" . }}'
     priority: 3
@@ -54,6 +50,10 @@ spec:
     pathTemplate: '{{ jp "{.spec.parameters.stash.addon.restoreTask.name }" . }}'
     priority: 1
     type: string
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    priority: 3
+    type: date
   connections:
   - namespacePath: metadata.namespace
     references:
