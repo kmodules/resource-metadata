@@ -24,6 +24,7 @@ import (
 	"regexp"
 	"strings"
 
+	disco_util "kmodules.xyz/client-go/discovery"
 	dynamicfactory "kmodules.xyz/client-go/dynamic/factory"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
@@ -62,21 +63,11 @@ func (g *Graph) ListUsingDijkstra(f dynamicfactory.Factory, src *unstructured.Un
 		return nil, nil
 	}
 
-	in := []*unstructured.Unstructured{src}
-	var out []*unstructured.Unstructured
-	for _, e := range path.Edges {
-		out = nil
-		for _, inObj := range in {
-			result, err := g.ResourcesFor(f, inObj, e)
-			if err != nil && !kerr.IsNotFound(err) {
-				return nil, err
-			}
-			out = appendObjects(out, result...)
-		}
-		in = out
+	finder := ObjectFinder{
+		f: f,
+		r: g.r,
 	}
-
-	return out, nil
+	return finder.List(src, path.Edges)
 }
 
 func (g *Graph) ListUsingDFS(f dynamicfactory.Factory, src *unstructured.Unstructured, dstGVR schema.GroupVersionResource) ([]*unstructured.Unstructured, error) {
@@ -88,22 +79,15 @@ func (g *Graph) ListUsingDFS(f dynamicfactory.Factory, src *unstructured.Unstruc
 	if len(paths) == 0 {
 		return nil, nil
 	}
+
+	finder := ObjectFinder{
+		f: f,
+		r: g.r,
+	}
 	for i, path := range paths {
-		in := []*unstructured.Unstructured{src}
-		var out []*unstructured.Unstructured
-		for _, e := range path.Edges {
-			out = nil
-			for _, inObj := range in {
-				result, err := g.ResourcesFor(f, inObj, e)
-				if err != nil && !kerr.IsNotFound(err) {
-					return nil, err
-				}
-				out = appendObjects(out, result...)
-			}
-			if len(out) == 0 {
-				break
-			}
-			in = out
+		out, err := finder.List(src, path.Edges)
+		if err != nil {
+			return nil, err
 		}
 		// If there is not resource in the current path, we don't need to continue traversing the path anymore.
 		// The target resource should be found within first 15 paths. If not found, don't traverse anymore.
@@ -136,7 +120,30 @@ func appendObjects(arr []*unstructured.Unstructured, items ...*unstructured.Unst
 	return out
 }
 
-func (g *Graph) ResourcesFor(f dynamicfactory.Factory, src *unstructured.Unstructured, e *Edge) ([]*unstructured.Unstructured, error) {
+type ObjectFinder struct {
+	f dynamicfactory.Factory
+	r disco_util.ResourceMapper
+}
+
+func (g ObjectFinder) List(src *unstructured.Unstructured, path []*Edge) ([]*unstructured.Unstructured, error) {
+	in := []*unstructured.Unstructured{src}
+	var out []*unstructured.Unstructured
+	for _, e := range path {
+		out = nil
+		for _, inObj := range in {
+			result, err := g.ResourcesFor(inObj, e)
+			if err != nil && !kerr.IsNotFound(err) {
+				return nil, err
+			}
+			out = appendObjects(out, result...)
+		}
+		in = out
+	}
+
+	return out, nil
+}
+
+func (g ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge) ([]*unstructured.Unstructured, error) {
 	gvr, err := g.r.GVR(src.GroupVersionKind())
 	if err != nil {
 		return nil, err
@@ -182,11 +189,11 @@ func (g *Graph) ResourcesFor(f dynamicfactory.Factory, src *unstructured.Unstruc
 			var out []*unstructured.Unstructured
 			for _, ns := range namespaces {
 				var ri dynamiclister.NamespaceLister
-				ri = f.ForResource(e.Dst)
+				ri = g.f.ForResource(e.Dst)
 				if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 					return nil, err
 				} else if namespaced {
-					ri = f.ForResource(e.Dst).Namespace(ns)
+					ri = g.f.ForResource(e.Dst).Namespace(ns)
 				}
 
 				selInApp := e.Connection.TargetLabelPath != "" && strings.Trim(e.Connection.TargetLabelPath, ".") != MetadataLabels
@@ -236,11 +243,11 @@ func (g *Graph) ResourcesFor(f dynamicfactory.Factory, src *unstructured.Unstruc
 			var out []*unstructured.Unstructured
 			for _, ns := range namespaces {
 				var ri dynamiclister.NamespaceLister
-				ri = f.ForResource(e.Dst)
+				ri = g.f.ForResource(e.Dst)
 				if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 					return nil, err
 				} else if namespaced {
-					ri = f.ForResource(e.Dst).Namespace(ns)
+					ri = g.f.ForResource(e.Dst).Namespace(ns)
 				}
 				rs, err := ri.Get(name)
 				if err != nil {
@@ -253,7 +260,7 @@ func (g *Graph) ResourcesFor(f dynamicfactory.Factory, src *unstructured.Unstruc
 			}
 			return out, nil
 		} else if e.Connection.Type == v1alpha1.OwnedBy {
-			return g.findOwners(f, e, src.GetOwnerReferences(), src.GetNamespace())
+			return g.findOwners(e, src.GetOwnerReferences(), src.GetNamespace())
 		} else if e.Connection.Type == v1alpha1.MatchRef {
 			// TODO: check that namespacePath must be empty
 
@@ -299,7 +306,7 @@ func (g *Graph) ResourcesFor(f dynamicfactory.Factory, src *unstructured.Unstruc
 					}
 
 					var ri dynamiclister.NamespaceLister
-					ri = f.ForResource(e.Dst)
+					ri = g.f.ForResource(e.Dst)
 					if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 						return nil, err
 					} else if namespaced {
@@ -313,7 +320,7 @@ func (g *Graph) ResourcesFor(f dynamicfactory.Factory, src *unstructured.Unstruc
 							// src is not-namespaced
 							return nil, errors.New("namespace must be defined in reference")
 						}
-						ri = f.ForResource(e.Dst).Namespace(ns)
+						ri = g.f.ForResource(e.Dst).Namespace(ns)
 					}
 					rs, err := ri.Get(ref.Name)
 					if err != nil {
@@ -350,11 +357,11 @@ func (g *Graph) ResourcesFor(f dynamicfactory.Factory, src *unstructured.Unstruc
 			}
 
 			var ri dynamiclister.NamespaceLister
-			ri = f.ForResource(e.Dst)
+			ri = g.f.ForResource(e.Dst)
 			if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 				return nil, err
 			} else if namespaced {
-				ri = f.ForResource(e.Dst).Namespace(namespace)
+				ri = g.f.ForResource(e.Dst).Namespace(namespace)
 			}
 			result, err := ri.List(labels.Everything())
 			if err != nil {
@@ -414,11 +421,11 @@ func (g *Graph) ResourcesFor(f dynamicfactory.Factory, src *unstructured.Unstruc
 
 				var out []*unstructured.Unstructured
 				var ri dynamiclister.NamespaceLister
-				ri = f.ForResource(e.Dst)
+				ri = g.f.ForResource(e.Dst)
 				if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 					return nil, err
 				} else if namespaced {
-					ri = f.ForResource(e.Dst).Namespace(namespace)
+					ri = g.f.ForResource(e.Dst).Namespace(namespace)
 				}
 				rs, err := ri.Get(name)
 				if err != nil {
@@ -432,12 +439,12 @@ func (g *Graph) ResourcesFor(f dynamicfactory.Factory, src *unstructured.Unstruc
 				return out, nil
 			}
 		} else if e.Connection.Type == v1alpha1.OwnedBy {
-			return g.findChildren(f, e, src)
+			return g.findChildren(e, src)
 		} else if e.Connection.Type == v1alpha1.MatchRef {
 			// TODO: check that namespacePath must be empty
 
 			var ri dynamiclister.NamespaceLister
-			ri = f.ForResource(e.Dst)
+			ri = g.f.ForResource(e.Dst)
 			if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 				return nil, err
 			} else if namespaced {
@@ -445,7 +452,7 @@ func (g *Graph) ResourcesFor(f dynamicfactory.Factory, src *unstructured.Unstruc
 				if e.Connection.NamespacePath == MetadataNamespace {
 					ns = src.GetNamespace()
 				}
-				ri = f.ForResource(e.Dst).Namespace(ns)
+				ri = g.f.ForResource(e.Dst).Namespace(ns)
 			}
 			result, err := ri.List(labels.Everything())
 			if err != nil {
@@ -607,15 +614,15 @@ func evalJsonPath(src *unstructured.Unstructured, template string) (string, erro
 	return strings.TrimSpace(buf.String()), nil
 }
 
-func (g *Graph) findOwners(f dynamicfactory.Factory, e *Edge, srcOwnerRefs []metav1.OwnerReference, namespace string) ([]*unstructured.Unstructured, error) {
+func (g ObjectFinder) findOwners(e *Edge, srcOwnerRefs []metav1.OwnerReference, namespace string) ([]*unstructured.Unstructured, error) {
 	var out []*unstructured.Unstructured
 
 	var ri dynamiclister.NamespaceLister
-	ri = f.ForResource(e.Dst)
+	ri = g.f.ForResource(e.Dst)
 	if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 		return nil, err
 	} else if namespaced {
-		ri = f.ForResource(e.Dst).Namespace(namespace)
+		ri = g.f.ForResource(e.Dst).Namespace(namespace)
 	}
 	t, err := g.r.TypeMeta(e.Dst)
 	if err != nil {
@@ -647,7 +654,7 @@ func (g *Graph) findOwners(f dynamicfactory.Factory, e *Edge, srcOwnerRefs []met
 	return out, nil
 }
 
-func (g *Graph) findChildren(f dynamicfactory.Factory, e *Edge, src *unstructured.Unstructured) ([]*unstructured.Unstructured, error) {
+func (g ObjectFinder) findChildren(e *Edge, src *unstructured.Unstructured) ([]*unstructured.Unstructured, error) {
 	if e.Connection.Level != v1alpha1.Owner && e.Connection.Level != v1alpha1.Controller {
 		return nil, fmt.Errorf("connection level should be Owner or Controller, found %v", e.Connection.Level)
 	}
@@ -655,11 +662,11 @@ func (g *Graph) findChildren(f dynamicfactory.Factory, e *Edge, src *unstructure
 	var out []*unstructured.Unstructured
 
 	var ri dynamiclister.NamespaceLister
-	ri = f.ForResource(e.Dst)
+	ri = g.f.ForResource(e.Dst)
 	if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
 		return nil, err
 	} else if namespaced {
-		ri = f.ForResource(e.Dst).Namespace(src.GetNamespace())
+		ri = g.f.ForResource(e.Dst).Namespace(src.GetNamespace())
 	}
 
 	result, err := ri.List(labels.Everything())

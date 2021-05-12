@@ -27,6 +27,7 @@ import (
 	"time"
 
 	"kmodules.xyz/apiversion"
+	disco_util "kmodules.xyz/client-go/discovery"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"kmodules.xyz/resource-metadata/hub/resourceclasses"
 	"kmodules.xyz/resource-metadata/hub/resourcedescriptors"
@@ -67,6 +68,8 @@ type Registry struct {
 	regGVK        map[schema.GroupVersionKind]*v1alpha1.ResourceID
 	regGVR        map[schema.GroupVersionResource]*v1alpha1.ResourceID
 }
+
+var _ disco_util.ResourceMapper = &Registry{}
 
 func NewRegistry(uid string, helm HelmVersion, cache KV) *Registry {
 	r := &Registry{
@@ -350,22 +353,22 @@ func (r *Registry) IsNamespaced(gvr schema.GroupVersionResource) (bool, error) {
 	return rid.Scope == v1alpha1.NamespaceScoped, nil
 }
 
-func (r *Registry) IsPreferred(gvr schema.GroupVersionResource) bool {
+func (r *Registry) IsPreferred(gvr schema.GroupVersionResource) (bool, error) {
 	r.m.RLock()
 	defer r.m.RUnlock()
 	if preferred, exists := r.preferred[gvr.GroupResource()]; exists {
-		return preferred == gvr
+		return preferred == gvr, nil
 	}
-	return false
+	return false, nil
 }
 
-func (r *Registry) Preferred(gvr schema.GroupVersionResource) schema.GroupVersionResource {
+func (r *Registry) Preferred(gvr schema.GroupVersionResource) (schema.GroupVersionResource, error) {
 	r.m.RLock()
 	defer r.m.RUnlock()
 	if preferred, exists := r.preferred[gvr.GroupResource()]; exists {
-		return preferred
+		return preferred, nil
 	}
-	return gvr
+	return gvr, nil
 }
 
 func (r *Registry) Resources() []schema.GroupVersionResource {
