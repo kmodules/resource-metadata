@@ -120,8 +120,8 @@ func (g *Graph) generateRealGraph(f dynamicfactory.Factory, src *unstructured.Un
 	q = append(q, srcGVR)
 	visited[srcGVR] = true
 	finder := ObjectFinder{
-		f: f,
-		r: g.r,
+		Factory: f,
+		Mapper:  g.r,
 	}
 	for {
 		// Pop the first item

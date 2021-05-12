@@ -64,8 +64,8 @@ func (g *Graph) ListUsingDijkstra(f dynamicfactory.Factory, src *unstructured.Un
 	}
 
 	finder := ObjectFinder{
-		f: f,
-		r: g.r,
+		Factory: f,
+		Mapper:  g.r,
 	}
 	return finder.List(src, path.Edges)
 }
@@ -81,8 +81,8 @@ func (g *Graph) ListUsingDFS(f dynamicfactory.Factory, src *unstructured.Unstruc
 	}
 
 	finder := ObjectFinder{
-		f: f,
-		r: g.r,
+		Factory: f,
+		Mapper:  g.r,
 	}
 	for i, path := range paths {
 		out, err := finder.List(src, path.Edges)
@@ -121,17 +121,17 @@ func appendObjects(arr []*unstructured.Unstructured, items ...*unstructured.Unst
 }
 
 type ObjectFinder struct {
-	f dynamicfactory.Factory
-	r disco_util.ResourceMapper
+	Factory dynamicfactory.Factory
+	Mapper  disco_util.ResourceMapper
 }
 
-func (g ObjectFinder) List(src *unstructured.Unstructured, path []*Edge) ([]*unstructured.Unstructured, error) {
+func (finder ObjectFinder) List(src *unstructured.Unstructured, path []*Edge) ([]*unstructured.Unstructured, error) {
 	in := []*unstructured.Unstructured{src}
 	var out []*unstructured.Unstructured
 	for _, e := range path {
 		out = nil
 		for _, inObj := range in {
-			result, err := g.ResourcesFor(inObj, e)
+			result, err := finder.ResourcesFor(inObj, e)
 			if err != nil && !kerr.IsNotFound(err) {
 				return nil, err
 			}
@@ -143,8 +143,8 @@ func (g ObjectFinder) List(src *unstructured.Unstructured, path []*Edge) ([]*uns
 	return out, nil
 }
 
-func (g ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge) ([]*unstructured.Unstructured, error) {
-	gvr, err := g.r.GVR(src.GroupVersionKind())
+func (finder ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge) ([]*unstructured.Unstructured, error) {
+	gvr, err := finder.Mapper.GVR(src.GroupVersionKind())
 	if err != nil {
 		return nil, err
 	}
@@ -189,11 +189,11 @@ func (g ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge) ([]*
 			var out []*unstructured.Unstructured
 			for _, ns := range namespaces {
 				var ri dynamiclister.NamespaceLister
-				ri = g.f.ForResource(e.Dst)
-				if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
+				ri = finder.Factory.ForResource(e.Dst)
+				if namespaced, err := finder.Mapper.IsNamespaced(e.Dst); err != nil {
 					return nil, err
 				} else if namespaced {
-					ri = g.f.ForResource(e.Dst).Namespace(ns)
+					ri = finder.Factory.ForResource(e.Dst).Namespace(ns)
 				}
 
 				selInApp := e.Connection.TargetLabelPath != "" && strings.Trim(e.Connection.TargetLabelPath, ".") != MetadataLabels
@@ -243,11 +243,11 @@ func (g ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge) ([]*
 			var out []*unstructured.Unstructured
 			for _, ns := range namespaces {
 				var ri dynamiclister.NamespaceLister
-				ri = g.f.ForResource(e.Dst)
-				if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
+				ri = finder.Factory.ForResource(e.Dst)
+				if namespaced, err := finder.Mapper.IsNamespaced(e.Dst); err != nil {
 					return nil, err
 				} else if namespaced {
-					ri = g.f.ForResource(e.Dst).Namespace(ns)
+					ri = finder.Factory.ForResource(e.Dst).Namespace(ns)
 				}
 				rs, err := ri.Get(name)
 				if err != nil {
@@ -260,7 +260,7 @@ func (g ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge) ([]*
 			}
 			return out, nil
 		} else if e.Connection.Type == v1alpha1.OwnedBy {
-			return g.findOwners(e, src.GetOwnerReferences(), src.GetNamespace())
+			return finder.findOwners(e, src.GetOwnerReferences(), src.GetNamespace())
 		} else if e.Connection.Type == v1alpha1.MatchRef {
 			// TODO: check that namespacePath must be empty
 
@@ -279,7 +279,7 @@ func (g ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge) ([]*
 					return nil, fmt.Errorf("fails to execute reference %q between %s -> %s. err:%v", e.Connection.References, e.Src, e.Dst, err)
 				}
 				r := csv.NewReader(buf)
-				// r.Comma = ';'
+				// Mapper.Comma = ';'
 				r.Comment = '#'
 				records, err := r.ReadAll()
 				if err != nil {
@@ -297,7 +297,7 @@ func (g ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge) ([]*
 						continue
 					}
 					// if apiGroup is set, it must match
-					gvk, err := g.r.GVK(e.Dst)
+					gvk, err := finder.Mapper.GVK(e.Dst)
 					if err != nil {
 						return nil, err
 					}
@@ -306,8 +306,8 @@ func (g ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge) ([]*
 					}
 
 					var ri dynamiclister.NamespaceLister
-					ri = g.f.ForResource(e.Dst)
-					if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
+					ri = finder.Factory.ForResource(e.Dst)
+					if namespaced, err := finder.Mapper.IsNamespaced(e.Dst); err != nil {
 						return nil, err
 					} else if namespaced {
 						ns := ref.Namespace
@@ -320,7 +320,7 @@ func (g ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge) ([]*
 							// src is not-namespaced
 							return nil, errors.New("namespace must be defined in reference")
 						}
-						ri = g.f.ForResource(e.Dst).Namespace(ns)
+						ri = finder.Factory.ForResource(e.Dst).Namespace(ns)
 					}
 					rs, err := ri.Get(ref.Name)
 					if err != nil {
@@ -357,11 +357,11 @@ func (g ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge) ([]*
 			}
 
 			var ri dynamiclister.NamespaceLister
-			ri = g.f.ForResource(e.Dst)
-			if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
+			ri = finder.Factory.ForResource(e.Dst)
+			if namespaced, err := finder.Mapper.IsNamespaced(e.Dst); err != nil {
 				return nil, err
 			} else if namespaced {
-				ri = g.f.ForResource(e.Dst).Namespace(namespace)
+				ri = finder.Factory.ForResource(e.Dst).Namespace(namespace)
 			}
 			result, err := ri.List(labels.Everything())
 			if err != nil {
@@ -421,11 +421,11 @@ func (g ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge) ([]*
 
 				var out []*unstructured.Unstructured
 				var ri dynamiclister.NamespaceLister
-				ri = g.f.ForResource(e.Dst)
-				if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
+				ri = finder.Factory.ForResource(e.Dst)
+				if namespaced, err := finder.Mapper.IsNamespaced(e.Dst); err != nil {
 					return nil, err
 				} else if namespaced {
-					ri = g.f.ForResource(e.Dst).Namespace(namespace)
+					ri = finder.Factory.ForResource(e.Dst).Namespace(namespace)
 				}
 				rs, err := ri.Get(name)
 				if err != nil {
@@ -439,20 +439,20 @@ func (g ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge) ([]*
 				return out, nil
 			}
 		} else if e.Connection.Type == v1alpha1.OwnedBy {
-			return g.findChildren(e, src)
+			return finder.findChildren(e, src)
 		} else if e.Connection.Type == v1alpha1.MatchRef {
 			// TODO: check that namespacePath must be empty
 
 			var ri dynamiclister.NamespaceLister
-			ri = g.f.ForResource(e.Dst)
-			if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
+			ri = finder.Factory.ForResource(e.Dst)
+			if namespaced, err := finder.Mapper.IsNamespaced(e.Dst); err != nil {
 				return nil, err
 			} else if namespaced {
 				ns := metav1.NamespaceAll
 				if e.Connection.NamespacePath == MetadataNamespace {
 					ns = src.GetNamespace()
 				}
-				ri = g.f.ForResource(e.Dst).Namespace(ns)
+				ri = finder.Factory.ForResource(e.Dst).Namespace(ns)
 			}
 			result, err := ri.List(labels.Everything())
 			if err != nil {
@@ -479,7 +479,7 @@ func (g ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge) ([]*
 						return nil, fmt.Errorf("fails to execute reference %q between %s -> %s. err:%v", e.Connection.References, e.Src, e.Dst, err)
 					}
 					r := csv.NewReader(buf)
-					// r.Comma = ';'
+					// Mapper.Comma = ';'
 					r.Comment = '#'
 					records, err := r.ReadAll()
 					if err != nil {
@@ -496,7 +496,7 @@ func (g ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge) ([]*
 						}
 
 						// if apiGroup is set, it must match
-						gvk, err := g.r.GVK(e.Src)
+						gvk, err := finder.Mapper.GVK(e.Src)
 						if err != nil {
 							return nil, err
 						}
@@ -505,7 +505,7 @@ func (g ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge) ([]*
 						}
 
 						ns := ref.Namespace
-						namespaced, err := g.r.IsNamespaced(e.Src)
+						namespaced, err := finder.Mapper.IsNamespaced(e.Src)
 						if err != nil {
 							return nil, err
 						}
@@ -614,17 +614,17 @@ func evalJsonPath(src *unstructured.Unstructured, template string) (string, erro
 	return strings.TrimSpace(buf.String()), nil
 }
 
-func (g ObjectFinder) findOwners(e *Edge, srcOwnerRefs []metav1.OwnerReference, namespace string) ([]*unstructured.Unstructured, error) {
+func (finder ObjectFinder) findOwners(e *Edge, srcOwnerRefs []metav1.OwnerReference, namespace string) ([]*unstructured.Unstructured, error) {
 	var out []*unstructured.Unstructured
 
 	var ri dynamiclister.NamespaceLister
-	ri = g.f.ForResource(e.Dst)
-	if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
+	ri = finder.Factory.ForResource(e.Dst)
+	if namespaced, err := finder.Mapper.IsNamespaced(e.Dst); err != nil {
 		return nil, err
 	} else if namespaced {
-		ri = g.f.ForResource(e.Dst).Namespace(namespace)
+		ri = finder.Factory.ForResource(e.Dst).Namespace(namespace)
 	}
-	t, err := g.r.TypeMeta(e.Dst)
+	t, err := finder.Mapper.TypeMeta(e.Dst)
 	if err != nil {
 		return nil, err
 	}
@@ -654,7 +654,7 @@ func (g ObjectFinder) findOwners(e *Edge, srcOwnerRefs []metav1.OwnerReference, 
 	return out, nil
 }
 
-func (g ObjectFinder) findChildren(e *Edge, src *unstructured.Unstructured) ([]*unstructured.Unstructured, error) {
+func (finder ObjectFinder) findChildren(e *Edge, src *unstructured.Unstructured) ([]*unstructured.Unstructured, error) {
 	if e.Connection.Level != v1alpha1.Owner && e.Connection.Level != v1alpha1.Controller {
 		return nil, fmt.Errorf("connection level should be Owner or Controller, found %v", e.Connection.Level)
 	}
@@ -662,11 +662,11 @@ func (g ObjectFinder) findChildren(e *Edge, src *unstructured.Unstructured) ([]*
 	var out []*unstructured.Unstructured
 
 	var ri dynamiclister.NamespaceLister
-	ri = g.f.ForResource(e.Dst)
-	if namespaced, err := g.r.IsNamespaced(e.Dst); err != nil {
+	ri = finder.Factory.ForResource(e.Dst)
+	if namespaced, err := finder.Mapper.IsNamespaced(e.Dst); err != nil {
 		return nil, err
 	} else if namespaced {
-		ri = g.f.ForResource(e.Dst).Namespace(src.GetNamespace())
+		ri = finder.Factory.ForResource(e.Dst).Namespace(src.GetNamespace())
 	}
 
 	result, err := ri.List(labels.Everything())
