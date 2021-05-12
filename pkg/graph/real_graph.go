@@ -119,6 +119,10 @@ func (g *Graph) generateRealGraph(f dynamicfactory.Factory, src *unstructured.Un
 	// Push the source node
 	q = append(q, srcGVR)
 	visited[srcGVR] = true
+	finder := ObjectFinder{
+		f: f,
+		r: g.r,
+	}
 	for {
 		// Pop the first item
 		u := q[0]
@@ -130,7 +134,7 @@ func (g *Graph) generateRealGraph(f dynamicfactory.Factory, src *unstructured.Un
 				srcObjects := objMap[u]
 				var dstObjects []*unstructured.Unstructured
 				for _, srcObj := range srcObjects {
-					objects, err := g.ResourcesFor(f, srcObj, e)
+					objects, err := finder.ResourcesFor(srcObj, e)
 					if err != nil && !kerr.IsNotFound(err) {
 						return nil, err
 					}
