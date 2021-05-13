@@ -37,6 +37,7 @@ import (
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/dynamic/dynamiclister"
+	"k8s.io/client-go/tools/cache"
 )
 
 func (g *Graph) List(f dynamicfactory.Factory, src *unstructured.Unstructured, dstGVR schema.GroupVersionResource) ([]*unstructured.Unstructured, error) {
@@ -844,4 +845,108 @@ func ParseResourceRefs(records [][]string) ([]ResourceRef, error) {
 		}
 	}
 	return refs, nil
+}
+
+func (finder ObjectFinder) Get(ref *v1alpha1.ObjectRef) (*unstructured.Unstructured, error) {
+	gvk := schema.FromAPIVersionAndKind(ref.Target.APIVersion, ref.Target.Kind)
+	gvr, err := finder.Mapper.GVR(gvk)
+	if err != nil {
+		return nil, err
+	}
+	if ref.Selector == nil {
+		sel, err := metav1.LabelSelectorAsSelector(ref.Selector)
+		if err != nil {
+			return nil, err
+		}
+		objects, err := finder.Factory.ForResource(gvr).List(sel)
+		if err != nil {
+			return nil, err
+		}
+		return getTheObject(gvr, objects)
+	}
+
+	// TODO: convert name template to name
+	object, err := finder.Factory.ForResource(gvr).Get(ref.NameTemplate)
+	if err != nil {
+		return nil, err
+	}
+	return object, nil
+}
+
+func (finder ObjectFinder) Locate(locator *v1alpha1.ObjectLocator, edgeList []v1alpha1.NamedEdge) (*unstructured.Unstructured, error) {
+	src, err := finder.Get(locator.Start)
+	if err != nil {
+		return nil, err
+	}
+
+	m := make(map[string]*v1alpha1.NamedEdge)
+	for i, entry := range edgeList {
+		m[entry.Name] = &edgeList[i]
+	}
+
+	from := locator.Start.Target
+	edges := make([]*Edge, 0, len(locator.Path))
+	for _, path := range locator.Path {
+		e, ok := m[path]
+		if !ok {
+			return nil, fmt.Errorf("path %s not found in edge list", path)
+		}
+
+		srcGVR, err := finder.Mapper.GVR(schema.FromAPIVersionAndKind(e.Src.APIVersion, e.Src.Kind))
+		if err != nil {
+			return nil, err
+		}
+		dstGVR, err := finder.Mapper.GVR(schema.FromAPIVersionAndKind(e.Dst.APIVersion, e.Dst.Kind))
+		if err != nil {
+			return nil, err
+		}
+		if e.Src == from {
+			edges = append(edges, &Edge{
+				Src:        srcGVR,
+				Dst:        dstGVR,
+				W:          0,
+				Connection: e.Connection,
+				Forward:    true,
+			})
+			from = e.Dst
+		} else if e.Dst == from {
+			edges = append(edges, &Edge{
+				Src:        dstGVR,
+				Dst:        srcGVR,
+				W:          0,
+				Connection: e.Connection,
+				Forward:    false,
+			})
+			from = e.Src
+		} else {
+			return nil, fmt.Errorf("edge %s has no connection with resource %v", path, from)
+		}
+	}
+
+	objects, err := finder.List(src, edges)
+	if err != nil {
+		return nil, err
+	}
+
+	return getTheObject(edges[len(edges)-1].Dst, objects)
+}
+
+func getTheObject(gvr schema.GroupVersionResource, objects []*unstructured.Unstructured) (*unstructured.Unstructured, error) {
+	switch len(objects) {
+	case 0:
+
+		return nil, kerr.NewNotFound(gvr.GroupResource(), "")
+	case 1:
+		return objects[0], nil
+	default:
+		names := make([]string, 0, len(objects))
+		for _, obj := range objects {
+			name, err := cache.MetaNamespaceKeyFunc(obj)
+			if err != nil {
+				return nil, err
+			}
+			names = append(names, name)
+		}
+		return nil, fmt.Errorf("multiple matching %v objects found %s", gvr, strings.Join(names, ","))
+	}
 }
