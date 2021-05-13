@@ -19,8 +19,8 @@ package v1alpha1
 import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 type ObjectLocator struct {
-	Start *ObjectRef `json:"start"`
-	Path  []string   `json:"path"` // sequence of DirectedEdge names
+	Src  ObjectRef `json:"src"`
+	Path []string  `json:"path"` // sequence of DirectedEdge names
 }
 
 type NamedEdge struct {
@@ -30,9 +30,9 @@ type NamedEdge struct {
 	Connection ResourceConnectionSpec `json:"connection"`
 }
 
-// Namespace always same as Workflow
 type ObjectRef struct {
-	Target       metav1.TypeMeta       `json:"target"`
-	Selector     *metav1.LabelSelector `json:"selector,omitempty"`
-	NameTemplate string                `json:"nameTemplate,omitempty"`
+	Target    metav1.TypeMeta       `json:"target"`
+	Selector  *metav1.LabelSelector `json:"selector,omitempty"`
+	Name      string                `json:"name,omitempty"`
+	Namespace string                `json:"namespace,omitempty"`
 }

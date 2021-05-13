@@ -853,20 +853,31 @@ func (finder ObjectFinder) Get(ref *v1alpha1.ObjectRef) (*unstructured.Unstructu
 	if err != nil {
 		return nil, err
 	}
+
+	namespaced, err := finder.Mapper.IsNamespaced(gvr)
+	if err != nil {
+		return nil, err
+	}
+	var lister dynamiclister.NamespaceLister
+	if namespaced {
+		lister = finder.Factory.ForResource(gvr).Namespace(ref.Namespace)
+	} else {
+		lister = finder.Factory.ForResource(gvr)
+	}
+
 	if ref.Selector == nil {
 		sel, err := metav1.LabelSelectorAsSelector(ref.Selector)
 		if err != nil {
 			return nil, err
 		}
-		objects, err := finder.Factory.ForResource(gvr).List(sel)
+		objects, err := lister.List(sel)
 		if err != nil {
 			return nil, err
 		}
 		return getTheObject(gvr, objects)
 	}
 
-	// TODO: convert name template to name
-	object, err := finder.Factory.ForResource(gvr).Get(ref.NameTemplate)
+	object, err := lister.Get(ref.Name)
 	if err != nil {
 		return nil, err
 	}
@@ -874,7 +885,7 @@ func (finder ObjectFinder) Get(ref *v1alpha1.ObjectRef) (*unstructured.Unstructu
 }
 
 func (finder ObjectFinder) Locate(locator *v1alpha1.ObjectLocator, edgeList []v1alpha1.NamedEdge) (*unstructured.Unstructured, error) {
-	src, err := finder.Get(locator.Start)
+	src, err := finder.Get(&locator.Src)
 	if err != nil {
 		return nil, err
 	}
@@ -884,7 +895,7 @@ func (finder ObjectFinder) Locate(locator *v1alpha1.ObjectLocator, edgeList []v1
 		m[entry.Name] = &edgeList[i]
 	}
 
-	from := locator.Start.Target
+	from := locator.Src.Target
 	edges := make([]*Edge, 0, len(locator.Path))
 	for _, path := range locator.Path {
 		e, ok := m[path]
@@ -934,7 +945,6 @@ func (finder ObjectFinder) Locate(locator *v1alpha1.ObjectLocator, edgeList []v1
 func getTheObject(gvr schema.GroupVersionResource, objects []*unstructured.Unstructured) (*unstructured.Unstructured, error) {
 	switch len(objects) {
 	case 0:
-
 		return nil, kerr.NewNotFound(gvr.GroupResource(), "")
 	case 1:
 		return objects[0], nil

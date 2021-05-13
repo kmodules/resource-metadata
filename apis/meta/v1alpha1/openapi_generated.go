@@ -14803,9 +14803,10 @@ func schema_resource_metadata_apis_meta_v1alpha1_ObjectLocator(ref common.Refere
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
-					"start": {
+					"src": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ObjectRef"),
+							Default: map[string]interface{}{},
+							Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ObjectRef"),
 						},
 					},
 					"path": {
@@ -14823,7 +14824,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ObjectLocator(ref common.Refere
 						},
 					},
 				},
-				Required: []string{"start", "path"},
+				Required: []string{"src", "path"},
 			},
 		},
 		Dependencies: []string{
@@ -14835,8 +14836,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ObjectRef(ref common.ReferenceC
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
-				Description: "Namespace always same as Workflow",
-				Type:        []string{"object"},
+				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
 					"target": {
 						SchemaProps: spec.SchemaProps{
@@ -14849,7 +14849,13 @@ func schema_resource_metadata_apis_meta_v1alpha1_ObjectRef(ref common.ReferenceC
 							Ref: ref("k8s.io/apimachinery/pkg/apis/meta/v1.LabelSelector"),
 						},
 					},
-					"nameTemplate": {
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"namespace": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
 							Format: "",
