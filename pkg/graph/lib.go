@@ -865,7 +865,7 @@ func (finder ObjectFinder) Get(ref *v1alpha1.ObjectRef) (*unstructured.Unstructu
 		lister = finder.Factory.ForResource(gvr)
 	}
 
-	if ref.Selector == nil {
+	if ref.Selector != nil {
 		sel, err := metav1.LabelSelectorAsSelector(ref.Selector)
 		if err != nil {
 			return nil, err
