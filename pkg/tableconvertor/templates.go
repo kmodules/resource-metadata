@@ -22,6 +22,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"text/template"
 	"time"
 
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor/printers"
@@ -61,6 +62,15 @@ func init() {
 	templateFns["kubedb_db_resources"] = kubedbDBResourcesFn
 	templateFns["rbac_subjects"] = rbacSubjects
 	templateFns["cert_validity"] = certificateValidity
+}
+
+// TxtFuncMap returns a 'text/template'.FuncMap
+func TxtFuncMap() template.FuncMap {
+	gfm := make(map[string]interface{}, len(templateFns))
+	for k, v := range templateFns {
+		gfm[k] = v
+	}
+	return gfm
 }
 
 func jsonpathFn(expr string, data interface{}, jsonoutput ...bool) (interface{}, error) {
