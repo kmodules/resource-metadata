@@ -22,12 +22,12 @@ import (
 	"strconv"
 	"strings"
 
-	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+	mona "kmodules.xyz/monitoring-agent-api/api/v1"
+	ofst "kmodules.xyz/offshoot-api/api/v1"
 
 	core "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
-	mona "kmodules.xyz/monitoring-agent-api/api/v1"
-	ofst "kmodules.xyz/offshoot-api/api/v1"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 )
 
 const (
