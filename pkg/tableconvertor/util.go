@@ -392,7 +392,7 @@ func mongoDBResources(obj unstructured.Unstructured) (string, error) {
 	totalStorage := int64(0)
 
 	// Sharded MongoDB
-	shardTopology, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "shardTopology")
+	shardTopology, found, err := unstructured.NestedFieldNoCopy(obj.UnstructuredContent(), "spec", "shardTopology")
 	if err != nil {
 		return "", err
 	}
@@ -435,7 +435,7 @@ func mongoDBResources(obj unstructured.Unstructured) (string, error) {
 	}
 
 	// MongoDB ReplicaSet
-	replicaSet, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "replicaSet")
+	replicaSet, found, err := unstructured.NestedFieldNoCopy(obj.UnstructuredContent(), "spec", "replicaSet")
 	if err != nil {
 		return "", err
 	}
@@ -480,7 +480,7 @@ func mongoDBResources(obj unstructured.Unstructured) (string, error) {
 }
 
 func getMongoDBNodeInfo(obj unstructured.Unstructured, fields ...string) (*MongoDBNode, error) {
-	unstructuredNode, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), fields...)
+	unstructuredNode, found, err := unstructured.NestedFieldNoCopy(obj.UnstructuredContent(), fields...)
 	if err != nil {
 		return nil, err
 	}
@@ -501,7 +501,7 @@ func getMongoDBNodeInfo(obj unstructured.Unstructured, fields ...string) (*Mongo
 }
 
 func exporterResources(obj unstructured.Unstructured) (int64, int64, error) {
-	unstructuredExporter, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "monitor", "prometheus", "exporter")
+	unstructuredExporter, found, err := unstructured.NestedFieldNoCopy(obj.UnstructuredContent(), "spec", "monitor", "prometheus", "exporter")
 	if err != nil {
 		return 0, 0, nil
 	}
