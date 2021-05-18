@@ -8,21 +8,29 @@ require (
 	github.com/go-openapi/spec v0.19.5
 	github.com/gobuffalo/flect v0.2.2
 	github.com/google/gofuzz v1.2.0
+	github.com/googleapis/gnostic v0.5.4 // indirect
 	github.com/gregjones/httpcache v0.0.0-20180305231024-9cad4c3443a7
 	github.com/hashicorp/golang-lru v0.5.4
 	github.com/mitchellh/mapstructure v1.1.2
+	github.com/onsi/ginkgo v1.15.0 // indirect
+	github.com/onsi/gomega v1.10.5 // indirect
 	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.47.0
+	github.com/prometheus/client_golang v1.9.0 // indirect
 	github.com/spf13/cobra v1.1.3
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.6.1
 	github.com/yudai/gojsondiff v1.0.0
+	go.uber.org/zap v1.16.0 // indirect
 	golang.org/x/net v0.0.0-20210226172049-e18ecbb05110
 	gomodules.xyz/jsonpath v0.0.1
 	gomodules.xyz/kglog v0.0.1
 	gomodules.xyz/pointer v0.0.0-20201105071923-daf60fa55209
 	gomodules.xyz/version v0.1.0
 	gomodules.xyz/x v0.0.4
+	google.golang.org/appengine v1.6.7 // indirect
+	google.golang.org/grpc v1.35.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0
+	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776 // indirect
 	k8s.io/api v0.21.0
 	k8s.io/apiextensions-apiserver v0.21.0
 	k8s.io/apimachinery v0.21.0
@@ -33,7 +41,8 @@ require (
 	kmodules.xyz/apiversion v0.2.0
 	kmodules.xyz/client-go v0.0.0-20210514054158-27e164b43474
 	kmodules.xyz/crd-schema-fuzz v0.0.0-20210503192455-da44af375c4c
-	kubedb.dev/apimachinery v0.18.1-0.20210506003355-e982e5902ad2
+	kmodules.xyz/monitoring-agent-api v0.0.0-20210504040241-261c2428d207
+	kmodules.xyz/offshoot-api v0.0.0-20210504040651-7951e351f0f5
 	sigs.k8s.io/yaml v1.2.0
 )
 

@@ -17,16 +17,23 @@ limitations under the License.
 package tableconvertor
 
 import (
+	"encoding/json"
 	"fmt"
 	"strconv"
 	"strings"
 
+	mona "kmodules.xyz/monitoring-agent-api/api/v1"
+	ofst "kmodules.xyz/offshoot-api/api/v1"
+
 	core "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
-	kubedb "kubedb.dev/apimachinery/apis/kubedb/v1alpha2"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 )
 
-const ValueNone = "<none>"
+const (
+	ValueNone           = "<none>"
+	ResourceKindMongoDB = "MongoDB"
+)
 
 // ref: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/kubectl/pkg/describe/describe.go
 func describeVolume(volume core.Volume) string {
@@ -373,37 +380,142 @@ func formatBytes(c int64) string {
 	}
 }
 
-func mongoDBResources(db kubedb.MongoDBSpec) (string, string, string) {
+type MongoDBNode struct {
+	Replicas    int64                          `json:"replicas,omitempty"`
+	PodTemplate ofst.PodTemplateSpec           `json:"podTemplate,omitempty"`
+	Storage     core.PersistentVolumeClaimSpec `json:"storage,omitempty"`
+}
+
+func mongoDBResources(obj unstructured.Unstructured) (string, error) {
 	totalCPU := int64(0)
 	totalMemory := int64(0)
 	totalStorage := int64(0)
-	if db.ShardTopology != nil {
-		t := db.ShardTopology
-		// Shard nodes resources
-		totalCPU += int64(t.Shard.Replicas) * t.Shard.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue()
-		totalMemory += int64(t.Shard.Replicas) * t.Shard.PodTemplate.Spec.Resources.Limits.Memory().Value()
-		totalStorage += int64(t.Shard.Replicas) * t.Shard.Storage.Resources.Requests.Storage().Value()
-		// ConfigServer nodes resources
-		totalCPU += int64(t.ConfigServer.Replicas) * t.ConfigServer.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue()
-		totalMemory += int64(t.ConfigServer.Replicas) * t.ConfigServer.PodTemplate.Spec.Resources.Limits.Memory().Value()
-		totalStorage += int64(t.ConfigServer.Replicas) * t.ConfigServer.Storage.Resources.Requests.Storage().Value()
-		// Mongos node resources
-		totalCPU += int64(t.Mongos.Replicas) * t.Mongos.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue()
-		totalMemory += int64(t.Mongos.Replicas) * t.Mongos.PodTemplate.Spec.Resources.Limits.Memory().Value()
-	} else if db.ReplicaSet != nil {
-		totalCPU += int64(*db.Replicas) * db.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue()
-		totalMemory += int64(*db.Replicas) * db.PodTemplate.Spec.Resources.Limits.Memory().Value()
-		totalStorage += int64(*db.Replicas) * db.Storage.Resources.Requests.Storage().Value()
-	} else {
-		totalCPU += db.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue()
-		totalMemory += db.PodTemplate.Spec.Resources.Limits.Memory().Value()
-		totalStorage += db.Storage.Resources.Requests.Storage().Value()
+
+	// Sharded MongoDB
+	shardTopology, found, err := unstructured.NestedFieldNoCopy(obj.UnstructuredContent(), "spec", "shardTopology")
+	if err != nil {
+		return "", err
 	}
-	// add exporter cpu
-	if db.Monitor != nil && db.Monitor.Prometheus != nil {
-		totalCPU += db.Monitor.Prometheus.Exporter.Resources.Limits.Cpu().MilliValue()
-		totalMemory += db.Monitor.Prometheus.Exporter.Resources.Limits.Memory().Value()
+	if found && shardTopology != nil {
+		// Shard nodes resources
+		shard, err := getMongoDBNodeInfo(obj, "spec", "shardTopology", "shard")
+		if err != nil {
+			return "", err
+		}
+		totalCPU += shard.Replicas * shard.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue()
+		totalMemory += shard.Replicas * shard.PodTemplate.Spec.Resources.Limits.Memory().Value()
+		totalStorage += shard.Replicas * shard.Storage.Resources.Requests.Storage().Value()
+
+		// ConfigServer nodes resources
+		configServer, err := getMongoDBNodeInfo(obj, "spec", "shardTopology", "configServer")
+		if err != nil {
+			return "", err
+		}
+		totalCPU += configServer.Replicas * configServer.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue()
+		totalMemory += configServer.Replicas * configServer.PodTemplate.Spec.Resources.Limits.Memory().Value()
+		totalStorage += configServer.Replicas * configServer.Storage.Resources.Requests.Storage().Value()
+
+		// Mongos node resources
+		mongos, err := getMongoDBNodeInfo(obj, "spec", "shardTopology", "mongos")
+		if err != nil {
+			return "", err
+		}
+		totalCPU += mongos.Replicas * mongos.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue()
+		totalMemory += mongos.Replicas * mongos.PodTemplate.Spec.Resources.Limits.Memory().Value()
+
+		// Exporter resources
+		cpu, memory, err := exporterResources(obj)
+		if err != nil {
+			return "", err
+		}
+		totalCPU += cpu
+		totalMemory += memory
+
+		return fmt.Sprintf("{%q:%q, %q:%q, %q:%q}", core.ResourceCPU, fmt.Sprintf("%dm", totalCPU), core.ResourceMemory, formatBytes(totalMemory), core.ResourceStorage, formatBytes(totalStorage)), nil
 	}
 
-	return fmt.Sprintf("%dm", totalCPU), formatBytes(totalMemory), formatBytes(totalStorage)
+	// MongoDB ReplicaSet
+	replicaSet, found, err := unstructured.NestedFieldNoCopy(obj.UnstructuredContent(), "spec", "replicaSet")
+	if err != nil {
+		return "", err
+	}
+	if found && replicaSet != nil {
+		// ReplicaSet resources
+		rs, err := getMongoDBNodeInfo(obj, "spec")
+		if err != nil {
+			return "", err
+		}
+		totalCPU += rs.Replicas * rs.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue()
+		totalMemory += rs.Replicas * rs.PodTemplate.Spec.Resources.Limits.Memory().Value()
+		totalStorage += rs.Replicas * rs.Storage.Resources.Requests.Storage().Value()
+
+		// Exporter resources
+		cpu, memory, err := exporterResources(obj)
+		if err != nil {
+			return "", err
+		}
+		totalCPU += cpu
+		totalMemory += memory
+
+		return fmt.Sprintf("{%q:%q, %q:%q, %q:%q}", core.ResourceCPU, fmt.Sprintf("%dm", totalCPU), core.ResourceMemory, formatBytes(totalMemory), core.ResourceStorage, formatBytes(totalStorage)), nil
+	}
+
+	// Standalone MongoDB
+	db, err := getMongoDBNodeInfo(obj, "spec")
+	if err != nil {
+		return "", err
+	}
+	totalCPU += db.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue()
+	totalMemory += db.PodTemplate.Spec.Resources.Limits.Memory().Value()
+	totalStorage += db.Storage.Resources.Requests.Storage().Value()
+	// Exporter resources
+	cpu, memory, err := exporterResources(obj)
+	if err != nil {
+		return "", err
+	}
+	totalCPU += cpu
+	totalMemory += memory
+
+	return fmt.Sprintf("{%q:%q, %q:%q, %q:%q}", core.ResourceCPU, fmt.Sprintf("%dm", totalCPU), core.ResourceMemory, formatBytes(totalMemory), core.ResourceStorage, formatBytes(totalStorage)), nil
+}
+
+func getMongoDBNodeInfo(obj unstructured.Unstructured, fields ...string) (*MongoDBNode, error) {
+	unstructuredNode, found, err := unstructured.NestedFieldNoCopy(obj.UnstructuredContent(), fields...)
+	if err != nil {
+		return nil, err
+	}
+	if !found {
+		return nil, fmt.Errorf("unable to find path: %s", strings.Join(fields, "."))
+	}
+
+	node := new(MongoDBNode)
+	data, err := json.Marshal(unstructuredNode)
+	if err != nil {
+		return nil, err
+	}
+	err = json.Unmarshal(data, &node)
+	if err != nil {
+		return nil, err
+	}
+	return node, nil
+}
+
+func exporterResources(obj unstructured.Unstructured) (int64, int64, error) {
+	unstructuredExporter, found, err := unstructured.NestedFieldNoCopy(obj.UnstructuredContent(), "spec", "monitor", "prometheus", "exporter")
+	if err != nil {
+		return 0, 0, nil
+	}
+	if found && unstructuredExporter != nil {
+		exporter := new(mona.PrometheusExporterSpec)
+		data, err := json.Marshal(unstructuredExporter)
+		if err != nil {
+			return 0, 0, err
+		}
+		err = json.Unmarshal(data, &exporter)
+		if err != nil {
+			return 0, 0, err
+		}
+		return exporter.Resources.Limits.Cpu().MilliValue(), exporter.Resources.Limits.Memory().Value(), nil
+	}
+	return 0, 0, nil
 }

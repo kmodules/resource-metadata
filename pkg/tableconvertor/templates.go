@@ -36,9 +36,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/duration"
-	kubedb "kubedb.dev/apimachinery/apis/kubedb/v1alpha2"
 )
 
 var templateFns = sprig.TxtFuncMap()
@@ -319,15 +317,19 @@ func kubedbDBModeFn(data string) (string, error) {
 	}
 
 	switch obj.GetKind() {
-	case kubedb.ResourceKindMongoDB:
-		db := new(kubedb.MongoDB)
-		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.UnstructuredContent(), db)
+	case ResourceKindMongoDB:
+		shards, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "shardTopology")
 		if err != nil {
 			return "", err
 		}
-		if db.Spec.ShardTopology != nil {
+		if found && shards != nil {
 			return "Sharded", nil
-		} else if db.Spec.ReplicaSet != nil {
+		}
+		rs, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "replicaSet")
+		if err != nil {
+			return "", err
+		}
+		if found && rs != nil {
 			return "ReplicaSet", nil
 		}
 		return "Standalone", nil
@@ -343,20 +345,41 @@ func kubedbDBReplicasFn(data string) (string, error) {
 	}
 
 	switch obj.GetKind() {
-	case kubedb.ResourceKindMongoDB:
-		db := new(kubedb.MongoDB)
-		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.UnstructuredContent(), db)
+	case ResourceKindMongoDB:
+		// Sharded MongoDB cluster
+		shardTopology, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "shardTopology")
 		if err != nil {
 			return "", err
 		}
-		if db.Spec.ShardTopology != nil {
-			t := db.Spec.ShardTopology
-			return fmt.Sprintf("%d, %d, %d", t.Shard.Replicas, t.ConfigServer.Replicas, t.Mongos.Replicas), nil
-		} else if db.Spec.ReplicaSet != nil {
-			return fmt.Sprintf("%d", *db.Spec.Replicas), nil
-		} else {
-			return "1", nil
+		if found && shardTopology != nil {
+			shards, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "shardTopology", "shard", "replicas")
+			if err != nil {
+				return "", err
+			}
+			configServers, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "shardTopology", "configServer", "replicas")
+			if err != nil {
+				return "", err
+			}
+			mongos, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "shardTopology", "mongos", "replicas")
+			if err != nil {
+				return "", err
+			}
+			return fmt.Sprintf("%v, %v, %v", shards, configServers, mongos), nil
 		}
+		// MongoDB ReplicaSet
+		replicaSet, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "replicaSet")
+		if err != nil {
+			return "", err
+		}
+		if found && replicaSet != nil {
+			replicas, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "replicas")
+			if err != nil {
+				return "", err
+			}
+			return fmt.Sprintf("%v", replicas), nil
+		}
+		// Standalone MongoDB
+		return "1", nil
 	}
 	return "", fmt.Errorf("failed to detect replica number. Reason: Unknown database type")
 }
@@ -369,14 +392,8 @@ func kubedbDBResourcesFn(data string) (string, error) {
 	}
 
 	switch obj.GetKind() {
-	case kubedb.ResourceKindMongoDB:
-		db := new(kubedb.MongoDB)
-		err := runtime.DefaultUnstructuredConverter.FromUnstructured(obj.UnstructuredContent(), db)
-		if err != nil {
-			return "", err
-		}
-		cpu, memory, storage := mongoDBResources(db.Spec)
-		return fmt.Sprintf("{%q:%q, %q:%q, %q:%q}", core.ResourceCPU, cpu, core.ResourceMemory, memory, core.ResourceStorage, storage), nil
+	case ResourceKindMongoDB:
+		return mongoDBResources(obj)
 	}
 	return "", fmt.Errorf("failed to extract CPU information. Reason: Unknown database type")
 }
