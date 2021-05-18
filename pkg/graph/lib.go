@@ -128,6 +128,10 @@ type ObjectFinder struct {
 
 func (finder ObjectFinder) List(src *unstructured.Unstructured, path []*Edge) ([]*unstructured.Unstructured, error) {
 	in := []*unstructured.Unstructured{src}
+	if len(path) == 0 {
+		return in, nil
+	}
+
 	var out []*unstructured.Unstructured
 	for _, e := range path {
 		out = nil
@@ -888,6 +892,9 @@ func (finder ObjectFinder) Locate(locator *v1alpha1.ObjectLocator, edgeList []v1
 	src, err := finder.Get(&locator.Src)
 	if err != nil {
 		return nil, err
+	}
+	if len(locator.Path) == 0 {
+		return src, nil
 	}
 
 	m := make(map[string]*v1alpha1.NamedEdge)
