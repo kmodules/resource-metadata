@@ -79,6 +79,7 @@ github.com/google/gofuzz/bytesource
 # github.com/google/uuid v1.1.2
 github.com/google/uuid
 # github.com/googleapis/gnostic v0.5.4 => github.com/googleapis/gnostic v0.4.1
+## explicit
 github.com/googleapis/gnostic/compiler
 github.com/googleapis/gnostic/extensions
 github.com/googleapis/gnostic/openapiv2
@@ -118,6 +119,10 @@ github.com/modern-go/concurrent
 github.com/modern-go/reflect2
 # github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822
 github.com/munnerz/goautoneg
+# github.com/onsi/ginkgo v1.15.0
+## explicit
+# github.com/onsi/gomega v1.10.5
+## explicit
 # github.com/pkg/errors v0.9.1
 github.com/pkg/errors
 # github.com/pmezard/go-difflib v1.0.0
@@ -127,6 +132,7 @@ github.com/pmezard/go-difflib/difflib
 github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring
 github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1
 # github.com/prometheus/client_golang v1.9.0 => github.com/prometheus/client_golang v1.10.0
+## explicit
 github.com/prometheus/client_golang/prometheus
 github.com/prometheus/client_golang/prometheus/internal
 github.com/prometheus/client_golang/prometheus/promhttp
@@ -191,6 +197,7 @@ go.uber.org/atomic
 # go.uber.org/multierr v1.5.0
 go.uber.org/multierr
 # go.uber.org/zap v1.16.0
+## explicit
 go.uber.org/zap
 go.uber.org/zap/buffer
 go.uber.org/zap/internal/bufferpool
@@ -267,6 +274,7 @@ gomodules.xyz/wait
 gomodules.xyz/x/strings
 gomodules.xyz/x/version
 # google.golang.org/appengine v1.6.7
+## explicit
 google.golang.org/appengine/internal
 google.golang.org/appengine/internal/base
 google.golang.org/appengine/internal/datastore
@@ -277,6 +285,7 @@ google.golang.org/appengine/urlfetch
 # google.golang.org/genproto v0.0.0-20201110150050-8816d57aaa9a => google.golang.org/genproto v0.0.0-20201110150050-8816d57aaa9a
 google.golang.org/genproto/googleapis/rpc/status
 # google.golang.org/grpc v1.35.0 => google.golang.org/grpc v1.27.1
+## explicit
 google.golang.org/grpc
 google.golang.org/grpc/attributes
 google.golang.org/grpc/backoff
@@ -355,6 +364,7 @@ gopkg.in/natefinch/lumberjack.v2
 ## explicit
 gopkg.in/yaml.v2
 # gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776
+## explicit
 gopkg.in/yaml.v3
 # k8s.io/api v0.21.0 => k8s.io/api v0.21.0
 ## explicit
@@ -793,7 +803,6 @@ k8s.io/client-go/listers/scheduling/v1beta1
 k8s.io/client-go/listers/storage/v1
 k8s.io/client-go/listers/storage/v1alpha1
 k8s.io/client-go/listers/storage/v1beta1
-k8s.io/client-go/metadata
 k8s.io/client-go/pkg/apis/clientauthentication
 k8s.io/client-go/pkg/apis/clientauthentication/v1alpha1
 k8s.io/client-go/pkg/apis/clientauthentication/v1beta1
@@ -855,12 +864,9 @@ kmodules.xyz/apiversion
 # kmodules.xyz/client-go v0.0.0-20210514054158-27e164b43474
 ## explicit
 kmodules.xyz/client-go
-kmodules.xyz/client-go/api/v1
 kmodules.xyz/client-go/apiextensions
 kmodules.xyz/client-go/apiextensions/v1
 kmodules.xyz/client-go/apiextensions/v1beta1
-kmodules.xyz/client-go/apps/v1
-kmodules.xyz/client-go/core/v1
 kmodules.xyz/client-go/discovery
 kmodules.xyz/client-go/dynamic/factory
 kmodules.xyz/client-go/meta
@@ -868,22 +874,12 @@ kmodules.xyz/client-go/tools/clientcache
 # kmodules.xyz/crd-schema-fuzz v0.0.0-20210503192455-da44af375c4c
 ## explicit
 kmodules.xyz/crd-schema-fuzz
-# kmodules.xyz/custom-resources v0.0.0-20210504034124-54c54fcdb690
-kmodules.xyz/custom-resources/apis/appcatalog
-kmodules.xyz/custom-resources/apis/appcatalog/v1alpha1
-kmodules.xyz/custom-resources/crds
 # kmodules.xyz/monitoring-agent-api v0.0.0-20210504040241-261c2428d207
+## explicit
 kmodules.xyz/monitoring-agent-api/api/v1
 # kmodules.xyz/offshoot-api v0.0.0-20210504040651-7951e351f0f5
-kmodules.xyz/offshoot-api/api/v1
-# kubedb.dev/apimachinery v0.18.1-0.20210506003355-e982e5902ad2
 ## explicit
-kubedb.dev/apimachinery/apis
-kubedb.dev/apimachinery/apis/catalog
-kubedb.dev/apimachinery/apis/catalog/v1alpha1
-kubedb.dev/apimachinery/apis/kubedb
-kubedb.dev/apimachinery/apis/kubedb/v1alpha2
-kubedb.dev/apimachinery/crds
+kmodules.xyz/offshoot-api/api/v1
 # sigs.k8s.io/apiserver-network-proxy/konnectivity-client v0.0.15
 sigs.k8s.io/apiserver-network-proxy/konnectivity-client/pkg/client
 sigs.k8s.io/apiserver-network-proxy/konnectivity-client/proto/client
