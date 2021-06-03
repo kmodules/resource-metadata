@@ -18,7 +18,6 @@ limitations under the License.
 package main
 
 import (
-	"flag"
 	"os"
 
 	"kmodules.xyz/resource-metadata/pkg/cmd/server"
@@ -29,14 +28,11 @@ import (
 )
 
 func main() {
-	kglog.InitLogs()
-	defer kglog.FlushLogs()
-
 	stopCh := genericapiserver.SetupSignalHandler()
 	options := server.NewResourceMetadataServerOptions(os.Stdout, os.Stderr)
 	cmd := server.NewCommandStartResourceMetadataServer(options, stopCh)
-	cmd.Flags().AddGoFlagSet(flag.CommandLine)
-	kglog.ParseFlags()
+	kglog.Init(cmd, true)
+	defer kglog.FlushLogs()
 	if err := cmd.Execute(); err != nil {
 		klog.Fatal(err)
 	}

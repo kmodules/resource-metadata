@@ -26,7 +26,7 @@ import (
 	"kmodules.xyz/resource-metadata/pkg/registry/meta/pathfinder"
 	"kmodules.xyz/resource-metadata/pkg/registry/meta/resourcedescriptor"
 
-	semver "gomodules.xyz/version"
+	"github.com/Masterminds/semver/v3"
 	v "gomodules.xyz/x/version"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -99,14 +99,14 @@ func (cfg *Config) Complete() CompletedConfig {
 	c.GenericConfig.Version = &version.Info{
 		GitVersion: v.Version.Version,
 		GitCommit:  v.Version.CommitHash,
-		BuildDate:  v.Version.BuildTimestamp,
+		BuildDate:  v.Version.CommitTimestamp,
 		GoVersion:  v.Version.GoVersion,
 		Compiler:   v.Version.Compiler,
 		Platform:   v.Version.Platform,
 	}
 	if ver, err := semver.NewVersion(v.Version.Version); err == nil {
-		c.GenericConfig.Version.Major = strconv.FormatInt(ver.Major(), 10)
-		c.GenericConfig.Version.Minor = strconv.FormatInt(ver.Minor(), 10)
+		c.GenericConfig.Version.Major = strconv.FormatUint(ver.Major(), 10)
+		c.GenericConfig.Version.Minor = strconv.FormatUint(ver.Minor(), 10)
 	}
 
 	return CompletedConfig{&c}
