@@ -72,6 +72,10 @@ func (g *Graph) AddEdge(e *Edge) {
 	}
 }
 
+func (g *Graph) Edges(src schema.GroupVersionResource) AdjacencyMap {
+	return g.edges[src]
+}
+
 // Types of Selectors
 
 // metav1.LabelSelector
