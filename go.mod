@@ -3,6 +3,7 @@ module kmodules.xyz/resource-metadata
 go 1.16
 
 require (
+	github.com/Masterminds/semver/v3 v3.1.1
 	github.com/Masterminds/sprig/v3 v3.2.2
 	github.com/emicklei/dot v0.15.0
 	github.com/go-openapi/spec v0.19.5
@@ -23,10 +24,9 @@ require (
 	go.uber.org/zap v1.16.0 // indirect
 	golang.org/x/net v0.0.0-20210226172049-e18ecbb05110
 	gomodules.xyz/jsonpath v0.0.1
-	gomodules.xyz/kglog v0.0.1
+	gomodules.xyz/kglog v0.0.3
 	gomodules.xyz/pointer v0.0.0-20201105071923-daf60fa55209
-	gomodules.xyz/version v0.1.0
-	gomodules.xyz/x v0.0.4
+	gomodules.xyz/x v0.0.5
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/grpc v1.35.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0
@@ -39,7 +39,7 @@ require (
 	k8s.io/klog/v2 v2.8.0
 	k8s.io/kube-openapi v0.0.0-20210305001622-591a79e4bda7
 	kmodules.xyz/apiversion v0.2.0
-	kmodules.xyz/client-go v0.0.0-20210514054158-27e164b43474
+	kmodules.xyz/client-go v0.0.0-20210603204237-f389e448f0be
 	kmodules.xyz/crd-schema-fuzz v0.0.0-20210503192455-da44af375c4c
 	kmodules.xyz/monitoring-agent-api v0.0.0-20210504040241-261c2428d207
 	kmodules.xyz/offshoot-api v0.0.0-20210504040651-7951e351f0f5
