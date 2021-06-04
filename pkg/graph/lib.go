@@ -154,7 +154,9 @@ func (finder ObjectFinder) ListConnectedResources(src *unstructured.Unstructured
 
 	for dstGVR, e := range edges {
 		objects, err := finder.ResourcesFor(src, e)
-		if err != nil && !kerr.IsNotFound(err) {
+		if kerr.IsNotFound(err) || len(objects) == 0 {
+			continue
+		} else if err != nil {
 			return nil, err
 		}
 		result[dstGVR] = objects
@@ -168,7 +170,9 @@ func (finder ObjectFinder) ListConnectedPartials(src *unstructured.Unstructured,
 
 	for dstGVR, e := range edges {
 		objects, err := finder.ResourcesFor(src, e)
-		if err != nil && !kerr.IsNotFound(err) {
+		if kerr.IsNotFound(err) || len(objects) == 0 {
+			continue
+		} else if err != nil {
 			return nil, err
 		}
 		partials := make([]*metav1.PartialObjectMetadata, 0, len(objects))
