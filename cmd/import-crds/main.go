@@ -29,6 +29,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	kmapi "kmodules.xyz/client-go/api/v1"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
 	flag "github.com/spf13/pflag"
@@ -246,12 +247,12 @@ func WriteDescriptor(crd *crdv1.CustomResourceDefinition, dir string) error {
 					},
 				},
 				Spec: v1alpha1.ResourceDescriptorSpec{
-					Resource: v1alpha1.ResourceID{
+					Resource: kmapi.ResourceID{
 						Group:   crd.Spec.Group,
 						Version: version,
 						Name:    plural,
 						Kind:    kind,
-						Scope:   v1alpha1.ResourceScope(crd.Spec.Scope),
+						Scope:   kmapi.ResourceScope(crd.Spec.Scope),
 					},
 					Validation: v.Schema,
 				},
@@ -272,7 +273,7 @@ func WriteDescriptor(crd *crdv1.CustomResourceDefinition, dir string) error {
 			if err != nil {
 				return err
 			}
-			if rd.Spec.Resource.Scope == v1alpha1.ClusterScoped {
+			if rd.Spec.Resource.Scope == kmapi.ClusterScoped {
 				delete(mc.Properties, "namespace")
 			}
 			rd.Spec.Validation.OpenAPIV3Schema.Properties["metadata"] = mc

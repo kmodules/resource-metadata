@@ -20,9 +20,9 @@ import (
 	"fmt"
 	"time"
 
+	kmapi "kmodules.xyz/client-go/api/v1"
 	dynamicfactory "kmodules.xyz/client-go/dynamic/factory"
 	"kmodules.xyz/client-go/tools/clientcache"
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"kmodules.xyz/resource-metadata/hub"
 
 	"github.com/gregjones/httpcache"
@@ -58,7 +58,7 @@ func GetConnectedGraph(config *rest.Config, reg *hub.Registry, srcGVR schema.Gro
 	f := dynamicfactory.New(dc)
 
 	var src *unstructured.Unstructured
-	if rd.Spec.Resource.Scope == v1alpha1.NamespaceScoped {
+	if rd.Spec.Resource.Scope == kmapi.NamespaceScoped {
 		if ref.Namespace == "" {
 			return nil, fmt.Errorf("missing namespace query parameter for %s with name %s", srcGVR, ref.Name)
 		}
