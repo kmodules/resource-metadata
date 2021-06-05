@@ -314,6 +314,18 @@ func (r *Registry) findGVR(in *v1alpha1.GroupResources, keepOfficialTypes bool) 
 	return schema.GroupVersionResource{}, false
 }
 
+func (r *Registry) ResourceIDForGVK(gvk schema.GroupVersionKind) (*kmapi.ResourceID, error) {
+	r.m.RLocker()
+	defer r.m.RUnlock()
+	return r.regGVK[gvk], nil
+}
+
+func (r *Registry) ResourceIDForGVR(gvr schema.GroupVersionResource) (*kmapi.ResourceID, error) {
+	r.m.RLocker()
+	defer r.m.RUnlock()
+	return r.regGVR[gvr], nil
+}
+
 func (r *Registry) GVR(gvk schema.GroupVersionKind) (schema.GroupVersionResource, error) {
 	r.m.RLock()
 	defer r.m.RUnlock()
