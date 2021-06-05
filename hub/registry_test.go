@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"testing"
 
+	kmapi "kmodules.xyz/client-go/api/v1"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
 	"github.com/stretchr/testify/assert"
@@ -72,7 +73,7 @@ func TestResourcePanel_Minus(t *testing.T) {
 							Entries: []v1alpha1.PanelEntry{
 								{
 									Name: "MutatingWebhookConfiguration",
-									Resource: &v1alpha1.ResourceID{
+									Resource: &kmapi.ResourceID{
 										Group:   "admissionregistration.k8s.io",
 										Version: "v1beta1",
 										Name:    "mutatingwebhookconfigurations",
@@ -81,7 +82,7 @@ func TestResourcePanel_Minus(t *testing.T) {
 								},
 								{
 									Name: "ValidatingWebhookConfiguration",
-									Resource: &v1alpha1.ResourceID{
+									Resource: &kmapi.ResourceID{
 										Group:   "admissionregistration.k8s.io",
 										Version: "v1beta1",
 										Name:    "validatingwebhookconfigurations",

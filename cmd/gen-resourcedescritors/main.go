@@ -24,6 +24,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	kmapi "kmodules.xyz/client-go/api/v1"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -80,9 +81,9 @@ func createRegistry(kc kubernetes.Interface, dir string) error {
 			rs.Group = gv.Group
 			rs.Version = gv.Version
 
-			scope := v1alpha1.ClusterScoped
+			scope := kmapi.ClusterScoped
 			if rs.Namespaced {
-				scope = v1alpha1.NamespaceScoped
+				scope = kmapi.NamespaceScoped
 			}
 
 			name := fmt.Sprintf("%s-%s-%s", rs.Group, rs.Version, rs.Name)
@@ -107,7 +108,7 @@ func createRegistry(kc kubernetes.Interface, dir string) error {
 					},
 				},
 				Spec: v1alpha1.ResourceDescriptorSpec{
-					Resource: v1alpha1.ResourceID{
+					Resource: kmapi.ResourceID{
 						Group:   rs.Group,
 						Version: rs.Version,
 						Name:    rs.Name,
