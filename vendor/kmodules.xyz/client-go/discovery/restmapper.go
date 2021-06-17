@@ -105,6 +105,7 @@ type ResourceMapper interface {
 	Preferred(gvr schema.GroupVersionResource) (schema.GroupVersionResource, error)
 	ExistsGVR(gvr schema.GroupVersionResource) (bool, error)
 	ExistsGVK(gvk schema.GroupVersionKind) (bool, error)
+	Reset()
 }
 
 type resourcemapper struct {
@@ -122,7 +123,7 @@ func NewResourceMapper(mapper meta.RESTMapper) ResourceMapper {
 }
 
 func (m *resourcemapper) ResourceIDForGVK(gvk schema.GroupVersionKind) (*kmapi.ResourceID, error) {
-	m.lock.RLocker()
+	m.lock.RLock()
 	rid, ok := m.cache[gvk]
 	m.lock.RUnlock()
 	if ok {
@@ -156,7 +157,7 @@ func (m *resourcemapper) ResourceIDForGVR(gvr schema.GroupVersionResource) (*kma
 		return nil, err
 	}
 
-	m.lock.RLocker()
+	m.lock.RLock()
 	rid, ok := m.cache[gvk]
 	m.lock.RUnlock()
 	if ok {
@@ -257,4 +258,13 @@ func (m *resourcemapper) ExistsGVK(gvk schema.GroupVersionKind) (bool, error) {
 		return false, err
 	}
 	return true, nil
+}
+
+func (m *resourcemapper) Reset() {
+	type ResetCache interface {
+		Reset()
+	}
+	if c, ok := m.mapper.(ResetCache); ok {
+		c.Reset()
+	}
 }
