@@ -9,6 +9,46 @@ metadata:
     k8s.io/version: v1alpha1
   name: ops.kubedb.com-v1alpha1-pgbounceropsrequests
 spec:
+  columns:
+  - name: Name
+    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
+    priority: 3
+    type: string
+  - name: Labels
+    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
+    priority: 3
+    type: object
+  - name: Annotations
+    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
+    priority: 1
+    type: object
+  - name: Type
+    pathTemplate: '{{ jp "{.spec.type}" . }}'
+    priority: 3
+    type: string
+  - name: Target Database
+    pathTemplate: '{{ jp "{.spec.databaseRef.name}" . }}'
+    priority: 3
+    type: string
+  - name: Status
+    pathTemplate: '{{ jp "{.status.phase}" . }}'
+    priority: 3
+    type: string
+  - name: Age
+    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    priority: 3
+    type: date
+  connections:
+  - references:
+    - '{.spec.databaseRef.name}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: PgBouncer
+    type: MatchRef
   icons:
   - src: https://cdn.appscode.com/k8s/icons/ops.kubedb.com/pgbounceropsrequests.svg
     type: image/svg+xml
