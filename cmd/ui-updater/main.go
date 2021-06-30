@@ -55,7 +55,7 @@ const (
 	devURL  = "https://raw.githubusercontent.com/bytebuilders/ui-wizards/master/stable"
 )
 
-var chartRegistryURL = flag.String("chart.registry-url", devURL, "Chart registry url (prod/dev)")
+var chartRegistryURL = flag.String("chart.registry-url", prodURL, "Chart registry url (prod/dev)")
 var chartVersion = flag.String("chart.version", "v0.2.0-alpha.0", "Chart version")
 
 func check(filename string) (string, error) {
