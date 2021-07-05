@@ -333,8 +333,17 @@ func kubedbDBModeFn(data string) (string, error) {
 			return "ReplicaSet", nil
 		}
 		return "Standalone", nil
+	case ResourceKindPostgres:
+		mode, found, err := unstructured.NestedString(obj.UnstructuredContent(), "spec", "standbyMode")
+		if err != nil {
+			return "", err
+		}
+		if found && mode != "" {
+			return mode, nil
+		}
+		return "Hot", nil
 	}
-	return "", fmt.Errorf("failed to detectect database mode. Reason: Unknown database type")
+	return "", fmt.Errorf("failed to detectect database mode. Reason: Unknown database type `%s`", obj.GetKind())
 }
 
 func kubedbDBReplicasFn(data string) (string, error) {
@@ -380,8 +389,14 @@ func kubedbDBReplicasFn(data string) (string, error) {
 		}
 		// Standalone MongoDB
 		return "1", nil
+	case ResourceKindPostgres:
+		replicas, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "replicas")
+		if err != nil {
+			return "", err
+		}
+		return fmt.Sprintf("%v", replicas), nil
 	}
-	return "", fmt.Errorf("failed to detect replica number. Reason: Unknown database type")
+	return "", fmt.Errorf("failed to detect replica number. Reason: Unknown database type `%s`", obj.GetKind())
 }
 
 func kubedbDBResourcesFn(data string) (string, error) {
@@ -394,8 +409,10 @@ func kubedbDBResourcesFn(data string) (string, error) {
 	switch obj.GetKind() {
 	case ResourceKindMongoDB:
 		return mongoDBResources(obj)
+	case ResourceKindPostgres:
+		return postgresResources(obj)
 	}
-	return "", fmt.Errorf("failed to extract CPU information. Reason: Unknown database type")
+	return "", fmt.Errorf("failed to extract CPU information. Reason: Unknown database type `%s`", obj.GetKind())
 }
 
 func rbacSubjects(data string) (string, error) {

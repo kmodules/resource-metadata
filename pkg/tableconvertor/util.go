@@ -31,8 +31,9 @@ import (
 )
 
 const (
-	ValueNone           = "<none>"
-	ResourceKindMongoDB = "MongoDB"
+	ValueNone            = "<none>"
+	ResourceKindMongoDB  = "MongoDB"
+	ResourceKindPostgres = "Postgres"
 )
 
 // ref: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/kubectl/pkg/describe/describe.go
@@ -518,4 +519,55 @@ func exporterResources(obj unstructured.Unstructured) (int64, int64, error) {
 		return exporter.Resources.Limits.Cpu().MilliValue(), exporter.Resources.Limits.Memory().Value(), nil
 	}
 	return 0, 0, nil
+}
+
+type PostgresNode struct {
+	Replicas    int64                          `json:"replicas,omitempty"`
+	PodTemplate ofst.PodTemplateSpec           `json:"podTemplate,omitempty"`
+	Storage     core.PersistentVolumeClaimSpec `json:"storage,omitempty"`
+}
+
+func postgresResources(obj unstructured.Unstructured) (string, error) {
+	totalCPU := int64(0)
+	totalMemory := int64(0)
+	totalStorage := int64(0)
+
+	pg, err := getPostgresNodeInfo(obj, "spec")
+	if err != nil {
+		return "", err
+	}
+	totalCPU += pg.Replicas * pg.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue()
+	totalMemory += pg.Replicas * pg.PodTemplate.Spec.Resources.Limits.Memory().Value()
+	totalStorage += pg.Replicas * pg.Storage.Resources.Requests.Storage().Value()
+
+	// Exporter resources
+	cpu, memory, err := exporterResources(obj)
+	if err != nil {
+		return "", err
+	}
+	totalCPU += cpu
+	totalMemory += memory
+
+	return fmt.Sprintf("{%q:%q, %q:%q, %q:%q}", core.ResourceCPU, fmt.Sprintf("%dm", totalCPU), core.ResourceMemory, formatBytes(totalMemory), core.ResourceStorage, formatBytes(totalStorage)), nil
+}
+
+func getPostgresNodeInfo(obj unstructured.Unstructured, fields ...string) (*PostgresNode, error) {
+	unstructuredNode, found, err := unstructured.NestedFieldNoCopy(obj.UnstructuredContent(), fields...)
+	if err != nil {
+		return nil, err
+	}
+	if !found {
+		return nil, fmt.Errorf("unable to find path: %s", strings.Join(fields, "."))
+	}
+
+	node := new(PostgresNode)
+	data, err := json.Marshal(unstructuredNode)
+	if err != nil {
+		return nil, err
+	}
+	err = json.Unmarshal(data, &node)
+	if err != nil {
+		return nil, err
+	}
+	return node, nil
 }

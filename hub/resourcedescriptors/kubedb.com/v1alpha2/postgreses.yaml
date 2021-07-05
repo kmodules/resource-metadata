@@ -30,7 +30,7 @@ spec:
     pathTemplate: '{{ jp "{.spec.version}" . }}'
     priority: 3
     type: string
-  - name: Mode
+  - name: Standby Mode
     pathTemplate: '{{ jp "{$}" . | kubedb_db_mode }}'
     priority: 3
     type: string
@@ -46,6 +46,10 @@ spec:
     pathTemplate: '{{ jp "{$}" .  | kubedb_db_resources }}'
     priority: 3
     type: object
+  - name: Client Auth Mode
+    pathTemplate: '{{ jp "{.spec.clientAuthMode}" . }}'
+    priority: 3
+    type: string
   - name: Auth Secret
     pathTemplate: '{{ jp "{.spec.authSecret.name}" . }}'
     priority: 1
