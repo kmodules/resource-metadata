@@ -55,7 +55,7 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/appscode/voyager/
 go run cmd/import-crds/main.go --input=$HOME/go/src/stash.appscode.dev/apimachinery/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/kmodules.xyz/custom-resources/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/kubedb.dev/apimachinery/crds
-go run cmd/import-crds/main.go --input=$HOME/go/src/kubevault.dev/operator/api/crds
+go run cmd/import-crds/main.go --input=$HOME/go/src/kubevault.dev/apimachinery/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/go.searchlight.dev/grafana-operator/crds
 
 go run cmd/import-crds/main.go --input=$HOME/go/src/sigs.k8s.io/application/config/crd/bases

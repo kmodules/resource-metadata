@@ -20,6 +20,9 @@ spec:
     name: azureroles
     scope: Namespaced
     version: v1alpha1
+  resourceRequirements:
+  - resources: spec.podTemplate.spec.resources
+    units: spec.replicas
   ui:
     editor:
       name: enginekubevaultcom-azurerole-editor

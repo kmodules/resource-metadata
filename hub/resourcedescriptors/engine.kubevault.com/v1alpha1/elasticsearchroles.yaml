@@ -4,30 +4,20 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: engine.kubevault.com
-    k8s.io/kind: AzureAccessKeyRequest
-    k8s.io/resource: azureaccesskeyrequests
+    k8s.io/kind: ElasticsearchRole
+    k8s.io/resource: elasticsearchroles
     k8s.io/version: v1alpha1
-  name: engine.kubevault.com-v1alpha1-azureaccesskeyrequests
+  name: engine.kubevault.com-v1alpha1-elasticsearchroles
 spec:
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/engine.kubevault.com/azureaccesskeyrequests.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/engine.kubevault.com/azureaccesskeyrequests.png
-    type: image/png
   resource:
     group: engine.kubevault.com
-    kind: AzureAccessKeyRequest
-    name: azureaccesskeyrequests
+    kind: ElasticsearchRole
+    name: elasticsearchroles
     scope: Namespaced
     version: v1alpha1
   resourceRequirements:
   - resources: spec.podTemplate.spec.resources
     units: spec.replicas
-  ui:
-    editor:
-      name: enginekubevaultcom-azureaccesskeyrequest-editor
-      url: https://bundles.byte.builders/ui/
-      version: v0.2.0-alpha.0
   validation:
     openAPIV3Schema:
       properties:
@@ -75,60 +65,73 @@ spec:
               type: object
           type: object
         spec:
+          description: ElasticsearchRoleSpec contains connection information, Elasticsearch
+            role info etc
           properties:
-            roleRef:
-              description: Contains vault azure role info
+            creationStatements:
+              description: https://www.vaultproject.io/api/secret/databases/elasticdb.html#creation_statements
+                Specifies the database statements executed to create and configure
+                a user.
+              items:
+                type: string
+              type: array
+            databaseName:
+              description: Specifies the database name under which the role will be
+                created
+              type: string
+            databaseRef:
+              description: DatabaseRef specifies the database appbinding reference
+                in any namespace
               properties:
-                apiGroup:
-                  description: APIGroup is the group for the resource being referenced
-                  type: string
-                kind:
-                  description: Kind is the type of resource being referenced
-                  type: string
                 name:
-                  description: Name is the name of resource being referenced
+                  description: '`name` is the name of the app. Required'
                   type: string
                 namespace:
-                  description: Namespace is the namespace of the resource being referenced
+                  description: '`namespace` is the namespace of the app. Required'
                   type: string
+                parameters:
+                  description: "Parameters is a set of the parameters to be used to
+                    override default parameters. The inline YAML/JSON payload to be
+                    translated into equivalent JSON object. \n The Parameters field
+                    is NOT secret or secured in any way and should NEVER be used to
+                    hold sensitive information."
+                  type: object
+                  x-kubernetes-embedded-resource: true
+                  x-kubernetes-preserve-unknown-fields: true
               required:
               - name
               - namespace
               type: object
-            subjects:
-              description: Contains a reference to the object or user identities the
-                role binding is applied to
+            defaultTTL:
+              description: Specifies the TTL for the leases associated with this role.
+                Accepts time suffixed strings ("1h") or an integer number of seconds.
+                Defaults to system/engine default TTL time
+              type: string
+            maxTTL:
+              description: Specifies the maximum TTL for the leases associated with
+                this role. Accepts time suffixed strings ("1h") or an integer number
+                of seconds. Defaults to system/engine default TTL time.
+              type: string
+            path:
+              description: Specifies the path where secret engine is enabled
+              type: string
+            revocationStatements:
+              description: https://www.vaultproject.io/api/secret/databases/elasticdb.html#revocation_statements
+                Specifies the database statements to be executed to revoke a user.
               items:
-                description: Subject contains a reference to the object or user identities
-                  a role binding applies to.  This can either hold a direct API object
-                  reference, or a value for non-objects such as user and group names.
-                properties:
-                  apiGroup:
-                    description: APIGroup holds the API group of the referenced subject.
-                      Defaults to "" for ServiceAccount subjects. Defaults to "rbac.authorization.k8s.io"
-                      for User and Group subjects.
-                    type: string
-                  kind:
-                    description: Kind of object being referenced. Values defined by
-                      this API group are "User", "Group", and "ServiceAccount". If
-                      the Authorizer does not recognized the kind value, the Authorizer
-                      should report an error.
-                    type: string
-                  name:
-                    description: Name of the object being referenced.
-                    type: string
-                  namespace:
-                    description: Namespace of the referenced object.  If the object
-                      kind is non-namespace, such as "User" or "Group", and this value
-                      is not empty the Authorizer should report an error.
-                    type: string
-                required:
-                - kind
-                - name
-                type: object
+                type: string
               type: array
+            vaultRef:
+              description: VaultRef is the name of a AppBinding referencing to a Vault
+                Server
+              properties:
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                    TODO: Add other useful fields. apiVersion, kind, uid?'
+                  type: string
+              type: object
           required:
-          - roleRef
-          - subjects
+          - creationStatements
+          - vaultRef
           type: object
       type: object
