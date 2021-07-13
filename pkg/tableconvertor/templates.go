@@ -342,6 +342,15 @@ func kubedbDBModeFn(data string) (string, error) {
 			return mode, nil
 		}
 		return "Hot", nil
+	case ResourceKindElasticsearch:
+		topology, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "topology")
+		if err != nil {
+			return "", err
+		}
+		if found && topology != nil {
+			return "Topology", nil
+		}
+		return "Combined", nil
 	}
 	return "", fmt.Errorf("failed to detectect database mode. Reason: Unknown database type `%s`", obj.GetKind())
 }
@@ -395,6 +404,8 @@ func kubedbDBReplicasFn(data string) (string, error) {
 			return "", err
 		}
 		return fmt.Sprintf("%v", replicas), nil
+	case ResourceKindElasticsearch:
+		return getElasticsearchReplicas(obj)
 	}
 	return "", fmt.Errorf("failed to detect replica number. Reason: Unknown database type `%s`", obj.GetKind())
 }
@@ -411,6 +422,8 @@ func kubedbDBResourcesFn(data string) (string, error) {
 		return mongoDBResources(obj)
 	case ResourceKindPostgres:
 		return postgresResources(obj)
+	case ResourceKindElasticsearch:
+		return elasticsearchDBResources(obj)
 	}
 	return "", fmt.Errorf("failed to extract CPU information. Reason: Unknown database type `%s`", obj.GetKind())
 }

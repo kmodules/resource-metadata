@@ -31,9 +31,10 @@ import (
 )
 
 const (
-	ValueNone            = "<none>"
-	ResourceKindMongoDB  = "MongoDB"
-	ResourceKindPostgres = "Postgres"
+	ValueNone                 = "<none>"
+	ResourceKindMongoDB       = "MongoDB"
+	ResourceKindPostgres      = "Postgres"
+	ResourceKindElasticsearch = "Elasticsearch"
 )
 
 // ref: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/kubectl/pkg/describe/describe.go
@@ -381,7 +382,14 @@ func formatBytes(c int64) string {
 	}
 }
 
-type MongoDBNode struct {
+func max(a, b int64) int64 {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+type DBNode struct {
 	Replicas    int64                          `json:"replicas,omitempty"`
 	PodTemplate ofst.PodTemplateSpec           `json:"podTemplate,omitempty"`
 	Storage     core.PersistentVolumeClaimSpec `json:"storage,omitempty"`
@@ -399,7 +407,7 @@ func mongoDBResources(obj unstructured.Unstructured) (string, error) {
 	}
 	if found && shardTopology != nil {
 		// Shard nodes resources
-		shard, err := getMongoDBNodeInfo(obj, "spec", "shardTopology", "shard")
+		shard, err := getDBNodeInfo(obj, "spec", "shardTopology", "shard")
 		if err != nil {
 			return "", err
 		}
@@ -408,7 +416,7 @@ func mongoDBResources(obj unstructured.Unstructured) (string, error) {
 		totalStorage += shard.Replicas * shard.Storage.Resources.Requests.Storage().Value()
 
 		// ConfigServer nodes resources
-		configServer, err := getMongoDBNodeInfo(obj, "spec", "shardTopology", "configServer")
+		configServer, err := getDBNodeInfo(obj, "spec", "shardTopology", "configServer")
 		if err != nil {
 			return "", err
 		}
@@ -417,7 +425,7 @@ func mongoDBResources(obj unstructured.Unstructured) (string, error) {
 		totalStorage += configServer.Replicas * configServer.Storage.Resources.Requests.Storage().Value()
 
 		// Mongos node resources
-		mongos, err := getMongoDBNodeInfo(obj, "spec", "shardTopology", "mongos")
+		mongos, err := getDBNodeInfo(obj, "spec", "shardTopology", "mongos")
 		if err != nil {
 			return "", err
 		}
@@ -442,7 +450,7 @@ func mongoDBResources(obj unstructured.Unstructured) (string, error) {
 	}
 	if found && replicaSet != nil {
 		// ReplicaSet resources
-		rs, err := getMongoDBNodeInfo(obj, "spec")
+		rs, err := getDBNodeInfo(obj, "spec")
 		if err != nil {
 			return "", err
 		}
@@ -462,7 +470,7 @@ func mongoDBResources(obj unstructured.Unstructured) (string, error) {
 	}
 
 	// Standalone MongoDB
-	db, err := getMongoDBNodeInfo(obj, "spec")
+	db, err := getDBNodeInfo(obj, "spec")
 	if err != nil {
 		return "", err
 	}
@@ -480,7 +488,7 @@ func mongoDBResources(obj unstructured.Unstructured) (string, error) {
 	return fmt.Sprintf("{%q:%q, %q:%q, %q:%q}", core.ResourceCPU, fmt.Sprintf("%dm", totalCPU), core.ResourceMemory, formatBytes(totalMemory), core.ResourceStorage, formatBytes(totalStorage)), nil
 }
 
-func getMongoDBNodeInfo(obj unstructured.Unstructured, fields ...string) (*MongoDBNode, error) {
+func getDBNodeInfo(obj unstructured.Unstructured, fields ...string) (*DBNode, error) {
 	unstructuredNode, found, err := unstructured.NestedFieldNoCopy(obj.UnstructuredContent(), fields...)
 	if err != nil {
 		return nil, err
@@ -489,7 +497,7 @@ func getMongoDBNodeInfo(obj unstructured.Unstructured, fields ...string) (*Mongo
 		return nil, fmt.Errorf("unable to find path: %s", strings.Join(fields, "."))
 	}
 
-	node := new(MongoDBNode)
+	node := new(DBNode)
 	data, err := json.Marshal(unstructuredNode)
 	if err != nil {
 		return nil, err
@@ -516,15 +524,10 @@ func exporterResources(obj unstructured.Unstructured) (int64, int64, error) {
 		if err != nil {
 			return 0, 0, err
 		}
-		return exporter.Resources.Limits.Cpu().MilliValue(), exporter.Resources.Limits.Memory().Value(), nil
+		return max(exporter.Resources.Limits.Cpu().MilliValue(), exporter.Resources.Requests.Cpu().MilliValue()),
+			max(exporter.Resources.Limits.Memory().Value(), exporter.Resources.Requests.Memory().Value()), nil
 	}
 	return 0, 0, nil
-}
-
-type PostgresNode struct {
-	Replicas    int64                          `json:"replicas,omitempty"`
-	PodTemplate ofst.PodTemplateSpec           `json:"podTemplate,omitempty"`
-	Storage     core.PersistentVolumeClaimSpec `json:"storage,omitempty"`
 }
 
 func postgresResources(obj unstructured.Unstructured) (string, error) {
@@ -532,7 +535,7 @@ func postgresResources(obj unstructured.Unstructured) (string, error) {
 	totalMemory := int64(0)
 	totalStorage := int64(0)
 
-	pg, err := getPostgresNodeInfo(obj, "spec")
+	pg, err := getDBNodeInfo(obj, "spec")
 	if err != nil {
 		return "", err
 	}
@@ -551,23 +554,325 @@ func postgresResources(obj unstructured.Unstructured) (string, error) {
 	return fmt.Sprintf("{%q:%q, %q:%q, %q:%q}", core.ResourceCPU, fmt.Sprintf("%dm", totalCPU), core.ResourceMemory, formatBytes(totalMemory), core.ResourceStorage, formatBytes(totalStorage)), nil
 }
 
-func getPostgresNodeInfo(obj unstructured.Unstructured, fields ...string) (*PostgresNode, error) {
-	unstructuredNode, found, err := unstructured.NestedFieldNoCopy(obj.UnstructuredContent(), fields...)
+type ElasticsearchNode struct {
+	Replicas  int64                          `json:"replicas,omitempty"`
+	Storage   core.PersistentVolumeClaimSpec `json:"storage,omitempty"`
+	Resources core.ResourceRequirements      `json:"resources,omitempty"`
+
+	totalCPU     int64
+	totalMemory  int64
+	totalStorage int64
+}
+
+func elasticsearchDBResources(obj unstructured.Unstructured) (string, error) {
+	totalCPU := int64(0)
+	totalMemory := int64(0)
+	totalStorage := int64(0)
+
+	// Topology
+	topology, found, err := unstructured.NestedFieldNoCopy(obj.UnstructuredContent(), "spec", "topology")
 	if err != nil {
-		return nil, err
+		return "", err
 	}
-	if !found {
-		return nil, fmt.Errorf("unable to find path: %s", strings.Join(fields, "."))
+	if found && topology != nil {
+		topology := topology.(map[string]interface{})
+		// Elasticsearch master node
+		master, _, err := getElasticsearchNodeInfo(topology, "master")
+		if err != nil {
+			return "", err
+		}
+		totalCPU += master.totalCPU
+		totalMemory += master.totalMemory
+		totalStorage += master.totalStorage
+
+		// Elasticsearch ingest node
+		ingest, _, err := getElasticsearchNodeInfo(topology, "ingest")
+		if err != nil {
+			return "", err
+		}
+		totalCPU += ingest.Replicas * ingest.Resources.Limits.Cpu().MilliValue()
+		totalMemory += ingest.Replicas * ingest.Resources.Limits.Memory().Value()
+		totalStorage += ingest.Replicas * ingest.Storage.Resources.Requests.Storage().Value()
+
+		// Elasticsearch data node
+		data, found, err := getElasticsearchNodeInfo(topology, "data")
+		if err != nil {
+			return "", err
+		}
+		if found {
+			totalCPU += data.totalCPU
+			totalMemory += data.totalMemory
+			totalStorage += data.totalStorage
+		}
+
+		// Elasticsearch dataContent node
+		dataContent, found, err := getElasticsearchNodeInfo(topology, "dataContent")
+		if err != nil {
+			return "", err
+		}
+		if found {
+			totalCPU += dataContent.totalCPU
+			totalMemory += dataContent.totalMemory
+			totalStorage += dataContent.totalStorage
+		}
+
+		// Elasticsearch dataHot node
+		dataHot, found, err := getElasticsearchNodeInfo(topology, "dataHot")
+		if err != nil {
+			return "", err
+		}
+		if found {
+			totalCPU += dataHot.totalCPU
+			totalMemory += dataHot.totalMemory
+			totalStorage += dataHot.totalStorage
+		}
+
+		// Elasticsearch dataWarm node
+		dataWarm, found, err := getElasticsearchNodeInfo(topology, "dataWarm")
+		if err != nil {
+			return "", err
+		}
+		if found {
+			totalCPU += dataWarm.totalCPU
+			totalMemory += dataWarm.totalMemory
+			totalStorage += dataWarm.totalStorage
+		}
+
+		// Elasticsearch dataCold node
+		dataCold, found, err := getElasticsearchNodeInfo(topology, "dataCold")
+		if err != nil {
+			return "", err
+		}
+		if found {
+			totalCPU += dataCold.totalCPU
+			totalMemory += dataCold.totalMemory
+			totalStorage += dataCold.totalStorage
+		}
+
+		// Elasticsearch dataFrozen node
+		dataFrozen, found, err := getElasticsearchNodeInfo(topology, "dataFrozen")
+		if err != nil {
+			return "", err
+		}
+		if found {
+			totalCPU += dataFrozen.totalCPU
+			totalMemory += dataFrozen.totalMemory
+			totalStorage += dataFrozen.totalStorage
+		}
+
+		// Elasticsearch ml node
+		ml, found, err := getElasticsearchNodeInfo(topology, "ml")
+		if err != nil {
+			return "", err
+		}
+		if found {
+			totalCPU += ml.totalCPU
+			totalMemory += ml.totalMemory
+			totalStorage += ml.totalStorage
+		}
+
+		// Elasticsearch transform node
+		transform, found, err := getElasticsearchNodeInfo(topology, "transform")
+		if err != nil {
+			return "", err
+		}
+		if found {
+			totalCPU += transform.totalCPU
+			totalMemory += transform.totalMemory
+			totalStorage += transform.totalStorage
+		}
+
+		// Elasticsearch coordinating node
+		coordinating, found, err := getElasticsearchNodeInfo(topology, "coordinating")
+		if err != nil {
+			return "", err
+		}
+		if found {
+			totalCPU += coordinating.totalCPU
+			totalMemory += coordinating.totalMemory
+			totalStorage += coordinating.totalStorage
+		}
+
+		// Exporter resources
+		cpu, memory, err := exporterResources(obj)
+		if err != nil {
+			return "", err
+		}
+		totalCPU += cpu
+		totalMemory += memory
+
+		return fmt.Sprintf("{%q:%q, %q:%q, %q:%q}", core.ResourceCPU, fmt.Sprintf("%dm", totalCPU), core.ResourceMemory, formatBytes(totalMemory), core.ResourceStorage, formatBytes(totalStorage)), nil
 	}
 
-	node := new(PostgresNode)
+	// Combined Elasticsearch
+	db, err := getDBNodeInfo(obj, "spec")
+	if err != nil {
+		return "", err
+	}
+	totalCPU += db.Replicas * max(db.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue(), db.PodTemplate.Spec.Resources.Requests.Cpu().MilliValue())
+	totalMemory += db.Replicas * max(db.PodTemplate.Spec.Resources.Limits.Memory().Value(), db.PodTemplate.Spec.Resources.Requests.Memory().MilliValue())
+	totalStorage += db.Storage.Resources.Requests.Storage().Value()
+	// Exporter resources
+	cpu, memory, err := exporterResources(obj)
+	if err != nil {
+		return "", err
+	}
+	totalCPU += cpu
+	totalMemory += memory
+
+	return fmt.Sprintf("{%q:%q, %q:%q, %q:%q}", core.ResourceCPU, fmt.Sprintf("%dm", totalCPU), core.ResourceMemory, formatBytes(totalMemory), core.ResourceStorage, formatBytes(totalStorage)), nil
+}
+
+func getElasticsearchNodeInfo(obj map[string]interface{}, fields ...string) (*ElasticsearchNode, bool, error) {
+	unstructuredNode, found, err := unstructured.NestedFieldNoCopy(obj, fields...)
+	if err != nil {
+		return nil, false, err
+	}
+	if !found {
+		return nil, false, nil
+	}
+
+	node := new(ElasticsearchNode)
 	data, err := json.Marshal(unstructuredNode)
 	if err != nil {
-		return nil, err
+		return nil, false, err
 	}
 	err = json.Unmarshal(data, &node)
 	if err != nil {
-		return nil, err
+		return nil, false, err
 	}
-	return node, nil
+
+	node.totalCPU += node.Replicas * max(node.Resources.Limits.Cpu().MilliValue(), node.Resources.Requests.Cpu().MilliValue())
+	node.totalMemory += node.Replicas * max(node.Resources.Limits.Memory().Value(), node.Resources.Requests.Memory().Value())
+	node.totalStorage += node.Replicas * node.Storage.Resources.Requests.Storage().Value()
+
+	return node, true, nil
+}
+
+func getElasticsearchReplicas(obj unstructured.Unstructured) (string, error) {
+	topology, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "topology")
+	if err != nil {
+		return "", err
+	}
+	if found && topology != nil {
+		topology := topology.(map[string]interface{})
+		var replicas []string
+
+		master, _, err := unstructured.NestedInt64(topology, "master", "replicas")
+		if err != nil {
+			return "", err
+		}
+
+		replicas = append(replicas, fmt.Sprintf("%q: %q", "m", strconv.FormatInt(master, 10)))
+
+		ingest, _, err := unstructured.NestedInt64(topology, "ingest", "replicas")
+		if err != nil {
+			return "", err
+		}
+		replicas = append(replicas, fmt.Sprintf("%q: %q", "i", strconv.FormatInt(ingest, 10)))
+
+		data, found, err := unstructured.NestedFieldCopy(topology, "data")
+		if err != nil {
+			return "", err
+		}
+		if found && data != nil {
+			data, _, err := unstructured.NestedInt64(data.(map[string]interface{}), "replicas")
+			if err != nil {
+				return "", err
+			}
+			replicas = append(replicas, fmt.Sprintf("%q: %q", "d", strconv.FormatInt(data, 10)))
+		}
+
+		dataContent, found, err := unstructured.NestedFieldCopy(topology, "dataContent")
+		if err != nil {
+			return "", err
+		}
+		if found && dataContent != nil {
+			dataContent, _, err := unstructured.NestedInt64(dataContent.(map[string]interface{}), "replicas")
+			if err != nil {
+				return "", err
+			}
+			replicas = append(replicas, fmt.Sprintf("%q: %q", "s", strconv.FormatInt(dataContent, 10)))
+		}
+
+		dataHot, found, err := unstructured.NestedFieldCopy(topology, "dataHot")
+		if err != nil {
+			return "", err
+		}
+		if found && dataHot != nil {
+			dataHot, _, err := unstructured.NestedInt64(dataHot.(map[string]interface{}), "replicas")
+			if err != nil {
+				return "", err
+			}
+			replicas = append(replicas, fmt.Sprintf("%q: %q", "h", strconv.FormatInt(dataHot, 10)))
+		}
+
+		dataWarm, found, err := unstructured.NestedFieldCopy(topology, "dataWarm")
+		if err != nil {
+			return "", err
+		}
+		if found && dataWarm != nil {
+			dataWarm, _, err := unstructured.NestedInt64(dataWarm.(map[string]interface{}), "replicas")
+			if err != nil {
+				return "", err
+			}
+			replicas = append(replicas, fmt.Sprintf("%q: %q", "w", strconv.FormatInt(dataWarm, 10)))
+		}
+
+		dataCold, found, err := unstructured.NestedFieldCopy(topology, "dataCold")
+		if err != nil {
+			return "", err
+		}
+		if found && dataCold != nil {
+			dataCold, _, err := unstructured.NestedInt64(dataCold.(map[string]interface{}), "replicas")
+			if err != nil {
+				return "", err
+			}
+			replicas = append(replicas, fmt.Sprintf("%q: %q", "c", strconv.FormatInt(dataCold, 10)))
+		}
+
+		dataFrozen, found, err := unstructured.NestedFieldCopy(topology, "dataFrozen")
+		if err != nil {
+			return "", err
+		}
+		if found && dataFrozen != nil {
+			dataFrozen, _, err := unstructured.NestedInt64(dataFrozen.(map[string]interface{}), "replicas")
+			if err != nil {
+				return "", err
+			}
+			replicas = append(replicas, fmt.Sprintf("%q: %q", "f", strconv.FormatInt(dataFrozen, 10)))
+		}
+
+		ml, found, err := unstructured.NestedFieldCopy(topology, "ml")
+		if err != nil {
+			return "", err
+		}
+		if found && ml != nil {
+			ml, _, err := unstructured.NestedInt64(ml.(map[string]interface{}), "replicas")
+			if err != nil {
+				return "", err
+			}
+			replicas = append(replicas, fmt.Sprintf("%q: %q", "lr", strconv.FormatInt(ml, 10)))
+		}
+		transform, found, err := unstructured.NestedFieldCopy(topology, "transform")
+		if err != nil {
+			return "", err
+		}
+		if found && transform != nil {
+			transform, _, err := unstructured.NestedInt64(transform.(map[string]interface{}), "replicas")
+			if err != nil {
+				return "", err
+			}
+			replicas = append(replicas, fmt.Sprintf("%q: %q", "rt", strconv.FormatInt(transform, 10)))
+		}
+
+		return fmt.Sprintf("{%v}", strings.Join(replicas, ", ")), nil
+	}
+
+	// Combined mode
+	replicas, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "replicas")
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("%v", replicas), nil
 }
