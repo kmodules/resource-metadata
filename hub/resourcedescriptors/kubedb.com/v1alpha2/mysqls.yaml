@@ -50,8 +50,8 @@ spec:
     pathTemplate: '{{ jp "{.spec.authSecret.name}" . }}'
     priority: 1
     type: string
-  - name: SSL Mode
-    pathTemplate: '{{ jp "{.spec.sslMode}" . }}'
+  - name: SSL Enabled
+    pathTemplate: '{{ jp "{.spec.requireSSL}" . }}'
     priority: 3
     type: string
   - name: Cluster Auth Mode
@@ -60,6 +60,10 @@ spec:
     type: string
   - name: Storage Engine
     pathTemplate: '{{ jp "{.spec.storageEngine}" . }}'
+    priority: 1
+    type: string
+  - name: Address Type
+    pathTemplate: '{{ jp "{.spec.useAddressType}" . }}'
     priority: 1
     type: string
   - name: Termination Policy

@@ -360,6 +360,21 @@ func kubedbDBModeFn(data string) (string, error) {
 			return "Cluster", nil
 		}
 		return "Standalone", nil
+	case ResourceKindMySQL:
+		topology, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "topology")
+		if err != nil {
+			return "", err
+		}
+		if found && topology != nil {
+			mode, found, err := unstructured.NestedFieldCopy(topology.(map[string]interface{}), "mode")
+			if err != nil {
+				return "", err
+			}
+			if found && mode != nil {
+				return fmt.Sprintf("%v", mode), nil
+			}
+		}
+		return "Standalone", nil
 	}
 	return "", fmt.Errorf("failed to detectect database mode. Reason: Unknown database type `%s`", obj.GetKind())
 }
@@ -421,6 +436,43 @@ func kubedbDBReplicasFn(data string) (string, error) {
 			return "", err
 		}
 		return fmt.Sprintf("%v", replicas), nil
+	case ResourceKindMySQL:
+		topology, found, err := unstructured.NestedMap(obj.UnstructuredContent(), "spec", "topology")
+		if err != nil {
+			return "", err
+		}
+
+		//MySQLClusterModeGroup  MySQLClusterMode = "GroupReplication"
+		//InnoDBClusterModeGroup MySQLClusterMode = "InnoDBCluster"
+		if found && topology != nil {
+			mode, found, err := unstructured.NestedString(topology, "mode")
+			if err != nil {
+				return "", err
+			}
+			// Only InnoDBCluster has dedicated replica
+			if found && mode == "InnoDBCluster" {
+				inno, found, err := unstructured.NestedMap(topology, "innoDBCluster")
+				if err != nil {
+					return "", err
+				}
+				if found && inno != nil {
+					replica, found, err := unstructured.NestedFieldCopy(inno, "router", "replica")
+					if err != nil {
+						return "", err
+					}
+					if found && replica != nil {
+						return fmt.Sprintf("%v", replica), nil
+					}
+				}
+			}
+		}
+
+		// Standalone or GroupReplication Mode
+		replicas, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "replicas")
+		if err != nil {
+			return "", err
+		}
+		return fmt.Sprintf("%v", replicas), nil
 	}
 	return "", fmt.Errorf("failed to detect replica number. Reason: Unknown database type `%s`", obj.GetKind())
 }
@@ -441,6 +493,8 @@ func kubedbDBResourcesFn(data string) (string, error) {
 		return elasticsearchDBResources(obj)
 	case ResourceKindMariaDB:
 		return mariaDBResources(obj)
+	case ResourceKindMySQL:
+		return mysqlResources(obj)
 	}
 	return "", fmt.Errorf("failed to extract CPU information. Reason: Unknown database type `%s`", obj.GetKind())
 }

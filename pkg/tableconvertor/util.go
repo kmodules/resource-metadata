@@ -36,6 +36,7 @@ const (
 	ResourceKindPostgres      = "Postgres"
 	ResourceKindElasticsearch = "Elasticsearch"
 	ResourceKindMariaDB       = "MariaDB"
+	ResourceKindMySQL         = "MySQL"
 )
 
 // ref: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/kubectl/pkg/describe/describe.go
@@ -900,4 +901,78 @@ func mariaDBResources(obj unstructured.Unstructured) (string, error) {
 	totalMemory += memory
 
 	return fmt.Sprintf("{%q:%q, %q:%q, %q:%q}", core.ResourceCPU, fmt.Sprintf("%dm", totalCPU), core.ResourceMemory, formatBytes(totalMemory), core.ResourceStorage, formatBytes(totalStorage)), nil
+}
+
+func mysqlResources(obj unstructured.Unstructured) (string, error) {
+	totalCPU := int64(0)
+	totalMemory := int64(0)
+	totalStorage := int64(0)
+
+	sql, err := getDBNodeInfo(obj, "spec")
+	if err != nil {
+		return "", err
+	}
+	totalCPU += sql.Replicas * max(sql.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue(), sql.PodTemplate.Spec.Resources.Requests.Cpu().MilliValue())
+	totalMemory += sql.Replicas * max(sql.PodTemplate.Spec.Resources.Limits.Memory().Value(), sql.PodTemplate.Spec.Resources.Requests.Memory().Value())
+	totalStorage += sql.Replicas * sql.Storage.Resources.Requests.Storage().Value()
+
+	innoRouter, err := getMYSQLNodeInfo(obj)
+	if err != nil {
+		return "", err
+	}
+	if innoRouter != nil {
+		totalCPU += innoRouter.Replicas * max(innoRouter.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue(), innoRouter.PodTemplate.Spec.Resources.Requests.Cpu().MilliValue())
+		totalMemory += innoRouter.Replicas * max(innoRouter.PodTemplate.Spec.Resources.Limits.Memory().Value(), innoRouter.PodTemplate.Spec.Resources.Requests.Memory().Value())
+	}
+
+	// Exporter resources
+	cpu, memory, err := exporterResources(obj)
+	if err != nil {
+		return "", err
+	}
+	totalCPU += cpu
+	totalMemory += memory
+
+	return fmt.Sprintf("{%q:%q, %q:%q, %q:%q}", core.ResourceCPU, fmt.Sprintf("%dm", totalCPU), core.ResourceMemory, formatBytes(totalMemory), core.ResourceStorage, formatBytes(totalStorage)), nil
+}
+
+func getMYSQLNodeInfo(obj unstructured.Unstructured) (*DBNode, error) {
+	topology, found, err := unstructured.NestedMap(obj.UnstructuredContent(), "spec", "topology", "innoDBCluster", "router", "podTemplate")
+	if err != nil {
+		return nil, err
+	}
+	if found && topology != nil {
+		mode, found, err := unstructured.NestedString(topology, "mode")
+		if err != nil {
+			return nil, err
+		}
+		// Only InnoDBCluster has dedicated Resource
+		if found && mode == "InnoDBCluster" {
+			inno, found, err := unstructured.NestedMap(topology, "innoDBCluster")
+			if err != nil {
+				return nil, err
+			}
+			if found && inno != nil {
+				router, found, err := unstructured.NestedFieldNoCopy(inno, "router")
+				if err != nil {
+					return nil, err
+				}
+
+				if found && router != nil {
+
+				}
+				node := new(DBNode)
+				data, err := json.Marshal(router)
+				if err != nil {
+					return nil, err
+				}
+				err = json.Unmarshal(data, &node)
+				if err != nil {
+					return nil, err
+				}
+				return node, nil
+			}
+		}
+	}
+	return nil, nil
 }
