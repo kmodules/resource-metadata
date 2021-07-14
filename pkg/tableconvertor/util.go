@@ -35,6 +35,7 @@ const (
 	ResourceKindMongoDB       = "MongoDB"
 	ResourceKindPostgres      = "Postgres"
 	ResourceKindElasticsearch = "Elasticsearch"
+	ResourceKindMariaDB       = "MariaDB"
 )
 
 // ref: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/kubectl/pkg/describe/describe.go
@@ -474,9 +475,9 @@ func mongoDBResources(obj unstructured.Unstructured) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	totalCPU += db.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue()
-	totalMemory += db.PodTemplate.Spec.Resources.Limits.Memory().Value()
-	totalStorage += db.Storage.Resources.Requests.Storage().Value()
+	totalCPU += db.Replicas * max(db.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue(), db.PodTemplate.Spec.Resources.Requests.Cpu().MilliValue())
+	totalMemory += db.Replicas * max(db.PodTemplate.Spec.Resources.Limits.Memory().Value(), db.PodTemplate.Spec.Resources.Requests.Memory().Value())
+	totalStorage += db.Replicas * db.Storage.Resources.Requests.Storage().Value()
 	// Exporter resources
 	cpu, memory, err := exporterResources(obj)
 	if err != nil {
@@ -539,8 +540,8 @@ func postgresResources(obj unstructured.Unstructured) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	totalCPU += pg.Replicas * pg.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue()
-	totalMemory += pg.Replicas * pg.PodTemplate.Spec.Resources.Limits.Memory().Value()
+	totalCPU += pg.Replicas * max(pg.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue(), pg.PodTemplate.Spec.Resources.Requests.Cpu().MilliValue())
+	totalMemory += pg.Replicas * max(pg.PodTemplate.Spec.Resources.Limits.Memory().Value(), pg.PodTemplate.Spec.Resources.Requests.Memory().Value())
 	totalStorage += pg.Replicas * pg.Storage.Resources.Requests.Storage().Value()
 
 	// Exporter resources
@@ -875,4 +876,28 @@ func getElasticsearchReplicas(obj unstructured.Unstructured) (string, error) {
 		return "", err
 	}
 	return fmt.Sprintf("%v", replicas), nil
+}
+
+func mariaDBResources(obj unstructured.Unstructured) (string, error) {
+	totalCPU := int64(0)
+	totalMemory := int64(0)
+	totalStorage := int64(0)
+
+	maria, err := getDBNodeInfo(obj, "spec")
+	if err != nil {
+		return "", err
+	}
+	totalCPU += maria.Replicas * max(maria.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue(), maria.PodTemplate.Spec.Resources.Requests.Cpu().MilliValue())
+	totalMemory += maria.Replicas * max(maria.PodTemplate.Spec.Resources.Limits.Memory().Value(), maria.PodTemplate.Spec.Resources.Requests.Memory().Value())
+	totalStorage += maria.Replicas * maria.Storage.Resources.Requests.Storage().Value()
+
+	// Exporter resources
+	cpu, memory, err := exporterResources(obj)
+	if err != nil {
+		return "", err
+	}
+	totalCPU += cpu
+	totalMemory += memory
+
+	return fmt.Sprintf("{%q:%q, %q:%q, %q:%q}", core.ResourceCPU, fmt.Sprintf("%dm", totalCPU), core.ResourceMemory, formatBytes(totalMemory), core.ResourceStorage, formatBytes(totalStorage)), nil
 }

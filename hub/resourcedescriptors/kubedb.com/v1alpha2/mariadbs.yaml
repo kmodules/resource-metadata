@@ -50,6 +50,10 @@ spec:
     pathTemplate: '{{ jp "{.spec.authSecret.name}" . }}'
     priority: 1
     type: string
+  - name: SSL Enabled
+    pathTemplate: '{{ jp "{.spec.requireSSL}" . }}'
+    priority: 3
+    type: string
   - name: Termination Policy
     pathTemplate: '{{ jp "{.spec.terminationPolicy}" . }}'
     priority: 3
