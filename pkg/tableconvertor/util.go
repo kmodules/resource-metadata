@@ -32,12 +32,12 @@ import (
 
 const (
 	ValueNone                 = "<none>"
+	ResourceKindRedis         = "Redis"
+	ResourceKindMySQL         = "MySQL"
+	ResourceKindMariaDB       = "MariaDB"
 	ResourceKindMongoDB       = "MongoDB"
 	ResourceKindPostgres      = "Postgres"
 	ResourceKindElasticsearch = "Elasticsearch"
-	ResourceKindMariaDB       = "MariaDB"
-	ResourceKindMySQL         = "MySQL"
-	ResourceKindRedis         = "Redis"
 )
 
 // ref: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/kubectl/pkg/describe/describe.go
@@ -491,6 +491,43 @@ func mongoDBResources(obj unstructured.Unstructured) (string, error) {
 	return fmt.Sprintf("{%q:%q, %q:%q, %q:%q}", core.ResourceCPU, fmt.Sprintf("%dm", totalCPU), core.ResourceMemory, formatBytes(totalMemory), core.ResourceStorage, formatBytes(totalStorage)), nil
 }
 
+func getMongoDBReplicas(obj unstructured.Unstructured) (string, error) {
+	// Sharded MongoDB cluster
+	shardTopology, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "shardTopology")
+	if err != nil {
+		return "", err
+	}
+	if found && shardTopology != nil {
+		shards, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "shardTopology", "shard", "replicas")
+		if err != nil {
+			return "", err
+		}
+		configServers, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "shardTopology", "configServer", "replicas")
+		if err != nil {
+			return "", err
+		}
+		mongos, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "shardTopology", "mongos", "replicas")
+		if err != nil {
+			return "", err
+		}
+		return fmt.Sprintf("%v, %v, %v", shards, configServers, mongos), nil
+	}
+	// MongoDB ReplicaSet
+	replicaSet, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "replicaSet")
+	if err != nil {
+		return "", err
+	}
+	if found && replicaSet != nil {
+		replicas, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "replicas")
+		if err != nil {
+			return "", err
+		}
+		return fmt.Sprintf("%v", replicas), nil
+	}
+	// Standalone MongoDB
+	return "1", nil
+}
+
 func getDBNodeInfo(obj unstructured.Unstructured, fields ...string) (*DBNode, error) {
 	unstructuredNode, found, err := unstructured.NestedFieldNoCopy(obj.UnstructuredContent(), fields...)
 	if err != nil {
@@ -753,12 +790,11 @@ func getElasticsearchNodeInfo(obj map[string]interface{}, fields ...string) (*El
 }
 
 func getElasticsearchReplicas(obj unstructured.Unstructured) (string, error) {
-	topology, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "topology")
+	topology, found, err := unstructured.NestedMap(obj.UnstructuredContent(), "spec", "topology")
 	if err != nil {
 		return "", err
 	}
 	if found && topology != nil {
-		topology := topology.(map[string]interface{})
 		var replicas []string
 
 		master, _, err := unstructured.NestedInt64(topology, "master", "replicas")
@@ -774,95 +810,95 @@ func getElasticsearchReplicas(obj unstructured.Unstructured) (string, error) {
 		}
 		replicas = append(replicas, fmt.Sprintf("%q: %q", "i", strconv.FormatInt(ingest, 10)))
 
-		data, found, err := unstructured.NestedFieldCopy(topology, "data")
+		data, found, err := unstructured.NestedMap(topology, "data")
 		if err != nil {
 			return "", err
 		}
 		if found && data != nil {
-			data, _, err := unstructured.NestedInt64(data.(map[string]interface{}), "replicas")
+			data, _, err := unstructured.NestedInt64(data, "replicas")
 			if err != nil {
 				return "", err
 			}
 			replicas = append(replicas, fmt.Sprintf("%q: %q", "d", strconv.FormatInt(data, 10)))
 		}
 
-		dataContent, found, err := unstructured.NestedFieldCopy(topology, "dataContent")
+		dataContent, found, err := unstructured.NestedMap(topology, "dataContent")
 		if err != nil {
 			return "", err
 		}
 		if found && dataContent != nil {
-			dataContent, _, err := unstructured.NestedInt64(dataContent.(map[string]interface{}), "replicas")
+			dataContent, _, err := unstructured.NestedInt64(dataContent, "replicas")
 			if err != nil {
 				return "", err
 			}
 			replicas = append(replicas, fmt.Sprintf("%q: %q", "s", strconv.FormatInt(dataContent, 10)))
 		}
 
-		dataHot, found, err := unstructured.NestedFieldCopy(topology, "dataHot")
+		dataHot, found, err := unstructured.NestedMap(topology, "dataHot")
 		if err != nil {
 			return "", err
 		}
 		if found && dataHot != nil {
-			dataHot, _, err := unstructured.NestedInt64(dataHot.(map[string]interface{}), "replicas")
+			dataHot, _, err := unstructured.NestedInt64(dataHot, "replicas")
 			if err != nil {
 				return "", err
 			}
 			replicas = append(replicas, fmt.Sprintf("%q: %q", "h", strconv.FormatInt(dataHot, 10)))
 		}
 
-		dataWarm, found, err := unstructured.NestedFieldCopy(topology, "dataWarm")
+		dataWarm, found, err := unstructured.NestedMap(topology, "dataWarm")
 		if err != nil {
 			return "", err
 		}
 		if found && dataWarm != nil {
-			dataWarm, _, err := unstructured.NestedInt64(dataWarm.(map[string]interface{}), "replicas")
+			dataWarm, _, err := unstructured.NestedInt64(dataWarm, "replicas")
 			if err != nil {
 				return "", err
 			}
 			replicas = append(replicas, fmt.Sprintf("%q: %q", "w", strconv.FormatInt(dataWarm, 10)))
 		}
 
-		dataCold, found, err := unstructured.NestedFieldCopy(topology, "dataCold")
+		dataCold, found, err := unstructured.NestedMap(topology, "dataCold")
 		if err != nil {
 			return "", err
 		}
 		if found && dataCold != nil {
-			dataCold, _, err := unstructured.NestedInt64(dataCold.(map[string]interface{}), "replicas")
+			dataCold, _, err := unstructured.NestedInt64(dataCold, "replicas")
 			if err != nil {
 				return "", err
 			}
 			replicas = append(replicas, fmt.Sprintf("%q: %q", "c", strconv.FormatInt(dataCold, 10)))
 		}
 
-		dataFrozen, found, err := unstructured.NestedFieldCopy(topology, "dataFrozen")
+		dataFrozen, found, err := unstructured.NestedMap(topology, "dataFrozen")
 		if err != nil {
 			return "", err
 		}
 		if found && dataFrozen != nil {
-			dataFrozen, _, err := unstructured.NestedInt64(dataFrozen.(map[string]interface{}), "replicas")
+			dataFrozen, _, err := unstructured.NestedInt64(dataFrozen, "replicas")
 			if err != nil {
 				return "", err
 			}
 			replicas = append(replicas, fmt.Sprintf("%q: %q", "f", strconv.FormatInt(dataFrozen, 10)))
 		}
 
-		ml, found, err := unstructured.NestedFieldCopy(topology, "ml")
+		ml, found, err := unstructured.NestedMap(topology, "ml")
 		if err != nil {
 			return "", err
 		}
 		if found && ml != nil {
-			ml, _, err := unstructured.NestedInt64(ml.(map[string]interface{}), "replicas")
+			ml, _, err := unstructured.NestedInt64(ml, "replicas")
 			if err != nil {
 				return "", err
 			}
 			replicas = append(replicas, fmt.Sprintf("%q: %q", "lr", strconv.FormatInt(ml, 10)))
 		}
-		transform, found, err := unstructured.NestedFieldCopy(topology, "transform")
+		transform, found, err := unstructured.NestedMap(topology, "transform")
 		if err != nil {
 			return "", err
 		}
 		if found && transform != nil {
-			transform, _, err := unstructured.NestedInt64(transform.(map[string]interface{}), "replicas")
+			transform, _, err := unstructured.NestedInt64(transform, "replicas")
 			if err != nil {
 				return "", err
 			}
@@ -904,7 +940,7 @@ func mariaDBResources(obj unstructured.Unstructured) (string, error) {
 	return fmt.Sprintf("{%q:%q, %q:%q, %q:%q}", core.ResourceCPU, fmt.Sprintf("%dm", totalCPU), core.ResourceMemory, formatBytes(totalMemory), core.ResourceStorage, formatBytes(totalStorage)), nil
 }
 
-func mysqlResources(obj unstructured.Unstructured) (string, error) {
+func mySQLResources(obj unstructured.Unstructured) (string, error) {
 	totalCPU := int64(0)
 	totalMemory := int64(0)
 	totalStorage := int64(0)
@@ -978,6 +1014,45 @@ func getMYSQLNodeInfo(obj unstructured.Unstructured) (*DBNode, error) {
 	return nil, nil
 }
 
+func getMySQLReplicas(obj unstructured.Unstructured) (string, error) {
+	topology, found, err := unstructured.NestedMap(obj.UnstructuredContent(), "spec", "topology")
+	if err != nil {
+		return "", err
+	}
+
+	//MySQLClusterModeGroup  MySQLClusterMode = "GroupReplication"
+	//InnoDBClusterModeGroup MySQLClusterMode = "InnoDBCluster"
+	if found && topology != nil {
+		mode, found, err := unstructured.NestedString(topology, "mode")
+		if err != nil {
+			return "", err
+		}
+		// Only InnoDBCluster has dedicated replica
+		if found && mode == "InnoDBCluster" {
+			inno, found, err := unstructured.NestedMap(topology, "innoDBCluster")
+			if err != nil {
+				return "", err
+			}
+			if found && inno != nil {
+				replica, found, err := unstructured.NestedFieldCopy(inno, "router", "replica")
+				if err != nil {
+					return "", err
+				}
+				if found && replica != nil {
+					return fmt.Sprintf("%v", replica), nil
+				}
+			}
+		}
+	}
+
+	// Standalone or GroupReplication Mode
+	replicas, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "replicas")
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("%v", replicas), nil
+}
+
 func redisResources(obj unstructured.Unstructured) (string, error) {
 	totalCPU := int64(0)
 	totalMemory := int64(0)
@@ -1028,4 +1103,37 @@ func redisResources(obj unstructured.Unstructured) (string, error) {
 	totalMemory += memory
 
 	return fmt.Sprintf("{%q:%q, %q:%q, %q:%q}", core.ResourceCPU, fmt.Sprintf("%dm", totalCPU), core.ResourceMemory, formatBytes(totalMemory), core.ResourceStorage, formatBytes(totalStorage)), nil
+}
+
+func getRedisReplicas(obj unstructured.Unstructured) (string, error) {
+	mode, found, err := unstructured.NestedString(obj.UnstructuredContent(), "spec", "mode")
+	if err != nil {
+		return "", err
+	}
+	if found && mode == "Cluster" {
+		cluster, found, err := unstructured.NestedMap(obj.UnstructuredContent(), "spec", "cluster")
+		if err != nil {
+			return "", err
+		}
+		if found && cluster != nil {
+			master, _, err := unstructured.NestedInt64(cluster, "master")
+			if err != nil {
+				return "", err
+			}
+			replicas, _, err := unstructured.NestedInt64(cluster, "replicas")
+			if err != nil {
+				return "", err
+			}
+			return fmt.Sprintf("%v, %v", master, replicas), nil
+		} else {
+			return "", fmt.Errorf("failed to detect replica number. Reason: cluster mode not found")
+		}
+	}
+
+	// Standalone mode
+	replicas, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "replicas")
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("%v", replicas), nil
 }

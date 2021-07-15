@@ -50,7 +50,7 @@ spec:
     pathTemplate: '{{ jp "{.spec.authSecret.name}" . }}'
     priority: 1
     type: string
-  - name: SSL Enabled
+  - name: SSL Required
     pathTemplate: '{{ jp "{.spec.requireSSL}" . }}'
     priority: 3
     type: string

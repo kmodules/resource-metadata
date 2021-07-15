@@ -397,40 +397,7 @@ func kubedbDBReplicasFn(data string) (string, error) {
 
 	switch obj.GetKind() {
 	case ResourceKindMongoDB:
-		// Sharded MongoDB cluster
-		shardTopology, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "shardTopology")
-		if err != nil {
-			return "", err
-		}
-		if found && shardTopology != nil {
-			shards, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "shardTopology", "shard", "replicas")
-			if err != nil {
-				return "", err
-			}
-			configServers, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "shardTopology", "configServer", "replicas")
-			if err != nil {
-				return "", err
-			}
-			mongos, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "shardTopology", "mongos", "replicas")
-			if err != nil {
-				return "", err
-			}
-			return fmt.Sprintf("%v, %v, %v", shards, configServers, mongos), nil
-		}
-		// MongoDB ReplicaSet
-		replicaSet, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "replicaSet")
-		if err != nil {
-			return "", err
-		}
-		if found && replicaSet != nil {
-			replicas, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "replicas")
-			if err != nil {
-				return "", err
-			}
-			return fmt.Sprintf("%v", replicas), nil
-		}
-		// Standalone MongoDB
-		return "1", nil
+		return getMongoDBReplicas(obj)
 	case ResourceKindPostgres:
 		replicas, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "replicas")
 		if err != nil {
@@ -446,73 +413,9 @@ func kubedbDBReplicasFn(data string) (string, error) {
 		}
 		return fmt.Sprintf("%v", replicas), nil
 	case ResourceKindMySQL:
-		topology, found, err := unstructured.NestedMap(obj.UnstructuredContent(), "spec", "topology")
-		if err != nil {
-			return "", err
-		}
-
-		//MySQLClusterModeGroup  MySQLClusterMode = "GroupReplication"
-		//InnoDBClusterModeGroup MySQLClusterMode = "InnoDBCluster"
-		if found && topology != nil {
-			mode, found, err := unstructured.NestedString(topology, "mode")
-			if err != nil {
-				return "", err
-			}
-			// Only InnoDBCluster has dedicated replica
-			if found && mode == "InnoDBCluster" {
-				inno, found, err := unstructured.NestedMap(topology, "innoDBCluster")
-				if err != nil {
-					return "", err
-				}
-				if found && inno != nil {
-					replica, found, err := unstructured.NestedFieldCopy(inno, "router", "replica")
-					if err != nil {
-						return "", err
-					}
-					if found && replica != nil {
-						return fmt.Sprintf("%v", replica), nil
-					}
-				}
-			}
-		}
-
-		// Standalone or GroupReplication Mode
-		replicas, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "replicas")
-		if err != nil {
-			return "", err
-		}
-		return fmt.Sprintf("%v", replicas), nil
+		return getMySQLReplicas(obj)
 	case ResourceKindRedis:
-		mode, found, err := unstructured.NestedString(obj.UnstructuredContent(), "spec", "mode")
-		if err != nil {
-			return "", err
-		}
-		if found && mode == "Cluster" {
-			cluster, found, err := unstructured.NestedMap(obj.UnstructuredContent(), "spec", "cluster")
-			if err != nil {
-				return "", err
-			}
-			if found && cluster != nil {
-				master, _, err := unstructured.NestedInt64(cluster, "master")
-				if err != nil {
-					return "", err
-				}
-				replicas, _, err := unstructured.NestedInt64(cluster, "replicas")
-				if err != nil {
-					return "", err
-				}
-				return fmt.Sprintf("%v, %v", master, replicas), nil
-			} else {
-				return "", fmt.Errorf("failed to detect replica number. Reason: cluster mode not found")
-			}
-		}
-
-		// Standalone mode
-		replicas, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "replicas")
-		if err != nil {
-			return "", err
-		}
-		return fmt.Sprintf("%v", replicas), nil
+		return getRedisReplicas(obj)
 	}
 	return "", fmt.Errorf("failed to detect replica number. Reason: Unknown database type `%s`", obj.GetKind())
 }
@@ -534,7 +437,7 @@ func kubedbDBResourcesFn(data string) (string, error) {
 	case ResourceKindMariaDB:
 		return mariaDBResources(obj)
 	case ResourceKindMySQL:
-		return mysqlResources(obj)
+		return mySQLResources(obj)
 	case ResourceKindRedis:
 		return redisResources(obj)
 	}
