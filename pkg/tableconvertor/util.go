@@ -37,6 +37,7 @@ const (
 	ResourceKindElasticsearch = "Elasticsearch"
 	ResourceKindMariaDB       = "MariaDB"
 	ResourceKindMySQL         = "MySQL"
+	ResourceKindRedis         = "Redis"
 )
 
 // ref: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/kubectl/pkg/describe/describe.go
@@ -975,4 +976,56 @@ func getMYSQLNodeInfo(obj unstructured.Unstructured) (*DBNode, error) {
 		}
 	}
 	return nil, nil
+}
+
+func redisResources(obj unstructured.Unstructured) (string, error) {
+	totalCPU := int64(0)
+	totalMemory := int64(0)
+	totalStorage := int64(0)
+
+	redis, err := getDBNodeInfo(obj, "spec")
+	if err != nil {
+		return "", err
+	}
+
+	// If mode is Cluster, replica number would be
+	// summation of master and replicas from RedisClusterSpec
+	mode, found, err := unstructured.NestedString(obj.UnstructuredContent(), "spec", "mode")
+	if err != nil {
+		return "", err
+	}
+	if found && mode == "Cluster" {
+		cluster, found, err := unstructured.NestedMap(obj.UnstructuredContent(), "spec", "cluster")
+		if err != nil {
+			return "", err
+		}
+		if found && cluster != nil {
+			master, _, err := unstructured.NestedInt64(cluster, "master")
+			if err != nil {
+				return "", err
+			}
+			replicas, _, err := unstructured.NestedInt64(cluster, "replicas")
+			if err != nil {
+				return "", err
+			}
+
+			redis.Replicas = master + replicas
+		} else {
+			return "", fmt.Errorf("failed to get redis resources. Reason: cluster mode not found")
+		}
+	}
+
+	totalCPU += redis.Replicas * max(redis.PodTemplate.Spec.Resources.Limits.Cpu().MilliValue(), redis.PodTemplate.Spec.Resources.Requests.Cpu().MilliValue())
+	totalMemory += redis.Replicas * max(redis.PodTemplate.Spec.Resources.Limits.Memory().Value(), redis.PodTemplate.Spec.Resources.Requests.Memory().Value())
+	totalStorage += redis.Replicas * redis.Storage.Resources.Requests.Storage().Value()
+
+	// Exporter resources
+	cpu, memory, err := exporterResources(obj)
+	if err != nil {
+		return "", err
+	}
+	totalCPU += cpu
+	totalMemory += memory
+
+	return fmt.Sprintf("{%q:%q, %q:%q, %q:%q}", core.ResourceCPU, fmt.Sprintf("%dm", totalCPU), core.ResourceMemory, formatBytes(totalMemory), core.ResourceStorage, formatBytes(totalStorage)), nil
 }

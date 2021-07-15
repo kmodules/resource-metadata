@@ -375,6 +375,15 @@ func kubedbDBModeFn(data string) (string, error) {
 			}
 		}
 		return "Standalone", nil
+	case ResourceKindRedis:
+		mode, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "mode")
+		if err != nil {
+			return "", err
+		}
+		if found && mode != nil {
+			return fmt.Sprintf("%v", mode), nil
+		}
+		return "Standalone", nil
 	}
 	return "", fmt.Errorf("failed to detectect database mode. Reason: Unknown database type `%s`", obj.GetKind())
 }
@@ -473,6 +482,37 @@ func kubedbDBReplicasFn(data string) (string, error) {
 			return "", err
 		}
 		return fmt.Sprintf("%v", replicas), nil
+	case ResourceKindRedis:
+		mode, found, err := unstructured.NestedString(obj.UnstructuredContent(), "spec", "mode")
+		if err != nil {
+			return "", err
+		}
+		if found && mode == "Cluster" {
+			cluster, found, err := unstructured.NestedMap(obj.UnstructuredContent(), "spec", "cluster")
+			if err != nil {
+				return "", err
+			}
+			if found && cluster != nil {
+				master, _, err := unstructured.NestedInt64(cluster, "master")
+				if err != nil {
+					return "", err
+				}
+				replicas, _, err := unstructured.NestedInt64(cluster, "replicas")
+				if err != nil {
+					return "", err
+				}
+				return fmt.Sprintf("%v, %v", master, replicas), nil
+			} else {
+				return "", fmt.Errorf("failed to detect replica number. Reason: cluster mode not found")
+			}
+		}
+
+		// Standalone mode
+		replicas, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "replicas")
+		if err != nil {
+			return "", err
+		}
+		return fmt.Sprintf("%v", replicas), nil
 	}
 	return "", fmt.Errorf("failed to detect replica number. Reason: Unknown database type `%s`", obj.GetKind())
 }
@@ -495,6 +535,8 @@ func kubedbDBResourcesFn(data string) (string, error) {
 		return mariaDBResources(obj)
 	case ResourceKindMySQL:
 		return mysqlResources(obj)
+	case ResourceKindRedis:
+		return redisResources(obj)
 	}
 	return "", fmt.Errorf("failed to extract CPU information. Reason: Unknown database type `%s`", obj.GetKind())
 }
