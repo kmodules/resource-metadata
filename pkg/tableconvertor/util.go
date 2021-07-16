@@ -38,6 +38,11 @@ const (
 	ResourceKindMongoDB       = "MongoDB"
 	ResourceKindPostgres      = "Postgres"
 	ResourceKindElasticsearch = "Elasticsearch"
+
+	DBModeCluster    = "Cluster"
+	DBModeSharded    = "Sharded"
+	DBModeStandalone = "Standalone"
+	DBModeReplicaSet = "ReplicaSet"
 )
 
 // ref: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/kubectl/pkg/describe/describe.go
@@ -996,18 +1001,17 @@ func getMYSQLNodeInfo(obj unstructured.Unstructured) (*DBNode, error) {
 				}
 
 				if found && router != nil {
-
+					node := new(DBNode)
+					data, err := json.Marshal(router)
+					if err != nil {
+						return nil, err
+					}
+					err = json.Unmarshal(data, &node)
+					if err != nil {
+						return nil, err
+					}
+					return node, nil
 				}
-				node := new(DBNode)
-				data, err := json.Marshal(router)
-				if err != nil {
-					return nil, err
-				}
-				err = json.Unmarshal(data, &node)
-				if err != nil {
-					return nil, err
-				}
-				return node, nil
 			}
 		}
 	}
@@ -1069,7 +1073,7 @@ func redisResources(obj unstructured.Unstructured) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	if found && mode == "Cluster" {
+	if found && mode == DBModeCluster {
 		cluster, found, err := unstructured.NestedMap(obj.UnstructuredContent(), "spec", "cluster")
 		if err != nil {
 			return "", err
@@ -1110,7 +1114,7 @@ func getRedisReplicas(obj unstructured.Unstructured) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	if found && mode == "Cluster" {
+	if found && mode == DBModeCluster {
 		cluster, found, err := unstructured.NestedMap(obj.UnstructuredContent(), "spec", "cluster")
 		if err != nil {
 			return "", err

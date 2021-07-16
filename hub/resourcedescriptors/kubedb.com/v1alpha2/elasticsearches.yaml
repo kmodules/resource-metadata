@@ -30,10 +30,6 @@ spec:
     pathTemplate: '{{ jp "{.spec.version}" . }}'
     priority: 3
     type: string
-#  - name: Mode
-#    pathTemplate: '{{ jp "{$}" . | kubedb_db_mode }}'
-#    priority: 3
-#    type: string
   - name: Replicas
     pathTemplate: '{{ jp "{$}" . | kubedb_db_replicas }}'
     priority: 3

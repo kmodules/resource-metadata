@@ -323,16 +323,16 @@ func kubedbDBModeFn(data string) (string, error) {
 			return "", err
 		}
 		if found && shards != nil {
-			return "Sharded", nil
+			return DBModeSharded, nil
 		}
 		rs, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "replicaSet")
 		if err != nil {
 			return "", err
 		}
 		if found && rs != nil {
-			return "ReplicaSet", nil
+			return DBModeReplicaSet, nil
 		}
-		return "Standalone", nil
+		return DBModeStandalone, nil
 	case ResourceKindPostgres:
 		mode, found, err := unstructured.NestedString(obj.UnstructuredContent(), "spec", "standbyMode")
 		if err != nil {
@@ -357,9 +357,9 @@ func kubedbDBModeFn(data string) (string, error) {
 			return "", err
 		}
 		if found && replicas > 1 {
-			return "Cluster", nil
+			return DBModeCluster, nil
 		}
-		return "Standalone", nil
+		return DBModeStandalone, nil
 	case ResourceKindMySQL:
 		topology, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "topology")
 		if err != nil {
@@ -374,7 +374,7 @@ func kubedbDBModeFn(data string) (string, error) {
 				return fmt.Sprintf("%v", mode), nil
 			}
 		}
-		return "Standalone", nil
+		return DBModeStandalone, nil
 	case ResourceKindRedis:
 		mode, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "mode")
 		if err != nil {
@@ -383,7 +383,7 @@ func kubedbDBModeFn(data string) (string, error) {
 		if found && mode != nil {
 			return fmt.Sprintf("%v", mode), nil
 		}
-		return "Standalone", nil
+		return DBModeStandalone, nil
 	}
 	return "", fmt.Errorf("failed to detectect database mode. Reason: Unknown database type `%s`", obj.GetKind())
 }
