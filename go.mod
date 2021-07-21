@@ -19,7 +19,7 @@ require (
 	github.com/yudai/gojsondiff v1.0.0
 	golang.org/x/net v0.0.0-20210428140749-89ef3d95e781
 	gomodules.xyz/jsonpath v0.0.1
-	gomodules.xyz/kglog v0.0.4
+	gomodules.xyz/logs v0.0.3
 	gomodules.xyz/pointer v0.0.0-20201105071923-daf60fa55209
 	gomodules.xyz/x v0.0.5
 	gopkg.in/yaml.v2 v2.4.0
@@ -31,7 +31,7 @@ require (
 	k8s.io/klog/v2 v2.8.0
 	k8s.io/kube-openapi v0.0.0-20210305001622-591a79e4bda7
 	kmodules.xyz/apiversion v0.2.0
-	kmodules.xyz/client-go v0.0.0-20210617233340-13d22e91512b
+	kmodules.xyz/client-go v0.0.0-20210719120358-dd0503cf99cf
 	kmodules.xyz/crd-schema-fuzz v0.0.0-20210618002152-fae23aef5fb4
 	kmodules.xyz/monitoring-agent-api v0.0.0-20210618005119-a8c212adc2bf
 	kmodules.xyz/offshoot-api v0.0.0-20210618005544-5217a24765da

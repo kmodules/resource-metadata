@@ -22,7 +22,7 @@ import (
 
 	"kmodules.xyz/resource-metadata/pkg/cmd/server"
 
-	"gomodules.xyz/kglog"
+	"gomodules.xyz/logs"
 	genericapiserver "k8s.io/apiserver/pkg/server"
 	"k8s.io/klog/v2"
 )
@@ -31,8 +31,8 @@ func main() {
 	stopCh := genericapiserver.SetupSignalHandler()
 	options := server.NewResourceMetadataServerOptions(os.Stdout, os.Stderr)
 	cmd := server.NewCommandStartResourceMetadataServer(options, stopCh)
-	kglog.Init(cmd, true)
-	defer kglog.FlushLogs()
+	logs.Init(cmd, true)
+	defer logs.FlushLogs()
 	if err := cmd.Execute(); err != nil {
 		klog.Fatal(err)
 	}
