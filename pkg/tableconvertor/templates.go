@@ -18,7 +18,6 @@ package tableconvertor
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"strconv"
 	"strings"
@@ -26,15 +25,16 @@ import (
 	"time"
 
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor/printers"
+	resourcemetrics "kmodules.xyz/resource-metrics"
 
 	"github.com/Masterminds/sprig/v3"
 	prom_op "github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1"
+	"gomodules.xyz/encoding/json"
 	"gomodules.xyz/jsonpath"
 	core "k8s.io/api/core/v1"
 	rbac "k8s.io/api/rbac/v1"
 	metatable "k8s.io/apimachinery/pkg/api/meta/table"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/util/duration"
 )
@@ -55,11 +55,12 @@ func init() {
 	templateFns["fmt_list"] = fmtListFn
 	templateFns["prom_ns_selector"] = promNamespaceSelectorFn
 	templateFns["map_key_count"] = mapKeyCountFn
-	templateFns["kubedb_db_mode"] = kubedbDBModeFn
-	templateFns["kubedb_db_replicas"] = kubedbDBReplicasFn
-	templateFns["kubedb_db_resources"] = kubedbDBResourcesFn
 	templateFns["rbac_subjects"] = rbacSubjects
 	templateFns["cert_validity"] = certificateValidity
+	// ref: https://github.com/kmodules/resource-metrics/blob/bf6b257f8922a5572ccd20bf1cbab6bbedf4fcb4/template.go#L26-L36
+	for name, fn := range resourcemetrics.TxtFuncMap() {
+		templateFns[name] = fn
+	}
 }
 
 // TxtFuncMap returns a 'text/template'.FuncMap
@@ -304,115 +305,6 @@ func mapKeyCountFn(data string) (string, error) {
 	}
 
 	return strconv.Itoa(len(m)), nil
-}
-
-func kubedbDBModeFn(data string) (string, error) {
-	if strings.TrimSpace(data) == "" {
-		return "", nil
-	}
-	var obj unstructured.Unstructured
-	err := json.Unmarshal([]byte(data), &obj)
-	if err != nil {
-		return "", err
-	}
-
-	switch obj.GetKind() {
-	case ResourceKindMongoDB:
-		shards, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "shardTopology")
-		if err != nil {
-			return "", err
-		}
-		if found && shards != nil {
-			return "Sharded", nil
-		}
-		rs, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "replicaSet")
-		if err != nil {
-			return "", err
-		}
-		if found && rs != nil {
-			return "ReplicaSet", nil
-		}
-		return "Standalone", nil
-	case ResourceKindPostgres:
-		mode, found, err := unstructured.NestedString(obj.UnstructuredContent(), "spec", "standbyMode")
-		if err != nil {
-			return "", err
-		}
-		if found && mode != "" {
-			return mode, nil
-		}
-		return "Hot", nil
-	}
-	return "", fmt.Errorf("failed to detectect database mode. Reason: Unknown database type `%s`", obj.GetKind())
-}
-
-func kubedbDBReplicasFn(data string) (string, error) {
-	var obj unstructured.Unstructured
-	err := json.Unmarshal([]byte(data), &obj)
-	if err != nil {
-		return "", err
-	}
-
-	switch obj.GetKind() {
-	case ResourceKindMongoDB:
-		// Sharded MongoDB cluster
-		shardTopology, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "shardTopology")
-		if err != nil {
-			return "", err
-		}
-		if found && shardTopology != nil {
-			shards, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "shardTopology", "shard", "replicas")
-			if err != nil {
-				return "", err
-			}
-			configServers, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "shardTopology", "configServer", "replicas")
-			if err != nil {
-				return "", err
-			}
-			mongos, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "shardTopology", "mongos", "replicas")
-			if err != nil {
-				return "", err
-			}
-			return fmt.Sprintf("%v, %v, %v", shards, configServers, mongos), nil
-		}
-		// MongoDB ReplicaSet
-		replicaSet, found, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "replicaSet")
-		if err != nil {
-			return "", err
-		}
-		if found && replicaSet != nil {
-			replicas, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "replicas")
-			if err != nil {
-				return "", err
-			}
-			return fmt.Sprintf("%v", replicas), nil
-		}
-		// Standalone MongoDB
-		return "1", nil
-	case ResourceKindPostgres:
-		replicas, _, err := unstructured.NestedFieldCopy(obj.UnstructuredContent(), "spec", "replicas")
-		if err != nil {
-			return "", err
-		}
-		return fmt.Sprintf("%v", replicas), nil
-	}
-	return "", fmt.Errorf("failed to detect replica number. Reason: Unknown database type `%s`", obj.GetKind())
-}
-
-func kubedbDBResourcesFn(data string) (string, error) {
-	var obj unstructured.Unstructured
-	err := json.Unmarshal([]byte(data), &obj)
-	if err != nil {
-		return "", err
-	}
-
-	switch obj.GetKind() {
-	case ResourceKindMongoDB:
-		return mongoDBResources(obj)
-	case ResourceKindPostgres:
-		return postgresResources(obj)
-	}
-	return "", fmt.Errorf("failed to extract CPU information. Reason: Unknown database type `%s`", obj.GetKind())
 }
 
 func rbacSubjects(data string) (string, error) {

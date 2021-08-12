@@ -18,7 +18,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"log"
 	"path/filepath"
@@ -26,6 +25,7 @@ import (
 	"kmodules.xyz/resource-metadata/hub"
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor"
 
+	"gomodules.xyz/encoding/json"
 	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"

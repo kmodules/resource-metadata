@@ -19,7 +19,6 @@ package tableconvertor
 import (
 	"bytes"
 	"context"
-	"encoding/json"
 	"fmt"
 	"strconv"
 	"strings"
@@ -29,6 +28,7 @@ import (
 	"kmodules.xyz/resource-metadata/hub"
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor/printers"
 
+	"gomodules.xyz/encoding/json"
 	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metatable "k8s.io/apimachinery/pkg/api/meta/table"

@@ -95,7 +95,7 @@ github.com/huandu/xstrings
 github.com/imdario/mergo
 # github.com/inconshreveable/mousetrap v1.0.0
 github.com/inconshreveable/mousetrap
-# github.com/json-iterator/go v1.1.10
+# github.com/json-iterator/go v1.1.11
 github.com/json-iterator/go
 # github.com/mailru/easyjson v0.7.0
 github.com/mailru/easyjson/buffer
@@ -241,7 +241,10 @@ golang.org/x/text/width
 golang.org/x/time/rate
 # gomodules.xyz/clock v0.0.0-20200817085942-06523dba733f
 gomodules.xyz/clock
-# gomodules.xyz/flags v0.1.0
+# gomodules.xyz/encoding v0.0.2
+## explicit
+gomodules.xyz/encoding/json
+# gomodules.xyz/flags v0.1.2
 gomodules.xyz/flags
 # gomodules.xyz/jsonpatch/v2 v2.2.0
 gomodules.xyz/jsonpatch/v2
@@ -249,17 +252,17 @@ gomodules.xyz/jsonpatch/v2
 ## explicit
 gomodules.xyz/jsonpath
 gomodules.xyz/jsonpath/third_party/forked/golang/template
-# gomodules.xyz/logs v0.0.3
+# gomodules.xyz/logs v0.0.4
 ## explicit
 gomodules.xyz/logs
-# gomodules.xyz/pointer v0.0.0-20201105071923-daf60fa55209
+# gomodules.xyz/pointer v0.1.0
 ## explicit
 gomodules.xyz/pointer
-# gomodules.xyz/sets v0.0.0-20210218105342-2efe2fb519a2
+# gomodules.xyz/sets v0.2.0
 gomodules.xyz/sets
 # gomodules.xyz/wait v0.0.0-20210218105358-639bd9211545
 gomodules.xyz/wait
-# gomodules.xyz/x v0.0.5
+# gomodules.xyz/x v0.0.7
 ## explicit
 gomodules.xyz/x/strings
 gomodules.xyz/x/version
@@ -862,12 +865,17 @@ kmodules.xyz/client-go/tools/clientcache
 # kmodules.xyz/crd-schema-fuzz v0.0.0-20210618002152-fae23aef5fb4
 ## explicit
 kmodules.xyz/crd-schema-fuzz
-# kmodules.xyz/monitoring-agent-api v0.0.0-20210618005119-a8c212adc2bf
-## explicit
-kmodules.xyz/monitoring-agent-api/api/v1
-# kmodules.xyz/offshoot-api v0.0.0-20210618005544-5217a24765da
-## explicit
+# kmodules.xyz/offshoot-api v0.0.0-20210804100837-d0388be3e60d
 kmodules.xyz/offshoot-api/api/v1
+# kmodules.xyz/resource-metrics v0.0.1
+## explicit
+kmodules.xyz/resource-metrics
+kmodules.xyz/resource-metrics/api
+kmodules.xyz/resource-metrics/apps/v1
+kmodules.xyz/resource-metrics/batch/v1
+kmodules.xyz/resource-metrics/batch/v1beta1
+kmodules.xyz/resource-metrics/core/v1
+kmodules.xyz/resource-metrics/kubedb.com/v1alpha2
 # sigs.k8s.io/apiserver-network-proxy/konnectivity-client v0.0.15
 sigs.k8s.io/apiserver-network-proxy/konnectivity-client/pkg/client
 sigs.k8s.io/apiserver-network-proxy/konnectivity-client/proto/client
