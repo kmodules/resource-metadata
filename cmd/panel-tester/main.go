@@ -17,13 +17,13 @@ limitations under the License.
 package main
 
 import (
-	"encoding/json"
 	"io/ioutil"
 	"log"
 	"path/filepath"
 
 	"kmodules.xyz/resource-metadata/hub"
 
+	"gomodules.xyz/encoding/json"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/util/homedir"
 )

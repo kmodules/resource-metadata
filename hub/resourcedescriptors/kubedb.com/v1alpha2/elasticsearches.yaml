@@ -31,7 +31,7 @@ spec:
     priority: 3
     type: string
   - name: Replicas
-    pathTemplate: '{{ jp "{$}" . | kubedb_db_replicas }}'
+    pathTemplate: '{{ k8s_resource_replicas_by_roles . | toRawJson }}'
     priority: 3
     type: object
   - name: Phase
@@ -39,7 +39,7 @@ spec:
     priority: 3
     type: string
   - name: Total Resources
-    pathTemplate: '{{ jp "{$}" .  | kubedb_db_resources }}'
+    pathTemplate: '{{ k8s_total_resource_limits . | toRawJson }}'
     priority: 3
     type: object
   - name: HTTPS

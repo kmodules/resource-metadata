@@ -18,10 +18,11 @@ require (
 	github.com/stretchr/testify v1.7.0
 	github.com/yudai/gojsondiff v1.0.0
 	golang.org/x/net v0.0.0-20210428140749-89ef3d95e781
+	gomodules.xyz/encoding v0.0.2
 	gomodules.xyz/jsonpath v0.0.1
-	gomodules.xyz/logs v0.0.3
-	gomodules.xyz/pointer v0.0.0-20201105071923-daf60fa55209
-	gomodules.xyz/x v0.0.5
+	gomodules.xyz/logs v0.0.4
+	gomodules.xyz/pointer v0.1.0
+	gomodules.xyz/x v0.0.7
 	gopkg.in/yaml.v2 v2.4.0
 	k8s.io/api v0.21.1
 	k8s.io/apiextensions-apiserver v0.21.1
@@ -33,8 +34,7 @@ require (
 	kmodules.xyz/apiversion v0.2.0
 	kmodules.xyz/client-go v0.0.0-20210719120358-dd0503cf99cf
 	kmodules.xyz/crd-schema-fuzz v0.0.0-20210618002152-fae23aef5fb4
-	kmodules.xyz/monitoring-agent-api v0.0.0-20210618005119-a8c212adc2bf
-	kmodules.xyz/offshoot-api v0.0.0-20210618005544-5217a24765da
+	kmodules.xyz/resource-metrics v0.0.1
 	sigs.k8s.io/yaml v1.2.0
 )
 
