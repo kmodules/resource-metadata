@@ -264,7 +264,6 @@ func WriteDescriptor(crd *crdv1.CustomResourceDefinition, dir string) error {
 				rd.Spec.Validation = v.Schema
 			}
 		}
-		addResourceRequirements(&rd)
 
 		if rd.Spec.Validation != nil &&
 			rd.Spec.Validation.OpenAPIV3Schema != nil {
@@ -298,35 +297,4 @@ func WriteDescriptor(crd *crdv1.CustomResourceDefinition, dir string) error {
 	}
 
 	return nil
-}
-
-func addResourceRequirements(rd *v1alpha1.ResourceDescriptor) {
-	rd.Spec.ResourceRequirements = []v1alpha1.ResourceRequirements{defaultResourcePath()}
-	if rd.Spec.Resource.Group == "kubedb.com" {
-		if rd.Spec.Resource.Kind == "Elasticsearch" {
-			topologies := []string{"master", "data", "ingest"}
-			for _, topology := range topologies {
-				rd.Spec.ResourceRequirements = append(rd.Spec.ResourceRequirements, v1alpha1.ResourceRequirements{
-					Units:     fmt.Sprintf("spec.topology.%s.replicas", topology),
-					Resources: fmt.Sprintf("spec.topology.%s.resources", topology),
-				})
-			}
-		} else if rd.Spec.Resource.Kind == "MongoDB" {
-			topologies := []string{"shard", "configServer", "mongos"}
-			for _, topology := range topologies {
-				rd.Spec.ResourceRequirements = append(rd.Spec.ResourceRequirements, v1alpha1.ResourceRequirements{
-					Units:     fmt.Sprintf("spec.shardTopology.%s.shards", topology),
-					Shards:    fmt.Sprintf("spec.shardTopology.%s.replicas", topology),
-					Resources: fmt.Sprintf("spec.shardTopology.%s.podTemplate.spec.resources", topology),
-				})
-			}
-		}
-	}
-}
-
-func defaultResourcePath() v1alpha1.ResourceRequirements {
-	return v1alpha1.ResourceRequirements{
-		Units:     "spec.replicas",
-		Resources: "spec.podTemplate.spec.resources",
-	}
 }
