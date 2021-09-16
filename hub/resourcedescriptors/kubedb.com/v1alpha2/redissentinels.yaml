@@ -15,6 +15,11 @@ spec:
     name: redissentinels
     scope: Namespaced
     version: v1alpha2
+  ui:
+    editor:
+      name: kubedbcom-redissentinel-editor
+      url: https://raw.githubusercontent.com/bytebuilders/ui-wizards/master/stable
+      version: v0.1.0
   validation:
     openAPIV3Schema:
       properties:
