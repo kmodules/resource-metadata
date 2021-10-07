@@ -18,13 +18,11 @@ package v1
 
 import (
 	"kmodules.xyz/resource-metrics/api"
-
-	core "k8s.io/api/core/v1"
 )
 
-func init() {
-	api.Register(core.SchemeGroupVersion.WithKind("PersistentVolume"), PersistentVolume{}.ResourceCalculator())
-}
+//func init() {
+//	api.Register(core.SchemeGroupVersion.WithKind("PersistentVolume"), PersistentVolume{}.ResourceCalculator())
+//}
 
 type PersistentVolume struct{}
 

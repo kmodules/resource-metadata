@@ -34,7 +34,7 @@ require (
 	kmodules.xyz/apiversion v0.2.0
 	kmodules.xyz/client-go v0.0.0-20210719120358-dd0503cf99cf
 	kmodules.xyz/crd-schema-fuzz v0.0.0-20210618002152-fae23aef5fb4
-	kmodules.xyz/resource-metrics v0.0.1
+	kmodules.xyz/resource-metrics v0.0.3
 	sigs.k8s.io/yaml v1.2.0
 )
 
