@@ -77,8 +77,11 @@ spec:
               type: boolean
             distribution:
               enum:
-              - PostgreSQL
+              - Official
               - TimescaleDB
+              - PostGIS
+              - KubeDB
+              - PostgreSQL
               type: string
             exporter:
               properties:
