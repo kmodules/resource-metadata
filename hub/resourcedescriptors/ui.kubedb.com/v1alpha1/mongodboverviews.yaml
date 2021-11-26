@@ -15,6 +15,83 @@ spec:
     name: mongodboverviews
     scope: Namespaced
     version: v1alpha1
+  columns:
+    - name: "Current Connections"
+      pathTemplate: '{{ jp "{.spec.connections.currentConnections}" . }}'
+      priority: 3
+      type: string
+    - name: "Total Connections"
+      pathTemplate: '{{ jp "{.spec.connections.totalConnections}" . }}'
+      priority: 3
+      type: string
+    - name: "Available Connections"
+      pathTemplate: '{{ jp "{.spec.connections.availableConnections}" . }}'
+      priority: 3
+      type: string
+    - name: "Active Connections"
+      pathTemplate: '{{ jp "{.spec.connections.activeConnections}" . }}'
+      priority: 3
+      type: string
+    - name: "DataSize"
+      pathTemplate: '{{ jp "{.spec.dbStats.dataSize}" . }}'
+      priority: 3
+      type: string
+    - name: "TotalIndex"
+      pathTemplate: '{{ jp "{.spec.dbStats.totalIndexes}" . }}'
+      priority: 3
+      type: string
+    - name: "IndexSize"
+      pathTemplate: '{{ jp "{.spec.dbStats.indexSize}" . }}'
+      priority: 3
+      type: string
+    - name: "Replicas"
+      pathTemplate: '{{ jp "{.spec.replicaSetInfo.numberOfReplicas}" . }}'
+      priority: 1
+      type: string
+    - name: "Number of Shards"
+      pathTemplate: '{{ jp "{.spec.shardInfo.numberOfShards}" . }}'
+      priority: 1
+      type: string
+    - name: "Replicas Per Shards"
+      pathTemplate: '{{ jp "{.spec.shardInfo.replicasPerShards}" . }}'
+      priority: 1
+      type: string
+    - name: "Number of Chunks"
+      pathTemplate: '{{ jp "{.spec.shardInfo.numberOfChunks}" . }}'
+      priority: 1
+      type: string
+    - name: "Balancer Enabled"
+      pathTemplate: '{{ jp "{.spec.shardInfo.balancerEnabled}" . }}'
+      priority: 1
+      type: bool
+    - name: "Chunks Balanced"
+      pathTemplate: '{{ jp "{.spec.shardInfo.chunksBalanced}" . }}'
+      priority: 1
+      type: bool
+  connections:
+    - target:
+        apiVersion: ui.k8s.appscode.com/v1alpha1
+        kind: PodView
+      level: Owner
+      type: MatchSelector
+      namespacePath: metadata.namespace
+      selector:
+        matchLables:
+          app.kubernetes.io/instance: '{.metadata.name}'
+          app.kubernetes.io/managed-by: kubedb.com
+          app.kubernetes.io/name: mongodbs.kubedb.com
+    - target:
+        apiVersion: ui.openviz.dev/v1alpha1
+        kind: EmbeddedDashboard
+      level: Owner
+      type: MatchSelector
+      namespacePath: metadata.namespace
+      selector:
+        matchLables:
+          k8s.io/group: kubedb.com
+          k8s.io/kind: MongoDB
+          k8s.io/resource: mongodbs
+          # ToDo: decide the other matchLabels
   validation:
     openAPIV3Schema:
       properties:

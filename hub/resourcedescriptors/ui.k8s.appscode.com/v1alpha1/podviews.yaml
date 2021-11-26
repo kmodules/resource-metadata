@@ -15,6 +15,35 @@ spec:
     name: podviews
     scope: Namespaced
     version: v1alpha1
+  columns:
+    - name: Name
+      pathTemplate:
+      priority:
+      type: string
+    - name: Type
+      pathTemplate:
+      priority:
+      type: string
+    - name: Role
+      pathTemplate:
+      priority:
+      type: string
+    - name: CPU (Usage/Limit)
+      pathTemplate:
+      priority:
+      type:
+    - name: Memory (Usage/Limit)
+      pathTemplate:
+      priority:
+      type:
+    - name: Storage (Usage/Capacity)
+      pathTemplate:
+      priority:
+      type:
+    - name: Status
+      pathTemplate:
+      priority:
+      type:
   validation:
     openAPIV3Schema:
       properties:
