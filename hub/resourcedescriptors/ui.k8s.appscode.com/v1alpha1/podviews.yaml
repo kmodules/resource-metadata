@@ -17,33 +17,37 @@ spec:
     version: v1alpha1
   columns:
     - name: Name
-      pathTemplate:
-      priority:
+      pathTemplate: '{{ jp "{.metadata.name}" . }}'
+      priority: 3
       type: string
-    - name: Type
-      pathTemplate:
-      priority:
+    - name: CPU (Usage)
+      pathTemplate: '{{ jp "{.spec.resources.usage.cpu}" . }}'
+      priority: 3
       type: string
-    - name: Role
-      pathTemplate:
-      priority:
+    - name: CPU (Limit)
+      pathTemplate: '{{ jp "{.spec.resources.limits.cpu}" . }}'
+      priority: 3
       type: string
-    - name: CPU (Usage/Limit)
-      pathTemplate:
-      priority:
-      type:
-    - name: Memory (Usage/Limit)
-      pathTemplate:
-      priority:
-      type:
-    - name: Storage (Usage/Capacity)
-      pathTemplate:
-      priority:
-      type:
+    - name: Memory (Usage)
+      pathTemplate: '{{ jp "{.spec.resources.usage.memory}" . }}'
+      priority: 3
+      type: string
+    - name: Memory (Limit)
+      pathTemplate: '{{ jp "{.spec.resources.limits.memory}" . }}'
+      priority: 3
+      type: string
+    - name: Storage (Usage)
+      pathTemplate: '{{ jp "{.spec.resources.usage.storage}" . }}'
+      priority: 3
+      type: string
+    - name: Storage (Limit)
+      pathTemplate: '{{ jp "{.spec.resources.limits.storage}" . }}'
+      priority: 3
+      type: string
     - name: Status
-      pathTemplate:
-      priority:
-      type:
+      pathTemplate: '{{ jp "{.status.phase}" . }}'
+      priority: 3
+      type: string
   validation:
     openAPIV3Schema:
       properties:

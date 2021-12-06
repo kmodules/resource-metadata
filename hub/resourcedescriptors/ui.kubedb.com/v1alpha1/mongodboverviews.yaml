@@ -16,6 +16,22 @@ spec:
     scope: Namespaced
     version: v1alpha1
   columns:
+    - name: "Name"
+      pathTemplate: '{{ jp "{.metadata.name}" . }}'
+      priority: 3
+      type: string
+    - name: "Namespace"
+      pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
+      priority: 3
+      type: string
+    - name: "Version"
+      pathTemplate: '{{ jp "{.spec.version}" . }}'
+      priority: 3
+      type: string
+    - name: "Status"
+      pathTemplate: '{{ jp "{.spec.status}" . }}'
+      priority: 3
+      type: string
     - name: "Current Connections"
       pathTemplate: '{{ jp "{.spec.connections.currentConnections}" . }}'
       priority: 3
@@ -32,66 +48,63 @@ spec:
       pathTemplate: '{{ jp "{.spec.connections.activeConnections}" . }}'
       priority: 3
       type: string
-    - name: "DataSize"
+    - name: "Data Size"
       pathTemplate: '{{ jp "{.spec.dbStats.dataSize}" . }}'
       priority: 3
       type: string
-    - name: "TotalIndex"
+    - name: "Total Index"
       pathTemplate: '{{ jp "{.spec.dbStats.totalIndexes}" . }}'
       priority: 3
       type: string
-    - name: "IndexSize"
+    - name: "Index Size"
       pathTemplate: '{{ jp "{.spec.dbStats.indexSize}" . }}'
       priority: 3
       type: string
     - name: "Replicas"
       pathTemplate: '{{ jp "{.spec.replicaSetInfo.numberOfReplicas}" . }}'
-      priority: 1
+      priority: 3
       type: string
     - name: "Number of Shards"
-      pathTemplate: '{{ jp "{.spec.shardInfo.numberOfShards}" . }}'
-      priority: 1
+      pathTemplate: '{{ jp "{.spec.shardsInfo.numberOfShards}" . }}'
+      priority: 3
       type: string
     - name: "Replicas Per Shards"
-      pathTemplate: '{{ jp "{.spec.shardInfo.replicasPerShards}" . }}'
-      priority: 1
+      pathTemplate: '{{ jp "{.spec.shardsInfo.replicasPerShards}" . }}'
+      priority: 3
       type: string
     - name: "Number of Chunks"
-      pathTemplate: '{{ jp "{.spec.shardInfo.numberOfChunks}" . }}'
-      priority: 1
+      pathTemplate: '{{ jp "{.spec.shardsInfo.numberOfChunks}" . }}'
+      priority: 3
       type: string
     - name: "Balancer Enabled"
-      pathTemplate: '{{ jp "{.spec.shardInfo.balancerEnabled}" . }}'
-      priority: 1
-      type: bool
+      pathTemplate: '{{ jp "{.spec.shardsInfo.balancerEnabled}" . }}'
+      priority: 3
+      type: string
     - name: "Chunks Balanced"
-      pathTemplate: '{{ jp "{.spec.shardInfo.chunksBalanced}" . }}'
-      priority: 1
-      type: bool
+      pathTemplate: '{{ jp "{.spec.shardsInfo.chunksBalanced}" . }}'
+      priority: 3
+      type: string
   connections:
     - target:
         apiVersion: ui.k8s.appscode.com/v1alpha1
         kind: PodView
-      level: Owner
       type: MatchSelector
       namespacePath: metadata.namespace
       selector:
-        matchLables:
+        matchLabels:
           app.kubernetes.io/instance: '{.metadata.name}'
           app.kubernetes.io/managed-by: kubedb.com
           app.kubernetes.io/name: mongodbs.kubedb.com
-    - target:
-        apiVersion: ui.openviz.dev/v1alpha1
-        kind: EmbeddedDashboard
-      level: Owner
-      type: MatchSelector
-      namespacePath: metadata.namespace
-      selector:
-        matchLables:
-          k8s.io/group: kubedb.com
-          k8s.io/kind: MongoDB
-          k8s.io/resource: mongodbs
-          # ToDo: decide the other matchLabels
+  pages:
+    - name: Basic
+      resources:
+        - actions:
+            create: Never
+          displayMode: List
+          ref:
+            group: ui.k8s.appscode.com
+            resource: podviews
+            version: v1alpha1
   validation:
     openAPIV3Schema:
       properties:
