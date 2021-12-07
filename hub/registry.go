@@ -133,9 +133,9 @@ func (r *Registry) discoverResources() error {
 }
 
 func (r *Registry) Refresh(cfg *rest.Config) error {
-	//if time.Since(r.lastRefreshed) > ttl {
-	//	return r.DiscoverResources(cfg)
-	//}
+	if time.Since(r.lastRefreshed) > ttl {
+		return r.DiscoverResources(cfg)
+	}
 	return nil
 }
 

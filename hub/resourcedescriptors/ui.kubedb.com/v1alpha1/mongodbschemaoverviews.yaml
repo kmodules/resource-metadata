@@ -15,6 +15,18 @@ spec:
     name: mongodbschemaoverviews
     scope: Namespaced
     version: v1alpha1
+  subTables:
+  - columns:
+    - name: Name
+      pathTemplate: '{{ jp "{.name}" . }}'
+      priority: 3
+      type: string
+    - name: Size
+      pathTemplate: '{{ jp "{.size}" . }}'
+      priority: 3
+      type: object
+    fieldPath: .spec.collections
+    name: Top Collections
   validation:
     openAPIV3Schema:
       properties:

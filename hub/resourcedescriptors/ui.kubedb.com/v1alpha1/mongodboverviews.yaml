@@ -9,102 +9,130 @@ metadata:
     k8s.io/version: v1alpha1
   name: ui.kubedb.com-v1alpha1-mongodboverviews
 spec:
+  columns:
+  - name: Name
+    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
+    priority: 3
+    type: string
+  - name: Version
+    pathTemplate: '{{ jp "{.spec.version}" . }}'
+    priority: 3
+    type: string
+  - name: Status
+    pathTemplate: '{{ jp "{.spec.status}" . }}'
+    priority: 3
+    type: string
+  - name: Current Connections
+    pathTemplate: '{{ jp "{.spec.connections.currentConnections}" . }}'
+    priority: 3
+    type: string
+  - name: Total Connections
+    pathTemplate: '{{ jp "{.spec.connections.totalConnections}" . }}'
+    priority: 3
+    type: string
+  - name: Available Connections
+    pathTemplate: '{{ jp "{.spec.connections.availableConnections}" . }}'
+    priority: 3
+    type: string
+  - name: Active Connections
+    pathTemplate: '{{ jp "{.spec.connections.activeConnections}" . }}'
+    priority: 3
+    type: string
+  - name: Data Size
+    pathTemplate: '{{ jp "{.spec.dbStats.dataSize}" . }}'
+    priority: 3
+    type: string
+  - name: Total Index
+    pathTemplate: '{{ jp "{.spec.dbStats.totalIndexes}" . }}'
+    priority: 3
+    type: string
+  - name: Index Size
+    pathTemplate: '{{ jp "{.spec.dbStats.indexSize}" . }}'
+    priority: 3
+    type: string
+  - name: Replicas
+    pathTemplate: '{{ jp "{.spec.replicaSetInfo.numberOfReplicas}" . }}'
+    priority: 3
+    type: string
+  - name: Number of Shards
+    pathTemplate: '{{ jp "{.spec.shardsInfo.numberOfShards}" . }}'
+    priority: 3
+    type: string
+  - name: Replicas Per Shards
+    pathTemplate: '{{ jp "{.spec.shardsInfo.replicasPerShards}" . }}'
+    priority: 3
+    type: string
+  - name: Number of Chunks
+    pathTemplate: '{{ jp "{.spec.shardsInfo.numberOfChunks}" . }}'
+    priority: 3
+    type: string
+  - name: Balancer Enabled
+    pathTemplate: '{{ jp "{.spec.shardsInfo.balancerEnabled}" . }}'
+    priority: 3
+    type: string
+  - name: Chunks Balanced
+    pathTemplate: '{{ jp "{.spec.shardsInfo.chunksBalanced}" . }}'
+    priority: 3
+    type: string
+  connections:
+  - namespacePath: metadata.namespace
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: '{.metadata.name}'
+        app.kubernetes.io/managed-by: kubedb.com
+        app.kubernetes.io/name: mongodbs.kubedb.com
+    target:
+      apiVersion: ui.k8s.appscode.com/v1alpha1
+      kind: PodView
+    type: MatchSelector
+  - nameTemplate: '{.metadata.name}'
+    namespacePath: metadata.namespace
+    target:
+      apiVersion: ui.kubedb.com/v1alpha1
+      kind: MongoDBQueries
+    type: MatchName
+  - nameTemplate: '{.metadata.name}'
+    namespacePath: metadata.namespace
+    target:
+      apiVersion: ui.kubedb.com/v1alpha1
+      kind: MongoDBSchemaOverview
+    type: MatchName
+  pages:
+  - name: Basic
+    resources:
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: ui.k8s.appscode.com
+        resource: podviews
+        version: v1alpha1
+  - name: Database Insights
+    resources:
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: ui.kubedb.com
+        resource: mongodbqueries
+        version: v1alpha1
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: ui.kubedb.com
+        resource: mongodbschemaoverviews
+        version: v1alpha1
   resource:
     group: ui.kubedb.com
     kind: MongoDBOverview
     name: mongodboverviews
     scope: Namespaced
     version: v1alpha1
-  columns:
-    - name: "Name"
-      pathTemplate: '{{ jp "{.metadata.name}" . }}'
-      priority: 3
-      type: string
-    - name: "Namespace"
-      pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
-      priority: 3
-      type: string
-    - name: "Version"
-      pathTemplate: '{{ jp "{.spec.version}" . }}'
-      priority: 3
-      type: string
-    - name: "Status"
-      pathTemplate: '{{ jp "{.spec.status}" . }}'
-      priority: 3
-      type: string
-    - name: "Current Connections"
-      pathTemplate: '{{ jp "{.spec.connections.currentConnections}" . }}'
-      priority: 3
-      type: string
-    - name: "Total Connections"
-      pathTemplate: '{{ jp "{.spec.connections.totalConnections}" . }}'
-      priority: 3
-      type: string
-    - name: "Available Connections"
-      pathTemplate: '{{ jp "{.spec.connections.availableConnections}" . }}'
-      priority: 3
-      type: string
-    - name: "Active Connections"
-      pathTemplate: '{{ jp "{.spec.connections.activeConnections}" . }}'
-      priority: 3
-      type: string
-    - name: "Data Size"
-      pathTemplate: '{{ jp "{.spec.dbStats.dataSize}" . }}'
-      priority: 3
-      type: string
-    - name: "Total Index"
-      pathTemplate: '{{ jp "{.spec.dbStats.totalIndexes}" . }}'
-      priority: 3
-      type: string
-    - name: "Index Size"
-      pathTemplate: '{{ jp "{.spec.dbStats.indexSize}" . }}'
-      priority: 3
-      type: string
-    - name: "Replicas"
-      pathTemplate: '{{ jp "{.spec.replicaSetInfo.numberOfReplicas}" . }}'
-      priority: 3
-      type: string
-    - name: "Number of Shards"
-      pathTemplate: '{{ jp "{.spec.shardsInfo.numberOfShards}" . }}'
-      priority: 3
-      type: string
-    - name: "Replicas Per Shards"
-      pathTemplate: '{{ jp "{.spec.shardsInfo.replicasPerShards}" . }}'
-      priority: 3
-      type: string
-    - name: "Number of Chunks"
-      pathTemplate: '{{ jp "{.spec.shardsInfo.numberOfChunks}" . }}'
-      priority: 3
-      type: string
-    - name: "Balancer Enabled"
-      pathTemplate: '{{ jp "{.spec.shardsInfo.balancerEnabled}" . }}'
-      priority: 3
-      type: string
-    - name: "Chunks Balanced"
-      pathTemplate: '{{ jp "{.spec.shardsInfo.chunksBalanced}" . }}'
-      priority: 3
-      type: string
-  connections:
-    - target:
-        apiVersion: ui.k8s.appscode.com/v1alpha1
-        kind: PodView
-      type: MatchSelector
-      namespacePath: metadata.namespace
-      selector:
-        matchLabels:
-          app.kubernetes.io/instance: '{.metadata.name}'
-          app.kubernetes.io/managed-by: kubedb.com
-          app.kubernetes.io/name: mongodbs.kubedb.com
-  pages:
-    - name: Basic
-      resources:
-        - actions:
-            create: Never
-          displayMode: List
-          ref:
-            group: ui.k8s.appscode.com
-            resource: podviews
-            version: v1alpha1
   validation:
     openAPIV3Schema:
       properties:
