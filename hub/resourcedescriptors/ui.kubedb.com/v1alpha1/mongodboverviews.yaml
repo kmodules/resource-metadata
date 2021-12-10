@@ -101,6 +101,12 @@ spec:
       apiVersion: ui.kubedb.com/v1alpha1
       kind: MongoDBSchemaOverview
     type: MatchName
+  - nameTemplate: '{.metadata.name}'
+    namespacePath: metadata.namespace
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: MongoDB
+    type: MatchName
   pages:
   - name: Basic
     resources:
@@ -127,6 +133,36 @@ spec:
         group: ui.kubedb.com
         resource: mongodbschemaoverviews
         version: v1alpha1
+  - name: Backups
+    resources:
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: stash.appscode.com
+        resource: backupconfigurations
+        version: v1beta1
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: stash.appscode.com
+        resource: backupsessions
+        version: v1beta1
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: stash.appscode.com
+        resource: repositories
+        version: v1alpha1
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: stash.appscode.com
+        resource: restoresessions
+        version: v1beta1
   resource:
     group: ui.kubedb.com
     kind: MongoDBOverview
