@@ -19,6 +19,8 @@ package graphfinder
 import (
 	"context"
 
+	apiv1 "kmodules.xyz/client-go/api/v1"
+	"kmodules.xyz/client-go/discovery"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"kmodules.xyz/resource-metadata/pkg/graph"
 
@@ -30,14 +32,15 @@ import (
 )
 
 type Storage struct {
+	mapper discovery.ResourceMapper
 }
 
 var _ rest.GroupVersionKindProvider = &Storage{}
 var _ rest.Scoper = &Storage{}
 var _ rest.Creater = &Storage{}
 
-func NewStorage() *Storage {
-	return &Storage{}
+func NewStorage(mapper discovery.ResourceMapper) *Storage {
+	return &Storage{mapper: mapper}
 }
 
 func (r *Storage) GroupVersionKind(containingGV schema.GroupVersion) schema.GroupVersionKind {
@@ -61,16 +64,27 @@ func (r *Storage) Create(ctx context.Context, obj runtime.Object, createValidati
 		return nil, kerr.NewInternalError(err)
 	}
 
-	srcGVR := gf.Request.Source.GVR()
-	dist, prev := graph.Dijkstra(g, srcGVR)
+	srcGVK, err := r.mapper.GVK(apiv1.FromMetaGVR(gf.Request.Source))
+	if err != nil {
+		return nil, kerr.NewInternalError(err)
+	}
+	dist, prev := graph.Dijkstra(g, srcGVK)
 
 	out := make([]*v1alpha1.Edge, 0, len(prev))
 
 	for target, edge := range prev {
-		if target != srcGVR && edge != nil {
+		if target != srcGVK && edge != nil {
+			srcGVR, err := r.mapper.GVR(edge.Src)
+			if err != nil {
+				return nil, kerr.NewInternalError(err)
+			}
+			dstGVR, err := r.mapper.GVR(edge.Dst)
+			if err != nil {
+				return nil, kerr.NewInternalError(err)
+			}
 			out = append(out, &v1alpha1.Edge{
-				Src:        v1alpha1.FromGVR(edge.Src),
-				Dst:        v1alpha1.FromGVR(edge.Dst),
+				Src:        apiv1.ToMetaGVR(srcGVR),
+				Dst:        apiv1.ToMetaGVR(dstGVR),
 				W:          dist[target],
 				Connection: edge.Connection,
 				Forward:    edge.Forward,

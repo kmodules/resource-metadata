@@ -84,9 +84,9 @@ type RelatedResourcePage struct {
 }
 
 type ResourceSection struct {
-	Ref         GroupVersionResource `json:"ref"`
-	DisplayMode ResourceDisplayMode  `json:"displayMode"`
-	Actions     ResourceActions      `json:"actions"`
+	Ref         metav1.GroupVersionResource `json:"ref"`
+	DisplayMode ResourceDisplayMode         `json:"displayMode"`
+	Actions     ResourceActions             `json:"actions"`
 }
 
 type ResourceDisplayMode string

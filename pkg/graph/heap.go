@@ -26,8 +26,8 @@ import (
 
 // An Item is something we manage in a priority queue.
 type Item struct {
-	vertex schema.GroupVersionResource // The value of the item; arbitrary.
-	dist   uint64                      // The priority of the item in the queue.
+	vertex schema.GroupVersionKind // The value of the item; arbitrary.
+	dist   uint64                  // The priority of the item in the queue.
 	// The index is needed by Update and is maintained by the heap.Interface methods.
 	index int // The index of the item in the heap.
 }
@@ -71,15 +71,15 @@ func (q *Queue) Update(item *Item, dist uint64) {
 
 // ref: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Pseudocode
 
-func Dijkstra(graph *Graph, src schema.GroupVersionResource) (dist map[schema.GroupVersionResource]uint64, prev map[schema.GroupVersionResource]*Edge) {
-	dist = make(map[schema.GroupVersionResource]uint64)
-	prev = make(map[schema.GroupVersionResource]*Edge)
+func Dijkstra(graph *Graph, src schema.GroupVersionKind) (dist map[schema.GroupVersionKind]uint64, prev map[schema.GroupVersionKind]*Edge) {
+	dist = make(map[schema.GroupVersionKind]uint64)
+	prev = make(map[schema.GroupVersionKind]*Edge)
 
-	resources := graph.r.Resources()
+	resources := graph.r.Kinds()
 
 	q := make(Queue, len(resources))
 	i := 0
-	items := make(map[schema.GroupVersionResource]*Item)
+	items := make(map[schema.GroupVersionKind]*Item)
 	for _, vertex := range resources {
 		var d uint64 = math.MaxUint32 // avoid overflow
 		if vertex == src {
@@ -116,8 +116,8 @@ func Dijkstra(graph *Graph, src schema.GroupVersionResource) (dist map[schema.Gr
 }
 
 type Path struct {
-	Source   schema.GroupVersionResource
-	Target   schema.GroupVersionResource
+	Source   schema.GroupVersionKind
+	Target   schema.GroupVersionKind
 	Distance uint64
 	Edges    []*Edge
 }
@@ -127,8 +127,8 @@ type Path struct {
 //	return strings.Join([]string{gvr.Group, "/", gvr.Version, ", Resource=", gvr.Resource}, "")
 //}
 
-func GeneratePaths(src schema.GroupVersionResource, dist map[schema.GroupVersionResource]uint64, prev map[schema.GroupVersionResource]*Edge) map[schema.GroupVersionResource]*Path {
-	paths := make(map[schema.GroupVersionResource]*Path)
+func GeneratePaths(src schema.GroupVersionKind, dist map[schema.GroupVersionKind]uint64, prev map[schema.GroupVersionKind]*Edge) map[schema.GroupVersionKind]*Path {
+	paths := make(map[schema.GroupVersionKind]*Path)
 
 	for target, d := range dist {
 		if d < math.MaxUint32 {

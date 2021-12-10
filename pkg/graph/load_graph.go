@@ -44,13 +44,10 @@ func LoadGraph(r *hub.Registry) (*Graph, error) {
 }
 
 func addRDConnectionsToGraph(graph *Graph, rd *v1alpha1.ResourceDescriptor) error {
-	src := rd.Spec.Resource.GroupVersionResource()
+	src := rd.Spec.Resource.GroupVersionKind()
 	for _, conn := range rd.Spec.Connections {
 		dst := conn.Target
-		dstGVR, err := graph.r.GVR(dst.GroupVersionKind())
-		if err != nil {
-			return err
-		}
+		dstGVK := dst.GroupVersionKind()
 
 		//var w uint64 = 1
 		//if conn.ResourceConnectionSpec.Type == v1alpha1.MatchSelector &&
@@ -61,14 +58,14 @@ func addRDConnectionsToGraph(graph *Graph, rd *v1alpha1.ResourceDescriptor) erro
 
 		graph.AddEdge(&Edge{
 			Src:        src,
-			Dst:        dstGVR,
+			Dst:        dstGVK,
 			W:          getWeight(conn.Type),
 			Connection: conn.ResourceConnectionSpec,
 			Forward:    true,
 		})
 
 		backEdge := &Edge{
-			Src:        dstGVR,
+			Src:        dstGVK,
 			Dst:        src,
 			W:          getWeight(conn.Type),
 			Connection: conn.ResourceConnectionSpec,

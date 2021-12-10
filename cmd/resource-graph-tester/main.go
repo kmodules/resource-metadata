@@ -18,20 +18,48 @@ limitations under the License.
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"path/filepath"
 
-	dynamicfactory "kmodules.xyz/client-go/dynamic/factory"
 	"kmodules.xyz/resource-metadata/hub"
 	"kmodules.xyz/resource-metadata/pkg/graph"
 
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/types"
-	"k8s.io/client-go/dynamic"
+	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
+	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/util/homedir"
+	"k8s.io/klog/v2/klogr"
+	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 )
+
+func NewClient(cfg *rest.Config) (client.Client, error) {
+	scheme := runtime.NewScheme()
+
+	_ = clientgoscheme.AddToScheme(scheme)
+	ctrl.SetLogger(klogr.New())
+
+	mapper, err := apiutil.NewDynamicRESTMapper(cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	return client.New(cfg, client.Options{
+		Scheme: scheme,
+		Mapper: mapper,
+		Opts: client.WarningHandlerOptions{
+			SuppressWarnings:   false,
+			AllowDuplicateLogs: false,
+		},
+	})
+}
 
 func main() {
 	masterURL := ""
@@ -49,18 +77,23 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	gvr := schema.GroupVersionResource{
-		Group:    "kubedb.com",
-		Version:  "v1alpha2",
-		Resource: "mongodbs",
+	gvr := schema.GroupVersionKind{
+		Group:   "kubedb.com",
+		Version: "v1alpha2",
+		Kind:    "MongoDB",
 	}
-	//gvr := schema.GroupVersionResource{
+	//gvr := schema.GroupVersionKind{
 	//	Group:    "",
 	//	Version:  "v1",
 	//	Resource: "pods",
 	//}
 	//edges, err := graph.GetConnectedGraph(config, reg, gvr, "kube-apiserver-kind-control-plane", "kube-system")
-	edges, err := graph.GetConnectedGraph(config, reg, gvr, types.NamespacedName{Namespace: "default", Name: "mongo-rs"})
+
+	f, err := NewClient(config)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	edges, err := graph.GetConnectedGraph(config, f, reg, gvr, types.NamespacedName{Namespace: "default", Name: "mongo-rs"})
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -79,41 +112,44 @@ func main_list() {
 		log.Fatalf("Could not get Kubernetes config: %s", err)
 	}
 
-	dc, err := dynamic.NewForConfig(config)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
 	g, err := graph.LoadGraphOfKnownResources()
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	f := dynamicfactory.New(dc)
+	f, err := NewClient(config)
+	if err != nil {
+		log.Fatalln(err)
+	}
 
 	if err := CheckNodeToPod(f, g); err != nil {
 		log.Fatalln(err)
 	}
 }
 
-func CheckNodeToPod(f dynamicfactory.Factory, g *graph.Graph) error {
-	podGVR := schema.GroupVersionResource{
-		Group:    "",
-		Version:  "v1",
-		Resource: "pods",
+func CheckNodeToPod(f client.Client, g *graph.Graph) error {
+	podGVR := schema.GroupVersionKind{
+		Group:   "",
+		Version: "v1",
+		Kind:    "Pod",
 	}
-	pod, err := f.ForResource(podGVR).Namespace("kube-system").Get("kube-apiserver-kind-control-plane")
+	var pod unstructured.Unstructured
+	pod.SetGroupVersionKind(podGVR)
+	err := f.Get(context.TODO(), client.ObjectKey{
+		Name:      "kube-apiserver-kind-control-plane",
+		Namespace: "kube-system",
+	}, &pod)
 	if err != nil {
 		return err
 	}
 
-	nodeGVR := schema.GroupVersionResource{
-		Group:    "",
-		Version:  "v1",
-		Resource: "nodes",
+	nodeGVR := schema.GroupVersionKind{
+		Group:   "",
+		Version: "v1",
+		Kind:    "Node",
 	}
 
-	nodes, err := g.List(f, pod, nodeGVR)
+	nodes, err := g.List(f, &pod, nodeGVR)
 	if err != nil {
 		return err
 	}
@@ -124,24 +160,28 @@ func CheckNodeToPod(f dynamicfactory.Factory, g *graph.Graph) error {
 	return nil
 }
 
-func CheckPodToNode(f dynamicfactory.Factory, g *graph.Graph) error {
-	nodeGVR := schema.GroupVersionResource{
-		Group:    "",
-		Version:  "v1",
-		Resource: "nodes",
+func CheckPodToNode(f client.Client, g *graph.Graph) error {
+	nodeGVR := schema.GroupVersionKind{
+		Group:   "",
+		Version: "v1",
+		Kind:    "Node",
 	}
-	node, err := f.ForResource(nodeGVR).Get("kind-control-plane")
+	var node unstructured.Unstructured
+	node.SetGroupVersionKind(nodeGVR)
+	err := f.Get(context.TODO(), client.ObjectKey{
+		Name: "kind-control-plane",
+	}, &node)
 	if err != nil {
 		return err
 	}
 
-	podGVR := schema.GroupVersionResource{
-		Group:    "",
-		Version:  "v1",
-		Resource: "pods",
+	podGVR := schema.GroupVersionKind{
+		Group:   "",
+		Version: "v1",
+		Kind:    "Pod",
 	}
 
-	pods, err := g.List(f, node, podGVR)
+	pods, err := g.List(f, &node, podGVR)
 	if err != nil {
 		return err
 	}
@@ -152,23 +192,28 @@ func CheckPodToNode(f dynamicfactory.Factory, g *graph.Graph) error {
 	return nil
 }
 
-func CheckDeployment(f dynamicfactory.Factory, g *graph.Graph) error {
-	depGVR := schema.GroupVersionResource{
-		Group:    "apps",
-		Version:  "v1",
-		Resource: "deployments",
+func CheckDeployment(f client.Client, g *graph.Graph) error {
+	depGVR := schema.GroupVersionKind{
+		Group:   "apps",
+		Version: "v1",
+		Kind:    "Deployment",
 	}
-	busyDep, err := f.ForResource(depGVR).Namespace("default").Get("busy-dep")
+	var busyDep unstructured.Unstructured
+	busyDep.SetGroupVersionKind(depGVR)
+	err := f.Get(context.TODO(), client.ObjectKey{
+		Name:      "busy-dep",
+		Namespace: "default",
+	}, &busyDep)
 	if err != nil {
 		return err
 	}
 
-	podGVR := schema.GroupVersionResource{
-		Group:    "",
-		Version:  "v1",
-		Resource: "pods",
+	podGVR := schema.GroupVersionKind{
+		Group:   "",
+		Version: "v1",
+		Kind:    "Pod",
 	}
-	pods, err := g.List(f, busyDep, podGVR)
+	pods, err := g.List(f, &busyDep, podGVR)
 	if err != nil {
 		return err
 	}
@@ -176,12 +221,12 @@ func CheckDeployment(f dynamicfactory.Factory, g *graph.Graph) error {
 		fmt.Println(obj.GetObjectKind().GroupVersionKind(), ":", obj.GetNamespace()+"/"+obj.GetName())
 	}
 
-	svcGVR := schema.GroupVersionResource{
-		Group:    "",
-		Version:  "v1",
-		Resource: "services",
+	svcGVR := schema.GroupVersionKind{
+		Group:   "",
+		Version: "v1",
+		Kind:    "Service",
 	}
-	services, err := g.List(f, busyDep, svcGVR)
+	services, err := g.List(f, &busyDep, svcGVR)
 	if err != nil {
 		return err
 	}
@@ -192,23 +237,28 @@ func CheckDeployment(f dynamicfactory.Factory, g *graph.Graph) error {
 	return nil
 }
 
-func checkPodToPVC(f dynamicfactory.Factory, g *graph.Graph) error {
-	podGVR := schema.GroupVersionResource{
-		Group:    "",
-		Version:  "v1",
-		Resource: "pods",
+func checkPodToPVC(f client.Client, g *graph.Graph) error {
+	podGVR := schema.GroupVersionKind{
+		Group:   "",
+		Version: "v1",
+		Kind:    "Pod",
 	}
-	pod, err := f.ForResource(podGVR).Namespace("default").Get("mypod")
+	var pod unstructured.Unstructured
+	pod.SetGroupVersionKind(podGVR)
+	err := f.Get(context.TODO(), client.ObjectKey{
+		Name:      "mypod",
+		Namespace: "default",
+	}, &pod)
 	if err != nil {
 		return err
 	}
 
-	pvcGVR := schema.GroupVersionResource{
-		Group:    "",
-		Version:  "v1",
-		Resource: "persistentvolumeclaims",
+	pvcGVR := schema.GroupVersionKind{
+		Group:   "",
+		Version: "v1",
+		Kind:    "PersistentVolumeClaim",
 	}
-	pvcs, err := g.List(f, pod, pvcGVR)
+	pvcs, err := g.List(f, &pod, pvcGVR)
 	if err != nil {
 		return err
 	}
@@ -219,24 +269,29 @@ func checkPodToPVC(f dynamicfactory.Factory, g *graph.Graph) error {
 	return nil
 }
 
-func checkPVCToPod(f dynamicfactory.Factory, g *graph.Graph) error {
-	pvcGVR := schema.GroupVersionResource{
-		Group:    "",
-		Version:  "v1",
-		Resource: "persistentvolumeclaims",
+func checkPVCToPod(f client.Client, g *graph.Graph) error {
+	pvcGVR := schema.GroupVersionKind{
+		Group:   "",
+		Version: "v1",
+		Kind:    "PersistentVolumeClaim",
 	}
-	pvc, err := f.ForResource(pvcGVR).Namespace("default").Get("myclaim")
+	var pvc unstructured.Unstructured
+	pvc.SetGroupVersionKind(pvcGVR)
+	err := f.Get(context.TODO(), client.ObjectKey{
+		Name:      "myclaim",
+		Namespace: "default",
+	}, &pvc)
 	if err != nil {
 		return err
 	}
 
-	podGVR := schema.GroupVersionResource{
-		Group:    "",
-		Version:  "v1",
-		Resource: "pods",
+	podGVR := schema.GroupVersionKind{
+		Group:   "",
+		Version: "v1",
+		Kind:    "Pod",
 	}
 
-	pods, err := g.List(f, pvc, podGVR)
+	pods, err := g.List(f, &pvc, podGVR)
 	if err != nil {
 		return err
 	}
@@ -247,23 +302,28 @@ func checkPVCToPod(f dynamicfactory.Factory, g *graph.Graph) error {
 	return nil
 }
 
-func checkDepToConfigMap(f dynamicfactory.Factory, g *graph.Graph) error {
-	depGVR := schema.GroupVersionResource{
-		Group:    "apps",
-		Version:  "v1",
-		Resource: "deployments",
+func checkDepToConfigMap(f client.Client, g *graph.Graph) error {
+	depGVR := schema.GroupVersionKind{
+		Group:   "apps",
+		Version: "v1",
+		Kind:    "Deployment",
 	}
-	pod, err := f.ForResource(depGVR).Namespace("default").Get("busy-dep")
+	var pod unstructured.Unstructured
+	pod.SetGroupVersionKind(depGVR)
+	err := f.Get(context.TODO(), client.ObjectKey{
+		Name:      "busy-dep",
+		Namespace: "default",
+	}, &pod)
 	if err != nil {
 		return err
 	}
 
-	cfgGVR := schema.GroupVersionResource{
-		Group:    "",
-		Version:  "v1",
-		Resource: "configmaps",
+	cfgGVR := schema.GroupVersionKind{
+		Group:   "",
+		Version: "v1",
+		Kind:    "ConfigMap",
 	}
-	cfgs, err := g.List(f, pod, cfgGVR)
+	cfgs, err := g.List(f, &pod, cfgGVR)
 	if err != nil {
 		return err
 	}
@@ -274,23 +334,28 @@ func checkDepToConfigMap(f dynamicfactory.Factory, g *graph.Graph) error {
 	return nil
 }
 
-func checkConfigMapToDep(f dynamicfactory.Factory, g *graph.Graph) error {
-	cfgGVR := schema.GroupVersionResource{
-		Group:    "",
-		Version:  "v1",
-		Resource: "configmaps",
+func checkConfigMapToDep(f client.Client, g *graph.Graph) error {
+	cfgGVR := schema.GroupVersionKind{
+		Group:   "",
+		Version: "v1",
+		Kind:    "ConfigMap",
 	}
-	cfg, err := f.ForResource(cfgGVR).Namespace("default").Get("omni")
+	var cfg unstructured.Unstructured
+	cfg.SetGroupVersionKind(cfgGVR)
+	err := f.Get(context.TODO(), client.ObjectKey{
+		Name:      "omni",
+		Namespace: "default",
+	}, &cfg)
 	if err != nil {
 		return err
 	}
 
-	depGVR := schema.GroupVersionResource{
-		Group:    "apps",
-		Version:  "v1",
-		Resource: "deployments",
+	depGVR := schema.GroupVersionKind{
+		Group:   "apps",
+		Version: "v1",
+		Kind:    "Deployment",
 	}
-	deps, err := g.List(f, cfg, depGVR)
+	deps, err := g.List(f, &cfg, depGVR)
 	if err != nil {
 		return err
 	}
@@ -301,23 +366,28 @@ func checkConfigMapToDep(f dynamicfactory.Factory, g *graph.Graph) error {
 	return nil
 }
 
-func checkKubeDBToService(f dynamicfactory.Factory, g *graph.Graph) error {
-	pgGVR := schema.GroupVersionResource{
-		Group:    "kubedb.com",
-		Version:  "v1alpha1",
-		Resource: "postgreses",
+func checkKubeDBToService(f client.Client, g *graph.Graph) error {
+	pgGVR := schema.GroupVersionKind{
+		Group:   "kubedb.com",
+		Version: "v1alpha1",
+		Kind:    "Postgres",
 	}
-	pg, err := f.ForResource(pgGVR).Namespace("demo").Get("quick-postgres")
+	var pg unstructured.Unstructured
+	pg.SetGroupVersionKind(pgGVR)
+	err := f.Get(context.TODO(), client.ObjectKey{
+		Name:      "quick-postgres",
+		Namespace: "demo",
+	}, &pg)
 	if err != nil {
 		return err
 	}
 
-	svcGVR := schema.GroupVersionResource{
-		Group:    "",
-		Version:  "v1",
-		Resource: "services",
+	svcGVR := schema.GroupVersionKind{
+		Group:   "",
+		Version: "v1",
+		Kind:    "Service",
 	}
-	services, err := g.List(f, pg, svcGVR)
+	services, err := g.List(f, &pg, svcGVR)
 	if err != nil {
 		return err
 	}
@@ -328,23 +398,28 @@ func checkKubeDBToService(f dynamicfactory.Factory, g *graph.Graph) error {
 	return nil
 }
 
-func checkKubeDBToStatefulset(f dynamicfactory.Factory, g *graph.Graph) error {
-	pgGVR := schema.GroupVersionResource{
-		Group:    "kubedb.com",
-		Version:  "v1alpha1",
-		Resource: "postgreses",
+func checkKubeDBToStatefulset(f client.Client, g *graph.Graph) error {
+	pgGVR := schema.GroupVersionKind{
+		Group:   "kubedb.com",
+		Version: "v1alpha1",
+		Kind:    "Postgrese",
 	}
-	pg, err := f.ForResource(pgGVR).Namespace("demo").Get("quick-postgres")
+	var pg unstructured.Unstructured
+	pg.SetGroupVersionKind(pgGVR)
+	err := f.Get(context.TODO(), client.ObjectKey{
+		Name:      "quick-postgres",
+		Namespace: "demo",
+	}, &pg)
 	if err != nil {
 		return err
 	}
 
-	ssGVR := schema.GroupVersionResource{
-		Group:    "apps",
-		Version:  "v1",
-		Resource: "statefulsets",
+	ssGVR := schema.GroupVersionKind{
+		Group:   "apps",
+		Version: "v1",
+		Kind:    "StatefulSet",
 	}
-	statefulsets, err := g.List(f, pg, ssGVR)
+	statefulsets, err := g.List(f, &pg, ssGVR)
 	if err != nil {
 		return err
 	}
@@ -355,24 +430,30 @@ func checkKubeDBToStatefulset(f dynamicfactory.Factory, g *graph.Graph) error {
 	return nil
 }
 
-func CheckBackupConfigToAppBinding(f dynamicfactory.Factory, g *graph.Graph) error {
-	bkcfgGVR := schema.GroupVersionResource{
-		Group:    "stash.appscode.com",
-		Version:  "v1beta1",
-		Resource: "backupconfigurations",
+func CheckBackupConfigToAppBinding(f client.Client, g *graph.Graph) error {
+	bkcfgGVK := schema.GroupVersionKind{
+		Group:   "stash.appscode.com",
+		Version: "v1beta1",
+		Kind:    "BackupConfiguration",
 	}
-	node, err := f.ForResource(bkcfgGVR).Namespace("test-namespace").Get("demo-backup-config")
+
+	var node unstructured.Unstructured
+	node.SetGroupVersionKind(bkcfgGVK)
+	err := f.Get(context.TODO(), client.ObjectKey{
+		Name:      "demo-backup-config",
+		Namespace: "test-namespace",
+	}, &node)
 	if err != nil {
 		return err
 	}
 
-	appBindingGVR := schema.GroupVersionResource{
-		Group:    "appcatalog.appscode.com",
-		Version:  "v1alpha1",
-		Resource: "appbindings",
+	appBindingGVK := schema.GroupVersionKind{
+		Group:   "appcatalog.appscode.com",
+		Version: "v1alpha1",
+		Kind:    "AppBinding",
 	}
 
-	pods, err := g.List(f, node, appBindingGVR)
+	pods, err := g.List(f, &node, appBindingGVK)
 	if err != nil {
 		return err
 	}

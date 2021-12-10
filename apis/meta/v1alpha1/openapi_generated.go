@@ -305,7 +305,6 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GraphRequest":               schema_resource_metadata_apis_meta_v1alpha1_GraphRequest(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GraphResponse":              schema_resource_metadata_apis_meta_v1alpha1_GraphResponse(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupResources":             schema_resource_metadata_apis_meta_v1alpha1_GroupResources(ref),
-		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource":       schema_resource_metadata_apis_meta_v1alpha1_GroupVersionResource(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ImageSpec":                  schema_resource_metadata_apis_meta_v1alpha1_ImageSpec(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Link":                       schema_resource_metadata_apis_meta_v1alpha1_Link(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.NamedEdge":                  schema_resource_metadata_apis_meta_v1alpha1_NamedEdge(ref),
@@ -14440,13 +14439,13 @@ func schema_resource_metadata_apis_meta_v1alpha1_Edge(ref common.ReferenceCallba
 					"source": {
 						SchemaProps: spec.SchemaProps{
 							Default: map[string]interface{}{},
-							Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource"),
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource"),
 						},
 					},
 					"target": {
 						SchemaProps: spec.SchemaProps{
 							Default: map[string]interface{}{},
-							Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource"),
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource"),
 						},
 					},
 					"distance": {
@@ -14474,7 +14473,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_Edge(ref common.ReferenceCallba
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceConnectionSpec"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceConnectionSpec"},
 	}
 }
 
@@ -14579,7 +14578,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_GraphRequest(ref common.Referen
 					"source": {
 						SchemaProps: spec.SchemaProps{
 							Default: map[string]interface{}{},
-							Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource"),
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource"),
 						},
 					},
 				},
@@ -14587,7 +14586,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_GraphRequest(ref common.Referen
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource"},
 	}
 }
 
@@ -14600,7 +14599,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_GraphResponse(ref common.Refere
 					"source": {
 						SchemaProps: spec.SchemaProps{
 							Default: map[string]interface{}{},
-							Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource"),
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource"),
 						},
 					},
 					"connections": {
@@ -14620,7 +14619,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_GraphResponse(ref common.Refere
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Edge", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Edge"},
 	}
 }
 
@@ -14653,41 +14652,6 @@ func schema_resource_metadata_apis_meta_v1alpha1_GroupResources(ref common.Refer
 					},
 				},
 				Required: []string{"groups", "resource"},
-			},
-		},
-	}
-}
-
-func schema_resource_metadata_apis_meta_v1alpha1_GroupVersionResource(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Description: "GroupVersionResource unambiguously identifies a resource.",
-				Type:        []string{"object"},
-				Properties: map[string]spec.Schema{
-					"group": {
-						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
-						},
-					},
-					"version": {
-						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
-						},
-					},
-					"resource": {
-						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
-						},
-					},
-				},
-				Required: []string{"group", "version", "resource"},
 			},
 		},
 	}
@@ -15030,13 +14994,13 @@ func schema_resource_metadata_apis_meta_v1alpha1_Path(ref common.ReferenceCallba
 					"source": {
 						SchemaProps: spec.SchemaProps{
 							Default: map[string]interface{}{},
-							Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource"),
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource"),
 						},
 					},
 					"target": {
 						SchemaProps: spec.SchemaProps{
 							Default: map[string]interface{}{},
-							Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource"),
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource"),
 						},
 					},
 					"distance": {
@@ -15063,7 +15027,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_Path(ref common.ReferenceCallba
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Edge", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Edge"},
 	}
 }
 
@@ -15116,12 +15080,12 @@ func schema_resource_metadata_apis_meta_v1alpha1_PathRequest(ref common.Referenc
 					"source": {
 						SchemaProps: spec.SchemaProps{
 							Default: map[string]interface{}{},
-							Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource"),
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource"),
 						},
 					},
 					"target": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource"),
+							Ref: ref("k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource"),
 						},
 					},
 				},
@@ -15129,7 +15093,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_PathRequest(ref common.Referenc
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource"},
 	}
 }
 
@@ -15931,7 +15895,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceSection(ref common.Refe
 					"ref": {
 						SchemaProps: spec.SchemaProps{
 							Default: map[string]interface{}{},
-							Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource"),
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource"),
 						},
 					},
 					"displayMode": {
@@ -15952,7 +15916,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceSection(ref common.Refe
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.GroupVersionResource", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceActions"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceActions"},
 	}
 }
 

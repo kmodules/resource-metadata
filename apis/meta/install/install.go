@@ -17,7 +17,6 @@ limitations under the License.
 package install
 
 import (
-	"kmodules.xyz/resource-metadata/apis/meta"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
 	"k8s.io/apimachinery/pkg/runtime"
@@ -26,7 +25,6 @@ import (
 
 // Install registers the API group and adds types to a scheme
 func Install(scheme *runtime.Scheme) {
-	utilruntime.Must(meta.AddToScheme(scheme))
 	utilruntime.Must(v1alpha1.AddToScheme(scheme))
 	utilruntime.Must(scheme.SetVersionPriority(v1alpha1.SchemeGroupVersion))
 }

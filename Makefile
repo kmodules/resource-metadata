@@ -52,7 +52,7 @@ endif
 ### These variables should not need tweaking.
 ###
 
-SRC_PKGS := apis client cmd crds hub pkg
+SRC_PKGS := apis cmd crds hub pkg
 SRC_DIRS := $(SRC_PKGS) *.go # directories which hold app source (not vendored)
 
 DOCKER_PLATFORMS := linux/amd64 linux/arm linux/arm64
@@ -130,43 +130,10 @@ version:
 	@echo commit_hash=$(commit_hash)
 	@echo commit_timestamp=$(commit_timestamp)
 
-# Generate a typed clientset
+# Generate code for Kubernetes types
 .PHONY: clientset
 clientset:
-	# for EAS types
-	@rm -rf ./apis/meta/v1alpha1/zz_generated.conversion.go
-	@docker run --rm                                              \
-		-u $$(id -u):$$(id -g)                                    \
-		-v /tmp:/.cache                                           \
-		-v $$(pwd):$(DOCKER_REPO_ROOT)                            \
-		-w $(DOCKER_REPO_ROOT)                                    \
-		--env HTTP_PROXY=$(HTTP_PROXY)                            \
-		--env HTTPS_PROXY=$(HTTPS_PROXY)                          \
-		$(CODE_GENERATOR_IMAGE)                                   \
-		/go/src/k8s.io/code-generator/generate-internal-groups.sh \
-			"deepcopy,defaulter"                                  \
-			$(GO_PKG)/$(REPO)/client                              \
-			$(GO_PKG)/$(REPO)/apis                                \
-			$(GO_PKG)/$(REPO)/apis                                \
-			"$(API_GROUPS)"                                       \
-			--go-header-file "./hack/license/go.txt"
-	@docker run --rm                                              \
-		-u $$(id -u):$$(id -g)                                    \
-		-v /tmp:/.cache                                           \
-		-v $$(pwd):$(DOCKER_REPO_ROOT)                            \
-		-w $(DOCKER_REPO_ROOT)                                    \
-		--env HTTP_PROXY=$(HTTP_PROXY)                            \
-		--env HTTPS_PROXY=$(HTTPS_PROXY)                          \
-		$(CODE_GENERATOR_IMAGE)                                   \
-		/go/src/k8s.io/code-generator/generate-internal-groups.sh \
-			"conversion"                                          \
-			$(GO_PKG)/$(REPO)/client                              \
-			$(GO_PKG)/$(REPO)/apis                                \
-			$(GO_PKG)/$(REPO)/apis                                \
-			"$(API_GROUPS)"                                       \
-			--go-header-file "./hack/license/go.txt" --extra-dirs k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1
-	# for both CRD and EAS types
-	@docker run --rm                                              \
+	@docker run --rm                                            \
 		-u $$(id -u):$$(id -g)                                    \
 		-v /tmp:/.cache                                           \
 		-v $$(pwd):$(DOCKER_REPO_ROOT)                            \
@@ -175,11 +142,41 @@ clientset:
 		--env HTTPS_PROXY=$(HTTPS_PROXY)                          \
 		$(CODE_GENERATOR_IMAGE)                                   \
 		/go/src/k8s.io/code-generator/generate-groups.sh          \
-			all                                                   \
-			$(GO_PKG)/$(REPO)/client                              \
-			$(GO_PKG)/$(REPO)/apis                                \
-			"$(API_GROUPS)"                                       \
+			"deepcopy,defaulter"                                    \
+			$(GO_PKG)/$(REPO)/client                                \
+			$(GO_PKG)/$(REPO)/apis                                  \
+			"$(API_GROUPS)"                                         \
 			--go-header-file "./hack/license/go.txt"
+# 	@docker run --rm                                            \
+# 		-u $$(id -u):$$(id -g)                                    \
+# 		-v /tmp:/.cache                                           \
+# 		-v $$(pwd):$(DOCKER_REPO_ROOT)                            \
+# 		-w $(DOCKER_REPO_ROOT)                                    \
+# 		--env HTTP_PROXY=$(HTTP_PROXY)                            \
+# 		--env HTTPS_PROXY=$(HTTPS_PROXY)                          \
+# 		$(CODE_GENERATOR_IMAGE)                                   \
+# 		/go/src/k8s.io/code-generator/generate-internal-groups.sh \
+# 			"conversion"                                          \
+# 			$(GO_PKG)/$(REPO)/client                              \
+# 			$(GO_PKG)/$(REPO)/apis                                \
+# 			$(GO_PKG)/$(REPO)/apis                                \
+# 			"$(API_GROUPS)"                                       \
+# 			--go-header-file "./hack/license/go.txt" --extra-dirs k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1
+# 	# for both CRD and EAS types
+# 	@docker run --rm                                              \
+# 		-u $$(id -u):$$(id -g)                                    \
+# 		-v /tmp:/.cache                                           \
+# 		-v $$(pwd):$(DOCKER_REPO_ROOT)                            \
+# 		-w $(DOCKER_REPO_ROOT)                                    \
+# 		--env HTTP_PROXY=$(HTTP_PROXY)                            \
+# 		--env HTTPS_PROXY=$(HTTPS_PROXY)                          \
+# 		$(CODE_GENERATOR_IMAGE)                                   \
+# 		/go/src/k8s.io/code-generator/generate-groups.sh          \
+# 			all                                                   \
+# 			$(GO_PKG)/$(REPO)/client                              \
+# 			$(GO_PKG)/$(REPO)/apis                                \
+# 			"$(API_GROUPS)"                                       \
+# 			--go-header-file "./hack/license/go.txt"
 
 # Generate openapi schema
 .PHONY: openapi

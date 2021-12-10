@@ -29,14 +29,14 @@ import (
 )
 
 func main() {
-	var src schema.GroupVersionResource
+	var src schema.GroupVersionKind
 	flag.StringVar(&src.Group, "group", "", "Group of resource who paths will be rendered")
 	flag.StringVar(&src.Version, "version", "", "Version of resource who paths will be rendered")
-	flag.StringVar(&src.Resource, "resource", "", "Name (plural) of resource who paths will be rendered")
+	flag.StringVar(&src.Kind, "kind", "", "Kind of resource who paths will be rendered")
 	flag.CommandLine.AddGoFlagSet(goflag.CommandLine)
 	flag.Parse()
 
-	if src.Group == "" || src.Version == "" || src.Resource == "" {
+	if src.Group == "" || src.Version == "" || src.Kind == "" {
 		log.Fatalln("--group, --version, --resource can't bt empty")
 	}
 
@@ -47,7 +47,7 @@ func main() {
 	_, prev := graph.Dijkstra(g, src)
 
 	gv := dot.NewGraph(dot.Directed)
-	nodes := make(map[schema.GroupVersionResource]dot.Node)
+	nodes := make(map[schema.GroupVersionKind]dot.Node)
 
 	for target, edge := range prev {
 		if target != src && edge != nil {

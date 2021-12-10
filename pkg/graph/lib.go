@@ -18,15 +18,19 @@ package graph
 
 import (
 	"bytes"
+	"context"
 	"encoding/csv"
 	"errors"
 	"fmt"
 	"regexp"
+	"sort"
 	"strings"
 
+	"kmodules.xyz/apiversion"
+	apiv1 "kmodules.xyz/client-go/api/v1"
 	disco_util "kmodules.xyz/client-go/discovery"
-	dynamicfactory "kmodules.xyz/client-go/dynamic/factory"
 	"kmodules.xyz/client-go/meta"
+	"kmodules.xyz/client-go/pointer"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
 	"github.com/mitchellh/mapstructure"
@@ -37,11 +41,12 @@ import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/client-go/dynamic/dynamiclister"
+	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/client-go/tools/cache"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func (g *Graph) List(f dynamicfactory.Factory, src *unstructured.Unstructured, dstGVR schema.GroupVersionResource) ([]*unstructured.Unstructured, error) {
+func (g *Graph) List(f client.Client, src *unstructured.Unstructured, dstGVR schema.GroupVersionKind) ([]*unstructured.Unstructured, error) {
 	result, err := g.ListUsingDijkstra(f, src, dstGVR)
 	if err != nil {
 		return nil, err
@@ -52,11 +57,8 @@ func (g *Graph) List(f dynamicfactory.Factory, src *unstructured.Unstructured, d
 	return g.ListUsingDFS(f, src, dstGVR)
 }
 
-func (g *Graph) ListUsingDijkstra(f dynamicfactory.Factory, src *unstructured.Unstructured, dstGVR schema.GroupVersionResource) ([]*unstructured.Unstructured, error) {
-	srcGVR, err := g.r.GVR(src.GroupVersionKind())
-	if err != nil {
-		return nil, err
-	}
+func (g *Graph) ListUsingDijkstra(f client.Client, src *unstructured.Unstructured, dstGVR schema.GroupVersionKind) ([]*unstructured.Unstructured, error) {
+	srcGVR := src.GroupVersionKind()
 	dist, prev := Dijkstra(g, srcGVR)
 
 	paths := GeneratePaths(srcGVR, dist, prev)
@@ -66,25 +68,21 @@ func (g *Graph) ListUsingDijkstra(f dynamicfactory.Factory, src *unstructured.Un
 	}
 
 	finder := ObjectFinder{
-		Factory: f,
-		Mapper:  g.r,
+		Client: f,
+		Mapper: g.r,
 	}
 	return finder.List(src, path.Edges)
 }
 
-func (g *Graph) ListUsingDFS(f dynamicfactory.Factory, src *unstructured.Unstructured, dstGVR schema.GroupVersionResource) ([]*unstructured.Unstructured, error) {
-	srcGVR, err := g.r.GVR(src.GroupVersionKind())
-	if err != nil {
-		return nil, err
-	}
-	paths := FindPaths(g, srcGVR, dstGVR)
+func (g *Graph) ListUsingDFS(f client.Client, src *unstructured.Unstructured, dstGVR schema.GroupVersionKind) ([]*unstructured.Unstructured, error) {
+	paths := FindPaths(g, src.GroupVersionKind(), dstGVR)
 	if len(paths) == 0 {
 		return nil, nil
 	}
 
 	finder := ObjectFinder{
-		Factory: f,
-		Mapper:  g.r,
+		Client: f,
+		Mapper: g.r,
 	}
 	for i, path := range paths {
 		out, err := finder.List(src, path.Edges)
@@ -123,8 +121,8 @@ func appendObjects(arr []*unstructured.Unstructured, items ...*unstructured.Unst
 }
 
 type ObjectFinder struct {
-	Factory dynamicfactory.Factory
-	Mapper  disco_util.ResourceMapper
+	Client client.Client
+	Mapper disco_util.ResourceMapper
 }
 
 func (finder ObjectFinder) List(src *unstructured.Unstructured, path []*Edge) ([]*unstructured.Unstructured, error) {
@@ -149,8 +147,8 @@ func (finder ObjectFinder) List(src *unstructured.Unstructured, path []*Edge) ([
 	return out, nil
 }
 
-func (finder ObjectFinder) ListConnectedResources(src *unstructured.Unstructured, edges AdjacencyMap) (map[schema.GroupVersionResource][]*unstructured.Unstructured, error) {
-	result := make(map[schema.GroupVersionResource][]*unstructured.Unstructured)
+func (finder ObjectFinder) ListConnectedResources(src *unstructured.Unstructured, edges AdjacencyMap) (map[schema.GroupVersionKind][]*unstructured.Unstructured, error) {
+	result := make(map[schema.GroupVersionKind][]*unstructured.Unstructured)
 
 	for dstGVR, e := range edges {
 		objects, err := finder.ResourcesFor(src, e)
@@ -165,8 +163,8 @@ func (finder ObjectFinder) ListConnectedResources(src *unstructured.Unstructured
 	return result, nil
 }
 
-func (finder ObjectFinder) ListConnectedPartials(src *unstructured.Unstructured, edges AdjacencyMap) (map[schema.GroupVersionResource][]*metav1.PartialObjectMetadata, error) {
-	result := make(map[schema.GroupVersionResource][]*metav1.PartialObjectMetadata)
+func (finder ObjectFinder) ListConnectedPartials(src *unstructured.Unstructured, edges AdjacencyMap) (map[schema.GroupVersionKind][]*metav1.PartialObjectMetadata, error) {
+	result := make(map[schema.GroupVersionKind][]*metav1.PartialObjectMetadata)
 
 	for dstGVR, e := range edges {
 		objects, err := finder.ResourcesFor(src, e)
@@ -190,13 +188,45 @@ func (finder ObjectFinder) ListConnectedPartials(src *unstructured.Unstructured,
 	return result, nil
 }
 
-func (finder ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge) ([]*unstructured.Unstructured, error) {
-	gvr, err := finder.Mapper.GVR(src.GroupVersionKind())
-	if err != nil {
-		return nil, err
+func (finder ObjectFinder) ListConnectedObjectIDs(src *unstructured.Unstructured, connections []v1alpha1.ResourceConnection) (sets.String, error) {
+	srcGVK := src.GroupVersionKind()
+	connsPerGK := map[schema.GroupKind][]v1alpha1.ResourceConnection{}
+	for _, c := range connections {
+		gvk := c.Target.GroupVersionKind()
+		connsPerGK[gvk.GroupKind()] = append(connsPerGK[gvk.GroupKind()], c)
 	}
-	if e.Src != gvr {
-		return nil, fmt.Errorf("edge src %v does not match ref %v", e.Src, gvr)
+
+	edges := sets.NewString()
+	for _, conns := range connsPerGK {
+		if len(conns) > 1 {
+			sort.Slice(conns, func(i, j int) bool {
+				d, _ := apiversion.Compare(conns[i].Target.GroupVersionKind().Version, conns[j].Target.GroupVersionKind().Version)
+				return d > 0
+			})
+		}
+		objects, err := finder.ResourcesFor(src, &Edge{
+			Src:        srcGVK,
+			Dst:        conns[0].Target.GroupVersionKind(),
+			W:          0,
+			Connection: conns[0].ResourceConnectionSpec,
+			Forward:    true,
+		})
+		if kerr.IsNotFound(err) || len(objects) == 0 {
+			continue
+		} else if err != nil {
+			return nil, err
+		}
+		for _, obj := range objects {
+			edges.Insert(apiv1.NewObjectID(obj).Key())
+		}
+	}
+
+	return edges, nil
+}
+
+func (finder ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge) ([]*unstructured.Unstructured, error) {
+	if e.Src != src.GroupVersionKind() {
+		return nil, fmt.Errorf("edge src %v does not match ref %v", e.Src, src.GroupVersionKind())
 	}
 
 	if e.Forward {
@@ -235,27 +265,27 @@ func (finder ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge)
 
 			var out []*unstructured.Unstructured
 			for _, ns := range namespaces {
-				var ri dynamiclister.NamespaceLister
-				ri = finder.Factory.ForResource(e.Dst)
-				if namespaced, err := finder.Mapper.IsNamespaced(e.Dst); err != nil {
+				opts := client.ListOptions{LabelSelector: labels.Everything()}
+				if namespaced, err := finder.Mapper.IsGVKNamespaced(e.Dst); err != nil {
 					return nil, err
 				} else if namespaced {
-					ri = finder.Factory.ForResource(e.Dst).Namespace(ns)
+					opts.Namespace = ns
 				}
 
-				selInApp := e.Connection.TargetLabelPath != "" && strings.Trim(e.Connection.TargetLabelPath, ".") != MetadataLabels
-
-				var opts = labels.Everything()
+				selInApp := e.Connection.TargetLabelPath != "" &&
+					strings.Trim(e.Connection.TargetLabelPath, ".") != MetadataLabels
 				if !selInApp {
 					// TODO(tamal): check for correctness
-					opts = selector
+					opts.LabelSelector = selector
 				}
-				result, err := ri.List(opts)
+				var result unstructured.UnstructuredList
+				result.SetGroupVersionKind(e.Dst) // KB: ok?
+				err := finder.Client.List(context.TODO(), &result, &opts)
 				if err != nil {
 					return nil, err
 				}
-				for i := range result {
-					rs := result[i]
+				for i := range result.Items {
+					rs := result.Items[i]
 
 					if selInApp {
 						lbl, ok, err := unstructured.NestedStringMap(rs.Object, fields(e.Connection.TargetLabelPath)...)
@@ -267,8 +297,8 @@ func (finder ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge)
 						}
 					}
 
-					if isConnected(e.Connection.Level, rs, src) {
-						out = append(out, rs)
+					if isConnected(e.Connection.Level, &rs, src) {
+						out = append(out, &rs)
 					}
 				}
 			}
@@ -289,20 +319,22 @@ func (finder ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge)
 
 			var out []*unstructured.Unstructured
 			for _, ns := range namespaces {
-				var ri dynamiclister.NamespaceLister
-				ri = finder.Factory.ForResource(e.Dst)
-				if namespaced, err := finder.Mapper.IsNamespaced(e.Dst); err != nil {
+				objkey := client.ObjectKey{Name: name}
+				if namespaced, err := finder.Mapper.IsGVKNamespaced(e.Dst); err != nil {
 					return nil, err
 				} else if namespaced {
-					ri = finder.Factory.ForResource(e.Dst).Namespace(ns)
+					objkey.Namespace = ns
 				}
-				rs, err := ri.Get(name)
+
+				var rs unstructured.Unstructured
+				rs.SetGroupVersionKind(e.Dst)
+				err := finder.Client.Get(context.TODO(), objkey, &rs)
 				if err != nil {
 					return nil, err
 				}
 
-				if isConnected(e.Connection.Level, rs, src) {
-					out = append(out, rs)
+				if isConnected(e.Connection.Level, &rs, src) {
+					out = append(out, &rs)
 				}
 			}
 			return out, nil
@@ -344,17 +376,12 @@ func (finder ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge)
 						continue
 					}
 					// if apiGroup is set, it must match
-					gvk, err := finder.Mapper.GVK(e.Dst)
-					if err != nil {
-						return nil, err
-					}
-					if ref.Kind != "" && ref.Kind != gvk.Kind {
+					if ref.Kind != "" && ref.Kind != e.Dst.Kind {
 						continue
 					}
 
-					var ri dynamiclister.NamespaceLister
-					ri = finder.Factory.ForResource(e.Dst)
-					if namespaced, err := finder.Mapper.IsNamespaced(e.Dst); err != nil {
+					objkey := client.ObjectKey{Name: ref.Name}
+					if namespaced, err := finder.Mapper.IsGVKNamespaced(e.Dst); err != nil {
 						return nil, err
 					} else if namespaced {
 						ns := ref.Namespace
@@ -367,15 +394,18 @@ func (finder ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge)
 							// src is not-namespaced
 							return nil, errors.New("namespace must be defined in reference")
 						}
-						ri = finder.Factory.ForResource(e.Dst).Namespace(ns)
+						objkey.Namespace = ns
 					}
-					rs, err := ri.Get(ref.Name)
+
+					var rs unstructured.Unstructured
+					rs.SetGroupVersionKind(e.Dst)
+					err := finder.Client.Get(context.TODO(), objkey, &rs)
 					if err != nil {
 						return nil, err
 					}
 
-					if isConnected(e.Connection.Level, rs, src) {
-						objects = append(objects, rs)
+					if isConnected(e.Connection.Level, &rs, src) {
+						objects = append(objects, &rs)
 					}
 				}
 				out = appendObjects(out, objects...)
@@ -403,22 +433,24 @@ func (finder ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge)
 				lbl = l2
 			}
 
-			var ri dynamiclister.NamespaceLister
-			ri = finder.Factory.ForResource(e.Dst)
-			if namespaced, err := finder.Mapper.IsNamespaced(e.Dst); err != nil {
+			opts := client.ListOptions{LabelSelector: labels.Everything()}
+			if namespaced, err := finder.Mapper.IsGVKNamespaced(e.Dst); err != nil {
 				return nil, err
 			} else if namespaced {
-				ri = finder.Factory.ForResource(e.Dst).Namespace(namespace)
+				opts.Namespace = namespace
 			}
-			result, err := ri.List(labels.Everything())
+
+			var result unstructured.UnstructuredList
+			result.SetGroupVersionKind(e.Dst)
+			err := finder.Client.List(context.TODO(), &result, &opts)
 			if err != nil {
 				return nil, err
 			}
-			for i := range result {
-				rs := result[i]
+			for i := range result.Items {
+				rs := result.Items[i]
 
 				if e.Connection.NamespacePath != "" && e.Connection.NamespacePath != MetadataNamespace {
-					namespaces, err := Namespaces(rs, e.Connection.NamespacePath)
+					namespaces, err := Namespaces(&rs, e.Connection.NamespacePath)
 					if err != nil {
 						return nil, err
 					}
@@ -430,12 +462,12 @@ func (finder ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge)
 				var ls string
 				var selector labels.Selector
 				if e.Connection.SelectorPath != "" {
-					ls, selector, err = ExtractSelector(rs, e.Connection.SelectorPath)
+					ls, selector, err = ExtractSelector(&rs, e.Connection.SelectorPath)
 					if err != nil {
 						return nil, err
 					}
 				} else if e.Connection.Selector != nil {
-					s2, err := evalLabelSelector(rs, e.Connection.Selector)
+					s2, err := evalLabelSelector(&rs, e.Connection.Selector)
 					if err != nil {
 						return nil, err
 					}
@@ -453,8 +485,8 @@ func (finder ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge)
 				}
 
 				if selector.Matches(labels.Set(lbl)) {
-					if isConnected(e.Connection.Level, src, rs) {
-						out = append(out, rs)
+					if isConnected(e.Connection.Level, src, &rs) {
+						out = append(out, &rs)
 					}
 				}
 			}
@@ -467,20 +499,21 @@ func (finder ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge)
 				}
 
 				var out []*unstructured.Unstructured
-				var ri dynamiclister.NamespaceLister
-				ri = finder.Factory.ForResource(e.Dst)
-				if namespaced, err := finder.Mapper.IsNamespaced(e.Dst); err != nil {
+				objkey := client.ObjectKey{Name: name}
+				if namespaced, err := finder.Mapper.IsGVKNamespaced(e.Dst); err != nil {
 					return nil, err
 				} else if namespaced {
-					ri = finder.Factory.ForResource(e.Dst).Namespace(namespace)
+					objkey.Namespace = namespace
 				}
-				rs, err := ri.Get(name)
+				var rs unstructured.Unstructured
+				rs.SetGroupVersionKind(e.Dst)
+				err := finder.Client.Get(context.TODO(), objkey, &rs)
 				if err != nil {
 					return nil, err
 				}
 
-				if isConnected(e.Connection.Level, src, rs) {
-					out = append(out, rs)
+				if isConnected(e.Connection.Level, src, &rs) {
+					out = append(out, &rs)
 				}
 
 				return out, nil
@@ -490,26 +523,27 @@ func (finder ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge)
 		} else if e.Connection.Type == v1alpha1.MatchRef {
 			// TODO: check that namespacePath must be empty
 
-			var ri dynamiclister.NamespaceLister
-			ri = finder.Factory.ForResource(e.Dst)
-			if namespaced, err := finder.Mapper.IsNamespaced(e.Dst); err != nil {
+			opts := client.ListOptions{LabelSelector: labels.Everything()}
+			if namespaced, err := finder.Mapper.IsGVKNamespaced(e.Dst); err != nil {
 				return nil, err
 			} else if namespaced {
 				ns := metav1.NamespaceAll
 				if e.Connection.NamespacePath == MetadataNamespace {
 					ns = src.GetNamespace()
 				}
-				ri = finder.Factory.ForResource(e.Dst).Namespace(ns)
+				opts.Namespace = ns
 			}
-			result, err := ri.List(labels.Everything())
+			var result unstructured.UnstructuredList
+			result.SetGroupVersionKind(e.Dst)
+			err := finder.Client.List(context.TODO(), &result, &opts)
 			if err != nil {
 				return nil, err
 			}
 
 			var out []*unstructured.Unstructured
 		NextItem:
-			for i := range result {
-				rs := result[i]
+			for i := range result.Items {
+				rs := result.Items[i]
 
 				for _, reference := range e.Connection.References {
 
@@ -543,16 +577,12 @@ func (finder ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge)
 						}
 
 						// if apiGroup is set, it must match
-						gvk, err := finder.Mapper.GVK(e.Src)
-						if err != nil {
-							return nil, err
-						}
-						if ref.Kind != "" && ref.Kind != gvk.Kind {
+						if ref.Kind != "" && ref.Kind != e.Src.Kind {
 							continue
 						}
 
 						ns := ref.Namespace
-						namespaced, err := finder.Mapper.IsNamespaced(e.Src)
+						namespaced, err := finder.Mapper.IsGVKNamespaced(e.Src)
 						if err != nil {
 							return nil, err
 						}
@@ -574,8 +604,8 @@ func (finder ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge)
 							continue
 						}
 
-						if isConnected(e.Connection.Level, src, rs) {
-							out = append(out, rs)
+						if isConnected(e.Connection.Level, src, &rs) {
+							out = append(out, &rs)
 						}
 						continue NextItem
 					}
@@ -664,34 +694,35 @@ func evalJsonPath(src *unstructured.Unstructured, template string) (string, erro
 func (finder ObjectFinder) findOwners(e *Edge, srcOwnerRefs []metav1.OwnerReference, namespace string) ([]*unstructured.Unstructured, error) {
 	var out []*unstructured.Unstructured
 
-	var ri dynamiclister.NamespaceLister
-	ri = finder.Factory.ForResource(e.Dst)
-	if namespaced, err := finder.Mapper.IsNamespaced(e.Dst); err != nil {
+	objkey := client.ObjectKey{}
+	if namespaced, err := finder.Mapper.IsGVKNamespaced(e.Dst); err != nil {
 		return nil, err
 	} else if namespaced {
-		ri = finder.Factory.ForResource(e.Dst).Namespace(namespace)
-	}
-	t, err := finder.Mapper.TypeMeta(e.Dst)
-	if err != nil {
-		return nil, err
+		objkey.Namespace = namespace
 	}
 	for _, ref := range srcOwnerRefs {
-		if ref.APIVersion == t.APIVersion && ref.Kind == t.Kind {
+		objkey.Name = ref.Name
+
+		if ref.APIVersion == e.Dst.GroupVersion().String() && ref.Kind == e.Dst.Kind {
 			if e.Connection.Level == v1alpha1.Controller {
 				if ref.Controller != nil && *ref.Controller {
-					rs, err := ri.Get(ref.Name)
+					var rs unstructured.Unstructured
+					rs.SetGroupVersionKind(e.Dst)
+					err := finder.Client.Get(context.TODO(), objkey, &rs)
 					if err != nil {
 						return nil, err
 					}
-					out = append(out, rs)
+					out = append(out, &rs)
 					break
 				}
 			} else if e.Connection.Level == v1alpha1.Owner {
-				rs, err := ri.Get(ref.Name)
+				var rs unstructured.Unstructured
+				rs.SetGroupVersionKind(e.Dst)
+				err := finder.Client.Get(context.TODO(), objkey, &rs)
 				if err != nil {
 					return nil, err
 				}
-				out = append(out, rs)
+				out = append(out, &rs)
 			} else {
 				return nil, fmt.Errorf("connection level should be Owner or Controller, found %v", e.Connection.Level)
 			}
@@ -708,22 +739,23 @@ func (finder ObjectFinder) findChildren(e *Edge, src *unstructured.Unstructured)
 
 	var out []*unstructured.Unstructured
 
-	var ri dynamiclister.NamespaceLister
-	ri = finder.Factory.ForResource(e.Dst)
-	if namespaced, err := finder.Mapper.IsNamespaced(e.Dst); err != nil {
+	opts := client.ListOptions{LabelSelector: labels.Everything()}
+	if namespaced, err := finder.Mapper.IsGVKNamespaced(e.Dst); err != nil {
 		return nil, err
 	} else if namespaced {
-		ri = finder.Factory.ForResource(e.Dst).Namespace(src.GetNamespace())
+		opts.Namespace = src.GetNamespace()
 	}
 
-	result, err := ri.List(labels.Everything())
+	var result unstructured.UnstructuredList
+	result.SetGroupVersionKind(e.Dst)
+	err := finder.Client.List(context.TODO(), &result, &opts)
 	if err != nil {
 		return nil, err
 	}
-	for i := range result {
-		rs := result[i]
-		if isConnected(e.Connection.Level, rs, src) {
-			out = append(out, rs)
+	for i := range result.Items {
+		rs := result.Items[i]
+		if isConnected(e.Connection.Level, &rs, src) {
+			out = append(out, &rs)
 		}
 	}
 
@@ -895,20 +927,16 @@ func ParseResourceRefs(records [][]string) ([]ResourceRef, error) {
 
 func (finder ObjectFinder) Get(ref *v1alpha1.ObjectRef) (*unstructured.Unstructured, error) {
 	gvk := schema.FromAPIVersionAndKind(ref.Target.APIVersion, ref.Target.Kind)
-	gvr, err := finder.Mapper.GVR(gvk)
-	if err != nil {
-		return nil, err
-	}
 
-	namespaced, err := finder.Mapper.IsNamespaced(gvr)
+	objkey := client.ObjectKey{Name: ref.Name}
+	opts := client.ListOptions{}
+	namespaced, err := finder.Mapper.IsGVKNamespaced(gvk)
 	if err != nil {
 		return nil, err
 	}
-	var lister dynamiclister.NamespaceLister
 	if namespaced {
-		lister = finder.Factory.ForResource(gvr).Namespace(ref.Namespace)
-	} else {
-		lister = finder.Factory.ForResource(gvr)
+		opts.Namespace = ref.Namespace
+		objkey.Namespace = ref.Namespace
 	}
 
 	if ref.Selector != nil {
@@ -916,18 +944,23 @@ func (finder ObjectFinder) Get(ref *v1alpha1.ObjectRef) (*unstructured.Unstructu
 		if err != nil {
 			return nil, err
 		}
-		objects, err := lister.List(sel)
+		opts.LabelSelector = sel
+
+		var objects unstructured.UnstructuredList
+		objects.SetGroupVersionKind(gvk)
+		err = finder.Client.List(context.TODO(), &objects, &opts)
 		if err != nil {
 			return nil, err
 		}
-		return getTheObject(gvr, objects)
+		return getTheObject(gvk, pointer.ToUnstructuredP(objects.Items))
 	}
 
-	object, err := lister.Get(ref.Name)
+	var object unstructured.Unstructured
+	err = finder.Client.Get(context.TODO(), objkey, &object)
 	if err != nil {
 		return nil, err
 	}
-	return object, nil
+	return &object, nil
 }
 
 func (finder ObjectFinder) Locate(locator *v1alpha1.ObjectLocator, edgeList []v1alpha1.NamedEdge) (*unstructured.Unstructured, error) {
@@ -952,18 +985,12 @@ func (finder ObjectFinder) Locate(locator *v1alpha1.ObjectLocator, edgeList []v1
 			return nil, fmt.Errorf("path %s not found in edge list", path)
 		}
 
-		srcGVR, err := finder.Mapper.GVR(schema.FromAPIVersionAndKind(e.Src.APIVersion, e.Src.Kind))
-		if err != nil {
-			return nil, err
-		}
-		dstGVR, err := finder.Mapper.GVR(schema.FromAPIVersionAndKind(e.Dst.APIVersion, e.Dst.Kind))
-		if err != nil {
-			return nil, err
-		}
+		srcGVK := schema.FromAPIVersionAndKind(e.Src.APIVersion, e.Src.Kind)
+		dstGVK := schema.FromAPIVersionAndKind(e.Dst.APIVersion, e.Dst.Kind)
 		if e.Src == from {
 			edges = append(edges, &Edge{
-				Src:        srcGVR,
-				Dst:        dstGVR,
+				Src:        srcGVK,
+				Dst:        dstGVK,
 				W:          0,
 				Connection: e.Connection,
 				Forward:    true,
@@ -971,8 +998,8 @@ func (finder ObjectFinder) Locate(locator *v1alpha1.ObjectLocator, edgeList []v1
 			from = e.Dst
 		} else if e.Dst == from {
 			edges = append(edges, &Edge{
-				Src:        dstGVR,
-				Dst:        srcGVR,
+				Src:        dstGVK,
+				Dst:        srcGVK,
 				W:          0,
 				Connection: e.Connection,
 				Forward:    false,
@@ -991,10 +1018,13 @@ func (finder ObjectFinder) Locate(locator *v1alpha1.ObjectLocator, edgeList []v1
 	return getTheObject(edges[len(edges)-1].Dst, objects)
 }
 
-func getTheObject(gvr schema.GroupVersionResource, objects []*unstructured.Unstructured) (*unstructured.Unstructured, error) {
+func getTheObject(gvk schema.GroupVersionKind, objects []*unstructured.Unstructured) (*unstructured.Unstructured, error) {
 	switch len(objects) {
 	case 0:
-		return nil, kerr.NewNotFound(gvr.GroupResource(), "")
+		return nil, kerr.NewNotFound(schema.GroupResource{
+			Group:    gvk.Group,
+			Resource: gvk.Kind, // actually only uses Kind not resource
+		}, "")
 	case 1:
 		return objects[0], nil
 	default:
@@ -1006,6 +1036,6 @@ func getTheObject(gvr schema.GroupVersionResource, objects []*unstructured.Unstr
 			}
 			names = append(names, name)
 		}
-		return nil, fmt.Errorf("multiple matching %v objects found %s", gvr, strings.Join(names, ","))
+		return nil, fmt.Errorf("multiple matching %v objects found %s", gvk, strings.Join(names, ","))
 	}
 }

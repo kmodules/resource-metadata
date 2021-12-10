@@ -17,11 +17,11 @@ limitations under the License.
 package graph
 
 import (
+	"context"
 	"fmt"
 	"time"
 
 	kmapi "kmodules.xyz/client-go/api/v1"
-	dynamicfactory "kmodules.xyz/client-go/dynamic/factory"
 	"kmodules.xyz/client-go/tools/clientcache"
 	"kmodules.xyz/resource-metadata/hub"
 
@@ -30,8 +30,8 @@ import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/types"
-	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/rest"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 /*
@@ -39,54 +39,48 @@ import (
 - How to handle preferred version path missing
 */
 
-func GetConnectedGraph(config *rest.Config, reg *hub.Registry, srcGVR schema.GroupVersionResource, ref types.NamespacedName) ([]*Edge, error) {
+func GetConnectedGraph(config *rest.Config, f client.Client, reg *hub.Registry, srcGVK schema.GroupVersionKind, ref types.NamespacedName) ([]*Edge, error) {
 	cfg := clientcache.ConfigFor(config, 5*time.Minute, httpcache.NewMemoryCache())
 
+	srcGVR, err := reg.GVR(srcGVK)
+	if err != nil {
+		return nil, err
+	}
 	if err := reg.Register(srcGVR, cfg); err != nil {
 		return nil, err
 	}
-	rd, err := reg.LoadByGVR(srcGVR)
+	rd, err := reg.LoadByGVK(srcGVK)
 	if err != nil {
 		return nil, err
 	}
 
-	dc, err := dynamic.NewForConfig(cfg)
-	if err != nil {
-		return nil, err
-	}
-
-	f := dynamicfactory.New(dc)
-
-	var src *unstructured.Unstructured
+	objkey := client.ObjectKey{Name: ref.Name}
 	if rd.Spec.Resource.Scope == kmapi.NamespaceScoped {
 		if ref.Namespace == "" {
-			return nil, fmt.Errorf("missing namespace query parameter for %s with name %s", srcGVR, ref.Name)
+			return nil, fmt.Errorf("missing namespace query parameter for %s with name %s", srcGVK, ref.Name)
 		}
-		src, err = f.ForResource(srcGVR).Namespace(ref.Namespace).Get(ref.Name)
-		if err != nil {
-			return nil, err
-		}
-	} else {
-		src, err = f.ForResource(srcGVR).Get(ref.Name)
-		if err != nil {
-			return nil, err
-		}
+		objkey.Namespace = ref.Namespace
+	}
+	var src unstructured.Unstructured
+	err = f.Get(context.TODO(), objkey, &src)
+	if err != nil {
+		return nil, err
 	}
 
 	g, err := LoadGraph(reg)
 	if err != nil {
 		return nil, err
 	}
-	realGraph, err := g.generateRealGraph(f, src)
+	realGraph, err := g.generateRealGraph(f, &src)
 	if err != nil {
 		return nil, err
 	}
 
-	dist, prev := Dijkstra(realGraph, srcGVR)
+	dist, prev := Dijkstra(realGraph, srcGVK)
 
 	out := make([]*Edge, 0, len(prev))
 	for target, edge := range prev {
-		if target != srcGVR && edge != nil {
+		if target != srcGVK && edge != nil {
 			out = append(out, &Edge{
 				Src:        edge.Src,
 				Dst:        edge.Dst,
@@ -101,27 +95,23 @@ func GetConnectedGraph(config *rest.Config, reg *hub.Registry, srcGVR schema.Gro
 
 // getRealGraph runs BFS on the original graph and returns a graph that has real connection
 // with the source resource.
-func (g *Graph) generateRealGraph(f dynamicfactory.Factory, src *unstructured.Unstructured) (*Graph, error) {
+func (g *Graph) generateRealGraph(f client.Client, src *unstructured.Unstructured) (*Graph, error) {
 	srcGVK := schema.FromAPIVersionAndKind(src.GetAPIVersion(), src.GetKind())
-	srcGVR, err := g.r.GVR(srcGVK)
-	if err != nil {
-		return nil, err
-	}
-	objMap := map[schema.GroupVersionResource][]*unstructured.Unstructured{
-		srcGVR: {src},
+	objMap := map[schema.GroupVersionKind][]*unstructured.Unstructured{
+		srcGVK: {src},
 	}
 
-	visited := map[schema.GroupVersionResource]bool{}
+	visited := map[schema.GroupVersionKind]bool{}
 	realGraph := NewGraph(g.r)
 	// Queue for the BSF
-	q := make([]schema.GroupVersionResource, 0)
+	q := make([]schema.GroupVersionKind, 0)
 
 	// Push the source node
-	q = append(q, srcGVR)
-	visited[srcGVR] = true
+	q = append(q, srcGVK)
+	visited[srcGVK] = true
 	finder := ObjectFinder{
-		Factory: f,
-		Mapper:  g.r,
+		Client: f,
+		Mapper: g.r,
 	}
 	for {
 		// Pop the first item

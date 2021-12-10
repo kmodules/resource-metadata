@@ -25,10 +25,10 @@ import (
 // https://efficientcodeblog.wordpress.com/2018/02/15/finding-all-paths-between-two-nodes-in-a-graph/
 // https://www.baeldung.com/cs/simple-paths-between-two-vertices
 // FindPaths returns all simple paths betweek 2 vertices of a graph.
-func FindPaths(graph *Graph, src, dst schema.GroupVersionResource) []*Path {
+func FindPaths(graph *Graph, src, dst schema.GroupVersionKind) []*Path {
 	var paths []*Path
 
-	visited := map[schema.GroupVersionResource]bool{}
+	visited := map[schema.GroupVersionKind]bool{}
 	curPath := &Path{
 		Source:   src,
 		Target:   dst,
@@ -43,7 +43,7 @@ func FindPaths(graph *Graph, src, dst schema.GroupVersionResource) []*Path {
 	return paths
 }
 
-func dfs(g *Graph, u, d schema.GroupVersionResource, visited map[schema.GroupVersionResource]bool, curPath *Path, paths []*Path) []*Path {
+func dfs(g *Graph, u, d schema.GroupVersionKind, visited map[schema.GroupVersionKind]bool, curPath *Path, paths []*Path) []*Path {
 	visited[u] = true
 	if u == d {
 		copyPath := *curPath

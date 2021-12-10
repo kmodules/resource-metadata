@@ -18,7 +18,6 @@ package v1alpha1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 const (
@@ -43,8 +42,8 @@ type PathFinder struct {
 }
 
 type PathRequest struct {
-	Source GroupVersionResource  `json:"source"`
-	Target *GroupVersionResource `json:"target,omitempty"`
+	Source metav1.GroupVersionResource  `json:"source"`
+	Target *metav1.GroupVersionResource `json:"target,omitempty"`
 }
 
 type PathResponse struct {
@@ -52,44 +51,21 @@ type PathResponse struct {
 }
 
 type Path struct {
-	Source   GroupVersionResource `json:"source"`
-	Target   GroupVersionResource `json:"target"`
-	Distance uint64               `json:"distance"`
-	Edges    []*Edge              `json:"edges"`
+	Source   metav1.GroupVersionResource `json:"source"`
+	Target   metav1.GroupVersionResource `json:"target"`
+	Distance uint64                      `json:"distance"`
+	Edges    []*Edge                     `json:"edges"`
 }
 
 type Edge struct {
-	Src        GroupVersionResource   `json:"source"`
-	Dst        GroupVersionResource   `json:"target"`
-	W          uint64                 `json:"distance"`
-	Connection ResourceConnectionSpec `json:"connection"`
-	Forward    bool                   `json:"forward"`
+	Src        metav1.GroupVersionResource `json:"source"`
+	Dst        metav1.GroupVersionResource `json:"target"`
+	W          uint64                      `json:"distance"`
+	Connection ResourceConnectionSpec      `json:"connection"`
+	Forward    bool                        `json:"forward"`
 }
 
 type GroupResources struct {
 	Groups   []string `json:"groups"`
 	Resource string   `json:"resource"`
-}
-
-// GroupVersionResource unambiguously identifies a resource.
-type GroupVersionResource struct {
-	Group    string `json:"group"`
-	Version  string `json:"version"`
-	Resource string `json:"resource"`
-}
-
-func (in GroupVersionResource) GVR() schema.GroupVersionResource {
-	return schema.GroupVersionResource{
-		Group:    in.Group,
-		Version:  in.Version,
-		Resource: in.Resource,
-	}
-}
-
-func FromGVR(in schema.GroupVersionResource) GroupVersionResource {
-	return GroupVersionResource{
-		Group:    in.Group,
-		Version:  in.Version,
-		Resource: in.Resource,
-	}
 }

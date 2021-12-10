@@ -286,7 +286,9 @@ spec:
                             type: string
                           ref:
                             description: GroupVersionResource unambiguously identifies
-                              a resource.
+                              a resource.  It doesn't anonymously include GroupVersion
+                              to avoid automatic coersion.  It doesn't use a GroupVersion
+                              to avoid custom marshalling
                             properties:
                               group:
                                 type: string

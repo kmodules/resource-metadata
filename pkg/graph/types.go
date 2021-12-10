@@ -37,23 +37,23 @@ const (
 )
 
 type Edge struct {
-	Src        schema.GroupVersionResource
-	Dst        schema.GroupVersionResource
+	Src        schema.GroupVersionKind
+	Dst        schema.GroupVersionKind
 	W          uint64
 	Connection v1alpha1.ResourceConnectionSpec
 	Forward    bool
 }
 
-type AdjacencyMap map[schema.GroupVersionResource]*Edge
+type AdjacencyMap map[schema.GroupVersionKind]*Edge
 
 type Graph struct {
 	r     *hub.Registry
-	edges map[schema.GroupVersionResource]AdjacencyMap
+	edges map[schema.GroupVersionKind]AdjacencyMap
 }
 
 func NewGraph(r *hub.Registry) *Graph {
 	return &Graph{
-		edges: make(map[schema.GroupVersionResource]AdjacencyMap),
+		edges: make(map[schema.GroupVersionKind]AdjacencyMap),
 		r:     r,
 	}
 }
@@ -72,7 +72,7 @@ func (g *Graph) AddEdge(e *Edge) {
 	}
 }
 
-func (g *Graph) Edges(src schema.GroupVersionResource) AdjacencyMap {
+func (g *Graph) Edges(src schema.GroupVersionKind) AdjacencyMap {
 	return g.edges[src]
 }
 
