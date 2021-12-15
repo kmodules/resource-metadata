@@ -150,3 +150,5 @@ replace github.com/dgrijalva/jwt-go => github.com/gomodules/jwt v3.2.2+incompati
 replace github.com/golang-jwt/jwt => github.com/golang-jwt/jwt v3.2.2+incompatible
 
 replace github.com/form3tech-oss/jwt-go => github.com/form3tech-oss/jwt-go v3.2.5+incompatible
+
+replace gopkg.in/yaml.v2 => gopkg.in/yaml.v2 v2.3.0
