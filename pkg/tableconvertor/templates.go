@@ -40,6 +40,8 @@ import (
 	"k8s.io/apimachinery/pkg/util/duration"
 )
 
+const UnknownValue = "<unknown>"
+
 var templateFns = sprig.TxtFuncMap()
 
 func init() {
@@ -345,7 +347,7 @@ func mapKeyCountFn(data interface{}) (string, error) {
 	}
 
 	if m == nil {
-		return "<unknown>", nil
+		return UnknownValue, nil
 	}
 	return strconv.Itoa(len(m)), nil
 }
@@ -394,7 +396,7 @@ func certificateValidity(data interface{}) (string, error) {
 
 	now := time.Now()
 	if certStatus.NotBefore.IsZero() || certStatus.NotAfter.IsZero() {
-		return "<unknown>", nil
+		return UnknownValue, nil
 	} else if certStatus.NotBefore.After(now) {
 		return "Not valid yet", nil
 	} else if now.After(certStatus.NotAfter.Time) {
