@@ -11,47 +11,47 @@ metadata:
 spec:
   columns:
   - name: Name
-    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    pathTemplate: '{{ .metadata.name }}'
     priority: 3
     type: string
   - name: Namespace
-    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
+    pathTemplate: '{{ .metadata.namespace }}'
     priority: 3
     type: string
   - name: Labels
-    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
+    pathTemplate: '{{ .metadata.labels | toRawJson }}'
     priority: 3
     type: object
   - name: Annotations
-    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
+    pathTemplate: '{{ .metadata.annotations | toRawJson }}'
     priority: 1
     type: object
   - name: CN
-    pathTemplate: '{{ jp "{.spec.commonName}" . }}'
+    pathTemplate: '{{ .spec.commonName }}'
     priority: 3
     type: string
   - name: Issuer Kind
-    pathTemplate: '{{ jp "{.spec.issuerRef.kind}" . }}'
+    pathTemplate: '{{ .spec.issuerRef.kind }}'
     priority: 3
     type: string
   - name: Issuer Name
-    pathTemplate: '{{ jp "{.spec.issuerRef.name}" . }}'
+    pathTemplate: '{{ .spec.issuerRef.name }}'
     priority: 3
     type: string
   - name: Secret Name
-    pathTemplate: '{{ jp "{.spec.secretName}" . }}'
+    pathTemplate: '{{ .spec.secretName }}'
     priority: 3
     type: string
   - name: Validity
-    pathTemplate: '{{ jp "{.status}" . | cert_validity }}'
+    pathTemplate: '{{ .status | cert_validity }}'
     priority: 3
     type: string
   - name: Renewal Date
-    pathTemplate: '{{ jp "{.status.renewalTime}" . }}'
+    pathTemplate: '{{ .status.renewalTime }}'
     priority: 3
     type: string
   - name: Age
-    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
     type: date
   connections:
@@ -87,23 +87,23 @@ spec:
   subTables:
   - columns:
     - name: Type
-      pathTemplate: '{{ jp "{.type}" . }}'
+      pathTemplate: '{{ .type }}'
       priority: 0
       type: string
     - name: Status
-      pathTemplate: '{{ jp "{.status}" . }}'
+      pathTemplate: '{{ .status }}'
       priority: 0
       type: string
     - name: Reason
-      pathTemplate: '{{ jp "{.reason}" . }}'
+      pathTemplate: '{{ .reason }}'
       priority: 0
       type: string
     - name: Last Transition Time
-      pathTemplate: '{{ jp "{.lastTransitionTime}" . }}'
+      pathTemplate: '{{ .lastTransitionTime }}'
       priority: 0
       type: date
     - name: Message
-      pathTemplate: '{{ jp "{.message}" . }}'
+      pathTemplate: '{{ .message }}'
       priority: 0
       type: string
     fieldPath: .status.conditions

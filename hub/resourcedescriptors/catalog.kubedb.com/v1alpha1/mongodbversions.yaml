@@ -11,43 +11,43 @@ metadata:
 spec:
   columns:
   - name: Name
-    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    pathTemplate: '{{ .metadata.name }}'
     priority: 3
     type: string
   - name: Labels
-    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
+    pathTemplate: '{{ .metadata.labels | toRawJson }}'
     priority: 3
     type: object
   - name: Annotations
-    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
+    pathTemplate: '{{ .metadata.annotations | toRawJson }}'
     priority: 1
     type: object
   - name: Version
-    pathTemplate: '{{ jp "{.spec.version}" . }}'
+    pathTemplate: '{{ .spec.version }}'
     priority: 3
     type: string
   - name: Distribution
-    pathTemplate: '{{ jp "{.spec.distribution}" . }}'
+    pathTemplate: '{{ .spec.distribution }}'
     priority: 3
     type: string
   - name: DB Image
-    pathTemplate: '{{ jp "{.spec.db.image}" . }}'
+    pathTemplate: '{{ .spec.db.image }}'
     priority: 3
     type: string
   - name: Deprecated
-    pathTemplate: '{{ jp "{.spec.deprecated}" . }}'
+    pathTemplate: '{{ .spec.deprecated }}'
     priority: 3
     type: string
   - name: Backup Task
-    pathTemplate: '{{ jp "{.spec.stash.addon.backupTask.name}" . }}'
+    pathTemplate: '{{ .spec.stash.addon.backupTask.name }}'
     priority: 3
     type: string
   - name: Restore Task
-    pathTemplate: '{{ jp "{.spec.stash.addon.restoreTask.name}" . }}'
+    pathTemplate: '{{ .spec.stash.addon.restoreTask.name }}'
     priority: 3
     type: string
   - name: Age
-    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
     type: date
   icons:
