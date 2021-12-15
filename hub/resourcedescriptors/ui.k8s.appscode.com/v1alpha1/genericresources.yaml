@@ -62,11 +62,11 @@ spec:
                 version:
                   type: string
               required:
-              - group
-              - kind
-              - name
-              - scope
-              - version
+                - group
+                - kind
+                - name
+                - scope
+                - version
               type: object
             appResource:
               description: ResourceRequirements describes the compute resource requirements.
@@ -74,8 +74,8 @@ spec:
                 limits:
                   additionalProperties:
                     anyOf:
-                    - type: integer
-                    - type: string
+                      - type: integer
+                      - type: string
                     pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                     x-kubernetes-int-or-string: true
                   description: 'Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
@@ -83,8 +83,8 @@ spec:
                 requests:
                   additionalProperties:
                     anyOf:
-                    - type: integer
-                    - type: string
+                      - type: integer
+                      - type: string
                     pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                     x-kubernetes-int-or-string: true
                   description: 'Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
@@ -108,8 +108,8 @@ spec:
               additionalProperties:
                 additionalProperties:
                   anyOf:
-                  - type: integer
-                  - type: string
+                    - type: integer
+                    - type: string
                   pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                   x-kubernetes-int-or-string: true
                 description: ResourceList is a set of (resource name, quantity) pairs.
@@ -119,8 +119,8 @@ spec:
               additionalProperties:
                 additionalProperties:
                   anyOf:
-                  - type: integer
-                  - type: string
+                    - type: integer
+                    - type: string
                   pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                   x-kubernetes-int-or-string: true
                 description: ResourceList is a set of (resource name, quantity) pairs.
@@ -132,8 +132,8 @@ spec:
                 limits:
                   additionalProperties:
                     anyOf:
-                    - type: integer
-                    - type: string
+                      - type: integer
+                      - type: string
                     pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                     x-kubernetes-int-or-string: true
                   description: 'Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
@@ -141,16 +141,16 @@ spec:
                 requests:
                   additionalProperties:
                     anyOf:
-                    - type: integer
-                    - type: string
+                      - type: integer
+                      - type: string
                     pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                     x-kubernetes-int-or-string: true
                   description: 'Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                   type: object
               type: object
           required:
-          - apiType
-          - appResource
-          - totalResource
+            - apiType
+            - appResource
+            - totalResource
           type: object
       type: object

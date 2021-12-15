@@ -10,38 +10,38 @@ metadata:
   name: ui.kubedb.com-v1alpha1-backupoverviews
 spec:
   columns:
-    - name: Schedule
-      pathTemplate: '{{ jp "{.spec.schedule}" . }}'
-      priority: 3
-      type: string
-    - name: Last backup time
-      pathTemplate: '{{ jp "{.spec.lastBackupTime}" . }}'
-      priority: 3
-      type: string
-    - name: Upcoming backup
-      pathTemplate: '{{ jp "{.spec.upcomingBackupTime}" . }}'
-      priority: 3
-      type: string
-    - name: Backup Storage
-      pathTemplate: '{{ jp "{.spec.backupStorage}" . }}'
-      priority: 3
-      type: string
-    - name: DataSize
-      pathTemplate: '{{ jp "{.spec.dataSize}" . }}'
-      priority: 3
-      type: string
-    - name: Number of Snapshots
-      pathTemplate: '{{ jp "{.spec.numberOfSnapshots}" . }}'
-      priority: 3
-      type: string
-    - name: Data Integrity
-      pathTemplate: '{{ jp "{.spec.dataIntegrity}" . }}'
-      priority: 3
-      type: string
-    - name: Data Directory
-      pathTemplate: '{{ jp "{.spec.dataDirectory}" . }}'
-      priority: 3
-      type: string
+  - name: Schedule
+    pathTemplate: '{{ jp "{.spec.schedule}" . }}'
+    priority: 3
+    type: string
+  - name: Last backup time
+    pathTemplate: '{{ jp "{.spec.lastBackupTime}" . }}'
+    priority: 3
+    type: string
+  - name: Upcoming backup
+    pathTemplate: '{{ jp "{.spec.upcomingBackupTime}" . }}'
+    priority: 3
+    type: string
+  - name: Backup Storage
+    pathTemplate: '{{ jp "{.spec.backupStorage}" . }}'
+    priority: 3
+    type: string
+  - name: DataSize
+    pathTemplate: '{{ jp "{.spec.dataSize}" . }}'
+    priority: 3
+    type: string
+  - name: Number of Snapshots
+    pathTemplate: '{{ jp "{.spec.numberOfSnapshots}" . }}'
+    priority: 3
+    type: string
+  - name: Data Integrity
+    pathTemplate: '{{ jp "{.spec.dataIntegrity}" . }}'
+    priority: 3
+    type: string
+  - name: Data Directory
+    pathTemplate: '{{ jp "{.spec.dataDirectory}" . }}'
+    priority: 3
+    type: string
   resource:
     group: ui.kubedb.com
     kind: BackupOverview
