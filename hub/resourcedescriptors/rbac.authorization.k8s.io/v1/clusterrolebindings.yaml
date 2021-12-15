@@ -31,7 +31,7 @@ spec:
     priority: 3
     type: string
   - name: Subjects
-    pathTemplate: '{{ jp "{.subjects}" . | rbac_subjects}}'
+    pathTemplate: '{{ .subjects | rbac_subjects}}'
     priority: 3
     type: string
   - name: Age

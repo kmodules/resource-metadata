@@ -45,7 +45,7 @@ spec:
     priority: 3
     type: string
   - name: Images
-    pathTemplate: '{{ jp "{.spec.containers}" . | k8s_container_images }}'
+    pathTemplate: '{{ .spec.containers | k8s_container_images }}'
     priority: 2
     type: string
   - name: Restart Policy
@@ -61,7 +61,7 @@ spec:
     priority: 1
     type: string
   - name: Volumes
-    pathTemplate: '{{ jp "{.spec.volumes}" . | k8s_volumes }}'
+    pathTemplate: '{{ .spec.volumes | k8s_volumes }}'
     priority: 1
     type: object
   - name: Age
@@ -202,19 +202,19 @@ spec:
       priority: 0
       type: string
     - name: Arguments
-      pathTemplate: '{{ jp "{.args}" . | fmt_list }}'
+      pathTemplate: '{{ .args | fmt_list }}'
       priority: 0
       type: object
     - name: Environment Variables
-      pathTemplate: '{{ jp "{.env}" . | fmt_list }}'
+      pathTemplate: '{{ .env | fmt_list }}'
       priority: 0
       type: object
     - name: Ports
-      pathTemplate: '{{ jp "{.ports}" . | k8s_container_ports }}'
+      pathTemplate: '{{ .ports | k8s_container_ports }}'
       priority: 0
       type: string
     - name: Volume Mounts
-      pathTemplate: '{{ jp "{.volumeMounts}" . | k8s_volumeMounts }}'
+      pathTemplate: '{{ .volumeMounts | k8s_volumeMounts }}'
       priority: 0
       type: string
     fieldPath: .spec.containers
@@ -229,19 +229,19 @@ spec:
       priority: 0
       type: string
     - name: Arguments
-      pathTemplate: '{{ jp "{.args}" . | fmt_list }}'
+      pathTemplate: '{{ .args | fmt_list }}'
       priority: 0
       type: object
     - name: Environment Variables
-      pathTemplate: '{{ jp "{.env}" . | fmt_list }}'
+      pathTemplate: '{{ .env | fmt_list }}'
       priority: 0
       type: object
     - name: Ports
-      pathTemplate: '{{ jp "{.ports}" . | k8s_container_ports }}'
+      pathTemplate: '{{ .ports | k8s_container_ports }}'
       priority: 0
       type: string
     - name: Volume Mounts
-      pathTemplate: '{{ jp "{.volumeMounts}" . | k8s_volumeMounts }}'
+      pathTemplate: '{{ .volumeMounts | k8s_volumeMounts }}'
       priority: 0
       type: string
     fieldPath: .spec.initContainers

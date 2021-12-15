@@ -31,11 +31,11 @@ spec:
     priority: 3
     type: string
   - name: Target Namespace(s)
-    pathTemplate: '{{ jp "{$}" . | prom_ns_selector }}'
+    pathTemplate: '{{ prom_ns_selector . }}'
     priority: 3
     type: string
   - name: Job Label
-    pathTemplate: '{{ jp "{.spec.jobLabel }" . }}'
+    pathTemplate: '{{ .spec.jobLabel | toRawJson }}'
     priority: 3
     type: string
   - name: Age

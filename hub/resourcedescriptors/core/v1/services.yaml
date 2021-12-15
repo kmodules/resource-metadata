@@ -38,14 +38,14 @@ spec:
     priority: 3
     type: string
   - name: Port(s)
-    pathTemplate: '{{ jp "{.spec.ports}" . | k8s_svc_ports }}'
+    pathTemplate: '{{ .spec.ports | k8s_svc_ports }}'
     priority: 2
     type: string
   - name: Selector
     priority: 3
     type: string
   - name: Age
-    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . | k8s_age }}'
+    pathTemplate: '{{ .metadata.creationTimestamp | k8s_age }}'
     priority: 3
     type: string
   connections:

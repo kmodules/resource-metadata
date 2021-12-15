@@ -43,7 +43,7 @@ spec:
     priority: 3
     type: string
   - name: Validity
-    pathTemplate: '{{ jp "{.status}" . | cert_validity }}'
+    pathTemplate: '{{ .status | cert_validity }}'
     priority: 3
     type: string
   - name: Renewal Date

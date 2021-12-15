@@ -252,7 +252,7 @@ func cellForJSONValue(colName, headerType string, value string) (interface{}, er
 	switch headerType {
 	case "integer":
 		if value == "" {
-			return "<unset>", nil
+			return "<unknown>", nil
 		}
 		i64, err := strconv.ParseInt(value, 10, 64)
 		if err != nil {
@@ -261,7 +261,7 @@ func cellForJSONValue(colName, headerType string, value string) (interface{}, er
 		return i64, nil
 	case "number":
 		if value == "" {
-			return "<unset>", nil
+			return "<unknown>", nil
 		}
 		f64, err := strconv.ParseFloat(value, 64)
 		if err != nil {
@@ -270,7 +270,7 @@ func cellForJSONValue(colName, headerType string, value string) (interface{}, er
 		return f64, nil
 	case "boolean":
 		if value == "" {
-			return "<unset>", nil
+			return "<unknown>", nil
 		}
 		b, err := strconv.ParseBool(value)
 		if err != nil {

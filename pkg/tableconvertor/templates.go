@@ -24,6 +24,7 @@ import (
 	"text/template"
 	"time"
 
+	meta_util "kmodules.xyz/client-go/meta"
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor/printers"
 	resourcemetrics "kmodules.xyz/resource-metrics"
 
@@ -96,63 +97,81 @@ func jsonpathFn(expr string, data interface{}, jsonoutput ...bool) (interface{},
 	return buf.String(), err
 }
 
-func formatLabelSelectorFn(data string) (string, error) {
-	if strings.TrimSpace(data) == "" {
-		return "", nil
-	}
+func formatLabelSelectorFn(data interface{}) (string, error) {
 	var sel metav1.LabelSelector
-	err := json.Unmarshal([]byte(data), &sel)
-	if err != nil {
-		return "", err
+	if s, ok := data.(string); ok && s != "" {
+		err := json.Unmarshal([]byte(s), &sel)
+		if err != nil {
+			return "", err
+		}
+	} else if _, ok := data.(map[string]interface{}); ok {
+		err := meta_util.DecodeObject(data, &sel)
+		if err != nil {
+			return "", err
+		}
 	}
 	return metav1.FormatLabelSelector(&sel), nil
 }
 
-func formatLabelsFn(data string) (string, error) {
-	if strings.TrimSpace(data) == "" {
-		return "", nil
+func formatLabelsFn(data interface{}) (string, error) {
+	var lbl map[string]string
+	if s, ok := data.(string); ok && s != "" {
+		err := json.Unmarshal([]byte(s), &lbl)
+		if err != nil {
+			return "", err
+		}
+	} else if _, ok := data.(map[string]interface{}); ok {
+		err := meta_util.DecodeObject(data, &lbl)
+		if err != nil {
+			return "", err
+		}
 	}
-	var label map[string]string
-	err := json.Unmarshal([]byte(data), &label)
-	if err != nil {
-		return "", err
-	}
-	return labels.FormatLabels(label), nil
+	return labels.FormatLabels(lbl), nil
 }
 
-func ageFn(data string) (string, error) {
-	if data == "" {
-		return "", nil
-	}
+func ageFn(data interface{}) (string, error) {
 	var timestamp metav1.Time
-	err := timestamp.UnmarshalQueryParameter(data)
-	if err != nil {
-		return "", err
+	if s, ok := data.(string); ok && s != "" {
+		err := timestamp.UnmarshalQueryParameter(s)
+		if err != nil {
+			return "", err
+		}
+	} else if v, ok := data.(metav1.Time); ok {
+		timestamp = v
 	}
 	return metatable.ConvertToHumanReadableDateType(timestamp), nil
 }
 
-func servicePortsFn(data string) (string, error) {
-	if strings.TrimSpace(data) == "" {
-		return "", nil
-	}
+func servicePortsFn(data interface{}) (string, error) {
 	var ports []core.ServicePort
-	err := json.Unmarshal([]byte(data), &ports)
-	if err != nil {
-		return "", err
+	if s, ok := data.(string); ok && s != "" {
+		err := json.Unmarshal([]byte(s), &ports)
+		if err != nil {
+			return "", err
+		}
+	} else if _, ok := data.([]interface{}); ok {
+		err := meta_util.DecodeObject(data, &ports)
+		if err != nil {
+			return "", err
+		}
 	}
 	return printers.MakeServicePortString(ports), nil
 }
 
-func containerPortFn(data string) (string, error) {
-	if strings.TrimSpace(data) == "" {
-		return "", nil
-	}
+func containerPortFn(data interface{}) (string, error) {
 	var ports []core.ContainerPort
-	err := json.Unmarshal([]byte(data), &ports)
-	if err != nil {
-		return "", err
+	if s, ok := data.(string); ok && s != "" {
+		err := json.Unmarshal([]byte(s), &ports)
+		if err != nil {
+			return "", err
+		}
+	} else if _, ok := data.([]interface{}); ok {
+		err := meta_util.DecodeObject(data, &ports)
+		if err != nil {
+			return "", err
+		}
 	}
+
 	pieces := make([]string, len(ports))
 	for ix := range ports {
 		port := &ports[ix]
@@ -164,15 +183,20 @@ func containerPortFn(data string) (string, error) {
 	return strings.Join(pieces, ","), nil
 }
 
-func volumesFn(data string) (string, error) {
-	if strings.TrimSpace(data) == "" {
-		return "", nil
-	}
+func volumesFn(data interface{}) (string, error) {
 	var volumes []core.Volume
-	err := json.Unmarshal([]byte(data), &volumes)
-	if err != nil {
-		return "", err
+	if s, ok := data.(string); ok && s != "" {
+		err := json.Unmarshal([]byte(s), &volumes)
+		if err != nil {
+			return "", err
+		}
+	} else if _, ok := data.([]interface{}); ok {
+		err := meta_util.DecodeObject(data, &volumes)
+		if err != nil {
+			return "", err
+		}
 	}
+
 	ss := "["
 	for i := range volumes {
 		ss += describeVolume(volumes[i])
@@ -184,17 +208,21 @@ func volumesFn(data string) (string, error) {
 	return ss, nil
 }
 
-func volumeMountsFn(data string) (string, error) {
-	if strings.TrimSpace(data) == "" {
-		return "", nil
-	}
+func volumeMountsFn(data interface{}) (string, error) {
 	var mounts []core.VolumeMount
-	ss := make([]string, 0)
-	err := json.Unmarshal([]byte(data), &mounts)
-	if err != nil {
-		return "", err
+	if s, ok := data.(string); ok && s != "" {
+		err := json.Unmarshal([]byte(s), &mounts)
+		if err != nil {
+			return "", err
+		}
+	} else if _, ok := data.([]interface{}); ok {
+		err := meta_util.DecodeObject(data, &mounts)
+		if err != nil {
+			return "", err
+		}
 	}
 
+	ss := make([]string, 0, len(mounts))
 	for i := range mounts {
 		mnt := fmt.Sprintf("%s:%s", mounts[i].Name, mounts[i].MountPath)
 		if mounts[i].SubPath != "" {
@@ -205,13 +233,16 @@ func volumeMountsFn(data string) (string, error) {
 	return strings.Join(ss, "\n"), nil
 }
 
-func fmtListFn(data string) (string, error) {
+func fmtListFn(data interface{}) (string, error) {
+	if s, ok := data.(string); ok && s != "" {
+		return s, nil
+	} else if arr, ok := data.([]interface{}); ok && len(arr) > 0 {
+		s, err := json.Marshal(arr)
+		return string(s), err
+	}
 	// Return empty list if the data is empty. This helps to avoid object parsing error.
 	// ref: https://stackoverflow.com/a/18419503
-	if len(data) == 0 {
-		return "[]", nil
-	}
-	return data, nil
+	return "[]", nil
 }
 
 type promNamespaceSelector struct {
@@ -222,15 +253,20 @@ type promNamespaceSelectorSpec struct {
 	NamespaceSelector *prom_op.NamespaceSelector `json:"namespaceSelector,omitempty"`
 }
 
-func promNamespaceSelectorFn(data string) (string, error) {
-	if strings.TrimSpace(data) == "" {
-		return "", nil
-	}
+func promNamespaceSelectorFn(data interface{}) (string, error) {
 	var selOpts promNamespaceSelector
-	err := json.Unmarshal([]byte(data), &selOpts)
-	if err != nil {
-		return "", err
+	if s, ok := data.(string); ok && s != "" {
+		err := json.Unmarshal([]byte(s), &selOpts)
+		if err != nil {
+			return "", err
+		}
+	} else if _, ok := data.(map[string]interface{}); ok {
+		err := meta_util.DecodeObject(data, &selOpts)
+		if err != nil {
+			return "", err
+		}
 	}
+
 	// If selector field is empty, then all namespaces are the targets.
 	if selOpts.Spec.NamespaceSelector == nil {
 		return "All", nil
@@ -244,17 +280,21 @@ func promNamespaceSelectorFn(data string) (string, error) {
 	return "", nil
 }
 
-func containerImagesFn(data string) (string, error) {
-	var imagesBuffer bytes.Buffer
-	if strings.TrimSpace(data) == "" {
-		return "", nil
+func containerImagesFn(data interface{}) (string, error) {
+	var containers []core.Container
+	if s, ok := data.(string); ok && s != "" {
+		err := json.Unmarshal([]byte(s), &containers)
+		if err != nil {
+			return "", err
+		}
+	} else if _, ok := data.(map[string]interface{}); ok {
+		err := meta_util.DecodeObject(data, &containers)
+		if err != nil {
+			return "", err
+		}
 	}
 
-	var containers []core.Container
-	err := json.Unmarshal([]byte(data), &containers)
-	if err != nil {
-		return "", err
-	}
+	var imagesBuffer bytes.Buffer
 	for i, container := range containers {
 		imagesBuffer.WriteString(container.Image)
 		if i != len(containers)-1 {
@@ -264,60 +304,67 @@ func containerImagesFn(data string) (string, error) {
 	return imagesBuffer.String(), nil
 }
 
-func durationFn(data string) (string, error) {
-	if strings.TrimSpace(data) == "" {
-		return "", nil
-	}
-
-	// make the data a valid json
-	ss := strings.Split(strings.TrimSuffix(data, ","), ",")
-	jsonData := "["
-	for i := range ss {
-		jsonData += fmt.Sprintf("%q", ss[i])
-		if i < len(ss)-1 {
-			jsonData += ","
+func durationFn(start interface{}, end ...interface{}) (string, error) {
+	var st metav1.Time
+	if s, ok := start.(string); ok && s != "" {
+		err := st.UnmarshalQueryParameter(s)
+		if err != nil {
+			return "", err
 		}
+	} else if v, ok := start.(metav1.Time); ok {
+		st = v
 	}
-	jsonData += "]"
 
-	var tt []metav1.Time
-	err := json.Unmarshal([]byte(jsonData), &tt)
-	if err != nil {
-		return "", err
+	if len(end) == 0 || end[0] == nil {
+		// only start time exists
+		return duration.HumanDuration(time.Since(st.Time)), nil
 	}
-	if len(tt) == 1 {
-		// only start time is does exist
-		return duration.HumanDuration(time.Since(tt[0].Time)), nil
-	} else {
-		return duration.HumanDuration(tt[1].Sub(tt[0].Time)), nil
+
+	var et metav1.Time
+	if s, ok := end[0].(string); ok && s != "" {
+		err := et.UnmarshalQueryParameter(s)
+		if err != nil {
+			return "", err
+		}
+	} else if v, ok := end[0].(metav1.Time); ok {
+		et = v
 	}
+	return duration.HumanDuration(et.Sub(st.Time)), nil
 }
 
-func mapKeyCountFn(data string) (string, error) {
-	if strings.TrimSpace(data) == "" {
-		return "", nil
+func mapKeyCountFn(data interface{}) (string, error) {
+	var m map[string]interface{}
+
+	if s, ok := data.(string); ok && s != "" {
+		err := json.Unmarshal([]byte(s), &m)
+		if err != nil {
+			return "", err
+		}
+	} else if v, ok := data.(map[string]interface{}); ok {
+		m = v
 	}
 
-	var m map[string]string
-	err := json.Unmarshal([]byte(data), &m)
-	if err != nil {
-		return "", err
+	if m == nil {
+		return "<unknown>", nil
 	}
-
 	return strconv.Itoa(len(m)), nil
 }
 
-func rbacSubjects(data string) (string, error) {
-	if strings.TrimSpace(data) == "" {
-		return "", nil
+func rbacSubjects(data interface{}) (string, error) {
+	var subjects []rbac.Subject
+	if s, ok := data.(string); ok && s != "" {
+		err := json.Unmarshal([]byte(s), &subjects)
+		if err != nil {
+			return "", err
+		}
+	} else if _, ok := data.([]interface{}); ok {
+		err := meta_util.DecodeObject(data, &subjects)
+		if err != nil {
+			return "", err
+		}
 	}
 
-	var subjects []rbac.Subject
-	err := json.Unmarshal([]byte(data), &subjects)
-	if err != nil {
-		return "", err
-	}
-	var ss []string
+	ss := make([]string, 0, len(subjects))
 	for i := range subjects {
 		s := fmt.Sprintf("%s %s", subjects[i].Kind, subjects[i].Name)
 		if subjects[i].Namespace != "" {
@@ -328,23 +375,29 @@ func rbacSubjects(data string) (string, error) {
 	return strings.Join(ss, ","), nil
 }
 
-func certificateValidity(data string) (string, error) {
-	if strings.TrimSpace(data) == "" {
-		return "", nil
-	}
-
+func certificateValidity(data interface{}) (string, error) {
 	certStatus := struct {
 		NotBefore metav1.Time `json:"notBefore"`
 		NotAfter  metav1.Time `json:"notAfter"`
 	}{}
-	err := json.Unmarshal([]byte(data), &certStatus)
-	if err != nil {
-		return "", err
+	if s, ok := data.(string); ok && s != "" {
+		err := json.Unmarshal([]byte(s), &certStatus)
+		if err != nil {
+			return "", err
+		}
+	} else if _, ok := data.(map[string]interface{}); ok {
+		err := meta_util.DecodeObject(data, &certStatus)
+		if err != nil {
+			return "", err
+		}
 	}
 
-	if certStatus.NotBefore.After(time.Now()) {
+	now := time.Now()
+	if certStatus.NotBefore.IsZero() || certStatus.NotAfter.IsZero() {
+		return "<unknown>", nil
+	} else if certStatus.NotBefore.After(now) {
 		return "Not valid yet", nil
-	} else if time.Now().After(certStatus.NotAfter.Time) {
+	} else if now.After(certStatus.NotAfter.Time) {
 		return "Expired", nil
 	}
 	return duration.HumanDuration(time.Until(certStatus.NotAfter.Time)), nil

@@ -47,7 +47,7 @@ spec:
     priority: 3
     type: object
   - name: Client Auth Mode
-    pathTemplate: '{{ jp "{.spec.clientAuthMode}" . }}'
+    pathTemplate: '{{ .spec.clientAuthMode }}'
     priority: 3
     type: string
   - name: Auth Secret
