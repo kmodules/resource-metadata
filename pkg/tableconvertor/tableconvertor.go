@@ -184,13 +184,15 @@ func (c *convertor) rowFn(data interface{}) ([]interface{}, error) {
 			klog.Infof("Failed to parse. Reason: %v", err)
 			return nil, fmt.Errorf("invalid column definition %q", col.PathTemplate)
 		}
+		// Not that zero will attempt to add default values for types it knows,
+		// but will still emit <no value> for others. We mitigate that later.
+		tpl.Option("missingkey=zero")
 		err = tpl.Execute(c.buf, data)
 		if err != nil {
 			klog.Infof("Failed to resolve template. Reason: %v", err)
 			return nil, fmt.Errorf("invalid column definition %q", col.PathTemplate)
 		}
-
-		v, err := cellForJSONValue(col.Name, col.Type, c.buf.String())
+		v, err := cellForJSONValue(col.Name, col.Type, strings.ReplaceAll(c.buf.String(), "<no value>", ""))
 		if err != nil {
 			return nil, err
 		}
@@ -246,10 +248,11 @@ func fields(path string) []string {
 }
 
 func cellForJSONValue(colName, headerType string, value string) (interface{}, error) {
+	value = strings.TrimSpace(value)
 	switch headerType {
 	case "integer":
 		if value == "" {
-			return "<unknown>", nil
+			return "<unset>", nil
 		}
 		i64, err := strconv.ParseInt(value, 10, 64)
 		if err != nil {
@@ -258,7 +261,7 @@ func cellForJSONValue(colName, headerType string, value string) (interface{}, er
 		return i64, nil
 	case "number":
 		if value == "" {
-			return "<unknown>", nil
+			return "<unset>", nil
 		}
 		f64, err := strconv.ParseFloat(value, 64)
 		if err != nil {
@@ -284,7 +287,7 @@ func cellForJSONValue(colName, headerType string, value string) (interface{}, er
 		}
 		return metatable.ConvertToHumanReadableDateType(timestamp), nil
 	case "object":
-		if strings.TrimSpace(value) == "" {
+		if value == "" || value == "null" {
 			return map[string]interface{}{}, nil
 		}
 		var obj interface{}

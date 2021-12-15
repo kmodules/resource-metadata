@@ -11,31 +11,31 @@ metadata:
 spec:
   columns:
   - name: Name
-    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    pathTemplate: '{{ .metadata.name }}'
     priority: 3
     type: string
   - name: Namespace
-    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
+    pathTemplate: '{{ .metadata.namespace }}'
     priority: 3
     type: string
   - name: Labels
-    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
+    pathTemplate: '{{ .metadata.labels | toRawJson }}'
     priority: 3
     type: object
   - name: Annotations
-    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
+    pathTemplate: '{{ .metadata.annotations | toRawJson }}'
     priority: 3
     type: object
   - name: Parallelism
-    pathTemplate: '{{ jp "{.spec.parallelism}" .}}'
+    pathTemplate: '{{ .spec.parallelism }}'
     priority: 1
     type: string
   - name: Backoff Limit
-    pathTemplate: '{{ jp "{.spec.backoffLimit}" . }}'
+    pathTemplate: '{{ .spec.backoffLimit }}'
     priority: 1
     type: string
   - name: Completion
-    pathTemplate: '{{ jp "{.status.succeeded}/{.spec.completions}" . }}'
+    pathTemplate: '{{ .status.succeeded }}//{{ .spec.completions }}'
     priority: 3
     type: string
   - name: Duration
@@ -51,7 +51,7 @@ spec:
     priority: 1
     type: object
   - name: ServiceAccount Name
-    pathTemplate: '{{ jp "{.spec.jobTemplate.spec.template.spec.serviceAccountName}" . }}'
+    pathTemplate: '{{ .spec.jobTemplate.spec.template.spec.serviceAccountName }}'
     priority: 1
     type: string
   - name: Volumes
@@ -59,7 +59,7 @@ spec:
     priority: 1
     type: object
   - name: Age
-    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
     type: date
   connections:
@@ -106,11 +106,11 @@ spec:
   subTables:
   - columns:
     - name: Name
-      pathTemplate: '{{ jp "{.name}" . }}'
+      pathTemplate: '{{ .name }}'
       priority: 0
       type: string
     - name: Image
-      pathTemplate: '{{ jp "{.image}" . }}'
+      pathTemplate: '{{ .image }}'
       priority: 0
       type: string
     - name: Arguments
@@ -133,11 +133,11 @@ spec:
     name: Containers
   - columns:
     - name: Name
-      pathTemplate: '{{ jp "{.name}" . }}'
+      pathTemplate: '{{ .name }}'
       priority: 0
       type: string
     - name: Image
-      pathTemplate: '{{ jp "{.image}" . }}'
+      pathTemplate: '{{ .image }}'
       priority: 0
       type: string
     - name: Arguments
@@ -160,50 +160,50 @@ spec:
     name: Init-Containers
   - columns:
     - name: Type
-      pathTemplate: '{{ jp "{.type}" . }}'
+      pathTemplate: '{{ .type }}'
       priority: 0
       type: string
     - name: Status
-      pathTemplate: '{{ jp "{.status}" . }}'
+      pathTemplate: '{{ .status }}'
       priority: 0
       type: string
     - name: Reason
-      pathTemplate: '{{ jp "{.reason}" . }}'
+      pathTemplate: '{{ .reason }}'
       priority: 0
       type: string
     - name: Last Transition Time
-      pathTemplate: '{{ jp "{.lastTransitionTime}" . }}'
+      pathTemplate: '{{ .lastTransitionTime }}'
       priority: 0
       type: date
     - name: Last Update Time
-      pathTemplate: '{{ jp "{.lastUpdateTime}" . }}'
+      pathTemplate: '{{ .lastUpdateTime }}'
       priority: 0
       type: date
     - name: Message
-      pathTemplate: '{{ jp "{.message}" . }}'
+      pathTemplate: '{{ .message }}'
       priority: 0
       type: string
     fieldPath: .status.conditions
     name: Conditions
   - columns:
     - name: API Version
-      pathTemplate: '{{ jp "{.apiVersion}" . }}'
+      pathTemplate: '{{ .apiVersion }}'
       priority: 0
       type: string
     - name: Kind
-      pathTemplate: '{{ jp "{.kind}" . }}'
+      pathTemplate: '{{ .kind }}'
       priority: 0
       type: string
     - name: Name
-      pathTemplate: '{{ jp "{.name}" . }}'
+      pathTemplate: '{{ .name }}'
       priority: 0
       type: string
     - name: Controller
-      pathTemplate: '{{ jp "{.controller}" . }}'
+      pathTemplate: '{{ .controller }}'
       priority: 0
       type: string
     - name: Block Onwer Deletion
-      pathTemplate: '{{ jp "{.blockOwnerDeletion}" . }}'
+      pathTemplate: '{{ .blockOwnerDeletion }}'
       priority: 0
       type: string
     fieldPath: .metadata.ownerReferences

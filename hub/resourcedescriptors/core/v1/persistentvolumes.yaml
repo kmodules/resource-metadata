@@ -11,32 +11,32 @@ metadata:
 spec:
   columns:
   - name: Name
-    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    pathTemplate: '{{ .metadata.name }}'
     priority: 0
     type: string
   - name: Capacity
-    pathTemplate: '{{ jp "{.spec.capacity}" . }}'
+    pathTemplate: '{{ .spec.capacity }}'
     priority: 0
     type: string
   - format: array
     name: Access Modes
-    pathTemplate: '{{ jp "{.spec.accessModes}" . }}'
+    pathTemplate: '{{ .spec.accessModes }}'
     priority: 0
     type: string
   - name: Reclaim Policy
-    pathTemplate: '{{ jp "{.spec.persistentVolumeReclaimPolicy}" . }}'
+    pathTemplate: '{{ .spec.persistentVolumeReclaimPolicy }}'
     priority: 0
     type: string
   - name: Status
-    pathTemplate: '{{ jp "{.status.phase}" . }}'
+    pathTemplate: '{{ .status.phase }}'
     priority: 0
     type: string
   - name: Storage Class
-    pathTemplate: '{{ jp "{.spec.storageClassName}" . }}'
+    pathTemplate: '{{ .spec.storageClassName }}'
     priority: 0
     type: string
   - name: Age
-    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 0
     type: date
   icons:

@@ -11,51 +11,51 @@ metadata:
 spec:
   columns:
   - name: Name
-    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    pathTemplate: '{{ .metadata.name }}'
     priority: 3
     type: string
   - name: Namespace
-    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
+    pathTemplate: '{{ .metadata.namespace }}'
     priority: 3
     type: string
   - name: Labels
-    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
+    pathTemplate: '{{ .metadata.labels | toRawJson }}'
     priority: 3
     type: object
   - name: Annotations
-    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
+    pathTemplate: '{{ .metadata.annotations | toRawJson }}'
     priority: 1
     type: object
   - name: Retention
-    pathTemplate: '{{ jp "{.spec.retention}" . }}'
+    pathTemplate: '{{ .spec.retention }}'
     priority: 1
     type: string
   - name: Scrape Interval
-    pathTemplate: '{{ jp "{.spec.scrapeInterval}" . }}'
+    pathTemplate: '{{ .spec.scrapeInterval }}'
     priority: 3
     type: string
   - name: Scrape Timeout
-    pathTemplate: '{{ jp "{.spec.scrapeTimeout}" . }}'
+    pathTemplate: '{{ .spec.scrapeTimeout }}'
     priority: 3
     type: string
   - name: Evaluation Interval
-    pathTemplate: '{{ jp "{.spec.evaluationInterval}" . }}'
+    pathTemplate: '{{ .spec.evaluationInterval }}'
     priority: 3
     type: string
   - name: Admin API
-    pathTemplate: '{{ jp "{.spec.enableAdminAPI}" . }}'
+    pathTemplate: '{{ .spec.enableAdminAPI }}'
     priority: 3
     type: string
   - name: Storage
-    pathTemplate: '{{ jp "{.spec.storage.volumeClaimTemplate.resources.requests.storage}" . }}'
+    pathTemplate: '{{ .spec.storage.volumeClaimTemplate.resources.requests.storage }}'
     priority: 3
     type: string
   - name: Paused
-    pathTemplate: '{{ jp "{.spec.paused}" . }}'
+    pathTemplate: '{{ .spec.paused }}'
     priority: 3
     type: string
   - name: Age
-    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
     type: date
   connections:

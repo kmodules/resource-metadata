@@ -11,39 +11,39 @@ metadata:
 spec:
   columns:
   - name: Name
-    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    pathTemplate: '{{ .metadata.name }}'
     priority: 3
     type: string
   - name: Namespace
-    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
+    pathTemplate: '{{ .metadata.namespace }}'
     priority: 3
     type: string
   - name: Labels
-    pathTemplate: '{{ jp "{.metadata.labels}" . }}'
+    pathTemplate: '{{ .metadata.labels | toRawJson }}'
     priority: 3
     type: object
   - name: Annotations
-    pathTemplate: '{{ jp "{.metadata.annotations}" . }}'
+    pathTemplate: '{{ .metadata.annotations | toRawJson }}'
     priority: 1
     type: object
   - name: Selector
-    pathTemplate: '{{ jp "{.spec.selector }" . | k8s_fmt_selector }}'
+    pathTemplate: '{{ .spec.selector | k8s_fmt_selector }}'
     priority: 1
     type: string
   - name: Min Ready Seconds
-    pathTemplate: '{{ jp "{.spec.minReadySeconds}" . }}'
+    pathTemplate: '{{ .spec.minReadySeconds }}'
     priority: 1
     type: integer
   - name: Revision History Limit
-    pathTemplate: '{{ jp "{.spec.revisionHistoryLimit}" . }}'
+    pathTemplate: '{{ .spec.revisionHistoryLimit }}'
     priority: 1
     type: integer
   - name: Update Strategy
-    pathTemplate: '{{ jp "{.spec.updateStrategy.type}" . }}'
+    pathTemplate: '{{ .spec.updateStrategy.type }}'
     priority: 1
     type: string
   - name: Rolling Update Strategy
-    pathTemplate: '{{ jp "{.spec.updateStrategy.rollingUpdate}" . }}'
+    pathTemplate: '{{ .spec.updateStrategy.rollingUpdate }}'
     priority: 1
     type: object
   - name: Pod Status
@@ -51,23 +51,23 @@ spec:
     priority: 1
     type: object
   - name: Pods
-    pathTemplate: '{{ jp "{.status.numberReady}/{.status.desiredNumberScheduled}" . }}'
+    pathTemplate: '{{ .status.numberReady }/{{ .status.desiredNumberScheduled }}'
     priority: 2
     type: string
   - name: Dsired
-    pathTemplate: '{{ jp "{.status.desiredNumberScheduled}" . }}'
+    pathTemplate: '{{ .status.desiredNumberScheduled }}'
     priority: 2
     type: string
   - name: Current-Scheduled
-    pathTemplate: '{{ jp "{.status.currentNumberScheduled}" . }}'
+    pathTemplate: '{{ .status.currentNumberScheduled }}'
     priority: 2
     type: string
   - name: Up-to-date
-    pathTemplate: '{{ jp "{.status.updatedNumberScheduled}" . }}'
+    pathTemplate: '{{ .status.updatedNumberScheduled }}'
     priority: 2
     type: string
   - name: Node Selector
-    pathTemplate: '{{ jp "{.spec.template.spec.nodeSelector}" . }}'
+    pathTemplate: '{{ .spec.template.spec.nodeSelector }}'
     priority: 3
     type: string
   - name: Images
@@ -79,7 +79,7 @@ spec:
     priority: 1
     type: object
   - name: ServiceAccount Name
-    pathTemplate: '{{ jp "{.spec.template.spec.serviceAccountName}" . }}'
+    pathTemplate: '{{ .spec.template.spec.serviceAccountName }}'
     priority: 1
     type: string
   - name: Volumes
@@ -87,7 +87,7 @@ spec:
     priority: 1
     type: object
   - name: Age
-    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
     type: date
   icons:
@@ -174,11 +174,11 @@ spec:
   subTables:
   - columns:
     - name: Name
-      pathTemplate: '{{ jp "{.name}" . }}'
+      pathTemplate: '{{ .name }}'
       priority: 0
       type: string
     - name: Image
-      pathTemplate: '{{ jp "{.image}" . }}'
+      pathTemplate: '{{ .image }}'
       priority: 0
       type: string
     - name: Arguments
@@ -201,11 +201,11 @@ spec:
     name: Containers
   - columns:
     - name: Name
-      pathTemplate: '{{ jp "{.name}" . }}'
+      pathTemplate: '{{ .name }}'
       priority: 0
       type: string
     - name: Image
-      pathTemplate: '{{ jp "{.image}" . }}'
+      pathTemplate: '{{ .image }}'
       priority: 0
       type: string
     - name: Arguments
@@ -228,27 +228,27 @@ spec:
     name: Init-Containers
   - columns:
     - name: Type
-      pathTemplate: '{{ jp "{.type}" . }}'
+      pathTemplate: '{{ .type }}'
       priority: 0
       type: string
     - name: Status
-      pathTemplate: '{{ jp "{.status}" . }}'
+      pathTemplate: '{{ .status }}'
       priority: 0
       type: string
     - name: Reason
-      pathTemplate: '{{ jp "{.reason}" . }}'
+      pathTemplate: '{{ .reason }}'
       priority: 0
       type: string
     - name: Last Transition Time
-      pathTemplate: '{{ jp "{.lastTransitionTime}" . }}'
+      pathTemplate: '{{ .lastTransitionTime }}'
       priority: 0
       type: date
     - name: Last Update Time
-      pathTemplate: '{{ jp "{.lastUpdateTime}" . }}'
+      pathTemplate: '{{ .lastUpdateTime }}'
       priority: 0
       type: date
     - name: Message
-      pathTemplate: '{{ jp "{.message}" . }}'
+      pathTemplate: '{{ .message }}'
       priority: 0
       type: string
     fieldPath: .status.conditions

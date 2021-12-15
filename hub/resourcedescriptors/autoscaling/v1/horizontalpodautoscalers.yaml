@@ -11,31 +11,31 @@ metadata:
 spec:
   columns:
   - name: Name
-    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    pathTemplate: '{{ .metadata.name }}'
     priority: 3
     type: string
   - name: Namespace
-    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
+    pathTemplate: '{{ .metadata.namespace }}'
     priority: 3
     type: string
   - name: Reference
-    pathTemplate: '{{ jp "{.spec.scaleTargetRef.kind}/{.spec.scaleTargetRef.name}" . }}'
+    pathTemplate: '{{ .spec.scaleTargetRef.kind }}/{{ .spec.scaleTargetRef.name }}'
     priority: 3
     type: string
   - name: Target CPU Utilization
-    pathTemplate: '{{ jp "{.spec.targetCPUUtilizationPercentage}" . }}%'
+    pathTemplate: '{{ .spec.targetCPUUtilizationPercentage }}%'
     priority: 3
     type: string
   - name: Min-Replica(s)
-    pathTemplate: '{{ jp "{.spec.minReplicas}" . }}'
+    pathTemplate: '{{ .spec.minReplicas }}'
     priority: 3
     type: string
   - name: Max-Replica(s)
-    pathTemplate: '{{ jp "{.spec.maxReplicas}" . }}'
+    pathTemplate: '{{ .spec.maxReplicas }}'
     priority: 3
     type: string
   - name: Age
-    pathTemplate: '{{ jp "{.metadata.creationTimestamp}" . }}'
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
     type: date
   connections:
