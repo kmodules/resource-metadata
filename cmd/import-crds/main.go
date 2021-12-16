@@ -46,6 +46,9 @@ go run cmd/icon-namer/main.go
 
 # Import crds
 
+go run cmd/import-crds/main.go --input=$HOME/go/src/kubeops.dev/ui-server/crds
+go run cmd/import-crds/main.go --input=$HOME/go/src/kubedb.dev/ui-server/crds
+
 go run cmd/import-crds/main.go --input=$HOME/go/src/k8s.io/api/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/k8s.io/kube-aggregator/crds
 

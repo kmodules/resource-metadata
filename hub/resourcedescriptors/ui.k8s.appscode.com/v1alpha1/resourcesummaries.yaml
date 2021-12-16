@@ -45,8 +45,29 @@ spec:
           type: object
         spec:
           properties:
-            apiGroup:
-              type: string
+            apiType:
+              description: ResourceID identifies a resource
+              properties:
+                group:
+                  type: string
+                kind:
+                  description: Kind is the serialized kind of the resource.  It is normally CamelCase and singular.
+                  type: string
+                name:
+                  description: 'Name is the plural name of the resource to serve.  It must match the name of the CustomResourceDefinition-registration too: plural.group and it must be all lowercase.'
+                  type: string
+                scope:
+                  description: ResourceScope is an enum defining the different scopes available to a custom resource
+                  type: string
+                version:
+                  type: string
+              required:
+              - group
+              - kind
+              - name
+              - scope
+              - version
+              type: object
             appResource:
               description: ResourceRequirements describes the compute resource requirements.
               properties:
@@ -75,8 +96,6 @@ spec:
               type: string
             count:
               type: integer
-            kind:
-              type: string
             totalResource:
               description: ResourceRequirements describes the compute resource requirements.
               properties:
@@ -99,5 +118,7 @@ spec:
                   description: 'Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                   type: object
               type: object
+          required:
+          - apiType
           type: object
       type: object
