@@ -18,35 +18,35 @@ spec:
   subTables:
   - columns:
     - name: Operation
-      pathTemplate: '{{ jp "{.operation}" . }}'
+      pathTemplate: '{{ .operation }}'
       priority: 3
       type: string
     - name: Database
-      pathTemplate: '{{ jp "{.databaseName}" . }}'
+      pathTemplate: '{{ .databaseName }}'
       priority: 3
       type: string
     - name: Collection
-      pathTemplate: '{{ jp "{.collectionName}" . }}'
+      pathTemplate: '{{ .collectionName }}'
       priority: 3
       type: string
     - name: Command
-      pathTemplate: '{{ jp "{.command}" . }}'
+      pathTemplate: '{{ .command }}'
       priority: 3
       type: string
     - name: Count
-      pathTemplate: '{{ jp "{.count}" . }}'
+      pathTemplate: '{{ .count }}'
       priority: 3
       type: string
     - name: Avg Execution Time(ms)
-      pathTemplate: '{{ jp "{.avgExecutionTimeInMS}" . }}'
+      pathTemplate: '{{ .avgExecutionTimeInMS }}'
       priority: 3
       type: string
     - name: Min Execution Time(ms)
-      pathTemplate: '{{ jp "{.minExecutionTimeInMS}" . }}'
+      pathTemplate: '{{ .minExecutionTimeInMS }}'
       priority: 3
       type: string
     - name: Max Execution Time(ms)
-      pathTemplate: '{{ jp "{.maxExecutionTimeInMS}" . }}'
+      pathTemplate: '{{ .maxExecutionTimeInMS }}'
       priority: 3
       type: string
     fieldPath: .spec.queries

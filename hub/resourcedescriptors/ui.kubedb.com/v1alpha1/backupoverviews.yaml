@@ -11,35 +11,35 @@ metadata:
 spec:
   columns:
   - name: Schedule
-    pathTemplate: '{{ jp "{.spec.schedule}" . }}'
+    pathTemplate: '{{ .spec.schedule }}'
     priority: 3
     type: string
   - name: Last backup time
-    pathTemplate: '{{ jp "{.spec.lastBackupTime}" . }}'
+    pathTemplate: '{{ .spec.lastBackupTime }}'
     priority: 3
     type: string
   - name: Upcoming backup
-    pathTemplate: '{{ jp "{.spec.upcomingBackupTime}" . }}'
+    pathTemplate: '{{ .spec.upcomingBackupTime }}'
     priority: 3
     type: string
   - name: Backup Storage
-    pathTemplate: '{{ jp "{.spec.backupStorage}" . }}'
+    pathTemplate: '{{ .spec.backupStorage }}'
     priority: 3
     type: string
   - name: DataSize
-    pathTemplate: '{{ jp "{.spec.dataSize}" . }}'
+    pathTemplate: '{{ .spec.dataSize }}'
     priority: 3
     type: string
   - name: Number of Snapshots
-    pathTemplate: '{{ jp "{.spec.numberOfSnapshots}" . }}'
+    pathTemplate: '{{ .spec.numberOfSnapshots }}'
     priority: 3
     type: string
   - name: Data Integrity
-    pathTemplate: '{{ jp "{.spec.dataIntegrity}" . }}'
+    pathTemplate: '{{ .spec.dataIntegrity }}'
     priority: 3
     type: string
   - name: Data Directory
-    pathTemplate: '{{ jp "{.spec.dataDirectory}" . }}'
+    pathTemplate: '{{ .spec.dataDirectory }}'
     priority: 3
     type: string
   resource:
@@ -58,34 +58,20 @@ spec:
         metadata:
           properties:
             name:
-              description: 'Name must be unique within a namespace. Is required when
-                creating resources, although some resources may allow a client to
-                request the generation of an appropriate name automatically. Name
-                is primarily intended for creation idempotence and configuration definition.
-                Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
+              description: 'Name must be unique within a namespace. Is required when creating resources, although some resources may allow a client to request the generation of an appropriate name automatically. Name is primarily intended for creation idempotence and configuration definition. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
               type: string
             namespace:
-              description: "Namespace defines the space within which each name must
-                be unique. An empty namespace is equivalent to the \"default\" namespace,
-                but \"default\" is the canonical representation. Not all objects are
-                required to be scoped to a namespace - the value of this field for
-                those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated.
-                More info: http://kubernetes.io/docs/user-guide/namespaces"
+              description: "Namespace defines the space within which each name must be unique. An empty namespace is equivalent to the \"default\" namespace, but \"default\" is the canonical representation. Not all objects are required to be scoped to a namespace - the value of this field for those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/namespaces"
               type: string
             labels:
               additionalProperties:
                 type: string
-              description: 'Map of string keys and values that can be used to organize
-                and categorize (scope and select) objects. May match selectors of
-                replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels'
+              description: 'Map of string keys and values that can be used to organize and categorize (scope and select) objects. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels'
               type: object
             annotations:
               additionalProperties:
                 type: string
-              description: 'Annotations is an unstructured key value map stored with
-                a resource that may be set by external tools to store and retrieve
-                arbitrary metadata. They are not queryable and should be preserved
-                when modifying objects. More info: http://kubernetes.io/docs/user-guide/annotations'
+              description: 'Annotations is an unstructured key value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: http://kubernetes.io/docs/user-guide/annotations'
               type: object
           type: object
         spec:

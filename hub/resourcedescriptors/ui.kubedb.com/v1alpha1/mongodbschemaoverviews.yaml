@@ -18,11 +18,11 @@ spec:
   subTables:
   - columns:
     - name: Name
-      pathTemplate: '{{ jp "{.name}" . }}'
+      pathTemplate: '{{ .name }}'
       priority: 3
       type: string
     - name: Size
-      pathTemplate: '{{ jp "{.size}" . }}'
+      pathTemplate: '{{ .size }}'
       priority: 3
       type: object
     fieldPath: .spec.collections

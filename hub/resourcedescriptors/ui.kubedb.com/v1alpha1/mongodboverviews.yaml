@@ -11,71 +11,71 @@ metadata:
 spec:
   columns:
   - name: Name
-    pathTemplate: '{{ jp "{.metadata.name}" . }}'
+    pathTemplate: '{{ .metadata.name }}'
     priority: 3
     type: string
   - name: Namespace
-    pathTemplate: '{{ jp "{.metadata.namespace}" . }}'
+    pathTemplate: '{{ .metadata.namespace }}'
     priority: 3
     type: string
   - name: Version
-    pathTemplate: '{{ jp "{.spec.version}" . }}'
+    pathTemplate: '{{ .spec.version }}'
     priority: 3
     type: string
   - name: Status
-    pathTemplate: '{{ jp "{.spec.status}" . }}'
+    pathTemplate: '{{ .spec.status }}'
     priority: 3
     type: string
   - name: Current Connections
-    pathTemplate: '{{ jp "{.spec.connections.currentConnections}" . }}'
+    pathTemplate: '{{ .spec.connections.currentConnections }}'
     priority: 3
     type: string
   - name: Total Connections
-    pathTemplate: '{{ jp "{.spec.connections.totalConnections}" . }}'
+    pathTemplate: '{{ .spec.connections.totalConnections }}'
     priority: 3
     type: string
   - name: Available Connections
-    pathTemplate: '{{ jp "{.spec.connections.availableConnections}" . }}'
+    pathTemplate: '{{ .spec.connections.availableConnections }}'
     priority: 3
     type: string
   - name: Active Connections
-    pathTemplate: '{{ jp "{.spec.connections.activeConnections}" . }}'
+    pathTemplate: '{{ .spec.connections.activeConnections }}'
     priority: 3
     type: string
   - name: Data Size
-    pathTemplate: '{{ jp "{.spec.dbStats.dataSize}" . }}'
+    pathTemplate: '{{ .spec.dbStats.dataSize }}'
     priority: 3
     type: string
   - name: Total Index
-    pathTemplate: '{{ jp "{.spec.dbStats.totalIndexes}" . }}'
+    pathTemplate: '{{ .spec.dbStats.totalIndexes }}'
     priority: 3
     type: string
   - name: Index Size
-    pathTemplate: '{{ jp "{.spec.dbStats.indexSize}" . }}'
+    pathTemplate: '{{ .spec.dbStats.indexSize }}'
     priority: 3
     type: string
   - name: Replicas
-    pathTemplate: '{{ jp "{.spec.replicaSetInfo.numberOfReplicas}" . }}'
+    pathTemplate: '{{ .spec.replicaSetInfo.numberOfReplicas }}'
     priority: 3
     type: string
   - name: Number of Shards
-    pathTemplate: '{{ jp "{.spec.shardsInfo.numberOfShards}" . }}'
+    pathTemplate: '{{ .spec.shardsInfo.numberOfShards }}'
     priority: 3
     type: string
   - name: Replicas Per Shards
-    pathTemplate: '{{ jp "{.spec.shardsInfo.replicasPerShards}" . }}'
+    pathTemplate: '{{ .spec.shardsInfo.replicasPerShards }}'
     priority: 3
     type: string
   - name: Number of Chunks
-    pathTemplate: '{{ jp "{.spec.shardsInfo.numberOfChunks}" . }}'
+    pathTemplate: '{{ .spec.shardsInfo.numberOfChunks }}'
     priority: 3
     type: string
   - name: Balancer Enabled
-    pathTemplate: '{{ jp "{.spec.shardsInfo.balancerEnabled}" . }}'
+    pathTemplate: '{{ .spec.shardsInfo.balancerEnabled }}'
     priority: 3
     type: string
   - name: Chunks Balanced
-    pathTemplate: '{{ jp "{.spec.shardsInfo.chunksBalanced}" . }}'
+    pathTemplate: '{{ .spec.shardsInfo.chunksBalanced }}'
     priority: 3
     type: string
   connections:
@@ -148,20 +148,6 @@ spec:
         group: ui.kubedb.com
         resource: backupoverviews
         version: v1alpha1
-    - actions:
-        create: Never
-      displayMode: List
-      ref:
-        group: stash.appscode.com
-        resource: backupconfigurations
-        version: v1beta1
-    - actions:
-        create: Never
-      displayMode: List
-      ref:
-        group: stash.appscode.com
-        resource: backupsessions
-        version: v1beta1
   resource:
     group: ui.kubedb.com
     kind: MongoDBOverview
