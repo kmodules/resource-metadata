@@ -38,6 +38,7 @@ spec:
       apiVersion: policy/v1beta1
       kind: PodSecurityPolicy
     type: MatchRef
+    labels: ["offshoot"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/rbac.authorization.k8s.io/roles.svg
     type: image/svg+xml

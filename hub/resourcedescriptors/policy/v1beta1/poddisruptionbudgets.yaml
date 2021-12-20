@@ -57,6 +57,7 @@ spec:
       apiVersion: v1
       kind: Pod
     type: MatchSelector
+    labels: ["offshoot"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/policy/poddisruptionbudgets.svg
     type: image/svg+xml

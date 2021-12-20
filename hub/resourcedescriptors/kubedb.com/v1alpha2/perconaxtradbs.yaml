@@ -74,6 +74,7 @@ spec:
       apiVersion: apps/v1
       kind: StatefulSet
     type: MatchSelector
+    labels: ["offshoot"]
   - level: Owner
     namespacePath: metadata.namespace
     selector:
@@ -85,6 +86,7 @@ spec:
       apiVersion: v1
       kind: Service
     type: MatchSelector
+    labels: ["offshoot", "exposed_by"]
   - level: Controller
     nameTemplate: '{.metadata.name}'
     namespacePath: metadata.namespace
@@ -92,12 +94,14 @@ spec:
       apiVersion: appcatalog.appscode.com/v1alpha1
       kind: AppBinding
     type: MatchName
+    labels: ["offshoot", "connect_via"]
   - references:
     - '{.spec.version}'
     target:
       apiVersion: catalog.kubedb.com/v1alpha1
       kind: PerconaXtraDBVersion
     type: MatchRef
+    labels: ["offshoot", "catalog"]
   - namespacePath: metadata.namespace
     references:
     - '{.spec.tls.issuerRef.name},{.metadata.namespace}'
@@ -105,12 +109,14 @@ spec:
       apiVersion: cert-manager.io/v1
       kind: Issuer
     type: MatchRef
+    labels: ["offshoot"]
   - references:
     - '{.spec.tls.issuerRef.name}'
     target:
       apiVersion: cert-manager.io/v1
       kind: ClusterIssuer
     type: MatchRef
+    labels: ["offshoot"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/kubedb.com/perconaxtradbs.svg
     type: image/svg+xml

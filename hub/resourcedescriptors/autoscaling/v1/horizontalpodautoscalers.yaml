@@ -46,6 +46,7 @@ spec:
       apiVersion: apps/v1
       kind: Deployment
     type: MatchRef
+    labels: ["offshoot", "scaled_by"]
   - namespacePath: metadata.namespace
     references:
     - '{.spec.scaleTargetRef.name},{.metadata.namespace},{.spec.scaleTargetRef.kind},{.spec.scaleTargetRef.apiVersion}'
@@ -53,6 +54,7 @@ spec:
       apiVersion: apps/v1
       kind: ReplicaSet
     type: MatchRef
+    labels: ["offshoot", "scaled_by"]
   - namespacePath: metadata.namespace
     references:
     - '{.spec.scaleTargetRef.name},{.metadata.namespace},{.spec.scaleTargetRef.kind}'
@@ -60,6 +62,7 @@ spec:
       apiVersion: v1
       kind: ReplicationController
     type: MatchRef
+    labels: ["offshoot", "scaled_by"]
   - namespacePath: metadata.namespace
     references:
     - '{.spec.scaleTargetRef.name},{.metadata.namespace},{.spec.scaleTargetRef.kind},{.spec.scaleTargetRef.apiVersion}'
@@ -67,6 +70,7 @@ spec:
       apiVersion: apps/v1
       kind: StatefulSet
     type: MatchRef
+    labels: ["offshoot", "scaled_by"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/autoscaling/horizontalpodautoscalers.svg
     type: image/svg+xml

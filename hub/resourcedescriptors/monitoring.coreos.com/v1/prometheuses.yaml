@@ -65,12 +65,14 @@ spec:
       apiVersion: monitoring.coreos.com/v1
       kind: ServiceMonitor
     type: MatchSelector
+    labels: ["monitored_by"]
   - namespacePath: spec.podMonitorNamespaceSelector
     selectorPath: spec.podMonitorSelector
     target:
       apiVersion: monitoring.coreos.com/v1
       kind: PodMonitor
     type: MatchSelector
+    labels: ["monitored_by"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/monitoring.coreos.com/prometheuses.svg
     type: image/svg+xml

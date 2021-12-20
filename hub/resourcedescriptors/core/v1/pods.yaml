@@ -68,39 +68,45 @@ spec:
     pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
     type: date
-  connections:
-  - level: Controller
-    target:
-      apiVersion: apps/v1
-      kind: StatefulSet
-    type: OwnedBy
-  - level: Controller
-    target:
-      apiVersion: apps/v1
-      kind: DaemonSet
-    type: OwnedBy
-  - level: Controller
-    target:
-      apiVersion: apps/v1
-      kind: ReplicaSet
-    type: OwnedBy
-  - level: Controller
-    target:
-      apiVersion: v1
-      kind: ReplicationController
-    type: OwnedBy
+  # connections:
+  # - level: Controller
+  #   target:
+  #     apiVersion: apps/v1
+  #     kind: StatefulSet
+  #   type: OwnedBy
+  #   labels: ["offshoot"]
+  # - level: Controller
+  #   target:
+  #     apiVersion: apps/v1
+  #     kind: DaemonSet
+  #   type: OwnedBy
+  #   labels: ["offshoot"]
+  # - level: Controller
+  #   target:
+  #     apiVersion: apps/v1
+  #     kind: ReplicaSet
+  #   type: OwnedBy
+  #   labels: ["offshoot"]
+  # - level: Controller
+  #   target:
+  #     apiVersion: v1
+  #     kind: ReplicationController
+  #   type: OwnedBy
+  #   labels: ["offshoot"]
   - references:
     - '{.spec.nodeName}'
     target:
       apiVersion: v1
       kind: Node
     type: MatchRef
+    labels: ["located_on"]
   - references:
     - '{.spec.serviceAccountName}'
     target:
       apiVersion: v1
       kind: ServiceAccount
     type: MatchRef
+    labels: ["offshoot", "auth_via"]
   - namespacePath: metadata.namespace
     references:
     - '{range .spec.volumes[*]}{.persistentVolumeClaim.claimName}{"\n"}{end}'
@@ -108,6 +114,7 @@ spec:
       apiVersion: v1
       kind: PersistentVolumeClaim
     type: MatchRef
+    labels: ["offshoot"]
   - namespacePath: metadata.namespace
     references:
     - '{range .spec.containers[*].envFrom[*]}{.configMapRef.name}{"\n"}{end}'
@@ -117,6 +124,7 @@ spec:
       apiVersion: v1
       kind: ConfigMap
     type: MatchRef
+    labels: ["offshoot"]
   - namespacePath: metadata.namespace
     references:
     - '{range .spec.containers[*].envFrom[*]}{.secretRef.name}{"\n"}{end}'
@@ -126,6 +134,7 @@ spec:
       apiVersion: v1
       kind: Secret
     type: MatchRef
+    labels: ["offshoot"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/core/pods.svg
     type: image/svg+xml

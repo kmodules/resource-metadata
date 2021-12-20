@@ -46,6 +46,7 @@ spec:
       apiVersion: v1
       kind: ServiceAccount
     type: MatchRef
+    labels: ["offshoot"]
   - namespacePath: metadata.namespace
     references:
     - '{.roleRef.name},{.metadata.namespace},{.roleRef.kind}'
@@ -53,6 +54,7 @@ spec:
       apiVersion: rbac.authorization.k8s.io/v1
       kind: Role
     type: MatchRef
+    labels: ["offshoot"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/rbac.authorization.k8s.io/rolebindings.svg
     type: image/svg+xml

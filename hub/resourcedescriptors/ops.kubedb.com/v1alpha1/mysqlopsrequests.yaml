@@ -49,6 +49,7 @@ spec:
       apiVersion: kubedb.com/v1alpha2
       kind: MySQL
     type: MatchRef
+    labels: ["offshoot"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/ops.kubedb.com/mysqlopsrequests.svg
     type: image/svg+xml

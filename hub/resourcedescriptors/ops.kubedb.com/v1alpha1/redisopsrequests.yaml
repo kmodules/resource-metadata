@@ -49,6 +49,7 @@ spec:
       apiVersion: kubedb.com/v1alpha2
       kind: Redis
     type: MatchRef
+    labels: ["offshoot"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/ops.kubedb.com/redisopsrequests.svg
     type: image/svg+xml

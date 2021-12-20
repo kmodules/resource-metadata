@@ -86,6 +86,7 @@ spec:
       apiVersion: apps/v1
       kind: ReplicaSet
     type: MatchSelector
+    labels: ["offshoot"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/apps/deployments.svg
     type: image/svg+xml

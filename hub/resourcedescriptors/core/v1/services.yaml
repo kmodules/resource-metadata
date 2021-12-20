@@ -55,6 +55,7 @@ spec:
       apiVersion: v1
       kind: Pod
     type: MatchSelector
+    labels: ["offshoot", "exposed_by"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/core/services.svg
     type: image/svg+xml

@@ -90,13 +90,7 @@ spec:
       apiVersion: v1
       kind: Pod
     type: MatchSelector
-  - namespacePath: metadata.namespace
-    references:
-    - '{range .spec.template.spec.volumes[*]}{.persistentVolumeClaim.claimName}{"\n"}{end}'
-    target:
-      apiVersion: v1
-      kind: PersistentVolumeClaim
-    type: MatchRef
+    labels: ["offshoot"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/apps/statefulsets.svg
     type: image/svg+xml

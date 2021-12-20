@@ -62,12 +62,14 @@ spec:
       apiVersion: cert-manager.io/v1
       kind: Issuer
     type: MatchRef
+    labels: ["offshoot"]
   - references:
     - '{.spec.issuerRef.name}'
     target:
       apiVersion: cert-manager.io/v1
       kind: ClusterIssuer
     type: MatchRef
+    labels: ["offshoot"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/cert-manager.io/certificates.svg
     type: image/svg+xml
