@@ -184,9 +184,10 @@ func (c *convertor) rowFn(data interface{}) ([]interface{}, error) {
 			klog.Infof("Failed to parse. Reason: %v", err)
 			return nil, fmt.Errorf("invalid column definition %q", col.PathTemplate)
 		}
-		// Not that zero will attempt to add default values for types it knows,
-		// but will still emit <no value> for others. We mitigate that later.
-		tpl.Option("missingkey=zero")
+		// Do nothing and continue execution.
+		// If printed, the result of the index operation is the string "<no value>".
+		// We mitigate that later.
+		tpl.Option("missingkey=default")
 		err = tpl.Execute(c.buf, data)
 		if err != nil {
 			klog.Infof("Failed to resolve template. Reason: %v", err)
