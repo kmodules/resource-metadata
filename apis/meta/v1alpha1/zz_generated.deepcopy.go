@@ -659,6 +659,11 @@ func (in *ResourceColumnDefinition) DeepCopy() *ResourceColumnDefinition {
 func (in *ResourceConnection) DeepCopyInto(out *ResourceConnection) {
 	*out = *in
 	out.Target = in.Target
+	if in.Labels != nil {
+		in, out := &in.Labels, &out.Labels
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
 	in.ResourceConnectionSpec.DeepCopyInto(&out.ResourceConnectionSpec)
 	return
 }

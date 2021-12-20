@@ -146,6 +146,7 @@ const (
 
 type ResourceConnection struct {
 	Target                 metav1.TypeMeta `json:"target"`
+	Labels                 []string        `json:"labels"`
 	ResourceConnectionSpec `json:",inline,omitempty"`
 }
 

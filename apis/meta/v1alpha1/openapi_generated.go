@@ -15482,6 +15482,20 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceConnection(ref common.R
 							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.TypeMeta"),
 						},
 					},
+					"labels": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
 					"type": {
 						SchemaProps: spec.SchemaProps{
 							Default: "",
@@ -15541,7 +15555,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceConnection(ref common.R
 						},
 					},
 				},
-				Required: []string{"target", "type"},
+				Required: []string{"target", "labels", "type"},
 			},
 		},
 		Dependencies: []string{

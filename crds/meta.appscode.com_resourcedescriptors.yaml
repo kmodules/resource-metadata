@@ -90,6 +90,10 @@ spec:
               connections:
                 items:
                   properties:
+                    labels:
+                      items:
+                        type: string
+                      type: array
                     level:
                       type: string
                     nameTemplate:
@@ -183,6 +187,7 @@ spec:
                     type:
                       type: string
                   required:
+                  - labels
                   - target
                   - type
                   type: object
