@@ -18,11 +18,10 @@ package main
 
 import (
 	"fmt"
-	"strings"
 
 	"kmodules.xyz/resource-metadata/hub"
 )
 
 func main() {
-	fmt.Println(strings.Join(hub.ListEdgeLabels(), "\n"))
+	fmt.Println(hub.ListEdgeLabels())
 }

@@ -144,9 +144,11 @@ const (
 	OwnedBy       ConnectionType = "OwnedBy"
 )
 
+type EdgeLabel string
+
 type ResourceConnection struct {
 	Target                 metav1.TypeMeta `json:"target"`
-	Labels                 []string        `json:"labels"`
+	Labels                 []EdgeLabel     `json:"labels"`
 	ResourceConnectionSpec `json:",inline,omitempty"`
 }
 

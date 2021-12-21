@@ -19,6 +19,7 @@ package v1
 import (
 	"fmt"
 	"strings"
+	"unicode"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -36,6 +37,8 @@ type ObjectReference struct {
 	Name string `json:"name" protobuf:"bytes,2,opt,name=name"`
 }
 
+type OID string
+
 type ObjectID struct {
 	Group     string `json:"group,omitempty" protobuf:"bytes,1,opt,name=group"`
 	Kind      string `json:"kind,omitempty" protobuf:"bytes,2,opt,name=kind"`
@@ -43,8 +46,8 @@ type ObjectID struct {
 	Name      string `json:"name,omitempty" protobuf:"bytes,4,opt,name=name"`
 }
 
-func (oid *ObjectID) Key() string {
-	return fmt.Sprintf("G=%s,K=%s,NS=%s,N=%s", oid.Group, oid.Kind, oid.Namespace, oid.Name)
+func (oid *ObjectID) OID() OID {
+	return OID(fmt.Sprintf("G=%s,K=%s,NS=%s,N=%s", oid.Group, oid.Kind, oid.Namespace, oid.Name))
 }
 
 func NewObjectID(obj client.Object) *ObjectID {
@@ -57,34 +60,40 @@ func NewObjectID(obj client.Object) *ObjectID {
 	}
 }
 
-func ParseObjectID(key string) (*ObjectID, error) {
-	parts := strings.FieldsFunc(key, func(r rune) bool {
-		return r == ',' || r == '='
-	})
-
+func ParseObjectID(key OID) (*ObjectID, error) {
 	var id ObjectID
-	for i := 0; i < len(parts); i += 2 {
-		switch parts[i] {
-		case "G":
-			id.Group = parts[i+1]
-		case "K":
-			id.Kind = parts[i+1]
-		case "NS":
-			id.Namespace = parts[i+1]
-		case "N":
-			id.Name = parts[i+1]
-		default:
-			return nil, fmt.Errorf("unknown key %key", parts[i])
+
+	chunks := strings.Split(string(key), ",")
+	for _, chunk := range chunks {
+		parts := strings.FieldsFunc(chunk, func(r rune) bool {
+			return r == '=' || unicode.IsSpace(r)
+		})
+		if len(parts) == 0 || len(parts) > 2 {
+			return nil, fmt.Errorf("invalid chunk %s", chunk)
 		}
-	}
-	if id.Group == "" {
-		return nil, fmt.Errorf("group not set")
-	}
-	if id.Kind == "" {
-		return nil, fmt.Errorf("kind not set")
-	}
-	if id.Name == "" {
-		return nil, fmt.Errorf("name not set")
+
+		switch parts[0] {
+		case "G":
+			if len(parts) == 2 {
+				id.Group = parts[1]
+			}
+		case "K":
+			if len(parts) == 1 {
+				return nil, fmt.Errorf("kind not set")
+			}
+			id.Kind = parts[1]
+		case "NS":
+			if len(parts) == 2 {
+				id.Namespace = parts[1]
+			}
+		case "N":
+			if len(parts) == 1 {
+				return nil, fmt.Errorf("name not set")
+			}
+			id.Name = parts[1]
+		default:
+			return nil, fmt.Errorf("unknown key %s", parts[0])
+		}
 	}
 	return &id, nil
 }
