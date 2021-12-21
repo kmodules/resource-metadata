@@ -18,10 +18,15 @@ package main
 
 import (
 	"fmt"
+	"sort"
 
 	"kmodules.xyz/resource-metadata/hub"
 )
 
 func main() {
-	fmt.Println(hub.ListEdgeLabels())
+	labels := hub.ListEdgeLabels()
+	sort.Slice(labels, func(i, j int) bool {
+		return labels[i] < labels[j]
+	})
+	fmt.Println(labels)
 }
