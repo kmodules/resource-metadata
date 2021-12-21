@@ -304,6 +304,23 @@ spec:
                             type: object
                           displayMode:
                             type: string
+                          query:
+                            properties:
+                              byLabel:
+                                enum:
+                                - auth_via
+                                - backup_via
+                                - catalog
+                                - connect_via
+                                - exposed_by
+                                - monitored_by
+                                - offshoot
+                                - restore_into
+                                - scaled_by
+                                type: string
+                              raw:
+                                type: string
+                            type: object
                           ref:
                             description: GroupVersionResource unambiguously identifies
                               a resource.  It doesn't anonymously include GroupVersion
@@ -324,6 +341,7 @@ spec:
                         required:
                         - actions
                         - displayMode
+                        - query
                         - ref
                         type: object
                       type: array

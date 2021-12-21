@@ -329,6 +329,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceDescriptorList":     schema_resource_metadata_apis_meta_v1alpha1_ResourceDescriptorList(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceDescriptorSpec":     schema_resource_metadata_apis_meta_v1alpha1_ResourceDescriptorSpec(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourcePanel":              schema_resource_metadata_apis_meta_v1alpha1_ResourcePanel(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceQuery":              schema_resource_metadata_apis_meta_v1alpha1_ResourceQuery(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceSection":            schema_resource_metadata_apis_meta_v1alpha1_ResourceSection(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceSubTableDefinition": schema_resource_metadata_apis_meta_v1alpha1_ResourceSubTableDefinition(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.StatusCodes":                schema_resource_metadata_apis_meta_v1alpha1_StatusCodes(ref),
@@ -15900,6 +15901,30 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourcePanel(ref common.Refere
 	}
 }
 
+func schema_resource_metadata_apis_meta_v1alpha1_ResourceQuery(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"byLabel": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"raw": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+				},
+			},
+		},
+	}
+}
+
 func schema_resource_metadata_apis_meta_v1alpha1_ResourceSection(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -15910,6 +15935,12 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceSection(ref common.Refe
 						SchemaProps: spec.SchemaProps{
 							Default: map[string]interface{}{},
 							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource"),
+						},
+					},
+					"query": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceQuery"),
 						},
 					},
 					"displayMode": {
@@ -15926,11 +15957,11 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceSection(ref common.Refe
 						},
 					},
 				},
-				Required: []string{"ref", "displayMode", "actions"},
+				Required: []string{"ref", "query", "displayMode", "actions"},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceActions"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceActions", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceQuery"},
 	}
 }
 
