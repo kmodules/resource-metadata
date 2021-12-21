@@ -146,13 +146,19 @@ func ageFn(data interface{}) (string, error) {
 
 func servicePortsFn(data interface{}) (string, error) {
 	var ports []core.ServicePort
+
 	if s, ok := data.(string); ok && s != "" {
 		err := json.Unmarshal([]byte(s), &ports)
 		if err != nil {
 			return "", err
 		}
 	} else if _, ok := data.([]interface{}); ok {
-		err := meta_util.DecodeObject(data, &ports)
+		// includes IntOrString, so meta_util.DecodeObject() can't be used.
+		data, err := json.Marshal(data)
+		if err != nil {
+			return "", err
+		}
+		err = json.Unmarshal(data, &ports)
 		if err != nil {
 			return "", err
 		}
@@ -247,37 +253,42 @@ func fmtListFn(data interface{}) (string, error) {
 	return "[]", nil
 }
 
-type promNamespaceSelector struct {
-	metav1.ObjectMeta `json:"metadata"`
-	Spec              promNamespaceSelectorSpec `json:"spec"`
+type ObjectNamespace struct {
+	Namespace string `json:"namespace,omitempty"`
 }
+
+type promNamespaceSelector struct {
+	ObjectNamespace `json:"metadata"`
+	Spec            promNamespaceSelectorSpec `json:"spec"`
+}
+
 type promNamespaceSelectorSpec struct {
 	NamespaceSelector *prom_op.NamespaceSelector `json:"namespaceSelector,omitempty"`
 }
 
 func promNamespaceSelectorFn(data interface{}) (string, error) {
-	var selOpts promNamespaceSelector
+	var obj promNamespaceSelector
 	if s, ok := data.(string); ok && s != "" {
-		err := json.Unmarshal([]byte(s), &selOpts)
+		err := json.Unmarshal([]byte(s), &obj)
 		if err != nil {
 			return "", err
 		}
 	} else if _, ok := data.(map[string]interface{}); ok {
-		err := meta_util.DecodeObject(data, &selOpts)
+		err := meta_util.DecodeObject(data, &obj)
 		if err != nil {
 			return "", err
 		}
 	}
 
 	// If selector field is empty, then all namespaces are the targets.
-	if selOpts.Spec.NamespaceSelector == nil {
+	if obj.Spec.NamespaceSelector == nil {
 		return "All", nil
-	} else if len(selOpts.Spec.NamespaceSelector.MatchNames) != 0 {
+	} else if len(obj.Spec.NamespaceSelector.MatchNames) != 0 {
 		// If an array of namespace is provided, then those namespaces are the target
-		return strings.Join(selOpts.Spec.NamespaceSelector.MatchNames, ", "), nil
-	} else if !selOpts.Spec.NamespaceSelector.Any {
+		return strings.Join(obj.Spec.NamespaceSelector.MatchNames, ", "), nil
+	} else if !obj.Spec.NamespaceSelector.Any {
 		// If "any: false" is set in the namespace selector field, only the object namespace is the target.
-		return selOpts.Namespace, nil
+		return obj.Namespace, nil
 	}
 	return "", nil
 }

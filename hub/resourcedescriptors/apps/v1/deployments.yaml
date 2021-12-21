@@ -43,7 +43,7 @@ spec:
     priority: 1
     type: string
   - name: Rolling Update Strategy
-    pathTemplate: '{{ .spec.strategy.rollingUpdate }}'
+    pathTemplate: '{{ .spec.strategy.rollingUpdate | toRawJson }}'
     priority: 1
     type: object
   - name: Desired Replicas
