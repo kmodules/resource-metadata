@@ -9,6 +9,35 @@ metadata:
     k8s.io/version: v1alpha1
   name: ui.k8s.appscode.com-v1alpha1-genericresources
 spec:
+  columns:
+  - name: Name
+    pathTemplate: '{{ .metadata.name }}'
+    priority: 3
+    type: string
+  - name: Type
+    pathTemplate: '{{ .spec.apiType.kind }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ .metadata.namespace }}'
+    priority: 3
+    type: string
+  - name: vCPU
+    pathTemplate: '{{ .spec.totalResource.limits.cpu }}'
+    priority: 3
+    type: string
+  - name: Memory
+    pathTemplate: '{{ .spec.totalResource.limits.memory }}'
+    priority: 3
+    type: string
+  - name: Storage
+    pathTemplate: '{{ .spec.totalResource.limits.storage }}'
+    priority: 3
+    type: string
+  - name: Status
+    pathTemplate: '{{ .spec.resourceStatus }}'
+    priority: 3
+    type: string
   resource:
     group: ui.k8s.appscode.com
     kind: GenericResource
