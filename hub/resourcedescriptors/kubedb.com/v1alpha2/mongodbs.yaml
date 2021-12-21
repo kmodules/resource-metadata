@@ -142,57 +142,65 @@ spec:
       displayMode: List
       ref:
         group: appcatalog.appscode.com
-        resource: appbindings
-        version: v1alpha1
+        kind: AppBinding
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: catalog.kubedb.com
-        resource: mongodbversions
-        version: v1alpha1
+        kind: MongoDBVersion
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: apps
-        resource: statefulsets
-        version: v1
+        kind: StatefulSet
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: ""
-        resource: pods
-        version: v1
+        kind: Pod
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: ""
-        resource: services
-        version: v1
+        kind: Service
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: ""
-        resource: secrets
-        version: v1
+        kind: Secret
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: ""
-        resource: persistentvolumeclaims
-        version: v1
+        kind: PersistentVolumeClaim
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: policy
-        resource: poddisruptionbudgets
-        version: v1beta1
+        kind: PodDisruptionBudget
+      query:
+        byLabel: offshoot
   - name: Backups
     resources:
     - actions:
@@ -200,36 +208,81 @@ spec:
       displayMode: List
       ref:
         group: stash.appscode.com
-        resource: repositories
-        version: v1alpha1
+        kind: Repository
+      query:
+        raw: |
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
     - actions:
         create: IfEmpty
       displayMode: List
       ref:
         group: stash.appscode.com
-        resource: backupconfigurations
-        version: v1beta1
+        kind: BackupConfiguration
+      query:
+        byLabel: backup_via
     - actions:
         create: Always
       displayMode: List
       ref:
         group: stash.appscode.com
-        resource: backupsessions
-        version: v1beta1
+        kind: BackupSession
+      query:
+        raw: |
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
     - actions:
         create: Always
       displayMode: List
       ref:
         group: stash.appscode.com
-        resource: restoresessions
-        version: v1beta1
+        kind: RestoreSession
+      query:
+        raw: |
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
     - actions:
         create: Never
       displayMode: List
       ref:
         group: batch
-        resource: cronjobs
-        version: v1beta1
+        kind: CronJob
+      query:
+        raw: |
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
   - name: Security
     resources:
     - actions:
@@ -237,50 +290,57 @@ spec:
       displayMode: List
       ref:
         group: ""
-        resource: serviceaccounts
-        version: v1
+        kind: ServiceAccount
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: rbac.authorization.k8s.io
-        resource: roles
-        version: v1
+        kind: Role
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: rbac.authorization.k8s.io
-        resource: rolebindings
-        version: v1
+        kind: RoleBinding
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: cert-manager.io
-        resource: certificates
-        version: v1
+        kind: Certificate
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: cert-manager.io
-        resource: issuers
-        version: v1
+        kind: Issuer
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: cert-manager.io
-        resource: clusterissuers
-        version: v1
+        kind: ClusterIssuer
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: policy
-        resource: podsecuritypolicies
-        version: v1beta1
+        kind: PodSecurityPolicy
+      query:
+        byLabel: offshoot
   - name: Operations
     resources:
     - actions:
@@ -288,8 +348,9 @@ spec:
       displayMode: List
       ref:
         group: ops.kubedb.com
-        resource: mongodbopsrequests
-        version: v1alpha1
+        kind: MongoDBOpsRequest
+      query:
+        byLabel: offshoot
   - name: Monitoring
     resources:
     - actions:
@@ -297,15 +358,17 @@ spec:
       displayMode: List
       ref:
         group: monitoring.coreos.com
-        resource: servicemonitors
-        version: v1
+        kind: ServiceMonitor
+      query:
+        byLabel: monitored_by
     - actions:
         create: Never
       displayMode: List
       ref:
         group: monitoring.coreos.com
-        resource: prometheuses
-        version: v1
+        kind: Prometheus
+      query:
+        byLabel: monitored_by
   resource:
     group: kubedb.com
     kind: MongoDB

@@ -80,8 +80,9 @@ spec:
       displayMode: List
       ref:
         group: apps
-        resource: deployments
-        version: v1
+        kind: Deployment
+      query:
+        byLabel: offshoot
   resource:
     group: autoscaling
     kind: HorizontalPodAutoscaler

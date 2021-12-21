@@ -69,8 +69,9 @@ spec:
       displayMode: List
       ref:
         group: ""
-        resource: pods
-        version: v1
+        kind: Pod
+      query:
+        byLabel: offshoot
   resource:
     group: ""
     kind: Service

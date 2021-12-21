@@ -9,6 +9,159 @@ metadata:
     k8s.io/version: v1alpha2
   name: kubedb.com-v1alpha2-redissentinels
 spec:
+  pages:
+  - name: Basic
+    resources:
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: appcatalog.appscode.com
+        kind: AppBinding
+      query:
+        byLabel: offshoot
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: catalog.kubedb.com
+        kind: RedisVersion
+      query:
+        byLabel: offshoot
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: apps
+        kind: StatefulSet
+      query:
+        byLabel: offshoot
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: ""
+        kind: Pod
+      query:
+        byLabel: offshoot
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: ""
+        kind: Service
+      query:
+        byLabel: offshoot
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: ""
+        kind: Secret
+      query:
+        byLabel: offshoot
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: ""
+        kind: PersistentVolumeClaim
+      query:
+        byLabel: offshoot
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: policy
+        kind: PodDisruptionBudget
+      query:
+        byLabel: offshoot
+  - name: Security
+    resources:
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: ""
+        kind: ServiceAccount
+      query:
+        byLabel: offshoot
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: rbac.authorization.k8s.io
+        kind: Role
+      query:
+        byLabel: offshoot
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: rbac.authorization.k8s.io
+        kind: RoleBinding
+      query:
+        byLabel: offshoot
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: cert-manager.io
+        kind: Certificate
+      query:
+        byLabel: offshoot
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: cert-manager.io
+        kind: Issuer
+      query:
+        byLabel: offshoot
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: cert-manager.io
+        kind: ClusterIssuer
+      query:
+        byLabel: offshoot
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: policy
+        kind: PodSecurityPolicy
+      query:
+        byLabel: offshoot
+  - name: Operations
+    resources:
+    - actions:
+        create: Always
+      displayMode: List
+      ref:
+        group: ops.kubedb.com
+        kind: RedisOpsRequest
+      query:
+        byLabel: offshoot
+  - name: Monitoring
+    resources:
+    - actions:
+        create: IfEmpty
+      displayMode: List
+      ref:
+        group: monitoring.coreos.com
+        kind: ServiceMonitor
+      query:
+        byLabel: monitored_by
+    - actions:
+        create: Never
+      displayMode: List
+      ref:
+        group: monitoring.coreos.com
+        kind: Prometheus
+      query:
+        byLabel: monitored_by
   resource:
     group: kubedb.com
     kind: RedisSentinel

@@ -82,15 +82,17 @@ spec:
       displayMode: List
       ref:
         group: batch
-        resource: jobs
-        version: v1
+        kind: Job
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: ""
-        resource: pods
-        version: v1
+        kind: Pod
+      query:
+        byLabel: offshoot
   resource:
     group: batch
     kind: CronJob

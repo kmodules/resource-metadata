@@ -94,22 +94,25 @@ spec:
       displayMode: List
       ref:
         group: ""
-        resource: pods
-        version: v1
+        kind: Pod
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: ""
-        resource: services
-        version: v1
+        kind: Service
+      query:
+        byLabel: offshoot
     - actions:
         create: IfEmpty
       displayMode: List
       ref:
         group: autoscaling
-        resource: horizontalpodautoscalers
-        version: v1
+        kind: HorizontalPodAutoscaler
+      query:
+        byLabel: offshoot
   - name: Backups
     resources:
     - actions:
@@ -117,36 +120,81 @@ spec:
       displayMode: List
       ref:
         group: stash.appscode.com
-        resource: repositories
-        version: v1alpha1
+        kind: Repository
+      query:
+        raw: |
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
     - actions:
         create: IfEmpty
       displayMode: List
       ref:
         group: stash.appscode.com
-        resource: backupconfigurations
-        version: v1beta1
+        kind: BackupConfiguration
+      query:
+        byLabel: backup_via
     - actions:
         create: Always
       displayMode: List
       ref:
         group: stash.appscode.com
-        resource: backupsessions
-        version: v1beta1
+        kind: BackupSession
+      query:
+        raw: |
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
     - actions:
         create: Always
       displayMode: List
       ref:
         group: stash.appscode.com
-        resource: restoresessions
-        version: v1beta1
+        kind: RestoreSession
+      query:
+        raw: |
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
     - actions:
         create: Never
       displayMode: List
       ref:
         group: batch
-        resource: cronjobs
-        version: v1beta1
+        kind: CronJob
+      query:
+        raw: |
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
   - name: Monitoring
     resources:
     - actions:
@@ -154,15 +202,17 @@ spec:
       displayMode: List
       ref:
         group: monitoring.coreos.com
-        resource: servicemonitors
-        version: v1
+        kind: ServiceMonitor
+      query:
+        byLabel: monitored_by
     - actions:
         create: Never
       displayMode: List
       ref:
         group: monitoring.coreos.com
-        resource: prometheuses
-        version: v1
+        kind: Prometheus
+      query:
+        byLabel: monitored_by
   resource:
     group: apps
     kind: ReplicaSet

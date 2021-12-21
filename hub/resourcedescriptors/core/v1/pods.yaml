@@ -148,29 +148,33 @@ spec:
       displayMode: List
       ref:
         group: ""
-        resource: services
-        version: v1
+        kind: Service
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: ""
-        resource: secrets
-        version: v1
+        kind: Secret
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: ""
-        resource: configmaps
-        version: v1
+        kind: ConfigMap
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: ""
-        resource: persistentvolumeclaims
-        version: v1
+        kind: PersistentVolumeClaim
+      query:
+        byLabel: offshoot
   - name: Monitoring
     resources:
     - actions:
@@ -178,22 +182,25 @@ spec:
       displayMode: List
       ref:
         group: monitoring.coreos.com
-        resource: servicemonitors
-        version: v1
+        kind: ServiceMonitor
+      query:
+        byLabel: monitored_by
     - actions:
         create: IfEmpty
       displayMode: List
       ref:
         group: monitoring.coreos.com
-        resource: podmonitors
-        version: v1
+        kind: PodMonitor
+      query:
+        byLabel: monitored_by
     - actions:
         create: Never
       displayMode: List
       ref:
         group: monitoring.coreos.com
-        resource: prometheuses
-        version: v1
+        kind: Prometheus
+      query:
+        byLabel: monitored_by
   resource:
     group: ""
     kind: Pod

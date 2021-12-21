@@ -22,15 +22,17 @@ spec:
       displayMode: List
       ref:
         group: rbac.authorization.k8s.io
-        resource: clusterrolebindings
-        version: v1
+        kind: ClusterRoleBinding
+      query:
+        byLabel: offshoot
     - actions:
         create: Always
       displayMode: List
       ref:
         group: rbac.authorization.k8s.io
-        resource: rolebindings
-        version: v1
+        kind: RoleBinding
+      query:
+        byLabel: offshoot
   resource:
     group: rbac.authorization.k8s.io
     kind: ClusterRole

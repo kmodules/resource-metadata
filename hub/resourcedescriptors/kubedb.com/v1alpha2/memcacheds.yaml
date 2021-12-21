@@ -130,57 +130,65 @@ spec:
       displayMode: List
       ref:
         group: appcatalog.appscode.com
-        resource: appbindings
-        version: v1alpha1
+        kind: AppBinding
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: catalog.kubedb.com
-        resource: memcachedversions
-        version: v1alpha1
+        kind: MemcachedVersion
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: apps
-        resource: statefulsets
-        version: v1
+        kind: StatefulSet
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: ""
-        resource: pods
-        version: v1
+        kind: Pod
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: ""
-        resource: services
-        version: v1
+        kind: Service
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: ""
-        resource: secrets
-        version: v1
+        kind: Secret
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: ""
-        resource: persistentvolumeclaims
-        version: v1
+        kind: PersistentVolumeClaim
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: policy
-        resource: poddisruptionbudgets
-        version: v1beta1
+        kind: PodDisruptionBudget
+      query:
+        byLabel: offshoot
   - name: Security
     resources:
     - actions:
@@ -188,50 +196,57 @@ spec:
       displayMode: List
       ref:
         group: ""
-        resource: serviceaccounts
-        version: v1
+        kind: ServiceAccount
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: rbac.authorization.k8s.io
-        resource: roles
-        version: v1
+        kind: Role
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: rbac.authorization.k8s.io
-        resource: rolebindings
-        version: v1
+        kind: RoleBinding
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: cert-manager.io
-        resource: certificates
-        version: v1
+        kind: Certificate
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: cert-manager.io
-        resource: issuers
-        version: v1
+        kind: Issuer
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: cert-manager.io
-        resource: clusterissuers
-        version: v1
+        kind: ClusterIssuer
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: policy
-        resource: podsecuritypolicies
-        version: v1beta1
+        kind: PodSecurityPolicy
+      query:
+        byLabel: offshoot
   - name: Operations
     resources:
     - actions:
@@ -239,8 +254,9 @@ spec:
       displayMode: List
       ref:
         group: ops.kubedb.com
-        resource: memcachedopsrequests
-        version: v1alpha1
+        kind: MemcachedOpsRequest
+      query:
+        byLabel: offshoot
   - name: Monitoring
     resources:
     - actions:
@@ -248,15 +264,17 @@ spec:
       displayMode: List
       ref:
         group: monitoring.coreos.com
-        resource: servicemonitors
-        version: v1
+        kind: ServiceMonitor
+      query:
+        byLabel: monitored_by
     - actions:
         create: Never
       displayMode: List
       ref:
         group: monitoring.coreos.com
-        resource: prometheuses
-        version: v1
+        kind: Prometheus
+      query:
+        byLabel: monitored_by
   resource:
     group: kubedb.com
     kind: Memcached

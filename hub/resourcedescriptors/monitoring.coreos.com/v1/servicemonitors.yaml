@@ -63,15 +63,17 @@ spec:
       displayMode: List
       ref:
         group: ""
-        resource: pods
-        version: v1
+        kind: Pod
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: ""
-        resource: services
-        version: v1
+        kind: Service
+      query:
+        byLabel: offshoot
   resource:
     group: monitoring.coreos.com
     kind: ServiceMonitor

@@ -52,8 +52,9 @@ spec:
       displayMode: List
       ref:
         group: rbac.authorization.k8s.io
-        resource: rolebindings
-        version: v1
+        kind: RoleBinding
+      query:
+        byLabel: offshoot
   resource:
     group: rbac.authorization.k8s.io
     kind: Role

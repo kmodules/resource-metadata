@@ -136,22 +136,25 @@ spec:
       displayMode: List
       ref:
         group: stash.appscode.com
-        resource: repositories
-        version: v1alpha1
+        kind: Repository
+      query:
+        byLabel: offshoot
     - actions:
         create: Always
       displayMode: List
       ref:
         group: stash.appscode.com
-        resource: backupsessions
-        version: v1beta1
+        kind: BackupSession
+      query:
+        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
       ref:
         group: batch
-        resource: cronjobs
-        version: v1beta1
+        kind: CronJob
+      query:
+        byLabel: offshoot
   resource:
     group: stash.appscode.com
     kind: BackupConfiguration
