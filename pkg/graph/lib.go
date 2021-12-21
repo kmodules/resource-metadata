@@ -32,6 +32,7 @@ import (
 	"kmodules.xyz/client-go/meta"
 	"kmodules.xyz/client-go/pointer"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	setx "kmodules.xyz/resource-metadata/pkg/utils/sets"
 
 	"github.com/mitchellh/mapstructure"
 	"gomodules.xyz/jsonpath"
@@ -41,7 +42,6 @@ import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/client-go/tools/cache"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -188,7 +188,7 @@ func (finder ObjectFinder) ListConnectedPartials(src *unstructured.Unstructured,
 	return result, nil
 }
 
-func (finder ObjectFinder) ListConnectedObjectIDs(src *unstructured.Unstructured, connections []v1alpha1.ResourceConnection) (map[v1alpha1.EdgeLabel]sets.String, error) {
+func (finder ObjectFinder) ListConnectedObjectIDs(src *unstructured.Unstructured, connections []v1alpha1.ResourceConnection) (map[v1alpha1.EdgeLabel]setx.OID, error) {
 	type GKL struct {
 		Group  string
 		Kind   string
@@ -211,7 +211,7 @@ func (finder ObjectFinder) ListConnectedObjectIDs(src *unstructured.Unstructured
 		connsPerGKL[gkl] = append(connsPerGKL[gkl], c)
 	}
 
-	edges := map[v1alpha1.EdgeLabel]sets.String{}
+	edges := map[v1alpha1.EdgeLabel]setx.OID{}
 	for _, conns := range connsPerGKL {
 		if len(conns) > 1 {
 			sort.Slice(conns, func(i, j int) bool {
@@ -235,9 +235,9 @@ func (finder ObjectFinder) ListConnectedObjectIDs(src *unstructured.Unstructured
 			oid := apiv1.NewObjectID(obj).OID()
 			for _, lbl := range conns[0].Labels {
 				if _, ok := edges[lbl]; !ok {
-					edges[lbl] = sets.NewString()
+					edges[lbl] = setx.NewOID()
 				}
-				edges[lbl].Insert(string(oid))
+				edges[lbl].Insert(oid)
 			}
 		}
 	}
