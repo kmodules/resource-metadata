@@ -28,8 +28,6 @@ import (
 
 	"kmodules.xyz/apiversion"
 	apiv1 "kmodules.xyz/client-go/api/v1"
-	disco_util "kmodules.xyz/client-go/discovery"
-	"kmodules.xyz/client-go/meta"
 	"kmodules.xyz/client-go/pointer"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	setx "kmodules.xyz/resource-metadata/pkg/utils/sets"
@@ -38,9 +36,11 @@ import (
 	"gomodules.xyz/jsonpath"
 	core "k8s.io/api/core/v1"
 	kerr "k8s.io/apimachinery/pkg/api/errors"
+	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/labels"
+	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/tools/cache"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -69,7 +69,6 @@ func (g *Graph) ListUsingDijkstra(f client.Client, src *unstructured.Unstructure
 
 	finder := ObjectFinder{
 		Client: f,
-		Mapper: g.r,
 	}
 	return finder.List(src, path.Edges)
 }
@@ -82,7 +81,6 @@ func (g *Graph) ListUsingDFS(f client.Client, src *unstructured.Unstructured, ds
 
 	finder := ObjectFinder{
 		Client: f,
-		Mapper: g.r,
 	}
 	for i, path := range paths {
 		out, err := finder.List(src, path.Edges)
@@ -122,7 +120,6 @@ func appendObjects(arr []*unstructured.Unstructured, items ...*unstructured.Unst
 
 type ObjectFinder struct {
 	Client client.Client
-	Mapper disco_util.ResourceMapper
 }
 
 func (finder ObjectFinder) List(src *unstructured.Unstructured, path []*Edge) ([]*unstructured.Unstructured, error) {
@@ -176,7 +173,7 @@ func (finder ObjectFinder) ListConnectedPartials(src *unstructured.Unstructured,
 		partials := make([]*metav1.PartialObjectMetadata, 0, len(objects))
 		for _, obj := range objects {
 			var pt metav1.PartialObjectMetadata
-			if err = meta.DecodeObject(obj.UnstructuredContent(), &pt); err != nil {
+			if err = runtime.DefaultUnstructuredConverter.FromUnstructured(obj.UnstructuredContent(), &pt); err != nil {
 				return nil, err
 			} else {
 				partials = append(partials, &pt)
@@ -287,7 +284,7 @@ func (finder ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge)
 			var out []*unstructured.Unstructured
 			for _, ns := range namespaces {
 				opts := client.ListOptions{LabelSelector: labels.Everything()}
-				if namespaced, err := finder.Mapper.IsGVKNamespaced(e.Dst); err != nil {
+				if namespaced, err := finder.IsGVKNamespaced(e.Dst); err != nil {
 					return nil, err
 				} else if namespaced {
 					opts.Namespace = ns
@@ -341,7 +338,7 @@ func (finder ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge)
 			var out []*unstructured.Unstructured
 			for _, ns := range namespaces {
 				objkey := client.ObjectKey{Name: name}
-				if namespaced, err := finder.Mapper.IsGVKNamespaced(e.Dst); err != nil {
+				if namespaced, err := finder.IsGVKNamespaced(e.Dst); err != nil {
 					return nil, err
 				} else if namespaced {
 					objkey.Namespace = ns
@@ -402,7 +399,7 @@ func (finder ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge)
 					}
 
 					objkey := client.ObjectKey{Name: ref.Name}
-					if namespaced, err := finder.Mapper.IsGVKNamespaced(e.Dst); err != nil {
+					if namespaced, err := finder.IsGVKNamespaced(e.Dst); err != nil {
 						return nil, err
 					} else if namespaced {
 						ns := ref.Namespace
@@ -455,7 +452,7 @@ func (finder ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge)
 			}
 
 			opts := client.ListOptions{LabelSelector: labels.Everything()}
-			if namespaced, err := finder.Mapper.IsGVKNamespaced(e.Dst); err != nil {
+			if namespaced, err := finder.IsGVKNamespaced(e.Dst); err != nil {
 				return nil, err
 			} else if namespaced {
 				opts.Namespace = namespace
@@ -521,7 +518,7 @@ func (finder ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge)
 
 				var out []*unstructured.Unstructured
 				objkey := client.ObjectKey{Name: name}
-				if namespaced, err := finder.Mapper.IsGVKNamespaced(e.Dst); err != nil {
+				if namespaced, err := finder.IsGVKNamespaced(e.Dst); err != nil {
 					return nil, err
 				} else if namespaced {
 					objkey.Namespace = namespace
@@ -545,7 +542,7 @@ func (finder ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge)
 			// TODO: check that namespacePath must be empty
 
 			opts := client.ListOptions{LabelSelector: labels.Everything()}
-			if namespaced, err := finder.Mapper.IsGVKNamespaced(e.Dst); err != nil {
+			if namespaced, err := finder.IsGVKNamespaced(e.Dst); err != nil {
 				return nil, err
 			} else if namespaced {
 				ns := metav1.NamespaceAll
@@ -603,7 +600,7 @@ func (finder ObjectFinder) ResourcesFor(src *unstructured.Unstructured, e *Edge)
 						}
 
 						ns := ref.Namespace
-						namespaced, err := finder.Mapper.IsGVKNamespaced(e.Src)
+						namespaced, err := finder.IsGVKNamespaced(e.Src)
 						if err != nil {
 							return nil, err
 						}
@@ -716,7 +713,7 @@ func (finder ObjectFinder) findOwners(e *Edge, srcOwnerRefs []metav1.OwnerRefere
 	var out []*unstructured.Unstructured
 
 	objkey := client.ObjectKey{}
-	if namespaced, err := finder.Mapper.IsGVKNamespaced(e.Dst); err != nil {
+	if namespaced, err := finder.IsGVKNamespaced(e.Dst); err != nil {
 		return nil, err
 	} else if namespaced {
 		objkey.Namespace = namespace
@@ -761,7 +758,7 @@ func (finder ObjectFinder) findChildren(e *Edge, src *unstructured.Unstructured)
 	var out []*unstructured.Unstructured
 
 	opts := client.ListOptions{LabelSelector: labels.Everything()}
-	if namespaced, err := finder.Mapper.IsGVKNamespaced(e.Dst); err != nil {
+	if namespaced, err := finder.IsGVKNamespaced(e.Dst); err != nil {
 		return nil, err
 	} else if namespaced {
 		opts.Namespace = src.GetNamespace()
@@ -781,6 +778,14 @@ func (finder ObjectFinder) findChildren(e *Edge, src *unstructured.Unstructured)
 	}
 
 	return out, nil
+}
+
+func (finder ObjectFinder) IsGVKNamespaced(gvk schema.GroupVersionKind) (bool, error) {
+	mapping, err := finder.Client.RESTMapper().RESTMapping(gvk.GroupKind(), gvk.Version)
+	if err != nil {
+		return false, err
+	}
+	return mapping.Scope == meta.RESTScopeNamespace, nil
 }
 
 func IsOwnedBy(obj metav1.Object, owner metav1.Object) bool {
@@ -951,7 +956,7 @@ func (finder ObjectFinder) Get(ref *v1alpha1.ObjectRef) (*unstructured.Unstructu
 
 	objkey := client.ObjectKey{Name: ref.Name}
 	opts := client.ListOptions{}
-	namespaced, err := finder.Mapper.IsGVKNamespaced(gvk)
+	namespaced, err := finder.IsGVKNamespaced(gvk)
 	if err != nil {
 		return nil, err
 	}

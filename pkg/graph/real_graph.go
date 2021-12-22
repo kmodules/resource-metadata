@@ -111,7 +111,6 @@ func (g *Graph) generateRealGraph(f client.Client, src *unstructured.Unstructure
 	visited[srcGVK] = true
 	finder := ObjectFinder{
 		Client: f,
-		Mapper: g.r,
 	}
 	for {
 		// Pop the first item
