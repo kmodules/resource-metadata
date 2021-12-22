@@ -29,7 +29,7 @@ import (
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor/printers"
 
 	"gomodules.xyz/encoding/json"
-	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
+	crd_api "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metatable "k8s.io/apimachinery/pkg/api/meta/table"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -38,6 +38,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/klog/v2"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 type TableConvertor interface {
@@ -55,7 +56,7 @@ func New(fieldPath string, columns []v1alpha1.ResourceColumnDefinition) (TableCo
 	return c, err
 }
 
-func NewForGVR(r *hub.Registry, client crd_cs.CustomResourceDefinitionInterface, gvr schema.GroupVersionResource, priority v1alpha1.Priority) (TableConvertor, error) {
+func NewForGVR(r *hub.Registry, kc client.Client, gvr schema.GroupVersionResource, priority v1alpha1.Priority) (TableConvertor, error) {
 	rd, err := r.LoadByGVR(gvr)
 	if err != nil {
 		return nil, err
@@ -64,7 +65,7 @@ func NewForGVR(r *hub.Registry, client crd_cs.CustomResourceDefinitionInterface,
 	c := &convertor{
 		buf: &bytes.Buffer{},
 	}
-	err = c.init(filterColumnsWithDefaults(client, gvr, rd.Spec.Columns, priority))
+	err = c.init(filterColumnsWithDefaults(kc, gvr, rd.Spec.Columns, priority))
 	return c, err
 }
 
@@ -85,7 +86,7 @@ func filterColumns(columns []v1alpha1.ResourceColumnDefinition, priority v1alpha
 	return out
 }
 
-func filterColumnsWithDefaults(client crd_cs.CustomResourceDefinitionInterface, gvr schema.GroupVersionResource, columns []v1alpha1.ResourceColumnDefinition, priority v1alpha1.Priority) []v1alpha1.ResourceColumnDefinition {
+func filterColumnsWithDefaults(kc client.Client, gvr schema.GroupVersionResource, columns []v1alpha1.ResourceColumnDefinition, priority v1alpha1.Priority) []v1alpha1.ResourceColumnDefinition {
 	// columns are specified in resource description, so use those.
 	out := filterColumns(columns, priority)
 	if len(out) > 0 {
@@ -105,8 +106,9 @@ func filterColumnsWithDefaults(client crd_cs.CustomResourceDefinitionInterface, 
 	}
 
 	var additionalColumns []v1alpha1.ResourceColumnDefinition
-	if client != nil {
-		crd, err := client.Get(context.TODO(), fmt.Sprintf("%s.%s", gvr.Resource, gvr.Group), metav1.GetOptions{})
+	if kc != nil {
+		var crd crd_api.CustomResourceDefinition
+		err := kc.Get(context.TODO(), client.ObjectKey{Name: fmt.Sprintf("%s.%s", gvr.Resource, gvr.Group)}, &crd)
 		if err == nil {
 			for _, version := range crd.Spec.Versions {
 				if version.Name == gvr.Version && len(version.AdditionalPrinterColumns) > 0 {

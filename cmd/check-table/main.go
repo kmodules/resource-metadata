@@ -20,36 +20,64 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"path/filepath"
 
 	"kmodules.xyz/resource-metadata/hub"
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor"
 
 	"gomodules.xyz/encoding/json"
-	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	crdinstall "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/install"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/client-go/dynamic"
-	"k8s.io/client-go/tools/clientcmd"
-	"k8s.io/client-go/util/homedir"
+	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
+	"k8s.io/klog/v2/klogr"
+	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
+)
+
+var (
+	scheme   = runtime.NewScheme()
+	setupLog = ctrl.Log.WithName("setup")
 )
 
 func main() {
-	masterURL := ""
-	kubeconfigPath := filepath.Join(homedir.HomeDir(), ".kube", "config")
+	_ = clientgoscheme.AddToScheme(scheme)
+	crdinstall.Install(scheme)
 
-	config, err := clientcmd.BuildConfigFromFlags(masterURL, kubeconfigPath)
+	// 	nc, err := nats.Connect(shared.NATS_URL)
+	// 	if err != nil {
+	// 		klog.Fatalln(err)
+	// 	}
+	// 	defer nc.Close()
+
+	ctrl.SetLogger(klogr.New())
+	cfg := ctrl.GetConfigOrDie()
+
+	// 	tr, err := cfg.TransportConfig()
+	// 	if err != nil {
+	// 		panic(err)
+	// 	}
+	// 	cfg.Transport, err = transport.New(tr, nc, "k8s", 10000*time.Second)
+	// 	if err != nil {
+	// 		panic(err)
+	// 	}
+
+	mapper, err := apiutil.NewDynamicRESTMapper(cfg)
 	if err != nil {
-		log.Fatalf("Could not get Kubernetes config: %s", err)
+		panic(err)
 	}
 
-	dc, err := dynamic.NewForConfig(config)
+	c, err := client.New(cfg, client.Options{
+		Scheme: scheme,
+		Mapper: mapper,
+		Opts: client.WarningHandlerOptions{
+			SuppressWarnings:   false,
+			AllowDuplicateLogs: false,
+		},
+	})
 	if err != nil {
-		log.Fatalln(err)
-	}
-	client, err := crd_cs.NewForConfig(config)
-	if err != nil {
-		log.Fatalln(err)
+		panic(err)
 	}
 
 	gvr := schema.GroupVersionResource{
@@ -61,12 +89,15 @@ func main() {
 	r := hub.NewRegistryOfKnownResources()
 
 	{
-		list, err := dc.Resource(gvr).Namespace("default").List(context.TODO(), metav1.ListOptions{})
+		var list unstructured.UnstructuredList
+		list.SetAPIVersion("apps/v1")
+		list.SetKind("Deployment")
+		err := c.List(context.TODO(), &list, client.InNamespace("default"))
 		if err != nil {
 			log.Fatalln(err)
 		}
 
-		t, err := tableconvertor.TableForList(r, client.CustomResourceDefinitions(), gvr, list.Items)
+		t, err := tableconvertor.TableForList(r, c, gvr, list.Items)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -79,13 +110,16 @@ func main() {
 	}
 
 	{
-		dep, err := dc.Resource(gvr).Namespace("default").Get(context.TODO(), "busy-dep", metav1.GetOptions{})
+		var dep unstructured.Unstructured
+		dep.SetAPIVersion("apps/v1")
+		dep.SetKind("Deployment")
+		err := c.Get(context.TODO(), client.ObjectKey{Namespace: "default", Name: "busy-dep"}, &dep)
 		if err != nil {
 			log.Fatalln(err)
 		}
 		fmt.Println(dep.GroupVersionKind().String())
 
-		t, err := tableconvertor.TableForObject(r, client.CustomResourceDefinitions(), dep)
+		t, err := tableconvertor.TableForObject(r, c, &dep)
 		if err != nil {
 			log.Fatalln(err)
 		}

@@ -4,13 +4,10 @@ go 1.17
 
 require (
 	github.com/Masterminds/sprig/v3 v3.2.2
-	github.com/emicklei/dot v0.16.0
 	github.com/go-openapi/spec v0.19.5
 	github.com/gobuffalo/flect v0.2.3
 	github.com/google/gofuzz v1.1.0
-	github.com/gregjones/httpcache v0.0.0-20180305231024-9cad4c3443a7
 	github.com/hashicorp/golang-lru v0.5.4
-	github.com/mitchellh/mapstructure v1.4.1
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.47.0
 	github.com/spf13/pflag v1.0.5
@@ -71,6 +68,7 @@ require (
 	github.com/mailru/easyjson v0.7.0 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.2-0.20181231171920-c182affec369 // indirect
 	github.com/mitchellh/copystructure v1.0.0 // indirect
+	github.com/mitchellh/mapstructure v1.4.1 // indirect
 	github.com/mitchellh/reflectwalk v1.0.0 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
