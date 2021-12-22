@@ -22,20 +22,20 @@ spec:
     pathTemplate: '{{ .metadata.namespace }}'
     priority: 3
     type: string
-  - name: vCPU
-    pathTemplate: '{{ .spec.totalResource.limits.cpu }}'
+  - name: vCPU(Request/Limit)
+    pathTemplate: '{{ .spec.totalResource.requests.cpu }} / {{ .spec.totalResource.limits.cpu }}'
     priority: 3
     type: string
-  - name: Memory
-    pathTemplate: '{{ .spec.totalResource.limits.memory }}'
+  - name: Memory(Request/Limit)
+    pathTemplate: '{{ .spec.totalResource.requests.memory }} / {{ .spec.totalResource.limits.memory }}'
     priority: 3
     type: string
-  - name: Storage
-    pathTemplate: '{{ .spec.totalResource.limits.storage }}'
+  - name: Storage(Request/Limit)
+    pathTemplate: '{{ .spec.totalResource.requests.storage }} / {{ .spec.totalResource.limits.storage }}'
     priority: 3
     type: string
   - name: Status
-    pathTemplate: '{{ .spec.resourceStatus }}'
+    pathTemplate: '{{ .status.phase }}'
     priority: 3
     type: string
   resource:
