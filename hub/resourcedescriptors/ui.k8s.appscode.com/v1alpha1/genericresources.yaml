@@ -155,6 +155,15 @@ spec:
                 description: ResourceList is a set of (resource name, quantity) pairs.
                 type: object
               type: object
+            status:
+              properties:
+                message:
+                  description: Message
+                  type: string
+                status:
+                  description: Status
+                  type: string
+              type: object
             totalResource:
               description: ResourceRequirements describes the compute resource requirements.
               properties:
@@ -180,6 +189,7 @@ spec:
           required:
           - apiType
           - appResource
+          - status
           - totalResource
           type: object
       type: object
