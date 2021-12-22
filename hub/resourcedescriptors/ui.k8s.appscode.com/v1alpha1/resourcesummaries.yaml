@@ -19,11 +19,11 @@ spec:
     priority: 3
     type: string
   - name: Total vCPU(Request)
-    pathTemplate: '{{ .spec.totalResource.requests.cpu }}'
+    pathTemplate: '{{ .spec.totalResource.requests.cpu | k8s_fmt_resource_cpu }}'
     priority: 3
     type: string
   - name: Total vCPU(Limit)
-    pathTemplate: '{{ .spec.totalResource.limits.cpu }}'
+    pathTemplate: '{{ .spec.totalResource.limits.cpu | k8s_fmt_resource_cpu }}'
     priority: 3
     type: string
   - name: Total Memory(Request)

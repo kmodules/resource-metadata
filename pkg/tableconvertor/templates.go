@@ -60,6 +60,7 @@ func init() {
 	templateFns["map_key_count"] = mapKeyCountFn
 	templateFns["rbac_subjects"] = rbacSubjects
 	templateFns["cert_validity"] = certificateValidity
+	templateFns["k8s_fmt_resource_cpu"] = formatResourceCPUFn
 	// ref: https://github.com/kmodules/resource-metrics/blob/bf6b257f8922a5572ccd20bf1cbab6bbedf4fcb4/template.go#L26-L36
 	for name, fn := range resourcemetrics.TxtFuncMap() {
 		templateFns[name] = fn
@@ -414,4 +415,21 @@ func certificateValidity(data interface{}) (string, error) {
 		return "Expired", nil
 	}
 	return duration.HumanDuration(time.Until(certStatus.NotAfter.Time)), nil
+}
+
+func formatResourceCPUFn(data interface{}) (string, error) {
+	var cpu string
+	if s, ok := data.(string); ok && s != "" {
+		if strings.Contains(s, "m") {
+			cpu = s[:len(s)-1]
+			c, err := strconv.Atoi(cpu)
+			if err != nil {
+				return "", err
+			}
+			cpu = fmt.Sprintf("%v", float64(c)/1000.0)
+		} else {
+			cpu = s
+		}
+	}
+	return cpu, nil
 }
