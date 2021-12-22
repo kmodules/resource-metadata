@@ -39,20 +39,22 @@ spec:
     priority: 3
     type: date
   connections:
-  - references:
+  - labels:
+    - offshoot
+    references:
     - '{range .subjects[*]}{.name},{.namespace},{.kind}{"\n"}{end}'
     target:
       apiVersion: v1
       kind: ServiceAccount
     type: MatchRef
-    labels: ["offshoot"]
-  - references:
+  - labels:
+    - offshoot
+    references:
     - '{.roleRef.name}'
     target:
       apiVersion: rbac.authorization.k8s.io/v1
       kind: ClusterRole
     type: MatchRef
-    labels: ["offshoot"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/rbac.authorization.k8s.io/clusterrolebindings.svg
     type: image/svg+xml

@@ -101,91 +101,88 @@ spec:
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
         kind: Pod
-      query:
-        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
         kind: Service
-      query:
-        byLabel: offshoot
   - name: Backups
     resources:
     - actions:
         create: IfEmpty
       displayMode: List
+      query:
+        raw: |-
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
       ref:
         group: stash.appscode.com
         kind: Repository
-      query:
-        raw: |
-          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
-            find(oid: $src) {
-              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
-                refs: offshoot(group: $targetGroup, kind: $targetKind) {
-                  namespace
-                  name
-                }
-              }
-            }
-          }
     - actions:
         create: IfEmpty
       displayMode: List
+      query:
+        byLabel: backup_via
       ref:
         group: stash.appscode.com
         kind: BackupConfiguration
-      query:
-        byLabel: backup_via
     - actions:
         create: Always
       displayMode: List
+      query:
+        raw: |-
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
       ref:
         group: stash.appscode.com
         kind: BackupSession
-      query:
-        raw: |
-          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
-            find(oid: $src) {
-              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
-                refs: offshoot(group: $targetGroup, kind: $targetKind) {
-                  namespace
-                  name
-                }
-              }
-            }
-          }
     - actions:
         create: Always
       displayMode: List
+      query:
+        raw: |-
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
       ref:
         group: stash.appscode.com
         kind: RestoreSession
-      query:
-        raw: |
-          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
-            find(oid: $src) {
-              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
-                refs: offshoot(group: $targetGroup, kind: $targetKind) {
-                  namespace
-                  name
-                }
-              }
-            }
-          }
     - actions:
         create: Never
       displayMode: List
-      ref:
-        group: batch
-        kind: CronJob
       query:
-        raw: |
+        raw: |-
           query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
             find(oid: $src) {
               backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
@@ -196,24 +193,27 @@ spec:
               }
             }
           }
+      ref:
+        group: batch
+        kind: CronJob
   - name: Monitoring
     resources:
     - actions:
         create: IfEmpty
       displayMode: List
+      query:
+        byLabel: monitored_by
       ref:
         group: monitoring.coreos.com
         kind: ServiceMonitor
-      query:
-        byLabel: monitored_by
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: monitored_by
       ref:
         group: monitoring.coreos.com
         kind: Prometheus
-      query:
-        byLabel: monitored_by
   resource:
     group: apps
     kind: DaemonSet

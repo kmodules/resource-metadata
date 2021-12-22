@@ -51,13 +51,14 @@ spec:
     priority: 3
     type: date
   connections:
-  - namespacePath: metadata.namespace
+  - labels:
+    - offshoot
+    namespacePath: metadata.namespace
     selectorPath: spec.selector
     target:
       apiVersion: v1
       kind: Pod
     type: MatchSelector
-    labels: ["offshoot"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/policy/poddisruptionbudgets.svg
     type: image/svg+xml

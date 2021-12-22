@@ -43,13 +43,14 @@ spec:
     priority: 3
     type: date
   connections:
-  - references:
+  - labels:
+    - offshoot
+    references:
     - '{.spec.databaseRef.name}'
     target:
       apiVersion: kubedb.com/v1alpha2
       kind: Elasticsearch
     type: MatchRef
-    labels: ["offshoot"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/ops.kubedb.com/elasticsearchopsrequests.svg
     type: image/svg+xml

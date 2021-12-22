@@ -55,22 +55,24 @@ spec:
     priority: 3
     type: date
   connections:
-  - namespacePath: metadata.namespace
+  - labels:
+    - exposed_by
+    namespacePath: metadata.namespace
     references:
     - '{.spec.clientConfig.service.name}'
     target:
       apiVersion: v1
       kind: Service
     type: MatchRef
-    labels: ["exposed_by"]
-  - namespacePath: metadata.namespace
+  - labels:
+    - auth_via
+    namespacePath: metadata.namespace
     references:
     - '{.spec.clientConfig.secret.name}'
     target:
       apiVersion: v1
       kind: Secret
     type: MatchRef
-    labels: ["auth_via"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/appcatalog.appscode.com/appbindings.svg
     type: image/svg+xml

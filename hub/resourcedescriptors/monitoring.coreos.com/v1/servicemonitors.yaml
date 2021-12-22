@@ -43,13 +43,14 @@ spec:
     priority: 3
     type: date
   connections:
-  - namespacePath: spec.namespaceSelector
+  - labels:
+    - monitored_by
+    namespacePath: spec.namespaceSelector
     selectorPath: spec.selector
     target:
       apiVersion: v1
       kind: Service
     type: MatchSelector
-    labels: ["monitored_by"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/monitoring.coreos.com/servicemonitors.svg
     type: image/svg+xml
@@ -61,19 +62,19 @@ spec:
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
         kind: Pod
-      query:
-        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
         kind: Service
-      query:
-        byLabel: offshoot
   resource:
     group: monitoring.coreos.com
     kind: ServiceMonitor

@@ -49,13 +49,15 @@ spec:
     priority: 3
     type: string
   connections:
-  - namespacePath: metadata.namespace
+  - labels:
+    - offshoot
+    - exposed_by
+    namespacePath: metadata.namespace
     selectorPath: spec.selector
     target:
       apiVersion: v1
       kind: Pod
     type: MatchSelector
-    labels: ["offshoot", "exposed_by"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/core/services.svg
     type: image/svg+xml
@@ -67,11 +69,11 @@ spec:
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
         kind: Pod
-      query:
-        byLabel: offshoot
   resource:
     group: ""
     kind: Service

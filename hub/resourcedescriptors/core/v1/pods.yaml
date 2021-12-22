@@ -68,54 +68,36 @@ spec:
     pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
     type: date
-  # connections:
-  # - level: Controller
-  #   target:
-  #     apiVersion: apps/v1
-  #     kind: StatefulSet
-  #   type: OwnedBy
-  #   labels: ["offshoot"]
-  # - level: Controller
-  #   target:
-  #     apiVersion: apps/v1
-  #     kind: DaemonSet
-  #   type: OwnedBy
-  #   labels: ["offshoot"]
-  # - level: Controller
-  #   target:
-  #     apiVersion: apps/v1
-  #     kind: ReplicaSet
-  #   type: OwnedBy
-  #   labels: ["offshoot"]
-  # - level: Controller
-  #   target:
-  #     apiVersion: v1
-  #     kind: ReplicationController
-  #   type: OwnedBy
-  #   labels: ["offshoot"]
-  - references:
+  connections:
+  - labels:
+    - located_on
+    references:
     - '{.spec.nodeName}'
     target:
       apiVersion: v1
       kind: Node
     type: MatchRef
-    labels: ["located_on"]
-  - references:
+  - labels:
+    - offshoot
+    - auth_via
+    references:
     - '{.spec.serviceAccountName}'
     target:
       apiVersion: v1
       kind: ServiceAccount
     type: MatchRef
-    labels: ["offshoot", "auth_via"]
-  - namespacePath: metadata.namespace
+  - labels:
+    - offshoot
+    namespacePath: metadata.namespace
     references:
     - '{range .spec.volumes[*]}{.persistentVolumeClaim.claimName}{"\n"}{end}'
     target:
       apiVersion: v1
       kind: PersistentVolumeClaim
     type: MatchRef
-    labels: ["offshoot"]
-  - namespacePath: metadata.namespace
+  - labels:
+    - offshoot
+    namespacePath: metadata.namespace
     references:
     - '{range .spec.containers[*].envFrom[*]}{.configMapRef.name}{"\n"}{end}'
     - '{range .spec.containers[*].env[*]}{.valueFrom.configMapKeyRef.name}{"\n"}{end}'
@@ -124,8 +106,9 @@ spec:
       apiVersion: v1
       kind: ConfigMap
     type: MatchRef
-    labels: ["offshoot"]
-  - namespacePath: metadata.namespace
+  - labels:
+    - offshoot
+    namespacePath: metadata.namespace
     references:
     - '{range .spec.containers[*].envFrom[*]}{.secretRef.name}{"\n"}{end}'
     - '{range .spec.containers[*].env[*]}{.valueFrom.secretKeyRef.name}{"\n"}{end}'
@@ -134,7 +117,6 @@ spec:
       apiVersion: v1
       kind: Secret
     type: MatchRef
-    labels: ["offshoot"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/core/pods.svg
     type: image/svg+xml
@@ -146,61 +128,61 @@ spec:
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
         kind: Service
-      query:
-        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
         kind: Secret
-      query:
-        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
         kind: ConfigMap
-      query:
-        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
         kind: PersistentVolumeClaim
-      query:
-        byLabel: offshoot
   - name: Monitoring
     resources:
     - actions:
         create: IfEmpty
       displayMode: List
+      query:
+        byLabel: monitored_by
       ref:
         group: monitoring.coreos.com
         kind: ServiceMonitor
-      query:
-        byLabel: monitored_by
     - actions:
         create: IfEmpty
       displayMode: List
+      query:
+        byLabel: monitored_by
       ref:
         group: monitoring.coreos.com
         kind: PodMonitor
-      query:
-        byLabel: monitored_by
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: monitored_by
       ref:
         group: monitoring.coreos.com
         kind: Prometheus
-      query:
-        byLabel: monitored_by
   resource:
     group: ""
     kind: Pod

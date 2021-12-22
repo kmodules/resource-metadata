@@ -26,6 +26,7 @@ import (
 	kmapi "kmodules.xyz/client-go/api/v1"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
+	"github.com/pkg/errors"
 	diff "github.com/yudai/gojsondiff"
 	"github.com/yudai/gojsondiff/formatter"
 	"gomodules.xyz/encoding/json"
@@ -129,7 +130,7 @@ func main() {
 
 		d, err := check(path)
 		if err != nil {
-			return err
+			return errors.Wrapf(err, "path=%s", path)
 		}
 		if d != "" {
 			return fmt.Errorf("parsing error in file %s: %s", path, d)

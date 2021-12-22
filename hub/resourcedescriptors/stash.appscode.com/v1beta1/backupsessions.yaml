@@ -47,14 +47,15 @@ spec:
     priority: 3
     type: date
   connections:
-  - namespacePath: metadata.namespace
+  - labels:
+    - offshoot
+    namespacePath: metadata.namespace
     references:
     - '{.spec.invoker.name},{.metadata.namespace},{.spec.invoker.kind},{.spec.invoker.apiVersion}'
     target:
       apiVersion: stash.appscode.com/v1beta1
       kind: BackupConfiguration
     type: MatchRef
-    labels: ["offshoot"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/backupsessions.svg
     type: image/svg+xml

@@ -59,20 +59,22 @@ spec:
     priority: 3
     type: date
   connections:
-  - namespacePath: spec.serviceMonitorNamespaceSelector
+  - labels:
+    - monitored_by
+    namespacePath: spec.serviceMonitorNamespaceSelector
     selectorPath: spec.serviceMonitorSelector
     target:
       apiVersion: monitoring.coreos.com/v1
       kind: ServiceMonitor
     type: MatchSelector
-    labels: ["monitored_by"]
-  - namespacePath: spec.podMonitorNamespaceSelector
+  - labels:
+    - monitored_by
+    namespacePath: spec.podMonitorNamespaceSelector
     selectorPath: spec.podMonitorSelector
     target:
       apiVersion: monitoring.coreos.com/v1
       kind: PodMonitor
     type: MatchSelector
-    labels: ["monitored_by"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/monitoring.coreos.com/prometheuses.svg
     type: image/svg+xml
@@ -84,37 +86,37 @@ spec:
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
         kind: Pod
-      query:
-        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
         kind: Service
-      query:
-        byLabel: offshoot
   - name: Monitoring
     resources:
     - actions:
         create: Always
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: monitoring.coreos.com
         kind: ServiceMonitor
-      query:
-        byLabel: offshoot
     - actions:
         create: Always
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: monitoring.coreos.com
         kind: PodMonitor
-      query:
-        byLabel: offshoot
   resource:
     group: monitoring.coreos.com
     kind: Prometheus

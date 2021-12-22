@@ -59,70 +59,78 @@ spec:
     priority: 3
     type: date
   connections:
-  - namespacePath: metadata.namespace
+  - labels:
+    - offshoot
+    namespacePath: metadata.namespace
     references:
     - '{.spec.repository.name},{.metadata.namespace},{"Repository"},{"stash.appscode.com/v1beta1"}'
     target:
       apiVersion: stash.appscode.com/v1alpha1
       kind: Repository
     type: MatchRef
-    labels: ["offshoot"]
-  - namespacePath: metadata.namespace
+  - labels:
+    - backup_via
+    namespacePath: metadata.namespace
     references:
     - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
     target:
       apiVersion: appcatalog.appscode.com/v1alpha1
       kind: AppBinding
     type: MatchRef
-    labels: ["backup_via"]
-  - namespacePath: metadata.namespace
+  - labels:
+    - backup_via
+    namespacePath: metadata.namespace
     references:
     - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
     target:
       apiVersion: apps/v1
       kind: Deployment
     type: MatchRef
-    labels: ["backup_via"]
-  - namespacePath: metadata.namespace
+  - labels:
+    - backup_via
+    namespacePath: metadata.namespace
     references:
     - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
     target:
       apiVersion: apps/v1
       kind: ReplicaSet
     type: MatchRef
-    labels: ["backup_via"]
-  - namespacePath: metadata.namespace
+  - labels:
+    - backup_via
+    namespacePath: metadata.namespace
     references:
     - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind}'
     target:
       apiVersion: v1
       kind: ReplicationController
     type: MatchRef
-    labels: ["backup_via"]
-  - namespacePath: metadata.namespace
+  - labels:
+    - backup_via
+    namespacePath: metadata.namespace
     references:
     - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
     target:
       apiVersion: apps/v1
       kind: StatefulSet
     type: MatchRef
-    labels: ["backup_via"]
-  - namespacePath: metadata.namespace
+  - labels:
+    - backup_via
+    namespacePath: metadata.namespace
     references:
     - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
     target:
       apiVersion: apps/v1
       kind: DaemonSet
     type: MatchRef
-    labels: ["backup_via"]
-  - namespacePath: metadata.namespace
+  - labels:
+    - backup_via
+    namespacePath: metadata.namespace
     references:
     - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
     target:
       apiVersion: v1
       kind: PersistentVolumeClaim
     type: MatchRef
-    labels: ["backup_via"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/backupconfigurations.svg
     type: image/svg+xml
@@ -134,27 +142,27 @@ spec:
     - actions:
         create: IfEmpty
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: stash.appscode.com
         kind: Repository
-      query:
-        byLabel: offshoot
     - actions:
         create: Always
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: stash.appscode.com
         kind: BackupSession
-      query:
-        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: batch
         kind: CronJob
-      query:
-        byLabel: offshoot
   resource:
     group: stash.appscode.com
     kind: BackupConfiguration

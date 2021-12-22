@@ -63,26 +63,29 @@ spec:
     priority: 3
     type: date
   connections:
-  - level: Controller
+  - labels:
+    - offshoot
+    level: Controller
     target:
       apiVersion: batch/v1beta1
       kind: CronJob
     type: OwnedBy
-    labels: ["offshoot"]
-  - level: Controller
+  - labels:
+    - offshoot
+    level: Controller
     target:
       apiVersion: batch/v1
       kind: CronJob
     type: OwnedBy
-    labels: ["offshoot"]
-  - level: Controller
+  - labels:
+    - offshoot
+    level: Controller
     namespacePath: metadata.namespace
     selectorPath: spec.selector
     target:
       apiVersion: v1
       kind: Pod
     type: MatchSelector
-    labels: ["offshoot"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/batch/jobs.svg
     type: image/svg+xml
@@ -94,19 +97,19 @@ spec:
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
         kind: Pod
-      query:
-        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
         kind: Service
-      query:
-        byLabel: offshoot
   resource:
     group: batch
     kind: Job

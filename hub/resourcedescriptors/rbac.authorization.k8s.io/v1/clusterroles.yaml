@@ -20,19 +20,19 @@ spec:
     - actions:
         create: Always
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: rbac.authorization.k8s.io
         kind: ClusterRoleBinding
-      query:
-        byLabel: offshoot
     - actions:
         create: Always
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: rbac.authorization.k8s.io
         kind: RoleBinding
-      query:
-        byLabel: offshoot
   resource:
     group: rbac.authorization.k8s.io
     kind: ClusterRole

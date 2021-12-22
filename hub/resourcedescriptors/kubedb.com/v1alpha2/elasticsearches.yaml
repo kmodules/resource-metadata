@@ -63,7 +63,9 @@ spec:
     priority: 3
     type: date
   connections:
-  - level: Controller
+  - labels:
+    - offshoot
+    level: Controller
     namespacePath: metadata.namespace
     selector:
       matchLabels:
@@ -74,8 +76,10 @@ spec:
       apiVersion: apps/v1
       kind: StatefulSet
     type: MatchSelector
-    labels: ["offshoot"]
-  - level: Owner
+  - labels:
+    - offshoot
+    - exposed_by
+    level: Owner
     namespacePath: metadata.namespace
     selector:
       matchLabels:
@@ -86,37 +90,42 @@ spec:
       apiVersion: v1
       kind: Service
     type: MatchSelector
-    labels: ["offshoot", "exposed_by"]
-  - level: Controller
+  - labels:
+    - offshoot
+    - connect_via
+    level: Controller
     nameTemplate: '{.metadata.name}'
     namespacePath: metadata.namespace
     target:
       apiVersion: appcatalog.appscode.com/v1alpha1
       kind: AppBinding
     type: MatchName
-    labels: ["offshoot", "connect_via"]
-  - references:
+  - labels:
+    - offshoot
+    - catalog
+    references:
     - '{.spec.version}'
     target:
       apiVersion: catalog.kubedb.com/v1alpha1
       kind: ElasticsearchVersion
     type: MatchRef
-    labels: ["offshoot", "catalog"]
-  - namespacePath: metadata.namespace
+  - labels:
+    - offshoot
+    namespacePath: metadata.namespace
     references:
     - '{.spec.tls.issuerRef.name},{.metadata.namespace}'
     target:
       apiVersion: cert-manager.io/v1
       kind: Issuer
     type: MatchRef
-    labels: ["offshoot"]
-  - references:
+  - labels:
+    - offshoot
+    references:
     - '{.spec.tls.issuerRef.name}'
     target:
       apiVersion: cert-manager.io/v1
       kind: ClusterIssuer
     type: MatchRef
-    labels: ["offshoot"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/kubedb.com/elasticsearches.svg
     type: image/svg+xml
@@ -128,139 +137,136 @@ spec:
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: appcatalog.appscode.com
         kind: AppBinding
-      query:
-        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: catalog.kubedb.com
         kind: ElasticsearchVersion
-      query:
-        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: apps
         kind: StatefulSet
-      query:
-        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
         kind: Pod
-      query:
-        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
         kind: Service
-      query:
-        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
         kind: Secret
-      query:
-        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
         kind: PersistentVolumeClaim
-      query:
-        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: policy
         kind: PodDisruptionBudget
-      query:
-        byLabel: offshoot
   - name: Backups
     resources:
     - actions:
         create: IfEmpty
       displayMode: List
+      query:
+        raw: |-
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
       ref:
         group: stash.appscode.com
         kind: Repository
-      query:
-        raw: |
-          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
-            find(oid: $src) {
-              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
-                refs: offshoot(group: $targetGroup, kind: $targetKind) {
-                  namespace
-                  name
-                }
-              }
-            }
-          }
     - actions:
         create: IfEmpty
       displayMode: List
+      query:
+        byLabel: backup_via
       ref:
         group: stash.appscode.com
         kind: BackupConfiguration
-      query:
-        byLabel: backup_via
     - actions:
         create: Always
       displayMode: List
+      query:
+        raw: |-
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
       ref:
         group: stash.appscode.com
         kind: BackupSession
-      query:
-        raw: |
-          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
-            find(oid: $src) {
-              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
-                refs: offshoot(group: $targetGroup, kind: $targetKind) {
-                  namespace
-                  name
-                }
-              }
-            }
-          }
     - actions:
         create: Always
       displayMode: List
+      query:
+        raw: |-
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
       ref:
         group: stash.appscode.com
         kind: RestoreSession
-      query:
-        raw: |
-          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
-            find(oid: $src) {
-              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
-                refs: offshoot(group: $targetGroup, kind: $targetKind) {
-                  namespace
-                  name
-                }
-              }
-            }
-          }
     - actions:
         create: Never
       displayMode: List
-      ref:
-        group: batch
-        kind: CronJob
       query:
-        raw: |
+        raw: |-
           query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
             find(oid: $src) {
               backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
@@ -271,92 +277,95 @@ spec:
               }
             }
           }
+      ref:
+        group: batch
+        kind: CronJob
   - name: Security
     resources:
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
         kind: ServiceAccount
-      query:
-        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: rbac.authorization.k8s.io
         kind: Role
-      query:
-        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: rbac.authorization.k8s.io
         kind: RoleBinding
-      query:
-        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: cert-manager.io
         kind: Certificate
-      query:
-        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: cert-manager.io
         kind: Issuer
-      query:
-        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: cert-manager.io
         kind: ClusterIssuer
-      query:
-        byLabel: offshoot
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: policy
         kind: PodSecurityPolicy
-      query:
-        byLabel: offshoot
   - name: Operations
     resources:
     - actions:
         create: Always
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ops.kubedb.com
         kind: ElasticsearchOpsRequest
-      query:
-        byLabel: offshoot
   - name: Monitoring
     resources:
     - actions:
         create: IfEmpty
       displayMode: List
+      query:
+        byLabel: monitored_by
       ref:
         group: monitoring.coreos.com
         kind: ServiceMonitor
-      query:
-        byLabel: monitored_by
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: monitored_by
       ref:
         group: monitoring.coreos.com
         kind: Prometheus
-      query:
-        byLabel: monitored_by
   resource:
     group: kubedb.com
     kind: Elasticsearch

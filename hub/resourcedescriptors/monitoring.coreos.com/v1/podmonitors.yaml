@@ -43,13 +43,14 @@ spec:
     priority: 3
     type: date
   connections:
-  - namespacePath: spec.namespaceSelector
+  - labels:
+    - monitored_by
+    namespacePath: spec.namespaceSelector
     selectorPath: spec.selector
     target:
       apiVersion: v1
       kind: Pod
     type: MatchSelector
-    labels: ["monitored_by"]
   icons:
   - src: https://cdn.appscode.com/k8s/icons/monitoring.coreos.com/podmonitors.svg
     type: image/svg+xml
