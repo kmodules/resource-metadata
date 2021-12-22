@@ -9,6 +9,27 @@ metadata:
     k8s.io/version: v1alpha1
   name: ui.k8s.appscode.com-v1alpha1-resourcesummaries
 spec:
+  columns:
+  - name: Database
+    pathTemplate: '{{ .spec.apiType.kind }}'
+    priority: 3
+    type: string
+  - name: Instances
+    pathTemplate: '{{ .spec.count }}'
+    priority: 3
+    type: string
+  - name: Total vCPU
+    pathTemplate: '{{ .spec.totalResource.limits.cpu }}'
+    priority: 3
+    type: string
+  - name: Total Memory
+    pathTemplate: '{{ .spec.totalResource.limits.memory }}'
+    priority: 3
+    type: string
+  - name: Total Storage
+    pathTemplate: '{{ .spec.totalResource.limits.storage }}'
+    priority: 3
+    type: string
   resource:
     group: ui.k8s.appscode.com
     kind: ResourceSummary
