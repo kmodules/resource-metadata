@@ -20,7 +20,6 @@ import (
 	"strings"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	"kmodules.xyz/resource-metadata/hub"
 
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -45,36 +44,6 @@ type Edge struct {
 }
 
 type AdjacencyMap map[schema.GroupVersionKind]*Edge
-
-type Graph struct {
-	r     *hub.Registry
-	edges map[schema.GroupVersionKind]AdjacencyMap
-}
-
-func NewGraph(r *hub.Registry) *Graph {
-	return &Graph{
-		edges: make(map[schema.GroupVersionKind]AdjacencyMap),
-		r:     r,
-	}
-}
-
-func (g *Graph) AddEdge(e *Edge) {
-	if _, ok := g.edges[e.Src]; !ok {
-		g.edges[e.Src] = AdjacencyMap{}
-	}
-
-	// only keep the shortest edge between 2 vertices
-	// example: ReplicaSet -> Dep
-	// 1. Backward (Dep -> ReplicaSet)
-	// 2. Owner Ref (shorter path)
-	if old, ok := g.edges[e.Src][e.Dst]; !ok || old.W > e.W {
-		g.edges[e.Src][e.Dst] = e
-	}
-}
-
-func (g *Graph) Edges(src schema.GroupVersionKind) AdjacencyMap {
-	return g.edges[src]
-}
 
 // Types of Selectors
 

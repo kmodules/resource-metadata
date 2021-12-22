@@ -125,14 +125,11 @@ API rule violation: list_type_missing,k8s.io/apimachinery/pkg/apis/meta/v1,Updat
 API rule violation: list_type_missing,k8s.io/apimachinery/pkg/runtime,RawExtension,Raw
 API rule violation: list_type_missing,k8s.io/apimachinery/pkg/runtime,Unknown,Raw
 API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/meta/v1alpha1,Entry,Icons
-API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/meta/v1alpha1,GraphResponse,Connections
 API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/meta/v1alpha1,GroupResources,Groups
 API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/meta/v1alpha1,ObjectConnection,Labels
 API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/meta/v1alpha1,ObjectLocator,Path
 API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/meta/v1alpha1,PanelEntry,Icons
 API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/meta/v1alpha1,PanelSection,Entries
-API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/meta/v1alpha1,Path,Edges
-API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/meta/v1alpha1,PathResponse,Paths
 API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/meta/v1alpha1,RelatedResourcePage,Resources
 API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/meta/v1alpha1,RenderPageResponse,Sections
 API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/meta/v1alpha1,ResourceClassInfo,Icons
@@ -207,7 +204,4 @@ API rule violation: names_match,k8s.io/apimachinery/pkg/runtime,Unknown,Raw
 API rule violation: names_match,k8s.io/apimachinery/pkg/util/intstr,IntOrString,IntVal
 API rule violation: names_match,k8s.io/apimachinery/pkg/util/intstr,IntOrString,StrVal
 API rule violation: names_match,k8s.io/apimachinery/pkg/util/intstr,IntOrString,Type
-API rule violation: names_match,kmodules.xyz/resource-metadata/apis/meta/v1alpha1,Edge,Dst
-API rule violation: names_match,kmodules.xyz/resource-metadata/apis/meta/v1alpha1,Edge,Src
-API rule violation: names_match,kmodules.xyz/resource-metadata/apis/meta/v1alpha1,Edge,W
 API rule violation: names_match,kmodules.xyz/resource-metadata/apis/meta/v1alpha1,ImageSpec,Source

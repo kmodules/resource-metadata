@@ -51,8 +51,6 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 	scheme.AddKnownTypes(SchemeGroupVersion,
 		&ResourceDescriptor{},
 		&ResourceDescriptorList{},
-		&PathFinder{},
-		&GraphFinder{},
 		&RenderPage{},
 		&RenderSection{},
 		&ResourceGraph{},
