@@ -84,10 +84,14 @@ type RelatedResourcePage struct {
 }
 
 type ResourceSection struct {
-	Ref         metav1.GroupKind    `json:"ref"`
-	Query       ResourceQuery       `json:"query"`
-	DisplayMode ResourceDisplayMode `json:"displayMode"`
-	Actions     ResourceActions     `json:"actions"`
+	ResourceLocator `json:",inline"`
+	DisplayMode     ResourceDisplayMode `json:"displayMode"`
+	Actions         ResourceActions     `json:"actions"`
+}
+
+type ResourceLocator struct {
+	Ref   metav1.GroupKind `json:"ref"`
+	Query ResourceQuery    `json:"query"`
 }
 
 type ResourceQuery struct {
