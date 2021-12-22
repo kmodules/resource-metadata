@@ -15934,7 +15934,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceSection(ref common.Refe
 					"ref": {
 						SchemaProps: spec.SchemaProps{
 							Default: map[string]interface{}{},
-							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource"),
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.GroupKind"),
 						},
 					},
 					"query": {
@@ -15961,7 +15961,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceSection(ref common.Refe
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceActions", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceQuery"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupKind", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceActions", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceQuery"},
 	}
 }
 

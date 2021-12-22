@@ -322,21 +322,18 @@ spec:
                                 type: string
                             type: object
                           ref:
-                            description: GroupVersionResource unambiguously identifies
-                              a resource.  It doesn't anonymously include GroupVersion
-                              to avoid automatic coersion.  It doesn't use a GroupVersion
-                              to avoid custom marshalling
+                            description: GroupKind specifies a Group and a Kind, but
+                              does not force a version.  This is useful for identifying
+                              concepts during lookup stages without having partially
+                              valid types
                             properties:
                               group:
                                 type: string
-                              resource:
-                                type: string
-                              version:
+                              kind:
                                 type: string
                             required:
                             - group
-                            - resource
-                            - version
+                            - kind
                             type: object
                         required:
                         - actions
