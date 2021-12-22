@@ -27,19 +27,19 @@ spec:
     priority: 3
     type: string
   - name: Total Memory(Request)
-    pathTemplate: '{{ .spec.totalResource.requests.memory }}'
+    pathTemplate: '{{ .spec.totalResource.requests.memory | k8s_fmt_resource_memory }}'
     priority: 3
     type: string
   - name: Total Memory(Limit)
-    pathTemplate: '{{ .spec.totalResource.limits.memory }}'
+    pathTemplate: '{{ .spec.totalResource.limits.memory | k8s_fmt_resource_memory }}'
     priority: 3
     type: string
   - name: Total Storage(Request)
-    pathTemplate: '{{ .spec.totalResource.requests.storage }}'
+    pathTemplate: '{{ .spec.totalResource.requests.storage | k8s_fmt_resource_memory }}'
     priority: 3
     type: string
   - name: Total Storage(Limit)
-    pathTemplate: '{{ .spec.totalResource.limits.storage }}'
+    pathTemplate: '{{ .spec.totalResource.limits.storage | k8s_fmt_resource_memory}}'
     priority: 3
     type: string
   resource:

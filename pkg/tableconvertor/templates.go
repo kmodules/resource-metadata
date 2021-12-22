@@ -61,6 +61,7 @@ func init() {
 	templateFns["rbac_subjects"] = rbacSubjects
 	templateFns["cert_validity"] = certificateValidity
 	templateFns["k8s_fmt_resource_cpu"] = formatResourceCPUFn
+	templateFns["k8s_fmt_resource_memory"] = formatResourceMemoryFn
 	// ref: https://github.com/kmodules/resource-metrics/blob/bf6b257f8922a5572ccd20bf1cbab6bbedf4fcb4/template.go#L26-L36
 	for name, fn := range resourcemetrics.TxtFuncMap() {
 		templateFns[name] = fn
@@ -420,7 +421,7 @@ func certificateValidity(data interface{}) (string, error) {
 func formatResourceCPUFn(data interface{}) (string, error) {
 	var cpu string
 	if s, ok := data.(string); ok && s != "" {
-		if strings.Contains(s, "m") {
+		if strings.HasSuffix(s, "m") {
 			cpu = s[:len(s)-1]
 			c, err := strconv.Atoi(cpu)
 			if err != nil {
@@ -432,4 +433,15 @@ func formatResourceCPUFn(data interface{}) (string, error) {
 		}
 	}
 	return cpu, nil
+}
+
+func formatResourceMemoryFn(data interface{}) (string, error) {
+	if s, ok := data.(string); !ok || s == "" {
+		return "", nil
+	}
+	mem, err := convertSizeToBytes(data.(string))
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("%.1fGi", mem/1024.0/1024.0/1024.0), nil
 }

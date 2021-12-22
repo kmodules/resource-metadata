@@ -15,27 +15,27 @@ spec:
     priority: 3
     type: string
   - name: CPU (Usage)
-    pathTemplate: '{{ .spec.resources.usage.cpu }}'
+    pathTemplate: '{{ .spec.resources.usage.cpu | k8s_fmt_resource_cpu}}'
     priority: 3
     type: string
   - name: CPU (Limit)
-    pathTemplate: '{{ .spec.resources.limits.cpu }}'
+    pathTemplate: '{{ .spec.resources.limits.cpu | k8s_fmt_resource_cpu}}'
     priority: 3
     type: string
   - name: Memory (Usage)
-    pathTemplate: '{{ .spec.resources.usage.memory }}'
+    pathTemplate: '{{ .spec.resources.usage.memory | k8s_fmt_resource_memory}}'
     priority: 3
     type: string
   - name: Memory (Limit)
-    pathTemplate: '{{ .spec.resources.limits.memory }}'
+    pathTemplate: '{{ .spec.resources.limits.memory | k8s_fmt_resource_memory}}'
     priority: 3
     type: string
   - name: Storage (Usage)
-    pathTemplate: '{{ .spec.resources.usage.storage }}'
+    pathTemplate: '{{ .spec.resources.usage.storage | k8s_fmt_resource_memory}}'
     priority: 3
     type: string
   - name: Storage (Limit)
-    pathTemplate: '{{ .spec.resources.limits.storage }}'
+    pathTemplate: '{{ .spec.resources.limits.storage | k8s_fmt_resource_memory}}'
     priority: 3
     type: string
   - name: Status

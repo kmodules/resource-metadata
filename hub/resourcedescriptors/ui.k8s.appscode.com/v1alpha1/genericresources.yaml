@@ -27,11 +27,11 @@ spec:
     priority: 3
     type: string
   - name: Memory(Request/Limit)
-    pathTemplate: '{{ .spec.totalResource.requests.memory }} / {{ .spec.totalResource.limits.memory }}'
+    pathTemplate: '{{ .spec.totalResource.requests.memory | k8s_fmt_resource_memory}} / {{ .spec.totalResource.limits.memory | k8s_fmt_resource_memory}}'
     priority: 3
     type: string
   - name: Storage(Request/Limit)
-    pathTemplate: '{{ .spec.totalResource.requests.storage }} / {{ .spec.totalResource.limits.storage }}'
+    pathTemplate: '{{ .spec.totalResource.requests.storage | k8s_fmt_resource_memory}} / {{ .spec.totalResource.limits.storage | k8s_fmt_resource_memory}}'
     priority: 3
     type: string
   - name: Status
