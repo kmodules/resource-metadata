@@ -17,5 +17,5 @@ limitations under the License.
 package meta
 
 const (
-	GroupName = "meta.appscode.com"
+	GroupName = "meta.k8s.appscode.com"
 )

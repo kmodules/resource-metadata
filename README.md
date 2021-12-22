@@ -12,10 +12,10 @@ API for defining metadata about Kubernetes resources. You can read about the mot
 
 ```
 curl -X POST \
-  https://api.crd.builders/apis/meta.appscode.com/v1alpha1/graphfinders \
+  https://api.crd.builders/apis/meta.k8s.appscode.com/v1alpha1/graphfinders \
   -H 'content-type: application/json' \
   -d '{
-   "apiVersion": "meta.appscode.com/v1alpha1",
+   "apiVersion": "meta.k8s.appscode.com/v1alpha1",
    "kind": "GraphFinder",
    "request": {
       "source": {
@@ -33,10 +33,10 @@ curl -X POST \
 # find path from deployments -> services
 
 curl -X POST \
-  https://api.crd.builders/apis/meta.appscode.com/v1alpha1/pathfinders \
+  https://api.crd.builders/apis/meta.k8s.appscode.com/v1alpha1/pathfinders \
   -H 'content-type: application/json' \
   -d '{
-   "apiVersion": "meta.appscode.com/v1alpha1",
+   "apiVersion": "meta.k8s.appscode.com/v1alpha1",
    "kind": "PathFinder",
    "request": {
       "source": {
@@ -55,10 +55,10 @@ curl -X POST \
 # find all paths from deployments
 
 curl -X POST \
-  https://api.crd.builders/apis/meta.appscode.com/v1alpha1/pathfinders \
+  https://api.crd.builders/apis/meta.k8s.appscode.com/v1alpha1/pathfinders \
   -H 'content-type: application/json' \
   -d '{
-   "apiVersion": "meta.appscode.com/v1alpha1",
+   "apiVersion": "meta.k8s.appscode.com/v1alpha1",
    "kind": "PathFinder",
    "request": {
       "source": {

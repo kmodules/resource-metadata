@@ -19,5 +19,5 @@ limitations under the License.
 // +k8s:deepcopy-gen=package,register
 // +k8s:openapi-gen=true
 // +k8s:defaulter-gen=TypeMeta
-// +groupName=meta.appscode.com
+// +groupName=meta.k8s.appscode.com
 package v1alpha1
