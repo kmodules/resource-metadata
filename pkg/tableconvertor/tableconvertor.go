@@ -207,8 +207,20 @@ func (c *convertor) rowFn(data interface{}) ([]interface{}, error) {
 
 func (c *convertor) ConvertToTable(ctx context.Context, obj runtime.Object, tableOptions runtime.Object) (*v1alpha1.Table, error) {
 	table := &v1alpha1.Table{
-		ColumnDefinitions: c.headers,
+		ColumnDefinitions: make([]v1alpha1.ResourceColumnDefinition, 0, len(c.headers)),
 	}
+
+	for _, def := range c.headers {
+		table.ColumnDefinitions = append(table.ColumnDefinitions, v1alpha1.ResourceColumnDefinition{
+			Name:         def.Name,
+			Type:         def.Type,
+			Format:       def.Format,
+			Description:  "", //skip
+			Priority:     0,  // skip
+			PathTemplate: "", // skip
+		})
+	}
+
 	if m, err := meta.ListAccessor(obj); err == nil {
 		table.ResourceVersion = m.GetResourceVersion()
 		table.Continue = m.GetContinue()
@@ -340,35 +352,35 @@ func defaultListColumns() []v1alpha1.ResourceColumnDefinition {
 			Type:         "string",
 			Format:       "",
 			Priority:     int32(v1alpha1.List),
-			PathTemplate: `{{ jp "{.metadata.name}" . }}`,
+			PathTemplate: `{{ .metadata.name }}`,
 		},
 		{
 			Name:         "Namespace",
 			Type:         "string",
 			Format:       "",
 			Priority:     int32(v1alpha1.List),
-			PathTemplate: `{{ jp "{.metadata.namespace}" . }}`,
+			PathTemplate: `{{ .metadata.namespace }}`,
 		},
 		{
 			Name:         "Labels",
 			Type:         "object",
 			Format:       "",
 			Priority:     int32(v1alpha1.List),
-			PathTemplate: `{{ jp "{.metadata.labels}" . }}`,
+			PathTemplate: `{{ .metadata.labels | toRawJson }}`,
 		},
 		{
 			Name:         "Annotations",
 			Type:         "object",
 			Format:       "",
 			Priority:     int32(v1alpha1.List),
-			PathTemplate: `{{ jp "{.metadata.annotations}" . }}`,
+			PathTemplate: `{{ .metadata.annotations | toRawJson }}`,
 		},
 		{
 			Name:         "Age",
 			Type:         "date",
 			Format:       "",
 			Priority:     int32(v1alpha1.List),
-			PathTemplate: `{{ jp "{.metadata.creationTimestamp}" . }}`,
+			PathTemplate: `{{ .metadata.creationTimestamp }}`,
 		},
 	}
 }
@@ -380,35 +392,35 @@ func defaultDetailsColumns() []v1alpha1.ResourceColumnDefinition {
 			Type:         "string",
 			Format:       "",
 			Priority:     int32(v1alpha1.Field),
-			PathTemplate: `{{ jp "{.metadata.name}" . }}`,
+			PathTemplate: `{{ .metadata.name }}`,
 		},
 		{
 			Name:         "Namespace",
 			Type:         "string",
 			Format:       "",
 			Priority:     int32(v1alpha1.Field),
-			PathTemplate: `{{ jp "{.metadata.namespace}" . }}`,
+			PathTemplate: `{{ .metadata.namespace }}`,
 		},
 		{
 			Name:         "Labels",
 			Type:         "object",
 			Format:       "",
 			Priority:     int32(v1alpha1.Field),
-			PathTemplate: `{{ jp "{.metadata.labels}" . }}`,
+			PathTemplate: `{{ .metadata.labels | toRawJson }}`,
 		},
 		{
 			Name:         "Annotations",
 			Type:         "object",
 			Format:       "",
 			Priority:     int32(v1alpha1.Field),
-			PathTemplate: `{{ jp "{.metadata.annotations}" . }}`,
+			PathTemplate: `{{ .metadata.annotations | toRawJson }}`,
 		},
 		{
 			Name:         "Age",
 			Type:         "date",
 			Format:       "",
 			Priority:     int32(v1alpha1.Field),
-			PathTemplate: `{{ jp "{.metadata.creationTimestamp}" . }}`,
+			PathTemplate: `{{ .metadata.creationTimestamp }}`,
 		},
 		/*
 			{
