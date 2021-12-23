@@ -1,4 +1,4 @@
-apiVersion: meta.appscode.com/v1alpha1
+apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
@@ -45,10 +45,11 @@ spec:
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
-        resource: pods
-        version: v1
+        kind: Pod
   resource:
     group: ""
     kind: ConfigMap

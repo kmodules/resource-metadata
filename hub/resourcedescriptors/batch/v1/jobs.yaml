@@ -1,4 +1,4 @@
-apiVersion: meta.appscode.com/v1alpha1
+apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
@@ -63,12 +63,23 @@ spec:
     priority: 3
     type: date
   connections:
-  - level: Controller
+  - labels:
+    - offshoot
+    level: Controller
     target:
       apiVersion: batch/v1beta1
       kind: CronJob
     type: OwnedBy
-  - level: Controller
+  - labels:
+    - offshoot
+    level: Controller
+    target:
+      apiVersion: batch/v1
+      kind: CronJob
+    type: OwnedBy
+  - labels:
+    - offshoot
+    level: Controller
     namespacePath: metadata.namespace
     selectorPath: spec.selector
     target:
@@ -86,17 +97,19 @@ spec:
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
-        resource: pods
-        version: v1
+        kind: Pod
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
-        resource: services
-        version: v1
+        kind: Service
   resource:
     group: batch
     kind: Job

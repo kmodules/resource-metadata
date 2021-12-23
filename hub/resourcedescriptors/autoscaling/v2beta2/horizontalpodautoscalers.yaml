@@ -1,4 +1,4 @@
-apiVersion: meta.appscode.com/v1alpha1
+apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
@@ -35,28 +35,40 @@ spec:
     priority: 3
     type: date
   connections:
-  - namespacePath: metadata.namespace
+  - labels:
+    - offshoot
+    - scaled_by
+    namespacePath: metadata.namespace
     references:
     - '{.spec.scaleTargetRef.name},{.metadata.namespace},{.spec.scaleTargetRef.kind},{.spec.scaleTargetRef.apiVersion}'
     target:
       apiVersion: apps/v1
       kind: Deployment
     type: MatchRef
-  - namespacePath: metadata.namespace
+  - labels:
+    - offshoot
+    - scaled_by
+    namespacePath: metadata.namespace
     references:
     - '{.spec.scaleTargetRef.name},{.metadata.namespace},{.spec.scaleTargetRef.kind},{.spec.scaleTargetRef.apiVersion}'
     target:
       apiVersion: apps/v1
       kind: ReplicaSet
     type: MatchRef
-  - namespacePath: metadata.namespace
+  - labels:
+    - offshoot
+    - scaled_by
+    namespacePath: metadata.namespace
     references:
     - '{.spec.scaleTargetRef.name},{.metadata.namespace},{.spec.scaleTargetRef.kind}'
     target:
       apiVersion: v1
       kind: ReplicationController
     type: MatchRef
-  - namespacePath: metadata.namespace
+  - labels:
+    - offshoot
+    - scaled_by
+    namespacePath: metadata.namespace
     references:
     - '{.spec.scaleTargetRef.name},{.metadata.namespace},{.spec.scaleTargetRef.kind},{.spec.scaleTargetRef.apiVersion}'
     target:
@@ -74,10 +86,11 @@ spec:
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: apps
-        resource: deployments
-        version: v1
+        kind: Deployment
   resource:
     group: autoscaling
     kind: HorizontalPodAutoscaler

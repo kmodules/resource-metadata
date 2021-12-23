@@ -1,4 +1,4 @@
-apiVersion: meta.appscode.com/v1alpha1
+apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
@@ -39,14 +39,18 @@ spec:
     priority: 3
     type: date
   connections:
-  - namespacePath: metadata.namespace
+  - labels:
+    - offshoot
+    namespacePath: metadata.namespace
     references:
     - '{range .subjects[*]}{.name},{.namespace},{.kind}{"\n"}{end}'
     target:
       apiVersion: v1
       kind: ServiceAccount
     type: MatchRef
-  - namespacePath: metadata.namespace
+  - labels:
+    - offshoot
+    namespacePath: metadata.namespace
     references:
     - '{.roleRef.name},{.metadata.namespace},{.roleRef.kind}'
     target:

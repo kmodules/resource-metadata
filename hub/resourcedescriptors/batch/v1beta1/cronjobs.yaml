@@ -1,4 +1,4 @@
-apiVersion: meta.appscode.com/v1alpha1
+apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
@@ -63,7 +63,9 @@ spec:
     priority: 3
     type: date
   connections:
-  - level: Controller
+  - labels:
+    - offshoot
+    level: Controller
     target:
       apiVersion: stash.appscode.com/v1beta1
       kind: BackupConfiguration
@@ -79,17 +81,19 @@ spec:
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: batch
-        resource: jobs
-        version: v1
+        kind: Job
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
-        resource: pods
-        version: v1
+        kind: Pod
   resource:
     group: batch
     kind: CronJob

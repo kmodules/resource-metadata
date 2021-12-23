@@ -1,4 +1,4 @@
-apiVersion: meta.appscode.com/v1alpha1
+apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
@@ -9,6 +9,159 @@ metadata:
     k8s.io/version: v1alpha2
   name: kubedb.com-v1alpha2-redissentinels
 spec:
+  pages:
+  - name: Basic
+    resources:
+    - actions:
+        create: Never
+      displayMode: List
+      query:
+        byLabel: offshoot
+      ref:
+        group: appcatalog.appscode.com
+        kind: AppBinding
+    - actions:
+        create: Never
+      displayMode: List
+      query:
+        byLabel: offshoot
+      ref:
+        group: catalog.kubedb.com
+        kind: RedisVersion
+    - actions:
+        create: Never
+      displayMode: List
+      query:
+        byLabel: offshoot
+      ref:
+        group: apps
+        kind: StatefulSet
+    - actions:
+        create: Never
+      displayMode: List
+      query:
+        byLabel: offshoot
+      ref:
+        group: ""
+        kind: Pod
+    - actions:
+        create: Never
+      displayMode: List
+      query:
+        byLabel: offshoot
+      ref:
+        group: ""
+        kind: Service
+    - actions:
+        create: Never
+      displayMode: List
+      query:
+        byLabel: offshoot
+      ref:
+        group: ""
+        kind: Secret
+    - actions:
+        create: Never
+      displayMode: List
+      query:
+        byLabel: offshoot
+      ref:
+        group: ""
+        kind: PersistentVolumeClaim
+    - actions:
+        create: Never
+      displayMode: List
+      query:
+        byLabel: offshoot
+      ref:
+        group: policy
+        kind: PodDisruptionBudget
+  - name: Security
+    resources:
+    - actions:
+        create: Never
+      displayMode: List
+      query:
+        byLabel: offshoot
+      ref:
+        group: ""
+        kind: ServiceAccount
+    - actions:
+        create: Never
+      displayMode: List
+      query:
+        byLabel: offshoot
+      ref:
+        group: rbac.authorization.k8s.io
+        kind: Role
+    - actions:
+        create: Never
+      displayMode: List
+      query:
+        byLabel: offshoot
+      ref:
+        group: rbac.authorization.k8s.io
+        kind: RoleBinding
+    - actions:
+        create: Never
+      displayMode: List
+      query:
+        byLabel: offshoot
+      ref:
+        group: cert-manager.io
+        kind: Certificate
+    - actions:
+        create: Never
+      displayMode: List
+      query:
+        byLabel: offshoot
+      ref:
+        group: cert-manager.io
+        kind: Issuer
+    - actions:
+        create: Never
+      displayMode: List
+      query:
+        byLabel: offshoot
+      ref:
+        group: cert-manager.io
+        kind: ClusterIssuer
+    - actions:
+        create: Never
+      displayMode: List
+      query:
+        byLabel: offshoot
+      ref:
+        group: policy
+        kind: PodSecurityPolicy
+  - name: Operations
+    resources:
+    - actions:
+        create: Always
+      displayMode: List
+      query:
+        byLabel: offshoot
+      ref:
+        group: ops.kubedb.com
+        kind: RedisOpsRequest
+  - name: Monitoring
+    resources:
+    - actions:
+        create: IfEmpty
+      displayMode: List
+      query:
+        byLabel: monitored_by
+      ref:
+        group: monitoring.coreos.com
+        kind: ServiceMonitor
+    - actions:
+        create: Never
+      displayMode: List
+      query:
+        byLabel: monitored_by
+      ref:
+        group: monitoring.coreos.com
+        kind: Prometheus
   resource:
     group: kubedb.com
     kind: RedisSentinel

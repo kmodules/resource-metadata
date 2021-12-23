@@ -1,4 +1,4 @@
-apiVersion: meta.appscode.com/v1alpha1
+apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
@@ -31,7 +31,9 @@ spec:
     priority: 3
     type: date
   connections:
-  - namespacePath: metadata.namespace
+  - labels:
+    - offshoot
+    namespacePath: metadata.namespace
     references:
     - '{range .rules[?(@.resources[*]=="podsecuritypolicies")]}{range @.resourceNames[*]}{@}{"\n"}{end}{end}'
     target:
@@ -49,10 +51,11 @@ spec:
     - actions:
         create: Always
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: rbac.authorization.k8s.io
-        resource: rolebindings
-        version: v1
+        kind: RoleBinding
   resource:
     group: rbac.authorization.k8s.io
     kind: Role

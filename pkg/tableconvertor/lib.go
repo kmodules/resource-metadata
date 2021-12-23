@@ -22,15 +22,15 @@ import (
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"kmodules.xyz/resource-metadata/hub"
 
-	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func TableForList(r *hub.Registry, client crd_cs.CustomResourceDefinitionInterface, gvr schema.GroupVersionResource, items []unstructured.Unstructured) (*v1alpha1.Table, error) {
-	c, err := NewForGVR(r, client, gvr, v1alpha1.List)
+func TableForList(r *hub.Registry, kc client.Client, gvr schema.GroupVersionResource, items []unstructured.Unstructured) (*v1alpha1.Table, error) {
+	c, err := NewForGVR(r, kc, gvr, v1alpha1.List)
 	if err != nil {
 		return nil, err
 	}
@@ -41,7 +41,7 @@ func TableForList(r *hub.Registry, client crd_cs.CustomResourceDefinitionInterfa
 	return c.ConvertToTable(ctx, obj, nil)
 }
 
-func TableForObject(r *hub.Registry, client crd_cs.CustomResourceDefinitionInterface, obj runtime.Object) (*v1alpha1.Table, error) {
+func TableForObject(r *hub.Registry, kc client.Client, obj runtime.Object) (*v1alpha1.Table, error) {
 	gvk := obj.GetObjectKind().GroupVersionKind()
 	t := metav1.TypeMeta{APIVersion: gvk.GroupVersion().String(), Kind: gvk.Kind}
 	gvr, err := r.GVR(t.GroupVersionKind())
@@ -54,7 +54,7 @@ func TableForObject(r *hub.Registry, client crd_cs.CustomResourceDefinitionInter
 		return nil, err
 	}
 
-	c, err := NewForGVR(r, client, gvr, v1alpha1.Field)
+	c, err := NewForGVR(r, kc, gvr, v1alpha1.Field)
 	if err != nil {
 		return nil, err
 	}

@@ -1,4 +1,4 @@
-apiVersion: meta.appscode.com/v1alpha1
+apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
@@ -55,56 +55,72 @@ spec:
     priority: 3
     type: date
   connections:
-  - namespacePath: metadata.namespace
+  - labels:
+    - offshoot
+    namespacePath: metadata.namespace
     references:
     - '{.spec.repository.name},{.metadata.namespace},{"Repository"},{"stash.appscode.com/v1beta1"}'
     target:
       apiVersion: stash.appscode.com/v1alpha1
       kind: Repository
     type: MatchRef
-  - namespacePath: metadata.namespace
+  - labels:
+    - restore_into
+    namespacePath: metadata.namespace
     references:
     - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
     target:
       apiVersion: appcatalog.appscode.com/v1alpha1
       kind: AppBinding
     type: MatchRef
-  - namespacePath: metadata.namespace
+  - labels:
+    - restore_into
+    namespacePath: metadata.namespace
     references:
     - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
     target:
       apiVersion: apps/v1
       kind: Deployment
     type: MatchRef
-  - namespacePath: metadata.namespace
+  - labels:
+    - restore_into
+    namespacePath: metadata.namespace
     references:
     - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
     target:
       apiVersion: apps/v1
       kind: ReplicaSet
     type: MatchRef
-  - namespacePath: metadata.namespace
+  - labels:
+    - restore_into
+    namespacePath: metadata.namespace
     references:
     - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind}'
     target:
       apiVersion: v1
       kind: ReplicationController
     type: MatchRef
-  - namespacePath: metadata.namespace
+  - labels:
+    - restore_into
+    namespacePath: metadata.namespace
     references:
     - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
     target:
       apiVersion: apps/v1
       kind: StatefulSet
     type: MatchRef
-  - namespacePath: metadata.namespace
+  - labels:
+    - restore_into
+    namespacePath: metadata.namespace
     references:
     - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
     target:
       apiVersion: apps/v1
       kind: DaemonSet
     type: MatchRef
-  - namespacePath: metadata.namespace
+  - labels:
+    - restore_into
+    namespacePath: metadata.namespace
     references:
     - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
     target:

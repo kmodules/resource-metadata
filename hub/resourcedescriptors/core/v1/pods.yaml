@@ -1,4 +1,4 @@
-apiVersion: meta.appscode.com/v1alpha1
+apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
@@ -69,46 +69,35 @@ spec:
     priority: 3
     type: date
   connections:
-  - level: Controller
-    target:
-      apiVersion: apps/v1
-      kind: StatefulSet
-    type: OwnedBy
-  - level: Controller
-    target:
-      apiVersion: apps/v1
-      kind: DaemonSet
-    type: OwnedBy
-  - level: Controller
-    target:
-      apiVersion: apps/v1
-      kind: ReplicaSet
-    type: OwnedBy
-  - level: Controller
-    target:
-      apiVersion: v1
-      kind: ReplicationController
-    type: OwnedBy
-  - references:
+  - labels:
+    - located_on
+    references:
     - '{.spec.nodeName}'
     target:
       apiVersion: v1
       kind: Node
     type: MatchRef
-  - references:
+  - labels:
+    - offshoot
+    - auth_via
+    references:
     - '{.spec.serviceAccountName}'
     target:
       apiVersion: v1
       kind: ServiceAccount
     type: MatchRef
-  - namespacePath: metadata.namespace
+  - labels:
+    - offshoot
+    namespacePath: metadata.namespace
     references:
     - '{range .spec.volumes[*]}{.persistentVolumeClaim.claimName}{"\n"}{end}'
     target:
       apiVersion: v1
       kind: PersistentVolumeClaim
     type: MatchRef
-  - namespacePath: metadata.namespace
+  - labels:
+    - offshoot
+    namespacePath: metadata.namespace
     references:
     - '{range .spec.containers[*].envFrom[*]}{.configMapRef.name}{"\n"}{end}'
     - '{range .spec.containers[*].env[*]}{.valueFrom.configMapKeyRef.name}{"\n"}{end}'
@@ -117,7 +106,9 @@ spec:
       apiVersion: v1
       kind: ConfigMap
     type: MatchRef
-  - namespacePath: metadata.namespace
+  - labels:
+    - offshoot
+    namespacePath: metadata.namespace
     references:
     - '{range .spec.containers[*].envFrom[*]}{.secretRef.name}{"\n"}{end}'
     - '{range .spec.containers[*].env[*]}{.valueFrom.secretKeyRef.name}{"\n"}{end}'
@@ -137,54 +128,61 @@ spec:
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
-        resource: services
-        version: v1
+        kind: Service
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
-        resource: secrets
-        version: v1
+        kind: Secret
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
-        resource: configmaps
-        version: v1
+        kind: ConfigMap
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
-        resource: persistentvolumeclaims
-        version: v1
+        kind: PersistentVolumeClaim
   - name: Monitoring
     resources:
     - actions:
         create: IfEmpty
       displayMode: List
+      query:
+        byLabel: monitored_by
       ref:
         group: monitoring.coreos.com
-        resource: servicemonitors
-        version: v1
+        kind: ServiceMonitor
     - actions:
         create: IfEmpty
       displayMode: List
+      query:
+        byLabel: monitored_by
       ref:
         group: monitoring.coreos.com
-        resource: podmonitors
-        version: v1
+        kind: PodMonitor
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: monitored_by
       ref:
         group: monitoring.coreos.com
-        resource: prometheuses
-        version: v1
+        kind: Prometheus
   resource:
     group: ""
     kind: Pod

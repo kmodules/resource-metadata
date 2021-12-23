@@ -84,9 +84,19 @@ type RelatedResourcePage struct {
 }
 
 type ResourceSection struct {
-	Ref         GroupVersionResource `json:"ref"`
-	DisplayMode ResourceDisplayMode  `json:"displayMode"`
-	Actions     ResourceActions      `json:"actions"`
+	ResourceLocator `json:",inline"`
+	DisplayMode     ResourceDisplayMode `json:"displayMode"`
+	Actions         ResourceActions     `json:"actions"`
+}
+
+type ResourceLocator struct {
+	Ref   metav1.GroupKind `json:"ref"`
+	Query ResourceQuery    `json:"query"`
+}
+
+type ResourceQuery struct {
+	ByLabel EdgeLabel `json:"byLabel,omitempty"`
+	Raw     string    `json:"raw,omitempty"`
 }
 
 type ResourceDisplayMode string
@@ -135,6 +145,7 @@ type ChartRepoRef struct {
 	Version string `json:"version"`
 }
 
+// +kubebuilder:validation:Enum=MatchSelector;MatchName;MatchRef;OwnedBy
 type ConnectionType string
 
 const (
@@ -144,8 +155,24 @@ const (
 	OwnedBy       ConnectionType = "OwnedBy"
 )
 
+// +kubebuilder:validation:Enum=auth_via;backup_via;catalog;connect_via;exposed_by;monitored_by;offshoot;restore_into;scaled_by
+type EdgeLabel string
+
+const (
+	EdgeAuthVia     EdgeLabel = "auth_via"
+	EdgeBackupVia   EdgeLabel = "backup_via"
+	EdgeCatalog     EdgeLabel = "catalog"
+	EdgeConnectVia  EdgeLabel = "connect_via"
+	EdgeExposedBy   EdgeLabel = "exposed_by"
+	EdgeMonitoredBy EdgeLabel = "monitored_by"
+	EdgeOffshoot    EdgeLabel = "offshoot"
+	EdgeRestoreInto EdgeLabel = "restore_into"
+	EdgeScaledBy    EdgeLabel = "scaled_by"
+)
+
 type ResourceConnection struct {
 	Target                 metav1.TypeMeta `json:"target"`
+	Labels                 []EdgeLabel     `json:"labels"`
 	ResourceConnectionSpec `json:",inline,omitempty"`
 }
 

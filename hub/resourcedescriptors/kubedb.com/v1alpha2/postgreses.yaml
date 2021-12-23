@@ -1,4 +1,4 @@
-apiVersion: meta.appscode.com/v1alpha1
+apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
@@ -67,7 +67,9 @@ spec:
     priority: 3
     type: date
   connections:
-  - level: Controller
+  - labels:
+    - offshoot
+    level: Controller
     namespacePath: metadata.namespace
     selector:
       matchLabels:
@@ -78,7 +80,10 @@ spec:
       apiVersion: apps/v1
       kind: StatefulSet
     type: MatchSelector
-  - level: Owner
+  - labels:
+    - offshoot
+    - exposed_by
+    level: Owner
     namespacePath: metadata.namespace
     selector:
       matchLabels:
@@ -89,27 +94,37 @@ spec:
       apiVersion: v1
       kind: Service
     type: MatchSelector
-  - level: Controller
+  - labels:
+    - offshoot
+    - connect_via
+    level: Controller
     nameTemplate: '{.metadata.name}'
     namespacePath: metadata.namespace
     target:
       apiVersion: appcatalog.appscode.com/v1alpha1
       kind: AppBinding
     type: MatchName
-  - references:
+  - labels:
+    - offshoot
+    - catalog
+    references:
     - '{.spec.version}'
     target:
       apiVersion: catalog.kubedb.com/v1alpha1
       kind: PostgresVersion
     type: MatchRef
-  - namespacePath: metadata.namespace
+  - labels:
+    - offshoot
+    namespacePath: metadata.namespace
     references:
     - '{.spec.tls.issuerRef.name},{.metadata.namespace}'
     target:
       apiVersion: cert-manager.io/v1
       kind: Issuer
     type: MatchRef
-  - references:
+  - labels:
+    - offshoot
+    references:
     - '{.spec.tls.issuerRef.name}'
     target:
       apiVersion: cert-manager.io/v1
@@ -126,172 +141,235 @@ spec:
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: appcatalog.appscode.com
-        resource: appbindings
-        version: v1alpha1
+        kind: AppBinding
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: catalog.kubedb.com
-        resource: postgresversions
-        version: v1alpha1
+        kind: PostgresVersion
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: apps
-        resource: statefulsets
-        version: v1
+        kind: StatefulSet
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
-        resource: pods
-        version: v1
+        kind: Pod
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
-        resource: services
-        version: v1
+        kind: Service
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
-        resource: secrets
-        version: v1
+        kind: Secret
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
-        resource: persistentvolumeclaims
-        version: v1
+        kind: PersistentVolumeClaim
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: policy
-        resource: poddisruptionbudgets
-        version: v1beta1
+        kind: PodDisruptionBudget
   - name: Backups
     resources:
     - actions:
         create: IfEmpty
       displayMode: List
+      query:
+        raw: |-
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
       ref:
         group: stash.appscode.com
-        resource: repositories
-        version: v1alpha1
+        kind: Repository
     - actions:
         create: IfEmpty
       displayMode: List
+      query:
+        byLabel: backup_via
       ref:
         group: stash.appscode.com
-        resource: backupconfigurations
-        version: v1beta1
+        kind: BackupConfiguration
     - actions:
         create: Always
       displayMode: List
+      query:
+        raw: |-
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
       ref:
         group: stash.appscode.com
-        resource: backupsessions
-        version: v1beta1
+        kind: BackupSession
     - actions:
         create: Always
       displayMode: List
+      query:
+        raw: |-
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
       ref:
         group: stash.appscode.com
-        resource: restoresessions
-        version: v1beta1
+        kind: RestoreSession
     - actions:
         create: Never
       displayMode: List
+      query:
+        raw: |-
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
       ref:
         group: batch
-        resource: cronjobs
-        version: v1beta1
+        kind: CronJob
   - name: Security
     resources:
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
-        resource: serviceaccounts
-        version: v1
+        kind: ServiceAccount
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: rbac.authorization.k8s.io
-        resource: roles
-        version: v1
+        kind: Role
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: rbac.authorization.k8s.io
-        resource: rolebindings
-        version: v1
+        kind: RoleBinding
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: cert-manager.io
-        resource: certificates
-        version: v1
+        kind: Certificate
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: cert-manager.io
-        resource: issuers
-        version: v1
+        kind: Issuer
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: cert-manager.io
-        resource: clusterissuers
-        version: v1
+        kind: ClusterIssuer
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: policy
-        resource: podsecuritypolicies
-        version: v1beta1
+        kind: PodSecurityPolicy
   - name: Operations
     resources:
     - actions:
         create: Always
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ops.kubedb.com
-        resource: postgresopsrequests
-        version: v1alpha1
+        kind: PostgresOpsRequest
   - name: Monitoring
     resources:
     - actions:
         create: IfEmpty
       displayMode: List
+      query:
+        byLabel: monitored_by
       ref:
         group: monitoring.coreos.com
-        resource: servicemonitors
-        version: v1
+        kind: ServiceMonitor
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: monitored_by
       ref:
         group: monitoring.coreos.com
-        resource: prometheuses
-        version: v1
+        kind: Prometheus
   resource:
     group: kubedb.com
     kind: Postgres

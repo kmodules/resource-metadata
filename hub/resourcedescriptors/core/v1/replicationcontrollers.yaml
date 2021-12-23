@@ -1,4 +1,4 @@
-apiVersion: meta.appscode.com/v1alpha1
+apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
@@ -67,7 +67,9 @@ spec:
     priority: 3
     type: date
   connections:
-  - level: Controller
+  - labels:
+    - offshoot
+    level: Controller
     namespacePath: metadata.namespace
     selectorPath: spec.selector
     target:
@@ -85,77 +87,127 @@ spec:
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
-        resource: pods
-        version: v1
+        kind: Pod
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
-        resource: services
-        version: v1
+        kind: Service
     - actions:
         create: IfEmpty
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: autoscaling
-        resource: horizontalpodautoscalers
-        version: v1
+        kind: HorizontalPodAutoscaler
   - name: Backups
     resources:
     - actions:
         create: IfEmpty
       displayMode: List
+      query:
+        raw: |-
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
       ref:
         group: stash.appscode.com
-        resource: repositories
-        version: v1alpha1
+        kind: Repository
     - actions:
         create: IfEmpty
       displayMode: List
+      query:
+        byLabel: backup_via
       ref:
         group: stash.appscode.com
-        resource: backupconfigurations
-        version: v1beta1
+        kind: BackupConfiguration
     - actions:
         create: Always
       displayMode: List
+      query:
+        raw: |-
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
       ref:
         group: stash.appscode.com
-        resource: backupsessions
-        version: v1beta1
+        kind: BackupSession
     - actions:
         create: Always
       displayMode: List
+      query:
+        raw: |-
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
       ref:
         group: stash.appscode.com
-        resource: restoresessions
-        version: v1beta1
+        kind: RestoreSession
     - actions:
         create: Never
       displayMode: List
+      query:
+        raw: |-
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
       ref:
         group: batch
-        resource: cronjobs
-        version: v1beta1
+        kind: CronJob
   - name: Monitoring
     resources:
     - actions:
         create: IfEmpty
       displayMode: List
+      query:
+        byLabel: monitored_by
       ref:
         group: monitoring.coreos.com
-        resource: servicemonitors
-        version: v1
+        kind: ServiceMonitor
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: monitored_by
       ref:
         group: monitoring.coreos.com
-        resource: prometheuses
-        version: v1
+        kind: Prometheus
   resource:
     group: ""
     kind: ReplicationController

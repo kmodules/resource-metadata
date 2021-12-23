@@ -1,4 +1,4 @@
-apiVersion: meta.appscode.com/v1alpha1
+apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
@@ -20,17 +20,19 @@ spec:
     - actions:
         create: Always
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: rbac.authorization.k8s.io
-        resource: clusterrolebindings
-        version: v1
+        kind: ClusterRoleBinding
     - actions:
         create: Always
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: rbac.authorization.k8s.io
-        resource: rolebindings
-        version: v1
+        kind: RoleBinding
   resource:
     group: rbac.authorization.k8s.io
     kind: ClusterRole

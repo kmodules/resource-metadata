@@ -1,4 +1,4 @@
-apiVersion: meta.appscode.com/v1alpha1
+apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
@@ -43,7 +43,9 @@ spec:
     priority: 3
     type: date
   connections:
-  - references:
+  - labels:
+    - offshoot
+    references:
     - '{.spec.databaseRef.name}'
     target:
       apiVersion: kubedb.com/v1alpha2

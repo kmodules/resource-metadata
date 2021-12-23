@@ -1,4 +1,4 @@
-apiVersion: meta.appscode.com/v1alpha1
+apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
@@ -43,7 +43,9 @@ spec:
     priority: 3
     type: date
   connections:
-  - namespacePath: spec.namespaceSelector
+  - labels:
+    - monitored_by
+    namespacePath: spec.namespaceSelector
     selectorPath: spec.selector
     target:
       apiVersion: v1
@@ -60,17 +62,19 @@ spec:
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
-        resource: pods
-        version: v1
+        kind: Pod
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
-        resource: services
-        version: v1
+        kind: Service
   resource:
     group: monitoring.coreos.com
     kind: ServiceMonitor

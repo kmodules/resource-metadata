@@ -1,4 +1,4 @@
-apiVersion: meta.appscode.com/v1alpha1
+apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
@@ -55,14 +55,18 @@ spec:
     priority: 3
     type: date
   connections:
-  - namespacePath: metadata.namespace
+  - labels:
+    - offshoot
+    namespacePath: metadata.namespace
     references:
     - '{.spec.issuerRef.name},{.metadata.namespace}'
     target:
       apiVersion: cert-manager.io/v1
       kind: Issuer
     type: MatchRef
-  - references:
+  - labels:
+    - offshoot
+    references:
     - '{.spec.issuerRef.name}'
     target:
       apiVersion: cert-manager.io/v1

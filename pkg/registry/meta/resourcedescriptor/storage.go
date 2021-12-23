@@ -63,7 +63,7 @@ func (r *Storage) NamespaceScoped() bool {
 
 // Getter
 func (r *Storage) New() runtime.Object {
-	return &meta.ResourceDescriptor{}
+	return &v1alpha1.ResourceDescriptor{}
 }
 
 func (r *Storage) Get(ctx context.Context, name string, options *metav1.GetOptions) (runtime.Object, error) {
@@ -71,15 +71,12 @@ func (r *Storage) Get(ctx context.Context, name string, options *metav1.GetOptio
 	if err != nil {
 		return nil, kerr.NewNotFound(schema.GroupResource{Group: meta.GroupName, Resource: v1alpha1.ResourceKindResourceDescriptor}, name)
 	}
-
-	var out meta.ResourceDescriptor
-	err = v1alpha1.Convert_v1alpha1_ResourceDescriptor_To_meta_ResourceDescriptor(obj, &out, nil)
-	return &out, err
+	return obj, err
 }
 
 // Lister
 func (r *Storage) NewList() runtime.Object {
-	return &meta.ResourceDescriptorList{}
+	return &v1alpha1.ResourceDescriptorList{}
 }
 
 func (r *Storage) List(ctx context.Context, options *metainternalversion.ListOptions) (runtime.Object, error) {
@@ -112,7 +109,7 @@ func (r *Storage) List(ctx context.Context, options *metainternalversion.ListOpt
 		names = names[:options.Limit]
 	}
 
-	items := make([]meta.ResourceDescriptor, 0, len(names))
+	items := make([]v1alpha1.ResourceDescriptor, 0, len(names))
 	for _, filename := range names {
 		obj, err := resourcedescriptors.LoadByFile(filename)
 		if err != nil {
@@ -122,16 +119,10 @@ func (r *Storage) List(ctx context.Context, options *metainternalversion.ListOpt
 		if options.LabelSelector != nil && !options.LabelSelector.Matches(labels.Set(obj.GetLabels())) {
 			continue
 		}
-
-		var item meta.ResourceDescriptor
-		err = v1alpha1.Convert_v1alpha1_ResourceDescriptor_To_meta_ResourceDescriptor(obj, &item, nil)
-		if err != nil {
-			return nil, err
-		}
-		items = append(items, item)
+		items = append(items, *obj)
 	}
 
-	return &meta.ResourceDescriptorList{Items: items}, nil
+	return &v1alpha1.ResourceDescriptorList{Items: items}, nil
 }
 
 func (r *Storage) ConvertToTable(ctx context.Context, object runtime.Object, tableOptions runtime.Object) (*metav1.Table, error) {

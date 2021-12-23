@@ -1,4 +1,4 @@
-apiVersion: meta.appscode.com/v1alpha1
+apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
@@ -39,13 +39,17 @@ spec:
     priority: 3
     type: date
   connections:
-  - references:
+  - labels:
+    - offshoot
+    references:
     - '{range .subjects[*]}{.name},{.namespace},{.kind}{"\n"}{end}'
     target:
       apiVersion: v1
       kind: ServiceAccount
     type: MatchRef
-  - references:
+  - labels:
+    - offshoot
+    references:
     - '{.roleRef.name}'
     target:
       apiVersion: rbac.authorization.k8s.io/v1

@@ -1,4 +1,4 @@
-apiVersion: meta.appscode.com/v1alpha1
+apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
@@ -59,13 +59,17 @@ spec:
     priority: 3
     type: date
   connections:
-  - namespacePath: spec.serviceMonitorNamespaceSelector
+  - labels:
+    - monitored_by
+    namespacePath: spec.serviceMonitorNamespaceSelector
     selectorPath: spec.serviceMonitorSelector
     target:
       apiVersion: monitoring.coreos.com/v1
       kind: ServiceMonitor
     type: MatchSelector
-  - namespacePath: spec.podMonitorNamespaceSelector
+  - labels:
+    - monitored_by
+    namespacePath: spec.podMonitorNamespaceSelector
     selectorPath: spec.podMonitorSelector
     target:
       apiVersion: monitoring.coreos.com/v1
@@ -82,33 +86,37 @@ spec:
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
-        resource: pods
-        version: v1
+        kind: Pod
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: ""
-        resource: services
-        version: v1
+        kind: Service
   - name: Monitoring
     resources:
     - actions:
         create: Always
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: monitoring.coreos.com
-        resource: servicemonitors
-        version: v1
+        kind: ServiceMonitor
     - actions:
         create: Always
       displayMode: List
+      query:
+        byLabel: offshoot
       ref:
         group: monitoring.coreos.com
-        resource: podmonitors
-        version: v1
+        kind: PodMonitor
   resource:
     group: monitoring.coreos.com
     kind: Prometheus
