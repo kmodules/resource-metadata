@@ -25,7 +25,7 @@ import (
 const (
 	ResourceKindRenderSection = "RenderSection"
 	ResourceRenderSection     = "rendersection"
-	ResourceRenderSections    = "renderpages"
+	ResourceRenderSections    = "rendersections"
 )
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
