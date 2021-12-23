@@ -20,7 +20,7 @@ import (
 	apiv1 "kmodules.xyz/client-go/api/v1"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 )
 
 const (
@@ -53,5 +53,8 @@ type RenderPageResponse struct {
 
 type PageSection struct {
 	Resource apiv1.ResourceID `json:"resource"`
-	Data     runtime.Object   `json:"data"`
+	// +optional
+	Items []unstructured.Unstructured `json:"items,omitempty"`
+	// +optional
+	Table *Table `json:"table,omitempty"`
 }

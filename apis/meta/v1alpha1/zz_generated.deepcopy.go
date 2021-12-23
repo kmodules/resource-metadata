@@ -26,6 +26,7 @@ import (
 
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	unstructured "k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -267,8 +268,17 @@ func (in *ObjectRef) DeepCopy() *ObjectRef {
 func (in *PageSection) DeepCopyInto(out *PageSection) {
 	*out = *in
 	out.Resource = in.Resource
-	if in.Data != nil {
-		out.Data = in.Data.DeepCopyObject()
+	if in.Items != nil {
+		in, out := &in.Items, &out.Items
+		*out = make([]unstructured.Unstructured, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.Table != nil {
+		in, out := &in.Table, &out.Table
+		*out = new(Table)
+		(*in).DeepCopyInto(*out)
 	}
 	return
 }
