@@ -37,31 +37,15 @@ import (
 )
 
 var (
-	scheme   = runtime.NewScheme()
-	setupLog = ctrl.Log.WithName("setup")
+	scheme = runtime.NewScheme()
 )
 
 func main() {
 	_ = clientgoscheme.AddToScheme(scheme)
 	crdinstall.Install(scheme)
 
-	// 	nc, err := nats.Connect(shared.NATS_URL)
-	// 	if err != nil {
-	// 		klog.Fatalln(err)
-	// 	}
-	// 	defer nc.Close()
-
 	ctrl.SetLogger(klogr.New())
 	cfg := ctrl.GetConfigOrDie()
-
-	// 	tr, err := cfg.TransportConfig()
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-	// 	cfg.Transport, err = transport.New(tr, nc, "k8s", 10000*time.Second)
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
 
 	mapper, err := apiutil.NewDynamicRESTMapper(cfg)
 	if err != nil {
