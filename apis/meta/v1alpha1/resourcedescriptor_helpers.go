@@ -50,11 +50,17 @@ func IsOfficialType(group string) bool {
 	}
 }
 
+const (
+	GraphQueryVarSource      = "src"
+	GraphQueryVarTargetGroup = "targetGroup"
+	GraphQueryVarTargetKind  = "targetKind"
+)
+
 func (r ResourceLocator) GraphQuery(oid apiv1.OID) (string, map[string]interface{}) {
 	vars := map[string]interface{}{
-		"src":         string(oid),
-		"targetGroup": r.Ref.Group,
-		"targetKind":  r.Ref.Kind,
+		GraphQueryVarSource:      string(oid),
+		GraphQueryVarTargetGroup: r.Ref.Group,
+		GraphQueryVarTargetKind:  r.Ref.Kind,
 	}
 
 	if r.Query.Raw != "" {
