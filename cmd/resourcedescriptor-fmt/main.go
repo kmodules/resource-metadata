@@ -133,7 +133,7 @@ func main() {
 			return errors.Wrapf(err, "path=%s", path)
 		}
 		if d != "" {
-			return fmt.Errorf("parsing error in file %s: %s", path, d)
+			return fmt.Errorf("parsing diff found in file %s: %s", path, d)
 		}
 		return nil
 	})

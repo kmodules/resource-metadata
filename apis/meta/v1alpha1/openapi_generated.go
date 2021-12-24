@@ -15507,6 +15507,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceColumnDefinition(ref co
 					"priority": {
 						SchemaProps: spec.SchemaProps{
 							Description: "priority is an integer defining the relative importance of this column compared to others. Lower numbers are considered higher priority. Columns that may be omitted in limited space scenarios should be given a higher priority.",
+							Default:     0,
 							Type:        []string{"integer"},
 							Format:      "int32",
 						},
@@ -15519,7 +15520,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceColumnDefinition(ref co
 						},
 					},
 				},
-				Required: []string{"name", "type"},
+				Required: []string{"name", "type", "priority"},
 			},
 		},
 	}
@@ -16090,6 +16091,13 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceQuery(ref common.Refere
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
+					"type": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
 					"byLabel": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
@@ -16103,6 +16111,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceQuery(ref common.Refere
 						},
 					},
 				},
+				Required: []string{"type"},
 			},
 		},
 	}

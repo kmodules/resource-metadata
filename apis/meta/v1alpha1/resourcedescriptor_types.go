@@ -94,11 +94,21 @@ type ResourceLocator struct {
 	Query ResourceQuery    `json:"query"`
 }
 
+// +kubebuilder:validation:Enum=REST;GraphQL
+type QueryType string
+
+const (
+	RESTQuery    QueryType = "REST"
+	GraphQLQuery QueryType = "GraphQL"
+)
+
 type ResourceQuery struct {
+	Type    QueryType `json:"type"`
 	ByLabel EdgeLabel `json:"byLabel,omitempty"`
 	Raw     string    `json:"raw,omitempty"`
 }
 
+// +kubebuilder:validation:Enum=List;Field
 type ResourceDisplayMode string
 
 const (
@@ -244,8 +254,7 @@ type ResourceColumnDefinition struct {
 	// priority is an integer defining the relative importance of this column compared to others. Lower
 	// numbers are considered higher priority. Columns that may be omitted in limited space scenarios
 	// should be given a higher priority.
-	// +optional
-	Priority int32 `json:"priority,omitempty"`
+	Priority int32 `json:"priority"`
 	// PathTemplate is a Go text template that will be evaluated to determine cell value.
 	// Users can use JSONPath expression to extract nested fields and apply template functions from Masterminds/sprig library.
 	// The template function for JSON path is called `jp`.

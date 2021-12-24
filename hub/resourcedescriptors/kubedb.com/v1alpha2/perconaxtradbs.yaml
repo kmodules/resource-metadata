@@ -139,6 +139,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: appcatalog.appscode.com
         kind: AppBinding
@@ -147,6 +148,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: catalog.kubedb.com
         kind: PerconaXtraDBVersion
@@ -155,6 +157,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: apps
         kind: StatefulSet
@@ -163,6 +166,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: ""
         kind: Pod
@@ -171,6 +175,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: ""
         kind: Service
@@ -179,6 +184,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: ""
         kind: Secret
@@ -187,6 +193,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: ""
         kind: PersistentVolumeClaim
@@ -195,6 +202,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: policy
         kind: PodDisruptionBudget
@@ -205,6 +213,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: ""
         kind: ServiceAccount
@@ -213,6 +222,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: rbac.authorization.k8s.io
         kind: Role
@@ -221,6 +231,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: rbac.authorization.k8s.io
         kind: RoleBinding
@@ -229,6 +240,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: cert-manager.io
         kind: Certificate
@@ -237,6 +249,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: cert-manager.io
         kind: Issuer
@@ -245,6 +258,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: cert-manager.io
         kind: ClusterIssuer
@@ -253,6 +267,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: policy
         kind: PodSecurityPolicy
@@ -263,6 +278,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: ops.kubedb.com
         kind: PerconaXtradbOpsRequest
@@ -273,6 +289,7 @@ spec:
       displayMode: List
       query:
         byLabel: monitored_by
+        type: GraphQL
       ref:
         group: monitoring.coreos.com
         kind: ServiceMonitor
@@ -281,6 +298,7 @@ spec:
       displayMode: List
       query:
         byLabel: monitored_by
+        type: GraphQL
       ref:
         group: monitoring.coreos.com
         kind: Prometheus

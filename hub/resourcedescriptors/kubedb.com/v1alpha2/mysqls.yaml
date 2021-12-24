@@ -155,6 +155,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: appcatalog.appscode.com
         kind: AppBinding
@@ -163,6 +164,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: catalog.kubedb.com
         kind: MySQLVersion
@@ -171,6 +173,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: apps
         kind: StatefulSet
@@ -179,6 +182,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: ""
         kind: Pod
@@ -187,6 +191,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: ""
         kind: Service
@@ -195,6 +200,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: ""
         kind: Secret
@@ -203,6 +209,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: ""
         kind: PersistentVolumeClaim
@@ -211,6 +218,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: policy
         kind: PodDisruptionBudget
@@ -231,6 +239,7 @@ spec:
               }
             }
           }
+        type: GraphQL
       ref:
         group: stash.appscode.com
         kind: Repository
@@ -239,6 +248,7 @@ spec:
       displayMode: List
       query:
         byLabel: backup_via
+        type: GraphQL
       ref:
         group: stash.appscode.com
         kind: BackupConfiguration
@@ -257,6 +267,7 @@ spec:
               }
             }
           }
+        type: GraphQL
       ref:
         group: stash.appscode.com
         kind: BackupSession
@@ -275,6 +286,7 @@ spec:
               }
             }
           }
+        type: GraphQL
       ref:
         group: stash.appscode.com
         kind: RestoreSession
@@ -293,6 +305,7 @@ spec:
               }
             }
           }
+        type: GraphQL
       ref:
         group: batch
         kind: CronJob
@@ -303,6 +316,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: ""
         kind: ServiceAccount
@@ -311,6 +325,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: rbac.authorization.k8s.io
         kind: Role
@@ -319,6 +334,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: rbac.authorization.k8s.io
         kind: RoleBinding
@@ -327,6 +343,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: cert-manager.io
         kind: Certificate
@@ -335,6 +352,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: cert-manager.io
         kind: Issuer
@@ -343,6 +361,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: cert-manager.io
         kind: ClusterIssuer
@@ -351,6 +370,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: policy
         kind: PodSecurityPolicy
@@ -361,6 +381,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: ops.kubedb.com
         kind: MySQLOpsRequest
@@ -371,6 +392,7 @@ spec:
       displayMode: List
       query:
         byLabel: monitored_by
+        type: GraphQL
       ref:
         group: monitoring.coreos.com
         kind: ServiceMonitor
@@ -379,6 +401,7 @@ spec:
       displayMode: List
       query:
         byLabel: monitored_by
+        type: GraphQL
       ref:
         group: monitoring.coreos.com
         kind: Prometheus
