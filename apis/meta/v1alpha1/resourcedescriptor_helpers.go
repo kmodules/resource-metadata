@@ -17,12 +17,17 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"bytes"
 	"fmt"
 	"strings"
+	"text/template"
 
 	apiv1 "kmodules.xyz/client-go/api/v1"
 	"kmodules.xyz/client-go/apiextensions"
 	"kmodules.xyz/resource-metadata/crds"
+
+	"github.com/Masterminds/sprig/v3"
+	"github.com/pkg/errors"
 )
 
 func (v ResourceDescriptor) CustomResourceDefinition() *apiextensions.CustomResourceDefinition {
@@ -56,22 +61,49 @@ const (
 	GraphQueryVarTargetKind  = "targetKind"
 )
 
-func (r ResourceLocator) GraphQuery(oid apiv1.OID) (string, map[string]interface{}) {
-	vars := map[string]interface{}{
-		GraphQueryVarSource:      string(oid),
-		GraphQueryVarTargetGroup: r.Ref.Group,
-		GraphQueryVarTargetKind:  r.Ref.Kind,
-	}
+func (r ResourceLocator) GraphQuery(oid apiv1.OID) (string, map[string]interface{}, error) {
+	if r.Query.Type == GraphQLQuery {
+		vars := map[string]interface{}{
+			GraphQueryVarSource:      string(oid),
+			GraphQueryVarTargetGroup: r.Ref.Group,
+			GraphQueryVarTargetKind:  r.Ref.Kind,
+		}
 
-	if r.Query.Raw != "" {
-		return r.Query.Raw, vars
-	}
-	return fmt.Sprintf(`query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+		if r.Query.Raw != "" {
+			return r.Query.Raw, vars, nil
+		}
+		return fmt.Sprintf(`query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
   find(oid: $src) {
     refs: %s(group: $targetGroup, kind: $targetKind) {
       namespace
       name
     }
   }
-}`, r.Query.ByLabel), vars
+}`, r.Query.ByLabel), vars, nil
+	} else if r.Query.Type == RESTQuery {
+		if r.Query.Raw == "" || !strings.Contains(r.Query.Raw, "{{") {
+			return r.Query.Raw, nil, nil
+		}
+
+		tpl, err := template.New("").Funcs(sprig.TxtFuncMap()).Parse(r.Query.Raw)
+		if err != nil {
+			return "", nil, errors.Wrap(err, "failed to parse raw query")
+		}
+		// Do nothing and continue execution.
+		// If printed, the result of the index operation is the string "<no value>".
+		// We mitigate that later.
+		tpl.Option("missingkey=default")
+
+		objID, err := apiv1.ParseObjectID(oid)
+		if err != nil {
+			return "", nil, errors.Wrapf(err, "failed to parse oid=%s", oid)
+		}
+		var buf bytes.Buffer
+		err = tpl.Execute(&buf, objID)
+		if err != nil {
+			return "", nil, errors.Wrap(err, "failed to resolve template")
+		}
+		return buf.String(), nil, nil
+	}
+	return "", nil, fmt.Errorf("unknown query type %s", r.Query.Type)
 }

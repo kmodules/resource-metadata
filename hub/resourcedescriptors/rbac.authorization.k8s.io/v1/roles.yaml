@@ -53,6 +53,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: rbac.authorization.k8s.io
         kind: RoleBinding

@@ -83,6 +83,7 @@ spec:
                       type: string
                   required:
                   - name
+                  - priority
                   - type
                   type: object
                 type: array
@@ -302,6 +303,9 @@ spec:
                             - create
                             type: object
                           displayMode:
+                            enum:
+                            - List
+                            - Field
                             type: string
                           query:
                             properties:
@@ -319,6 +323,13 @@ spec:
                                 type: string
                               raw:
                                 type: string
+                              type:
+                                enum:
+                                - REST
+                                - GraphQL
+                                type: string
+                            required:
+                            - type
                             type: object
                           ref:
                             description: GroupKind specifies a Group and a Kind, but
@@ -435,6 +446,7 @@ spec:
                             type: string
                         required:
                         - name
+                        - priority
                         - type
                         type: object
                       type: array

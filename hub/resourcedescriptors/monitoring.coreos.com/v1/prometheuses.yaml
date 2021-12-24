@@ -88,6 +88,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: ""
         kind: Pod
@@ -96,6 +97,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: ""
         kind: Service
@@ -106,6 +108,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: monitoring.coreos.com
         kind: ServiceMonitor
@@ -114,6 +117,7 @@ spec:
       displayMode: List
       query:
         byLabel: offshoot
+        type: GraphQL
       ref:
         group: monitoring.coreos.com
         kind: PodMonitor
