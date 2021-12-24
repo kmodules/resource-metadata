@@ -22,7 +22,7 @@ import (
 	"k8s.io/apimachinery/pkg/util/sets"
 )
 
-func ListEdgeLabels() []v1alpha1.EdgeLabel {
+func ListEdgeLabels(skipLabels ...v1alpha1.EdgeLabel) []v1alpha1.EdgeLabel {
 	labels := sets.NewString()
 	reg := NewRegistryOfKnownResources()
 	reg.Visit(func(key string, rd *v1alpha1.ResourceDescriptor) {
@@ -32,6 +32,9 @@ func ListEdgeLabels() []v1alpha1.EdgeLabel {
 			}
 		}
 	})
+	for _, skipLabel := range skipLabels {
+		labels.Delete(string(skipLabel))
+	}
 
 	result := make([]v1alpha1.EdgeLabel, 0, len(labels))
 	for lbl := range labels {
