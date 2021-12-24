@@ -79,7 +79,9 @@ spec:
     priority: 3
     type: string
   connections:
-  - namespacePath: metadata.namespace
+  - labels:
+    - view
+    namespacePath: metadata.namespace
     selector:
       matchLabels:
         app.kubernetes.io/instance: '{.metadata.name}'
@@ -89,25 +91,33 @@ spec:
       apiVersion: ui.k8s.appscode.com/v1alpha1
       kind: PodView
     type: MatchSelector
-  - nameTemplate: '{.metadata.name}'
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}'
     namespacePath: metadata.namespace
     target:
       apiVersion: ui.kubedb.com/v1alpha1
       kind: MongoDBQueries
     type: MatchName
-  - nameTemplate: '{.metadata.name}'
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}'
     namespacePath: metadata.namespace
     target:
       apiVersion: ui.kubedb.com/v1alpha1
       kind: MongoDBSchemaOverview
     type: MatchName
-  - nameTemplate: '{.metadata.name}'
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}'
     namespacePath: metadata.namespace
     target:
       apiVersion: kubedb.com/v1alpha2
       kind: MongoDB
     type: MatchName
-  - nameTemplate: '{.metadata.name}'
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}'
     namespacePath: metadata.namespace
     target:
       apiVersion: ui.kubedb.com/v1alpha1
@@ -119,35 +129,43 @@ spec:
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: view
+        type: GraphQL
       ref:
         group: ui.k8s.appscode.com
-        resource: podviews
-        version: v1alpha1
+        kind: PodView
   - name: Database Insights
     resources:
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: view
+        type: GraphQL
       ref:
         group: ui.kubedb.com
-        resource: mongodbqueries
-        version: v1alpha1
+        kind: MongoDBQueries
     - actions:
         create: Never
       displayMode: List
+      query:
+        byLabel: view
+        type: GraphQL
       ref:
         group: ui.kubedb.com
-        resource: mongodbschemaoverviews
-        version: v1alpha1
+        kind: MongoDBSchemaOverview
   - name: Backups
     resources:
     - actions:
         create: Never
       displayMode: Field
+      query:
+        byLabel: view
+        type: GraphQL
       ref:
         group: ui.kubedb.com
-        resource: backupoverviews
-        version: v1alpha1
+        kind: BackupOverview
   resource:
     group: ui.kubedb.com
     kind: MongoDBOverview
