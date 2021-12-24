@@ -45,5 +45,17 @@ spec:
           type: object
         spec:
           description: EmbeddedDashboardSpec defines the desired state of EmbeddedDashboard
+          properties:
+            dashboard:
+              type: string
+            urls:
+              items:
+                properties:
+                  embeddedURL:
+                    type: string
+                  title:
+                    type: string
+                type: object
+              type: array
           type: object
       type: object

@@ -1,32 +1,53 @@
-apiVersion: meta.k8s.appscode.com/v1alpha1
+apiVersion: meta.appscode.com/v1alpha1
 kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: ui.kubedb.com
-    k8s.io/kind: MongoDBSchemaOverview
-    k8s.io/resource: mongodbschemaoverviews
+    k8s.io/kind: BackupOverview
+    k8s.io/resource: backupoverviews
     k8s.io/version: v1alpha1
-  name: ui.kubedb.com-v1alpha1-mongodbschemaoverviews
+  name: ui.kubedb.com-v1alpha1-backupoverviews
 spec:
+  columns:
+  - name: Schedule
+    pathTemplate: '{{ .spec.schedule }}'
+    priority: 3
+    type: string
+  - name: Last backup time
+    pathTemplate: '{{ .spec.lastBackupTime }}'
+    priority: 3
+    type: string
+  - name: Upcoming backup
+    pathTemplate: '{{ .spec.upcomingBackupTime }}'
+    priority: 3
+    type: string
+  - name: Backup Storage
+    pathTemplate: '{{ .spec.backupStorage }}'
+    priority: 3
+    type: string
+  - name: DataSize
+    pathTemplate: '{{ .spec.dataSize }}'
+    priority: 3
+    type: string
+  - name: Number of Snapshots
+    pathTemplate: '{{ .spec.numberOfSnapshots }}'
+    priority: 3
+    type: string
+  - name: Data Integrity
+    pathTemplate: '{{ .spec.dataIntegrity }}'
+    priority: 3
+    type: string
+  - name: Data Directory
+    pathTemplate: '{{ .spec.dataDirectory }}'
+    priority: 3
+    type: string
   resource:
     group: ui.kubedb.com
-    kind: MongoDBSchemaOverview
-    name: mongodbschemaoverviews
+    kind: BackupOverview
+    name: backupoverviews
     scope: Namespaced
     version: v1alpha1
-  subTables:
-  - columns:
-    - name: Name
-      pathTemplate: '{{ .name }}'
-      priority: 3
-      type: string
-    - name: Size
-      pathTemplate: '{{ .size }}'
-      priority: 3
-      type: object
-    fieldPath: .spec.collections
-    name: Top Collections
   validation:
     openAPIV3Schema:
       properties:
@@ -55,22 +76,26 @@ spec:
           type: object
         spec:
           properties:
-            collections:
-              items:
-                properties:
-                  name:
-                    type: string
-                  size:
-                    items:
-                      format: int32
-                      type: integer
-                    type: array
-                required:
-                - name
-                - size
-                type: object
-              type: array
+            backupStorage:
+              type: string
+            dataDirectory:
+              type: string
+            dataIntegrity:
+              type: boolean
+            dataSize:
+              type: string
+            lastBackupTime:
+              format: date-time
+              type: string
+            numberOfSnapshots:
+              format: int64
+              type: integer
+            schedule:
+              type: string
+            upcomingBackupTime:
+              format: date-time
+              type: string
           required:
-          - collections
+          - dataSize
           type: object
       type: object

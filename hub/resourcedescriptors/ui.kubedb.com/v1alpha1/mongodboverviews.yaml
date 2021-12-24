@@ -9,6 +9,163 @@ metadata:
     k8s.io/version: v1alpha1
   name: ui.kubedb.com-v1alpha1-mongodboverviews
 spec:
+  columns:
+  - name: Name
+    pathTemplate: '{{ .metadata.name }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ .metadata.namespace }}'
+    priority: 3
+    type: string
+  - name: Version
+    pathTemplate: '{{ .spec.version }}'
+    priority: 3
+    type: string
+  - name: Status
+    pathTemplate: '{{ .spec.status }}'
+    priority: 3
+    type: string
+  - name: Current Connections
+    pathTemplate: '{{ .spec.connections.currentConnections }}'
+    priority: 3
+    type: string
+  - name: Total Connections
+    pathTemplate: '{{ .spec.connections.totalConnections }}'
+    priority: 3
+    type: string
+  - name: Available Connections
+    pathTemplate: '{{ .spec.connections.availableConnections }}'
+    priority: 3
+    type: string
+  - name: Active Connections
+    pathTemplate: '{{ .spec.connections.activeConnections }}'
+    priority: 3
+    type: string
+  - name: Data Size
+    pathTemplate: '{{ .spec.dbStats.dataSize }}'
+    priority: 3
+    type: string
+  - name: Total Index
+    pathTemplate: '{{ .spec.dbStats.totalIndexes }}'
+    priority: 3
+    type: string
+  - name: Index Size
+    pathTemplate: '{{ .spec.dbStats.indexSize }}'
+    priority: 3
+    type: string
+  - name: Replicas
+    pathTemplate: '{{ .spec.replicaSetInfo.numberOfReplicas }}'
+    priority: 3
+    type: string
+  - name: Number of Shards
+    pathTemplate: '{{ .spec.shardsInfo.numberOfShards }}'
+    priority: 3
+    type: string
+  - name: Replicas Per Shards
+    pathTemplate: '{{ .spec.shardsInfo.replicasPerShards }}'
+    priority: 3
+    type: string
+  - name: Number of Chunks
+    pathTemplate: '{{ .spec.shardsInfo.numberOfChunks }}'
+    priority: 3
+    type: string
+  - name: Balancer Enabled
+    pathTemplate: '{{ .spec.shardsInfo.balancerEnabled }}'
+    priority: 3
+    type: string
+  - name: Chunks Balanced
+    pathTemplate: '{{ .spec.shardsInfo.chunksBalanced }}'
+    priority: 3
+    type: string
+  connections:
+  - labels:
+    - view
+    namespacePath: metadata.namespace
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: '{.metadata.name}'
+        app.kubernetes.io/managed-by: kubedb.com
+        app.kubernetes.io/name: mongodbs.kubedb.com
+    target:
+      apiVersion: ui.k8s.appscode.com/v1alpha1
+      kind: PodView
+    type: MatchSelector
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}'
+    namespacePath: metadata.namespace
+    target:
+      apiVersion: ui.kubedb.com/v1alpha1
+      kind: MongoDBQueries
+    type: MatchName
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}'
+    namespacePath: metadata.namespace
+    target:
+      apiVersion: ui.kubedb.com/v1alpha1
+      kind: MongoDBSchemaOverview
+    type: MatchName
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}'
+    namespacePath: metadata.namespace
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: MongoDB
+    type: MatchName
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}'
+    namespacePath: metadata.namespace
+    target:
+      apiVersion: ui.kubedb.com/v1alpha1
+      kind: BackupOverview
+    type: MatchName
+  pages:
+  - name: Basic
+    resources:
+    - actions:
+        create: Never
+      displayMode: List
+      query:
+        byLabel: view
+        type: GraphQL
+      ref:
+        group: ui.k8s.appscode.com
+        kind: PodView
+  - name: Database Insights
+    resources:
+    - actions:
+        create: Never
+      displayMode: List
+      query:
+        byLabel: view
+        type: GraphQL
+      ref:
+        group: ui.kubedb.com
+        kind: MongoDBQueries
+    - actions:
+        create: Never
+      displayMode: List
+      query:
+        byLabel: view
+        type: GraphQL
+      ref:
+        group: ui.kubedb.com
+        kind: MongoDBSchemaOverview
+  - name: Backups
+    resources:
+    - actions:
+        create: Never
+      displayMode: Field
+      query:
+        byLabel: view
+        type: GraphQL
+      ref:
+        group: ui.kubedb.com
+        kind: BackupOverview
   resource:
     group: ui.kubedb.com
     kind: MongoDBOverview

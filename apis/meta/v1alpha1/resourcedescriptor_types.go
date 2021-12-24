@@ -165,7 +165,7 @@ const (
 	OwnedBy       ConnectionType = "OwnedBy"
 )
 
-// +kubebuilder:validation:Enum=auth_via;backup_via;catalog;connect_via;exposed_by;monitored_by;offshoot;restore_into;scaled_by
+// +kubebuilder:validation:Enum=auth_via;backup_via;catalog;connect_via;exposed_by;monitored_by;offshoot;restore_into;scaled_by;view
 type EdgeLabel string
 
 const (
@@ -178,6 +178,7 @@ const (
 	EdgeOffshoot    EdgeLabel = "offshoot"
 	EdgeRestoreInto EdgeLabel = "restore_into"
 	EdgeScaledBy    EdgeLabel = "scaled_by"
+	EdgeView        EdgeLabel = "view"
 )
 
 type ResourceConnection struct {

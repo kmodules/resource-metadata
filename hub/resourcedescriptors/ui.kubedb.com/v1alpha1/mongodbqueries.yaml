@@ -15,6 +15,42 @@ spec:
     name: mongodbqueries
     scope: Namespaced
     version: v1alpha1
+  subTables:
+  - columns:
+    - name: Operation
+      pathTemplate: '{{ .operation }}'
+      priority: 3
+      type: string
+    - name: Database
+      pathTemplate: '{{ .databaseName }}'
+      priority: 3
+      type: string
+    - name: Collection
+      pathTemplate: '{{ .collectionName }}'
+      priority: 3
+      type: string
+    - name: Command
+      pathTemplate: '{{ .command }}'
+      priority: 3
+      type: string
+    - name: Count
+      pathTemplate: '{{ .count }}'
+      priority: 3
+      type: string
+    - name: Avg Execution Time(ms)
+      pathTemplate: '{{ .avgExecutionTimeInMS }}'
+      priority: 3
+      type: string
+    - name: Min Execution Time(ms)
+      pathTemplate: '{{ .minExecutionTimeInMS }}'
+      priority: 3
+      type: string
+    - name: Max Execution Time(ms)
+      pathTemplate: '{{ .maxExecutionTimeInMS }}'
+      priority: 3
+      type: string
+    fieldPath: .spec.queries
+    name: Slow Queries
   validation:
     openAPIV3Schema:
       properties:
