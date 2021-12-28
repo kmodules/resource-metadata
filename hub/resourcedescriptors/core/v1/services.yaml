@@ -50,7 +50,6 @@ spec:
     type: string
   connections:
   - labels:
-    - offshoot
     - exposed_by
     namespacePath: metadata.namespace
     selectorPath: spec.selector

@@ -56,6 +56,48 @@ spec:
     type: image/svg+xml
   - src: https://cdn.appscode.com/k8s/icons/monitoring.coreos.com/podmonitors.png
     type: image/png
+  pages:
+  - name: Basic
+    resources:
+    - actions:
+        create: Never
+      displayMode: List
+      query:
+        byLabel: monitored_by
+        type: GraphQL
+      ref:
+        group: ""
+        kind: Pod
+    - actions:
+        create: Never
+      displayMode: List
+      query:
+        raw: |-
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              monitored_by(group: "", kind: "Pod") {
+                refs: exposed_by(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
+        type: GraphQL
+      ref:
+        group: ""
+        kind: Service
+  - name: Monitoring
+    resources:
+    - actions:
+        create: Always
+      displayMode: List
+      query:
+        byLabel: monitored_by
+        type: GraphQL
+      ref:
+        group: monitoring.coreos.com
+        kind: Prometheus
   resource:
     group: monitoring.coreos.com
     kind: PodMonitor
