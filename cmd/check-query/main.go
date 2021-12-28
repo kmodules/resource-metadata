@@ -14,13 +14,24 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package registry
+package main
 
 import (
-	genericregistry "k8s.io/apiserver/pkg/registry/generic/registry"
+	"fmt"
+
+	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	"kmodules.xyz/resource-metadata/hub"
 )
 
-// REST implements a RESTStorage for API services against etcd
-type REST struct {
-	*genericregistry.Store
+func main() {
+	reg := hub.NewRegistryOfKnownResources()
+	reg.Visit(func(key string, rd *v1alpha1.ResourceDescriptor) {
+		for i, p := range rd.Spec.Pages {
+			for j, sec := range p.Resources {
+				if sec.Query.Type != v1alpha1.RESTQuery && sec.Query.Type != v1alpha1.GraphQLQuery {
+					panic(fmt.Errorf("key=%s rd.Spec.Pages[%d].Resources[%d]", key, i, j))
+				}
+			}
+		}
+	})
 }

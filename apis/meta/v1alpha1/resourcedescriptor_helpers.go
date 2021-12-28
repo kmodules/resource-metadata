@@ -105,5 +105,5 @@ func (r ResourceLocator) GraphQuery(oid apiv1.OID) (string, map[string]interface
 		}
 		return buf.String(), nil, nil
 	}
-	return "", nil, fmt.Errorf("unknown query type %s", r.Query.Type)
+	return "", nil, fmt.Errorf("unknown query type %+v, oid %s", r, oid)
 }
