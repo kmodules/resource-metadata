@@ -167,7 +167,17 @@ spec:
         create: IfEmpty
       displayMode: List
       query:
-        byLabel: monitored_by
+        raw: |-
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              exposed_by(group: "", kind: "Service") {
+                refs: monitored_by(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
         type: GraphQL
       ref:
         group: monitoring.coreos.com
@@ -176,7 +186,17 @@ spec:
         create: IfEmpty
       displayMode: List
       query:
-        byLabel: monitored_by
+        raw: |-
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              exposed_by(group: "", kind: "Service") {
+                refs: monitored_by(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
         type: GraphQL
       ref:
         group: monitoring.coreos.com
@@ -185,7 +205,17 @@ spec:
         create: Never
       displayMode: List
       query:
-        byLabel: monitored_by
+        raw: |-
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              exposed_by(group: "", kind: "Service") {
+                refs: monitored_by(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
         type: GraphQL
       ref:
         group: monitoring.coreos.com

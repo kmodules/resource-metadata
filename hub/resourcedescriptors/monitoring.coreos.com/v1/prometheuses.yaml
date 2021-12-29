@@ -96,7 +96,7 @@ spec:
         create: Never
       displayMode: List
       query:
-        byLabel: offshoot
+        byLabel: exposed_by
         type: GraphQL
       ref:
         group: ""
@@ -107,7 +107,7 @@ spec:
         create: Always
       displayMode: List
       query:
-        byLabel: offshoot
+        byLabel: monitored_by
         type: GraphQL
       ref:
         group: monitoring.coreos.com
@@ -116,7 +116,7 @@ spec:
         create: Always
       displayMode: List
       query:
-        byLabel: offshoot
+        byLabel: monitored_by
         type: GraphQL
       ref:
         group: monitoring.coreos.com
