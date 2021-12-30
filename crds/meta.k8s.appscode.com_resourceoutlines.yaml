@@ -104,6 +104,16 @@ spec:
                           description: ResourceColumnDefinition specifies a column
                             for server side printing.
                           properties:
+                            color:
+                              properties:
+                                color:
+                                  enum:
+                                  - Foreground
+                                  - Background
+                                  type: string
+                                template:
+                                  type: string
+                              type: object
                             description:
                               description: description is a human readable description
                                 of this column.
@@ -115,6 +125,20 @@ spec:
                                 column is the resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
                                 for more.
                               type: string
+                            icon:
+                              properties:
+                                enable:
+                                  type: boolean
+                                template:
+                                  type: string
+                              type: object
+                            link:
+                              properties:
+                                enable:
+                                  type: boolean
+                                template:
+                                  type: string
+                              type: object
                             name:
                               description: name is a human readable name for the column.
                               type: string
@@ -135,6 +159,33 @@ spec:
                                 be given a higher priority.
                               format: int32
                               type: integer
+                            shape:
+                              enum:
+                              - Rectangle
+                              - Pill
+                              type: string
+                            sort:
+                              properties:
+                                enable:
+                                  type: boolean
+                                format:
+                                  description: format is an optional OpenAPI type
+                                    definition for this column. The 'name' format
+                                    is applied to the primary identifier column to
+                                    assist in clients identifying column is the resource
+                                    name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                                    for more.
+                                  type: string
+                                template:
+                                  type: string
+                                type:
+                                  description: type is an OpenAPI type definition
+                                    for this column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                                    for more.
+                                  type: string
+                              required:
+                              - type
+                              type: object
                             type:
                               description: type is an OpenAPI type definition for
                                 this column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
@@ -232,6 +283,16 @@ spec:
                                   description: ResourceColumnDefinition specifies
                                     a column for server side printing.
                                   properties:
+                                    color:
+                                      properties:
+                                        color:
+                                          enum:
+                                          - Foreground
+                                          - Background
+                                          type: string
+                                        template:
+                                          type: string
+                                      type: object
                                     description:
                                       description: description is a human readable
                                         description of this column.
@@ -244,6 +305,20 @@ spec:
                                         the resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
                                         for more.
                                       type: string
+                                    icon:
+                                      properties:
+                                        enable:
+                                          type: boolean
+                                        template:
+                                          type: string
+                                      type: object
+                                    link:
+                                      properties:
+                                        enable:
+                                          type: boolean
+                                        template:
+                                          type: string
+                                      type: object
                                     name:
                                       description: name is a human readable name for
                                         the column.
@@ -268,6 +343,33 @@ spec:
                                         a higher priority.
                                       format: int32
                                       type: integer
+                                    shape:
+                                      enum:
+                                      - Rectangle
+                                      - Pill
+                                      type: string
+                                    sort:
+                                      properties:
+                                        enable:
+                                          type: boolean
+                                        format:
+                                          description: format is an optional OpenAPI
+                                            type definition for this column. The 'name'
+                                            format is applied to the primary identifier
+                                            column to assist in clients identifying
+                                            column is the resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                                            for more.
+                                          type: string
+                                        template:
+                                          type: string
+                                        type:
+                                          description: type is an OpenAPI type definition
+                                            for this column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                                            for more.
+                                          type: string
+                                      required:
+                                      - type
+                                      type: object
                                     type:
                                       description: type is an OpenAPI type definition
                                         for this column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
@@ -362,6 +464,16 @@ spec:
                                 description: ResourceColumnDefinition specifies a
                                   column for server side printing.
                                 properties:
+                                  color:
+                                    properties:
+                                      color:
+                                        enum:
+                                        - Foreground
+                                        - Background
+                                        type: string
+                                      template:
+                                        type: string
+                                    type: object
                                   description:
                                     description: description is a human readable description
                                       of this column.
@@ -374,6 +486,20 @@ spec:
                                       resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
                                       for more.
                                     type: string
+                                  icon:
+                                    properties:
+                                      enable:
+                                        type: boolean
+                                      template:
+                                        type: string
+                                    type: object
+                                  link:
+                                    properties:
+                                      enable:
+                                        type: boolean
+                                      template:
+                                        type: string
+                                    type: object
                                   name:
                                     description: name is a human readable name for
                                       the column.
@@ -397,6 +523,33 @@ spec:
                                       higher priority.
                                     format: int32
                                     type: integer
+                                  shape:
+                                    enum:
+                                    - Rectangle
+                                    - Pill
+                                    type: string
+                                  sort:
+                                    properties:
+                                      enable:
+                                        type: boolean
+                                      format:
+                                        description: format is an optional OpenAPI
+                                          type definition for this column. The 'name'
+                                          format is applied to the primary identifier
+                                          column to assist in clients identifying
+                                          column is the resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                                          for more.
+                                        type: string
+                                      template:
+                                        type: string
+                                      type:
+                                        description: type is an OpenAPI type definition
+                                          for this column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                                          for more.
+                                        type: string
+                                    required:
+                                    - type
+                                    type: object
                                   type:
                                     description: type is an OpenAPI type definition
                                       for this column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
@@ -490,6 +643,16 @@ spec:
                                 description: ResourceColumnDefinition specifies a
                                   column for server side printing.
                                 properties:
+                                  color:
+                                    properties:
+                                      color:
+                                        enum:
+                                        - Foreground
+                                        - Background
+                                        type: string
+                                      template:
+                                        type: string
+                                    type: object
                                   description:
                                     description: description is a human readable description
                                       of this column.
@@ -502,6 +665,20 @@ spec:
                                       resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
                                       for more.
                                     type: string
+                                  icon:
+                                    properties:
+                                      enable:
+                                        type: boolean
+                                      template:
+                                        type: string
+                                    type: object
+                                  link:
+                                    properties:
+                                      enable:
+                                        type: boolean
+                                      template:
+                                        type: string
+                                    type: object
                                   name:
                                     description: name is a human readable name for
                                       the column.
@@ -525,6 +702,33 @@ spec:
                                       higher priority.
                                     format: int32
                                     type: integer
+                                  shape:
+                                    enum:
+                                    - Rectangle
+                                    - Pill
+                                    type: string
+                                  sort:
+                                    properties:
+                                      enable:
+                                        type: boolean
+                                      format:
+                                        description: format is an optional OpenAPI
+                                          type definition for this column. The 'name'
+                                          format is applied to the primary identifier
+                                          column to assist in clients identifying
+                                          column is the resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                                          for more.
+                                        type: string
+                                      template:
+                                        type: string
+                                      type:
+                                        description: type is an OpenAPI type definition
+                                          for this column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                                          for more.
+                                        type: string
+                                    required:
+                                    - type
+                                    type: object
                                   type:
                                     description: type is an OpenAPI type definition
                                       for this column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
@@ -650,6 +854,16 @@ spec:
                           description: ResourceColumnDefinition specifies a column
                             for server side printing.
                           properties:
+                            color:
+                              properties:
+                                color:
+                                  enum:
+                                  - Foreground
+                                  - Background
+                                  type: string
+                                template:
+                                  type: string
+                              type: object
                             description:
                               description: description is a human readable description
                                 of this column.
@@ -661,6 +875,20 @@ spec:
                                 column is the resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
                                 for more.
                               type: string
+                            icon:
+                              properties:
+                                enable:
+                                  type: boolean
+                                template:
+                                  type: string
+                              type: object
+                            link:
+                              properties:
+                                enable:
+                                  type: boolean
+                                template:
+                                  type: string
+                              type: object
                             name:
                               description: name is a human readable name for the column.
                               type: string
@@ -681,6 +909,33 @@ spec:
                                 be given a higher priority.
                               format: int32
                               type: integer
+                            shape:
+                              enum:
+                              - Rectangle
+                              - Pill
+                              type: string
+                            sort:
+                              properties:
+                                enable:
+                                  type: boolean
+                                format:
+                                  description: format is an optional OpenAPI type
+                                    definition for this column. The 'name' format
+                                    is applied to the primary identifier column to
+                                    assist in clients identifying column is the resource
+                                    name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                                    for more.
+                                  type: string
+                                template:
+                                  type: string
+                                type:
+                                  description: type is an OpenAPI type definition
+                                    for this column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                                    for more.
+                                  type: string
+                              required:
+                              - type
+                              type: object
                             type:
                               description: type is an OpenAPI type definition for
                                 this column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types

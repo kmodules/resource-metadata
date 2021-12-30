@@ -24,10 +24,15 @@ func (in *TableCell) DeepCopy() *TableCell {
 	}
 
 	out := new(TableCell)
-
 	if in.Data != nil {
 		out.Data = runtime.DeepCopyJSONValue(in.Data)
 	}
-
+	if in.Sort != nil {
+		out.Sort = runtime.DeepCopyJSONValue(in.Sort)
+	}
+	out.Link = in.Link
+	out.Shape = in.Shape
+	out.Icon = in.Icon
+	out.Color = in.Color
 	return out
 }

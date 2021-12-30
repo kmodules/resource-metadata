@@ -133,11 +133,9 @@ func FilterColumnsWithDefaults(
 					for _, col := range version.AdditionalPrinterColumns {
 						if !defaultJsonPaths.Has(col.Name) {
 							def := v1alpha1.ResourceColumnDefinition{
-								ResourceColumn: v1alpha1.ResourceColumn{
-									Name:   col.Name,
-									Type:   col.Type,
-									Format: col.Format,
-								},
+								Name:        col.Name,
+								Type:        col.Type,
+								Format:      col.Format,
 								Description: col.Description,
 								Priority:    col.Priority,
 							}
@@ -165,11 +163,9 @@ func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition) error {
 		//}
 
 		c.headers = append(c.headers, v1alpha1.ResourceColumnDefinition{
-			ResourceColumn: v1alpha1.ResourceColumn{
-				Name:   col.Name,
-				Type:   col.Type,
-				Format: col.Format,
-			},
+			Name:         col.Name,
+			Type:         col.Type,
+			Format:       col.Format,
 			Description:  col.Description,
 			Priority:     col.Priority,
 			PathTemplate: col.PathTemplate,
@@ -235,11 +231,27 @@ func (c *convertor) ConvertToTable(_ context.Context, obj runtime.Object, _ runt
 	}
 
 	for _, def := range c.headers {
-		table.Columns = append(table.Columns, v1alpha1.ResourceColumn{
+		col := v1alpha1.ResourceColumn{
 			Name:   def.Name,
 			Type:   def.Type,
 			Format: def.Format,
-		})
+		}
+		if def.Sort != nil && def.Sort.Enable {
+			col.Sort = true
+		}
+		if def.Link != nil && def.Link.Enable {
+			col.Link = true
+		}
+		if def.Icon != nil && def.Icon.Enable {
+			col.Icon = true
+		}
+		if def.Shape != "" {
+			col.Shape = def.Shape
+		}
+		if def.Color != nil && def.Color.Color != "" {
+			col.Color = def.Color.Color
+		}
+		table.Columns = append(table.Columns, col)
 	}
 
 	if m, err := meta.ListAccessor(obj); err == nil {
@@ -369,49 +381,55 @@ func metaToTableRow(obj runtime.Object, rowFn func(obj interface{}) ([]v1alpha1.
 func DefaultListColumns() []v1alpha1.ResourceColumnDefinition {
 	return []v1alpha1.ResourceColumnDefinition{
 		{
-			ResourceColumn: v1alpha1.ResourceColumn{
-				Name:   "Name",
-				Type:   "string",
-				Format: "",
-			},
+			Name:         "Name",
+			Type:         "string",
+			Format:       "",
 			Priority:     int32(v1alpha1.List),
 			PathTemplate: `{{ .metadata.name }}`,
+			Sort: &v1alpha1.SortDefinition{
+				Enable: true,
+				// Template: "",
+			},
+			Link: &v1alpha1.AttributeDefinition{
+				Enable: true,
+				// Template: "",
+			},
+			//Shape ShapeProperty `json:"shape,omitempty"`
+			//Icon  bool          `json:"icon,omitempty"`
+			//Color ColorProperty `json:"color,omitempty"`
 		},
 		{
-			ResourceColumn: v1alpha1.ResourceColumn{
-				Name:   "Namespace",
-				Type:   "string",
-				Format: "",
-			},
+			Name:         "Namespace",
+			Type:         "string",
+			Format:       "",
 			Priority:     int32(v1alpha1.List),
 			PathTemplate: `{{ .metadata.namespace }}`,
 		},
 		{
-			ResourceColumn: v1alpha1.ResourceColumn{
-				Name:   "Labels",
-				Type:   "object",
-				Format: "",
-			},
+			Name:         "Labels",
+			Type:         "object",
+			Format:       "",
 			Priority:     int32(v1alpha1.List),
 			PathTemplate: `{{ .metadata.labels | toRawJson }}`,
 		},
 		{
-			ResourceColumn: v1alpha1.ResourceColumn{
-				Name:   "Annotations",
-				Type:   "object",
-				Format: "",
-			},
+			Name:         "Annotations",
+			Type:         "object",
+			Format:       "",
 			Priority:     int32(v1alpha1.List),
 			PathTemplate: `{{ .metadata.annotations | toRawJson }}`,
 		},
 		{
-			ResourceColumn: v1alpha1.ResourceColumn{
-				Name:   "Age",
-				Type:   "date",
-				Format: "",
-			},
+			Name:         "Age",
+			Type:         "date",
+			Format:       "",
 			Priority:     int32(v1alpha1.List),
 			PathTemplate: `{{ .metadata.creationTimestamp }}`,
+			Sort: &v1alpha1.SortDefinition{
+				Enable:   true,
+				Template: `{{ .metadata.creationTimestamp }}`,
+				Type:     "integer",
+			},
 		},
 	}
 }
@@ -419,47 +437,37 @@ func DefaultListColumns() []v1alpha1.ResourceColumnDefinition {
 func DefaultDetailsColumns() []v1alpha1.ResourceColumnDefinition {
 	return []v1alpha1.ResourceColumnDefinition{
 		{
-			ResourceColumn: v1alpha1.ResourceColumn{
-				Name:   "Name",
-				Type:   "string",
-				Format: "",
-			},
+			Name:         "Name",
+			Type:         "string",
+			Format:       "",
 			Priority:     int32(v1alpha1.Field),
 			PathTemplate: `{{ .metadata.name }}`,
 		},
 		{
-			ResourceColumn: v1alpha1.ResourceColumn{
-				Name:   "Namespace",
-				Type:   "string",
-				Format: "",
-			},
+			Name:         "Namespace",
+			Type:         "string",
+			Format:       "",
 			Priority:     int32(v1alpha1.Field),
 			PathTemplate: `{{ .metadata.namespace }}`,
 		},
 		{
-			ResourceColumn: v1alpha1.ResourceColumn{
-				Name:   "Labels",
-				Type:   "object",
-				Format: "",
-			},
+			Name:         "Labels",
+			Type:         "object",
+			Format:       "",
 			Priority:     int32(v1alpha1.Field),
 			PathTemplate: `{{ .metadata.labels | toRawJson }}`,
 		},
 		{
-			ResourceColumn: v1alpha1.ResourceColumn{
-				Name:   "Annotations",
-				Type:   "object",
-				Format: "",
-			},
+			Name:         "Annotations",
+			Type:         "object",
+			Format:       "",
 			Priority:     int32(v1alpha1.Field),
 			PathTemplate: `{{ .metadata.annotations | toRawJson }}`,
 		},
 		{
-			ResourceColumn: v1alpha1.ResourceColumn{
-				Name:   "Age",
-				Type:   "date",
-				Format: "",
-			},
+			Name:         "Age",
+			Type:         "date",
+			Format:       "",
 			Priority:     int32(v1alpha1.Field),
 			PathTemplate: `{{ .metadata.creationTimestamp }}`,
 		},
