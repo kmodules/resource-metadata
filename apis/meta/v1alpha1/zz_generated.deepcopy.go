@@ -22,7 +22,7 @@ limitations under the License.
 package v1alpha1
 
 import (
-	apiv1 "kmodules.xyz/client-go/api/v1"
+	kmapi "kmodules.xyz/client-go/api/v1"
 
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -298,7 +298,7 @@ func (in *PanelEntry) DeepCopyInto(out *PanelEntry) {
 	*out = *in
 	if in.Resource != nil {
 		in, out := &in.Resource, &out.Resource
-		*out = new(apiv1.ResourceID)
+		*out = new(kmapi.ResourceID)
 		**out = **in
 	}
 	if in.Icons != nil {
@@ -667,7 +667,7 @@ func (in *ResourceConnection) DeepCopyInto(out *ResourceConnection) {
 	out.Target = in.Target
 	if in.Labels != nil {
 		in, out := &in.Labels, &out.Labels
-		*out = make([]EdgeLabel, len(*in))
+		*out = make([]kmapi.EdgeLabel, len(*in))
 		copy(*out, *in)
 	}
 	in.ResourceConnectionSpec.DeepCopyInto(&out.ResourceConnectionSpec)
@@ -905,7 +905,7 @@ func (in *ResourceGraphResponse) DeepCopyInto(out *ResourceGraphResponse) {
 	*out = *in
 	if in.Resources != nil {
 		in, out := &in.Resources, &out.Resources
-		*out = make([]apiv1.ResourceID, len(*in))
+		*out = make([]kmapi.ResourceID, len(*in))
 		copy(*out, *in)
 	}
 	if in.Connections != nil {
