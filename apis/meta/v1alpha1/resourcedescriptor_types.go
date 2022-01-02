@@ -103,9 +103,9 @@ const (
 )
 
 type ResourceQuery struct {
-	Type    QueryType `json:"type"`
-	ByLabel EdgeLabel `json:"byLabel,omitempty"`
-	Raw     string    `json:"raw,omitempty"`
+	Type    QueryType       `json:"type"`
+	ByLabel kmapi.EdgeLabel `json:"byLabel,omitempty"`
+	Raw     string          `json:"raw,omitempty"`
 }
 
 // +kubebuilder:validation:Enum=List;Field
@@ -165,25 +165,9 @@ const (
 	OwnedBy       ConnectionType = "OwnedBy"
 )
 
-// +kubebuilder:validation:Enum=auth_via;backup_via;catalog;connect_via;exposed_by;monitored_by;offshoot;restore_into;scaled_by;view
-type EdgeLabel string
-
-const (
-	EdgeAuthVia     EdgeLabel = "auth_via"
-	EdgeBackupVia   EdgeLabel = "backup_via"
-	EdgeCatalog     EdgeLabel = "catalog"
-	EdgeConnectVia  EdgeLabel = "connect_via"
-	EdgeExposedBy   EdgeLabel = "exposed_by"
-	EdgeMonitoredBy EdgeLabel = "monitored_by"
-	EdgeOffshoot    EdgeLabel = "offshoot"
-	EdgeRestoreInto EdgeLabel = "restore_into"
-	EdgeScaledBy    EdgeLabel = "scaled_by"
-	EdgeView        EdgeLabel = "view"
-)
-
 type ResourceConnection struct {
-	Target                 metav1.TypeMeta `json:"target"`
-	Labels                 []EdgeLabel     `json:"labels"`
+	Target                 metav1.TypeMeta   `json:"target"`
+	Labels                 []kmapi.EdgeLabel `json:"labels"`
 	ResourceConnectionSpec `json:",inline,omitempty"`
 }
 
