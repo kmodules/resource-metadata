@@ -1,0 +1,27 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  name: meta-v1-ownerreferences
+spec:
+  columns:
+  - name: API Version
+    pathTemplate: '{{ .apiVersion }}'
+    priority: 0
+    type: string
+  - name: Kind
+    pathTemplate: '{{ .kind }}'
+    priority: 0
+    type: string
+  - name: Name
+    pathTemplate: '{{ .name }}'
+    priority: 0
+    type: string
+  - name: Controller
+    pathTemplate: '{{ .controller }}'
+    priority: 0
+    type: string
+  - name: Block Onwer Deletion
+    pathTemplate: '{{ .blockOwnerDeletion }}'
+    priority: 0
+    type: string

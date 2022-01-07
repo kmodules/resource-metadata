@@ -1,0 +1,59 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceBlockDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: batch
+    k8s.io/kind: CronJob
+    k8s.io/resource: cronjobs
+    k8s.io/version: v1
+  name: batch-v1-cronjobs
+spec:
+  name: Basic
+  blocks:
+  - fieldPath: .spec.jobTemplate.spec.template.spec.containers
+    name: Containers
+    kind: SubTable
+    view:
+      name: core-v1-containers
+  - fieldPath: .spec.jobTemplate.spec.template.spec.initContainers
+    name: Init-Containers
+    kind: SubTable
+    view:
+      name: core-v1-containers
+  - fieldPath: .status.conditions
+    name: Conditions
+    kind: SubTable
+    view:
+      name: apps-v1-conditions
+  - fieldPath: .metadata.ownerReferences
+    name: Owners
+    kind: SubTable
+    view:
+      name: meta-v1-ownerreferences
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: batch
+      kind: Job
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: ""
+      kind: Pod
+  resource:
+    group: batch
+    kind: CronJob
+    name: cronjobs
+    scope: Namespaced
+    version: v1

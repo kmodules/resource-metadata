@@ -1,0 +1,29 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceBlockDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ""
+    k8s.io/kind: Service
+    k8s.io/resource: services
+    k8s.io/version: v1
+  name: core-v1-services
+spec:
+  name: Basic
+  resources:
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: ""
+      kind: Pod
+  resource:
+    group: ""
+    kind: Service
+    name: services
+    scope: Namespaced
+    version: v1

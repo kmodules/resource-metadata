@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: policy
+    k8s.io/kind: Eviction
+    k8s.io/resource: evictions
+    k8s.io/version: v1beta1
+  name: policy-v1beta1-evictions
+spec:
+  defaultView: true
+  resource:
+    group: policy
+    kind: Eviction
+    name: evictions
+    scope: Namespaced
+    version: v1beta1

@@ -1,0 +1,47 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: autoscaling
+    k8s.io/kind: HorizontalPodAutoscaler
+    k8s.io/resource: horizontalpodautoscalers
+    k8s.io/version: v1
+  name: autoscaling-v1-horizontalpodautoscalers
+spec:
+  defaultView: true
+  columns:
+  - name: Name
+    pathTemplate: '{{ .metadata.name }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ .metadata.namespace }}'
+    priority: 3
+    type: string
+  - name: Reference
+    pathTemplate: '{{ .spec.scaleTargetRef.kind }}/{{ .spec.scaleTargetRef.name }}'
+    priority: 3
+    type: string
+  - name: Target CPU Utilization
+    pathTemplate: '{{ .spec.targetCPUUtilizationPercentage }}%'
+    priority: 3
+    type: string
+  - name: Min-Replica(s)
+    pathTemplate: '{{ .spec.minReplicas }}'
+    priority: 3
+    type: string
+  - name: Max-Replica(s)
+    pathTemplate: '{{ .spec.maxReplicas }}'
+    priority: 3
+    type: string
+  - name: Age
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
+    priority: 3
+    type: date
+  resource:
+    group: autoscaling
+    kind: HorizontalPodAutoscaler
+    name: horizontalpodautoscalers
+    scope: Namespaced
+    version: v1

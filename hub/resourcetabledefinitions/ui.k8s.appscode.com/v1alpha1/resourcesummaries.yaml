@@ -1,0 +1,51 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ui.k8s.appscode.com
+    k8s.io/kind: ResourceSummary
+    k8s.io/resource: resourcesummaries
+    k8s.io/version: v1alpha1
+  name: ui.k8s.appscode.com-v1alpha1-resourcesummaries
+spec:
+  defaultView: true
+  columns:
+  - name: Database
+    pathTemplate: '{{ .spec.apiType.kind }}'
+    priority: 3
+    type: string
+  - name: Instances
+    pathTemplate: '{{ .spec.count }}'
+    priority: 3
+    type: string
+  - name: Total vCPU(Request)
+    pathTemplate: '{{ .spec.totalResource.requests.cpu | k8s_fmt_resource_cpu }}'
+    priority: 3
+    type: string
+  - name: Total vCPU(Limit)
+    pathTemplate: '{{ .spec.totalResource.limits.cpu | k8s_fmt_resource_cpu }}'
+    priority: 3
+    type: string
+  - name: Total Memory(Request)
+    pathTemplate: '{{ .spec.totalResource.requests.memory | k8s_fmt_resource_memory }}'
+    priority: 3
+    type: string
+  - name: Total Memory(Limit)
+    pathTemplate: '{{ .spec.totalResource.limits.memory | k8s_fmt_resource_memory }}'
+    priority: 3
+    type: string
+  - name: Total Storage(Request)
+    pathTemplate: '{{ .spec.totalResource.requests.storage | k8s_fmt_resource_memory }}'
+    priority: 3
+    type: string
+  - name: Total Storage(Limit)
+    pathTemplate: '{{ .spec.totalResource.limits.storage | k8s_fmt_resource_memory}}'
+    priority: 3
+    type: string
+  resource:
+    group: ui.k8s.appscode.com
+    kind: ResourceSummary
+    name: resourcesummaries
+    scope: Namespaced
+    version: v1alpha1

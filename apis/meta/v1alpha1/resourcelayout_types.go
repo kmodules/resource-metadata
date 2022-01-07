@@ -35,10 +35,7 @@ const (
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // +kubebuilder:object:root=true
-// +kubebuilder:resource:path=resourcelayouts,singular=resourcelayout,shortName=rd
-// +kubebuilder:subresource:status
-// +kubebuilder:printcolumn:name="Status",type="string",JSONPath=".status.phase"
-// +kubebuilder:printcolumn:name="Age",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:path=resourcelayouts,singular=resourcelayout
 type ResourceLayout struct {
 	metav1.TypeMeta `json:",inline"`
 	// +optional
@@ -47,13 +44,36 @@ type ResourceLayout struct {
 }
 
 type ResourceLayoutSpec struct {
-	Resource kmapi.ResourceID           `json:"resource"`
-	Columns  []ResourceColumnDefinition `json:"columns,omitempty"`
-	// For array type fields of the resource
-	SubTables   []ResourceSubTableDefinition `json:"subTables,omitempty"`
-	Connections []ResourceConnection         `json:"connections,omitempty"`
-	Pages       []RelatedResourcePage        `json:"pages,omitempty"`
-	Status      *StatusCodes                 `json:"status,omitempty"`
+	Resource      kmapi.ResourceID     `json:"resource"`
+	DefaultLayout bool                 `json:"defaultLayout"`
+	Header        *PageBlockLayout     `json:"header,omitempty"`
+	TabBar        *PageBlockLayout     `json:"tabBar,omitempty"`
+	Pages         []ResourcePageLayout `json:"pages,omitempty"`
+	UI            *UIParameters        `json:"ui,omitempty"`
+}
+
+type ResourcePageLayout struct {
+	Name    string            `json:"name"`
+	Info    *PageBlockLayout  `json:"info,omitempty"`
+	Insight *PageBlockLayout  `json:"insight,omitempty"`
+	Blocks  []PageBlockLayout `json:"blocks,omitempty"`
+}
+
+type PageBlockLayout struct {
+	Kind TableKind `json:"kind"` // Connection | Subtable(Field)
+	Name string    `json:"name,omitempty"`
+
+	FieldPath string `json:"fieldPath,omitempty"`
+
+	ResourceLocator `json:",inline"`
+	DisplayMode     ResourceDisplayMode `json:"displayMode"`
+	Actions         ResourceActions     `json:"actions"`
+
+	View PageBlockTableDefinition `json:"view"`
+}
+
+type PageBlockTableDefinition struct {
+	Columns []ResourceColumnDefinition `json:"columns,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

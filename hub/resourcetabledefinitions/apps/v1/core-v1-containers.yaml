@@ -1,0 +1,31 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  name: core-v1-containers
+spec:
+  columns:
+  - name: Name
+    pathTemplate: '{{ .name }}'
+    priority: 0
+    type: string
+  - name: Image
+    pathTemplate: '{{ .image }}'
+    priority: 0
+    type: string
+  - name: Arguments
+    pathTemplate: '{{ .args | fmt_list }}'
+    priority: 0
+    type: object
+  - name: Environment Variables
+    pathTemplate: '{{ .env | fmt_list }}'
+    priority: 0
+    type: object
+  - name: Ports
+    pathTemplate: '{{ .ports | k8s_container_ports }}'
+    priority: 0
+    type: string
+  - name: Volume Mounts
+    pathTemplate: '{{ .volumeMounts | k8s_volumeMounts }}'
+    priority: 0
+    type: string

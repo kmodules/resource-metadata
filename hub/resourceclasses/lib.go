@@ -18,12 +18,16 @@ package resourceclasses
 
 import (
 	"embed"
+	iofs "io/fs"
+	"reflect"
 	"strings"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
 	"github.com/gobuffalo/flect"
+	"github.com/pkg/errors"
 	"golang.org/x/net/publicsuffix"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/yaml"
 )
@@ -33,6 +37,36 @@ var fs embed.FS
 
 func FS() embed.FS {
 	return fs
+}
+
+var (
+	KnownClasses = map[string]*v1alpha1.ResourceClass{}
+)
+
+func init() {
+	if e2 := iofs.WalkDir(FS(), ".", func(path string, e iofs.DirEntry, err error) error {
+		if e.IsDir() || err != nil {
+			return err
+		}
+		data, err := fs.ReadFile(path)
+		if err != nil {
+			return errors.Wrap(err, path)
+		}
+		var rc v1alpha1.ResourceClass
+		err = yaml.Unmarshal(data, &rc)
+		if err != nil {
+			return errors.Wrap(err, path)
+		}
+
+		if rc.Spec.APIGroup != "" {
+			KnownClasses[rc.Spec.APIGroup] = &rc
+		} else {
+			KnownClasses[strings.ToLower(rc.Name)+".local"] = &rc
+		}
+		return err
+	}); e2 != nil {
+		panic(errors.Wrapf(e2, "failed to load %s", reflect.TypeOf(v1alpha1.ResourceClass{})))
+	}
 }
 
 func ResourceClassName(apiGroup string) string {
@@ -67,19 +101,10 @@ func LoadByGVR(gvr schema.GroupVersionResource) (*v1alpha1.ResourceClass, error)
 }
 
 func LoadByName(name string) (*v1alpha1.ResourceClass, error) {
-	filename := strings.ToLower(name) + ".yaml"
-	return LoadByFile(filename)
-}
+	name = strings.ToLower(name)
+	if obj, ok := KnownClasses[name]; ok {
+		return obj, nil
+	}
+	return nil, apierrors.NewNotFound(v1alpha1.Resource(v1alpha1.ResourceKindResourceClass), name)
 
-func LoadByFile(filename string) (*v1alpha1.ResourceClass, error) {
-	data, err := fs.ReadFile(filename)
-	if err != nil {
-		return nil, err
-	}
-	var obj v1alpha1.ResourceClass
-	err = yaml.Unmarshal(data, &obj)
-	if err != nil {
-		return nil, err
-	}
-	return &obj, nil
 }

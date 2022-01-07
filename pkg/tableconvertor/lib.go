@@ -29,6 +29,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
+// Deprecated
 func TableForList(r *hub.Registry, kc client.Client, gvr schema.GroupVersionResource, items []unstructured.Unstructured) (*v1alpha1.Table, error) {
 	c, err := NewForGVR(r, kc, gvr, v1alpha1.List)
 	if err != nil {
@@ -41,6 +42,7 @@ func TableForList(r *hub.Registry, kc client.Client, gvr schema.GroupVersionReso
 	return c.ConvertToTable(ctx, obj, nil)
 }
 
+// Deprecated
 func TableForObject(r *hub.Registry, kc client.Client, obj runtime.Object) (*v1alpha1.Table, error) {
 	gvk := obj.GetObjectKind().GroupVersionKind()
 	t := metav1.TypeMeta{APIVersion: gvk.GroupVersion().String(), Kind: gvk.Kind}

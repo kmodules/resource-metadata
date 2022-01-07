@@ -31,6 +31,7 @@ import (
 
 // Table is a tabular representation of a set of API resources. The server transforms the
 // object into a set of preferred columns for quickly reviewing the objects.
+
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 type Table struct {
 	metav1.TypeMeta `json:",inline"`
@@ -63,7 +64,14 @@ type TableRow struct {
 	// cells will be as wide as the column definitions array and may contain strings, numbers (float64 or
 	// int64), booleans, simple maps, lists, or null. See the type field of the column definition for a
 	// more detailed description.
-	Cells []interface{} `json:"cells"`
+	Cells []TableCell `json:"cells"`
+}
+
+type TableCell struct {
+	// cells will be as wide as the column definitions array and may contain strings, numbers (float64 or
+	// int64), booleans, simple maps, lists, or null. See the type field of the column definition for a
+	// more detailed description.
+	Data interface{} `json:"data"`
 }
 
 // IncludeObjectPolicy controls which portion of the object is returned with a Table.

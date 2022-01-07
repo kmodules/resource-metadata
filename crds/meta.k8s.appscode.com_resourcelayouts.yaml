@@ -11,19 +11,10 @@ spec:
     kind: ResourceLayout
     listKind: ResourceLayoutList
     plural: resourcelayouts
-    shortNames:
-    - rd
     singular: resourcelayout
   scope: Namespaced
   versions:
-  - additionalPrinterColumns:
-    - jsonPath: .status.phase
-      name: Status
-      type: string
-    - jsonPath: .metadata.creationTimestamp
-      name: Age
-      type: date
-    name: v1alpha1
+  - name: v1alpha1
     schema:
       openAPIV3Schema:
         properties:
@@ -41,57 +32,36 @@ spec:
             type: object
           spec:
             properties:
-              columns:
-                items:
-                  description: ResourceColumnDefinition specifies a column for server
-                    side printing.
-                  properties:
-                    description:
-                      description: description is a human readable description of
-                        this column.
-                      type: string
-                    format:
-                      description: format is an optional OpenAPI type definition for
-                        this column. The 'name' format is applied to the primary identifier
-                        column to assist in clients identifying column is the resource
-                        name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
-                        for more.
-                      type: string
-                    name:
-                      description: name is a human readable name for the column.
-                      type: string
-                    pathTemplate:
-                      description: 'PathTemplate is a Go text template that will be
-                        evaluated to determine cell value. Users can use JSONPath
-                        expression to extract nested fields and apply template functions
-                        from Masterminds/sprig library. The template function for
-                        JSON path is called `jp`. Example: {{ jp "{.a.b}" . }} or
-                        {{ jp "{.a.b}" true }}, if json output is desired from JSONPath
-                        parser'
-                      type: string
-                    priority:
-                      description: priority is an integer defining the relative importance
-                        of this column compared to others. Lower numbers are considered
-                        higher priority. Columns that may be omitted in limited space
-                        scenarios should be given a higher priority.
-                      format: int32
-                      type: integer
-                    type:
-                      description: type is an OpenAPI type definition for this column.
-                        See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
-                        for more.
-                      type: string
-                  required:
-                  - name
-                  - priority
-                  - type
-                  type: object
-                type: array
-              connections:
-                items:
-                  properties:
-                    labels:
-                      items:
+              defaultLayout:
+                type: boolean
+              header:
+                properties:
+                  actions:
+                    properties:
+                      create:
+                        type: string
+                    required:
+                    - create
+                    type: object
+                  displayMode:
+                    enum:
+                    - List
+                    - Field
+                    type: string
+                  fieldPath:
+                    type: string
+                  kind:
+                    enum:
+                    - ResourceBlockDefinition
+                    - Self
+                    - SubTable
+                    - Connection
+                    type: string
+                  name:
+                    type: string
+                  query:
+                    properties:
+                      byLabel:
                         enum:
                         - auth_via
                         - backup_via
@@ -104,116 +74,91 @@ spec:
                         - scaled_by
                         - view
                         type: string
-                      type: array
-                    level:
-                      type: string
-                    nameTemplate:
-                      type: string
-                    namespacePath:
-                      type: string
-                    references:
-                      description: "References are a jsonpath that returns a CSV formatted
-                        references to target resources \n If each row has a single
-                        column, it is target name. Target resource is non-namespaced
-                        or uses the same namespace as the source resource. Example:
-                        n1 n2 \n If each row has two columns, it is target [name,namespace].
-                        Example: n1,ns1 n2,ns2 \n If each row has three columns, it
-                        is target [name,namespace,kind]. Example: n1,ns1,k1 n2,ns2,k2
-                        \n If each row has four columns, it is target [name,namespace,kind,apiGroup].
-                        Example: n1,ns1,k1,apiGroup1 n2,ns2,k2,apiGroup2"
-                      items:
+                      raw:
                         type: string
-                      type: array
-                    selector:
-                      description: A label selector is a label query over a set of
-                        resources. The result of matchLabels and matchExpressions
-                        are ANDed. An empty label selector matches all objects. A
-                        null label selector matches no objects.
-                      properties:
-                        matchExpressions:
-                          description: matchExpressions is a list of label selector
-                            requirements. The requirements are ANDed.
-                          items:
-                            description: A label selector requirement is a selector
-                              that contains values, a key, and an operator that relates
-                              the key and values.
-                            properties:
-                              key:
-                                description: key is the label key that the selector
-                                  applies to.
-                                type: string
-                              operator:
-                                description: operator represents a key's relationship
-                                  to a set of values. Valid operators are In, NotIn,
-                                  Exists and DoesNotExist.
-                                type: string
-                              values:
-                                description: values is an array of string values.
-                                  If the operator is In or NotIn, the values array
-                                  must be non-empty. If the operator is Exists or
-                                  DoesNotExist, the values array must be empty. This
-                                  array is replaced during a strategic merge patch.
-                                items:
-                                  type: string
-                                type: array
-                            required:
-                            - key
-                            - operator
-                            type: object
-                          type: array
-                        matchLabels:
-                          additionalProperties:
-                            type: string
-                          description: matchLabels is a map of {key,value} pairs.
-                            A single {key,value} in the matchLabels map is equivalent
-                            to an element of matchExpressions, whose key field is
-                            "key", the operator is "In", and the values array contains
-                            only "value". The requirements are ANDed.
+                      type:
+                        enum:
+                        - REST
+                        - GraphQL
+                        type: string
+                    required:
+                    - type
+                    type: object
+                  ref:
+                    description: GroupKind specifies a Group and a Kind, but does
+                      not force a version.  This is useful for identifying concepts
+                      during lookup stages without having partially valid types
+                    properties:
+                      group:
+                        type: string
+                      kind:
+                        type: string
+                    required:
+                    - group
+                    - kind
+                    type: object
+                  view:
+                    properties:
+                      columns:
+                        items:
+                          description: ResourceColumnDefinition specifies a column
+                            for server side printing.
+                          properties:
+                            description:
+                              description: description is a human readable description
+                                of this column.
+                              type: string
+                            format:
+                              description: format is an optional OpenAPI type definition
+                                for this column. The 'name' format is applied to the
+                                primary identifier column to assist in clients identifying
+                                column is the resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                                for more.
+                              type: string
+                            name:
+                              description: name is a human readable name for the column.
+                              type: string
+                            pathTemplate:
+                              description: 'PathTemplate is a Go text template that
+                                will be evaluated to determine cell value. Users can
+                                use JSONPath expression to extract nested fields and
+                                apply template functions from Masterminds/sprig library.
+                                The template function for JSON path is called `jp`.
+                                Example: {{ jp "{.a.b}" . }} or {{ jp "{.a.b}" true
+                                }}, if json output is desired from JSONPath parser'
+                              type: string
+                            priority:
+                              description: priority is an integer defining the relative
+                                importance of this column compared to others. Lower
+                                numbers are considered higher priority. Columns that
+                                may be omitted in limited space scenarios should be
+                                given a higher priority.
+                              format: int32
+                              type: integer
+                            type:
+                              description: type is an OpenAPI type definition for
+                                this column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                                for more.
+                              type: string
+                          required:
+                          - name
+                          - priority
+                          - type
                           type: object
-                      type: object
-                    selectorPath:
-                      type: string
-                    target:
-                      description: TypeMeta describes an individual object in an API
-                        response or request with strings representing the type of
-                        the object and its API schema version. Structures that are
-                        versioned or persisted should inline TypeMeta.
-                      properties:
-                        apiVersion:
-                          description: 'APIVersion defines the versioned schema of
-                            this representation of an object. Servers should convert
-                            recognized schemas to the latest internal value, and may
-                            reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
-                          type: string
-                        kind:
-                          description: 'Kind is a string value representing the REST
-                            resource this object represents. Servers may infer this
-                            from the endpoint the client submits requests to. Cannot
-                            be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
-                          type: string
-                      type: object
-                    targetLabelPath:
-                      description: 'default: metadata.labels'
-                      type: string
-                    type:
-                      enum:
-                      - MatchSelector
-                      - MatchName
-                      - MatchRef
-                      - OwnedBy
-                      type: string
-                  required:
-                  - labels
-                  - target
-                  - type
-                  type: object
-                type: array
+                        type: array
+                    type: object
+                required:
+                - actions
+                - displayMode
+                - kind
+                - query
+                - ref
+                - view
+                type: object
               pages:
                 items:
                   properties:
-                    name:
-                      type: string
-                    resources:
+                    blocks:
                       items:
                         properties:
                           actions:
@@ -227,6 +172,17 @@ spec:
                             enum:
                             - List
                             - Field
+                            type: string
+                          fieldPath:
+                            type: string
+                          kind:
+                            enum:
+                            - ResourceBlockDefinition
+                            - Self
+                            - SubTable
+                            - Connection
+                            type: string
+                          name:
                             type: string
                           query:
                             properties:
@@ -267,16 +223,323 @@ spec:
                             - group
                             - kind
                             type: object
+                          view:
+                            properties:
+                              columns:
+                                items:
+                                  description: ResourceColumnDefinition specifies
+                                    a column for server side printing.
+                                  properties:
+                                    description:
+                                      description: description is a human readable
+                                        description of this column.
+                                      type: string
+                                    format:
+                                      description: format is an optional OpenAPI type
+                                        definition for this column. The 'name' format
+                                        is applied to the primary identifier column
+                                        to assist in clients identifying column is
+                                        the resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                                        for more.
+                                      type: string
+                                    name:
+                                      description: name is a human readable name for
+                                        the column.
+                                      type: string
+                                    pathTemplate:
+                                      description: 'PathTemplate is a Go text template
+                                        that will be evaluated to determine cell value.
+                                        Users can use JSONPath expression to extract
+                                        nested fields and apply template functions
+                                        from Masterminds/sprig library. The template
+                                        function for JSON path is called `jp`. Example:
+                                        {{ jp "{.a.b}" . }} or {{ jp "{.a.b}" true
+                                        }}, if json output is desired from JSONPath
+                                        parser'
+                                      type: string
+                                    priority:
+                                      description: priority is an integer defining
+                                        the relative importance of this column compared
+                                        to others. Lower numbers are considered higher
+                                        priority. Columns that may be omitted in limited
+                                        space scenarios should be given a higher priority.
+                                      format: int32
+                                      type: integer
+                                    type:
+                                      description: type is an OpenAPI type definition
+                                        for this column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                                        for more.
+                                      type: string
+                                  required:
+                                  - name
+                                  - priority
+                                  - type
+                                  type: object
+                                type: array
+                            type: object
                         required:
                         - actions
                         - displayMode
+                        - kind
                         - query
                         - ref
+                        - view
                         type: object
                       type: array
+                    info:
+                      properties:
+                        actions:
+                          properties:
+                            create:
+                              type: string
+                          required:
+                          - create
+                          type: object
+                        displayMode:
+                          enum:
+                          - List
+                          - Field
+                          type: string
+                        fieldPath:
+                          type: string
+                        kind:
+                          enum:
+                          - ResourceBlockDefinition
+                          - Self
+                          - SubTable
+                          - Connection
+                          type: string
+                        name:
+                          type: string
+                        query:
+                          properties:
+                            byLabel:
+                              enum:
+                              - auth_via
+                              - backup_via
+                              - catalog
+                              - connect_via
+                              - exposed_by
+                              - monitored_by
+                              - offshoot
+                              - restore_into
+                              - scaled_by
+                              - view
+                              type: string
+                            raw:
+                              type: string
+                            type:
+                              enum:
+                              - REST
+                              - GraphQL
+                              type: string
+                          required:
+                          - type
+                          type: object
+                        ref:
+                          description: GroupKind specifies a Group and a Kind, but
+                            does not force a version.  This is useful for identifying
+                            concepts during lookup stages without having partially
+                            valid types
+                          properties:
+                            group:
+                              type: string
+                            kind:
+                              type: string
+                          required:
+                          - group
+                          - kind
+                          type: object
+                        view:
+                          properties:
+                            columns:
+                              items:
+                                description: ResourceColumnDefinition specifies a
+                                  column for server side printing.
+                                properties:
+                                  description:
+                                    description: description is a human readable description
+                                      of this column.
+                                    type: string
+                                  format:
+                                    description: format is an optional OpenAPI type
+                                      definition for this column. The 'name' format
+                                      is applied to the primary identifier column
+                                      to assist in clients identifying column is the
+                                      resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                                      for more.
+                                    type: string
+                                  name:
+                                    description: name is a human readable name for
+                                      the column.
+                                    type: string
+                                  pathTemplate:
+                                    description: 'PathTemplate is a Go text template
+                                      that will be evaluated to determine cell value.
+                                      Users can use JSONPath expression to extract
+                                      nested fields and apply template functions from
+                                      Masterminds/sprig library. The template function
+                                      for JSON path is called `jp`. Example: {{ jp
+                                      "{.a.b}" . }} or {{ jp "{.a.b}" true }}, if
+                                      json output is desired from JSONPath parser'
+                                    type: string
+                                  priority:
+                                    description: priority is an integer defining the
+                                      relative importance of this column compared
+                                      to others. Lower numbers are considered higher
+                                      priority. Columns that may be omitted in limited
+                                      space scenarios should be given a higher priority.
+                                    format: int32
+                                    type: integer
+                                  type:
+                                    description: type is an OpenAPI type definition
+                                      for this column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                                      for more.
+                                    type: string
+                                required:
+                                - name
+                                - priority
+                                - type
+                                type: object
+                              type: array
+                          type: object
+                      required:
+                      - actions
+                      - displayMode
+                      - kind
+                      - query
+                      - ref
+                      - view
+                      type: object
+                    insight:
+                      properties:
+                        actions:
+                          properties:
+                            create:
+                              type: string
+                          required:
+                          - create
+                          type: object
+                        displayMode:
+                          enum:
+                          - List
+                          - Field
+                          type: string
+                        fieldPath:
+                          type: string
+                        kind:
+                          enum:
+                          - ResourceBlockDefinition
+                          - Self
+                          - SubTable
+                          - Connection
+                          type: string
+                        name:
+                          type: string
+                        query:
+                          properties:
+                            byLabel:
+                              enum:
+                              - auth_via
+                              - backup_via
+                              - catalog
+                              - connect_via
+                              - exposed_by
+                              - monitored_by
+                              - offshoot
+                              - restore_into
+                              - scaled_by
+                              - view
+                              type: string
+                            raw:
+                              type: string
+                            type:
+                              enum:
+                              - REST
+                              - GraphQL
+                              type: string
+                          required:
+                          - type
+                          type: object
+                        ref:
+                          description: GroupKind specifies a Group and a Kind, but
+                            does not force a version.  This is useful for identifying
+                            concepts during lookup stages without having partially
+                            valid types
+                          properties:
+                            group:
+                              type: string
+                            kind:
+                              type: string
+                          required:
+                          - group
+                          - kind
+                          type: object
+                        view:
+                          properties:
+                            columns:
+                              items:
+                                description: ResourceColumnDefinition specifies a
+                                  column for server side printing.
+                                properties:
+                                  description:
+                                    description: description is a human readable description
+                                      of this column.
+                                    type: string
+                                  format:
+                                    description: format is an optional OpenAPI type
+                                      definition for this column. The 'name' format
+                                      is applied to the primary identifier column
+                                      to assist in clients identifying column is the
+                                      resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                                      for more.
+                                    type: string
+                                  name:
+                                    description: name is a human readable name for
+                                      the column.
+                                    type: string
+                                  pathTemplate:
+                                    description: 'PathTemplate is a Go text template
+                                      that will be evaluated to determine cell value.
+                                      Users can use JSONPath expression to extract
+                                      nested fields and apply template functions from
+                                      Masterminds/sprig library. The template function
+                                      for JSON path is called `jp`. Example: {{ jp
+                                      "{.a.b}" . }} or {{ jp "{.a.b}" true }}, if
+                                      json output is desired from JSONPath parser'
+                                    type: string
+                                  priority:
+                                    description: priority is an integer defining the
+                                      relative importance of this column compared
+                                      to others. Lower numbers are considered higher
+                                      priority. Columns that may be omitted in limited
+                                      space scenarios should be given a higher priority.
+                                    format: int32
+                                    type: integer
+                                  type:
+                                    description: type is an OpenAPI type definition
+                                      for this column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                                      for more.
+                                    type: string
+                                required:
+                                - name
+                                - priority
+                                - type
+                                type: object
+                              type: array
+                          type: object
+                      required:
+                      - actions
+                      - displayMode
+                      - kind
+                      - query
+                      - ref
+                      - view
+                      type: object
+                    name:
+                      type: string
                   required:
                   - name
-                  - resources
                   type: object
                 type: array
               resource:
@@ -306,85 +569,170 @@ spec:
                 - scope
                 - version
                 type: object
-              status:
+              tabBar:
                 properties:
-                  danger:
-                    items:
-                      type: string
-                    type: array
-                  success:
-                    items:
-                      type: string
-                    type: array
-                  warning:
-                    items:
-                      type: string
-                    type: array
+                  actions:
+                    properties:
+                      create:
+                        type: string
+                    required:
+                    - create
+                    type: object
+                  displayMode:
+                    enum:
+                    - List
+                    - Field
+                    type: string
+                  fieldPath:
+                    type: string
+                  kind:
+                    enum:
+                    - ResourceBlockDefinition
+                    - Self
+                    - SubTable
+                    - Connection
+                    type: string
+                  name:
+                    type: string
+                  query:
+                    properties:
+                      byLabel:
+                        enum:
+                        - auth_via
+                        - backup_via
+                        - catalog
+                        - connect_via
+                        - exposed_by
+                        - monitored_by
+                        - offshoot
+                        - restore_into
+                        - scaled_by
+                        - view
+                        type: string
+                      raw:
+                        type: string
+                      type:
+                        enum:
+                        - REST
+                        - GraphQL
+                        type: string
+                    required:
+                    - type
+                    type: object
+                  ref:
+                    description: GroupKind specifies a Group and a Kind, but does
+                      not force a version.  This is useful for identifying concepts
+                      during lookup stages without having partially valid types
+                    properties:
+                      group:
+                        type: string
+                      kind:
+                        type: string
+                    required:
+                    - group
+                    - kind
+                    type: object
+                  view:
+                    properties:
+                      columns:
+                        items:
+                          description: ResourceColumnDefinition specifies a column
+                            for server side printing.
+                          properties:
+                            description:
+                              description: description is a human readable description
+                                of this column.
+                              type: string
+                            format:
+                              description: format is an optional OpenAPI type definition
+                                for this column. The 'name' format is applied to the
+                                primary identifier column to assist in clients identifying
+                                column is the resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                                for more.
+                              type: string
+                            name:
+                              description: name is a human readable name for the column.
+                              type: string
+                            pathTemplate:
+                              description: 'PathTemplate is a Go text template that
+                                will be evaluated to determine cell value. Users can
+                                use JSONPath expression to extract nested fields and
+                                apply template functions from Masterminds/sprig library.
+                                The template function for JSON path is called `jp`.
+                                Example: {{ jp "{.a.b}" . }} or {{ jp "{.a.b}" true
+                                }}, if json output is desired from JSONPath parser'
+                              type: string
+                            priority:
+                              description: priority is an integer defining the relative
+                                importance of this column compared to others. Lower
+                                numbers are considered higher priority. Columns that
+                                may be omitted in limited space scenarios should be
+                                given a higher priority.
+                              format: int32
+                              type: integer
+                            type:
+                              description: type is an OpenAPI type definition for
+                                this column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
+                                for more.
+                              type: string
+                          required:
+                          - name
+                          - priority
+                          - type
+                          type: object
+                        type: array
+                    type: object
+                required:
+                - actions
+                - displayMode
+                - kind
+                - query
+                - ref
+                - view
                 type: object
-              subTables:
-                description: For array type fields of the resource
-                items:
-                  properties:
-                    columns:
-                      items:
-                        description: ResourceColumnDefinition specifies a column for
-                          server side printing.
-                        properties:
-                          description:
-                            description: description is a human readable description
-                              of this column.
-                            type: string
-                          format:
-                            description: format is an optional OpenAPI type definition
-                              for this column. The 'name' format is applied to the
-                              primary identifier column to assist in clients identifying
-                              column is the resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
-                              for more.
-                            type: string
-                          name:
-                            description: name is a human readable name for the column.
-                            type: string
-                          pathTemplate:
-                            description: 'PathTemplate is a Go text template that
-                              will be evaluated to determine cell value. Users can
-                              use JSONPath expression to extract nested fields and
-                              apply template functions from Masterminds/sprig library.
-                              The template function for JSON path is called `jp`.
-                              Example: {{ jp "{.a.b}" . }} or {{ jp "{.a.b}" true
-                              }}, if json output is desired from JSONPath parser'
-                            type: string
-                          priority:
-                            description: priority is an integer defining the relative
-                              importance of this column compared to others. Lower
-                              numbers are considered higher priority. Columns that
-                              may be omitted in limited space scenarios should be
-                              given a higher priority.
-                            format: int32
-                            type: integer
-                          type:
-                            description: type is an OpenAPI type definition for this
-                              column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
-                              for more.
-                            type: string
-                        required:
-                        - name
-                        - priority
-                        - type
-                        type: object
-                      type: array
-                    fieldPath:
+              ui:
+                properties:
+                  editor:
+                    description: ChartRepoRef references to a single version of a
+                      Chart
+                    properties:
+                      name:
+                        type: string
+                      url:
+                        type: string
+                      version:
+                        type: string
+                    required:
+                    - name
+                    - url
+                    - version
+                    type: object
+                  instanceLabelPaths:
+                    description: app.kubernetes.io/instance label must be updated
+                      at these paths when refilling metadata
+                    items:
                       type: string
-                    name:
-                      type: string
-                  required:
-                  - name
-                  type: object
-                type: array
+                    type: array
+                  options:
+                    description: ChartRepoRef references to a single version of a
+                      Chart
+                    properties:
+                      name:
+                        type: string
+                      url:
+                        type: string
+                      version:
+                        type: string
+                    required:
+                    - name
+                    - url
+                    - version
+                    type: object
+                type: object
             required:
+            - defaultLayout
             - resource
             type: object
         type: object
     served: true
     storage: true
-    subresources:
-      status: {}

@@ -1,0 +1,59 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: catalog.kubedb.com
+    k8s.io/kind: MySQLVersion
+    k8s.io/resource: mysqlversions
+    k8s.io/version: v1alpha1
+  name: catalog.kubedb.com-v1alpha1-mysqlversions
+spec:
+  defaultView: true
+  columns:
+  - name: Name
+    pathTemplate: '{{ .metadata.name }}'
+    priority: 3
+    type: string
+  - name: Labels
+    pathTemplate: '{{ .metadata.labels | toRawJson }}'
+    priority: 3
+    type: object
+  - name: Annotations
+    pathTemplate: '{{ .metadata.annotations | toRawJson }}'
+    priority: 1
+    type: object
+  - name: Version
+    pathTemplate: '{{ .spec.version }}'
+    priority: 3
+    type: string
+  - name: Distribution
+    pathTemplate: '{{ .spec.distribution }}'
+    priority: 3
+    type: string
+  - name: DB Image
+    pathTemplate: '{{ .spec.db.image }}'
+    priority: 3
+    type: string
+  - name: Deprecated
+    pathTemplate: '{{ .spec.deprecated }}'
+    priority: 3
+    type: string
+  - name: Backup Task
+    pathTemplate: '{{ .spec.stash.addon.backupTask.name }}'
+    priority: 3
+    type: string
+  - name: Restore Task
+    pathTemplate: '{{ .spec.stash.addon.restoreTask.name }}'
+    priority: 3
+    type: string
+  - name: Age
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
+    priority: 3
+    type: date
+  resource:
+    group: catalog.kubedb.com
+    kind: MySQLVersion
+    name: mysqlversions
+    scope: Cluster
+    version: v1alpha1

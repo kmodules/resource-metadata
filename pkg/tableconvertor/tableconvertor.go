@@ -22,6 +22,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"sync"
 	"text/template"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
@@ -41,6 +42,12 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
+var pool = sync.Pool{
+	New: func() interface{} {
+		return new(bytes.Buffer)
+	},
+}
+
 type TableConvertor interface {
 	ConvertToTable(ctx context.Context, object runtime.Object, tableOptions runtime.Object) (*v1alpha1.Table, error)
 }
@@ -50,7 +57,14 @@ type TableConvertor interface {
 func New(fieldPath string, columns []v1alpha1.ResourceColumnDefinition) (TableConvertor, error) {
 	c := &convertor{
 		fieldPath: fieldPath,
-		buf:       &bytes.Buffer{},
+	}
+	err := c.init(columns)
+	return c, err
+}
+
+func NewForList(fieldPath string, columns []v1alpha1.ResourceColumnDefinition) (TableConvertor, error) {
+	c := &convertor{
+		fieldPath: fieldPath,
 	}
 	err := c.init(filterColumns(columns, v1alpha1.List))
 	return c, err
@@ -62,15 +76,12 @@ func NewForGVR(r *hub.Registry, kc client.Client, gvr schema.GroupVersionResourc
 		return nil, err
 	}
 
-	c := &convertor{
-		buf: &bytes.Buffer{},
-	}
-	err = c.init(filterColumnsWithDefaults(kc, gvr, rd.Spec.Columns, priority))
+	c := &convertor{}
+	err = c.init(FilterColumnsWithDefaults(kc, gvr, rd.Spec.Columns, priority))
 	return c, err
 }
 
 type convertor struct {
-	buf       *bytes.Buffer
 	fieldPath string
 	headers   []v1alpha1.ResourceColumnDefinition
 }
@@ -86,7 +97,13 @@ func filterColumns(columns []v1alpha1.ResourceColumnDefinition, priority v1alpha
 	return out
 }
 
-func filterColumnsWithDefaults(kc client.Client, gvr schema.GroupVersionResource, columns []v1alpha1.ResourceColumnDefinition, priority v1alpha1.Priority) []v1alpha1.ResourceColumnDefinition {
+func FilterColumnsWithDefaults(
+	kc client.Client,
+	gvr schema.GroupVersionResource,
+	columns []v1alpha1.ResourceColumnDefinition,
+	priority v1alpha1.Priority,
+) []v1alpha1.ResourceColumnDefinition {
+
 	// columns are specified in resource description, so use those.
 	out := filterColumns(columns, priority)
 	if len(out) > 0 {
@@ -96,9 +113,9 @@ func filterColumnsWithDefaults(kc client.Client, gvr schema.GroupVersionResource
 	// generate column list by merging default columns + crd additional columns
 	var defaultColumns []v1alpha1.ResourceColumnDefinition
 	if priority == v1alpha1.List {
-		defaultColumns = defaultListColumns()
+		defaultColumns = DefaultListColumns()
 	} else {
-		defaultColumns = defaultDetailsColumns()
+		defaultColumns = DefaultDetailsColumns()
 	}
 	defaultJsonPaths := sets.NewString()
 	for _, col := range defaultColumns {
@@ -157,7 +174,7 @@ func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition) error {
 	return nil
 }
 
-func (c *convertor) rowFn(data interface{}) ([]interface{}, error) {
+func (c *convertor) rowFn(data interface{}) ([]v1alpha1.TableCell, error) {
 	knownCells := map[string]interface{}{}
 
 	if obj, ok := data.(runtime.Unstructured); ok {
@@ -169,15 +186,18 @@ func (c *convertor) rowFn(data interface{}) ([]interface{}, error) {
 		data = obj.UnstructuredContent()
 	}
 
-	cells := make([]interface{}, 0, len(c.headers))
+	buf := pool.Get().(*bytes.Buffer)
+	defer pool.Put(buf)
+
+	cells := make([]v1alpha1.TableCell, 0, len(c.headers))
 	for _, col := range c.headers {
 		if v, ok := knownCells[col.Name]; ok {
-			cells = append(cells, v)
+			cells = append(cells, v1alpha1.TableCell{Data: v})
 			continue
 		}
 
 		if col.PathTemplate == "" {
-			cells = append(cells, nil)
+			cells = append(cells, v1alpha1.TableCell{Data: nil})
 			continue
 		}
 
@@ -190,22 +210,22 @@ func (c *convertor) rowFn(data interface{}) ([]interface{}, error) {
 		// If printed, the result of the index operation is the string "<no value>".
 		// We mitigate that later.
 		tpl.Option("missingkey=default")
-		err = tpl.Execute(c.buf, data)
+		buf.Reset()
+		err = tpl.Execute(buf, data)
 		if err != nil {
 			klog.Infof("Failed to resolve template. Reason: %v", err)
 			return nil, fmt.Errorf("invalid column definition %q", col.PathTemplate)
 		}
-		v, err := cellForJSONValue(col.Name, col.Type, strings.ReplaceAll(c.buf.String(), "<no value>", ""))
+		v, err := cellForJSONValue(col.Name, col.Type, strings.ReplaceAll(buf.String(), "<no value>", ""))
 		if err != nil {
 			return nil, err
 		}
-		cells = append(cells, v)
-		c.buf.Reset()
+		cells = append(cells, v1alpha1.TableCell{Data: v})
 	}
 	return cells, nil
 }
 
-func (c *convertor) ConvertToTable(ctx context.Context, obj runtime.Object, tableOptions runtime.Object) (*v1alpha1.Table, error) {
+func (c *convertor) ConvertToTable(_ context.Context, obj runtime.Object, _ runtime.Object) (*v1alpha1.Table, error) {
 	table := &v1alpha1.Table{
 		ColumnDefinitions: make([]v1alpha1.ResourceColumnDefinition, 0, len(c.headers)),
 	}
@@ -317,7 +337,7 @@ func cellForJSONValue(colName, headerType string, value string) (interface{}, er
 
 // metaToTableRow converts a list or object into one or more table rows. The provided rowFn is invoked for
 // each accessed item, with name and age being passed to each.
-func metaToTableRow(obj runtime.Object, rowFn func(obj interface{}) ([]interface{}, error)) ([]v1alpha1.TableRow, error) {
+func metaToTableRow(obj runtime.Object, rowFn func(obj interface{}) ([]v1alpha1.TableCell, error)) ([]v1alpha1.TableRow, error) {
 	if meta.IsListType(obj) {
 		rows := make([]v1alpha1.TableRow, 0, 16)
 		err := meta.EachListItem(obj, func(obj runtime.Object) error {
@@ -345,7 +365,7 @@ func metaToTableRow(obj runtime.Object, rowFn func(obj interface{}) ([]interface
 	return rows, nil
 }
 
-func defaultListColumns() []v1alpha1.ResourceColumnDefinition {
+func DefaultListColumns() []v1alpha1.ResourceColumnDefinition {
 	return []v1alpha1.ResourceColumnDefinition{
 		{
 			Name:         "Name",
@@ -385,7 +405,7 @@ func defaultListColumns() []v1alpha1.ResourceColumnDefinition {
 	}
 }
 
-func defaultDetailsColumns() []v1alpha1.ResourceColumnDefinition {
+func DefaultDetailsColumns() []v1alpha1.ResourceColumnDefinition {
 	return []v1alpha1.ResourceColumnDefinition{
 		{
 			Name:         "Name",
