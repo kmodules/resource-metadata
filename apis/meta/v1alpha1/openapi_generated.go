@@ -14988,6 +14988,12 @@ func schema_resource_metadata_apis_meta_v1alpha1_PageBlockView(ref common.Refere
 							Ref: ref("kmodules.xyz/client-go/api/v1.ResourceID"),
 						},
 					},
+					"missing": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"boolean"},
+							Format: "",
+						},
+					},
 					"items": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},

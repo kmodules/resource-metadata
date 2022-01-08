@@ -44,6 +44,7 @@ type PageBlockView struct {
 	Actions ResourceActions `json:"actions"`
 
 	Resource *kmapi.ResourceID `json:"resource,omitempty"`
+	Missing  bool              `json:"missing,omitempty"`
 	// +optional
 	Items []unstructured.Unstructured `json:"items,omitempty"`
 	// +optional
