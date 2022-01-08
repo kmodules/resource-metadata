@@ -16,7 +16,7 @@ spec:
     name: mongodbschemaoverviews
     scope: Namespaced
     version: v1alpha1
-  columns:
+  columnDefinitions:
   - name: Name
     pathTemplate: '{{ .name }}'
     priority: 3

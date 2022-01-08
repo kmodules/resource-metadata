@@ -9,7 +9,7 @@ metadata:
     k8s.io/version: v1
   name: core-v1-tolerations
 spec:
-  columns:
+  columnDefinitions:
   - name: Effect
     pathTemplate: '{{ .effect }}'
     priority: 0

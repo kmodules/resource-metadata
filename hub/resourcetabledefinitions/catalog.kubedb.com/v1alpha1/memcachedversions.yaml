@@ -10,7 +10,7 @@ metadata:
   name: catalog.kubedb.com-v1alpha1-memcachedversions
 spec:
   defaultView: true
-  columns:
+  columnDefinitions:
   - name: Name
     pathTemplate: '{{ .metadata.name }}'
     priority: 3

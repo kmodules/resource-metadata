@@ -10,7 +10,7 @@ metadata:
   name: ops.kubedb.com-v1alpha1-etcdopsrequests
 spec:
   defaultView: true
-  columns:
+  columnDefinitions:
   - name: Name
     pathTemplate: '{{ .metadata.name }}'
     priority: 3

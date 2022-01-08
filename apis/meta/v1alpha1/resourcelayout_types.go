@@ -73,7 +73,7 @@ type PageBlockLayout struct {
 }
 
 type PageBlockTableDefinition struct {
-	Columns []ResourceColumnDefinition `json:"columns,omitempty"`
+	ColumnDefinitions []ResourceColumnDefinition `json:"columnDefinitions,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

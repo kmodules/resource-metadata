@@ -333,6 +333,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceClassInfo":           schema_resource_metadata_apis_meta_v1alpha1_ResourceClassInfo(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceClassList":           schema_resource_metadata_apis_meta_v1alpha1_ResourceClassList(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceClassSpec":           schema_resource_metadata_apis_meta_v1alpha1_ResourceClassSpec(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumn":              schema_resource_metadata_apis_meta_v1alpha1_ResourceColumn(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumnDefinition":    schema_resource_metadata_apis_meta_v1alpha1_ResourceColumnDefinition(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceConnection":          schema_resource_metadata_apis_meta_v1alpha1_ResourceConnection(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceConnectionSpec":      schema_resource_metadata_apis_meta_v1alpha1_ResourceConnectionSpec(ref),
@@ -14936,7 +14937,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_PageBlockTableDefinition(ref co
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
-					"columns": {
+					"columnDefinitions": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
 							Items: &spec.SchemaOrArray{
@@ -15952,6 +15953,42 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceClassSpec(ref common.Re
 	}
 }
 
+func schema_resource_metadata_apis_meta_v1alpha1_ResourceColumn(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Description: "name is a human readable name for the column.",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"type": {
+						SchemaProps: spec.SchemaProps{
+							Description: "type is an OpenAPI type definition for this column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types for more.",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"format": {
+						SchemaProps: spec.SchemaProps{
+							Description: "format is an optional OpenAPI type definition for this column. The 'name' format is applied to the primary identifier column to assist in clients identifying column is the resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types for more.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+				},
+				Required: []string{"name", "type"},
+			},
+		},
+	}
+}
+
 func schema_resource_metadata_apis_meta_v1alpha1_ResourceColumnDefinition(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -15991,7 +16028,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceColumnDefinition(ref co
 					},
 					"priority": {
 						SchemaProps: spec.SchemaProps{
-							Description: "priority is an integer defining the relative importance of this column compared to others. Lower numbers are considered higher priority. Columns that may be omitted in limited space scenarios should be given a higher priority.",
+							Description: "priority is an integer defining the relative importance of this column compared to others. Lower numbers are considered higher priority. ColumnDefinitions that may be omitted in limited space scenarios should be given a higher priority.",
 							Default:     0,
 							Type:        []string{"integer"},
 							Format:      "int32",
@@ -16276,7 +16313,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceDescriptorSpec(ref comm
 							Ref:     ref("kmodules.xyz/client-go/api/v1.ResourceID"),
 						},
 					},
-					"columns": {
+					"columnDefinitions": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
 							Items: &spec.SchemaOrArray{
@@ -17082,7 +17119,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceSubTableDefinition(ref 
 							Format: "",
 						},
 					},
-					"columns": {
+					"columnDefinitions": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
 							Items: &spec.SchemaOrArray{
@@ -17203,7 +17240,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceTableDefinitionRef(ref 
 							Format: "",
 						},
 					},
-					"columns": {
+					"columnDefinitions": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
 							Items: &spec.SchemaOrArray{
@@ -17242,7 +17279,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceTableDefinitionSpec(ref
 							Format:  "",
 						},
 					},
-					"columns": {
+					"columnDefinitions": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
 							Items: &spec.SchemaOrArray{
@@ -17388,15 +17425,15 @@ func schema_resource_metadata_apis_meta_v1alpha1_SubTable(ref common.ReferenceCa
 							Format:      "",
 						},
 					},
-					"columnDefinitions": {
+					"columns": {
 						SchemaProps: spec.SchemaProps{
-							Description: "columnDefinitions describes each column in the returned items array. The number of cells per row will always match the number of column definitions.",
+							Description: "columns describes each column in the returned items array. The number of cells per row will always match the number of column definitions.",
 							Type:        []string{"array"},
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumnDefinition"),
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumn"),
 									},
 								},
 							},
@@ -17417,11 +17454,11 @@ func schema_resource_metadata_apis_meta_v1alpha1_SubTable(ref common.ReferenceCa
 						},
 					},
 				},
-				Required: []string{"name", "columnDefinitions", "rows"},
+				Required: []string{"name", "columns", "rows"},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumnDefinition", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TableRow"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumn", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TableRow"},
 	}
 }
 
@@ -17452,15 +17489,15 @@ func schema_resource_metadata_apis_meta_v1alpha1_Table(ref common.ReferenceCallb
 							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"),
 						},
 					},
-					"columnDefinitions": {
+					"columns": {
 						SchemaProps: spec.SchemaProps{
-							Description: "columnDefinitions describes each column in the returned items array. The number of cells per row will always match the number of column definitions.",
+							Description: "columns describes each column in the returned items array. The number of cells per row will always match the number of column definitions.",
 							Type:        []string{"array"},
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumnDefinition"),
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumn"),
 									},
 								},
 							},
@@ -17494,11 +17531,11 @@ func schema_resource_metadata_apis_meta_v1alpha1_Table(ref common.ReferenceCallb
 						},
 					},
 				},
-				Required: []string{"columnDefinitions", "rows"},
+				Required: []string{"columns", "rows"},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumnDefinition", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.SubTable", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TableRow"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumn", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.SubTable", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TableRow"},
 	}
 }
 

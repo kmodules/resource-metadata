@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   name: kmodules.xyz-v1-conditions
 spec:
-  columns:
+  columnDefinitions:
   - name: Type
     pathTemplate: '{{ .type }}'
     priority: 0
