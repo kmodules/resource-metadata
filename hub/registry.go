@@ -283,7 +283,7 @@ func (r *Registry) createRegistry(cfg *rest.Config) (map[schema.GroupResource]sc
 
 func (r *Registry) Visit(f func(key string, val *v1alpha1.ResourceDescriptor)) {
 	for _, gvr := range r.Resources() {
-		key := r.filename(gvr)
+		key := resourcedescriptors.GetName(gvr)
 		if rd, ok := r.cache.Get(key); ok {
 			f(key, rd)
 		}
@@ -441,7 +441,7 @@ func (r *Registry) Kinds() []schema.GroupVersionKind {
 }
 
 func (r *Registry) LoadByGVR(gvr schema.GroupVersionResource) (*v1alpha1.ResourceDescriptor, error) {
-	return r.LoadByFile(r.filename(gvr))
+	return r.LoadByFile(resourcedescriptors.GetName(gvr))
 }
 
 func (r *Registry) LoadByGVK(gvk schema.GroupVersionKind) (*v1alpha1.ResourceDescriptor, error) {
@@ -449,14 +449,7 @@ func (r *Registry) LoadByGVK(gvk schema.GroupVersionKind) (*v1alpha1.ResourceDes
 	if err != nil {
 		return nil, err
 	}
-	return r.LoadByFile(r.filename(gvr))
-}
-
-func (r *Registry) filename(gvr schema.GroupVersionResource) string {
-	if gvr.Group == "" && gvr.Version == "v1" {
-		return fmt.Sprintf("core/v1/%s.yaml", gvr.Resource)
-	}
-	return fmt.Sprintf("%s/%s/%s.yaml", gvr.Group, gvr.Version, gvr.Resource)
+	return r.LoadByFile(resourcedescriptors.GetName(gvr))
 }
 
 func (r *Registry) LoadByName(name string) (*v1alpha1.ResourceDescriptor, error) {
