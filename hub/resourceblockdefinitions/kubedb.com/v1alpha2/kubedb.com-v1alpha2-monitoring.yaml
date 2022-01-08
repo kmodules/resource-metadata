@@ -1,0 +1,48 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceBlockDefinition
+metadata:
+  creationTimestamp: null
+  name: kubedb.com-v1alpha2-monitoring
+spec:
+  name: Monitoring
+  blocks:
+  - actions:
+      create: IfEmpty
+    displayMode: List
+    kind: Connection
+    query:
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            exposed_by(group: "", kind: "Service") {
+              refs: monitored_by(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+          }
+        }
+      type: GraphQL
+    ref:
+      group: monitoring.coreos.com
+      kind: ServiceMonitor
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    query:
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            exposed_by(group: "", kind: "Service") {
+              refs: monitored_by(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+          }
+        }
+      type: GraphQL
+    ref:
+      group: monitoring.coreos.com
+      kind: Prometheus

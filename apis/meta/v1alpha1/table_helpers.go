@@ -18,18 +18,15 @@ package v1alpha1
 
 import "k8s.io/apimachinery/pkg/runtime"
 
-func (in *TableRow) DeepCopy() *TableRow {
+func (in *TableCell) DeepCopy() *TableCell {
 	if in == nil {
 		return nil
 	}
 
-	out := new(TableRow)
+	out := new(TableCell)
 
-	if in.Cells != nil {
-		out.Cells = make([]interface{}, len(in.Cells))
-		for i := range in.Cells {
-			out.Cells[i] = runtime.DeepCopyJSONValue(in.Cells[i])
-		}
+	if in.Data != nil {
+		out.Data = runtime.DeepCopyJSONValue(in.Data)
 	}
 
 	return out

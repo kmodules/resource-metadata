@@ -1,0 +1,71 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: kubedb.com
+    k8s.io/kind: RedisSentinel
+    k8s.io/resource: redissentinels
+    k8s.io/version: v1alpha2
+  name: kubedb.com-v1alpha2-redissentinels
+spec:
+  defaultView: true
+  columns:
+  - name: Name
+    pathTemplate: '{{ .metadata.name }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ .metadata.namespace }}'
+    priority: 3
+    type: string
+  - name: Labels
+    pathTemplate: '{{ .metadata.labels | toRawJson }}'
+    priority: 3
+    type: object
+  - name: Annotations
+    pathTemplate: '{{ .metadata.annotations | toRawJson }}'
+    priority: 1
+    type: object
+  - name: Version
+    pathTemplate: '{{ .spec.version }}'
+    priority: 3
+    type: string
+  - name: Mode
+    pathTemplate: '{{ k8s_resource_mode . }}'
+    priority: 3
+    type: string
+  - name: Replicas
+    pathTemplate: '{{ k8s_resource_replicas_by_roles . | toRawJson }}'
+    priority: 3
+    type: string
+  - name: Phase
+    pathTemplate: '{{ .status.phase }}'
+    priority: 3
+    type: string
+  - name: Total Resources
+    pathTemplate: '{{ k8s_total_resource_limits . | toRawJson }}'
+    priority: 3
+    type: object
+  - name: Auth Secret
+    pathTemplate: '{{ .spec.authSecret.name }}'
+    priority: 1
+    type: string
+  - name: Termination Policy
+    pathTemplate: '{{ .spec.terminationPolicy }}'
+    priority: 3
+    type: string
+  - name: Halted
+    pathTemplate: '{{ .spec.halted }}'
+    priority: 1
+    type: string
+  - name: Age
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
+    priority: 3
+    type: date
+  resource:
+    group: kubedb.com
+    kind: RedisSentinel
+    name: redissentinels
+    scope: Namespaced
+    version: v1alpha2

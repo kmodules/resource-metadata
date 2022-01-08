@@ -49,7 +49,7 @@ func TestRegister(t *testing.T) {
 	assert.NoError(t, reg.Register(gvr, config))
 	rd1, err := resourcedescriptors.LoadByGVR(gvr)
 	assert.NoError(t, err)
-	rd2, err := resourcedescriptors.LoadByFile("monitoring.coreos.com/v1/prometheuses.yaml")
+	rd2, err := resourcedescriptors.LoadByName("monitoring.coreos.com-v1-prometheuses")
 	assert.NoError(t, err)
 	assert.Equal(t, rd1, rd2)
 }

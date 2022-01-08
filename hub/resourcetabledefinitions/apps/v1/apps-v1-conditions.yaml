@@ -1,0 +1,31 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  name: apps-v1-conditions
+spec:
+  columns:
+  - name: Type
+    pathTemplate: '{{ .type }}'
+    priority: 0
+    type: string
+  - name: Status
+    pathTemplate: '{{ .status }}'
+    priority: 0
+    type: string
+  - name: Reason
+    pathTemplate: '{{ .reason }}'
+    priority: 0
+    type: string
+  - name: Last Transition Time
+    pathTemplate: '{{ .lastTransitionTime }}'
+    priority: 0
+    type: date
+  - name: Last Update Time
+    pathTemplate: '{{ .lastUpdateTime }}'
+    priority: 0
+    type: date
+  - name: Message
+    pathTemplate: '{{ .message }}'
+    priority: 0
+    type: string

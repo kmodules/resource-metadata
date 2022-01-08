@@ -1,0 +1,51 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ""
+    k8s.io/kind: Event
+    k8s.io/resource: events
+    k8s.io/version: v1
+  name: core-v1-events
+spec:
+  defaultView: true
+  columns:
+  - name: Type
+    pathTemplate: '{{ .type }}'
+    priority: 3
+    type: string
+  - name: Reason
+    pathTemplate: '{{ .reason }}'
+    priority: 3
+    type: string
+  - name: Source
+    pathTemplate: '{{ .source.component }}'
+    priority: 3
+    type: string
+  - name: Involved Object
+    pathTemplate: '{{ .involvedObject.kind }}/{{ .involvedObject.name }}'
+    priority: 3
+    type: string
+  - name: Count
+    pathTemplate: '{{ .count }}'
+    priority: 3
+    type: string
+  - name: First Seen
+    pathTemplate: '{{ .firstTimestamp }}'
+    priority: 0
+    type: date
+  - name: Last Seen
+    pathTemplate: '{{ .firstTimestamp }}'
+    priority: 0
+    type: date
+  - name: Message
+    pathTemplate: '{{ .message }}'
+    priority: 0
+    type: string
+  resource:
+    group: ""
+    kind: Event
+    name: events
+    scope: Namespaced
+    version: v1

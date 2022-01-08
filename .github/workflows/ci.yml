@@ -7,6 +7,12 @@ on:
   push:
     branches:
       - master
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+concurrency:
+  group: '${{ github.head_ref || github.ref }}'
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -27,7 +33,7 @@ jobs:
         with:
           version: v0.11.1
           config: hack/kubernetes/kind.yaml
-          image: kindest/node:v1.18.4
+          image: kindest/node:v1.23.1
 
       - name: Prepare host
         run: |

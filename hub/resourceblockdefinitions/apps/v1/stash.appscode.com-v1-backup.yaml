@@ -1,0 +1,98 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceBlockDefinition
+metadata:
+  creationTimestamp: null
+  name: stash.appscode.com-v1-backup
+spec:
+  name: Backups
+  blocks:
+  - actions:
+      create: IfEmpty
+    displayMode: List
+    kind: Connection
+    query:
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+              refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+          }
+        }
+      type: GraphQL
+    ref:
+      group: stash.appscode.com
+      kind: Repository
+  - actions:
+      create: IfEmpty
+    displayMode: List
+    kind: Connection
+    query:
+      byLabel: backup_via
+      type: GraphQL
+    ref:
+      group: stash.appscode.com
+      kind: BackupConfiguration
+  - actions:
+      create: Always
+    displayMode: List
+    kind: Connection
+    query:
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+              refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+          }
+        }
+      type: GraphQL
+    ref:
+      group: stash.appscode.com
+      kind: BackupSession
+  - actions:
+      create: Always
+    displayMode: List
+    kind: Connection
+    query:
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+              refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+          }
+        }
+      type: GraphQL
+    ref:
+      group: stash.appscode.com
+      kind: RestoreSession
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    query:
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+              refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+          }
+        }
+      type: GraphQL
+    ref:
+      group: batch
+      kind: CronJob

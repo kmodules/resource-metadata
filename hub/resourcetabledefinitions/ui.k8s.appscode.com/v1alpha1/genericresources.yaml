@@ -1,0 +1,47 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ui.k8s.appscode.com
+    k8s.io/kind: GenericResource
+    k8s.io/resource: genericresources
+    k8s.io/version: v1alpha1
+  name: ui.k8s.appscode.com-v1alpha1-genericresources
+spec:
+  defaultView: true
+  columns:
+  - name: Name
+    pathTemplate: '{{ .metadata.name }}'
+    priority: 3
+    type: string
+  - name: Type
+    pathTemplate: '{{ .spec.apiType.kind }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ .metadata.namespace }}'
+    priority: 3
+    type: string
+  - name: vCPU(Request/Limit)
+    pathTemplate: '{{ .spec.totalResource.requests.cpu | k8s_fmt_resource_cpu}} / {{ .spec.totalResource.limits.cpu | k8s_fmt_resource_cpu}}'
+    priority: 3
+    type: string
+  - name: Memory(Request/Limit)
+    pathTemplate: '{{ .spec.totalResource.requests.memory | k8s_fmt_resource_memory}} / {{ .spec.totalResource.limits.memory | k8s_fmt_resource_memory}}'
+    priority: 3
+    type: string
+  - name: Storage(Request/Limit)
+    pathTemplate: '{{ .spec.totalResource.requests.storage | k8s_fmt_resource_memory}} / {{ .spec.totalResource.limits.storage | k8s_fmt_resource_memory}}'
+    priority: 3
+    type: string
+  - name: Status
+    pathTemplate: '{{ .status.phase }}'
+    priority: 3
+    type: string
+  resource:
+    group: ui.k8s.appscode.com
+    kind: GenericResource
+    name: genericresources
+    scope: Namespaced
+    version: v1alpha1

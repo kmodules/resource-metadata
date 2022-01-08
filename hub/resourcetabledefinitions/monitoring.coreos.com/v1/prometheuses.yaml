@@ -1,0 +1,67 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: monitoring.coreos.com
+    k8s.io/kind: Prometheus
+    k8s.io/resource: prometheuses
+    k8s.io/version: v1
+  name: monitoring.coreos.com-v1-prometheuses
+spec:
+  defaultView: true
+  columns:
+  - name: Name
+    pathTemplate: '{{ .metadata.name }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ .metadata.namespace }}'
+    priority: 3
+    type: string
+  - name: Labels
+    pathTemplate: '{{ .metadata.labels | toRawJson }}'
+    priority: 3
+    type: object
+  - name: Annotations
+    pathTemplate: '{{ .metadata.annotations | toRawJson }}'
+    priority: 1
+    type: object
+  - name: Retention
+    pathTemplate: '{{ .spec.retention }}'
+    priority: 1
+    type: string
+  - name: Scrape Interval
+    pathTemplate: '{{ .spec.scrapeInterval }}'
+    priority: 3
+    type: string
+  - name: Scrape Timeout
+    pathTemplate: '{{ .spec.scrapeTimeout }}'
+    priority: 3
+    type: string
+  - name: Evaluation Interval
+    pathTemplate: '{{ .spec.evaluationInterval }}'
+    priority: 3
+    type: string
+  - name: Admin API
+    pathTemplate: '{{ .spec.enableAdminAPI }}'
+    priority: 3
+    type: string
+  - name: Storage
+    pathTemplate: '{{ .spec.storage.volumeClaimTemplate.resources.requests.storage }}'
+    priority: 3
+    type: string
+  - name: Paused
+    pathTemplate: '{{ .spec.paused }}'
+    priority: 3
+    type: string
+  - name: Age
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
+    priority: 3
+    type: date
+  resource:
+    group: monitoring.coreos.com
+    kind: Prometheus
+    name: prometheuses
+    scope: Namespaced
+    version: v1

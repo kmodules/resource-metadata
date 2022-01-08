@@ -1,0 +1,84 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceBlockDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ""
+    k8s.io/kind: Pod
+    k8s.io/resource: pods
+    k8s.io/version: v1
+  name: core-v1-pods
+spec:
+  name: Basic
+  blocks:
+  - fieldPath: .spec.containers
+    name: Containers
+    kind: SubTable
+    view:
+      name: core-v1-containers
+  - fieldPath: .spec.initContainers
+    name: Init-Containers
+    kind: SubTable
+    view:
+      name: core-v1-containers
+  - fieldPath: .spec.tolerations
+    name: Tolerations
+    kind: SubTable
+    view:
+      name: core-v1-tolerations
+  - fieldPath: .status.conditions
+    name: Conditions
+    kind: SubTable
+    view:
+      name: apps-v1-conditions
+  - fieldPath: .metadata.ownerReferences
+    name: Owners
+    kind: SubTable
+    view:
+      name: meta-v1-ownerreferences
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: ""
+      kind: Service
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: ""
+      kind: Secret
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: ""
+      kind: ConfigMap
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: ""
+      kind: PersistentVolumeClaim
+  resource:
+    group: ""
+    kind: Pod
+    name: pods
+    scope: Namespaced
+    version: v1
