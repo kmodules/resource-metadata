@@ -143,7 +143,7 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 	result.Spec.Pages = make([]v1alpha1.ResourcePageLayout, 0, len(outline.Spec.Pages))
 
 	pages := outline.Spec.Pages
-	if len(outline.Spec.Pages) == 0 || outline.Spec.Pages[1].Name != "Basic" {
+	if len(outline.Spec.Pages) == 0 || outline.Spec.Pages[0].Name != "Basic" {
 		pages = append([]v1alpha1.ResourcePageOutline{
 			{
 				Name: "Basic",
