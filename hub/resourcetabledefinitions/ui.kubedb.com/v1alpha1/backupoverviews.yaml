@@ -10,7 +10,7 @@ metadata:
   name: ui.kubedb.com-v1alpha1-backupoverviews
 spec:
   defaultView: true
-  columns:
+  columnDefinitions:
   - name: Schedule
     pathTemplate: '{{ .spec.schedule }}'
     priority: 3

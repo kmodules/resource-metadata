@@ -10,7 +10,7 @@ metadata:
   name: batch-v1beta1-cronjobs
 spec:
   defaultView: true
-  columns:
+  columnDefinitions:
   - name: Name
     pathTemplate: '{{ .metadata.name }}'
     priority: 3

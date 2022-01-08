@@ -10,7 +10,7 @@ metadata:
   name: core-v1-events
 spec:
   defaultView: true
-  columns:
+  columnDefinitions:
   - name: Type
     pathTemplate: '{{ .type }}'
     priority: 3

@@ -10,7 +10,7 @@ metadata:
   name: appcatalog.appscode.com-v1alpha1-appbindings
 spec:
   defaultView: true
-  columns:
+  columnDefinitions:
   - name: Name
     pathTemplate: '{{ .metadata.name }}'
     priority: 3

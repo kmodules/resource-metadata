@@ -247,13 +247,13 @@ func Convert_PageBlockOutline_To_PageBlockLayout(
 	priority v1alpha1.Priority,
 ) (v1alpha1.PageBlockLayout, error) {
 
-	columns := in.View.Columns
+	columns := in.View.ColumnDefinitions
 	if in.View.Name != "" {
 		obj, err := tabledefs.LoadByName(in.View.Name)
 		if err != nil {
 			return v1alpha1.PageBlockLayout{}, err
 		}
-		columns = obj.Spec.Columns
+		columns = obj.Spec.ColumnDefinitions
 	}
 
 	if in.Kind == v1alpha1.TableKindSubTable && len(columns) == 0 {
@@ -261,7 +261,7 @@ func Convert_PageBlockOutline_To_PageBlockLayout(
 	}
 	if in.Kind == v1alpha1.TableKindConnection && len(columns) == 0 {
 		if rv, ok := tabledefs.DefaultTableDefinitionForGVK(rid.GroupVersionKind()); ok {
-			columns = rv.Spec.Columns
+			columns = rv.Spec.ColumnDefinitions
 		}
 	}
 
@@ -286,7 +286,7 @@ func Convert_PageBlockOutline_To_PageBlockLayout(
 		DisplayMode:     in.DisplayMode,
 		Actions:         in.Actions,
 		View: v1alpha1.PageBlockTableDefinition{
-			Columns: columns,
+			ColumnDefinitions: columns,
 		},
 	}, nil
 }

@@ -10,7 +10,7 @@ metadata:
   name: stash.appscode.com-v1beta1-backupsessions
 spec:
   defaultView: true
-  columns:
+  columnDefinitions:
   - name: Name
     pathTemplate: '{{ .metadata.name }}'
     priority: 3

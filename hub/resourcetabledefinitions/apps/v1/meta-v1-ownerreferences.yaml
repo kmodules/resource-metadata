@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   name: meta-v1-ownerreferences
 spec:
-  columns:
+  columnDefinitions:
   - name: API Version
     pathTemplate: '{{ .apiVersion }}'
     priority: 0

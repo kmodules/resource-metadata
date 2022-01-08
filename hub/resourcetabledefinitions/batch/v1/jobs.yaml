@@ -10,7 +10,7 @@ metadata:
   name: batch-v1-jobs
 spec:
   defaultView: true
-  columns:
+  columnDefinitions:
   - name: Name
     pathTemplate: '{{ .metadata.name }}'
     priority: 3

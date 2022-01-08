@@ -48,8 +48,8 @@ type ResourceDescriptor struct {
 }
 
 type ResourceDescriptorSpec struct {
-	Resource kmapi.ResourceID           `json:"resource"`
-	Columns  []ResourceColumnDefinition `json:"columns,omitempty"`
+	Resource          kmapi.ResourceID           `json:"resource"`
+	ColumnDefinitions []ResourceColumnDefinition `json:"columnDefinitions,omitempty"`
 	// For array type fields of the resource
 	SubTables   []ResourceSubTableDefinition `json:"subTables,omitempty"`
 	Connections []ResourceConnection         `json:"connections,omitempty"`
@@ -223,21 +223,12 @@ const (
 
 // ResourceColumnDefinition specifies a column for server side printing.
 type ResourceColumnDefinition struct {
-	// name is a human readable name for the column.
-	Name string `json:"name"`
-	// type is an OpenAPI type definition for this column.
-	// See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types for more.
-	Type string `json:"type"`
-	// format is an optional OpenAPI type definition for this column. The 'name' format is applied
-	// to the primary identifier column to assist in clients identifying column is the resource name.
-	// See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types for more.
-	// +optional
-	Format string `json:"format,omitempty"`
+	ResourceColumn `json:",inline"`
 	// description is a human readable description of this column.
 	// +optional
 	Description string `json:"description,omitempty"`
 	// priority is an integer defining the relative importance of this column compared to others. Lower
-	// numbers are considered higher priority. Columns that may be omitted in limited space scenarios
+	// numbers are considered higher priority. ColumnDefinitions that may be omitted in limited space scenarios
 	// should be given a higher priority.
 	Priority int32 `json:"priority"`
 	// PathTemplate is a Go text template that will be evaluated to determine cell value.
@@ -248,10 +239,23 @@ type ResourceColumnDefinition struct {
 	PathTemplate string `json:"pathTemplate,omitempty"`
 }
 
+type ResourceColumn struct {
+	// name is a human readable name for the column.
+	Name string `json:"name"`
+	// type is an OpenAPI type definition for this column.
+	// See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types for more.
+	Type string `json:"type"`
+	// format is an optional OpenAPI type definition for this column. The 'name' format is applied
+	// to the primary identifier column to assist in clients identifying column is the resource name.
+	// See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types for more.
+	// +optional
+	Format string `json:"format,omitempty"`
+}
+
 type ResourceSubTableDefinition struct {
-	Name      string                     `json:"name"`
-	FieldPath string                     `json:"fieldPath,omitempty"`
-	Columns   []ResourceColumnDefinition `json:"columns,omitempty"`
+	Name              string                     `json:"name"`
+	FieldPath         string                     `json:"fieldPath,omitempty"`
+	ColumnDefinitions []ResourceColumnDefinition `json:"columnDefinitions,omitempty"`
 }
 
 // ImageSpec contains information about an image used as an icon.
