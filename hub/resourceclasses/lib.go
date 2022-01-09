@@ -40,7 +40,7 @@ func FS() embed.FS {
 }
 
 var (
-	KnownClasses = map[string]*v1alpha1.ResourceClass{}
+	KnownClasses = map[string][string]*v1alpha1.ResourceClass{}
 )
 
 func init() {
@@ -106,5 +106,4 @@ func LoadByName(name string) (*v1alpha1.ResourceClass, error) {
 		return obj, nil
 	}
 	return nil, apierrors.NewNotFound(v1alpha1.Resource(v1alpha1.ResourceKindResourceClass), name)
-
 }
