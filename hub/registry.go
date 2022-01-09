@@ -437,20 +437,20 @@ func (r *Registry) LoadByFile(filename string) (*v1alpha1.ResourceDescriptor, er
 	return obj, nil
 }
 
-func (r *Registry) CompleteResourcePanel() (*v1alpha1.ResourcePanel, error) {
-	return r.createResourcePanel(true)
+func (r *Registry) CompleteResourcePanel(namespace resourceclasses.UINamespace) (*v1alpha1.ResourcePanel, error) {
+	return r.createResourcePanel(namespace, true)
 }
 
-func (r *Registry) DefaultResourcePanel() (*v1alpha1.ResourcePanel, error) {
-	return r.createResourcePanel(false)
+func (r *Registry) DefaultResourcePanel(namespace resourceclasses.UINamespace) (*v1alpha1.ResourcePanel, error) {
+	return r.createResourcePanel(namespace, false)
 }
 
-func (r *Registry) createResourcePanel(keepOfficialTypes bool) (*v1alpha1.ResourcePanel, error) {
+func (r *Registry) createResourcePanel(namespace resourceclasses.UINamespace, keepOfficialTypes bool) (*v1alpha1.ResourcePanel, error) {
 	sections := make(map[string]*v1alpha1.PanelSection)
 	existingGRs := map[schema.GroupResource]bool{}
 
 	// first add the known required sections
-	for group, rc := range resourceclasses.KnownClasses {
+	for group, rc := range resourceclasses.KnownClasses[namespace] {
 		if !rc.IsRequired() && "Helm 3" != rc.Name {
 			continue
 		}
@@ -505,7 +505,7 @@ func (r *Registry) createResourcePanel(keepOfficialTypes bool) (*v1alpha1.Resour
 
 		section, found := sections[rd.Spec.Resource.Group]
 		if !found {
-			if rc, found := resourceclasses.KnownClasses[rd.Spec.Resource.Group]; found {
+			if rc, found := resourceclasses.KnownClasses[namespace][rd.Spec.Resource.Group]; found {
 				w := math.MaxInt16
 				if rc.Spec.Weight > 0 {
 					w = rc.Spec.Weight
