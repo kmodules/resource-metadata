@@ -35,3 +35,27 @@ func (in *TableCell) DeepCopy() *TableCell {
 	out.Color = in.Color
 	return out
 }
+
+func Convert_ResourceColumnDefinition_To_ResourceColumn(def ResourceColumnDefinition) ResourceColumn {
+	col := ResourceColumn{
+		Name:   def.Name,
+		Type:   def.Type,
+		Format: def.Format,
+	}
+	if def.Sort != nil && def.Sort.Enable {
+		col.Sort = true
+	}
+	if def.Link != nil && def.Link.Enable {
+		col.Link = true
+	}
+	if def.Icon != nil && def.Icon.Enable {
+		col.Icon = true
+	}
+	if def.Shape != "" {
+		col.Shape = def.Shape
+	}
+	if def.Color != nil && def.Color.Color != "" {
+		col.Color = def.Color.Color
+	}
+	return col
+}

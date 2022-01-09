@@ -174,27 +174,17 @@ func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition) error {
 	return nil
 }
 
-func (c *convertor) rowFn(data interface{}) ([]v1alpha1.TableCell, error) {
-	// knownCells := map[string]interface{}{}
-
-	//if obj, ok := data.(runtime.Unstructured); ok {
-	//	var err error
-	//	knownCells, err = printers.Convert(obj)
-	//	if err != nil {
-	//		return nil, err
-	//	}
-	//	data = obj.UnstructuredContent()
-	//}
+func (c *convertor) rowFn(obj interface{}) ([]v1alpha1.TableCell, error) {
+	data := obj
+	if o, ok := obj.(runtime.Unstructured); ok {
+		data = o.UnstructuredContent()
+	}
 
 	buf := pool.Get().(*bytes.Buffer)
 	defer pool.Put(buf)
 
 	cells := make([]v1alpha1.TableCell, 0, len(c.headers))
 	for _, col := range c.headers {
-		//if v, ok := knownCells[col.Name]; ok {
-		//	cells = append(cells, v1alpha1.TableCell{Data: v})
-		//	continue
-		//}
 
 		var cell v1alpha1.TableCell
 		{
@@ -293,26 +283,7 @@ func (c *convertor) ConvertToTable(_ context.Context, obj runtime.Object, _ runt
 	}
 
 	for _, def := range c.headers {
-		col := v1alpha1.ResourceColumn{
-			Name:   def.Name,
-			Type:   def.Type,
-			Format: def.Format,
-		}
-		if def.Sort != nil && def.Sort.Enable {
-			col.Sort = true
-		}
-		if def.Link != nil && def.Link.Enable {
-			col.Link = true
-		}
-		if def.Icon != nil && def.Icon.Enable {
-			col.Icon = true
-		}
-		if def.Shape != "" {
-			col.Shape = def.Shape
-		}
-		if def.Color != nil && def.Color.Color != "" {
-			col.Color = def.Color.Color
-		}
+		col := v1alpha1.Convert_ResourceColumnDefinition_To_ResourceColumn(def)
 		table.Columns = append(table.Columns, col)
 	}
 
