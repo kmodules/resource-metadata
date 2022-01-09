@@ -155,22 +155,7 @@ func FilterColumnsWithDefaults(
 }
 
 func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition) error {
-	for _, col := range columns {
-
-		//desc := fmt.Sprintf("Custom resource definition column (in JSONPath format): %s", col.JSONPath)
-		//if len(col.Description) > 0 {
-		//	desc = col.Description
-		//}
-
-		c.headers = append(c.headers, v1alpha1.ResourceColumnDefinition{
-			Name:         col.Name,
-			Type:         col.Type,
-			Format:       col.Format,
-			Description:  col.Description,
-			Priority:     col.Priority,
-			PathTemplate: col.PathTemplate,
-		})
-	}
+	c.headers = append(c.headers, columns...)
 	return nil
 }
 
@@ -283,8 +268,7 @@ func (c *convertor) ConvertToTable(_ context.Context, obj runtime.Object, _ runt
 	}
 
 	for _, def := range c.headers {
-		col := v1alpha1.Convert_ResourceColumnDefinition_To_ResourceColumn(def)
-		table.Columns = append(table.Columns, col)
+		table.Columns = append(table.Columns, v1alpha1.Convert_ResourceColumnDefinition_To_ResourceColumn(def))
 	}
 
 	if m, err := meta.ListAccessor(obj); err == nil {
