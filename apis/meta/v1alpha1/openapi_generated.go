@@ -14533,14 +14533,14 @@ func schema_resource_metadata_apis_meta_v1alpha1_Entry(ref common.ReferenceCallb
 					},
 					"type": {
 						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.GroupKind"),
+							Ref: ref("k8s.io/apimachinery/pkg/apis/meta/v1.GroupKind"),
 						},
 					},
 					"layoutName": {
 						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
 						},
 					},
 					"required": {

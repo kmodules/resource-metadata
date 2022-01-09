@@ -78,10 +78,6 @@ spec:
     pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
     type: date
-    color:
-      rule: |
-
-      value: "info"
   connections:
   - labels:
     - offshoot
