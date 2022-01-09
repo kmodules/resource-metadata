@@ -43,6 +43,10 @@ spec:
     pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
     type: date
+    sort:
+      enable: true
+      template: '{{ .metadata.creationTimestamp }}'
+      type: integer
   resource:
     group: ops.kubedb.com
     kind: ProxySQLOpsRequest

@@ -55,6 +55,10 @@ spec:
     pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
     type: date
+    sort:
+      enable: true
+      template: '{{ .metadata.creationTimestamp }}'
+      type: integer
   resource:
     group: appcatalog.appscode.com
     kind: AppBinding
