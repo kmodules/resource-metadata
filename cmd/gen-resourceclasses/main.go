@@ -99,9 +99,9 @@ func createRegistry(kc kubernetes.Interface, dir string) error {
 		for i := range rsList.APIResources {
 			rs := rsList.APIResources[i]
 			rd.Spec.Entries = append(rd.Spec.Entries, v1alpha1.Entry{
-				Type: &v1alpha1.GroupResources{
-					Groups:   []string{gv.Group},
-					Resource: rs.Name,
+				Type: &metav1.GroupKind{
+					Group: gv.Group,
+					Kind:  rs.Kind,
 				},
 				Required: false,
 			})
@@ -109,7 +109,7 @@ func createRegistry(kc kubernetes.Interface, dir string) error {
 	}
 
 	for _, rd := range categories {
-		sort.Slice(rd.Spec.Entries, func(i, j int) bool { return rd.Spec.Entries[i].Type.Resource < rd.Spec.Entries[j].Type.Resource })
+		sort.Slice(rd.Spec.Entries, func(i, j int) bool { return rd.Spec.Entries[i].Type.Kind < rd.Spec.Entries[j].Type.Kind })
 
 		data, err := yaml.Marshal(rd)
 		if err != nil {

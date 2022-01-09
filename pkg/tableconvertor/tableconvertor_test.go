@@ -55,7 +55,11 @@ func Test_cellForJSONValue(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(fmt.Sprintf("%#v of type %s", tt.value, tt.headerType), func(t *testing.T) {
-			got, err := cellForJSONValue("", tt.headerType, tt.value)
+			got, err := cellForJSONValue(columnOptions{
+				Name:     "",
+				Type:     tt.headerType,
+				Template: "",
+			}, tt.value)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("cellForJSONValue() error = %v, wantErr %v", err, tt.wantErr)
 				return

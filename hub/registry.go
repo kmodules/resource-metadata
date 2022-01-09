@@ -301,19 +301,18 @@ func (r *Registry) Missing(in schema.GroupVersionResource) bool {
 	return true
 }
 
-func (r *Registry) findGVR(in *v1alpha1.GroupResources, keepOfficialTypes bool) (schema.GroupVersionResource, bool) {
+func (r *Registry) findGVR(in *metav1.GroupKind, keepOfficialTypes bool) (schema.GroupVersionResource, bool) {
 	r.m.RLock()
 	defer r.m.RUnlock()
-	for _, group := range in.Groups {
-		if gvr, ok := r.preferred[schema.GroupResource{Group: group, Resource: in.Resource}]; ok {
-			return gvr, true
-		}
-	}
-	for _, group := range in.Groups {
-		if keepOfficialTypes || !v1alpha1.IsOfficialType(group) {
-			gvr, ok := resourcedescriptors.LatestGVRs[schema.GroupResource{Group: group, Resource: in.Resource}]
-			return gvr, ok
-		}
+
+	gk := schema.GroupKind{Group: in.Group, Kind: in.Kind}
+	// TODO: FIXIT
+	//if gvr, ok := r.preferred[gk]; ok {
+	//	return gvr, true
+	//}
+	if keepOfficialTypes || !v1alpha1.IsOfficialType(in.Group) {
+		gvr, ok := resourcedescriptors.LatestGVRs[gk]
+		return gvr, ok
 	}
 	return schema.GroupVersionResource{}, false
 }

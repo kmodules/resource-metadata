@@ -223,7 +223,16 @@ const (
 
 // ResourceColumnDefinition specifies a column for server side printing.
 type ResourceColumnDefinition struct {
-	ResourceColumn `json:",inline"`
+	// name is a human readable name for the column.
+	Name string `json:"name"`
+	// type is an OpenAPI type definition for this column.
+	// See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types for more.
+	Type string `json:"type"`
+	// format is an optional OpenAPI type definition for this column. The 'name' format is applied
+	// to the primary identifier column to assist in clients identifying column is the resource name.
+	// See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types for more.
+	// +optional
+	Format string `json:"format,omitempty"`
 	// description is a human readable description of this column.
 	// +optional
 	Description string `json:"description,omitempty"`
@@ -237,6 +246,51 @@ type ResourceColumnDefinition struct {
 	// Example: {{ jp "{.a.b}" . }} or {{ jp "{.a.b}" true }}, if json output is desired from JSONPath parser
 	// +optional
 	PathTemplate string `json:"pathTemplate,omitempty"`
+
+	Sort  *SortDefinition      `json:"sort,omitempty"`
+	Link  *AttributeDefinition `json:"link,omitempty"`
+	Shape ShapeProperty        `json:"shape,omitempty"`
+	Icon  *AttributeDefinition `json:"icon,omitempty"`
+	Color *ColorDefinition     `json:"color,omitempty"`
+}
+
+type SortDefinition struct {
+	Enable   bool   `json:"enable,omitempty"`
+	Template string `json:"template,omitempty"`
+	// type is an OpenAPI type definition for this column.
+	// See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types for more.
+	Type string `json:"type"`
+	// format is an optional OpenAPI type definition for this column. The 'name' format is applied
+	// to the primary identifier column to assist in clients identifying column is the resource name.
+	// See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types for more.
+	// +optional
+	Format string `json:"format,omitempty"`
+}
+
+type AttributeDefinition struct {
+	Enable   bool   `json:"enable,omitempty"`
+	Template string `json:"template,omitempty"`
+}
+
+// +kubebuilder:validation:Enum=Rectangle;Pill
+type ShapeProperty string
+
+const (
+	ShapeRectangle ShapeProperty = "Rectangle"
+	ShapePill      ShapeProperty = "Pill"
+)
+
+// +kubebuilder:validation:Enum=Foreground;Background
+type ColorProperty string
+
+const (
+	ColorForeground ColorProperty = "Foreground"
+	ColorBackground ColorProperty = "Background"
+)
+
+type ColorDefinition struct {
+	Color    ColorProperty `json:"color,omitempty"`
+	Template string        `json:"template,omitempty"`
 }
 
 type ResourceColumn struct {
@@ -250,6 +304,12 @@ type ResourceColumn struct {
 	// See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types for more.
 	// +optional
 	Format string `json:"format,omitempty"`
+
+	Sort  bool          `json:"sort,omitempty"`
+	Link  bool          `json:"link,omitempty"`
+	Shape ShapeProperty `json:"shape,omitempty"`
+	Icon  bool          `json:"icon,omitempty"`
+	Color ColorProperty `json:"color,omitempty"`
 }
 
 type ResourceSubTableDefinition struct {

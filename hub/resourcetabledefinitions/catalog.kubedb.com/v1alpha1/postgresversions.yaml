@@ -51,6 +51,10 @@ spec:
     pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
     type: date
+    sort:
+      enable: true
+      template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+      type: integer
   resource:
     group: catalog.kubedb.com
     kind: PostgresVersion
