@@ -3,6 +3,7 @@ kind: ResourceClass
 metadata:
   creationTimestamp: null
   name: Admin
+  namespace: console
 spec:
   entries:
   - name: Namespaces

@@ -32,15 +32,22 @@ import (
 	"sigs.k8s.io/yaml"
 )
 
-//go:embed *.yaml
+//go:embed **/*.yaml
 var fs embed.FS
 
 func FS() embed.FS {
 	return fs
 }
 
+type UINamespace string
+
+const (
+	ConsoleUI UINamespace = "console"
+	KubeDBUI  UINamespace = "kubedb"
+)
+
 var (
-	KnownClasses = map[string]*v1alpha1.ResourceClass{}
+	KnownClasses = map[UINamespace]map[string]*v1alpha1.ResourceClass{}
 )
 
 func init() {
@@ -58,10 +65,14 @@ func init() {
 			return errors.Wrap(err, path)
 		}
 
+		if _, ok := KnownClasses[UINamespace(rc.Namespace)]; !ok {
+			KnownClasses[UINamespace(rc.Namespace)] = map[string]*v1alpha1.ResourceClass{}
+		}
+
 		if rc.Spec.APIGroup != "" {
-			KnownClasses[rc.Spec.APIGroup] = &rc
+			KnownClasses[UINamespace(rc.Namespace)][rc.Spec.APIGroup] = &rc
 		} else {
-			KnownClasses[strings.ToLower(rc.Name)+".local"] = &rc
+			KnownClasses[UINamespace(rc.Namespace)][strings.ToLower(rc.Name)+".local"] = &rc
 		}
 		return err
 	}); e2 != nil {
@@ -95,16 +106,17 @@ func ResourceClassName(apiGroup string) string {
 	return name
 }
 
-func LoadByGVR(gvr schema.GroupVersionResource) (*v1alpha1.ResourceClass, error) {
+func LoadByGVR(namespace UINamespace, gvr schema.GroupVersionResource) (*v1alpha1.ResourceClass, error) {
 	name := ResourceClassName(gvr.Group)
-	return LoadByName(name)
+	return LoadByName(namespace, name)
 }
 
-func LoadByName(name string) (*v1alpha1.ResourceClass, error) {
+func LoadByName(namespace UINamespace, name string) (*v1alpha1.ResourceClass, error) {
 	name = strings.ToLower(name)
-	if obj, ok := KnownClasses[name]; ok {
-		return obj, nil
+	if rcs, ok := KnownClasses[namespace]; ok {
+		if obj, ok := rcs[name]; ok {
+			return obj, nil
+		}
 	}
 	return nil, apierrors.NewNotFound(v1alpha1.Resource(v1alpha1.ResourceKindResourceClass), name)
-
 }

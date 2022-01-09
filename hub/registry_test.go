@@ -22,14 +22,15 @@ import (
 
 	kmapi "kmodules.xyz/client-go/api/v1"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	"kmodules.xyz/resource-metadata/hub/resourceclasses"
 
 	"github.com/stretchr/testify/assert"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 func TestRegistry_LoadDefaultResourceClass(t *testing.T) {
-	reg := NewRegistry("some-uid", Helm3, NewKVLocal())
-	panel, err := reg.DefaultResourcePanel()
+	reg := NewRegistry("some-uid", NewKVLocal())
+	panel, err := reg.DefaultResourcePanel(resourceclasses.ConsoleUI)
 	assert.NoError(t, err)
 
 	for _, rc := range panel.Sections {
@@ -42,7 +43,7 @@ func TestRegistry_LoadDefaultResourceClass(t *testing.T) {
 
 func TestResourcePanel_Minus(t *testing.T) {
 	reg := NewRegistryOfKnownResources()
-	panel, err := reg.CompleteResourcePanel()
+	panel, err := reg.CompleteResourcePanel(resourceclasses.ConsoleUI)
 	assert.NoError(t, err)
 
 	type fields struct {

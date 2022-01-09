@@ -22,6 +22,7 @@ import (
 	"path/filepath"
 
 	"kmodules.xyz/resource-metadata/hub"
+	"kmodules.xyz/resource-metadata/hub/resourceclasses"
 
 	"gomodules.xyz/encoding/json"
 	"k8s.io/client-go/tools/clientcmd"
@@ -44,7 +45,7 @@ func main() {
 	}
 
 	{
-		panel, err := reg.DefaultResourcePanel()
+		panel, err := reg.DefaultResourcePanel(resourceclasses.ConsoleUI)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -58,7 +59,7 @@ func main() {
 		}
 	}
 	{
-		panel, err := reg.CompleteResourcePanel()
+		panel, err := reg.CompleteResourcePanel(resourceclasses.ConsoleUI)
 		if err != nil {
 			log.Fatalln(err)
 		}
