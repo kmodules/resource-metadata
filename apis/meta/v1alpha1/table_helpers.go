@@ -31,7 +31,6 @@ func (in *TableCell) DeepCopy() *TableCell {
 		out.Sort = runtime.DeepCopyJSONValue(in.Sort)
 	}
 	out.Link = in.Link
-	out.Shape = in.Shape
 	out.Icon = in.Icon
 	out.Color = in.Color
 	return out

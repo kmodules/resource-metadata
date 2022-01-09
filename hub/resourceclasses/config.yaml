@@ -8,15 +8,13 @@ spec:
   - name: Config Maps
     required: true
     type:
-      groups:
-      - ""
-      resource: configmaps
+      group: ""
+      resource: ConfigMap
   - name: Secrets
     required: true
     type:
-      groups:
-      - ""
-      resource: secrets
+      group: ""
+      kind: Secret
   icons:
   - src: https://cdn.appscode.com/k8s/icons/resourceclasses/config.svg
     type: image/svg+xml

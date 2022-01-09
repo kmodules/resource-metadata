@@ -65,7 +65,6 @@ type TableCell struct {
 	Data  interface{} `json:"data"`
 	Sort  interface{} `json:"sort,omitempty"`
 	Link  string      `json:"link,omitempty"`
-	Shape string      `json:"shape,omitempty"`
 	Icon  string      `json:"icon,omitempty"`
 	Color string      `json:"color,omitempty"`
 }

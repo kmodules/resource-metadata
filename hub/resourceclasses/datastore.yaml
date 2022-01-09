@@ -9,9 +9,8 @@ spec:
   - name: Elasticsearch
     required: true
     type:
-      groups:
-      - kubedb.com
-      resource: elasticsearches
+      group: kubedb.com
+      kind: Elasticsearch
   icons:
   - src: https://cdn.appscode.com/k8s/icons/resourceclasses/datastore.svg
     type: image/svg+xml

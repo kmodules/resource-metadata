@@ -41,7 +41,7 @@ func FS() embed.FS {
 
 var (
 	KnownDescriptors = make(map[string]*v1alpha1.ResourceDescriptor)
-	LatestGVRs       = make(map[schema.GroupResource]schema.GroupVersionResource)
+	LatestGVRs       = make(map[schema.GroupKind]schema.GroupVersionResource)
 )
 
 func init() {
@@ -61,10 +61,11 @@ func init() {
 		KnownDescriptors[rd.Name] = &rd
 
 		gvr := rd.Spec.Resource.GroupVersionResource()
-		if existing, ok := LatestGVRs[gvr.GroupResource()]; !ok {
-			LatestGVRs[gvr.GroupResource()] = gvr
+		gk := rd.Spec.Resource.GroupKind()
+		if existing, ok := LatestGVRs[gk]; !ok {
+			LatestGVRs[gk] = gvr
 		} else if diff, _ := apiversion.Compare(existing.Version, gvr.Version); diff < 0 {
-			LatestGVRs[gvr.GroupResource()] = gvr
+			LatestGVRs[gk] = gvr
 		}
 		return err
 	})
