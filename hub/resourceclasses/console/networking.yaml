@@ -2,7 +2,8 @@ apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceClass
 metadata:
   creationTimestamp: null
-  name: Service & Discovery
+  name: 'Service & Discovery'
+  namespace: console
 spec:
   entries:
   - name: Services

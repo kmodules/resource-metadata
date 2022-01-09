@@ -32,7 +32,7 @@ import (
 	"sigs.k8s.io/yaml"
 )
 
-//go:embed *.yaml
+//go:embed **/*.yaml
 var fs embed.FS
 
 func FS() embed.FS {

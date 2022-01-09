@@ -3,6 +3,7 @@ kind: ResourceClass
 metadata:
   creationTimestamp: null
   name: Datastore
+  namespace: kubedb
 spec:
   apiGroup: kubedb.com
   entries:

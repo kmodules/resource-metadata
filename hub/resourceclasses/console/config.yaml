@@ -3,6 +3,7 @@ kind: ResourceClass
 metadata:
   creationTimestamp: null
   name: Config
+  namespace: console
 spec:
   entries:
   - name: Config Maps
