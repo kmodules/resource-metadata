@@ -43,7 +43,11 @@ func Convert_ResourceColumnDefinition_To_ResourceColumn(def ResourceColumnDefini
 		Format: def.Format,
 	}
 	if def.Sort != nil && def.Sort.Enable {
-		col.Sort = true
+		col.Sort = &SortHeader{
+			Enable: true,
+			Type:   def.Sort.Type,
+			Format: def.Sort.Format,
+		}
 	}
 	if def.Link != nil && def.Link.Enable {
 		col.Link = true

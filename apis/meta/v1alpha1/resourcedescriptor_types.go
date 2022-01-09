@@ -267,6 +267,12 @@ type SortDefinition struct {
 	Format string `json:"format,omitempty"`
 }
 
+type SortHeader struct {
+	Enable bool   `json:"enable,omitempty"`
+	Type   string `json:"type"`
+	Format string `json:"format,omitempty"`
+}
+
 type AttributeDefinition struct {
 	Enable   bool   `json:"enable,omitempty"`
 	Template string `json:"template,omitempty"`
@@ -305,7 +311,7 @@ type ResourceColumn struct {
 	// +optional
 	Format string `json:"format,omitempty"`
 
-	Sort  bool          `json:"sort,omitempty"`
+	Sort  *SortHeader   `json:"sort,omitempty"`
 	Link  bool          `json:"link,omitempty"`
 	Shape ShapeProperty `json:"shape,omitempty"`
 	Icon  bool          `json:"icon,omitempty"`
