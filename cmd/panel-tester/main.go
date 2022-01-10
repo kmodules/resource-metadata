@@ -45,7 +45,7 @@ func main() {
 	}
 
 	{
-		panel, err := reg.DefaultResourcePanel(resourceclasses.ConsoleUI)
+		panel, err := reg.DefaultResourcePanel(resourceclasses.ClusterUI)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -59,7 +59,7 @@ func main() {
 		}
 	}
 	{
-		panel, err := reg.CompleteResourcePanel(resourceclasses.ConsoleUI)
+		panel, err := reg.CompleteResourcePanel(resourceclasses.ClusterUI)
 		if err != nil {
 			log.Fatalln(err)
 		}
