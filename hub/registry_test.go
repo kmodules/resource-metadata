@@ -30,7 +30,7 @@ import (
 
 func TestRegistry_LoadDefaultResourceClass(t *testing.T) {
 	reg := NewRegistry("some-uid", NewKVLocal())
-	panel, err := reg.DefaultResourcePanel(resourceclasses.ConsoleUI)
+	panel, err := reg.DefaultResourcePanel(resourceclasses.ClusterUI)
 	assert.NoError(t, err)
 
 	for _, rc := range panel.Sections {
@@ -43,7 +43,7 @@ func TestRegistry_LoadDefaultResourceClass(t *testing.T) {
 
 func TestResourcePanel_Minus(t *testing.T) {
 	reg := NewRegistryOfKnownResources()
-	panel, err := reg.CompleteResourcePanel(resourceclasses.ConsoleUI)
+	panel, err := reg.CompleteResourcePanel(resourceclasses.ClusterUI)
 	assert.NoError(t, err)
 
 	type fields struct {
