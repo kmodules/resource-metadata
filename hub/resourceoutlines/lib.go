@@ -61,13 +61,18 @@ func init() {
 		rlMap[obj.Name] = &obj
 
 		if obj.Spec.DefaultLayout {
+			gvr := obj.Spec.Resource.GroupVersionResource()
+			expectedName := DefaultLayoutName(gvr)
+			if obj.Name != expectedName {
+				return fmt.Errorf("expected default %s name to be %s, found %s", reflect.TypeOf(v1alpha1.ResourceOutline{}), expectedName, obj.Name)
+			}
+
 			gvk := obj.Spec.Resource.GroupVersionKind()
 			if rv, ok := rlPerGK[gvk]; !ok {
 				rlPerGK[gvk] = &obj
 			} else {
 				return fmt.Errorf("multiple %s found for %+v: %s and %s", reflect.TypeOf(v1alpha1.ResourceOutline{}), gvk, rv.Name, obj.Name)
 			}
-			gvr := obj.Spec.Resource.GroupVersionResource()
 			if rv, ok := rlPerGR[gvr]; !ok {
 				rlPerGR[gvr] = &obj
 			} else {
@@ -78,6 +83,13 @@ func init() {
 	}); err != nil {
 		panic(errors.Wrapf(err, "failed to load %s", reflect.TypeOf(v1alpha1.ResourceOutline{})))
 	}
+}
+
+func DefaultLayoutName(gvr schema.GroupVersionResource) string {
+	if gvr.Group == "" && gvr.Version == "v1" {
+		return fmt.Sprintf("core-v1-%s", gvr.Resource)
+	}
+	return fmt.Sprintf("%s-%s-%s", gvr.Group, gvr.Version, gvr.Resource)
 }
 
 func LoadByName(name string) (*v1alpha1.ResourceOutline, error) {
