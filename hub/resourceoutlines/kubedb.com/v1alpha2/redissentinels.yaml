@@ -13,11 +13,11 @@ spec:
   pages:
   - name: Basic
     blocks:
-    - kind: ResourceBlock
+    - kind: Block
       name: kubedb.com-v1alpha2-redissentinels
   - name: Security
     blocks:
-    - kind: ResourceBlock
+    - kind: Block
       name: kubedb.com-v1alpha2-security
   - name: Operations
     blocks:
@@ -33,7 +33,7 @@ spec:
         kind: RedisSentinelOpsRequest
   - name: Monitoring
     blocks:
-    - kind: ResourceBlock
+    - kind: Block
       name: kubedb.com-v1alpha2-monitoring
   resource:
     group: kubedb.com

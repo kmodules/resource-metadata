@@ -13,15 +13,15 @@ spec:
   pages:
   - name: Basic
     # blocks:
-    # - kind: ResourceBlock
+    # - kind: Block
     #   name: kubevault.com-v1alpha1-vaultservers
   - name: Security
     blocks:
-    - kind: ResourceBlock
+    - kind: Block
       name: kubedb.com-v1alpha2-security
   - name: Monitoring
     blocks:
-    - kind: ResourceBlock
+    - kind: Block
       name: kubedb.com-v1alpha2-monitoring
   resource:
     group: kubevault.com

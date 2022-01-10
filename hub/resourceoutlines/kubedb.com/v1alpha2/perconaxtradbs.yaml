@@ -13,19 +13,19 @@ spec:
   pages:
   - name: Basic
     blocks:
-    - kind: ResourceBlock
+    - kind: Block
       name: kubedb.com-v1alpha2-perconaxtradbs
   - name: Backups
     blocks:
-    - kind: ResourceBlock
+    - kind: Block
       name: kubedb.com-v1alpha2-backups
   - name: Security
     blocks:
-    - kind: ResourceBlock
+    - kind: Block
       name: kubedb.com-v1alpha2-security
   - name: Monitoring
     blocks:
-    - kind: ResourceBlock
+    - kind: Block
       name: kubedb.com-v1alpha2-monitoring
   resource:
     group: kubedb.com
