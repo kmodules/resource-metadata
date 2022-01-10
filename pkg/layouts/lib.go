@@ -43,9 +43,21 @@ func LoadResourceLayoutForGVR(kc client.Client, gvr schema.GroupVersionResource)
 		return GetResourceLayout(kc, outline)
 	}
 
-	rid, err := reg.ResourceIDForGVR(gvr)
+	rid, err := kmapi.ExtractResourceID(kc.RESTMapper(), kmapi.ResourceID{
+		Group:   gvr.Group,
+		Version: gvr.Version,
+		Name:    gvr.Resource,
+		Kind:    "",
+		Scope:   "",
+	})
 	if err != nil {
-		return nil, err
+		rid, err = reg.ResourceIDForGVR(gvr)
+		if err != nil {
+			return nil, err
+		}
+		if rid == nil {
+			return nil, apierrors.NewNotFound(v1alpha1.Resource(v1alpha1.ResourceKindResourceOutline), gvr.String())
+		}
 	}
 	return generateDefaultLayout(kc, *rid)
 }
@@ -56,9 +68,21 @@ func LoadResourceLayoutForGVK(kc client.Client, gvk schema.GroupVersionKind) (*v
 		return GetResourceLayout(kc, outline)
 	}
 
-	rid, err := reg.ResourceIDForGVK(gvk)
+	rid, err := kmapi.ExtractResourceID(kc.RESTMapper(), kmapi.ResourceID{
+		Group:   gvk.Group,
+		Version: gvk.Version,
+		Name:    "",
+		Kind:    gvk.Kind,
+		Scope:   "",
+	})
 	if err != nil {
-		return nil, err
+		rid, err = reg.ResourceIDForGVK(gvk)
+		if err != nil {
+			return nil, err
+		}
+		if rid == nil {
+			return nil, apierrors.NewNotFound(v1alpha1.Resource(v1alpha1.ResourceKindResourceOutline), gvk.String())
+		}
 	}
 	return generateDefaultLayout(kc, *rid)
 }
