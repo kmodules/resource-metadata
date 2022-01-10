@@ -15115,6 +15115,13 @@ func schema_resource_metadata_apis_meta_v1alpha1_PanelEntry(ref common.Reference
 							Format: "",
 						},
 					},
+					"layoutName": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
 					"icons": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
@@ -15147,7 +15154,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_PanelEntry(ref common.Reference
 						},
 					},
 				},
-				Required: []string{"name", "namespaced"},
+				Required: []string{"name", "layoutName", "namespaced"},
 			},
 		},
 		Dependencies: []string{

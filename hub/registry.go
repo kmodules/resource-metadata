@@ -32,6 +32,7 @@ import (
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"kmodules.xyz/resource-metadata/hub/resourceclasses"
 	"kmodules.xyz/resource-metadata/hub/resourcedescriptors"
+	"kmodules.xyz/resource-metadata/hub/resourceoutlines"
 
 	stringz "gomodules.xyz/x/strings"
 	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
@@ -467,6 +468,7 @@ func (r *Registry) createResourcePanel(namespace resourceclasses.UINamespace, ke
 				Required:   entry.Required,
 				Icons:      entry.Icons,
 				Namespaced: rc.Name == "Helm 3",
+				LayoutName: entry.LayoutName,
 			}
 			if entry.Type != nil {
 				gvr, ok := r.findGVR(entry.Type, keepOfficialTypes)
@@ -485,6 +487,9 @@ func (r *Registry) createResourcePanel(namespace resourceclasses.UINamespace, ke
 					pe.Icons = rd.Spec.Icons
 					pe.Missing = r.Missing(gvr)
 					pe.Installer = rd.Spec.Installer
+					if pe.LayoutName == "" {
+						pe.LayoutName = resourceoutlines.DefaultLayoutName(rd.Spec.Resource.GroupVersionResource())
+					}
 				}
 			}
 			section.Entries = append(section.Entries, pe)
@@ -536,6 +541,7 @@ func (r *Registry) createResourcePanel(namespace resourceclasses.UINamespace, ke
 			Namespaced: rd.Spec.Resource.Scope == kmapi.NamespaceScoped,
 			Missing:    r.Missing(gvr),
 			Installer:  rd.Spec.Installer,
+			LayoutName: resourceoutlines.DefaultLayoutName(rd.Spec.Resource.GroupVersionResource()),
 		})
 		existingGRs[gvr.GroupResource()] = true
 	})
