@@ -10,7 +10,7 @@ metadata:
   name: rbac.authorization.k8s.io-v1-roles
 spec:
   defaultView: true
-  columnDefinitions:
+  columns:
   - name: Name
     pathTemplate: '{{ .metadata.name }}'
     priority: 3

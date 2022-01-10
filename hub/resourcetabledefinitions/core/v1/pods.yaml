@@ -10,7 +10,7 @@ metadata:
   name: core-v1-pods
 spec:
   defaultView: true
-  columnDefinitions:
+  columns:
   - format: name
     name: Name
     pathTemplate: '{{ .metadata.name }}'

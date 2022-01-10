@@ -67,7 +67,7 @@ func TableForObject(r *hub.Registry, kc client.Client, obj runtime.Object) (*v1a
 	}
 
 	for _, st := range rd.Spec.SubTables {
-		c2, err := New(st.FieldPath, st.ColumnDefinitions)
+		c2, err := New(st.FieldPath, st.Columns)
 		if err != nil {
 			return nil, err
 		}

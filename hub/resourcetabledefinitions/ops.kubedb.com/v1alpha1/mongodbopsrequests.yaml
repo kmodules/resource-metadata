@@ -10,7 +10,7 @@ metadata:
   name: ops.kubedb.com-v1alpha1-mongodbopsrequests
 spec:
   defaultView: true
-  columnDefinitions:
+  columns:
   - name: Name
     pathTemplate: '{{ .metadata.name }}'
     priority: 3

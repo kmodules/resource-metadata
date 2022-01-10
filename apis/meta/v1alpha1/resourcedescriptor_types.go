@@ -48,8 +48,8 @@ type ResourceDescriptor struct {
 }
 
 type ResourceDescriptorSpec struct {
-	Resource          kmapi.ResourceID           `json:"resource"`
-	ColumnDefinitions []ResourceColumnDefinition `json:"columnDefinitions,omitempty"`
+	Resource kmapi.ResourceID           `json:"resource"`
+	Columns  []ResourceColumnDefinition `json:"columns,omitempty"`
 	// For array type fields of the resource
 	SubTables   []ResourceSubTableDefinition `json:"subTables,omitempty"`
 	Connections []ResourceConnection         `json:"connections,omitempty"`
@@ -221,6 +221,9 @@ const (
 	List
 )
 
+// ColumnTypeRef refers to a ResourceTableDefinition whose columns should be used in its place
+const ColumnTypeRef = "Ref"
+
 // ResourceColumnDefinition specifies a column for server side printing.
 type ResourceColumnDefinition struct {
 	// name is a human readable name for the column.
@@ -237,7 +240,7 @@ type ResourceColumnDefinition struct {
 	// +optional
 	Description string `json:"description,omitempty"`
 	// priority is an integer defining the relative importance of this column compared to others. Lower
-	// numbers are considered higher priority. ColumnDefinitions that may be omitted in limited space scenarios
+	// numbers are considered higher priority. Columns that may be omitted in limited space scenarios
 	// should be given a higher priority.
 	Priority int32 `json:"priority"`
 	// PathTemplate is a Go text template that will be evaluated to determine cell value.
@@ -319,9 +322,9 @@ type ResourceColumn struct {
 }
 
 type ResourceSubTableDefinition struct {
-	Name              string                     `json:"name"`
-	FieldPath         string                     `json:"fieldPath,omitempty"`
-	ColumnDefinitions []ResourceColumnDefinition `json:"columnDefinitions,omitempty"`
+	Name      string                     `json:"name"`
+	FieldPath string                     `json:"fieldPath,omitempty"`
+	Columns   []ResourceColumnDefinition `json:"columns,omitempty"`
 }
 
 // ImageSpec contains information about an image used as an icon.

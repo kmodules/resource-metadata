@@ -382,7 +382,7 @@ func (StatusDetails) SwaggerDoc() map[string]string {
 var map_Table = map[string]string{
 	"":                  "Table is a tabular representation of a set of API resources. The server transforms the object into a set of preferred columns for quickly reviewing the objects.",
 	"metadata":          "Standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-	"columnDefinitions": "columnDefinitions describes each column in the returned items array. The number of cells per row will always match the number of column definitions.",
+	"columns": "columns describes each column in the returned items array. The number of cells per row will always match the number of column definitions.",
 	"rows":              "rows is the list of items in the table.",
 }
 
