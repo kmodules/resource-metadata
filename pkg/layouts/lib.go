@@ -18,6 +18,7 @@ package layouts
 
 import (
 	"fmt"
+	"strings"
 
 	kmapi "kmodules.xyz/client-go/api/v1"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
@@ -27,6 +28,7 @@ import (
 	tabledefs "kmodules.xyz/resource-metadata/hub/resourcetabledefinitions"
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor"
 
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -100,7 +102,21 @@ func generateDefaultLayout(kc client.Client, rid kmapi.ResourceID) (*v1alpha1.Re
 
 func LoadResourceLayout(kc client.Client, name string) (*v1alpha1.ResourceLayout, error) {
 	outline, err := resourceoutlines.LoadByName(name)
-	if err != nil {
+	if apierrors.IsNotFound(err) {
+		parts := strings.SplitN(name, "-", 3)
+		if len(parts) != 3 {
+			return nil, err
+		}
+		var group string
+		if parts[0] != "core" {
+			group = parts[0]
+		}
+		return LoadResourceLayoutForGVR(kc, schema.GroupVersionResource{
+			Group:    group,
+			Version:  parts[1],
+			Resource: parts[2],
+		})
+	} else if err != nil {
 		return nil, err
 	}
 
