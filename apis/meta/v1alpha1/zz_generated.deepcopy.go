@@ -594,6 +594,11 @@ func (in *RenderRequest) DeepCopyInto(out *RenderRequest) {
 		*out = new(PageBlockLayout)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.RenderBlocks != nil {
+		in, out := &in.RenderBlocks, &out.RenderBlocks
+		*out = make([]TableKind, len(*in))
+		copy(*out, *in)
+	}
 	return
 }
 

@@ -15458,11 +15458,18 @@ func schema_resource_metadata_apis_meta_v1alpha1_RenderRequest(ref common.Refere
 							Format: "",
 						},
 					},
-					"renderSelfOnly": {
+					"renderBlocks": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Self or SubTable",
-							Type:        []string{"boolean"},
-							Format:      "",
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
 						},
 					},
 				},
