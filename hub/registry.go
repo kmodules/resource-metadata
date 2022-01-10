@@ -292,13 +292,13 @@ func (r *Registry) findGVR(in *metav1.GroupKind, keepOfficialTypes bool) (schema
 }
 
 func (r *Registry) ResourceIDForGVK(gvk schema.GroupVersionKind) (*kmapi.ResourceID, error) {
-	r.m.RLocker()
+	r.m.RLock()
 	defer r.m.RUnlock()
 	return r.regGVK[gvk], nil
 }
 
 func (r *Registry) ResourceIDForGVR(gvr schema.GroupVersionResource) (*kmapi.ResourceID, error) {
-	r.m.RLocker()
+	r.m.RLock()
 	defer r.m.RUnlock()
 	return r.regGVR[gvr], nil
 }
