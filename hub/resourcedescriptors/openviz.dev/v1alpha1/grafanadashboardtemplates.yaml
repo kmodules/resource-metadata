@@ -3,17 +3,17 @@ kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
   labels:
-    k8s.io/group: ui.openviz.dev
-    k8s.io/kind: EmbeddedDashboard
-    k8s.io/resource: embeddeddashboards
+    k8s.io/group: openviz.dev
+    k8s.io/kind: GrafanaDashboardTemplate
+    k8s.io/resource: grafanadashboardtemplates
     k8s.io/version: v1alpha1
-  name: ui.openviz.dev-v1alpha1-embeddeddashboards
+  name: openviz.dev-v1alpha1-grafanadashboardtemplates
 spec:
   resource:
-    group: ui.openviz.dev
-    kind: EmbeddedDashboard
-    name: embeddeddashboards
-    scope: Namespaced
+    group: openviz.dev
+    kind: GrafanaDashboardTemplate
+    name: grafanadashboardtemplates
+    scope: Cluster
     version: v1alpha1
   validation:
     openAPIV3Schema:
@@ -29,9 +29,6 @@ spec:
             name:
               description: 'Name must be unique within a namespace. Is required when creating resources, although some resources may allow a client to request the generation of an appropriate name automatically. Name is primarily intended for creation idempotence and configuration definition. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
               type: string
-            namespace:
-              description: "Namespace defines the space within which each name must be unique. An empty namespace is equivalent to the \"default\" namespace, but \"default\" is the canonical representation. Not all objects are required to be scoped to a namespace - the value of this field for those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/namespaces"
-              type: string
             labels:
               additionalProperties:
                 type: string
@@ -43,37 +40,46 @@ spec:
               description: 'Annotations is an unstructured key value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: http://kubernetes.io/docs/user-guide/annotations'
               type: object
           type: object
-        request:
+        spec:
           properties:
-            panelTitles:
-              items:
-                type: string
-              type: array
-            ref:
+            folderID:
+              format: int64
+              type: integer
+            grafanadashboardtemplate:
               properties:
-                name:
+                id:
+                  format: int64
+                  type: integer
+                schemaVersion:
+                  format: int64
+                  type: integer
+                tags:
+                  items:
+                    type: string
+                  type: array
+                timezone:
                   type: string
-                selector:
-                  properties:
-                    dashboardTitle:
-                      type: string
-                    grafanaName:
-                      type: string
-                  type: object
+                title:
+                  type: string
+                uid:
+                  type: string
+                version:
+                  format: int64
+                  type: integer
+              required:
+              - id
+              - schemaVersion
+              - tags
+              - timezone
+              - title
+              - uid
+              - version
               type: object
+            overwrite:
+              type: boolean
           required:
-          - ref
-          type: object
-        response:
-          properties:
-            urls:
-              items:
-                properties:
-                  embeddedURL:
-                    type: string
-                  title:
-                    type: string
-                type: object
-              type: array
+          - folderID
+          - grafanadashboardtemplate
+          - overwrite
           type: object
       type: object
