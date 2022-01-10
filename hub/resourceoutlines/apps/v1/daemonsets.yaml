@@ -13,15 +13,15 @@ spec:
   pages:
   - name: Basic
     blocks:
-    - kind: ResourceBlock
+    - kind: Block
       name: apps-v1-daemonsets
   - name: Backups
     blocks:
-    - kind: ResourceBlock
+    - kind: Block
       name: stash.appscode.com-v1-backup
   - name: Monitoring
     blocks:
-    - kind: ResourceBlock
+    - kind: Block
       name: monitoring.coreos.com-v1-monitoring
   resource:
     group: apps

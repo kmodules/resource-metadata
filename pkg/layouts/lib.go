@@ -261,7 +261,7 @@ func FlattenPageBlockOutline(
 			return nil, err
 		}
 		return []v1alpha1.PageBlockLayout{out}, nil
-	} else if in.Kind != v1alpha1.TableKindResourceBlock {
+	} else if in.Kind != v1alpha1.TableKindBlock {
 		return nil, fmt.Errorf("unknown block kind %+v", in)
 	}
 

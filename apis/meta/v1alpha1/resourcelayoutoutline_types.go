@@ -59,14 +59,14 @@ type ResourcePageOutline struct {
 	Blocks  []PageBlockOutline `json:"blocks,omitempty"`
 }
 
-// +kubebuilder:validation:Enum=ResourceBlockDefinition;Self;SubTable;Connection
+// +kubebuilder:validation:Enum=Block;Self;SubTable;Connection
 type TableKind string
 
 const (
-	TableKindResourceBlock TableKind = "ResourceBlock"
-	TableKindConnection    TableKind = "Connection"
-	TableKindSubTable      TableKind = "SubTable"
-	TableKindSelf          TableKind = "Self"
+	TableKindBlock      TableKind = "Block"
+	TableKindConnection TableKind = "Connection"
+	TableKindSubTable   TableKind = "SubTable"
+	TableKindSelf       TableKind = "Self"
 )
 
 type PageBlockOutline struct {
