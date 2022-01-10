@@ -13822,9 +13822,9 @@ func schema_pkg_apis_meta_v1_Table(ref common.ReferenceCallback) common.OpenAPID
 							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"),
 						},
 					},
-					"columnDefinitions": {
+					"columns": {
 						SchemaProps: spec.SchemaProps{
-							Description: "columnDefinitions describes each column in the returned items array. The number of cells per row will always match the number of column definitions.",
+							Description: "columns describes each column in the returned items array. The number of cells per row will always match the number of column definitions.",
 							Type:        []string{"array"},
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
@@ -13851,7 +13851,7 @@ func schema_pkg_apis_meta_v1_Table(ref common.ReferenceCallback) common.OpenAPID
 						},
 					},
 				},
-				Required: []string{"columnDefinitions", "rows"},
+				Required: []string{"columns", "rows"},
 			},
 		},
 		Dependencies: []string{
@@ -14961,7 +14961,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_PageBlockTableDefinition(ref co
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
-					"columnDefinitions": {
+					"columns": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
 							Items: &spec.SchemaOrArray{
@@ -16097,7 +16097,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceColumnDefinition(ref co
 					},
 					"priority": {
 						SchemaProps: spec.SchemaProps{
-							Description: "priority is an integer defining the relative importance of this column compared to others. Lower numbers are considered higher priority. ColumnDefinitions that may be omitted in limited space scenarios should be given a higher priority.",
+							Description: "priority is an integer defining the relative importance of this column compared to others. Lower numbers are considered higher priority. Columns that may be omitted in limited space scenarios should be given a higher priority.",
 							Default:     0,
 							Type:        []string{"integer"},
 							Format:      "int32",
@@ -16410,7 +16410,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceDescriptorSpec(ref comm
 							Ref:     ref("kmodules.xyz/client-go/api/v1.ResourceID"),
 						},
 					},
-					"columnDefinitions": {
+					"columns": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
 							Items: &spec.SchemaOrArray{
@@ -17216,7 +17216,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceSubTableDefinition(ref 
 							Format: "",
 						},
 					},
-					"columnDefinitions": {
+					"columns": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
 							Items: &spec.SchemaOrArray{
@@ -17337,7 +17337,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceTableDefinitionRef(ref 
 							Format: "",
 						},
 					},
-					"columnDefinitions": {
+					"columns": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
 							Items: &spec.SchemaOrArray{
@@ -17376,7 +17376,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceTableDefinitionSpec(ref
 							Format:  "",
 						},
 					},
-					"columnDefinitions": {
+					"columns": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
 							Items: &spec.SchemaOrArray{

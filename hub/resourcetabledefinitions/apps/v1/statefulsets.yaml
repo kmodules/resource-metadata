@@ -10,7 +10,7 @@ metadata:
   name: apps-v1-statefulsets
 spec:
   defaultView: true
-  columnDefinitions:
+  columns:
   - name: Name
     pathTemplate: '{{ .metadata.name }}'
     priority: 3

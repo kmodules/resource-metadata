@@ -10,7 +10,7 @@ metadata:
   name: catalog.kubedb.com-v1alpha1-proxysqlversions
 spec:
   defaultView: true
-  columnDefinitions:
+  columns:
   - name: Name
     pathTemplate: '{{ .metadata.name }}'
     priority: 3

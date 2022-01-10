@@ -16,7 +16,7 @@ spec:
     scope: Namespaced
     version: v1alpha1
   subTables:
-  - columnDefinitions:
+  - columns:
     - name: Operation
       pathTemplate: '{{ .operation }}'
       priority: 3

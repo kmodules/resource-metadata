@@ -77,7 +77,7 @@ func NewForGVR(r *hub.Registry, kc client.Client, gvr schema.GroupVersionResourc
 	}
 
 	c := &convertor{}
-	err = c.init(FilterColumnsWithDefaults(kc, gvr, rd.Spec.ColumnDefinitions, priority))
+	err = c.init(FilterColumnsWithDefaults(kc, gvr, rd.Spec.Columns, priority))
 	return c, err
 }
 

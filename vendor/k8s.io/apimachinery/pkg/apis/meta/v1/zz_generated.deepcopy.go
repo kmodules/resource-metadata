@@ -988,8 +988,8 @@ func (in *Table) DeepCopyInto(out *Table) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ListMeta.DeepCopyInto(&out.ListMeta)
-	if in.ColumnDefinitions != nil {
-		in, out := &in.ColumnDefinitions, &out.ColumnDefinitions
+	if in.Columns != nil {
+		in, out := &in.Columns, &out.Columns
 		*out = make([]TableColumnDefinition, len(*in))
 		copy(*out, *in)
 	}

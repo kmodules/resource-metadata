@@ -287,13 +287,13 @@ func Convert_PageBlockOutline_To_PageBlockLayout(
 	priority v1alpha1.Priority,
 ) (v1alpha1.PageBlockLayout, error) {
 
-	columns := in.View.ColumnDefinitions
+	columns := in.View.Columns
 	if in.View.Name != "" {
 		obj, err := tabledefs.LoadByName(in.View.Name)
 		if err != nil {
 			return v1alpha1.PageBlockLayout{}, err
 		}
-		columns = obj.Spec.ColumnDefinitions
+		columns = obj.Spec.Columns
 	}
 
 	if in.Kind == v1alpha1.TableKindSubTable && len(columns) == 0 {
@@ -301,8 +301,13 @@ func Convert_PageBlockOutline_To_PageBlockLayout(
 	}
 	if in.Kind == v1alpha1.TableKindConnection && len(columns) == 0 {
 		if rv, ok := tabledefs.DefaultTableDefinitionForGVK(rid.GroupVersionKind()); ok {
-			columns = rv.Spec.ColumnDefinitions
+			columns = rv.Spec.Columns
 		}
+	}
+
+	columns, err := FlattenColumns(columns)
+	if err != nil {
+		return v1alpha1.PageBlockLayout{}, err
 	}
 
 	if in.Kind == v1alpha1.TableKindConnection && kc != nil {
@@ -326,7 +331,38 @@ func Convert_PageBlockOutline_To_PageBlockLayout(
 		DisplayMode:     in.DisplayMode,
 		Actions:         in.Actions,
 		View: v1alpha1.PageBlockTableDefinition{
-			ColumnDefinitions: columns,
+			Columns: columns,
 		},
 	}, nil
+}
+
+func FlattenColumns(in []v1alpha1.ResourceColumnDefinition) ([]v1alpha1.ResourceColumnDefinition, error) {
+	var foundRef bool
+	for _, c := range in {
+		if c.Type == v1alpha1.ColumnTypeRef {
+			foundRef = true
+			break
+		}
+	}
+	if !foundRef {
+		return in, nil
+	}
+
+	var out []v1alpha1.ResourceColumnDefinition
+	for _, c := range in {
+		if c.Type == v1alpha1.ColumnTypeRef {
+			def, err := tabledefs.LoadByName(c.Name)
+			if err != nil {
+				return nil, err
+			}
+			cols, err := FlattenColumns(def.Spec.Columns)
+			if err != nil {
+				return nil, err
+			}
+			out = append(out, cols...)
+		} else {
+			out = append(out, c)
+		}
+	}
+	return out, nil
 }

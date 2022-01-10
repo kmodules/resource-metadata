@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   name: core-v1-containers
 spec:
-  columnDefinitions:
+  columns:
   - name: Name
     pathTemplate: '{{ .name }}'
     priority: 0
