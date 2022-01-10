@@ -9,7 +9,6 @@ metadata:
     k8s.io/version: v1alpha2
   name: kubedb-kubedb.com-v1alpha2-memcacheds
 spec:
-  defaultLayout: true
   resource:
     group: kubedb.com
     kind: Memcached
