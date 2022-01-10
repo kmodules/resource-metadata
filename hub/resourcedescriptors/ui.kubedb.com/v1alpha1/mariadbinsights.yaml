@@ -4,15 +4,15 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: ui.kubedb.com
-    k8s.io/kind: MongoDBQueries
-    k8s.io/resource: mongodbqueries
+    k8s.io/kind: MariaDBInsight
+    k8s.io/resource: mariadbinsights
     k8s.io/version: v1alpha1
-  name: ui.kubedb.com-v1alpha1-mongodbqueries
+  name: ui.kubedb.com-v1alpha1-mariadbinsights
 spec:
   resource:
     group: ui.kubedb.com
-    kind: MongoDBQueries
-    name: mongodbqueries
+    kind: MariaDBInsight
+    name: mariadbinsights
     scope: Namespaced
     version: v1alpha1
   validation:
@@ -43,38 +43,44 @@ spec:
           type: object
         spec:
           properties:
-            queries:
-              items:
-                properties:
-                  avgExecutionTimeMilliSeconds:
-                    format: int64
-                    type: integer
-                  collectionName:
-                    type: string
-                  command:
-                    type: string
-                  count:
-                    format: int64
-                    type: integer
-                  databaseName:
-                    type: string
-                  maxExecutionTimeMilliSeconds:
-                    format: int64
-                    type: integer
-                  minExecutionTimeMilliSeconds:
-                    format: int64
-                    type: integer
-                  operation:
-                    enum:
-                    - QUERY
-                    - INSERT
-                    - UPDATE
-                    - DELETE
-                    - GETMORE
-                    type: string
-                type: object
-              type: array
-          required:
-          - queries
+            abortedClients:
+              format: int32
+              type: integer
+            abortedConnections:
+              format: int32
+              type: integer
+            longQueryTimeThresholdSeconds:
+              format: double
+              type: number
+            maxConnections:
+              format: int32
+              type: integer
+            maxUsedConnections:
+              format: int32
+              type: integer
+            mode:
+              type: string
+            numberOfSlowQueries:
+              format: int32
+              type: integer
+            questions:
+              format: int32
+              type: integer
+            status:
+              type: string
+            threadsCached:
+              format: int32
+              type: integer
+            threadsConnected:
+              format: int32
+              type: integer
+            threadsCreated:
+              format: int32
+              type: integer
+            threadsRunning:
+              format: int32
+              type: integer
+            version:
+              type: string
           type: object
       type: object
