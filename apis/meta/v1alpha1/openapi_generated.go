@@ -13822,9 +13822,9 @@ func schema_pkg_apis_meta_v1_Table(ref common.ReferenceCallback) common.OpenAPID
 							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"),
 						},
 					},
-					"columns": {
+					"columnDefinitions": {
 						SchemaProps: spec.SchemaProps{
-							Description: "columns describes each column in the returned items array. The number of cells per row will always match the number of column definitions.",
+							Description: "columnDefinitions describes each column in the returned items array. The number of cells per row will always match the number of column definitions.",
 							Type:        []string{"array"},
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
@@ -13851,7 +13851,7 @@ func schema_pkg_apis_meta_v1_Table(ref common.ReferenceCallback) common.OpenAPID
 						},
 					},
 				},
-				Required: []string{"columns", "rows"},
+				Required: []string{"columnDefinitions", "rows"},
 			},
 		},
 		Dependencies: []string{

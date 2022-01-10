@@ -1227,9 +1227,9 @@ type Table struct {
 	// +optional
 	ListMeta `json:"metadata,omitempty"`
 
-	// columns describes each column in the returned items array. The number of cells per row
+	// columnDefinitions describes each column in the returned items array. The number of cells per row
 	// will always match the number of column definitions.
-	Columns []TableColumnDefinition `json:"columns"`
+	ColumnDefinitions []TableColumnDefinition `json:"columnDefinitions"`
 	// rows is the list of items in the table.
 	Rows []TableRow `json:"rows"`
 }
