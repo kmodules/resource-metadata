@@ -1,0 +1,76 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ui.kubedb.com
+    k8s.io/kind: MariaDBInsight
+    k8s.io/resource: mariadbinsights
+    k8s.io/version: v1alpha1
+  name: ui.kubedb.com-v1alpha1-mariadbinsights
+spec:
+  columns:
+  - name: Version
+    pathTemplate: '{{ .spec.version }}'
+    priority: 3
+    type: string
+  - name: Status
+    pathTemplate: '{{ .spec.status }}'
+    priority: 3
+    type: string
+  - name: Mode
+    pathTemplate: '{{ .spec.mode }}'
+    priority: 3
+    type: string
+  - name: Max Connections
+    pathTemplate: '{{ .spec.maxConnections }}'
+    priority: 3
+    type: integer
+  - name: Max Used Connections
+    pathTemplate: '{{ .spec.maxUsedConnections }}'
+    priority: 3
+    type: integer
+  - name: Questions
+    pathTemplate: '{{ .spec.questions }}'
+    priority: 3
+    type: integer
+  - format: double
+    name: Long Query Time Threshold Seconds
+    pathTemplate: '{{ .spec.longQueryTimeThresholdSeconds }}'
+    priority: 3
+    type: number
+  - name: Number Of Slow Queries
+    pathTemplate: '{{ .spec.numberOfSlowQueries }}'
+    priority: 3
+    type: integer
+  - name: Aborted Clients
+    pathTemplate: '{{ .spec.abortedClients }}'
+    priority: 3
+    type: integer
+  - name: Aborted Connections
+    pathTemplate: '{{ .spec.abortedConnections }}'
+    priority: 3
+    type: integer
+  - name: Threads Cached
+    pathTemplate: '{{ .spec.threadsCached }}'
+    priority: 3
+    type: integer
+  - name: Threads Connected
+    pathTemplate: '{{ .spec.threadsConnected }}'
+    priority: 3
+    type: integer
+  - name: Threads Created
+    pathTemplate: '{{ .spec.threadsCreated }}'
+    priority: 3
+    type: integer
+  - name: Threads Running
+    pathTemplate: '{{ .spec.threadsRunning }}'
+    priority: 3
+    type: integer
+  defaultView: true
+  resource:
+    group: ui.kubedb.com
+    kind: MariaDBInsight
+    name: mariadbinsights
+    scope: Namespaced
+    version: v1alpha1

@@ -1,0 +1,105 @@
+# using fieldPath: .spec.queries
+
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  name: ui.kubedb.com-v1alpha1-postgresqueries-queries
+spec:
+  columns:
+  - name: User OID
+    pathTemplate: '{{ .userOID }}'
+    priority: 3
+    type: integer
+  - name: Database OID
+    pathTemplate: '{{ .databaseOID }}'
+    priority: 3
+    type: integer
+  - name: Query
+    pathTemplate: '{{ .query }}'
+    priority: 3
+    type: string
+  - name: Calls
+    pathTemplate: '{{ .calls }}'
+    priority: 3
+    type: integer
+  - name: Rows
+    pathTemplate: '{{ .rows }}'
+    priority: 3
+    type: integer
+  - format: double
+    name: Total Time Milli Seconds
+    pathTemplate: '{{ .totalTimeMilliSeconds }}'
+    priority: 3
+    type: number
+  - format: double
+    name: Min Time Milli Seconds
+    pathTemplate: '{{ .minTimeMilliSeconds }}'
+    priority: 3
+    type: number
+  - format: double
+    name: Max Time Milli Seconds
+    pathTemplate: '{{ .maxTimeMilliSeconds }}'
+    priority: 3
+    type: number
+  - name: Shared Blks Hit
+    pathTemplate: '{{ .sharedBlksHit }}'
+    priority: 3
+    type: integer
+  - name: Shared Blks Read
+    pathTemplate: '{{ .sharedBlksRead }}'
+    priority: 3
+    type: integer
+  - name: Shared Blks Dirtied
+    pathTemplate: '{{ .sharedBlksDirtied }}'
+    priority: 3
+    type: integer
+  - name: Shared Blks Written
+    pathTemplate: '{{ .sharedBlksWritten }}'
+    priority: 3
+    type: integer
+  - name: Local Blks Hit
+    pathTemplate: '{{ .localBlksHit }}'
+    priority: 3
+    type: integer
+  - name: Local Blks Read
+    pathTemplate: '{{ .localBlksRead }}'
+    priority: 3
+    type: integer
+  - name: Local Blks Dirtied
+    pathTemplate: '{{ .localBlksDirtied }}'
+    priority: 3
+    type: integer
+  - name: Local Blks Written
+    pathTemplate: '{{ .localBlksWritten }}'
+    priority: 3
+    type: integer
+  - name: Temp Blks Read
+    pathTemplate: '{{ .tempBlksRead }}'
+    priority: 3
+    type: integer
+  - name: Temp Blks Written
+    pathTemplate: '{{ .tempBlksWritten }}'
+    priority: 3
+    type: integer
+  - format: double
+    name: Blk Read Time Milli Seconds
+    pathTemplate: '{{ .blkReadTimeMilliSeconds }}'
+    priority: 3
+    type: number
+  - format: double
+    name: Blk Write Time
+    pathTemplate: '{{ .blkWriteTime }}'
+    priority: 3
+    type: number
+  - format: double
+    name: Buffer Hit Percentage
+    pathTemplate: '{{ .bufferHitPercentage }}'
+    priority: 3
+    type: number
+  - format: double
+    name: Local Buffer Hit Percentage
+    pathTemplate: '{{ .localBufferHitPercentage }}'
+    priority: 3
+    type: number
+  defaultView: false

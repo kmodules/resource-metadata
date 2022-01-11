@@ -1,0 +1,42 @@
+# using fieldPath: .spec.queries
+
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  name: ui.kubedb.com-v1alpha1-mongodbqueries-queries
+spec:
+  columns:
+  - name: Operation
+    pathTemplate: '{{ .operation }}'
+    priority: 3
+    type: string
+  - name: Database Name
+    pathTemplate: '{{ .databaseName }}'
+    priority: 3
+    type: string
+  - name: Collection Name
+    pathTemplate: '{{ .collectionName }}'
+    priority: 3
+    type: string
+  - name: Command
+    pathTemplate: '{{ .command }}'
+    priority: 3
+    type: string
+  - name: Count
+    pathTemplate: '{{ .count }}'
+    priority: 3
+    type: integer
+  - name: Avg Execution Time Milli Seconds
+    pathTemplate: '{{ .avgExecutionTimeMilliSeconds }}'
+    priority: 3
+    type: integer
+  - name: Min Execution Time Milli Seconds
+    pathTemplate: '{{ .minExecutionTimeMilliSeconds }}'
+    priority: 3
+    type: integer
+  - name: Max Execution Time Milli Seconds
+    pathTemplate: '{{ .maxExecutionTimeMilliSeconds }}'
+    priority: 3
+    type: integer
+  defaultView: false

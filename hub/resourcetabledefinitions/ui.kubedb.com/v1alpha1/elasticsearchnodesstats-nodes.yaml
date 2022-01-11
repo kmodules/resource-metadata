@@ -1,0 +1,582 @@
+# using fieldPath: .spec.nodes
+
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  name: ui.kubedb.com-v1alpha1-elasticsearchnodesstats-nodes
+spec:
+  columns:
+  - name: Timestamp
+    pathTemplate: '{{ .timestamp }}'
+    priority: 3
+    sort:
+      enable: true
+      template: '{{ .timestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+      type: integer
+    type: date
+  - name: Name
+    pathTemplate: '{{ .name }}'
+    priority: 3
+    type: string
+  - name: Transport Addr
+    pathTemplate: '{{ .transportAddr }}'
+    priority: 3
+    type: string
+  - name: Host
+    pathTemplate: '{{ .host }}'
+    priority: 3
+    type: string
+  - name: IP
+    pathTemplate: '{{ .ip }}'
+    priority: 3
+    type: string
+  - name: Roles
+    pathTemplate: '{{ .roles }}'
+    priority: 3
+    type: string
+  - name: Count
+    pathTemplate: '{{ .indices.docs.count }}'
+    priority: 3
+    type: integer
+  - name: Deleted
+    pathTemplate: '{{ .indices.docs.deleted }}'
+    priority: 3
+    type: integer
+  - name: Total Count
+    pathTemplate: '{{ .indices.shards_stats.total_count }}'
+    priority: 3
+    type: integer
+  - name: Total Size
+    pathTemplate: '{{ .indices.store.size }}'
+    priority: 3
+    type: string
+  - name: Size Bytes
+    pathTemplate: '{{ .indices.store.size_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Index Total
+    pathTemplate: '{{ .indices.indexing.index_total }}'
+    priority: 3
+    type: integer
+  - name: Index Time
+    pathTemplate: '{{ .indices.indexing.index_time }}'
+    priority: 3
+    type: string
+  - name: Index Time In Millis
+    pathTemplate: '{{ .indices.indexing.index_time_in_millis }}'
+    priority: 3
+    type: integer
+  - name: Index Current
+    pathTemplate: '{{ .indices.indexing.index_current }}'
+    priority: 3
+    type: integer
+  - name: Index Failed
+    pathTemplate: '{{ .indices.indexing.index_failed }}'
+    priority: 3
+    type: integer
+  - name: Delete Total
+    pathTemplate: '{{ .indices.indexing.delete_total }}'
+    priority: 3
+    type: integer
+  - name: Delete Time
+    pathTemplate: '{{ .indices.indexing.delete_time }}'
+    priority: 3
+    type: string
+  - name: Delete Time In Millis
+    pathTemplate: '{{ .indices.indexing.delete_time_in_millis }}'
+    priority: 3
+    type: integer
+  - name: Delete Current
+    pathTemplate: '{{ .indices.indexing.delete_current }}'
+    priority: 3
+    type: integer
+  - name: Noop Update Total
+    pathTemplate: '{{ .indices.indexing.noop_update_total }}'
+    priority: 3
+    type: integer
+  - name: Is Throttled
+    pathTemplate: '{{ .indices.indexing.is_throttled }}'
+    priority: 3
+    type: bool
+  - name: Throttled Time
+    pathTemplate: '{{ .indices.indexing.throttle_time }}'
+    priority: 3
+    type: string
+  - name: Throttled Time In Millis
+    pathTemplate: '{{ .indices.indexing.throttle_time_in_millis }}'
+    priority: 3
+    type: integer
+  - name: Types
+    pathTemplate: '{{ .indices.indexing.types }}'
+    priority: 3
+    type: object
+  - name: Total
+    pathTemplate: '{{ .indices.get.total }}'
+    priority: 3
+    type: integer
+  - name: Time
+    pathTemplate: '{{ .indices.get.get_time }}'
+    priority: 3
+    type: string
+  - name: Time In Millis
+    pathTemplate: '{{ .indices.get.time_in_millis }}'
+    priority: 3
+    type: integer
+  - name: Exists
+    pathTemplate: '{{ .indices.get.exists }}'
+    priority: 3
+    type: integer
+  - name: Exists Time
+    pathTemplate: '{{ .indices.get.exists_time }}'
+    priority: 3
+    type: string
+  - name: Exists Time In Millis
+    pathTemplate: '{{ .indices.get.exists_in_millis }}'
+    priority: 3
+    type: integer
+  - name: Missing
+    pathTemplate: '{{ .indices.get.missing }}'
+    priority: 3
+    type: integer
+  - name: Missing Time
+    pathTemplate: '{{ .indices.get.missing_time }}'
+    priority: 3
+    type: string
+  - name: Missing Time In Millis
+    pathTemplate: '{{ .indices.get.missing_in_millis }}'
+    priority: 3
+    type: integer
+  - name: Current
+    pathTemplate: '{{ .indices.get.current }}'
+    priority: 3
+    type: integer
+  - name: Open Contexts
+    pathTemplate: '{{ .indices.search.open_contexts }}'
+    priority: 3
+    type: integer
+  - name: Query Total
+    pathTemplate: '{{ .indices.search.query_total }}'
+    priority: 3
+    type: integer
+  - name: Query Time
+    pathTemplate: '{{ .indices.search.query_time }}'
+    priority: 3
+    type: string
+  - name: Query Time In Millis
+    pathTemplate: '{{ .indices.search.query_time_in_millis }}'
+    priority: 3
+    type: integer
+  - name: Query Current
+    pathTemplate: '{{ .indices.search.query_current }}'
+    priority: 3
+    type: integer
+  - name: Fetch Total
+    pathTemplate: '{{ .indices.search.fetch_total }}'
+    priority: 3
+    type: integer
+  - name: Fetch Time
+    pathTemplate: '{{ .indices.search.fetch_time }}'
+    priority: 3
+    type: string
+  - name: Fetch Time In Millis
+    pathTemplate: '{{ .indices.search.fetch_time_in_millis }}'
+    priority: 3
+    type: integer
+  - name: Fetch Current
+    pathTemplate: '{{ .indices.search.fetch_current }}'
+    priority: 3
+    type: integer
+  - name: Scroll Total
+    pathTemplate: '{{ .indices.search.scroll_total }}'
+    priority: 3
+    type: integer
+  - name: Scroll Time
+    pathTemplate: '{{ .indices.search.scroll_time }}'
+    priority: 3
+    type: string
+  - name: Scroll Time In Millis
+    pathTemplate: '{{ .indices.search.scroll_time_in_millis }}'
+    priority: 3
+    type: integer
+  - name: Scroll Current
+    pathTemplate: '{{ .indices.search.scroll_current }}'
+    priority: 3
+    type: integer
+  - name: Groups
+    pathTemplate: '{{ .indices.search.groups }}'
+    priority: 3
+    type: object
+  - name: Current
+    pathTemplate: '{{ .indices.merges.current }}'
+    priority: 3
+    type: integer
+  - name: Current Docs
+    pathTemplate: '{{ .indices.merges.current_docs }}'
+    priority: 3
+    type: integer
+  - name: Current Size
+    pathTemplate: '{{ .indices.merges.current_size }}'
+    priority: 3
+    type: string
+  - name: Current Size Bytes
+    pathTemplate: '{{ .indices.merges.current_size_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Total
+    pathTemplate: '{{ .indices.merges.total }}'
+    priority: 3
+    type: integer
+  - name: Total Time
+    pathTemplate: '{{ .indices.merges.total_time }}'
+    priority: 3
+    type: string
+  - name: Total Time In Millis
+    pathTemplate: '{{ .indices.merges.total_time_in_millis }}'
+    priority: 3
+    type: integer
+  - name: Total Docs
+    pathTemplate: '{{ .indices.merges.total_docs }}'
+    priority: 3
+    type: integer
+  - name: Total Size
+    pathTemplate: '{{ .indices.merges.total_size }}'
+    priority: 3
+    type: string
+  - name: Total Size Bytes
+    pathTemplate: '{{ .indices.merges.total_size_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Total Stopped Time
+    pathTemplate: '{{ .indices.merges.total_stopped_time }}'
+    priority: 3
+    type: string
+  - name: Total Stopped Time In Millis
+    pathTemplate: '{{ .indices.merges.total_stopped_time_in_millis }}'
+    priority: 3
+    type: integer
+  - name: Total Throttled Time
+    pathTemplate: '{{ .indices.merges.total_throttled_time }}'
+    priority: 3
+    type: string
+  - name: Total Throttled Time In Millis
+    pathTemplate: '{{ .indices.merges.total_throttled_time_in_millis }}'
+    priority: 3
+    type: integer
+  - name: Total Throttle Bytes
+    pathTemplate: '{{ .indices.merges.total_auto_throttle }}'
+    priority: 3
+    type: string
+  - name: Total Throttle Bytes Bytes
+    pathTemplate: '{{ .indices.merges.total_auto_throttle_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Total
+    pathTemplate: '{{ .indices.refresh.total }}'
+    priority: 3
+    type: integer
+  - name: Total Time
+    pathTemplate: '{{ .indices.refresh.total_time }}'
+    priority: 3
+    type: string
+  - name: Total Time In Millis
+    pathTemplate: '{{ .indices.refresh.total_time_in_millis }}'
+    priority: 3
+    type: integer
+  - name: Total
+    pathTemplate: '{{ .indices.flush.total }}'
+    priority: 3
+    type: integer
+  - name: Total Time
+    pathTemplate: '{{ .indices.flush.total_time }}'
+    priority: 3
+    type: string
+  - name: Total Time In Millis
+    pathTemplate: '{{ .indices.flush.total_time_in_millis }}'
+    priority: 3
+    type: integer
+  - name: Current
+    pathTemplate: '{{ .indices.warmer.current }}'
+    priority: 3
+    type: integer
+  - name: Total
+    pathTemplate: '{{ .indices.warmer.total }}'
+    priority: 3
+    type: integer
+  - name: Total Time
+    pathTemplate: '{{ .indices.warmer.total_time }}'
+    priority: 3
+    type: string
+  - name: Total Time In Millis
+    pathTemplate: '{{ .indices.warmer.total_time_in_millis }}'
+    priority: 3
+    type: integer
+  - name: Memory Size
+    pathTemplate: '{{ .indices.query_cache.memory_size }}'
+    priority: 3
+    type: string
+  - name: Memory Size Bytes
+    pathTemplate: '{{ .indices.query_cache.memory_size_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Total Count
+    pathTemplate: '{{ .indices.query_cache.total_count }}'
+    priority: 3
+    type: integer
+  - name: Hit Count
+    pathTemplate: '{{ .indices.query_cache.hit_count }}'
+    priority: 3
+    type: integer
+  - name: Miss Count
+    pathTemplate: '{{ .indices.query_cache.miss_count }}'
+    priority: 3
+    type: integer
+  - name: Cache Size
+    pathTemplate: '{{ .indices.query_cache.cache_size }}'
+    priority: 3
+    type: integer
+  - name: Cache Count
+    pathTemplate: '{{ .indices.query_cache.cache_count }}'
+    priority: 3
+    type: integer
+  - name: Evictions
+    pathTemplate: '{{ .indices.query_cache.evictions }}'
+    priority: 3
+    type: integer
+  - name: Memory Size
+    pathTemplate: '{{ .indices.fielddata.memory_size }}'
+    priority: 3
+    type: string
+  - name: Memory Size Bytes
+    pathTemplate: '{{ .indices.fielddata.memory_size_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Evictions
+    pathTemplate: '{{ .indices.fielddata.evictions }}'
+    priority: 3
+    type: integer
+  - name: Memory Size
+    pathTemplate: '{{ .indices.fielddata.fields.memory_size }}'
+    priority: 3
+    type: string
+  - name: Memory Size Bytes
+    pathTemplate: '{{ .indices.fielddata.fields.memory_size_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Total Size
+    pathTemplate: '{{ .indices.completion.size }}'
+    priority: 3
+    type: string
+  - name: Size Bytes
+    pathTemplate: '{{ .indices.completion.size_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Total Size
+    pathTemplate: '{{ .indices.completion.fields.size }}'
+    priority: 3
+    type: string
+  - name: Size Bytes
+    pathTemplate: '{{ .indices.completion.fields.size_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Count
+    pathTemplate: '{{ .indices.segments.count }}'
+    priority: 3
+    type: integer
+  - name: Memory
+    pathTemplate: '{{ .indices.segments.memory }}'
+    priority: 3
+    type: string
+  - name: Memory Bytes
+    pathTemplate: '{{ .indices.segments.memory_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Terms Memory
+    pathTemplate: '{{ .indices.segments.terms_memory }}'
+    priority: 3
+    type: string
+  - name: Terms Memory Bytes
+    pathTemplate: '{{ .indices.segments.terms_memory_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Stored Fields Memory
+    pathTemplate: '{{ .indices.segments.stored_fields_memory }}'
+    priority: 3
+    type: string
+  - name: Stored Fields Memory Bytes
+    pathTemplate: '{{ .indices.segments.stored_fields_memory_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Term Vectors Memory
+    pathTemplate: '{{ .indices.segments.term_vectors_memory }}'
+    priority: 3
+    type: string
+  - name: Term Vectors Memory Bytes
+    pathTemplate: '{{ .indices.segments.term_vectors_memory_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Norms Memory
+    pathTemplate: '{{ .indices.segments.norms_memory }}'
+    priority: 3
+    type: string
+  - name: Norms Memory Bytes
+    pathTemplate: '{{ .indices.segments.norms_memory_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Doc Values Memory
+    pathTemplate: '{{ .indices.segments.doc_values_memory }}'
+    priority: 3
+    type: string
+  - name: Doc Values Memory Bytes
+    pathTemplate: '{{ .indices.segments.doc_values_memory_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Index Writer Memory
+    pathTemplate: '{{ .indices.segments.index_writer_memory }}'
+    priority: 3
+    type: string
+  - name: Index Writer Memory Bytes
+    pathTemplate: '{{ .indices.segments.index_writer_memory_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Index Writer Max Memory
+    pathTemplate: '{{ .indices.segments.index_writer_max_memory }}'
+    priority: 3
+    type: string
+  - name: Index Writer Max Memory Bytes
+    pathTemplate: '{{ .indices.segments.index_writer_max_memory_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Version Map Memory
+    pathTemplate: '{{ .indices.segments.version_map_memory }}'
+    priority: 3
+    type: string
+  - name: Version Map Memory Bytes
+    pathTemplate: '{{ .indices.segments.version_map_memory_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Fixed Bit Set Memory
+    pathTemplate: '{{ .indices.segments.fixed_bit_set }}'
+    priority: 3
+    type: string
+  - name: Fixed Bit Set Memory Bytes
+    pathTemplate: '{{ .indices.segments.fixed_bit_set_memory_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Operations
+    pathTemplate: '{{ .indices.translog.operations }}'
+    priority: 3
+    type: integer
+  - name: Total Size
+    pathTemplate: '{{ .indices.translog.size }}'
+    priority: 3
+    type: string
+  - name: Size Bytes
+    pathTemplate: '{{ .indices.translog.size_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Memory Size
+    pathTemplate: '{{ .indices.request_cache.memory_size }}'
+    priority: 3
+    type: string
+  - name: Memory Size Bytes
+    pathTemplate: '{{ .indices.request_cache.memory_size_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Evictions
+    pathTemplate: '{{ .indices.request_cache.evictions }}'
+    priority: 3
+    type: integer
+  - name: Hit Count
+    pathTemplate: '{{ .indices.request_cache.hit_count }}'
+    priority: 3
+    type: integer
+  - name: Miss Count
+    pathTemplate: '{{ .indices.request_cache.miss_count }}'
+    priority: 3
+    type: integer
+  - name: Current As Source
+    pathTemplate: '{{ .indices.recovery.current_as_source }}'
+    priority: 3
+    type: integer
+  - name: Current As Target
+    pathTemplate: '{{ .indices.recovery.current_as_target }}'
+    priority: 3
+    type: integer
+  - name: Indices Level
+    pathTemplate: '{{ .indices.indices }}'
+    priority: 3
+    type: object
+  - name: Shards Level
+    pathTemplate: '{{ .indices.shards }}'
+    priority: 3
+    type: object
+  - name: Timestamp
+    pathTemplate: '{{ .os.timestamp }}'
+    priority: 3
+    type: integer
+  - name: Percent
+    pathTemplate: '{{ .os.cpu.percent }}'
+    priority: 3
+    type: integer
+  - name: Load Average
+    pathTemplate: '{{ .os.cpu.load_average }}'
+    priority: 3
+    type: object
+  - name: Total
+    pathTemplate: '{{ .os.mem.total }}'
+    priority: 3
+    type: string
+  - name: Total Bytes
+    pathTemplate: '{{ .os.mem.total_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Free
+    pathTemplate: '{{ .os.mem.free }}'
+    priority: 3
+    type: string
+  - name: Free Bytes
+    pathTemplate: '{{ .os.mem.free_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Used
+    pathTemplate: '{{ .os.mem.used }}'
+    priority: 3
+    type: string
+  - name: Used Bytes
+    pathTemplate: '{{ .os.mem.used_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Free Percent
+    pathTemplate: '{{ .os.mem.free_percent }}'
+    priority: 3
+    type: integer
+  - name: Used Percent
+    pathTemplate: '{{ .os.mem.used_percent }}'
+    priority: 3
+    type: integer
+  - name: Total
+    pathTemplate: '{{ .os.swap.total }}'
+    priority: 3
+    type: string
+  - name: Total Bytes
+    pathTemplate: '{{ .os.swap.total_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Free
+    pathTemplate: '{{ .os.swap.free }}'
+    priority: 3
+    type: string
+  - name: Free Bytes
+    pathTemplate: '{{ .os.swap.free_in_bytes }}'
+    priority: 3
+    type: integer
+  - name: Used
+    pathTemplate: '{{ .os.swap.used }}'
+    priority: 3
+    type: string
+  - name: Used Bytes
+    pathTemplate: '{{ .os.swap.used_in_bytes }}'
+    priority: 3
+    type: integer
+  defaultView: false

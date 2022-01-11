@@ -1,0 +1,75 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ui.kubedb.com
+    k8s.io/kind: RedisInsight
+    k8s.io/resource: redisinsights
+    k8s.io/version: v1alpha1
+  name: ui.kubedb.com-v1alpha1-redisinsights
+spec:
+  columns:
+  - name: Version
+    pathTemplate: '{{ .spec.version }}'
+    priority: 3
+    type: string
+  - name: Status
+    pathTemplate: '{{ .spec.status }}'
+    priority: 3
+    type: string
+  - name: Mode
+    pathTemplate: '{{ .spec.mode }}'
+    priority: 3
+    type: string
+  - name: Eviction Policy
+    pathTemplate: '{{ .spec.evictionPolicy }}'
+    priority: 3
+    type: string
+  - name: Max Clients
+    pathTemplate: '{{ .spec.maxClients }}'
+    priority: 3
+    type: integer
+  - name: Connected Clients
+    pathTemplate: '{{ .spec.connectedClients }}'
+    priority: 3
+    type: integer
+  - name: Blocked Clients
+    pathTemplate: '{{ .spec.blockedClients }}'
+    priority: 3
+    type: integer
+  - name: Total Keys
+    pathTemplate: '{{ .spec.totalKeys }}'
+    priority: 3
+    type: integer
+  - name: Expired Keys
+    pathTemplate: '{{ .spec.expiredKeys }}'
+    priority: 3
+    type: integer
+  - name: Evicted Keys
+    pathTemplate: '{{ .spec.evictedKeys }}'
+    priority: 3
+    type: integer
+  - name: Received Connections
+    pathTemplate: '{{ .spec.receivedConnections }}'
+    priority: 3
+    type: integer
+  - name: Rejected Connections
+    pathTemplate: '{{ .spec.rejectedConnections }}'
+    priority: 3
+    type: integer
+  - name: Slow Log Threshold Mirco Seconds
+    pathTemplate: '{{ .spec.slowLogThresholdMircoSeconds }}'
+    priority: 3
+    type: integer
+  - name: Slow Log Max Len
+    pathTemplate: '{{ .spec.slowLogMaxLen }}'
+    priority: 3
+    type: integer
+  defaultView: true
+  resource:
+    group: ui.kubedb.com
+    kind: RedisInsight
+    name: redisinsights
+    scope: Namespaced
+    version: v1alpha1
