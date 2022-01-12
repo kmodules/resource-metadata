@@ -265,6 +265,7 @@ func renderTemplate(data interface{}, col columnOptions, buf *bytes.Buffer) (int
 func (c *convertor) ConvertToTable(_ context.Context, obj runtime.Object, _ runtime.Object) (*v1alpha1.Table, error) {
 	table := &v1alpha1.Table{
 		Columns: make([]v1alpha1.ResourceColumn, 0, len(c.headers)),
+		Rows:    make([]v1alpha1.TableRow, 0),
 	}
 
 	for _, def := range c.headers {
