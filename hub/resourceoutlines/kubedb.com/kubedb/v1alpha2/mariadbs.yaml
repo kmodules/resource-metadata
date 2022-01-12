@@ -176,26 +176,26 @@ spec:
         group: ui.stash.appscode.com
         kind: BackupOverview
     blocks:
-  - actions:
-      create: Always
-    displayMode: List
-    kind: Connection
-    query:
-      raw: |-
-        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
-          find(oid: $src) {
-            backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
-              refs: offshoot(group: $targetGroup, kind: $targetKind) {
-                namespace
-                name
+    - actions:
+        create: Always
+      displayMode: List
+      kind: Connection
+      query:
+        raw: |-
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
               }
             }
           }
-        }
-      type: GraphQL
-    ref:
-      group: stash.appscode.com
-      kind: BackupSession
+        type: GraphQL
+      ref:
+        group: stash.appscode.com
+        kind: BackupSession
   - name: Operations
     blocks:
     - actions:
