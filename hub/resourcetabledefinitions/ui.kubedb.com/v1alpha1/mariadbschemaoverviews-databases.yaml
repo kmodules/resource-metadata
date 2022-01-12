@@ -1,0 +1,22 @@
+# using fieldPath: .spec.databases
+
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  name: ui.kubedb.com-v1alpha1-mariadbschemaoverviews-databases
+spec:
+  columns:
+  - name: Database Name
+    pathTemplate: '{{ .databaseName }}'
+    priority: 3
+    type: string
+  - name: Table Name
+    pathTemplate: '{{ .tableName }}'
+    priority: 3
+    type: string
+  - name: Table Size(bytes)
+    pathTemplate: '{{ .tableSizeBytes }}'
+    priority: 3
+    type: string
+  defaultView: false

@@ -1,0 +1,59 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ui.stash.appscode.com
+    k8s.io/kind: BackupOverview
+    k8s.io/resource: backupoverviews
+    k8s.io/version: v1alpha1
+  name: ui.stash.appscode.com-v1alpha1-backupoverviews
+spec:
+  columns:
+  - name: Schedule
+    pathTemplate: '{{ .spec.schedule }}'
+    priority: 3
+    type: string
+  - name: Status
+    pathTemplate: '{{ .spec.status }}'
+    priority: 3
+    type: string
+  - name: Last Backup Time
+    pathTemplate: '{{ .spec.lastBackupTime }}'
+    priority: 3
+    sort:
+      enable: true
+      template: '{{ .spec.lastBackupTime | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+      type: integer
+    type: date
+  - name: Upcoming Backup Time
+    pathTemplate: '{{ .spec.upcomingBackupTime }}'
+    priority: 3
+    sort:
+      enable: true
+      template: '{{ .spec.upcomingBackupTime | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+      type: integer
+    type: date
+  - name: Repository
+    pathTemplate: '{{ .spec.repository }}'
+    priority: 3
+    type: string
+  - name: Data Size
+    pathTemplate: '{{ .spec.dataSize }}'
+    priority: 3
+    type: string
+  - name: Number Of Snapshots
+    pathTemplate: '{{ .spec.numberOfSnapshots }}'
+    priority: 3
+    type: integer
+  - name: Data Integrity
+    pathTemplate: '{{ .spec.dataIntegrity }}'
+    priority: 3
+    type: bool
+  defaultView: true
+  resource:
+    group: ui.stash.appscode.com
+    kind: BackupOverview
+    name: backupoverviews
+    scope: Namespaced
+    version: v1alpha1

@@ -129,6 +129,54 @@ spec:
       apiVersion: cert-manager.io/v1
       kind: ClusterIssuer
     type: MatchRef
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}'
+    namespacePath: metadata.namespace
+    target:
+      apiVersion: ui.k8s.appscode.com/v1alpha1
+      kind: GenericResource
+    type: MatchName
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}'
+    namespacePath: metadata.namespace
+    target:
+      apiVersion: ui.k8s.appscode.com/v1alpha1
+      kind: GenericResourceService
+    type: MatchName
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}'
+    namespacePath: metadata.namespace
+    target:
+      apiVersion: ui.kubedb.com/v1alpha1
+      kind: PostgresInsight
+    type: MatchName
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}'
+    namespacePath: metadata.namespace
+    target:
+      apiVersion: ui.kubedb.com/v1alpha1
+      kind: PostgresQueries
+    type: MatchName
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}'
+    namespacePath: metadata.namespace
+    target:
+      apiVersion: ui.kubedb.com/v1alpha1
+      kind: PostgresSchemaOverview
+    type: MatchName
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}'
+    namespacePath: metadata.namespace
+    target:
+      apiVersion: ui.kubedb.com/v1alpha1
+      kind: PostgresSettings
+    type: MatchName
   icons:
   - src: https://cdn.appscode.com/k8s/icons/kubedb.com/postgreses.svg
     type: image/svg+xml

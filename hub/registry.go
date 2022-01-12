@@ -291,16 +291,38 @@ func (r *Registry) findGVR(in *metav1.GroupKind, keepOfficialTypes bool) (schema
 	return schema.GroupVersionResource{}, false
 }
 
-func (r *Registry) ResourceIDForGVK(gvk schema.GroupVersionKind) (*kmapi.ResourceID, error) {
+func (r *Registry) ResourceIDForGVK(in schema.GroupVersionKind) (*kmapi.ResourceID, error) {
 	r.m.RLock()
 	defer r.m.RUnlock()
-	return r.regGVK[gvk], nil
+
+	if in.Version != "" {
+		return r.regGVK[in], nil
+	}
+	for gvk, rid := range r.regGVK {
+		if gvk.Group == in.Group && gvk.Kind == in.Kind {
+			if _, ok := r.preferred[rid.GroupResource()]; ok {
+				return rid, nil
+			}
+		}
+	}
+	return nil, nil
 }
 
-func (r *Registry) ResourceIDForGVR(gvr schema.GroupVersionResource) (*kmapi.ResourceID, error) {
+func (r *Registry) ResourceIDForGVR(in schema.GroupVersionResource) (*kmapi.ResourceID, error) {
 	r.m.RLock()
 	defer r.m.RUnlock()
-	return r.regGVR[gvr], nil
+
+	if in.Version != "" {
+		return r.regGVR[in], nil
+	}
+	for gvr, rid := range r.regGVR {
+		if gvr.Group == in.Group && gvr.Resource == in.Resource {
+			if _, ok := r.preferred[rid.GroupResource()]; ok {
+				return rid, nil
+			}
+		}
+	}
+	return nil, nil
 }
 
 func (r *Registry) GVR(gvk schema.GroupVersionKind) (schema.GroupVersionResource, error) {

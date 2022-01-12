@@ -4,23 +4,18 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: ui.kubedb.com
-    k8s.io/kind: MongoDBOverview
-    k8s.io/resource: mongodboverviews
+    k8s.io/kind: MongoDBInsight
+    k8s.io/resource: mongodbinsights
     k8s.io/version: v1alpha1
-  name: ui.kubedb.com-v1alpha1-mongodboverviews
+  name: ui.kubedb.com-v1alpha1-mongodbinsights
 spec:
-  defaultView: true
   columns:
-  - name: Name
-    pathTemplate: '{{ .metadata.name }}'
-    priority: 3
-    type: string
-  - name: Namespace
-    pathTemplate: '{{ .metadata.namespace }}'
-    priority: 3
-    type: string
   - name: Version
     pathTemplate: '{{ .spec.version }}'
+    priority: 3
+    type: string
+  - name: Type
+    pathTemplate: '{{ .spec.type }}'
     priority: 3
     type: string
   - name: Status
@@ -30,58 +25,59 @@ spec:
   - name: Current Connections
     pathTemplate: '{{ .spec.connections.currentConnections }}'
     priority: 3
-    type: string
-  - name: Total Connections
-    pathTemplate: '{{ .spec.connections.totalConnections }}'
-    priority: 3
-    type: string
+    type: integer
   - name: Available Connections
     pathTemplate: '{{ .spec.connections.availableConnections }}'
     priority: 3
-    type: string
+    type: integer
   - name: Active Connections
     pathTemplate: '{{ .spec.connections.activeConnections }}'
     priority: 3
-    type: string
+    type: integer
+  - name: Total Collections
+    pathTemplate: '{{ .spec.dbStats.totalCollections }}'
+    priority: 3
+    type: integer
   - name: Data Size
     pathTemplate: '{{ .spec.dbStats.dataSize }}'
     priority: 3
-    type: string
-  - name: Total Index
+    type: integer
+  - name: Total Indexes
     pathTemplate: '{{ .spec.dbStats.totalIndexes }}'
     priority: 3
-    type: string
+    type: integer
   - name: Index Size
     pathTemplate: '{{ .spec.dbStats.indexSize }}'
     priority: 3
-    type: string
-  - name: Replicas
-    pathTemplate: '{{ .spec.replicaSetInfo.numberOfReplicas }}'
-    priority: 3
-    type: string
-  - name: Number of Shards
+    type: integer
+  - name: Number Of Shards
     pathTemplate: '{{ .spec.shardsInfo.numberOfShards }}'
     priority: 3
-    type: string
+    type: integer
   - name: Replicas Per Shards
     pathTemplate: '{{ .spec.shardsInfo.replicasPerShards }}'
     priority: 3
-    type: string
-  - name: Number of Chunks
+    type: integer
+  - name: Number Of Chunks
     pathTemplate: '{{ .spec.shardsInfo.numberOfChunks }}'
     priority: 3
-    type: string
+    type: integer
   - name: Balancer Enabled
     pathTemplate: '{{ .spec.shardsInfo.balancerEnabled }}'
     priority: 3
-    type: string
+    type: bool
   - name: Chunks Balanced
     pathTemplate: '{{ .spec.shardsInfo.chunksBalanced }}'
     priority: 3
-    type: string
+    type: bool
+  - name: Replicas
+    pathTemplate: '{{ .spec.replicaSetInfo.numberOfReplicas }}'
+    priority: 3
+    type: integer
+  defaultView: true
   resource:
     group: ui.kubedb.com
-    kind: MongoDBOverview
-    name: mongodboverviews
+    kind: MongoDBInsight
+    name: mongodbinsights
     scope: Namespaced
     version: v1alpha1

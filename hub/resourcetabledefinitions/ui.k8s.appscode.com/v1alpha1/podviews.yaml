@@ -9,40 +9,480 @@ metadata:
     k8s.io/version: v1alpha1
   name: ui.k8s.appscode.com-v1alpha1-podviews
 spec:
-  defaultView: true
   columns:
+  - name: Limits
+    pathTemplate: '{{ .spec.resources.limits }}'
+    priority: 3
+    type: object
+  - name: Requests
+    pathTemplate: '{{ .spec.resources.requests }}'
+    priority: 3
+    type: object
+  - name: Usage
+    pathTemplate: '{{ .spec.resources.usage }}'
+    priority: 3
+    type: object
   - name: Name
-    pathTemplate: '{{ .metadata.name }}'
+    pathTemplate: '{{ .spec.containers.name }}'
     priority: 3
     type: string
-  - name: CPU (Usage)
-    pathTemplate: '{{ .spec.resources.usage.cpu | k8s_fmt_resource_cpu}}'
+  - name: Image
+    pathTemplate: '{{ .spec.containers.image }}'
     priority: 3
     type: string
-  - name: CPU (Limit)
-    pathTemplate: '{{ .spec.resources.limits.cpu | k8s_fmt_resource_cpu}}'
+  - name: Command
+    pathTemplate: '{{ .spec.containers.command }}'
     priority: 3
     type: string
-  - name: Memory (Usage)
-    pathTemplate: '{{ .spec.resources.usage.memory | k8s_fmt_resource_memory}}'
+  - name: Args
+    pathTemplate: '{{ .spec.containers.args }}'
     priority: 3
     type: string
-  - name: Memory (Limit)
-    pathTemplate: '{{ .spec.resources.limits.memory | k8s_fmt_resource_memory}}'
+  - name: Working Dir
+    pathTemplate: '{{ .spec.containers.workingDir }}'
     priority: 3
     type: string
-  - name: Storage (Usage)
-    pathTemplate: '{{ .spec.resources.usage.storage | k8s_fmt_resource_memory}}'
+  - name: Name
+    pathTemplate: '{{ .spec.containers.ports.name }}'
     priority: 3
     type: string
-  - name: Storage (Limit)
-    pathTemplate: '{{ .spec.resources.limits.storage | k8s_fmt_resource_memory}}'
+  - name: Host Port
+    pathTemplate: '{{ .spec.containers.ports.hostPort }}'
+    priority: 3
+    type: integer
+  - name: Container Port
+    pathTemplate: '{{ .spec.containers.ports.containerPort }}'
+    priority: 3
+    type: integer
+  - name: Protocol
+    pathTemplate: '{{ .spec.containers.ports.protocol }}'
     priority: 3
     type: string
-  - name: Status
-    pathTemplate: '{{ .status.phase }}'
+  - name: Host IP
+    pathTemplate: '{{ .spec.containers.ports.hostIP }}'
     priority: 3
     type: string
+  - name: Prefix
+    pathTemplate: '{{ .spec.containers.envFrom.prefix }}'
+    priority: 3
+    type: string
+  - name: Name
+    pathTemplate: '{{ .spec.containers.envFrom.configMapRef.name }}'
+    priority: 3
+    type: string
+  - name: Optional
+    pathTemplate: '{{ .spec.containers.envFrom.configMapRef.optional }}'
+    priority: 3
+    type: bool
+  - name: Name
+    pathTemplate: '{{ .spec.containers.envFrom.secretRef.name }}'
+    priority: 3
+    type: string
+  - name: Optional
+    pathTemplate: '{{ .spec.containers.envFrom.secretRef.optional }}'
+    priority: 3
+    type: bool
+  - name: Name
+    pathTemplate: '{{ .spec.containers.env.name }}'
+    priority: 3
+    type: string
+  - name: Value
+    pathTemplate: '{{ .spec.containers.env.value }}'
+    priority: 3
+    type: string
+  - name: API Version
+    pathTemplate: '{{ .spec.containers.env.valueFrom.fieldRef.apiVersion }}'
+    priority: 3
+    type: string
+  - name: Field Path
+    pathTemplate: '{{ .spec.containers.env.valueFrom.fieldRef.fieldPath }}'
+    priority: 3
+    type: string
+  - name: Container Name
+    pathTemplate: '{{ .spec.containers.env.valueFrom.resourceFieldRef.containerName }}'
+    priority: 3
+    type: string
+  - name: Resource
+    pathTemplate: '{{ .spec.containers.env.valueFrom.resourceFieldRef.resource }}'
+    priority: 3
+    type: string
+  - name: Name
+    pathTemplate: '{{ .spec.containers.env.valueFrom.configMapKeyRef.name }}'
+    priority: 3
+    type: string
+  - name: Key
+    pathTemplate: '{{ .spec.containers.env.valueFrom.configMapKeyRef.key }}'
+    priority: 3
+    type: string
+  - name: Optional
+    pathTemplate: '{{ .spec.containers.env.valueFrom.configMapKeyRef.optional }}'
+    priority: 3
+    type: bool
+  - name: Name
+    pathTemplate: '{{ .spec.containers.env.valueFrom.secretKeyRef.name }}'
+    priority: 3
+    type: string
+  - name: Key
+    pathTemplate: '{{ .spec.containers.env.valueFrom.secretKeyRef.key }}'
+    priority: 3
+    type: string
+  - name: Optional
+    pathTemplate: '{{ .spec.containers.env.valueFrom.secretKeyRef.optional }}'
+    priority: 3
+    type: bool
+  - name: Limits
+    pathTemplate: '{{ .spec.containers.resources.limits }}'
+    priority: 3
+    type: object
+  - name: Requests
+    pathTemplate: '{{ .spec.containers.resources.requests }}'
+    priority: 3
+    type: object
+  - name: Usage
+    pathTemplate: '{{ .spec.containers.resources.usage }}'
+    priority: 3
+    type: object
+  - name: Name
+    pathTemplate: '{{ .spec.containers.volumeMounts.name }}'
+    priority: 3
+    type: string
+  - name: Read Only
+    pathTemplate: '{{ .spec.containers.volumeMounts.readOnly }}'
+    priority: 3
+    type: bool
+  - name: Mount Path
+    pathTemplate: '{{ .spec.containers.volumeMounts.mountPath }}'
+    priority: 3
+    type: string
+  - name: Sub Path
+    pathTemplate: '{{ .spec.containers.volumeMounts.subPath }}'
+    priority: 3
+    type: string
+  - name: Mount Propagation
+    pathTemplate: '{{ .spec.containers.volumeMounts.mountPropagation }}'
+    priority: 3
+    type: string
+  - name: Sub Path Expr
+    pathTemplate: '{{ .spec.containers.volumeMounts.subPathExpr }}'
+    priority: 3
+    type: string
+  - name: Name
+    pathTemplate: '{{ .spec.containers.volumeDevices.name }}'
+    priority: 3
+    type: string
+  - name: Device Path
+    pathTemplate: '{{ .spec.containers.volumeDevices.devicePath }}'
+    priority: 3
+    type: string
+  - name: Command
+    pathTemplate: '{{ .spec.containers.livenessProbe.exec.command }}'
+    priority: 3
+    type: string
+  - name: Path
+    pathTemplate: '{{ .spec.containers.livenessProbe.httpGet.path }}'
+    priority: 3
+    type: string
+  - name: Host
+    pathTemplate: '{{ .spec.containers.livenessProbe.httpGet.host }}'
+    priority: 3
+    type: string
+  - name: Scheme
+    pathTemplate: '{{ .spec.containers.livenessProbe.httpGet.scheme }}'
+    priority: 3
+    type: string
+  - name: Name
+    pathTemplate: '{{ .spec.containers.livenessProbe.httpGet.httpHeaders.name }}'
+    priority: 3
+    type: string
+  - name: Value
+    pathTemplate: '{{ .spec.containers.livenessProbe.httpGet.httpHeaders.value }}'
+    priority: 3
+    type: string
+  - name: Host
+    pathTemplate: '{{ .spec.containers.livenessProbe.tcpSocket.host }}'
+    priority: 3
+    type: string
+  - name: Initial Delay Seconds
+    pathTemplate: '{{ .spec.containers.livenessProbe.initialDelaySeconds }}'
+    priority: 3
+    type: integer
+  - name: Timeout Seconds
+    pathTemplate: '{{ .spec.containers.livenessProbe.timeoutSeconds }}'
+    priority: 3
+    type: integer
+  - name: Period Seconds
+    pathTemplate: '{{ .spec.containers.livenessProbe.periodSeconds }}'
+    priority: 3
+    type: integer
+  - name: Success Threshold
+    pathTemplate: '{{ .spec.containers.livenessProbe.successThreshold }}'
+    priority: 3
+    type: integer
+  - name: Failure Threshold
+    pathTemplate: '{{ .spec.containers.livenessProbe.failureThreshold }}'
+    priority: 3
+    type: integer
+  - name: Termination Grace Period Seconds
+    pathTemplate: '{{ .spec.containers.livenessProbe.terminationGracePeriodSeconds }}'
+    priority: 3
+    type: integer
+  - name: Command
+    pathTemplate: '{{ .spec.containers.readinessProbe.exec.command }}'
+    priority: 3
+    type: string
+  - name: Path
+    pathTemplate: '{{ .spec.containers.readinessProbe.httpGet.path }}'
+    priority: 3
+    type: string
+  - name: Host
+    pathTemplate: '{{ .spec.containers.readinessProbe.httpGet.host }}'
+    priority: 3
+    type: string
+  - name: Scheme
+    pathTemplate: '{{ .spec.containers.readinessProbe.httpGet.scheme }}'
+    priority: 3
+    type: string
+  - name: Name
+    pathTemplate: '{{ .spec.containers.readinessProbe.httpGet.httpHeaders.name }}'
+    priority: 3
+    type: string
+  - name: Value
+    pathTemplate: '{{ .spec.containers.readinessProbe.httpGet.httpHeaders.value }}'
+    priority: 3
+    type: string
+  - name: Host
+    pathTemplate: '{{ .spec.containers.readinessProbe.tcpSocket.host }}'
+    priority: 3
+    type: string
+  - name: Initial Delay Seconds
+    pathTemplate: '{{ .spec.containers.readinessProbe.initialDelaySeconds }}'
+    priority: 3
+    type: integer
+  - name: Timeout Seconds
+    pathTemplate: '{{ .spec.containers.readinessProbe.timeoutSeconds }}'
+    priority: 3
+    type: integer
+  - name: Period Seconds
+    pathTemplate: '{{ .spec.containers.readinessProbe.periodSeconds }}'
+    priority: 3
+    type: integer
+  - name: Success Threshold
+    pathTemplate: '{{ .spec.containers.readinessProbe.successThreshold }}'
+    priority: 3
+    type: integer
+  - name: Failure Threshold
+    pathTemplate: '{{ .spec.containers.readinessProbe.failureThreshold }}'
+    priority: 3
+    type: integer
+  - name: Termination Grace Period Seconds
+    pathTemplate: '{{ .spec.containers.readinessProbe.terminationGracePeriodSeconds }}'
+    priority: 3
+    type: integer
+  - name: Command
+    pathTemplate: '{{ .spec.containers.startupProbe.exec.command }}'
+    priority: 3
+    type: string
+  - name: Path
+    pathTemplate: '{{ .spec.containers.startupProbe.httpGet.path }}'
+    priority: 3
+    type: string
+  - name: Host
+    pathTemplate: '{{ .spec.containers.startupProbe.httpGet.host }}'
+    priority: 3
+    type: string
+  - name: Scheme
+    pathTemplate: '{{ .spec.containers.startupProbe.httpGet.scheme }}'
+    priority: 3
+    type: string
+  - name: Name
+    pathTemplate: '{{ .spec.containers.startupProbe.httpGet.httpHeaders.name }}'
+    priority: 3
+    type: string
+  - name: Value
+    pathTemplate: '{{ .spec.containers.startupProbe.httpGet.httpHeaders.value }}'
+    priority: 3
+    type: string
+  - name: Host
+    pathTemplate: '{{ .spec.containers.startupProbe.tcpSocket.host }}'
+    priority: 3
+    type: string
+  - name: Initial Delay Seconds
+    pathTemplate: '{{ .spec.containers.startupProbe.initialDelaySeconds }}'
+    priority: 3
+    type: integer
+  - name: Timeout Seconds
+    pathTemplate: '{{ .spec.containers.startupProbe.timeoutSeconds }}'
+    priority: 3
+    type: integer
+  - name: Period Seconds
+    pathTemplate: '{{ .spec.containers.startupProbe.periodSeconds }}'
+    priority: 3
+    type: integer
+  - name: Success Threshold
+    pathTemplate: '{{ .spec.containers.startupProbe.successThreshold }}'
+    priority: 3
+    type: integer
+  - name: Failure Threshold
+    pathTemplate: '{{ .spec.containers.startupProbe.failureThreshold }}'
+    priority: 3
+    type: integer
+  - name: Termination Grace Period Seconds
+    pathTemplate: '{{ .spec.containers.startupProbe.terminationGracePeriodSeconds }}'
+    priority: 3
+    type: integer
+  - name: Command
+    pathTemplate: '{{ .spec.containers.lifecycle.postStart.exec.command }}'
+    priority: 3
+    type: string
+  - name: Path
+    pathTemplate: '{{ .spec.containers.lifecycle.postStart.httpGet.path }}'
+    priority: 3
+    type: string
+  - name: Host
+    pathTemplate: '{{ .spec.containers.lifecycle.postStart.httpGet.host }}'
+    priority: 3
+    type: string
+  - name: Scheme
+    pathTemplate: '{{ .spec.containers.lifecycle.postStart.httpGet.scheme }}'
+    priority: 3
+    type: string
+  - name: Name
+    pathTemplate: '{{ .spec.containers.lifecycle.postStart.httpGet.httpHeaders.name }}'
+    priority: 3
+    type: string
+  - name: Value
+    pathTemplate: '{{ .spec.containers.lifecycle.postStart.httpGet.httpHeaders.value }}'
+    priority: 3
+    type: string
+  - name: Host
+    pathTemplate: '{{ .spec.containers.lifecycle.postStart.tcpSocket.host }}'
+    priority: 3
+    type: string
+  - name: Command
+    pathTemplate: '{{ .spec.containers.lifecycle.preStop.exec.command }}'
+    priority: 3
+    type: string
+  - name: Path
+    pathTemplate: '{{ .spec.containers.lifecycle.preStop.httpGet.path }}'
+    priority: 3
+    type: string
+  - name: Host
+    pathTemplate: '{{ .spec.containers.lifecycle.preStop.httpGet.host }}'
+    priority: 3
+    type: string
+  - name: Scheme
+    pathTemplate: '{{ .spec.containers.lifecycle.preStop.httpGet.scheme }}'
+    priority: 3
+    type: string
+  - name: Name
+    pathTemplate: '{{ .spec.containers.lifecycle.preStop.httpGet.httpHeaders.name }}'
+    priority: 3
+    type: string
+  - name: Value
+    pathTemplate: '{{ .spec.containers.lifecycle.preStop.httpGet.httpHeaders.value }}'
+    priority: 3
+    type: string
+  - name: Host
+    pathTemplate: '{{ .spec.containers.lifecycle.preStop.tcpSocket.host }}'
+    priority: 3
+    type: string
+  - name: Termination Message Path
+    pathTemplate: '{{ .spec.containers.terminationMessagePath }}'
+    priority: 3
+    type: string
+  - name: Termination Message Policy
+    pathTemplate: '{{ .spec.containers.terminationMessagePolicy }}'
+    priority: 3
+    type: string
+  - name: Image Pull Policy
+    pathTemplate: '{{ .spec.containers.imagePullPolicy }}'
+    priority: 3
+    type: string
+  - name: Add
+    pathTemplate: '{{ .spec.containers.securityContext.capabilities.add }}'
+    priority: 3
+    type: string
+  - name: Drop
+    pathTemplate: '{{ .spec.containers.securityContext.capabilities.drop }}'
+    priority: 3
+    type: string
+  - name: Privileged
+    pathTemplate: '{{ .spec.containers.securityContext.privileged }}'
+    priority: 3
+    type: bool
+  - name: User
+    pathTemplate: '{{ .spec.containers.securityContext.seLinuxOptions.user }}'
+    priority: 3
+    type: string
+  - name: Role
+    pathTemplate: '{{ .spec.containers.securityContext.seLinuxOptions.role }}'
+    priority: 3
+    type: string
+  - name: Type
+    pathTemplate: '{{ .spec.containers.securityContext.seLinuxOptions.type }}'
+    priority: 3
+    type: string
+  - name: Level
+    pathTemplate: '{{ .spec.containers.securityContext.seLinuxOptions.level }}'
+    priority: 3
+    type: string
+  - name: GMSACredential Spec Name
+    pathTemplate: '{{ .spec.containers.securityContext.windowsOptions.gmsaCredentialSpecName }}'
+    priority: 3
+    type: string
+  - name: GMSACredential Spec
+    pathTemplate: '{{ .spec.containers.securityContext.windowsOptions.gmsaCredentialSpec }}'
+    priority: 3
+    type: string
+  - name: Run As User Name
+    pathTemplate: '{{ .spec.containers.securityContext.windowsOptions.runAsUserName }}'
+    priority: 3
+    type: string
+  - name: Run As User
+    pathTemplate: '{{ .spec.containers.securityContext.runAsUser }}'
+    priority: 3
+    type: integer
+  - name: Run As Group
+    pathTemplate: '{{ .spec.containers.securityContext.runAsGroup }}'
+    priority: 3
+    type: integer
+  - name: Run As Non Root
+    pathTemplate: '{{ .spec.containers.securityContext.runAsNonRoot }}'
+    priority: 3
+    type: bool
+  - name: Read Only Root Filesystem
+    pathTemplate: '{{ .spec.containers.securityContext.readOnlyRootFilesystem }}'
+    priority: 3
+    type: bool
+  - name: Allow Privilege Escalation
+    pathTemplate: '{{ .spec.containers.securityContext.allowPrivilegeEscalation }}'
+    priority: 3
+    type: bool
+  - name: Proc Mount
+    pathTemplate: '{{ .spec.containers.securityContext.procMount }}'
+    priority: 3
+    type: string
+  - name: Type
+    pathTemplate: '{{ .spec.containers.securityContext.seccompProfile.type }}'
+    priority: 3
+    type: string
+  - name: Localhost Profile
+    pathTemplate: '{{ .spec.containers.securityContext.seccompProfile.localhostProfile }}'
+    priority: 3
+    type: string
+  - name: Stdin
+    pathTemplate: '{{ .spec.containers.stdin }}'
+    priority: 3
+    type: bool
+  - name: Stdin Once
+    pathTemplate: '{{ .spec.containers.stdinOnce }}'
+    priority: 3
+    type: bool
+  - name: TTY
+    pathTemplate: '{{ .spec.containers.tty }}'
+    priority: 3
+    type: bool
+  defaultView: true
   resource:
     group: ui.k8s.appscode.com
     kind: PodView

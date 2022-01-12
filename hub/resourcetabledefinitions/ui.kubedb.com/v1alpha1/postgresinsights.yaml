@@ -1,0 +1,67 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ui.kubedb.com
+    k8s.io/kind: PostgresInsight
+    k8s.io/resource: postgresinsights
+    k8s.io/version: v1alpha1
+  name: ui.kubedb.com-v1alpha1-postgresinsights
+spec:
+  columns:
+  - name: Version
+    pathTemplate: '{{ .spec.version }}'
+    priority: 3
+    type: string
+  - name: Status
+    pathTemplate: '{{ .spec.status }}'
+    priority: 3
+    type: string
+  - name: Mode
+    pathTemplate: '{{ .spec.mode }}'
+    priority: 3
+    type: string
+  - name: Application Name
+    pathTemplate: '{{ .spec.replicationStatus.applicationName }}'
+    priority: 3
+    type: string
+  - name: State
+    pathTemplate: '{{ .spec.replicationStatus.state }}'
+    priority: 3
+    type: string
+  - name: Write Lag
+    pathTemplate: '{{ .spec.replicationStatus.writeLag }}'
+    priority: 3
+    type: integer
+  - name: Flush Lag
+    pathTemplate: '{{ .spec.replicationStatus.flushLag }}'
+    priority: 3
+    type: integer
+  - name: Replay Lag
+    pathTemplate: '{{ .spec.replicationStatus.replayLag }}'
+    priority: 3
+    type: integer
+  - name: Max Connections
+    pathTemplate: '{{ .spec.connectionInfo.maxConnections }}'
+    priority: 3
+    type: integer
+  - name: Active Connections
+    pathTemplate: '{{ .spec.connectionInfo.activeConnections }}'
+    priority: 3
+    type: integer
+  - name: Auto Vacuum
+    pathTemplate: '{{ .spec.vacuumInfo.autoVacuum }}'
+    priority: 3
+    type: string
+  - name: Active Vacuum Process
+    pathTemplate: '{{ .spec.vacuumInfo.activeVacuumProcess }}'
+    priority: 3
+    type: integer
+  defaultView: true
+  resource:
+    group: ui.kubedb.com
+    kind: PostgresInsight
+    name: postgresinsights
+    scope: Namespaced
+    version: v1alpha1

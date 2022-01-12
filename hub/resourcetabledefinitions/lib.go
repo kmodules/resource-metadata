@@ -80,6 +80,13 @@ func init() {
 	}
 }
 
+func GetName(gvr schema.GroupVersionResource) string {
+	if gvr.Group == "" && gvr.Version == "v1" {
+		return fmt.Sprintf("core-v1-%s", gvr.Resource)
+	}
+	return fmt.Sprintf("%s-%s-%s", gvr.Group, gvr.Version, gvr.Resource)
+}
+
 func LoadByName(name string) (*v1alpha1.ResourceTableDefinition, error) {
 	if obj, ok := rtdMap[name]; ok {
 		return obj, nil

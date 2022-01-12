@@ -35,6 +35,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
+const BasicPage = "Basic"
+
 var reg = hub.NewRegistryOfKnownResources()
 
 func LoadResourceLayoutForGVR(kc client.Client, gvr schema.GroupVersionResource) (*v1alpha1.ResourceLayout, error) {
@@ -43,7 +45,16 @@ func LoadResourceLayoutForGVR(kc client.Client, gvr schema.GroupVersionResource)
 		return GetResourceLayout(kc, outline)
 	}
 
-	rid, err := kmapi.ExtractResourceID(kc.RESTMapper(), kmapi.ResourceID{
+	mapper := kc.RESTMapper()
+	rid, err := resourceIDForGVR(mapper, gvr)
+	if err != nil {
+		return nil, err
+	}
+	return generateDefaultLayout(kc, *rid)
+}
+
+func resourceIDForGVR(mapper meta.RESTMapper, gvr schema.GroupVersionResource) (*kmapi.ResourceID, error) {
+	rid, err := kmapi.ExtractResourceID(mapper, kmapi.ResourceID{
 		Group:   gvr.Group,
 		Version: gvr.Version,
 		Name:    gvr.Resource,
@@ -59,7 +70,7 @@ func LoadResourceLayoutForGVR(kc client.Client, gvr schema.GroupVersionResource)
 			return nil, apierrors.NewNotFound(v1alpha1.Resource(v1alpha1.ResourceKindResourceOutline), gvr.String())
 		}
 	}
-	return generateDefaultLayout(kc, *rid)
+	return rid, nil
 }
 
 func LoadResourceLayoutForGVK(kc client.Client, gvk schema.GroupVersionKind) (*v1alpha1.ResourceLayout, error) {
@@ -68,7 +79,16 @@ func LoadResourceLayoutForGVK(kc client.Client, gvk schema.GroupVersionKind) (*v
 		return GetResourceLayout(kc, outline)
 	}
 
-	rid, err := kmapi.ExtractResourceID(kc.RESTMapper(), kmapi.ResourceID{
+	rid, err := resourceIDForGVK(kc, gvk)
+	if err != nil {
+		return nil, err
+	}
+	return generateDefaultLayout(kc, *rid)
+}
+
+func resourceIDForGVK(kc client.Client, gvk schema.GroupVersionKind) (*kmapi.ResourceID, error) {
+	mapper := kc.RESTMapper()
+	rid, err := kmapi.ExtractResourceID(mapper, kmapi.ResourceID{
 		Group:   gvk.Group,
 		Version: gvk.Version,
 		Name:    "",
@@ -84,7 +104,7 @@ func LoadResourceLayoutForGVK(kc client.Client, gvk schema.GroupVersionKind) (*v
 			return nil, apierrors.NewNotFound(v1alpha1.Resource(v1alpha1.ResourceKindResourceOutline), gvk.String())
 		}
 	}
-	return generateDefaultLayout(kc, *rid)
+	return rid, nil
 }
 
 func generateDefaultLayout(kc client.Client, rid kmapi.ResourceID) (*v1alpha1.ResourceLayout, error) {
@@ -94,7 +114,7 @@ func generateDefaultLayout(kc client.Client, rid kmapi.ResourceID) (*v1alpha1.Re
 			APIVersion: v1alpha1.SchemeGroupVersion.String(),
 		},
 		ObjectMeta: metav1.ObjectMeta{
-			Name: fmt.Sprintf("%s-%s-%s", rid.Group, rid.Version, rid.Name),
+			Name: resourceoutlines.DefaultLayoutName(rid.GroupVersionResource()),
 			Labels: map[string]string{
 				"k8s.io/group":    rid.Group,
 				"k8s.io/version":  rid.Version,
@@ -148,7 +168,7 @@ func LoadResourceLayout(kc client.Client, name string) (*v1alpha1.ResourceLayout
 }
 
 func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1alpha1.ResourceLayout, error) {
-	rid := outline.Spec.Resource
+	src := outline.Spec.Resource
 
 	var result v1alpha1.ResourceLayout
 	result.TypeMeta = metav1.TypeMeta{
@@ -160,7 +180,7 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 	result.Spec.Resource = outline.Spec.Resource
 	result.Spec.UI = outline.Spec.UI
 	if outline.Spec.Header != nil {
-		tables, err := FlattenPageBlockOutline(kc, rid, *outline.Spec.Header, v1alpha1.Field)
+		tables, err := FlattenPageBlockOutline(kc, src, *outline.Spec.Header, v1alpha1.Field)
 		if err != nil {
 			return nil, err
 		}
@@ -170,7 +190,7 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 		result.Spec.Header = &tables[0]
 	}
 	if outline.Spec.TabBar != nil {
-		tables, err := FlattenPageBlockOutline(kc, rid, *outline.Spec.TabBar, v1alpha1.Field)
+		tables, err := FlattenPageBlockOutline(kc, src, *outline.Spec.TabBar, v1alpha1.Field)
 		if err != nil {
 			return nil, err
 		}
@@ -183,10 +203,10 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 	result.Spec.Pages = make([]v1alpha1.ResourcePageLayout, 0, len(outline.Spec.Pages))
 
 	pages := outline.Spec.Pages
-	if len(outline.Spec.Pages) == 0 || outline.Spec.Pages[0].Name != "Basic" {
+	if outline.Spec.DefaultLayout && (len(outline.Spec.Pages) == 0 || outline.Spec.Pages[0].Name != BasicPage) {
 		pages = append([]v1alpha1.ResourcePageOutline{
 			{
-				Name: "Basic",
+				Name: BasicPage,
 				//Info: &v1alpha1.PageBlockOutline{
 				//	Kind:        v1alpha1.TableKindSelf,
 				//	DisplayMode: v1alpha1.DisplayModeField,
@@ -196,7 +216,7 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 			},
 		}, outline.Spec.Pages...)
 	}
-	if pages[0].Info == nil {
+	if pages[0].Name == BasicPage && pages[0].Info == nil {
 		pages[0].Info = &v1alpha1.PageBlockOutline{
 			Kind:        v1alpha1.TableKindSelf,
 			DisplayMode: v1alpha1.DisplayModeField,
@@ -211,7 +231,7 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 			Blocks:  nil,
 		}
 		if pageOutline.Info != nil {
-			tables, err := FlattenPageBlockOutline(kc, rid, *pageOutline.Info, v1alpha1.Field)
+			tables, err := FlattenPageBlockOutline(kc, src, *pageOutline.Info, v1alpha1.Field)
 			if err != nil {
 				return nil, err
 			}
@@ -221,7 +241,7 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 			page.Info = &tables[0]
 		}
 		if pageOutline.Insight != nil {
-			tables, err := FlattenPageBlockOutline(kc, rid, *pageOutline.Insight, v1alpha1.Field)
+			tables, err := FlattenPageBlockOutline(kc, src, *pageOutline.Insight, v1alpha1.Field)
 			if err != nil {
 				return nil, err
 			}
@@ -233,7 +253,7 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 
 		var tables []v1alpha1.PageBlockLayout
 		for _, block := range pageOutline.Blocks {
-			blocks, err := FlattenPageBlockOutline(kc, rid, block, v1alpha1.List)
+			blocks, err := FlattenPageBlockOutline(kc, src, block, v1alpha1.List)
 			if err != nil {
 				return nil, err
 			}
@@ -249,14 +269,14 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 
 func FlattenPageBlockOutline(
 	kc client.Client,
-	rid kmapi.ResourceID,
+	src kmapi.ResourceID,
 	in v1alpha1.PageBlockOutline,
 	priority v1alpha1.Priority,
 ) ([]v1alpha1.PageBlockLayout, error) {
 	if in.Kind == v1alpha1.TableKindSubTable ||
 		in.Kind == v1alpha1.TableKindConnection ||
 		in.Kind == v1alpha1.TableKindSelf {
-		out, err := Convert_PageBlockOutline_To_PageBlockLayout(kc, rid, in, priority)
+		out, err := Convert_PageBlockOutline_To_PageBlockLayout(kc, src, in, priority)
 		if err != nil {
 			return nil, err
 		}
@@ -271,7 +291,7 @@ func FlattenPageBlockOutline(
 	}
 	var result []v1alpha1.PageBlockLayout
 	for _, block := range obj.Spec.Blocks {
-		out, err := FlattenPageBlockOutline(kc, rid, block, priority)
+		out, err := FlattenPageBlockOutline(kc, src, block, priority)
 		if err != nil {
 			return nil, err
 		}
@@ -282,7 +302,7 @@ func FlattenPageBlockOutline(
 
 func Convert_PageBlockOutline_To_PageBlockLayout(
 	kc client.Client,
-	rid kmapi.ResourceID,
+	src kmapi.ResourceID,
 	in v1alpha1.PageBlockOutline,
 	priority v1alpha1.Priority,
 ) (v1alpha1.PageBlockLayout, error) {
@@ -296,18 +316,13 @@ func Convert_PageBlockOutline_To_PageBlockLayout(
 		columns = obj.Spec.Columns
 	}
 
-	if in.Kind == v1alpha1.TableKindSubTable && len(columns) == 0 {
-		return v1alpha1.PageBlockLayout{}, fmt.Errorf("missing columns for SubTable %s with fieldPath %s", in.Name, in.FieldPath)
-	}
-	if in.Kind == v1alpha1.TableKindConnection && len(columns) == 0 {
-		if rv, ok := tabledefs.DefaultTableDefinitionForGVK(rid.GroupVersionKind()); ok {
-			columns = rv.Spec.Columns
-		}
-	}
-
 	columns, err := FlattenColumns(columns)
 	if err != nil {
 		return v1alpha1.PageBlockLayout{}, err
+	}
+
+	if in.Kind == v1alpha1.TableKindSubTable && len(columns) == 0 {
+		return v1alpha1.PageBlockLayout{}, fmt.Errorf("missing columns for SubTable %s with fieldPath %s", in.Name, in.FieldPath)
 	}
 
 	if in.Kind == v1alpha1.TableKindConnection && kc != nil {
@@ -315,12 +330,21 @@ func Convert_PageBlockOutline_To_PageBlockLayout(
 		if meta.IsNoMatchError(err) {
 			columns = tableconvertor.FilterColumnsWithDefaults(nil, schema.GroupVersionResource{} /*ignore*/, columns, priority)
 		} else if err == nil {
+			if in.View.Name == "" {
+				if rv, ok := tabledefs.DefaultTableDefinitionForGVK(mapping.GroupVersionKind); ok {
+					columns = rv.Spec.Columns
+				}
+				columns, err = FlattenColumns(columns)
+				if err != nil {
+					return v1alpha1.PageBlockLayout{}, err
+				}
+			}
 			columns = tableconvertor.FilterColumnsWithDefaults(kc, mapping.Resource, columns, priority)
 		} else {
 			return v1alpha1.PageBlockLayout{}, err
 		}
 	} else if in.Kind == v1alpha1.TableKindSelf {
-		columns = tableconvertor.FilterColumnsWithDefaults(kc, rid.GroupVersionResource(), columns, priority)
+		columns = tableconvertor.FilterColumnsWithDefaults(kc, src.GroupVersionResource(), columns, priority)
 	}
 
 	return v1alpha1.PageBlockLayout{

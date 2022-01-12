@@ -1,0 +1,175 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ui.k8s.appscode.com
+    k8s.io/kind: GenericResourceService
+    k8s.io/resource: genericresourceservices
+    k8s.io/version: v1alpha1
+  name: ui.k8s.appscode.com-v1alpha1-genericresourceservices
+spec:
+  columns:
+  - name: Group
+    pathTemplate: '{{ .spec.apiType.group }}'
+    priority: 3
+    type: string
+  - name: Version
+    pathTemplate: '{{ .spec.apiType.version }}'
+    priority: 3
+    type: string
+  - name: Name
+    pathTemplate: '{{ .spec.apiType.name }}'
+    priority: 3
+    type: string
+  - name: Kind
+    pathTemplate: '{{ .spec.apiType.kind }}'
+    priority: 3
+    type: string
+  - name: Scope
+    pathTemplate: '{{ .spec.apiType.scope }}'
+    priority: 3
+    type: string
+  - name: Usage
+    pathTemplate: '{{ .spec.facilities.exposed.usage }}'
+    priority: 3
+    type: string
+  - name: Group
+    pathTemplate: '{{ .spec.facilities.exposed.resource.group }}'
+    priority: 3
+    type: string
+  - name: Version
+    pathTemplate: '{{ .spec.facilities.exposed.resource.version }}'
+    priority: 3
+    type: string
+  - name: Name
+    pathTemplate: '{{ .spec.facilities.exposed.resource.name }}'
+    priority: 3
+    type: string
+  - name: Kind
+    pathTemplate: '{{ .spec.facilities.exposed.resource.kind }}'
+    priority: 3
+    type: string
+  - name: Scope
+    pathTemplate: '{{ .spec.facilities.exposed.resource.scope }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ .spec.facilities.exposed.refs.namespace }}'
+    priority: 3
+    type: string
+  - name: Name
+    pathTemplate: '{{ .spec.facilities.exposed.refs.name }}'
+    priority: 3
+    type: string
+  - name: Usage
+    pathTemplate: '{{ .spec.facilities.tls.usage }}'
+    priority: 3
+    type: string
+  - name: Group
+    pathTemplate: '{{ .spec.facilities.tls.resource.group }}'
+    priority: 3
+    type: string
+  - name: Version
+    pathTemplate: '{{ .spec.facilities.tls.resource.version }}'
+    priority: 3
+    type: string
+  - name: Name
+    pathTemplate: '{{ .spec.facilities.tls.resource.name }}'
+    priority: 3
+    type: string
+  - name: Kind
+    pathTemplate: '{{ .spec.facilities.tls.resource.kind }}'
+    priority: 3
+    type: string
+  - name: Scope
+    pathTemplate: '{{ .spec.facilities.tls.resource.scope }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ .spec.facilities.tls.refs.namespace }}'
+    priority: 3
+    type: string
+  - name: Name
+    pathTemplate: '{{ .spec.facilities.tls.refs.name }}'
+    priority: 3
+    type: string
+  - name: Usage
+    pathTemplate: '{{ .spec.facilities.backup.usage }}'
+    priority: 3
+    type: string
+  - name: Group
+    pathTemplate: '{{ .spec.facilities.backup.resource.group }}'
+    priority: 3
+    type: string
+  - name: Version
+    pathTemplate: '{{ .spec.facilities.backup.resource.version }}'
+    priority: 3
+    type: string
+  - name: Name
+    pathTemplate: '{{ .spec.facilities.backup.resource.name }}'
+    priority: 3
+    type: string
+  - name: Kind
+    pathTemplate: '{{ .spec.facilities.backup.resource.kind }}'
+    priority: 3
+    type: string
+  - name: Scope
+    pathTemplate: '{{ .spec.facilities.backup.resource.scope }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ .spec.facilities.backup.refs.namespace }}'
+    priority: 3
+    type: string
+  - name: Name
+    pathTemplate: '{{ .spec.facilities.backup.refs.name }}'
+    priority: 3
+    type: string
+  - name: Usage
+    pathTemplate: '{{ .spec.facilities.monitoring.usage }}'
+    priority: 3
+    type: string
+  - name: Group
+    pathTemplate: '{{ .spec.facilities.monitoring.resource.group }}'
+    priority: 3
+    type: string
+  - name: Version
+    pathTemplate: '{{ .spec.facilities.monitoring.resource.version }}'
+    priority: 3
+    type: string
+  - name: Name
+    pathTemplate: '{{ .spec.facilities.monitoring.resource.name }}'
+    priority: 3
+    type: string
+  - name: Kind
+    pathTemplate: '{{ .spec.facilities.monitoring.resource.kind }}'
+    priority: 3
+    type: string
+  - name: Scope
+    pathTemplate: '{{ .spec.facilities.monitoring.resource.scope }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ .spec.facilities.monitoring.refs.namespace }}'
+    priority: 3
+    type: string
+  - name: Name
+    pathTemplate: '{{ .spec.facilities.monitoring.refs.name }}'
+    priority: 3
+    type: string
+  - name: Status
+    pathTemplate: '{{ .spec.status.status }}'
+    priority: 3
+    type: string
+  - name: Message
+    pathTemplate: '{{ .spec.status.message }}'
+    priority: 3
+    type: string
+  defaultView: true
+  resource:
+    group: ui.k8s.appscode.com
+    kind: GenericResourceService
+    name: genericresourceservices
+    scope: Namespaced
+    version: v1alpha1

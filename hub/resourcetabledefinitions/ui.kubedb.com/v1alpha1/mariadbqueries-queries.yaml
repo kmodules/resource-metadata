@@ -1,0 +1,66 @@
+# using fieldPath: .spec.queries
+
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  name: ui.kubedb.com-v1alpha1-mariadbqueries-queries
+spec:
+  columns:
+  - name: Start Time
+    pathTemplate: '{{ .startTime }}'
+    priority: 3
+    sort:
+      enable: true
+      template: '{{ .startTime | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+      type: integer
+    type: date
+  - name: User Host
+    pathTemplate: '{{ .userHost }}'
+    priority: 3
+    type: string
+  - name: Query Time(millisecond)
+    pathTemplate: '{{ .queryTimeMilliSeconds }}'
+    priority: 3
+    type: string
+  - name: Lock Time(millisecond)
+    pathTemplate: '{{ .lockTimeMilliSeconds }}'
+    priority: 3
+    type: string
+  - name: Rows Sent
+    pathTemplate: '{{ .rowsSent }}'
+    priority: 3
+    type: integer
+  - name: Rows Examined
+    pathTemplate: '{{ .rowsExamined }}'
+    priority: 3
+    type: integer
+  - name: DB
+    pathTemplate: '{{ .db }}'
+    priority: 3
+    type: string
+  - name: Last Insert ID
+    pathTemplate: '{{ .lastInsertId }}'
+    priority: 3
+    type: integer
+  - name: Insert ID
+    pathTemplate: '{{ .insertId }}'
+    priority: 3
+    type: integer
+  - name: Server ID
+    pathTemplate: '{{ .serverId }}'
+    priority: 3
+    type: integer
+  - name: SQL Text
+    pathTemplate: '{{ .sqlText }}'
+    priority: 3
+    type: string
+  - name: Thread ID
+    pathTemplate: '{{ .threadId }}'
+    priority: 3
+    type: integer
+  - name: Rows Affected
+    pathTemplate: '{{ .rowsAffected }}'
+    priority: 3
+    type: integer
+  defaultView: false

@@ -9,36 +9,92 @@ metadata:
     k8s.io/version: v1alpha1
   name: ui.k8s.appscode.com-v1alpha1-genericresources
 spec:
-  defaultView: true
   columns:
-  - name: Name
-    pathTemplate: '{{ .metadata.name }}'
+  - name: UID
+    pathTemplate: '{{ .spec.cluster.uid }}'
     priority: 3
     type: string
-  - name: Type
+  - name: Name
+    pathTemplate: '{{ .spec.cluster.name }}'
+    priority: 3
+    type: string
+  - name: Display Name
+    pathTemplate: '{{ .spec.cluster.displayName }}'
+    priority: 3
+    type: string
+  - name: Provider
+    pathTemplate: '{{ .spec.cluster.provider }}'
+    priority: 3
+    type: string
+  - name: Group
+    pathTemplate: '{{ .spec.apiType.group }}'
+    priority: 3
+    type: string
+  - name: Version
+    pathTemplate: '{{ .spec.apiType.version }}'
+    priority: 3
+    type: string
+  - name: Name
+    pathTemplate: '{{ .spec.apiType.name }}'
+    priority: 3
+    type: string
+  - name: Kind
     pathTemplate: '{{ .spec.apiType.kind }}'
     priority: 3
     type: string
-  - name: Namespace
-    pathTemplate: '{{ .metadata.namespace }}'
+  - name: Scope
+    pathTemplate: '{{ .spec.apiType.scope }}'
     priority: 3
     type: string
-  - name: vCPU(Request/Limit)
-    pathTemplate: '{{ .spec.totalResource.requests.cpu | k8s_fmt_resource_cpu}} / {{ .spec.totalResource.limits.cpu | k8s_fmt_resource_cpu}}'
+  - name: Version
+    pathTemplate: '{{ .spec.version }}'
     priority: 3
     type: string
-  - name: Memory(Request/Limit)
-    pathTemplate: '{{ .spec.totalResource.requests.memory | k8s_fmt_resource_memory}} / {{ .spec.totalResource.limits.memory | k8s_fmt_resource_memory}}'
+  - name: Replicas
+    pathTemplate: '{{ .spec.replicas }}'
+    priority: 3
+    type: integer
+  - name: Role Replicas
+    pathTemplate: '{{ .spec.roleReplicas }}'
+    priority: 3
+    type: object
+  - name: Mode
+    pathTemplate: '{{ .spec.mode }}'
     priority: 3
     type: string
-  - name: Storage(Request/Limit)
-    pathTemplate: '{{ .spec.totalResource.requests.storage | k8s_fmt_resource_memory}} / {{ .spec.totalResource.limits.storage | k8s_fmt_resource_memory}}'
+  - name: Limits
+    pathTemplate: '{{ .spec.totalResource.limits }}'
     priority: 3
-    type: string
+    type: object
+  - name: Requests
+    pathTemplate: '{{ .spec.totalResource.requests }}'
+    priority: 3
+    type: object
+  - name: Limits
+    pathTemplate: '{{ .spec.appResource.limits }}'
+    priority: 3
+    type: object
+  - name: Requests
+    pathTemplate: '{{ .spec.appResource.requests }}'
+    priority: 3
+    type: object
+  - name: Role Resource Limits
+    pathTemplate: '{{ .spec.roleResourceLimits }}'
+    priority: 3
+    type: object
+  - name: Role Resource Requests
+    pathTemplate: '{{ .spec.roleResourceRequests }}'
+    priority: 3
+    type: object
   - name: Status
-    pathTemplate: '{{ .status.phase }}'
+    pathTemplate: '{{ .spec.status.status }}'
     priority: 3
     type: string
+  - name: Message
+    pathTemplate: '{{ .spec.status.message }}'
+    priority: 3
+    type: string
+  defaultView: true
   resource:
     group: ui.k8s.appscode.com
     kind: GenericResource
