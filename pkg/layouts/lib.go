@@ -35,6 +35,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
+const BasicPage = "Basic"
+
 var reg = hub.NewRegistryOfKnownResources()
 
 func LoadResourceLayoutForGVR(kc client.Client, gvr schema.GroupVersionResource) (*v1alpha1.ResourceLayout, error) {
@@ -94,7 +96,7 @@ func generateDefaultLayout(kc client.Client, rid kmapi.ResourceID) (*v1alpha1.Re
 			APIVersion: v1alpha1.SchemeGroupVersion.String(),
 		},
 		ObjectMeta: metav1.ObjectMeta{
-			Name: fmt.Sprintf("%s-%s-%s", rid.Group, rid.Version, rid.Name),
+			Name: resourceoutlines.DefaultLayoutName(rid.GroupVersionResource()),
 			Labels: map[string]string{
 				"k8s.io/group":    rid.Group,
 				"k8s.io/version":  rid.Version,
@@ -183,10 +185,10 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 	result.Spec.Pages = make([]v1alpha1.ResourcePageLayout, 0, len(outline.Spec.Pages))
 
 	pages := outline.Spec.Pages
-	if len(outline.Spec.Pages) == 0 || outline.Spec.Pages[0].Name != "Basic" {
+	if outline.Spec.DefaultLayout && (len(outline.Spec.Pages) == 0 || outline.Spec.Pages[0].Name != BasicPage) {
 		pages = append([]v1alpha1.ResourcePageOutline{
 			{
-				Name: "Basic",
+				Name: BasicPage,
 				//Info: &v1alpha1.PageBlockOutline{
 				//	Kind:        v1alpha1.TableKindSelf,
 				//	DisplayMode: v1alpha1.DisplayModeField,
@@ -196,7 +198,7 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 			},
 		}, outline.Spec.Pages...)
 	}
-	if pages[0].Info == nil {
+	if pages[0].Name == BasicPage && pages[0].Info == nil {
 		pages[0].Info = &v1alpha1.PageBlockOutline{
 			Kind:        v1alpha1.TableKindSelf,
 			DisplayMode: v1alpha1.DisplayModeField,
