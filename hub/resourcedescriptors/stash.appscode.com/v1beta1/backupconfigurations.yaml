@@ -131,6 +131,14 @@ spec:
       apiVersion: v1
       kind: PersistentVolumeClaim
     type: MatchRef
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}'
+    namespacePath: metadata.namespace
+    target:
+      apiVersion: ui.stash.appscode.com/v1alpha1
+      kind: BackupOverview
+    type: MatchName
   icons:
   - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/backupconfigurations.svg
     type: image/svg+xml
