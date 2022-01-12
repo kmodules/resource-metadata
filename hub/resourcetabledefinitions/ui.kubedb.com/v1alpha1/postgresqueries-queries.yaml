@@ -28,17 +28,17 @@ spec:
     priority: 3
     type: integer
   - format: double
-    name: Total Time Milli Seconds
+    name: Total Time(millisecond)
     pathTemplate: '{{ .totalTimeMilliSeconds }}'
     priority: 3
     type: number
   - format: double
-    name: Min Time Milli Seconds
+    name: Min Time(millisecond)
     pathTemplate: '{{ .minTimeMilliSeconds }}'
     priority: 3
     type: number
   - format: double
-    name: Max Time Milli Seconds
+    name: Max Time(millisecond)
     pathTemplate: '{{ .maxTimeMilliSeconds }}'
     priority: 3
     type: number
@@ -83,7 +83,7 @@ spec:
     priority: 3
     type: integer
   - format: double
-    name: Blk Read Time Milli Seconds
+    name: Blk Read Time(millisecond)
     pathTemplate: '{{ .blkReadTimeMilliSeconds }}'
     priority: 3
     type: number
@@ -93,12 +93,12 @@ spec:
     priority: 3
     type: number
   - format: double
-    name: Buffer Hit Percentage
+    name: Buffer Hit(%)
     pathTemplate: '{{ .bufferHitPercentage }}'
     priority: 3
     type: number
   - format: double
-    name: Local Buffer Hit Percentage
+    name: Local Buffer Hit(%)
     pathTemplate: '{{ .localBufferHitPercentage }}'
     priority: 3
     type: number

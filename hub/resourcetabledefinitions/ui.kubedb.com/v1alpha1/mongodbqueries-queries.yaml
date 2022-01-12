@@ -27,15 +27,15 @@ spec:
     pathTemplate: '{{ .count }}'
     priority: 3
     type: integer
-  - name: Avg Execution Time Milli Seconds
+  - name: Avg Execution Time(millisecond)
     pathTemplate: '{{ .avgExecutionTimeMilliSeconds }}'
     priority: 3
     type: integer
-  - name: Min Execution Time Milli Seconds
+  - name: Min Execution Time(millisecond)
     pathTemplate: '{{ .minExecutionTimeMilliSeconds }}'
     priority: 3
     type: integer
-  - name: Max Execution Time Milli Seconds
+  - name: Max Execution Time(millisecond)
     pathTemplate: '{{ .maxExecutionTimeMilliSeconds }}'
     priority: 3
     type: integer

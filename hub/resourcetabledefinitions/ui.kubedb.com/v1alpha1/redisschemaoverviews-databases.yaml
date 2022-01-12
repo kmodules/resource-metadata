@@ -23,7 +23,7 @@ spec:
       template: '{{ .expires | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
       type: integer
     type: date
-  - name: Avg TTLMilli Seconds
+  - name: Avg TTL(millisecond)
     pathTemplate: '{{ .avgTTLMilliSeconds }}'
     priority: 3
     type: string
