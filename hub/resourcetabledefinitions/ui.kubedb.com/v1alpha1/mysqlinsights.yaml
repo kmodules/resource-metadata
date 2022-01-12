@@ -35,11 +35,11 @@ spec:
     priority: 3
     type: integer
   - format: double
-    name: Long Query Time Threshold Seconds
+    name: Long Query Time Threshold(second)
     pathTemplate: '{{ .spec.longQueryTimeThresholdSeconds }}'
     priority: 3
     type: number
-  - name: Number Of Slow Queries
+  - name: Slow Queries
     pathTemplate: '{{ .spec.numberOfSlowQueries }}'
     priority: 3
     type: integer
