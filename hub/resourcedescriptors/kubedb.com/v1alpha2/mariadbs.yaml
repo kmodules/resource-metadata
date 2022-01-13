@@ -131,7 +131,7 @@ spec:
     type: MatchRef
   - labels:
     - view
-    nameTemplate: '{.metadata.name}'
+    nameTemplate: '{.metadata.name}~MariaDB.kubedb.com'
     namespacePath: metadata.namespace
     target:
       apiVersion: ui.k8s.appscode.com/v1alpha1
@@ -139,7 +139,7 @@ spec:
     type: MatchName
   - labels:
     - view
-    nameTemplate: '{.metadata.name}'
+    nameTemplate: '{.metadata.name}~MariaDB.kubedb.com'
     namespacePath: metadata.namespace
     target:
       apiVersion: ui.k8s.appscode.com/v1alpha1
