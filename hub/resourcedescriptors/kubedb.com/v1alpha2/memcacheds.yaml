@@ -127,7 +127,7 @@ spec:
     type: MatchRef
   - labels:
     - view
-    nameTemplate: '{.metadata.name}'
+    nameTemplate: '{.metadata.name}~Memcached.kubedb.com'
     namespacePath: metadata.namespace
     target:
       apiVersion: ui.k8s.appscode.com/v1alpha1
