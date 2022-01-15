@@ -10,6 +10,35 @@ metadata:
   name: ui.kubedb.com-v1alpha1-redisinsights
 spec:
   columns:
+  - link:
+      enable: true
+    name: Name
+    pathTemplate: '{{ .metadata.name }}'
+    priority: 3
+    sort:
+      enable: true
+      type: ""
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ .metadata.namespace }}'
+    priority: 3
+    type: string
+  - name: Labels
+    pathTemplate: '{{ .metadata.labels | toRawJson }}'
+    priority: 3
+    type: object
+  - name: Annotations
+    pathTemplate: '{{ .metadata.annotations | toRawJson }}'
+    priority: 3
+    type: object
+  - name: Age
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
+    priority: 3
+    sort:
+      enable: true
+      template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+      type: integer
+    type: date
   - name: Version
     pathTemplate: '{{ .spec.version }}'
     priority: 3
@@ -58,11 +87,11 @@ spec:
     pathTemplate: '{{ .spec.rejectedConnections }}'
     priority: 3
     type: integer
-  - name: Slow Log Threshold(mircosecond)
-    pathTemplate: '{{ .spec.slowLogThresholdMircoSeconds }}'
+  - name: Slow Log Threshold (µsec)
+    pathTemplate: '{{ .spec.slowLogThresholdMicroSeconds }}'
     priority: 3
     type: integer
-  - name: Slow Logs Max Size
+  - name: Slow Log Max Len
     pathTemplate: '{{ .spec.slowLogMaxLen }}'
     priority: 3
     type: integer

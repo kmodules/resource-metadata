@@ -19,8 +19,8 @@ spec:
       template: '{{ .queryTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
       type: integer
     type: date
-  - name: Exec Time(mircosecond)
-    pathTemplate: '{{ .execTimeMircoSeconds }}'
+  - name: Exec Time (µsec)
+    pathTemplate: '{{ .execTimeMicroSeconds }}'
     priority: 3
     type: integer
   - name: Args

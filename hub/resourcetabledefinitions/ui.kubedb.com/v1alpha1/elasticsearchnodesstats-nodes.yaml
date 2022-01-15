@@ -51,7 +51,7 @@ spec:
     pathTemplate: '{{ .indices.store.size }}'
     priority: 3
     type: string
-  - name: Size Bytes
+  - name: Size (bytes)
     pathTemplate: '{{ .indices.store.size_in_bytes }}'
     priority: 3
     type: integer
@@ -108,7 +108,7 @@ spec:
     priority: 3
     type: integer
   - name: Types
-    pathTemplate: '{{ .indices.indexing.types }}'
+    pathTemplate: '{{ .indices.indexing.types | toRawJson }}'
     priority: 3
     type: object
   - name: Total
@@ -204,7 +204,7 @@ spec:
     priority: 3
     type: integer
   - name: Groups
-    pathTemplate: '{{ .indices.search.groups }}'
+    pathTemplate: '{{ .indices.search.groups | toRawJson }}'
     priority: 3
     type: object
   - name: Current
@@ -219,7 +219,7 @@ spec:
     pathTemplate: '{{ .indices.merges.current_size }}'
     priority: 3
     type: string
-  - name: Current Size Bytes
+  - name: Current Size (bytes)
     pathTemplate: '{{ .indices.merges.current_size_in_bytes }}'
     priority: 3
     type: integer
@@ -243,7 +243,7 @@ spec:
     pathTemplate: '{{ .indices.merges.total_size }}'
     priority: 3
     type: string
-  - name: Total Size Bytes
+  - name: Total Size (bytes)
     pathTemplate: '{{ .indices.merges.total_size_in_bytes }}'
     priority: 3
     type: integer
@@ -263,11 +263,11 @@ spec:
     pathTemplate: '{{ .indices.merges.total_throttled_time_in_millis }}'
     priority: 3
     type: integer
-  - name: Total Throttle Bytes
+  - name: Total Throttle (bytes)
     pathTemplate: '{{ .indices.merges.total_auto_throttle }}'
     priority: 3
     type: string
-  - name: Total Throttle Bytes Bytes
+  - name: Total Throttle Bytes (bytes)
     pathTemplate: '{{ .indices.merges.total_auto_throttle_in_bytes }}'
     priority: 3
     type: integer
@@ -315,7 +315,7 @@ spec:
     pathTemplate: '{{ .indices.query_cache.memory_size }}'
     priority: 3
     type: string
-  - name: Memory Size Bytes
+  - name: Memory Size (bytes)
     pathTemplate: '{{ .indices.query_cache.memory_size_in_bytes }}'
     priority: 3
     type: integer
@@ -347,7 +347,7 @@ spec:
     pathTemplate: '{{ .indices.fielddata.memory_size }}'
     priority: 3
     type: string
-  - name: Memory Size Bytes
+  - name: Memory Size (bytes)
     pathTemplate: '{{ .indices.fielddata.memory_size_in_bytes }}'
     priority: 3
     type: integer
@@ -359,7 +359,7 @@ spec:
     pathTemplate: '{{ .indices.fielddata.fields.memory_size }}'
     priority: 3
     type: string
-  - name: Memory Size Bytes
+  - name: Memory Size (bytes)
     pathTemplate: '{{ .indices.fielddata.fields.memory_size_in_bytes }}'
     priority: 3
     type: integer
@@ -367,7 +367,7 @@ spec:
     pathTemplate: '{{ .indices.completion.size }}'
     priority: 3
     type: string
-  - name: Size Bytes
+  - name: Size (bytes)
     pathTemplate: '{{ .indices.completion.size_in_bytes }}'
     priority: 3
     type: integer
@@ -375,7 +375,7 @@ spec:
     pathTemplate: '{{ .indices.completion.fields.size }}'
     priority: 3
     type: string
-  - name: Size Bytes
+  - name: Size (bytes)
     pathTemplate: '{{ .indices.completion.fields.size_in_bytes }}'
     priority: 3
     type: integer
@@ -387,7 +387,7 @@ spec:
     pathTemplate: '{{ .indices.segments.memory }}'
     priority: 3
     type: string
-  - name: Memory Bytes
+  - name: Memory (bytes)
     pathTemplate: '{{ .indices.segments.memory_in_bytes }}'
     priority: 3
     type: integer
@@ -395,7 +395,7 @@ spec:
     pathTemplate: '{{ .indices.segments.terms_memory }}'
     priority: 3
     type: string
-  - name: Terms Memory Bytes
+  - name: Terms Memory (bytes)
     pathTemplate: '{{ .indices.segments.terms_memory_in_bytes }}'
     priority: 3
     type: integer
@@ -403,7 +403,7 @@ spec:
     pathTemplate: '{{ .indices.segments.stored_fields_memory }}'
     priority: 3
     type: string
-  - name: Stored Fields Memory Bytes
+  - name: Stored Fields Memory (bytes)
     pathTemplate: '{{ .indices.segments.stored_fields_memory_in_bytes }}'
     priority: 3
     type: integer
@@ -411,7 +411,7 @@ spec:
     pathTemplate: '{{ .indices.segments.term_vectors_memory }}'
     priority: 3
     type: string
-  - name: Term Vectors Memory Bytes
+  - name: Term Vectors Memory (bytes)
     pathTemplate: '{{ .indices.segments.term_vectors_memory_in_bytes }}'
     priority: 3
     type: integer
@@ -419,7 +419,7 @@ spec:
     pathTemplate: '{{ .indices.segments.norms_memory }}'
     priority: 3
     type: string
-  - name: Norms Memory Bytes
+  - name: Norms Memory (bytes)
     pathTemplate: '{{ .indices.segments.norms_memory_in_bytes }}'
     priority: 3
     type: integer
@@ -427,7 +427,7 @@ spec:
     pathTemplate: '{{ .indices.segments.doc_values_memory }}'
     priority: 3
     type: string
-  - name: Doc Values Memory Bytes
+  - name: Doc Values Memory (bytes)
     pathTemplate: '{{ .indices.segments.doc_values_memory_in_bytes }}'
     priority: 3
     type: integer
@@ -435,7 +435,7 @@ spec:
     pathTemplate: '{{ .indices.segments.index_writer_memory }}'
     priority: 3
     type: string
-  - name: Index Writer Memory Bytes
+  - name: Index Writer Memory (bytes)
     pathTemplate: '{{ .indices.segments.index_writer_memory_in_bytes }}'
     priority: 3
     type: integer
@@ -443,7 +443,7 @@ spec:
     pathTemplate: '{{ .indices.segments.index_writer_max_memory }}'
     priority: 3
     type: string
-  - name: Index Writer Max Memory Bytes
+  - name: Index Writer Max Memory (bytes)
     pathTemplate: '{{ .indices.segments.index_writer_max_memory_in_bytes }}'
     priority: 3
     type: integer
@@ -451,7 +451,7 @@ spec:
     pathTemplate: '{{ .indices.segments.version_map_memory }}'
     priority: 3
     type: string
-  - name: Version Map Memory Bytes
+  - name: Version Map Memory (bytes)
     pathTemplate: '{{ .indices.segments.version_map_memory_in_bytes }}'
     priority: 3
     type: integer
@@ -459,7 +459,7 @@ spec:
     pathTemplate: '{{ .indices.segments.fixed_bit_set }}'
     priority: 3
     type: string
-  - name: Fixed Bit Set Memory Bytes
+  - name: Fixed Bit Set Memory (bytes)
     pathTemplate: '{{ .indices.segments.fixed_bit_set_memory_in_bytes }}'
     priority: 3
     type: integer
@@ -471,7 +471,7 @@ spec:
     pathTemplate: '{{ .indices.translog.size }}'
     priority: 3
     type: string
-  - name: Size Bytes
+  - name: Size (bytes)
     pathTemplate: '{{ .indices.translog.size_in_bytes }}'
     priority: 3
     type: integer
@@ -479,7 +479,7 @@ spec:
     pathTemplate: '{{ .indices.request_cache.memory_size }}'
     priority: 3
     type: string
-  - name: Memory Size Bytes
+  - name: Memory Size (bytes)
     pathTemplate: '{{ .indices.request_cache.memory_size_in_bytes }}'
     priority: 3
     type: integer
@@ -504,11 +504,11 @@ spec:
     priority: 3
     type: integer
   - name: Indices Level
-    pathTemplate: '{{ .indices.indices }}'
+    pathTemplate: '{{ .indices.indices | toRawJson }}'
     priority: 3
     type: object
   - name: Shards Level
-    pathTemplate: '{{ .indices.shards }}'
+    pathTemplate: '{{ .indices.shards | toRawJson }}'
     priority: 3
     type: object
   - name: Timestamp
@@ -520,14 +520,14 @@ spec:
     priority: 3
     type: integer
   - name: Load Average
-    pathTemplate: '{{ .os.cpu.load_average }}'
+    pathTemplate: '{{ .os.cpu.load_average | toRawJson }}'
     priority: 3
     type: object
   - name: Total
     pathTemplate: '{{ .os.mem.total }}'
     priority: 3
     type: string
-  - name: Total Bytes
+  - name: Total (bytes)
     pathTemplate: '{{ .os.mem.total_in_bytes }}'
     priority: 3
     type: integer
@@ -535,7 +535,7 @@ spec:
     pathTemplate: '{{ .os.mem.free }}'
     priority: 3
     type: string
-  - name: Free Bytes
+  - name: Free (bytes)
     pathTemplate: '{{ .os.mem.free_in_bytes }}'
     priority: 3
     type: integer
@@ -543,7 +543,7 @@ spec:
     pathTemplate: '{{ .os.mem.used }}'
     priority: 3
     type: string
-  - name: Used Bytes
+  - name: Used (bytes)
     pathTemplate: '{{ .os.mem.used_in_bytes }}'
     priority: 3
     type: integer
@@ -559,7 +559,7 @@ spec:
     pathTemplate: '{{ .os.swap.total }}'
     priority: 3
     type: string
-  - name: Total Bytes
+  - name: Total (bytes)
     pathTemplate: '{{ .os.swap.total_in_bytes }}'
     priority: 3
     type: integer
@@ -567,7 +567,7 @@ spec:
     pathTemplate: '{{ .os.swap.free }}'
     priority: 3
     type: string
-  - name: Free Bytes
+  - name: Free (bytes)
     pathTemplate: '{{ .os.swap.free_in_bytes }}'
     priority: 3
     type: integer
@@ -575,7 +575,7 @@ spec:
     pathTemplate: '{{ .os.swap.used }}'
     priority: 3
     type: string
-  - name: Used Bytes
+  - name: Used (bytes)
     pathTemplate: '{{ .os.swap.used_in_bytes }}'
     priority: 3
     type: integer

@@ -19,11 +19,11 @@ spec:
     pathTemplate: '{{ .userHost }}'
     priority: 3
     type: string
-  - name: Query Time(millisecond)
+  - name: Query Time (msec)
     pathTemplate: '{{ .queryTimeMilliSeconds }}'
     priority: 3
     type: string
-  - name: Lock Time(millisecond)
+  - name: Lock Time (msec)
     pathTemplate: '{{ .lockTimeMilliSeconds }}'
     priority: 3
     type: string

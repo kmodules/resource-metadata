@@ -89,7 +89,8 @@ type convertor struct {
 func filterColumns(columns []v1alpha1.ResourceColumnDefinition, priority v1alpha1.Priority) []v1alpha1.ResourceColumnDefinition {
 	out := make([]v1alpha1.ResourceColumnDefinition, 0, len(columns))
 	for _, col := range columns {
-		if (col.Priority&int32(priority)) == int32(priority) ||
+		if (col.Priority&int32(v1alpha1.Metadata)) == int32(v1alpha1.Metadata) ||
+			(col.Priority&int32(priority)) == int32(priority) ||
 			(priority == v1alpha1.List && col.Priority == 0) {
 			out = append(out, col)
 		}
@@ -458,36 +459,52 @@ func DefaultDetailsColumns() []v1alpha1.ResourceColumnDefinition {
 			Name:         "Name",
 			Type:         "string",
 			Format:       "",
-			Priority:     int32(v1alpha1.Field),
+			Priority:     int32(v1alpha1.Field | v1alpha1.List),
 			PathTemplate: `{{ .metadata.name }}`,
+			Sort: &v1alpha1.SortDefinition{
+				Enable: true,
+				// Template: "",
+			},
+			Link: &v1alpha1.AttributeDefinition{
+				Enable: true,
+				// Template: "",
+			},
+			//Shape ShapeProperty `json:"shape,omitempty"`
+			//Icon  bool          `json:"icon,omitempty"`
+			//Color ColorProperty `json:"color,omitempty"`
 		},
 		{
 			Name:         "Namespace",
 			Type:         "string",
 			Format:       "",
-			Priority:     int32(v1alpha1.Field),
+			Priority:     int32(v1alpha1.Field | v1alpha1.List),
 			PathTemplate: `{{ .metadata.namespace }}`,
 		},
 		{
 			Name:         "Labels",
 			Type:         "object",
 			Format:       "",
-			Priority:     int32(v1alpha1.Field),
+			Priority:     int32(v1alpha1.Field | v1alpha1.List),
 			PathTemplate: `{{ .metadata.labels | toRawJson }}`,
 		},
 		{
 			Name:         "Annotations",
 			Type:         "object",
 			Format:       "",
-			Priority:     int32(v1alpha1.Field),
+			Priority:     int32(v1alpha1.Field | v1alpha1.List),
 			PathTemplate: `{{ .metadata.annotations | toRawJson }}`,
 		},
 		{
 			Name:         "Age",
 			Type:         "date",
 			Format:       "",
-			Priority:     int32(v1alpha1.Field),
+			Priority:     int32(v1alpha1.Field | v1alpha1.List),
 			PathTemplate: `{{ .metadata.creationTimestamp }}`,
+			Sort: &v1alpha1.SortDefinition{
+				Enable:   true,
+				Template: `{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}`,
+				Type:     "integer",
+			},
 		},
 		/*
 			{

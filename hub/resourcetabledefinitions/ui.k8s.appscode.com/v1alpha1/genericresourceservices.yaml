@@ -10,162 +10,100 @@ metadata:
   name: ui.k8s.appscode.com-v1alpha1-genericresourceservices
 spec:
   columns:
-  - name: Group
+  columns:
+  - link:
+      enable: true
+    name: Name
+    pathTemplate: '{{ .spec.name }}'
+    priority: 3
+    sort:
+      enable: true
+      type: ""
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ .metadata.namespace }}'
+    priority: 3
+    type: string
+  - name: Labels
+    pathTemplate: '{{ .metadata.labels | toRawJson }}'
+    priority: 3
+    type: object
+  - name: Annotations
+    pathTemplate: '{{ .metadata.annotations | toRawJson }}'
+    priority: 3
+    type: object
+  - name: Age
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
+    priority: 3
+    sort:
+      enable: true
+      template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+      type: integer
+    type: date
+  - name: ClusterUID
+    pathTemplate: '{{ .spec.cluster.uid }}'
+    priority: 4
+    type: string
+  - name: ClusterName
+    pathTemplate: '{{ .spec.cluster.name }}'
+    priority: 4
+    type: string
+  - name: Cluster Name
+    pathTemplate: '{{ .spec.cluster.displayName }}'
+    priority: 3
+    type: string
+  - name: Cluster Provider
+    pathTemplate: '{{ .spec.cluster.provider }}'
+    priority: 3
+    type: string
+  - name: APIGroup
     pathTemplate: '{{ .spec.apiType.group }}'
-    priority: 3
+    priority: 4
     type: string
-  - name: Version
+  - name: APIVersion
     pathTemplate: '{{ .spec.apiType.version }}'
-    priority: 3
+    priority: 4
     type: string
-  - name: Name
+  - name: APIResource
     pathTemplate: '{{ .spec.apiType.name }}'
-    priority: 3
+    priority: 4
     type: string
-  - name: Kind
+  - name: APIKind
     pathTemplate: '{{ .spec.apiType.kind }}'
     priority: 3
     type: string
-  - name: Scope
+  - name: APIScope
     pathTemplate: '{{ .spec.apiType.scope }}'
-    priority: 3
+    priority: 4
     type: string
-  - name: Usage
+  - name: Exposed
     pathTemplate: '{{ .spec.facilities.exposed.usage }}'
     priority: 3
     type: string
-  - name: Group
-    pathTemplate: '{{ .spec.facilities.exposed.resource.group }}'
-    priority: 3
-    type: string
-  - name: Version
-    pathTemplate: '{{ .spec.facilities.exposed.resource.version }}'
-    priority: 3
-    type: string
-  - name: Name
-    pathTemplate: '{{ .spec.facilities.exposed.resource.name }}'
-    priority: 3
-    type: string
-  - name: Kind
-    pathTemplate: '{{ .spec.facilities.exposed.resource.kind }}'
-    priority: 3
-    type: string
-  - name: Scope
-    pathTemplate: '{{ .spec.facilities.exposed.resource.scope }}'
-    priority: 3
-    type: string
-  - name: Namespace
-    pathTemplate: '{{ .spec.facilities.exposed.refs.namespace }}'
-    priority: 3
-    type: string
-  - name: Name
-    pathTemplate: '{{ .spec.facilities.exposed.refs.name }}'
-    priority: 3
-    type: string
-  - name: Usage
+  - name: TLS
     pathTemplate: '{{ .spec.facilities.tls.usage }}'
     priority: 3
     type: string
-  - name: Group
-    pathTemplate: '{{ .spec.facilities.tls.resource.group }}'
-    priority: 3
-    type: string
-  - name: Version
-    pathTemplate: '{{ .spec.facilities.tls.resource.version }}'
-    priority: 3
-    type: string
-  - name: Name
-    pathTemplate: '{{ .spec.facilities.tls.resource.name }}'
-    priority: 3
-    type: string
-  - name: Kind
-    pathTemplate: '{{ .spec.facilities.tls.resource.kind }}'
-    priority: 3
-    type: string
-  - name: Scope
-    pathTemplate: '{{ .spec.facilities.tls.resource.scope }}'
-    priority: 3
-    type: string
-  - name: Namespace
-    pathTemplate: '{{ .spec.facilities.tls.refs.namespace }}'
-    priority: 3
-    type: string
-  - name: Name
-    pathTemplate: '{{ .spec.facilities.tls.refs.name }}'
-    priority: 3
-    type: string
-  - name: Usage
+  - name: Backup
     pathTemplate: '{{ .spec.facilities.backup.usage }}'
     priority: 3
     type: string
-  - name: Group
-    pathTemplate: '{{ .spec.facilities.backup.resource.group }}'
-    priority: 3
-    type: string
-  - name: Version
-    pathTemplate: '{{ .spec.facilities.backup.resource.version }}'
-    priority: 3
-    type: string
-  - name: Name
-    pathTemplate: '{{ .spec.facilities.backup.resource.name }}'
-    priority: 3
-    type: string
-  - name: Kind
-    pathTemplate: '{{ .spec.facilities.backup.resource.kind }}'
-    priority: 3
-    type: string
-  - name: Scope
-    pathTemplate: '{{ .spec.facilities.backup.resource.scope }}'
-    priority: 3
-    type: string
-  - name: Namespace
-    pathTemplate: '{{ .spec.facilities.backup.refs.namespace }}'
-    priority: 3
-    type: string
-  - name: Name
-    pathTemplate: '{{ .spec.facilities.backup.refs.name }}'
-    priority: 3
-    type: string
-  - name: Usage
+  - name: Monitoring
     pathTemplate: '{{ .spec.facilities.monitoring.usage }}'
     priority: 3
     type: string
-  - name: Group
-    pathTemplate: '{{ .spec.facilities.monitoring.resource.group }}'
-    priority: 3
-    type: string
-  - name: Version
-    pathTemplate: '{{ .spec.facilities.monitoring.resource.version }}'
-    priority: 3
-    type: string
-  - name: Name
-    pathTemplate: '{{ .spec.facilities.monitoring.resource.name }}'
-    priority: 3
-    type: string
-  - name: Kind
-    pathTemplate: '{{ .spec.facilities.monitoring.resource.kind }}'
-    priority: 3
-    type: string
-  - name: Scope
-    pathTemplate: '{{ .spec.facilities.monitoring.resource.scope }}'
-    priority: 3
-    type: string
-  - name: Namespace
-    pathTemplate: '{{ .spec.facilities.monitoring.refs.namespace }}'
-    priority: 3
-    type: string
-  - name: Name
-    pathTemplate: '{{ .spec.facilities.monitoring.refs.name }}'
-    priority: 3
-    type: string
   - name: Status
-    pathTemplate: '{{ .spec.status.status }}'
+    pathTemplate: '{{ .status.phase }}'
     priority: 3
     type: string
-  - name: Message
-    pathTemplate: '{{ .spec.status.message }}'
+  - name: Age
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
-    type: string
+    type: date
+    sort:
+      enable: true
+      template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+      type: integer
   defaultView: true
   resource:
     group: ui.k8s.appscode.com

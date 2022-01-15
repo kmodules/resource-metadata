@@ -68,6 +68,32 @@ spec:
               - scope
               - version
               type: object
+            cluster:
+              properties:
+                displayName:
+                  type: string
+                name:
+                  type: string
+                provider:
+                  enum:
+                  - Aws
+                  - Azure
+                  - DigitalOcean
+                  - GoogleCloud
+                  - Linode
+                  - Packet
+                  - Scaleway
+                  - Vultr
+                  - BareMetal
+                  - KIND
+                  - Generic
+                  - Private
+                  type: string
+                uid:
+                  type: string
+              required:
+              - uid
+              type: object
             facilities:
               properties:
                 backup:

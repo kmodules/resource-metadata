@@ -112,8 +112,8 @@ type ResourceQuery struct {
 type ResourceDisplayMode string
 
 const (
-	DisplayModeList  = "List"
-	DisplayModeField = "Field"
+	DisplayModeList  ResourceDisplayMode = "List"
+	DisplayModeField ResourceDisplayMode = "Field"
 )
 
 type ResourceActions struct {
@@ -219,6 +219,7 @@ type Priority int32
 const (
 	Field Priority = 1 << iota
 	List
+	Metadata
 )
 
 // ColumnTypeRef refers to a ResourceTableDefinition whose columns should be used in its place

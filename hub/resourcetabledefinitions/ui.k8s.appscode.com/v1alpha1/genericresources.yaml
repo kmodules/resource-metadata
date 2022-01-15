@@ -10,41 +10,70 @@ metadata:
   name: ui.k8s.appscode.com-v1alpha1-genericresources
 spec:
   columns:
-  - name: UID
+  - link:
+      enable: true
+    name: Name
+    pathTemplate: '{{ .spec.name }}'
+    priority: 3
+    sort:
+      enable: true
+      type: ""
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ .metadata.namespace }}'
+    priority: 3
+    type: string
+  - name: Labels
+    pathTemplate: '{{ .metadata.labels | toRawJson }}'
+    priority: 3
+    type: object
+  - name: Annotations
+    pathTemplate: '{{ .metadata.annotations | toRawJson }}'
+    priority: 3
+    type: object
+  - name: Age
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
+    priority: 3
+    sort:
+      enable: true
+      template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+      type: integer
+    type: date
+  - name: ClusterUID
     pathTemplate: '{{ .spec.cluster.uid }}'
-    priority: 3
+    priority: 4
     type: string
-  - name: Name
+  - name: ClusterName
     pathTemplate: '{{ .spec.cluster.name }}'
-    priority: 3
+    priority: 4
     type: string
-  - name: Display Name
+  - name: Cluster Name
     pathTemplate: '{{ .spec.cluster.displayName }}'
     priority: 3
     type: string
-  - name: Provider
+  - name: Cluster Provider
     pathTemplate: '{{ .spec.cluster.provider }}'
     priority: 3
     type: string
-  - name: Group
+  - name: APIGroup
     pathTemplate: '{{ .spec.apiType.group }}'
-    priority: 3
+    priority: 4
     type: string
-  - name: Version
+  - name: APIVersion
     pathTemplate: '{{ .spec.apiType.version }}'
-    priority: 3
+    priority: 4
     type: string
-  - name: Name
+  - name: APIResource
     pathTemplate: '{{ .spec.apiType.name }}'
-    priority: 3
+    priority: 4
     type: string
-  - name: Kind
+  - name: APIKind
     pathTemplate: '{{ .spec.apiType.kind }}'
     priority: 3
     type: string
-  - name: Scope
+  - name: APIScope
     pathTemplate: '{{ .spec.apiType.scope }}'
-    priority: 3
+    priority: 4
     type: string
   - name: Version
     pathTemplate: '{{ .spec.version }}'
@@ -54,46 +83,38 @@ spec:
     pathTemplate: '{{ .spec.replicas }}'
     priority: 3
     type: integer
-  - name: Role Replicas
-    pathTemplate: '{{ .spec.roleReplicas }}'
-    priority: 3
-    type: object
   - name: Mode
     pathTemplate: '{{ .spec.mode }}'
     priority: 3
     type: string
-  - name: Limits
-    pathTemplate: '{{ .spec.totalResource.limits }}'
+  - name: Total Resource Limits
+    pathTemplate: '{{ .spec.totalResource.limits | toRawJson }}'
     priority: 3
     type: object
-  - name: Requests
-    pathTemplate: '{{ .spec.totalResource.requests }}'
+  - name: Total Resource Requests
+    pathTemplate: '{{ .spec.totalResource.requests | toRawJson }}'
     priority: 3
     type: object
-  - name: Limits
-    pathTemplate: '{{ .spec.appResource.limits }}'
+  - name: App Resource Limits
+    pathTemplate: '{{ .spec.appResource.limits | toRawJson }}'
     priority: 3
     type: object
-  - name: Requests
-    pathTemplate: '{{ .spec.appResource.requests }}'
-    priority: 3
-    type: object
-  - name: Role Resource Limits
-    pathTemplate: '{{ .spec.roleResourceLimits }}'
-    priority: 3
-    type: object
-  - name: Role Resource Requests
-    pathTemplate: '{{ .spec.roleResourceRequests }}'
+  - name: App Resource Requests
+    pathTemplate: '{{ .spec.appResource.requests | toRawJson }}'
     priority: 3
     type: object
   - name: Status
-    pathTemplate: '{{ .spec.status.status }}'
+    pathTemplate: '{{ .status.phase }}'
     priority: 3
     type: string
-  - name: Message
-    pathTemplate: '{{ .spec.status.message }}'
+  - name: Age
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
-    type: string
+    type: date
+    sort:
+      enable: true
+      template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+      type: integer
   defaultView: true
   resource:
     group: ui.k8s.appscode.com

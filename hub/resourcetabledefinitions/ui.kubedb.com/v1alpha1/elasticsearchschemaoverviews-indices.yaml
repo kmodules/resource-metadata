@@ -11,11 +11,11 @@ spec:
     pathTemplate: '{{ .indexName }}'
     priority: 3
     type: string
-  - name: Primary Store Size(bytes)
+  - name: Primary Store Size (bytes)
     pathTemplate: '{{ .primaryStoreSizeBytes }}'
     priority: 3
     type: string
-  - name: Total Store Size(bytes)
+  - name: Total Store Size (bytes)
     pathTemplate: '{{ .totalStoreSizeBytes }}'
     priority: 3
     type: string
