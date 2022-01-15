@@ -89,7 +89,8 @@ type convertor struct {
 func filterColumns(columns []v1alpha1.ResourceColumnDefinition, priority v1alpha1.Priority) []v1alpha1.ResourceColumnDefinition {
 	out := make([]v1alpha1.ResourceColumnDefinition, 0, len(columns))
 	for _, col := range columns {
-		if (col.Priority&int32(priority)) == int32(priority) ||
+		if (col.Priority&int32(v1alpha1.Metadata)) == int32(v1alpha1.Metadata) ||
+			(col.Priority&int32(priority)) == int32(priority) ||
 			(priority == v1alpha1.List && col.Priority == 0) {
 			out = append(out, col)
 		}

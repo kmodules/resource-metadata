@@ -12,11 +12,11 @@ spec:
   columns:
   - name: UID
     pathTemplate: '{{ .spec.cluster.uid }}'
-    priority: 3
+    priority: 4
     type: string
   - name: Name
     pathTemplate: '{{ .spec.cluster.name }}'
-    priority: 3
+    priority: 4
     type: string
   - name: Display Name
     pathTemplate: '{{ .spec.cluster.displayName }}'
@@ -28,15 +28,15 @@ spec:
     type: string
   - name: Group
     pathTemplate: '{{ .spec.apiType.group }}'
-    priority: 3
+    priority: 4
     type: string
   - name: Version
     pathTemplate: '{{ .spec.apiType.version }}'
-    priority: 3
+    priority: 4
     type: string
   - name: Name
     pathTemplate: '{{ .spec.apiType.name }}'
-    priority: 3
+    priority: 4
     type: string
   - name: Kind
     pathTemplate: '{{ .spec.apiType.kind }}'
@@ -44,7 +44,7 @@ spec:
     type: string
   - name: Scope
     pathTemplate: '{{ .spec.apiType.scope }}'
-    priority: 3
+    priority: 4
     type: string
   - name: Version
     pathTemplate: '{{ .spec.version }}'
@@ -54,10 +54,6 @@ spec:
     pathTemplate: '{{ .spec.replicas }}'
     priority: 3
     type: integer
-  - name: Role Replicas
-    pathTemplate: '{{ .spec.roleReplicas | toRawJson }}'
-    priority: 3
-    type: object
   - name: Mode
     pathTemplate: '{{ .spec.mode }}'
     priority: 3
@@ -78,20 +74,8 @@ spec:
     pathTemplate: '{{ .spec.appResource.requests | toRawJson }}'
     priority: 3
     type: object
-  - name: Role Resource Limits
-    pathTemplate: '{{ .spec.roleResourceLimits | toRawJson }}'
-    priority: 3
-    type: object
-  - name: Role Resource Requests
-    pathTemplate: '{{ .spec.roleResourceRequests | toRawJson }}'
-    priority: 3
-    type: object
   - name: Status
-    pathTemplate: '{{ .spec.status.status }}'
-    priority: 3
-    type: string
-  - name: Message
-    pathTemplate: '{{ .spec.status.message }}'
+    pathTemplate: '{{ .status.phase }}'
     priority: 3
     type: string
   defaultView: true
