@@ -35,7 +35,7 @@ spec:
     priority: 3
     type: integer
   - format: double
-    name: Long Query Time Threshold(second)
+    name: Long Query Time Threshold (sec)
     pathTemplate: '{{ .spec.longQueryTimeThresholdSeconds }}'
     priority: 3
     type: number

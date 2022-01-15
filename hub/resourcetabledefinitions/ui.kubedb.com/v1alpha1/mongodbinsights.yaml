@@ -26,6 +26,10 @@ spec:
     pathTemplate: '{{ .spec.connections.currentConnections }}'
     priority: 3
     type: integer
+  - name: Total Connections
+    pathTemplate: '{{ .spec.connections.totalConnections }}'
+    priority: 3
+    type: integer
   - name: Available Connections
     pathTemplate: '{{ .spec.connections.availableConnections }}'
     priority: 3

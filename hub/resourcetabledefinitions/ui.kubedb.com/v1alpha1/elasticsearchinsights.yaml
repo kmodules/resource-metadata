@@ -30,7 +30,7 @@ spec:
     pathTemplate: '{{ .spec.activeShards }}'
     priority: 3
     type: integer
-  - name: Active Shards(%)
+  - name: Active Shards (%)
     pathTemplate: '{{ .spec.activeShardsPercentAsNumber }}'
     priority: 3
     type: integer
@@ -74,7 +74,7 @@ spec:
     pathTemplate: '{{ .spec.unassignedShards }}'
     priority: 3
     type: integer
-  - name: Task Max Waiting In Queue(millisecond)
+  - name: Task Max Waiting In Queue (msec)
     pathTemplate: '{{ .spec.taskMaxWaitingInQueueMilliSeconds }}'
     priority: 3
     type: integer

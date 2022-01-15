@@ -15,7 +15,7 @@ spec:
     pathTemplate: '{{ .tableName }}'
     priority: 3
     type: string
-  - name: Table Size(bytes)
+  - name: Table Size (bytes)
     pathTemplate: '{{ .tableSizeBytes }}'
     priority: 3
     type: string

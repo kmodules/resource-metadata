@@ -11,15 +11,15 @@ metadata:
 spec:
   columns:
   - name: Limits
-    pathTemplate: '{{ .spec.resources.limits }}'
+    pathTemplate: '{{ .spec.resources.limits | toRawJson }}'
     priority: 3
     type: object
   - name: Requests
-    pathTemplate: '{{ .spec.resources.requests }}'
+    pathTemplate: '{{ .spec.resources.requests | toRawJson }}'
     priority: 3
     type: object
   - name: Usage
-    pathTemplate: '{{ .spec.resources.usage }}'
+    pathTemplate: '{{ .spec.resources.usage | toRawJson }}'
     priority: 3
     type: object
   - name: Name
@@ -131,15 +131,15 @@ spec:
     priority: 3
     type: bool
   - name: Limits
-    pathTemplate: '{{ .spec.containers.resources.limits }}'
+    pathTemplate: '{{ .spec.containers.resources.limits | toRawJson }}'
     priority: 3
     type: object
   - name: Requests
-    pathTemplate: '{{ .spec.containers.resources.requests }}'
+    pathTemplate: '{{ .spec.containers.resources.requests | toRawJson }}'
     priority: 3
     type: object
   - name: Usage
-    pathTemplate: '{{ .spec.containers.resources.usage }}'
+    pathTemplate: '{{ .spec.containers.resources.usage | toRawJson }}'
     priority: 3
     type: object
   - name: Name
@@ -202,15 +202,15 @@ spec:
     pathTemplate: '{{ .spec.containers.livenessProbe.tcpSocket.host }}'
     priority: 3
     type: string
-  - name: Initial Delay Seconds
+  - name: Initial Delay (sec)
     pathTemplate: '{{ .spec.containers.livenessProbe.initialDelaySeconds }}'
     priority: 3
     type: integer
-  - name: Timeout Seconds
+  - name: Timeout (sec)
     pathTemplate: '{{ .spec.containers.livenessProbe.timeoutSeconds }}'
     priority: 3
     type: integer
-  - name: Period Seconds
+  - name: Period (sec)
     pathTemplate: '{{ .spec.containers.livenessProbe.periodSeconds }}'
     priority: 3
     type: integer
@@ -222,7 +222,7 @@ spec:
     pathTemplate: '{{ .spec.containers.livenessProbe.failureThreshold }}'
     priority: 3
     type: integer
-  - name: Termination Grace Period Seconds
+  - name: Termination Grace Period (sec)
     pathTemplate: '{{ .spec.containers.livenessProbe.terminationGracePeriodSeconds }}'
     priority: 3
     type: integer
@@ -254,15 +254,15 @@ spec:
     pathTemplate: '{{ .spec.containers.readinessProbe.tcpSocket.host }}'
     priority: 3
     type: string
-  - name: Initial Delay Seconds
+  - name: Initial Delay (sec)
     pathTemplate: '{{ .spec.containers.readinessProbe.initialDelaySeconds }}'
     priority: 3
     type: integer
-  - name: Timeout Seconds
+  - name: Timeout (sec)
     pathTemplate: '{{ .spec.containers.readinessProbe.timeoutSeconds }}'
     priority: 3
     type: integer
-  - name: Period Seconds
+  - name: Period (sec)
     pathTemplate: '{{ .spec.containers.readinessProbe.periodSeconds }}'
     priority: 3
     type: integer
@@ -274,7 +274,7 @@ spec:
     pathTemplate: '{{ .spec.containers.readinessProbe.failureThreshold }}'
     priority: 3
     type: integer
-  - name: Termination Grace Period Seconds
+  - name: Termination Grace Period (sec)
     pathTemplate: '{{ .spec.containers.readinessProbe.terminationGracePeriodSeconds }}'
     priority: 3
     type: integer
@@ -306,15 +306,15 @@ spec:
     pathTemplate: '{{ .spec.containers.startupProbe.tcpSocket.host }}'
     priority: 3
     type: string
-  - name: Initial Delay Seconds
+  - name: Initial Delay (sec)
     pathTemplate: '{{ .spec.containers.startupProbe.initialDelaySeconds }}'
     priority: 3
     type: integer
-  - name: Timeout Seconds
+  - name: Timeout (sec)
     pathTemplate: '{{ .spec.containers.startupProbe.timeoutSeconds }}'
     priority: 3
     type: integer
-  - name: Period Seconds
+  - name: Period (sec)
     pathTemplate: '{{ .spec.containers.startupProbe.periodSeconds }}'
     priority: 3
     type: integer
@@ -326,7 +326,7 @@ spec:
     pathTemplate: '{{ .spec.containers.startupProbe.failureThreshold }}'
     priority: 3
     type: integer
-  - name: Termination Grace Period Seconds
+  - name: Termination Grace Period (sec)
     pathTemplate: '{{ .spec.containers.startupProbe.terminationGracePeriodSeconds }}'
     priority: 3
     type: integer

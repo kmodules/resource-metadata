@@ -58,11 +58,11 @@ spec:
     pathTemplate: '{{ .spec.rejectedConnections }}'
     priority: 3
     type: integer
-  - name: Slow Log Threshold(mircosecond)
-    pathTemplate: '{{ .spec.slowLogThresholdMircoSeconds }}'
+  - name: Slow Log Threshold (µsec)
+    pathTemplate: '{{ .spec.slowLogThresholdMicroSeconds }}'
     priority: 3
     type: integer
-  - name: Slow Logs Max Size
+  - name: Slow Log Max Len
     pathTemplate: '{{ .spec.slowLogMaxLen }}'
     priority: 3
     type: integer

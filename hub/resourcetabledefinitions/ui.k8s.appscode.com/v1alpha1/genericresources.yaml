@@ -55,7 +55,7 @@ spec:
     priority: 3
     type: integer
   - name: Role Replicas
-    pathTemplate: '{{ .spec.roleReplicas }}'
+    pathTemplate: '{{ .spec.roleReplicas | toRawJson }}'
     priority: 3
     type: object
   - name: Mode
@@ -63,27 +63,27 @@ spec:
     priority: 3
     type: string
   - name: Limits
-    pathTemplate: '{{ .spec.totalResource.limits }}'
+    pathTemplate: '{{ .spec.totalResource.limits | toRawJson }}'
     priority: 3
     type: object
   - name: Requests
-    pathTemplate: '{{ .spec.totalResource.requests }}'
+    pathTemplate: '{{ .spec.totalResource.requests | toRawJson }}'
     priority: 3
     type: object
   - name: Limits
-    pathTemplate: '{{ .spec.appResource.limits }}'
+    pathTemplate: '{{ .spec.appResource.limits | toRawJson }}'
     priority: 3
     type: object
   - name: Requests
-    pathTemplate: '{{ .spec.appResource.requests }}'
+    pathTemplate: '{{ .spec.appResource.requests | toRawJson }}'
     priority: 3
     type: object
   - name: Role Resource Limits
-    pathTemplate: '{{ .spec.roleResourceLimits }}'
+    pathTemplate: '{{ .spec.roleResourceLimits | toRawJson }}'
     priority: 3
     type: object
   - name: Role Resource Requests
-    pathTemplate: '{{ .spec.roleResourceRequests }}'
+    pathTemplate: '{{ .spec.roleResourceRequests | toRawJson }}'
     priority: 3
     type: object
   - name: Status
