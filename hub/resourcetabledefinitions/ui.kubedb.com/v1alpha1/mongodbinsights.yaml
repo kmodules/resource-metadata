@@ -98,11 +98,11 @@ spec:
   - name: Balancer Enabled
     pathTemplate: '{{ .spec.shardsInfo.balancerEnabled }}'
     priority: 3
-    type: bool
+    type: boolean
   - name: Chunks Balanced
     pathTemplate: '{{ .spec.shardsInfo.chunksBalanced }}'
     priority: 3
-    type: bool
+    type: boolean
   - name: Replicas
     pathTemplate: '{{ .spec.replicaSetInfo.numberOfReplicas }}'
     priority: 3

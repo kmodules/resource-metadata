@@ -98,7 +98,7 @@ spec:
   - name: Is Throttled
     pathTemplate: '{{ .indices.indexing.is_throttled }}'
     priority: 3
-    type: bool
+    type: boolean
   - name: Throttled Time
     pathTemplate: '{{ .indices.indexing.throttle_time }}'
     priority: 3

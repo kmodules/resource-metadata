@@ -78,7 +78,7 @@ spec:
   - name: Data Integrity
     pathTemplate: '{{ .spec.dataIntegrity }}'
     priority: 3
-    type: bool
+    type: boolean
   defaultView: true
   resource:
     group: ui.stash.appscode.com
