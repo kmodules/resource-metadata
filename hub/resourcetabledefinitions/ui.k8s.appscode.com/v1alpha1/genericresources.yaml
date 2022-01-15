@@ -10,39 +10,39 @@ metadata:
   name: ui.k8s.appscode.com-v1alpha1-genericresources
 spec:
   columns:
-  - name: UID
+  - name: ClusterUID
     pathTemplate: '{{ .spec.cluster.uid }}'
     priority: 4
     type: string
-  - name: Name
+  - name: ClusterName
     pathTemplate: '{{ .spec.cluster.name }}'
     priority: 4
     type: string
-  - name: Display Name
+  - name: Cluster Name
     pathTemplate: '{{ .spec.cluster.displayName }}'
     priority: 3
     type: string
-  - name: Provider
+  - name: Cluster Provider
     pathTemplate: '{{ .spec.cluster.provider }}'
     priority: 3
     type: string
-  - name: Group
+  - name: APIGroup
     pathTemplate: '{{ .spec.apiType.group }}'
     priority: 4
     type: string
-  - name: Version
+  - name: APIVersion
     pathTemplate: '{{ .spec.apiType.version }}'
     priority: 4
     type: string
-  - name: Name
+  - name: APIResource
     pathTemplate: '{{ .spec.apiType.name }}'
     priority: 4
     type: string
-  - name: Kind
+  - name: APIKind
     pathTemplate: '{{ .spec.apiType.kind }}'
     priority: 3
     type: string
-  - name: Scope
+  - name: APIScope
     pathTemplate: '{{ .spec.apiType.scope }}'
     priority: 4
     type: string
@@ -58,19 +58,19 @@ spec:
     pathTemplate: '{{ .spec.mode }}'
     priority: 3
     type: string
-  - name: Limits
+  - name: Total Resource Limits
     pathTemplate: '{{ .spec.totalResource.limits | toRawJson }}'
     priority: 3
     type: object
-  - name: Requests
+  - name: Total Resource Requests
     pathTemplate: '{{ .spec.totalResource.requests | toRawJson }}'
     priority: 3
     type: object
-  - name: Limits
+  - name: App Resource Limits
     pathTemplate: '{{ .spec.appResource.limits | toRawJson }}'
     priority: 3
     type: object
-  - name: Requests
+  - name: App Resource Requests
     pathTemplate: '{{ .spec.appResource.requests | toRawJson }}'
     priority: 3
     type: object
@@ -78,6 +78,14 @@ spec:
     pathTemplate: '{{ .status.phase }}'
     priority: 3
     type: string
+  - name: Age
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
+    priority: 3
+    type: date
+    sort:
+      enable: true
+      template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+      type: integer
   defaultView: true
   resource:
     group: ui.k8s.appscode.com

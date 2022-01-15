@@ -10,47 +10,55 @@ metadata:
   name: ui.k8s.appscode.com-v1alpha1-resourcesummaries
 spec:
   columns:
+  - name: ClusterUID
+    pathTemplate: '{{ .spec.cluster.uid }}'
+    priority: 4
+    type: string
+  - name: ClusterName
+    pathTemplate: '{{ .spec.cluster.name }}'
+    priority: 4
+    type: string
   - name: Cluster Name
-    pathTemplate: '{{ .spec.clusterName }}'
+    pathTemplate: '{{ .spec.cluster.displayName }}'
     priority: 3
     type: string
-  - name: Cluster ID
-    pathTemplate: '{{ .spec.clusterID }}'
+  - name: Cluster Provider
+    pathTemplate: '{{ .spec.cluster.provider }}'
     priority: 3
     type: string
-  - name: Group
+  - name: APIGroup
     pathTemplate: '{{ .spec.apiType.group }}'
-    priority: 3
+    priority: 4
     type: string
-  - name: Version
+  - name: APIVersion
     pathTemplate: '{{ .spec.apiType.version }}'
-    priority: 3
+    priority: 4
     type: string
-  - name: Name
+  - name: APIResource
     pathTemplate: '{{ .spec.apiType.name }}'
-    priority: 3
+    priority: 4
     type: string
-  - name: Kind
+  - name: APIKind
     pathTemplate: '{{ .spec.apiType.kind }}'
     priority: 3
     type: string
-  - name: Scope
+  - name: APIScope
     pathTemplate: '{{ .spec.apiType.scope }}'
-    priority: 3
+    priority: 4
     type: string
-  - name: Limits
+  - name: Total Resource Limits
     pathTemplate: '{{ .spec.totalResource.limits | toRawJson }}'
     priority: 3
     type: object
-  - name: Requests
+  - name: Total Resource Requests
     pathTemplate: '{{ .spec.totalResource.requests | toRawJson }}'
     priority: 3
     type: object
-  - name: Limits
+  - name: App Resource Limits
     pathTemplate: '{{ .spec.appResource.limits | toRawJson }}'
     priority: 3
     type: object
-  - name: Requests
+  - name: App Resource Requests
     pathTemplate: '{{ .spec.appResource.requests | toRawJson }}'
     priority: 3
     type: object
