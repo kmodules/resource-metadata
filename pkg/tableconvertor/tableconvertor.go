@@ -283,30 +283,7 @@ func (c *convertor) ConvertToTable(_ context.Context, obj runtime.Object, _ runt
 	}
 
 	var err error
-
-	if c.fieldPath == "" {
-		table.Rows, err = metaToTableRow(obj, c.rowFn)
-	} else {
-		arr, ok, err := unstructured.NestedSlice(obj.(runtime.Unstructured).UnstructuredContent(), fields(c.fieldPath)...)
-		if err != nil {
-			return nil, err
-		}
-		if !ok {
-			return table, nil
-		}
-
-		rows := make([]v1alpha1.TableRow, 0, len(arr))
-		for _, item := range arr {
-			var row v1alpha1.TableRow
-			row.Cells, err = c.rowFn(item)
-			if err != nil {
-				return nil, err
-			}
-			rows = append(rows, row)
-		}
-		table.Rows = rows
-	}
-
+	table.Rows, err = metaToTableRow(obj, c.fieldPath, c.rowFn)
 	return table, err
 }
 
@@ -369,11 +346,11 @@ func cellForJSONValue(col columnOptions, value string) (interface{}, error) {
 
 // metaToTableRow converts a list or object into one or more table rows. The provided rowFn is invoked for
 // each accessed item, with name and age being passed to each.
-func metaToTableRow(obj runtime.Object, rowFn func(obj interface{}) ([]v1alpha1.TableCell, error)) ([]v1alpha1.TableRow, error) {
+func metaToTableRow(obj runtime.Object, fieldPath string, rowFn func(obj interface{}) ([]v1alpha1.TableCell, error)) ([]v1alpha1.TableRow, error) {
 	if meta.IsListType(obj) {
 		rows := make([]v1alpha1.TableRow, 0, 16)
 		err := meta.EachListItem(obj, func(obj runtime.Object) error {
-			nestedRows, err := metaToTableRow(obj, rowFn)
+			nestedRows, err := metaToTableRow(obj, fieldPath, rowFn)
 			if err != nil {
 				return err
 			}
@@ -386,14 +363,36 @@ func metaToTableRow(obj runtime.Object, rowFn func(obj interface{}) ([]v1alpha1.
 		return rows, nil
 	}
 
-	rows := make([]v1alpha1.TableRow, 0, 1)
-	var row v1alpha1.TableRow
-	var err error
-	row.Cells, err = rowFn(obj)
+	if fieldPath == "" {
+		// obj to row
+		cells, err := rowFn(obj)
+		if err != nil {
+			return nil, err
+		}
+		return []v1alpha1.TableRow{
+			{
+				Cells: cells,
+			},
+		}, nil
+	}
+
+	// subtable
+	arr, ok, err := unstructured.NestedSlice(obj.(runtime.Unstructured).UnstructuredContent(), fields(fieldPath)...)
 	if err != nil {
 		return nil, err
 	}
-	rows = append(rows, row)
+	if !ok {
+		return nil, nil
+	}
+	rows := make([]v1alpha1.TableRow, 0, len(arr))
+	for _, item := range arr {
+		var row v1alpha1.TableRow
+		row.Cells, err = rowFn(item)
+		if err != nil {
+			return nil, err
+		}
+		rows = append(rows, row)
+	}
 	return rows, nil
 }
 
