@@ -51,6 +51,7 @@ type PageBlockView struct {
 	Result RenderResult `json:"result"`
 }
 
+// +kubebuilder:validation:Enum=Success;Missing;Error
 type RenderStatus string
 
 const (
