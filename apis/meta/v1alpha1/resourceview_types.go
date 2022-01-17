@@ -63,7 +63,7 @@ const (
 // a resource.
 type RenderResult struct {
 	// Status
-	Status RenderStatus
+	Status RenderStatus `json:"status"`
 	// Message
-	Message string
+	Message string `json:"message,omitempty"`
 }

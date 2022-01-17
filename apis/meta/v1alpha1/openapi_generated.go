@@ -15582,7 +15582,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_RenderResult(ref common.Referen
 				Description: "Result contains the results of a call to compute the status of a resource.",
 				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
-					"Status": {
+					"status": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Status",
 							Default:     "",
@@ -15590,16 +15590,15 @@ func schema_resource_metadata_apis_meta_v1alpha1_RenderResult(ref common.Referen
 							Format:      "",
 						},
 					},
-					"Message": {
+					"message": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Message",
-							Default:     "",
 							Type:        []string{"string"},
 							Format:      "",
 						},
 					},
 				},
-				Required: []string{"Status", "Message"},
+				Required: []string{"status"},
 			},
 		},
 	}
