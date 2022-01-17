@@ -38,9 +38,10 @@ func (in *TableCell) DeepCopy() *TableCell {
 
 func Convert_ResourceColumnDefinition_To_ResourceColumn(def ResourceColumnDefinition) ResourceColumn {
 	col := ResourceColumn{
-		Name:   def.Name,
-		Type:   def.Type,
-		Format: def.Format,
+		Name:     def.Name,
+		Type:     def.Type,
+		Format:   def.Format,
+		Priority: def.Priority,
 	}
 	if def.Sort != nil && def.Sort.Enable {
 		col.Sort = &SortHeader{
