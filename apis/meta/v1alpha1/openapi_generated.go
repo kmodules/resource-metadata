@@ -325,6 +325,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderPageResponse":          schema_resource_metadata_apis_meta_v1alpha1_RenderPageResponse(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderRequest":               schema_resource_metadata_apis_meta_v1alpha1_RenderRequest(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderResponse":              schema_resource_metadata_apis_meta_v1alpha1_RenderResponse(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderResult":                schema_resource_metadata_apis_meta_v1alpha1_RenderResult(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderSection":               schema_resource_metadata_apis_meta_v1alpha1_RenderSection(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderSectionRequest":        schema_resource_metadata_apis_meta_v1alpha1_RenderSectionRequest(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderSectionResponse":       schema_resource_metadata_apis_meta_v1alpha1_RenderSectionResponse(ref),
@@ -15015,12 +15016,6 @@ func schema_resource_metadata_apis_meta_v1alpha1_PageBlockView(ref common.Refere
 							Ref: ref("kmodules.xyz/client-go/api/v1.ResourceID"),
 						},
 					},
-					"missing": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"boolean"},
-							Format: "",
-						},
-					},
 					"items": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
@@ -15039,12 +15034,18 @@ func schema_resource_metadata_apis_meta_v1alpha1_PageBlockView(ref common.Refere
 							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Table"),
 						},
 					},
+					"result": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderResult"),
+						},
+					},
 				},
-				Required: []string{"kind", "actions"},
+				Required: []string{"kind", "actions", "result"},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured.Unstructured", "kmodules.xyz/client-go/api/v1.ResourceID", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceActions", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Table"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured.Unstructured", "kmodules.xyz/client-go/api/v1.ResourceID", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderResult", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceActions", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Table"},
 	}
 }
 
@@ -15574,6 +15575,36 @@ func schema_resource_metadata_apis_meta_v1alpha1_RenderResponse(ref common.Refer
 	}
 }
 
+func schema_resource_metadata_apis_meta_v1alpha1_RenderResult(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "Result contains the results of a call to compute the status of a resource.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"Status": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Status",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"Message": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Message",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+				},
+				Required: []string{"Status", "Message"},
+			},
+		},
+	}
+}
+
 func schema_resource_metadata_apis_meta_v1alpha1_RenderSection(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -16089,6 +16120,14 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceColumn(ref common.Refer
 							Format:      "",
 						},
 					},
+					"priority": {
+						SchemaProps: spec.SchemaProps{
+							Description: "priority is an integer defining the relative importance of this column compared to others. Lower numbers are considered higher priority. Columns that may be omitted in limited space scenarios should be given a higher priority.",
+							Default:     0,
+							Type:        []string{"integer"},
+							Format:      "int32",
+						},
+					},
 					"sort": {
 						SchemaProps: spec.SchemaProps{
 							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.SortHeader"),
@@ -16119,7 +16158,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceColumn(ref common.Refer
 						},
 					},
 				},
-				Required: []string{"name", "type"},
+				Required: []string{"name", "type", "priority"},
 			},
 		},
 		Dependencies: []string{
