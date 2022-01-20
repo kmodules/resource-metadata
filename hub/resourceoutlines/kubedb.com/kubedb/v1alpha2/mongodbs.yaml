@@ -20,6 +20,8 @@ spec:
     ref:
       group: ui.k8s.appscode.com
       kind: GenericResource
+    view:
+      name: kubedb-ui.k8s.appscode.com-v1alpha1-genericresources
   tabBar:
     actions:
       create: Never
@@ -31,6 +33,8 @@ spec:
     ref:
       group: ui.k8s.appscode.com
       kind: GenericResourceService
+    view:
+      name: kubedb-ui.k8s.appscode.com-v1alpha1-genericresourceservices
   pages:
   - name: Overview
     info:
