@@ -1,0 +1,44 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ui.k8s.appscode.com
+    k8s.io/kind: GenericResource
+    k8s.io/resource: genericresources
+    k8s.io/version: v1alpha1
+  name: kubedb-ui.k8s.appscode.com-v1alpha1-genericresources
+spec:
+  columns:
+    - name: Cluster Name
+      pathTemplate: "{{ .spec.cluster.displayName }}"
+      priority: 3
+      type: string
+    - name: Version
+      pathTemplate: "{{ .spec.version }}"
+      priority: 3
+      type: string
+    - name: Mode
+      pathTemplate: "{{ .spec.mode }}"
+      priority: 3
+      type: string
+    - name: App Resource Limits
+      pathTemplate: "{{ .spec.appResource.limits | toRawJson }}"
+      priority: 3
+      type: object
+      format: resource-map
+    - name: App Resource Requests
+      pathTemplate: "{{ .spec.appResource.requests | toRawJson }}"
+      priority: 3
+      type: object
+      format: resource-map
+    - name: Status
+      pathTemplate: "{{ .status.phase }}"
+      priority: 3
+      type: string
+  resource:
+    group: ui.k8s.appscode.com
+    kind: GenericResource
+    name: genericresources
+    scope: Namespaced
+    version: v1alpha1

@@ -1,0 +1,34 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ui.k8s.appscode.com
+    k8s.io/kind: GenericResourceService
+    k8s.io/resource: genericresourceservices
+    k8s.io/version: v1alpha1
+  name: kubedb-ui.k8s.appscode.com-v1alpha1-genericresourceservices
+spec:
+  columns:
+    - name: Exposed
+      pathTemplate: "{{ .spec.facilities.exposed.usage }}"
+      priority: 3
+      type: string
+    - name: TLS
+      pathTemplate: "{{ .spec.facilities.tls.usage }}"
+      priority: 3
+      type: string
+    - name: Backup
+      pathTemplate: "{{ .spec.facilities.backup.usage }}"
+      priority: 3
+      type: string
+    - name: Monitoring
+      pathTemplate: "{{ .spec.facilities.monitoring.usage }}"
+      priority: 3
+      type: string
+  resource:
+    group: ui.k8s.appscode.com
+    kind: GenericResourceService
+    name: genericresourceservices
+    scope: Namespaced
+    version: v1alpha1
