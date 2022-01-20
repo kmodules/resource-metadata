@@ -195,7 +195,7 @@ func (c *convertor) rowFn(obj interface{}) ([]v1alpha1.TableCell, error) {
 				cell.Sort = v
 			}
 		}
-		if col.Link != nil && col.Link.Enable && col.Link.Template != "" {
+		if col.Link != nil && col.Link.Template != "" {
 			if v, err := renderTemplate(data, columnOptions{
 				Name:     col.Name,
 				Type:     "string",
@@ -206,7 +206,7 @@ func (c *convertor) rowFn(obj interface{}) ([]v1alpha1.TableCell, error) {
 				cell.Link = v.(string)
 			}
 		}
-		if col.Icon != nil && col.Icon.Enable && col.Icon.Template != "" {
+		if col.Icon != nil && col.Icon.Template != "" {
 			if v, err := renderTemplate(data, columnOptions{
 				Name:     col.Name,
 				Type:     "string",
@@ -409,7 +409,6 @@ func DefaultListColumns() []v1alpha1.ResourceColumnDefinition {
 				// Template: "",
 			},
 			Link: &v1alpha1.AttributeDefinition{
-				Enable: true,
 				// Template: "",
 			},
 			//Shape ShapeProperty `json:"shape,omitempty"`
@@ -465,7 +464,6 @@ func DefaultDetailsColumns() []v1alpha1.ResourceColumnDefinition {
 				// Template: "",
 			},
 			Link: &v1alpha1.AttributeDefinition{
-				Enable: true,
 				// Template: "",
 			},
 			//Shape ShapeProperty `json:"shape,omitempty"`

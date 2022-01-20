@@ -14,8 +14,19 @@ spec:
       pathTemplate: "{{ .spec.facilities.exposed.usage }}"
       priority: 3
       type: string
+      icon:
+        template: |
+          {{ $status := .spec.facilities.exposed.usage }}
+          {{ $url := "https://cdn.appscode.com/***.png" }}
+          {{ if eq $status "Used" }}
+            {{ $url = "https://cdn.appscode.com/***.png" }}
+          {{ else if eq $status "Unused" }}
+            {{ $url = "https://cdn.appscode.com/***.png" }}
+          {{ else if eq $status "Unknown" }}
+            {{ $url = "https://cdn.appscode.com/***.png" }}
+          {{ end }}
+          {{- printf "%s" $url -}}
       color:
-        color: Foreground
         template: |
           {{ $status := .spec.facilities.exposed.usage }}
           {{ $color := "info" }}
@@ -31,8 +42,19 @@ spec:
       pathTemplate: "{{ .spec.facilities.tls.usage }}"
       priority: 3
       type: string
+      icon:
+        template: |
+          {{ $status := .spec.facilities.tls.usage }}
+          {{ $url := "https://cdn.appscode.com/***.png" }}
+          {{ if eq $status "Used" }}
+            {{ $url = "https://cdn.appscode.com/***.png" }}
+          {{ else if eq $status "Unused" }}
+            {{ $url = "https://cdn.appscode.com/***.png" }}
+          {{ else if eq $status "Unknown" }}
+            {{ $url = "https://cdn.appscode.com/***.png" }}
+          {{ end }}
+          {{- printf "%s" $url -}}
       color:
-        color: Foreground
         template: |
           {{ $status := .spec.facilities.tls.usage }}
           {{ $color := "info" }}
@@ -48,8 +70,19 @@ spec:
       pathTemplate: "{{ .spec.facilities.backup.usage }}"
       priority: 3
       type: string
+      icon:
+        template: |
+          {{ $status := .spec.facilities.backup.usage }}
+          {{ $url := "https://cdn.appscode.com/***.png" }}
+          {{ if eq $status "Used" }}
+            {{ $url = "https://cdn.appscode.com/***.png" }}
+          {{ else if eq $status "Unused" }}
+            {{ $url = "https://cdn.appscode.com/***.png" }}
+          {{ else if eq $status "Unknown" }}
+            {{ $url = "https://cdn.appscode.com/***.png" }}
+          {{ end }}
+          {{- printf "%s" $url -}}
       color:
-        color: Foreground
         template: |
           {{ $status := .spec.facilities.backup.usage }}
           {{ $color := "info" }}
@@ -65,8 +98,19 @@ spec:
       pathTemplate: "{{ .spec.facilities.monitoring.usage }}"
       priority: 3
       type: string
+      icon:
+        template: |
+          {{ $status := .spec.facilities.monitoring.usage }}
+          {{ $url := "https://cdn.appscode.com/***.png" }}
+          {{ if eq $status "Used" }}
+            {{ $url = "https://cdn.appscode.com/***.png" }}
+          {{ else if eq $status "Unused" }}
+            {{ $url = "https://cdn.appscode.com/***.png" }}
+          {{ else if eq $status "Unknown" }}
+            {{ $url = "https://cdn.appscode.com/***.png" }}
+          {{ end }}
+          {{- printf "%s" $url -}}
       color:
-        color: Foreground
         template: |
           {{ $status := .spec.facilities.monitoring.usage }}
           {{ $color := "info" }}

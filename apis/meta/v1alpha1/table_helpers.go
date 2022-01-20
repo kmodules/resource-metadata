@@ -50,17 +50,14 @@ func Convert_ResourceColumnDefinition_To_ResourceColumn(def ResourceColumnDefini
 			Format: def.Sort.Format,
 		}
 	}
-	if def.Link != nil && def.Link.Enable {
+	if def.Link != nil && def.Link.Template != "" {
 		col.Link = true
 	}
-	if def.Icon != nil && def.Icon.Enable {
+	if def.Icon != nil && def.Icon.Template != "" {
 		col.Icon = true
 	}
 	if def.Shape != "" {
 		col.Shape = def.Shape
-	}
-	if def.Color != nil && def.Color.Color != "" {
-		col.Color = def.Color.Color
 	}
 	return col
 }
