@@ -210,7 +210,7 @@ func (c *convertor) rowFn(obj interface{}) ([]v1alpha1.TableCell, error) {
 			if v, err := renderTemplate(data, columnOptions{
 				Name:     col.Name,
 				Type:     "string",
-				Template: col.Link.Template,
+				Template: col.Icon.Template,
 			}, buf); err != nil {
 				return nil, err
 			} else {
@@ -221,7 +221,7 @@ func (c *convertor) rowFn(obj interface{}) ([]v1alpha1.TableCell, error) {
 			if v, err := renderTemplate(data, columnOptions{
 				Name:     col.Name,
 				Type:     "string",
-				Template: col.Link.Template,
+				Template: col.Color.Template,
 			}, buf); err != nil {
 				return nil, err
 			} else {
