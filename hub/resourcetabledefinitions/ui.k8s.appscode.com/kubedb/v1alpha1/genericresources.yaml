@@ -36,6 +36,23 @@ spec:
       pathTemplate: "{{ .status.phase }}"
       priority: 3
       type: string
+      color:
+        color: Foreground
+        template: |
+          {{ $status := .status.phase }}
+          {{ $color := "info" }}
+          {{ if list "Provisioning" "DataRestoring" | has $status }}
+            {{ $status = "info" }}
+          {{ else if list "Ready" | has $status }}
+            {{ $status = "success" }}
+          {{ else if list "Critical" | has $status }}
+            {{ $status = "warning" }}
+          {{ else if list "NotReady" | has $status }}
+            {{ $status = "danger" }}
+          {{ else if list "Halted" | has $status }}
+            {{ $status = "neutral" }}
+          {{ end }}
+          {{- printf "%s" $color -}}
   resource:
     group: ui.k8s.appscode.com
     kind: GenericResource
