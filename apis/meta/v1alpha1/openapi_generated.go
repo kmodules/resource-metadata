@@ -14374,12 +14374,6 @@ func schema_resource_metadata_apis_meta_v1alpha1_AttributeDefinition(ref common.
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
-					"enable": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"boolean"},
-							Format: "",
-						},
-					},
 					"template": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
@@ -14433,16 +14427,11 @@ func schema_resource_metadata_apis_meta_v1alpha1_ColorDefinition(ref common.Refe
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
-					"color": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
 					"template": {
 						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
+							Description: "Available color codes: success,danger,neutral,warning,info",
+							Type:        []string{"string"},
+							Format:      "",
 						},
 					},
 				},
@@ -16147,12 +16136,6 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceColumn(ref common.Refer
 					"icon": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"boolean"},
-							Format: "",
-						},
-					},
-					"color": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
 							Format: "",
 						},
 					},

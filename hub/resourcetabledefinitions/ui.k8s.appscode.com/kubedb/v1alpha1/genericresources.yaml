@@ -37,7 +37,6 @@ spec:
       priority: 3
       type: string
       color:
-        color: Foreground
         template: |
           {{ $status := .status.phase }}
           {{ $color := "info" }}

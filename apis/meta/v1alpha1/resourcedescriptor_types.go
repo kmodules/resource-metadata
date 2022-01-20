@@ -278,7 +278,6 @@ type SortHeader struct {
 }
 
 type AttributeDefinition struct {
-	Enable   bool   `json:"enable,omitempty"`
 	Template string `json:"template,omitempty"`
 }
 
@@ -290,17 +289,9 @@ const (
 	ShapePill      ShapeProperty = "Pill"
 )
 
-// +kubebuilder:validation:Enum=Foreground;Background
-type ColorProperty string
-
-const (
-	ColorForeground ColorProperty = "Foreground"
-	ColorBackground ColorProperty = "Background"
-)
-
 type ColorDefinition struct {
-	Color    ColorProperty `json:"color,omitempty"`
-	Template string        `json:"template,omitempty"`
+	// Available color codes: success,danger,neutral,warning,info
+	Template string `json:"template,omitempty"`
 }
 
 type ResourceColumn struct {
@@ -323,7 +314,6 @@ type ResourceColumn struct {
 	Link  bool          `json:"link,omitempty"`
 	Shape ShapeProperty `json:"shape,omitempty"`
 	Icon  bool          `json:"icon,omitempty"`
-	Color ColorProperty `json:"color,omitempty"`
 }
 
 type ResourceSubTableDefinition struct {
