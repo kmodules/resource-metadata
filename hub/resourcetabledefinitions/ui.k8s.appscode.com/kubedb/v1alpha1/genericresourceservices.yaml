@@ -20,11 +20,11 @@ spec:
           {{ $status := .spec.facilities.exposed.usage }}
           {{ $color := "info" }}
           {{ if eq $status "Used" }}
-            {{ $status = "success" }}
+            {{ $color = "success" }}
           {{ else if eq $status "Unused" }}
-            {{ $status = "danger" }}
+            {{ $color = "danger" }}
           {{ else if eq $status "Unknown" }}
-            {{ $status = "neutral" }}
+            {{ $color = "neutral" }}
           {{ end }}
           {{- printf "%s" $color -}}
     - name: TLS
@@ -34,14 +34,14 @@ spec:
       color:
         color: Foreground
         template: |
-          {{ $status := .spec.facilities.exposed.usage }}
+          {{ $status := .spec.facilities.tls.usage }}
           {{ $color := "info" }}
           {{ if eq $status "Used" }}
-            {{ $status = "success" }}
+            {{ $color = "success" }}
           {{ else if eq $status "Unused" }}
-            {{ $status = "danger" }}
+            {{ $color = "danger" }}
           {{ else if eq $status "Unknown" }}
-            {{ $status = "neutral" }}
+            {{ $color = "neutral" }}
           {{ end }}
           {{- printf "%s" $color -}}
     - name: Backup
@@ -51,14 +51,14 @@ spec:
       color:
         color: Foreground
         template: |
-          {{ $status := .spec.facilities.exposed.usage }}
+          {{ $status := .spec.facilities.backup.usage }}
           {{ $color := "info" }}
           {{ if eq $status "Used" }}
-            {{ $status = "success" }}
+            {{ $color = "success" }}
           {{ else if eq $status "Unused" }}
-            {{ $status = "danger" }}
+            {{ $color = "danger" }}
           {{ else if eq $status "Unknown" }}
-            {{ $status = "neutral" }}
+            {{ $color = "neutral" }}
           {{ end }}
           {{- printf "%s" $color -}}
     - name: Monitoring
@@ -68,14 +68,14 @@ spec:
       color:
         color: Foreground
         template: |
-          {{ $status := .spec.facilities.exposed.usage }}
+          {{ $status := .spec.facilities.monitoring.usage }}
           {{ $color := "info" }}
           {{ if eq $status "Used" }}
-            {{ $status = "success" }}
+            {{ $color = "success" }}
           {{ else if eq $status "Unused" }}
-            {{ $status = "danger" }}
+            {{ $color = "danger" }}
           {{ else if eq $status "Unknown" }}
-            {{ $status = "neutral" }}
+            {{ $color = "neutral" }}
           {{ end }}
           {{- printf "%s" $color -}}
   resource:

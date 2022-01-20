@@ -42,15 +42,15 @@ spec:
           {{ $status := .status.phase }}
           {{ $color := "info" }}
           {{ if list "Provisioning" "DataRestoring" | has $status }}
-            {{ $status = "info" }}
+            {{ $color = "info" }}
           {{ else if list "Ready" | has $status }}
-            {{ $status = "success" }}
+            {{ $color = "success" }}
           {{ else if list "Critical" | has $status }}
-            {{ $status = "warning" }}
+            {{ $color = "warning" }}
           {{ else if list "NotReady" | has $status }}
-            {{ $status = "danger" }}
+            {{ $color = "danger" }}
           {{ else if list "Halted" | has $status }}
-            {{ $status = "neutral" }}
+            {{ $color = "neutral" }}
           {{ end }}
           {{- printf "%s" $color -}}
   resource:
