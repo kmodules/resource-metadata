@@ -14,18 +14,70 @@ spec:
       pathTemplate: "{{ .spec.facilities.exposed.usage }}"
       priority: 3
       type: string
+      color:
+        color: Foreground
+        template: |
+          {{ $status := .spec.facilities.exposed.usage }}
+          {{ $color := "info" }}
+          {{ if eq $status "Used" }}
+            {{ $status = "success" }}
+          {{ else eq $status "Unused" }}
+            {{ $status = "danger" }}
+          {{ else eq $status "Unknown" }}
+            {{ $status = "neutral" }}
+          {{ end }}
+          {{- printf "%s" $color -}}
     - name: TLS
       pathTemplate: "{{ .spec.facilities.tls.usage }}"
       priority: 3
       type: string
+      color:
+        color: Foreground
+        template: |
+          {{ $status := .spec.facilities.exposed.usage }}
+          {{ $color := "info" }}
+          {{ if eq $status "Used" }}
+            {{ $status = "success" }}
+          {{ else eq $status "Unused" }}
+            {{ $status = "danger" }}
+          {{ else eq $status "Unknown" }}
+            {{ $status = "neutral" }}
+          {{ end }}
+          {{- printf "%s" $color -}}
     - name: Backup
       pathTemplate: "{{ .spec.facilities.backup.usage }}"
       priority: 3
       type: string
+      color:
+        color: Foreground
+        template: |
+          {{ $status := .spec.facilities.exposed.usage }}
+          {{ $color := "info" }}
+          {{ if eq $status "Used" }}
+            {{ $status = "success" }}
+          {{ else eq $status "Unused" }}
+            {{ $status = "danger" }}
+          {{ else eq $status "Unknown" }}
+            {{ $status = "neutral" }}
+          {{ end }}
+          {{- printf "%s" $color -}}
     - name: Monitoring
       pathTemplate: "{{ .spec.facilities.monitoring.usage }}"
       priority: 3
       type: string
+      color:
+        color: Foreground
+        template: |
+          {{ $status := .spec.facilities.exposed.usage }}
+          {{ $color := "info" }}
+          {{ if eq $status "Used" }}
+            {{ $status = "success" }}
+          {{ else eq $status "Unused" }}
+            {{ $status = "danger" }}
+          {{ else eq $status "Unknown" }}
+            {{ $status = "neutral" }}
+          {{ end }}
+          {{- printf "%s" $color -}}
   resource:
     group: ui.k8s.appscode.com
     kind: GenericResourceService
