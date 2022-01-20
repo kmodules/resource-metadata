@@ -21,9 +21,9 @@ spec:
           {{ $color := "info" }}
           {{ if eq $status "Used" }}
             {{ $status = "success" }}
-          {{ else eq $status "Unused" }}
+          {{ else if eq $status "Unused" }}
             {{ $status = "danger" }}
-          {{ else eq $status "Unknown" }}
+          {{ else if eq $status "Unknown" }}
             {{ $status = "neutral" }}
           {{ end }}
           {{- printf "%s" $color -}}
@@ -38,9 +38,9 @@ spec:
           {{ $color := "info" }}
           {{ if eq $status "Used" }}
             {{ $status = "success" }}
-          {{ else eq $status "Unused" }}
+          {{ else if eq $status "Unused" }}
             {{ $status = "danger" }}
-          {{ else eq $status "Unknown" }}
+          {{ else if eq $status "Unknown" }}
             {{ $status = "neutral" }}
           {{ end }}
           {{- printf "%s" $color -}}
@@ -55,9 +55,9 @@ spec:
           {{ $color := "info" }}
           {{ if eq $status "Used" }}
             {{ $status = "success" }}
-          {{ else eq $status "Unused" }}
+          {{ else if eq $status "Unused" }}
             {{ $status = "danger" }}
-          {{ else eq $status "Unknown" }}
+          {{ else if eq $status "Unknown" }}
             {{ $status = "neutral" }}
           {{ end }}
           {{- printf "%s" $color -}}
@@ -72,9 +72,9 @@ spec:
           {{ $color := "info" }}
           {{ if eq $status "Used" }}
             {{ $status = "success" }}
-          {{ else eq $status "Unused" }}
+          {{ else if eq $status "Unused" }}
             {{ $status = "danger" }}
-          {{ else eq $status "Unknown" }}
+          {{ else if eq $status "Unknown" }}
             {{ $status = "neutral" }}
           {{ end }}
           {{- printf "%s" $color -}}
