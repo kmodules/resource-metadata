@@ -23,14 +23,12 @@ import (
 	"os"
 	"path/filepath"
 
-	kmapi "kmodules.xyz/client-go/api/v1"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
 	flag "github.com/spf13/pflag"
 	diff "github.com/yudai/gojsondiff"
 	"github.com/yudai/gojsondiff/formatter"
 	"gomodules.xyz/encoding/json"
-	crdv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"sigs.k8s.io/yaml"
 )
 
@@ -56,7 +54,7 @@ const (
 )
 
 var chartRegistryURL = flag.String("chart.registry-url", prodURL, "Chart registry url (prod/dev)")
-var chartVersion = flag.String("chart.version", "v0.2.0-alpha.0", "Chart version")
+var chartVersion = flag.String("chart.version", "v0.3.0", "Chart version")
 
 func check(filename string) (string, error) {
 	data, err := ioutil.ReadFile(filename)
@@ -74,7 +72,7 @@ func check(filename string) (string, error) {
 		return "", err
 	}
 
-	var rd v1alpha1.ResourceDescriptor
+	var rd v1alpha1.ResourceEditor
 	err = yaml.Unmarshal(data, &rd)
 	if err != nil {
 		return "", err
@@ -105,20 +103,6 @@ func check(filename string) (string, error) {
 		}
 		return result, nil
 	} else {
-		if rd.Spec.Validation != nil &&
-			rd.Spec.Validation.OpenAPIV3Schema != nil {
-
-			var mc crdv1.JSONSchemaProps
-			err = yaml.Unmarshal([]byte(v1alpha1.ObjectMetaSchema), &mc)
-			if err != nil {
-				return "", err
-			}
-			if rd.Spec.Resource.Scope == kmapi.ClusterScoped {
-				delete(mc.Properties, "namespace")
-			}
-			rd.Spec.Validation.OpenAPIV3Schema.Properties["metadata"] = mc
-			delete(rd.Spec.Validation.OpenAPIV3Schema.Properties, "status")
-		}
 		if rd.Spec.UI != nil {
 			if rd.Spec.UI.Options != nil {
 				rd.Spec.UI.Options.URL = *chartRegistryURL
@@ -131,11 +115,6 @@ func check(filename string) (string, error) {
 		}
 
 		data, err := yaml.Marshal(rd)
-		if err != nil {
-			return "", err
-		}
-
-		data, err = v1alpha1.FormatMetadata(data)
 		if err != nil {
 			return "", err
 		}
@@ -158,7 +137,7 @@ func main() {
 		*chartRegistryURL = devURL
 	}
 
-	err := filepath.Walk("./hub/resourcedescriptors/", func(path string, info fs.FileInfo, err error) error {
+	err := filepath.Walk("./hub/resourceeditors/", func(path string, info fs.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}

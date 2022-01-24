@@ -6,12 +6,14 @@ metadata:
   namespace: cluster
 spec:
   entries:
-  - name: Config Maps
+  - layoutName: ""
+    name: Config Maps
     required: true
     type:
       group: ""
-      resource: ConfigMap
-  - name: Secrets
+      kind: ""
+  - layoutName: ""
+    name: Secrets
     required: true
     type:
       group: ""

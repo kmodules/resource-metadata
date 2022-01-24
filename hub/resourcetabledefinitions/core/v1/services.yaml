@@ -9,7 +9,6 @@ metadata:
     k8s.io/version: v1
   name: core-v1-services
 spec:
-  defaultView: true
   columns:
   - name: Name
     pathTemplate: '{{ .metadata.name }}'
@@ -48,11 +47,12 @@ spec:
   - name: Age
     pathTemplate: '{{ .metadata.creationTimestamp | k8s_age }}'
     priority: 3
-    type: string
     sort:
       enable: true
       template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
       type: integer
+    type: string
+  defaultView: true
   resource:
     group: ""
     kind: Service

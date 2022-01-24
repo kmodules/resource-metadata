@@ -11,16 +11,15 @@ metadata:
 spec:
   defaultLayout: true
   pages:
-  - name: Basic
-    blocks:
+  - blocks:
     - kind: Block
       name: kubedb.com-v1alpha2-redissentinels
-  - name: Security
-    blocks:
+    name: Basic
+  - blocks:
     - kind: Block
       name: kubedb.com-v1alpha2-security
-  - name: Operations
-    blocks:
+    name: Security
+  - blocks:
     - actions:
         create: Always
       displayMode: List
@@ -31,10 +30,11 @@ spec:
       ref:
         group: ops.kubedb.com
         kind: RedisSentinelOpsRequest
-  - name: Monitoring
-    blocks:
+    name: Operations
+  - blocks:
     - kind: Block
       name: kubedb.com-v1alpha2-monitoring
+    name: Monitoring
   resource:
     group: kubedb.com
     kind: RedisSentinel

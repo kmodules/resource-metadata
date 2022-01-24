@@ -10,48 +10,49 @@ metadata:
   name: kubedb-ui.k8s.appscode.com-v1alpha1-genericresources
 spec:
   columns:
-    - name: Cluster Name
-      pathTemplate: "{{ .spec.cluster.displayName }}"
-      priority: 3
-      type: string
-    - name: Version
-      pathTemplate: "{{ .spec.version }}"
-      priority: 3
-      type: string
-    - name: Mode
-      pathTemplate: "{{ .spec.mode }}"
-      priority: 3
-      type: string
-    - name: App Resource Limits
-      pathTemplate: "{{ .spec.appResource.limits | toRawJson }}"
-      priority: 3
-      type: object
-      format: resource-map
-    - name: App Resource Requests
-      pathTemplate: "{{ .spec.appResource.requests | toRawJson }}"
-      priority: 3
-      type: object
-      format: resource-map
-    - name: Status
-      pathTemplate: "{{ .status.phase }}"
-      priority: 3
-      type: string
-      color:
-        template: |
-          {{ $status := .status.phase }}
-          {{ $color := "info" }}
-          {{ if list "Provisioning" "DataRestoring" | has $status }}
-            {{ $color = "info" }}
-          {{ else if list "Ready" | has $status }}
-            {{ $color = "success" }}
-          {{ else if list "Critical" | has $status }}
-            {{ $color = "warning" }}
-          {{ else if list "NotReady" | has $status }}
-            {{ $color = "danger" }}
-          {{ else if list "Halted" | has $status }}
-            {{ $color = "neutral" }}
-          {{ end }}
-          {{- printf "%s" $color -}}
+  - name: Cluster Name
+    pathTemplate: '{{ .spec.cluster.displayName }}'
+    priority: 3
+    type: string
+  - name: Version
+    pathTemplate: '{{ .spec.version }}'
+    priority: 3
+    type: string
+  - name: Mode
+    pathTemplate: '{{ .spec.mode }}'
+    priority: 3
+    type: string
+  - format: resource-map
+    name: App Resource Limits
+    pathTemplate: '{{ .spec.appResource.limits | toRawJson }}'
+    priority: 3
+    type: object
+  - format: resource-map
+    name: App Resource Requests
+    pathTemplate: '{{ .spec.appResource.requests | toRawJson }}'
+    priority: 3
+    type: object
+  - color:
+      template: |
+        {{ $status := .status.phase }}
+        {{ $color := "info" }}
+        {{ if list "Provisioning" "DataRestoring" | has $status }}
+          {{ $color = "info" }}
+        {{ else if list "Ready" | has $status }}
+          {{ $color = "success" }}
+        {{ else if list "Critical" | has $status }}
+          {{ $color = "warning" }}
+        {{ else if list "NotReady" | has $status }}
+          {{ $color = "danger" }}
+        {{ else if list "Halted" | has $status }}
+          {{ $color = "neutral" }}
+        {{ end }}
+        {{- printf "%s" $color -}}
+    name: Status
+    pathTemplate: '{{ .status.phase }}'
+    priority: 3
+    type: string
+  defaultView: false
   resource:
     group: ui.k8s.appscode.com
     kind: GenericResource

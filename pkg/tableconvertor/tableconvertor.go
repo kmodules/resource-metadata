@@ -26,7 +26,6 @@ import (
 	"text/template"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	"kmodules.xyz/resource-metadata/hub"
 
 	"github.com/pkg/errors"
 	"gomodules.xyz/encoding/json"
@@ -67,17 +66,6 @@ func NewForList(fieldPath string, columns []v1alpha1.ResourceColumnDefinition) (
 		fieldPath: fieldPath,
 	}
 	err := c.init(filterColumns(columns, v1alpha1.List))
-	return c, err
-}
-
-func NewForGVR(r *hub.Registry, kc client.Client, gvr schema.GroupVersionResource, priority v1alpha1.Priority) (TableConvertor, error) {
-	rd, err := r.LoadByGVR(gvr)
-	if err != nil {
-		return nil, err
-	}
-
-	c := &convertor{}
-	err = c.init(FilterColumnsWithDefaults(kc, gvr, rd.Spec.Columns, priority))
 	return c, err
 }
 

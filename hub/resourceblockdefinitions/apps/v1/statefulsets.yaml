@@ -9,21 +9,20 @@ metadata:
     k8s.io/version: v1
   name: apps-v1-statefulsets
 spec:
-  name: Basic
   blocks:
   - fieldPath: .spec.template.spec.containers
-    name: Containers
     kind: SubTable
+    name: Containers
     view:
       name: core-v1-containers
   - fieldPath: .spec.template.spec.initContainers
-    name: Init-Containers
     kind: SubTable
+    name: Init-Containers
     view:
       name: core-v1-containers
   - fieldPath: .status.conditions
-    name: Conditions
     kind: SubTable
+    name: Conditions
     view:
       name: apps-v1-conditions
   - actions:

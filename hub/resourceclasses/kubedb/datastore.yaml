@@ -7,45 +7,45 @@ metadata:
 spec:
   apiGroup: kubedb.com
   entries:
-  - name: Elasticsearch
+  - layoutName: kubedb-kubedb.com-v1alpha2-elasticsearches
+    name: Elasticsearch
     required: true
-    layoutName: kubedb-kubedb.com-v1alpha2-elasticsearches
     type:
       group: kubedb.com
       kind: Elasticsearch
-  - name: MariaDB
+  - layoutName: kubedb-kubedb.com-v1alpha2-mariadbs
+    name: MariaDB
     required: true
-    layoutName: kubedb-kubedb.com-v1alpha2-mariadbs
     type:
       group: kubedb.com
       kind: MariaDB
-  - name: Memcached
+  - layoutName: kubedb-kubedb.com-v1alpha2-memcacheds
+    name: Memcached
     required: true
-    layoutName: kubedb-kubedb.com-v1alpha2-memcacheds
     type:
       group: kubedb.com
       kind: Memcached
-  - name: MongoDB
+  - layoutName: kubedb-kubedb.com-v1alpha2-mongodbs
+    name: MongoDB
     required: true
-    layoutName: kubedb-kubedb.com-v1alpha2-mongodbs
     type:
       group: kubedb.com
       kind: MongoDB
-  - name: MySQL
+  - layoutName: kubedb-kubedb.com-v1alpha2-mysqls
+    name: MySQL
     required: true
-    layoutName: kubedb-kubedb.com-v1alpha2-mysqls
     type:
       group: kubedb.com
       kind: MySQL
-  - name: PostgreSQL
+  - layoutName: kubedb-kubedb.com-v1alpha2-postgreses
+    name: PostgreSQL
     required: true
-    layoutName: kubedb-kubedb.com-v1alpha2-postgreses
     type:
       group: kubedb.com
       kind: Postgres
-  - name: Redis
+  - layoutName: kubedb-kubedb.com-v1alpha2-redises
+    name: Redis
     required: true
-    layoutName: kubedb-kubedb.com-v1alpha2-redises
     type:
       group: kubedb.com
       kind: Redis

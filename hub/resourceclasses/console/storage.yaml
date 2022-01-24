@@ -6,17 +6,20 @@ metadata:
   namespace: cluster
 spec:
   entries:
-  - name: Persistent Volume Claims
+  - layoutName: ""
+    name: Persistent Volume Claims
     required: true
     type:
       group: ""
       kind: PersistentVolumeClaim
-  - name: Persistent Volulmes
+  - layoutName: ""
+    name: Persistent Volulmes
     required: true
     type:
       group: ""
       kind: PersistentVolume
-  - name: Storage Classes
+  - layoutName: ""
+    name: Storage Classes
     required: true
     type:
       group: storage.k8s.io

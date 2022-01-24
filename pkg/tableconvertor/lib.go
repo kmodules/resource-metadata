@@ -19,19 +19,36 @@ package tableconvertor
 import (
 	"context"
 
+	kmapi "kmodules.xyz/client-go/api/v1"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	"kmodules.xyz/resource-metadata/hub"
+	tabledefs "kmodules.xyz/resource-metadata/hub/resourcetabledefinitions"
 
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-// Deprecated
-func TableForList(r *hub.Registry, kc client.Client, gvr schema.GroupVersionResource, items []unstructured.Unstructured) (*v1alpha1.Table, error) {
-	c, err := NewForGVR(r, kc, gvr, v1alpha1.List)
+func NewForGVR(kc client.Client, gvr schema.GroupVersionResource, priority v1alpha1.Priority) (TableConvertor, error) {
+	var columns []v1alpha1.ResourceColumnDefinition
+	if def, ok := tabledefs.DefaultTableDefinitionForGVR(gvr); ok {
+		columns = def.Spec.Columns
+	}
+
+	var err error
+	columns, err = tabledefs.FlattenColumns(columns)
+	if err != nil {
+		return nil, err
+	}
+	columns = FilterColumnsWithDefaults(kc, gvr, columns, priority)
+
+	c := &convertor{}
+	err = c.init(columns)
+	return c, err
+}
+
+func TableForList(kc client.Client, gvr schema.GroupVersionResource, items []unstructured.Unstructured) (*v1alpha1.Table, error) {
+	c, err := NewForGVR(kc, gvr, v1alpha1.List)
 	if err != nil {
 		return nil, err
 	}
@@ -42,45 +59,23 @@ func TableForList(r *hub.Registry, kc client.Client, gvr schema.GroupVersionReso
 	return c.ConvertToTable(ctx, obj, nil)
 }
 
-// Deprecated
-func TableForObject(r *hub.Registry, kc client.Client, obj runtime.Object) (*v1alpha1.Table, error) {
+func TableForObject(kc client.Client, obj runtime.Object) (*v1alpha1.Table, error) {
 	gvk := obj.GetObjectKind().GroupVersionKind()
-	t := metav1.TypeMeta{APIVersion: gvk.GroupVersion().String(), Kind: gvk.Kind}
-	gvr, err := r.GVR(t.GroupVersionKind())
+	rid, err := kmapi.ExtractResourceID(kc.RESTMapper(), kmapi.ResourceID{
+		Group:   gvk.Group,
+		Version: gvk.Version,
+		Name:    "",
+		Kind:    gvk.Kind,
+		Scope:   "",
+	})
 	if err != nil {
 		return nil, err
 	}
 
-	rd, err := r.LoadByGVR(gvr)
+	c, err := NewForGVR(kc, rid.GroupVersionResource(), v1alpha1.Field)
 	if err != nil {
 		return nil, err
 	}
 
-	c, err := NewForGVR(r, kc, gvr, v1alpha1.Field)
-	if err != nil {
-		return nil, err
-	}
-	ctx := context.Background()
-	table, err := c.ConvertToTable(ctx, obj, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	for _, st := range rd.Spec.SubTables {
-		c2, err := New(st.FieldPath, st.Columns)
-		if err != nil {
-			return nil, err
-		}
-		t2, err := c2.ConvertToTable(ctx, obj, nil)
-		if err != nil {
-			return nil, err
-		}
-		table.SubTables = append(table.SubTables, v1alpha1.SubTable{
-			Name:    st.Name,
-			Columns: t2.Columns,
-			Rows:    t2.Rows,
-		})
-	}
-
-	return table, nil
+	return c.ConvertToTable(context.TODO(), obj, nil)
 }

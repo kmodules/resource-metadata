@@ -1,0 +1,22 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: apiextensions.k8s.io
+    k8s.io/kind: CustomResourceDefinition
+    k8s.io/resource: customresourcedefinitions
+    k8s.io/version: v1
+  name: apiextensions.k8s.io-v1-customresourcedefinitions
+spec:
+  resource:
+    group: apiextensions.k8s.io
+    kind: CustomResourceDefinition
+    name: customresourcedefinitions
+    scope: Cluster
+    version: v1
+  ui:
+    editor:
+      name: apiextensionsk8sio-customresourcedefinition-editor
+      url: https://bundles.byte.builders/ui/
+      version: v0.3.0

@@ -9,7 +9,6 @@ metadata:
     k8s.io/version: v1alpha2
   name: kubedb.com-v1alpha2-pgbouncers
 spec:
-  defaultView: true
   columns:
   - name: Name
     pathTemplate: '{{ .metadata.name }}'
@@ -62,11 +61,12 @@ spec:
   - name: Age
     pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
-    type: date
     sort:
       enable: true
       template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
       type: integer
+    type: date
+  defaultView: true
   resource:
     group: kubedb.com
     kind: PgBouncer

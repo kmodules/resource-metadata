@@ -11,10 +11,10 @@ metadata:
 spec:
   defaultLayout: true
   pages:
-  - name: Basic
-    blocks:
+  - blocks:
     - kind: Block
       name: autoscaling-v1-horizontalpodautoscalers
+    name: Basic
   resource:
     group: autoscaling
     kind: HorizontalPodAutoscaler

@@ -508,7 +508,7 @@ func (r *Registry) createResourcePanel(namespace resourceclasses.UINamespace, ke
 					pe.Namespaced = rd.Spec.Resource.Scope == kmapi.NamespaceScoped
 					pe.Icons = rd.Spec.Icons
 					pe.Missing = r.Missing(gvr)
-					pe.Installer = rd.Spec.Installer
+					// pe.Installer = rd.Spec.Installer
 					if pe.LayoutName == "" {
 						pe.LayoutName = resourceoutlines.DefaultLayoutName(rd.Spec.Resource.GroupVersionResource())
 					}
@@ -562,7 +562,7 @@ func (r *Registry) createResourcePanel(namespace resourceclasses.UINamespace, ke
 			Icons:      rd.Spec.Icons,
 			Namespaced: rd.Spec.Resource.Scope == kmapi.NamespaceScoped,
 			Missing:    r.Missing(gvr),
-			Installer:  rd.Spec.Installer,
+			// Installer:  rd.Spec.Installer,
 			LayoutName: resourceoutlines.DefaultLayoutName(rd.Spec.Resource.GroupVersionResource()),
 		})
 		existingGRs[gvr.GroupResource()] = true

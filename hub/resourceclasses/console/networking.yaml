@@ -2,26 +2,30 @@ apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceClass
 metadata:
   creationTimestamp: null
-  name: 'Service & Discovery'
+  name: Service & Discovery
   namespace: cluster
 spec:
   entries:
-  - name: Services
+  - layoutName: ""
+    name: Services
     required: true
     type:
       group: ""
       kind: Service
-  - name: Ingresses
+  - layoutName: ""
+    name: Ingresses
     required: true
     type:
       group: networking.k8s.io
       kind: Ingress
-  - name: Voyager Ingresses
+  - layoutName: ""
+    name: Voyager Ingresses
     required: true
     type:
       group: voyager.appscode.com
       kind: Ingress
-  - name: Network Policies
+  - layoutName: ""
+    name: Network Policies
     required: true
     type:
       group: networking.k8s.io

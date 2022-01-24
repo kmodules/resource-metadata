@@ -11,8 +11,7 @@ metadata:
 spec:
   defaultLayout: true
   pages:
-  - name: Basic
-    blocks:
+  - blocks:
     - actions:
         create: Never
       displayMode: List
@@ -33,8 +32,8 @@ spec:
       ref:
         group: ""
         kind: Service
-  - name: Monitoring
-    blocks:
+    name: Basic
+  - blocks:
     - actions:
         create: Always
       displayMode: List
@@ -55,6 +54,7 @@ spec:
       ref:
         group: monitoring.coreos.com
         kind: PodMonitor
+    name: Monitoring
   resource:
     group: monitoring.coreos.com
     kind: Prometheus

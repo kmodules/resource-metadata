@@ -11,18 +11,18 @@ metadata:
 spec:
   defaultLayout: true
   pages:
-  - name: Basic
-    blocks:
+  - blocks:
     - kind: Block
       name: apps-v1-replicasets
-  - name: Backups
-    blocks:
+    name: Basic
+  - blocks:
     - kind: Block
       name: stash.appscode.com-v1-backup
-  - name: Monitoring
-    blocks:
+    name: Backups
+  - blocks:
     - kind: Block
       name: monitoring.coreos.com-v1-monitoring
+    name: Monitoring
   resource:
     group: apps
     kind: ReplicaSet

@@ -9,6 +9,7 @@ metadata:
     k8s.io/version: v1alpha1
   name: catalog.kubevault.com-v1alpha1-vaultserverversions
 spec:
+  defaultView: false
   resource:
     group: catalog.kubevault.com
     kind: VaultServerVersion

@@ -7,22 +7,26 @@ metadata:
 spec:
   apiGroup: monitoring.coreos.com
   entries:
-  - name: Prometheus
+  - layoutName: ""
+    name: Prometheus
     required: true
     type:
       group: monitoring.coreos.com
       kind: Prometheus
-  - name: Alertmanager
+  - layoutName: ""
+    name: Alertmanager
     required: true
     type:
       group: monitoring.coreos.com
       kind: Alertmanager
-  - name: ServiceMonitor
+  - layoutName: ""
+    name: ServiceMonitor
     required: true
     type:
       group: monitoring.coreos.com
       kind: ServiceMonitor
-  - name: PodMonitor
+  - layoutName: ""
+    name: PodMonitor
     required: true
     type:
       group: monitoring.coreos.com

@@ -9,14 +9,13 @@ metadata:
     k8s.io/version: v1
   name: core-v1-services
 spec:
-  name: Basic
-  resources:
+  blocks:
   - actions:
       create: Never
     displayMode: List
     kind: Connection
     query:
-      byLabel: offshoot
+      byLabel: exposed_by
       type: GraphQL
     ref:
       group: ""

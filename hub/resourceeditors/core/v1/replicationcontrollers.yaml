@@ -1,0 +1,22 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ""
+    k8s.io/kind: ReplicationController
+    k8s.io/resource: replicationcontrollers
+    k8s.io/version: v1
+  name: core-v1-replicationcontrollers
+spec:
+  resource:
+    group: ""
+    kind: ReplicationController
+    name: replicationcontrollers
+    scope: Namespaced
+    version: v1
+  ui:
+    editor:
+      name: core-replicationcontroller-editor
+      url: https://bundles.byte.builders/ui/
+      version: v0.3.0

@@ -20,18 +20,18 @@ import (
 	"fmt"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	"kmodules.xyz/resource-metadata/hub"
+	"kmodules.xyz/resource-metadata/hub/resourceblockdefinitions"
 )
 
 func main() {
-	reg := hub.NewRegistryOfKnownResources()
-	reg.Visit(func(key string, rd *v1alpha1.ResourceDescriptor) {
-		for i, p := range rd.Spec.Pages {
-			for j, sec := range p.Resources {
+	for _, rd := range resourceblockdefinitions.List() {
+		for i, p := range rd.Spec.Blocks {
+			if p.ResourceLocator != nil {
+				sec := p.ResourceLocator
 				if sec.Query.Type != v1alpha1.RESTQuery && sec.Query.Type != v1alpha1.GraphQLQuery {
-					panic(fmt.Errorf("key=%s rd.Spec.Pages[%d].Resources[%d]", key, i, j))
+					panic(fmt.Errorf("rd.Spec.Blocks[%d]", i))
 				}
 			}
 		}
-	})
+	}
 }

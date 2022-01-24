@@ -20,11 +20,6 @@ spec:
     name: networkpolicies
     scope: Namespaced
     version: v1beta1
-  ui:
-    editor:
-      name: extensions-networkpolicy-editor
-      url: https://bundles.byte.builders/ui/
-      version: v0.3.0
   validation:
     openAPIV3Schema:
       description: DEPRECATED 1.9 - This group version of NetworkPolicy is deprecated by networking/v1/NetworkPolicy. NetworkPolicy describes what network traffic is allowed for a set of Pods

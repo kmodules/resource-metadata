@@ -11,10 +11,10 @@ metadata:
 spec:
   defaultLayout: true
   pages:
-  - name: Basic
-    blocks:
+  - blocks:
     - kind: Block
       name: stash.appscode.com-v1beta1-backupsessions
+    name: Basic
   resource:
     group: stash.appscode.com
     kind: BackupSession

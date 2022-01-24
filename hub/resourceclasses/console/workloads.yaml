@@ -6,41 +6,49 @@ metadata:
   namespace: cluster
 spec:
   entries:
-  - name: Deployments
+  - layoutName: ""
+    name: Deployments
     required: true
     type:
       group: apps
       kind: Deployment
-  - name: Replica Sets
+  - layoutName: ""
+    name: Replica Sets
     required: true
     type:
       group: apps
       kind: ReplicaSet
-  - name: Replication Controllers
+  - layoutName: ""
+    name: Replication Controllers
     required: true
     type:
       group: ""
       kind: ReplicationController
-  - name: Stateful Sets
+  - layoutName: ""
+    name: Stateful Sets
     required: true
     type:
       group: apps
       kind: StatefulSet
-  - name: Daemon Sets
+  - layoutName: ""
+    name: Daemon Sets
     required: true
     type:
       group: apps
       kind: Daemonset
-  - name: Jobs
+  - layoutName: ""
+    name: Jobs
     required: true
     type:
       group: batch
       kind: Job
-  - name: Cron Jobs
+  - layoutName: ""
+    name: Cron Jobs
     type:
       group: batch
       kind: CronJob
-  - name: Pods
+  - layoutName: ""
+    name: Pods
     required: true
     type:
       group: ""
