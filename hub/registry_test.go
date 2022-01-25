@@ -34,7 +34,7 @@ func TestRegistry_LoadDefaultResourceClass(t *testing.T) {
 	assert.NoError(t, err)
 
 	for _, rc := range panel.Sections {
-		for _, entry := range rc.Entries {
+		for _, entry := range rc.Items {
 			println(rc.Name)
 			fmt.Println(entry)
 		}
@@ -69,9 +69,8 @@ func TestResourcePanel_Minus(t *testing.T) {
 					TypeMeta: panel.TypeMeta,
 					Sections: []*v1alpha1.MenuSection{
 						{
-							Name:   "Admissionregistration",
-							Weight: 2,
-							Entries: []v1alpha1.MenuItem{
+							Name: "Admissionregistration",
+							Items: []v1alpha1.MenuItem{
 								{
 									Name: "MutatingWebhookConfiguration",
 									Resource: &kmapi.ResourceID{

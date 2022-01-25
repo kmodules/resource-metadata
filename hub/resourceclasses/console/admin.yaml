@@ -5,7 +5,12 @@ metadata:
   name: Admin
   namespace: cluster
 spec:
-  entries:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/admin.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/admin.png
+    type: image/png
+  items:
   - name: Namespaces
     required: true
     type:
@@ -33,9 +38,4 @@ spec:
     type:
       group: storage.k8s.io
       kind: CSIDriver
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/admin.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/admin.png
-    type: image/png
   weight: 10

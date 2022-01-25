@@ -6,7 +6,12 @@ metadata:
   namespace: kubedb
 spec:
   apiGroup: kubedb.com
-  entries:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/datastore.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/datastore.png
+    type: image/png
+  items:
   - layoutName: kubedb-kubedb.com-v1alpha2-elasticsearches
     name: Elasticsearch
     required: true
@@ -49,9 +54,4 @@ spec:
     type:
       group: kubedb.com
       kind: Redis
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/datastore.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/datastore.png
-    type: image/png
   weight: 4

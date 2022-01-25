@@ -6,15 +6,15 @@ metadata:
   namespace: cluster
 spec:
   apiGroup: kubedb.com
-  entries:
-  - name: Elasticsearch
-    required: true
-    type:
-      group: kubedb.com
-      kind: Elasticsearch
   icons:
   - src: https://cdn.appscode.com/k8s/icons/resourceclasses/datastore.svg
     type: image/svg+xml
   - src: https://cdn.appscode.com/k8s/icons/resourceclasses/datastore.png
     type: image/png
+  items:
+  - name: Elasticsearch
+    required: true
+    type:
+      group: kubedb.com
+      kind: Elasticsearch
   weight: 4

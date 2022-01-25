@@ -5,7 +5,12 @@ metadata:
   name: Kubernetes
   namespace: cluster
 spec:
-  entries:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/kubernetes.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/kubernetes.png
+    type: image/png
+  items:
   - icons:
     - src: https://cdn.appscode.com/k8s/icons/resourceclasses/basic.svg
       type: image/svg+xml
@@ -24,9 +29,4 @@ spec:
     type:
       group: cluster.x-k8s.io
       kind: MachineSet
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/kubernetes.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/kubernetes.png
-    type: image/png
   weight: 1

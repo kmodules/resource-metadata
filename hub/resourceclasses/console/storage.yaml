@@ -5,7 +5,12 @@ metadata:
   name: Storage
   namespace: cluster
 spec:
-  entries:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/storage.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/storage.png
+    type: image/png
+  items:
   - name: Persistent Volume Claims
     required: true
     type:
@@ -21,9 +26,4 @@ spec:
     type:
       group: storage.k8s.io
       kind: StorageClass
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/storage.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/storage.png
-    type: image/png
   weight: 7

@@ -22,18 +22,25 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+const (
+	ResourceKindMenu = "Menu"
+	ResourceMenu     = "menu"
+	ResourceMenus    = "menus"
+)
+
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 type Menu struct {
 	metav1.TypeMeta `json:",inline"`
-	Sections        []*MenuSection `json:"sections,omitempty"`
+	// +optional
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Home              *MenuSectionInfo `json:"home,omitempty"`
+	Sections          []*MenuSection   `json:"sections,omitempty"`
 }
 
 type MenuSection struct {
-	Name              string `json:"name,omitempty"`
-	ResourceClassInfo `json:",inline"`
-	Weight            int        `json:"-"`
-	Entries           []MenuItem `json:"entries"`
+	MenuSectionInfo `json:",inline,omitempty"`
+	Items           []MenuItem `json:"items"`
 }
 
 type MenuItem struct {

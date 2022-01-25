@@ -41,7 +41,30 @@ spec:
             properties:
               apiGroup:
                 type: string
-              entries:
+              icons:
+                description: Icons is an optional list of icons for an application.
+                  Icon information includes the source, size, and mime type.
+                items:
+                  description: ImageSpec contains information about an image used
+                    as an icon.
+                  properties:
+                    size:
+                      description: (optional) The size of the image in pixels (e.g.,
+                        25x25).
+                      type: string
+                    src:
+                      description: The source for image represented as either an absolute
+                        URL to the image or a Data URL containing the image. Data
+                        URLs are defined in RFC 2397.
+                      type: string
+                    type:
+                      description: (optional) The mine type of the image (e.g., "image/png").
+                      type: string
+                  required:
+                  - src
+                  type: object
+                type: array
+              items:
                 items:
                   properties:
                     icons:
@@ -91,29 +114,6 @@ spec:
                   - name
                   type: object
                 type: array
-              icons:
-                description: Icons is an optional list of icons for an application.
-                  Icon information includes the source, size, and mime type.
-                items:
-                  description: ImageSpec contains information about an image used
-                    as an icon.
-                  properties:
-                    size:
-                      description: (optional) The size of the image in pixels (e.g.,
-                        25x25).
-                      type: string
-                    src:
-                      description: The source for image represented as either an absolute
-                        URL to the image or a Data URL containing the image. Data
-                        URLs are defined in RFC 2397.
-                      type: string
-                    type:
-                      description: (optional) The mine type of the image (e.g., "image/png").
-                      type: string
-                  required:
-                  - src
-                  type: object
-                type: array
               links:
                 description: Links are a list of descriptive URLs intended to be used
                   to surface additional documentation, dashboards, etc.
@@ -152,7 +152,7 @@ spec:
               weight:
                 type: integer
             required:
-            - entries
+            - items
             - weight
             type: object
         type: object

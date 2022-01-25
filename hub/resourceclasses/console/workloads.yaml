@@ -5,7 +5,12 @@ metadata:
   name: Workloads
   namespace: cluster
 spec:
-  entries:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/workloads.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/workloads.png
+    type: image/png
+  items:
   - name: Deployments
     required: true
     type:
@@ -45,9 +50,4 @@ spec:
     type:
       group: ""
       kind: Pod
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/workloads.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/workloads.png
-    type: image/png
   weight: 2

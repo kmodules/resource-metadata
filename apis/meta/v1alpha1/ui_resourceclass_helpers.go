@@ -17,7 +17,7 @@ limitations under the License.
 package v1alpha1
 
 func (s ResourceClass) IsRequired() bool {
-	for _, entry := range s.Spec.Entries {
+	for _, entry := range s.Spec.Items {
 		if entry.Required {
 			return true
 		}

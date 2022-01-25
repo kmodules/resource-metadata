@@ -4,24 +4,17 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   creationTimestamp: null
-  name: menuoutlines.meta.k8s.appscode.com
+  name: menus.meta.k8s.appscode.com
 spec:
   group: meta.k8s.appscode.com
   names:
-    kind: MenuOutline
-    listKind: MenuOutlineList
-    plural: menuoutlines
-    singular: menuoutline
+    kind: Menu
+    listKind: MenuList
+    plural: menus
+    singular: menu
   scope: Namespaced
   versions:
-  - additionalPrinterColumns:
-    - jsonPath: .status.phase
-      name: Status
-      type: string
-    - jsonPath: .metadata.creationTimestamp
-      name: Age
-      type: date
-    name: v1alpha1
+  - name: v1alpha1
     schema:
       openAPIV3Schema:
         properties:
@@ -125,26 +118,63 @@ spec:
                           - src
                           type: object
                         type: array
+                      installer:
+                        properties:
+                          chart:
+                            description: ChartRepoRef references to a single version
+                              of a Chart
+                            properties:
+                              name:
+                                type: string
+                              url:
+                                type: string
+                              version:
+                                type: string
+                            required:
+                            - name
+                            - version
+                            type: object
+                          planID:
+                            type: string
+                          productID:
+                            type: string
+                        type: object
                       layoutName:
                         type: string
+                      missing:
+                        type: boolean
                       name:
                         type: string
                       path:
                         type: string
                       required:
                         type: boolean
-                      type:
-                        description: GroupKind specifies a Group and a Kind, but does
-                          not force a version.  This is useful for identifying concepts
-                          during lookup stages without having partially valid types
+                      resource:
+                        description: ResourceID identifies a resource
                         properties:
                           group:
                             type: string
                           kind:
+                            description: Kind is the serialized kind of the resource.  It
+                              is normally CamelCase and singular.
+                            type: string
+                          name:
+                            description: 'Name is the plural name of the resource
+                              to serve.  It must match the name of the CustomResourceDefinition-registration
+                              too: plural.group and it must be all lowercase.'
+                            type: string
+                          scope:
+                            description: ResourceScope is an enum defining the different
+                              scopes available to a custom resource
+                            type: string
+                          version:
                             type: string
                         required:
                         - group
                         - kind
+                        - name
+                        - scope
+                        - version
                         type: object
                     required:
                     - name
@@ -163,5 +193,3 @@ spec:
         type: object
     served: true
     storage: true
-    subresources:
-      status: {}

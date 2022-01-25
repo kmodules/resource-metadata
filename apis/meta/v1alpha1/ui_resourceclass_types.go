@@ -46,7 +46,7 @@ type ResourceClass struct {
 type ResourceClassSpec struct {
 	ResourceClassInfo `json:",inline"`
 	Weight            int         `json:"weight"`
-	Entries           []MenuEntry `json:"entries"`
+	Items             []MenuEntry `json:"items"`
 }
 
 type ResourceClassInfo struct {

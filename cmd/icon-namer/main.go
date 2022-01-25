@@ -134,9 +134,9 @@ func main() {
 		}
 
 		rc.Spec.Icons, missing = processIcons(rc.Spec.Icons, allIcons, missing)
-		for i := range rc.Spec.Entries {
-			if len(rc.Spec.Entries[i].Path) > 0 {
-				rc.Spec.Entries[i].Icons, missing = processIcons(rc.Spec.Entries[i].Icons, allIcons, missing)
+		for i := range rc.Spec.Items {
+			if len(rc.Spec.Items[i].Path) > 0 {
+				rc.Spec.Items[i].Icons, missing = processIcons(rc.Spec.Items[i].Icons, allIcons, missing)
 			}
 		}
 

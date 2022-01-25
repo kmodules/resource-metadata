@@ -5,7 +5,12 @@ metadata:
   name: Service & Discovery
   namespace: cluster
 spec:
-  entries:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/networking.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/networking.png
+    type: image/png
+  items:
   - name: Services
     required: true
     type:
@@ -26,9 +31,4 @@ spec:
     type:
       group: networking.k8s.io
       kind: NetworkPolicy
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/networking.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/networking.png
-    type: image/png
   weight: 5

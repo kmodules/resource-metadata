@@ -6,7 +6,12 @@ metadata:
   namespace: cluster
 spec:
   apiGroup: monitoring.coreos.com
-  entries:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/monitoring.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/monitoring.png
+    type: image/png
+  items:
   - name: Prometheus
     required: true
     type:
@@ -27,9 +32,4 @@ spec:
     type:
       group: monitoring.coreos.com
       kind: PodMonitor
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/monitoring.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/monitoring.png
-    type: image/png
   weight: 8

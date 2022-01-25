@@ -5,7 +5,12 @@ metadata:
   name: Security
   namespace: cluster
 spec:
-  entries:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/security.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/security.png
+    type: image/png
+  items:
   - name: Policy
     required: true
     type:
@@ -21,9 +26,4 @@ spec:
     type:
       group: ""
       kind: ServiceAccount
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/security.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/security.png
-    type: image/png
   weight: 9
