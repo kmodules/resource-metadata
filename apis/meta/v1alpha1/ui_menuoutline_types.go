@@ -50,7 +50,7 @@ type MenuOutlineSpec struct {
 
 type MenuSectionOutline struct {
 	*MenuSectionOverview `json:",inline,omitempty"`
-	Entries              []Entry `json:"entries"`
+	Entries              []MenuEntry `json:"entries"`
 }
 
 type MenuSectionOverview struct {
@@ -60,6 +60,9 @@ type MenuSectionOverview struct {
 	Path string `json:"path,omitempty"`
 	// +optional
 	AutoDiscoverAPIGroup string `json:"autoDiscoverAPIGroup,omitempty"`
+
+	// +optional
+	LayoutName string `json:"layoutName,omitempty"`
 
 	// Icons is an optional list of icons for an application. Icon information includes the source, size,
 	// and mime type.
@@ -71,6 +74,19 @@ type MenuSectionOverview struct {
 
 	// Links are a list of descriptive URLs intended to be used to surface additional documentation, dashboards, etc.
 	Links []Link `json:"links,omitempty"`
+}
+
+type MenuEntry struct {
+	Name string `json:"name"`
+	// +optional
+	Path string            `json:"path,omitempty"`
+	Type *metav1.GroupKind `json:"type,omitempty"`
+	// +optional
+	LayoutName string `json:"layoutName,omitempty"`
+	// +optional
+	Required bool `json:"required,omitempty"`
+	// +optional
+	Icons []ImageSpec `json:"icons,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

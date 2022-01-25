@@ -6,26 +6,22 @@ metadata:
   namespace: cluster
 spec:
   entries:
-  - layoutName: ""
-    name: Services
+  - name: Services
     required: true
     type:
       group: ""
       kind: Service
-  - layoutName: ""
-    name: Ingresses
+  - name: Ingresses
     required: true
     type:
       group: networking.k8s.io
       kind: Ingress
-  - layoutName: ""
-    name: Voyager Ingresses
+  - name: Voyager Ingresses
     required: true
     type:
       group: voyager.appscode.com
       kind: Ingress
-  - layoutName: ""
-    name: Network Policies
+  - name: Network Policies
     required: true
     type:
       group: networking.k8s.io

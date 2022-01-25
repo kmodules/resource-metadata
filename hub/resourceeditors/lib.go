@@ -64,7 +64,7 @@ func init() {
 	}
 }
 
-func DefaultLayoutName(gvr schema.GroupVersionResource) string {
+func DefaultEditorName(gvr schema.GroupVersionResource) string {
 	if gvr.Group == "" && gvr.Version == "v1" {
 		return fmt.Sprintf("core-v1-%s", gvr.Resource)
 	}
@@ -76,6 +76,12 @@ func LoadByName(name string) (*v1alpha1.ResourceEditor, error) {
 		return obj, nil
 	}
 	return nil, apierrors.NewNotFound(v1alpha1.Resource(v1alpha1.ResourceKindResourceEditor), name)
+}
+
+func LoadForGVR(gvr schema.GroupVersionResource) (*v1alpha1.ResourceEditor, bool) {
+	name := DefaultEditorName(gvr)
+	obj, ok := reMap[name]
+	return obj, ok
 }
 
 func List() []v1alpha1.ResourceEditor {

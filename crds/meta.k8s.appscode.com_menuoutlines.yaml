@@ -64,6 +64,8 @@ spec:
                   - src
                   type: object
                 type: array
+              layoutName:
+                type: string
               links:
                 description: Links are a list of descriptive URLs intended to be used
                   to surface additional documentation, dashboards, etc.
@@ -184,6 +186,8 @@ spec:
                         - src
                         type: object
                       type: array
+                    layoutName:
+                      type: string
                     links:
                       description: Links are a list of descriptive URLs intended to
                         be used to surface additional documentation, dashboards, etc.

@@ -48,10 +48,10 @@ func TestResourcePanel_Minus(t *testing.T) {
 
 	type fields struct {
 		TypeMeta v1.TypeMeta
-		Sections []*v1alpha1.PanelSection
+		Sections []*v1alpha1.MenuSection
 	}
 	type args struct {
-		b *v1alpha1.ResourcePanel
+		b *v1alpha1.Menu
 	}
 	tests := []struct {
 		name   string
@@ -65,13 +65,13 @@ func TestResourcePanel_Minus(t *testing.T) {
 				Sections: panel.Sections,
 			},
 			args: args{
-				b: &v1alpha1.ResourcePanel{
+				b: &v1alpha1.Menu{
 					TypeMeta: panel.TypeMeta,
-					Sections: []*v1alpha1.PanelSection{
+					Sections: []*v1alpha1.MenuSection{
 						{
 							Name:   "Admissionregistration",
 							Weight: 2,
-							Entries: []v1alpha1.PanelEntry{
+							Entries: []v1alpha1.MenuItem{
 								{
 									Name: "MutatingWebhookConfiguration",
 									Resource: &kmapi.ResourceID{
@@ -79,7 +79,7 @@ func TestResourcePanel_Minus(t *testing.T) {
 										Version: "v1beta1",
 										Name:    "mutatingwebhookconfigurations",
 									},
-									Namespaced: false,
+									// Namespaced: false,
 								},
 								{
 									Name: "ValidatingWebhookConfiguration",
@@ -88,7 +88,7 @@ func TestResourcePanel_Minus(t *testing.T) {
 										Version: "v1beta1",
 										Name:    "validatingwebhookconfigurations",
 									},
-									Namespaced: false,
+									// Namespaced: false,
 								},
 							},
 						},
@@ -99,7 +99,7 @@ func TestResourcePanel_Minus(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			a := &v1alpha1.ResourcePanel{
+			a := &v1alpha1.Menu{
 				TypeMeta: tt.fields.TypeMeta,
 				Sections: tt.fields.Sections,
 			}

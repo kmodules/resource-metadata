@@ -11,18 +11,15 @@ spec:
         type: image/svg+xml
       - src: https://cdn.appscode.com/k8s/icons/resourceclasses/basic.png
         type: image/png
-      layoutName: ""
       name: Basic
       path: /
       required: true
-    - layoutName: ""
-      name: Machines
+    - name: Machines
       required: true
       type:
         group: cluster.x-k8s.io
         kind: Machine
-    - layoutName: ""
-      name: Machine Sets
+    - name: Machine Sets
       required: true
       type:
         group: cluster.x-k8s.io
@@ -35,49 +32,41 @@ spec:
     name: Kubernetes
     path: /ui.appscode.com/v1alpha1/sections/kubernetes
   - entries:
-    - layoutName: ""
-      name: Deployments
+    - name: Deployments
       required: true
       type:
         group: apps
         kind: Deployment
-    - layoutName: ""
-      name: Replica Sets
+    - name: Replica Sets
       required: true
       type:
         group: apps
         kind: ReplicaSet
-    - layoutName: ""
-      name: Replication Controllers
+    - name: Replication Controllers
       required: true
       type:
         group: ""
         kind: ReplicationController
-    - layoutName: ""
-      name: Stateful Sets
+    - name: Stateful Sets
       required: true
       type:
         group: apps
         kind: StatefulSet
-    - layoutName: ""
-      name: Daemon Sets
+    - name: Daemon Sets
       required: true
       type:
         group: apps
         kind: Daemonset
-    - layoutName: ""
-      name: Jobs
+    - name: Jobs
       required: true
       type:
         group: batch
         kind: Job
-    - layoutName: ""
-      name: Cron Jobs
+    - name: Cron Jobs
       type:
         group: batch
         kind: CronJob
-    - layoutName: ""
-      name: Pods
+    - name: Pods
       required: true
       type:
         group: ""
@@ -94,7 +83,6 @@ spec:
         type: image/svg+xml
       - src: https://cdn.appscode.com/k8s/icons/resourceclasses/release.png
         type: image/png
-      layoutName: ""
       name: Releases
       path: /helm/v3/releases
     icons:
@@ -105,8 +93,7 @@ spec:
     name: Helm 3
   - autoDiscoverAPIGroup: kubedb.com
     entries:
-    - layoutName: ""
-      name: Elasticsearch
+    - name: Elasticsearch
       required: true
       type:
         group: kubedb.com
@@ -118,26 +105,22 @@ spec:
       type: image/png
     name: Datastore
   - entries:
-    - layoutName: ""
-      name: Services
+    - name: Services
       required: true
       type:
         group: ""
         kind: Service
-    - layoutName: ""
-      name: Ingresses
+    - name: Ingresses
       required: true
       type:
         group: networking.k8s.io
         kind: Ingress
-    - layoutName: ""
-      name: Voyager Ingresses
+    - name: Voyager Ingresses
       required: true
       type:
         group: voyager.appscode.com
         kind: Ingress
-    - layoutName: ""
-      name: Network Policies
+    - name: Network Policies
       required: true
       type:
         group: networking.k8s.io
@@ -149,14 +132,12 @@ spec:
       type: image/png
     name: Service & Discovery
   - entries:
-    - layoutName: ""
-      name: Config Maps
+    - name: Config Maps
       required: true
       type:
         group: ""
         kind: ""
-    - layoutName: ""
-      name: Secrets
+    - name: Secrets
       required: true
       type:
         group: ""
@@ -168,20 +149,17 @@ spec:
       type: image/png
     name: Config
   - entries:
-    - layoutName: ""
-      name: Persistent Volume Claims
+    - name: Persistent Volume Claims
       required: true
       type:
         group: ""
         kind: PersistentVolumeClaim
-    - layoutName: ""
-      name: Persistent Volulmes
+    - name: Persistent Volulmes
       required: true
       type:
         group: ""
         kind: PersistentVolume
-    - layoutName: ""
-      name: Storage Classes
+    - name: Storage Classes
       required: true
       type:
         group: storage.k8s.io
@@ -194,26 +172,22 @@ spec:
     name: Storage
   - autoDiscoverAPIGroup: monitoring.coreos.com
     entries:
-    - layoutName: ""
-      name: Prometheus
+    - name: Prometheus
       required: true
       type:
         group: monitoring.coreos.com
         kind: Prometheus
-    - layoutName: ""
-      name: Alertmanager
+    - name: Alertmanager
       required: true
       type:
         group: monitoring.coreos.com
         kind: Alertmanager
-    - layoutName: ""
-      name: ServiceMonitor
+    - name: ServiceMonitor
       required: true
       type:
         group: monitoring.coreos.com
         kind: ServiceMonitor
-    - layoutName: ""
-      name: PodMonitor
+    - name: PodMonitor
       required: true
       type:
         group: monitoring.coreos.com
@@ -225,14 +199,12 @@ spec:
       type: image/png
     name: Monitoring
   - entries:
-    - layoutName: ""
-      name: Policy
+    - name: Policy
       required: true
       type:
         group: policy
         kind: PodSecurityPolicy
-    - layoutName: ""
-      name: Service Accounts
+    - name: Service Accounts
       required: true
       type:
         group: ""
@@ -244,36 +216,30 @@ spec:
       type: image/png
     name: Security
   - entries:
-    - layoutName: ""
-      name: Namespaces
+    - name: Namespaces
       required: true
       type:
         group: ""
         kind: Namespace
-    - layoutName: ""
-      name: Limit Ranges
+    - name: Limit Ranges
       type:
         group: ""
         kind: LimitRange
-    - layoutName: ""
-      name: Resource Quotas
+    - name: Resource Quotas
       type:
         group: ""
         kind: ResourceQuota
-    - layoutName: ""
-      name: Cluster Roles
+    - name: Cluster Roles
       required: true
       type:
         group: rbac.authorization.k8s.io
         kind: ClusterRole
-    - layoutName: ""
-      name: Roles
+    - name: Roles
       required: true
       type:
         group: rbac.authorization.k8s.io
         kind: Role
-    - layoutName: ""
-      name: CSI Drivers
+    - name: CSI Drivers
       type:
         group: storage.k8s.io
         kind: CSIDriver

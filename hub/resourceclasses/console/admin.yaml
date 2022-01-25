@@ -6,36 +6,30 @@ metadata:
   namespace: cluster
 spec:
   entries:
-  - layoutName: ""
-    name: Namespaces
+  - name: Namespaces
     required: true
     type:
       group: ""
       kind: Namespace
-  - layoutName: ""
-    name: Limit Ranges
+  - name: Limit Ranges
     type:
       group: ""
       kind: LimitRange
-  - layoutName: ""
-    name: Resource Quotas
+  - name: Resource Quotas
     type:
       group: ""
       kind: ResourceQuota
-  - layoutName: ""
-    name: Cluster Roles
+  - name: Cluster Roles
     required: true
     type:
       group: rbac.authorization.k8s.io
       kind: ClusterRole
-  - layoutName: ""
-    name: Roles
+  - name: Roles
     required: true
     type:
       group: rbac.authorization.k8s.io
       kind: Role
-  - layoutName: ""
-    name: CSI Drivers
+  - name: CSI Drivers
     type:
       group: storage.k8s.io
       kind: CSIDriver

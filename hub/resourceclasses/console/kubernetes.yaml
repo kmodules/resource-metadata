@@ -11,18 +11,15 @@ spec:
       type: image/svg+xml
     - src: https://cdn.appscode.com/k8s/icons/resourceclasses/basic.png
       type: image/png
-    layoutName: ""
     name: Basic
     path: /
     required: true
-  - layoutName: ""
-    name: Machines
+  - name: Machines
     required: true
     type:
       group: cluster.x-k8s.io
       kind: Machine
-  - layoutName: ""
-    name: Machine Sets
+  - name: Machine Sets
     required: true
     type:
       group: cluster.x-k8s.io

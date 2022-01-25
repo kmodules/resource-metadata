@@ -6,20 +6,17 @@ metadata:
   namespace: cluster
 spec:
   entries:
-  - layoutName: ""
-    name: Policy
+  - name: Policy
     required: true
     type:
       group: policy
       kind: PodSecurityPolicy
-  - layoutName: ""
-    name: Certificates
+  - name: Certificates
     required: true
     type:
       group: voyager.appscode.com
       kind: Certificate
-  - layoutName: ""
-    name: Service Accounts
+  - name: Service Accounts
     required: true
     type:
       group: ""

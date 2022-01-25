@@ -24,29 +24,29 @@ import (
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-type ResourcePanel struct {
+type Menu struct {
 	metav1.TypeMeta `json:",inline"`
-	Sections        []*PanelSection `json:"sections,omitempty"`
+	Sections        []*MenuSection `json:"sections,omitempty"`
 }
 
-type PanelSection struct {
+type MenuSection struct {
 	Name              string `json:"name,omitempty"`
 	ResourceClassInfo `json:",inline"`
-	Weight            int          `json:"-"`
-	Entries           []PanelEntry `json:"entries"`
+	Weight            int        `json:"-"`
+	Entries           []MenuItem `json:"entries"`
 }
 
-type PanelEntry struct {
+type MenuItem struct {
 	Name string `json:"name"`
 	// +optional
 	Path     string            `json:"path,omitempty"`
 	Resource *kmapi.ResourceID `json:"resource,omitempty"`
+	Missing  bool              `json:"missing,omitempty"`
 	// +optional
-	Required   bool   `json:"required,omitempty"`
-	LayoutName string `json:"layoutName"`
+	Required bool `json:"required,omitempty"`
 	// +optional
-	Icons      []ImageSpec           `json:"icons,omitempty"`
-	Namespaced bool                  `json:"namespaced"`
-	Missing    bool                  `json:"missing,omitempty"`
-	Installer  *DeploymentParameters `json:"installer,omitempty"`
+	LayoutName string `json:"layoutName,omitempty"`
+	// +optional
+	Icons     []ImageSpec           `json:"icons,omitempty"`
+	Installer *DeploymentParameters `json:"installer,omitempty"`
 }

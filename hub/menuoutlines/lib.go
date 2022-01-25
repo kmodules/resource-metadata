@@ -20,6 +20,7 @@ import (
 	"embed"
 	iofs "io/fs"
 	"reflect"
+	"sort"
 	"strings"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
@@ -94,4 +95,15 @@ func LoadByName(name string) (*v1alpha1.MenuOutline, error) {
 		return obj, nil
 	}
 	return nil, apierrors.NewNotFound(v1alpha1.Resource(v1alpha1.ResourceKindMenuOutline), name)
+}
+
+func List() []v1alpha1.MenuOutline {
+	out := make([]v1alpha1.MenuOutline, 0, len(moMap))
+	for _, rl := range moMap {
+		out = append(out, *rl)
+	}
+	sort.Slice(out, func(i, j int) bool {
+		return out[i].Name < out[j].Name
+	})
+	return out
 }

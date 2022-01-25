@@ -460,16 +460,16 @@ func (r *Registry) LoadByFile(filename string) (*v1alpha1.ResourceDescriptor, er
 	return obj, nil
 }
 
-func (r *Registry) CompleteResourcePanel(namespace resourceclasses.UINamespace) (*v1alpha1.ResourcePanel, error) {
+func (r *Registry) CompleteResourcePanel(namespace resourceclasses.UINamespace) (*v1alpha1.Menu, error) {
 	return r.createResourcePanel(namespace, true)
 }
 
-func (r *Registry) DefaultResourcePanel(namespace resourceclasses.UINamespace) (*v1alpha1.ResourcePanel, error) {
+func (r *Registry) DefaultResourcePanel(namespace resourceclasses.UINamespace) (*v1alpha1.Menu, error) {
 	return r.createResourcePanel(namespace, false)
 }
 
-func (r *Registry) createResourcePanel(namespace resourceclasses.UINamespace, keepOfficialTypes bool) (*v1alpha1.ResourcePanel, error) {
-	sections := make(map[string]*v1alpha1.PanelSection)
+func (r *Registry) createResourcePanel(namespace resourceclasses.UINamespace, keepOfficialTypes bool) (*v1alpha1.Menu, error) {
+	sections := make(map[string]*v1alpha1.MenuSection)
 	existingGRs := map[schema.GroupResource]bool{}
 
 	// first add the known required sections
@@ -478,18 +478,18 @@ func (r *Registry) createResourcePanel(namespace resourceclasses.UINamespace, ke
 			continue
 		}
 
-		section := &v1alpha1.PanelSection{
+		section := &v1alpha1.MenuSection{
 			Name:              rc.Name,
 			ResourceClassInfo: rc.Spec.ResourceClassInfo,
 			Weight:            rc.Spec.Weight,
 		}
 		for _, entry := range rc.Spec.Entries {
-			pe := v1alpha1.PanelEntry{
-				Name:       entry.Name,
-				Path:       entry.Path,
-				Required:   entry.Required,
-				Icons:      entry.Icons,
-				Namespaced: rc.Name == "Helm 3",
+			pe := v1alpha1.MenuItem{
+				Name:     entry.Name,
+				Path:     entry.Path,
+				Required: entry.Required,
+				Icons:    entry.Icons,
+				// Namespaced: rc.Name == "Helm 3",
 				LayoutName: entry.LayoutName,
 			}
 			if entry.Type != nil {
@@ -505,7 +505,7 @@ func (r *Registry) createResourcePanel(namespace resourceclasses.UINamespace, ke
 				existingGRs[gvr.GroupResource()] = true
 				if rd, err := r.LoadByGVR(gvr); err == nil {
 					pe.Resource = &rd.Spec.Resource
-					pe.Namespaced = rd.Spec.Resource.Scope == kmapi.NamespaceScoped
+					// pe.Namespaced = rd.Spec.Resource.Scope == kmapi.NamespaceScoped
 					pe.Icons = rd.Spec.Icons
 					pe.Missing = r.Missing(gvr)
 					// pe.Installer = rd.Spec.Installer
@@ -537,7 +537,7 @@ func (r *Registry) createResourcePanel(namespace resourceclasses.UINamespace, ke
 				if rc.Spec.Weight > 0 {
 					w = rc.Spec.Weight
 				}
-				section = &v1alpha1.PanelSection{
+				section = &v1alpha1.MenuSection{
 					Name:              rc.Name,
 					ResourceClassInfo: rc.Spec.ResourceClassInfo,
 					Weight:            w,
@@ -545,7 +545,7 @@ func (r *Registry) createResourcePanel(namespace resourceclasses.UINamespace, ke
 			} else {
 				// unknown api group, so use CRD icon
 				name := resourceclasses.ResourceClassName(rd.Spec.Resource.Group)
-				section = &v1alpha1.PanelSection{
+				section = &v1alpha1.MenuSection{
 					Name: name,
 					ResourceClassInfo: v1alpha1.ResourceClassInfo{
 						APIGroup: rd.Spec.Resource.Group,
@@ -556,12 +556,12 @@ func (r *Registry) createResourcePanel(namespace resourceclasses.UINamespace, ke
 			sections[rd.Spec.Resource.Group] = section
 		}
 
-		section.Entries = append(section.Entries, v1alpha1.PanelEntry{
-			Name:       rd.Spec.Resource.Kind,
-			Resource:   &rd.Spec.Resource,
-			Icons:      rd.Spec.Icons,
-			Namespaced: rd.Spec.Resource.Scope == kmapi.NamespaceScoped,
-			Missing:    r.Missing(gvr),
+		section.Entries = append(section.Entries, v1alpha1.MenuItem{
+			Name:     rd.Spec.Resource.Kind,
+			Resource: &rd.Spec.Resource,
+			Icons:    rd.Spec.Icons,
+			// Namespaced: rd.Spec.Resource.Scope == kmapi.NamespaceScoped,
+			Missing: r.Missing(gvr),
 			// Installer:  rd.Spec.Installer,
 			LayoutName: resourceoutlines.DefaultLayoutName(rd.Spec.Resource.GroupVersionResource()),
 		})
@@ -571,8 +571,8 @@ func (r *Registry) createResourcePanel(namespace resourceclasses.UINamespace, ke
 	return toPanel(sections)
 }
 
-func toPanel(in map[string]*v1alpha1.PanelSection) (*v1alpha1.ResourcePanel, error) {
-	sections := make([]*v1alpha1.PanelSection, 0, len(in))
+func toPanel(in map[string]*v1alpha1.MenuSection) (*v1alpha1.Menu, error) {
+	sections := make([]*v1alpha1.MenuSection, 0, len(in))
 
 	for key, section := range in {
 		if !strings.HasSuffix(key, ".local") {
@@ -613,7 +613,7 @@ func toPanel(in map[string]*v1alpha1.PanelSection) (*v1alpha1.ResourcePanel, err
 		return sections[i].Weight < sections[j].Weight
 	})
 
-	return &v1alpha1.ResourcePanel{Sections: sections}, nil
+	return &v1alpha1.Menu{Sections: sections}, nil
 }
 
 type UnregisteredErr struct {

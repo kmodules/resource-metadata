@@ -45,8 +45,8 @@ type ResourceClass struct {
 
 type ResourceClassSpec struct {
 	ResourceClassInfo `json:",inline"`
-	Weight            int     `json:"weight"`
-	Entries           []Entry `json:"entries"`
+	Weight            int         `json:"weight"`
+	Entries           []MenuEntry `json:"entries"`
 }
 
 type ResourceClassInfo struct {
@@ -62,19 +62,6 @@ type ResourceClassInfo struct {
 
 	// Links are a list of descriptive URLs intended to be used to surface additional documentation, dashboards, etc.
 	Links []Link `json:"links,omitempty"`
-}
-
-type Entry struct {
-	Name string `json:"name"`
-	// +optional
-	Path string            `json:"path,omitempty"`
-	Type *metav1.GroupKind `json:"type,omitempty"`
-	// +optional
-	LayoutName string `json:"layoutName"`
-	// +optional
-	Required bool `json:"required,omitempty"`
-	// +optional
-	Icons []ImageSpec `json:"icons,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

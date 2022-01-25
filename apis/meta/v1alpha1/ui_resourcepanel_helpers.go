@@ -16,7 +16,7 @@ limitations under the License.
 
 package v1alpha1
 
-func (section *PanelSection) Contains(rd *ResourceDescriptor) bool {
+func (section *MenuSection) Contains(rd *ResourceDescriptor) bool {
 	for _, entry := range section.Entries {
 		if entry.Resource != nil &&
 			entry.Resource.Group == rd.Spec.Resource.Group &&
@@ -28,7 +28,7 @@ func (section *PanelSection) Contains(rd *ResourceDescriptor) bool {
 	return false
 }
 
-func (e PanelEntry) Equals(other PanelEntry) bool {
+func (e MenuItem) Equals(other MenuItem) bool {
 	if e.Resource != nil && other.Resource != nil {
 		return *e.Resource == *other.Resource
 	} else if e.Resource == nil && other.Resource == nil {
@@ -37,7 +37,7 @@ func (e PanelEntry) Equals(other PanelEntry) bool {
 	return false
 }
 
-func (a *ResourcePanel) Minus(b *ResourcePanel) {
+func (a *Menu) Minus(b *Menu) {
 	for _, bs := range b.Sections {
 	NEXT_ENTRY:
 		for _, be := range bs.Entries {
