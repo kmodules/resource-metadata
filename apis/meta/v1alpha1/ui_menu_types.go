@@ -19,6 +19,7 @@ package v1alpha1
 import (
 	kmapi "kmodules.xyz/client-go/api/v1"
 
+	core "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -56,4 +57,8 @@ type MenuItem struct {
 	// +optional
 	Icons     []ImageSpec           `json:"icons,omitempty"`
 	Installer *DeploymentParameters `json:"installer,omitempty"`
+	// +optional
+	Preset *core.TypedLocalObjectReference `json:"preset,omitempty"`
+	// +optional
+	Items []MenuItem `json:"items,omitempty"`
 }
