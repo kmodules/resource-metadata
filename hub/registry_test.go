@@ -69,7 +69,9 @@ func TestResourcePanel_Minus(t *testing.T) {
 					TypeMeta: panel.TypeMeta,
 					Sections: []*v1alpha1.MenuSection{
 						{
-							Name: "Admissionregistration",
+							MenuSectionInfo: v1alpha1.MenuSectionInfo{
+								Name: "Admissionregistration",
+							},
 							Items: []v1alpha1.MenuItem{
 								{
 									Name: "MutatingWebhookConfiguration",

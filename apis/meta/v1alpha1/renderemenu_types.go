@@ -35,14 +35,16 @@ type RenderMenu struct {
 	Request *RenderMenuRequest `json:"request,omitempty"`
 	// Response describes the attributes for the render menu response.
 	// +optional
-	Response *RenderMenuResponse `json:"response,omitempty"`
+	Response *Menu `json:"response,omitempty"`
 }
 
 type RenderMenuRequest struct {
-	Name string   `json:"name"`
+	Menu string   `json:"menu"`
 	Mode MenuMode `json:"mode"`
 	// +optional
-	Section string `json:"section,omitempty"`
+	Section *string `json:"section,omitempty"`
+	// +optional
+	Type *metav1.GroupKind `json:"type,omitempty"`
 }
 
 // +kubebuilder:validation:Enum=Accordion;DropDown;Gallery
@@ -53,6 +55,3 @@ const (
 	MenuDropDown  MenuMode = "DropDown"
 	MenuGallery   MenuMode = "Gallery"
 )
-
-type RenderMenuResponse struct {
-}

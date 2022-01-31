@@ -325,7 +325,6 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderAPIRequest":            schema_resource_metadata_apis_meta_v1alpha1_RenderAPIRequest(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderMenu":                  schema_resource_metadata_apis_meta_v1alpha1_RenderMenu(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderMenuRequest":           schema_resource_metadata_apis_meta_v1alpha1_RenderMenuRequest(ref),
-		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderMenuResponse":          schema_resource_metadata_apis_meta_v1alpha1_RenderMenuResponse(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderRequest":               schema_resource_metadata_apis_meta_v1alpha1_RenderRequest(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderResponse":              schema_resource_metadata_apis_meta_v1alpha1_RenderResponse(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderResult":                schema_resource_metadata_apis_meta_v1alpha1_RenderResult(ref),
@@ -15585,14 +15584,14 @@ func schema_resource_metadata_apis_meta_v1alpha1_RenderMenu(ref common.Reference
 					"response": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Response describes the attributes for the render menu response.",
-							Ref:         ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderMenuResponse"),
+							Ref:         ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Menu"),
 						},
 					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderMenuRequest", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderMenuResponse"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Menu", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderMenuRequest"},
 	}
 }
 
@@ -15602,7 +15601,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_RenderMenuRequest(ref common.Re
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
-					"name": {
+					"menu": {
 						SchemaProps: spec.SchemaProps{
 							Default: "",
 							Type:    []string{"string"},
@@ -15622,20 +15621,17 @@ func schema_resource_metadata_apis_meta_v1alpha1_RenderMenuRequest(ref common.Re
 							Format: "",
 						},
 					},
+					"type": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("k8s.io/apimachinery/pkg/apis/meta/v1.GroupKind"),
+						},
+					},
 				},
-				Required: []string{"name", "mode"},
+				Required: []string{"menu", "mode"},
 			},
 		},
-	}
-}
-
-func schema_resource_metadata_apis_meta_v1alpha1_RenderMenuResponse(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Type: []string{"object"},
-			},
-		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupKind"},
 	}
 }
 
