@@ -35,7 +35,7 @@ const iconURLPrefix = "https://cdn.appscode.com/k8s/icons/"
 var (
 	repoRoot     = os.ExpandEnv("$HOME/go/src/kmodules.xyz/resource-metadata")
 	dirResources = path.Join(repoRoot, "hub/resourcedescriptors")
-	dirClasses   = path.Join(repoRoot, "hub/resourceclasses")
+	dirMenus     = path.Join(repoRoot, "hub/menuoutlines")
 	dirIcons     = path.Join(repoRoot, "icons")
 )
 
@@ -111,7 +111,7 @@ func main() {
 		panic(err)
 	}
 
-	err = filepath.Walk(dirClasses, func(path string, info os.FileInfo, err error) error {
+	err = filepath.Walk(dirMenus, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
@@ -127,16 +127,19 @@ func main() {
 		if err != nil {
 			return err
 		}
-		var rc v1alpha1.ResourceClass
+		var rc v1alpha1.MenuOutline
 		err = yaml.Unmarshal(data, &rc)
 		if err != nil {
 			return err
 		}
 
-		rc.Spec.Icons, missing = processIcons(rc.Spec.Icons, allIcons, missing)
-		for i := range rc.Spec.Items {
-			if len(rc.Spec.Items[i].Path) > 0 {
-				rc.Spec.Items[i].Icons, missing = processIcons(rc.Spec.Items[i].Icons, allIcons, missing)
+		if rc.Home != nil {
+			rc.Home.Icons, missing = processIcons(rc.Home.Icons, allIcons, missing)
+		}
+		for i := range rc.Sections {
+			rc.Sections[i].Icons, missing = processIcons(rc.Sections[i].Icons, allIcons, missing)
+			for j := range rc.Sections[i].Items {
+				rc.Sections[i].Items[j].Icons, missing = processIcons(rc.Sections[i].Items[j].Icons, allIcons, missing)
 			}
 		}
 
