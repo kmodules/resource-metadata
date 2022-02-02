@@ -21,7 +21,6 @@ import (
 	"fmt"
 	"log"
 
-	"kmodules.xyz/resource-metadata/hub"
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor"
 
 	"gomodules.xyz/encoding/json"
@@ -70,8 +69,6 @@ func main() {
 		Resource: "deployments",
 	}
 
-	r := hub.NewRegistryOfKnownResources()
-
 	{
 		var list unstructured.UnstructuredList
 		list.SetAPIVersion("apps/v1")
@@ -81,7 +78,7 @@ func main() {
 			log.Fatalln(err)
 		}
 
-		t, err := tableconvertor.TableForList(r, c, gvr, list.Items)
+		t, err := tableconvertor.TableForList(c, gvr, list.Items)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -103,7 +100,7 @@ func main() {
 		}
 		fmt.Println(dep.GroupVersionKind().String())
 
-		t, err := tableconvertor.TableForObject(r, c, &dep)
+		t, err := tableconvertor.TableForObject(c, &dep)
 		if err != nil {
 			log.Fatalln(err)
 		}

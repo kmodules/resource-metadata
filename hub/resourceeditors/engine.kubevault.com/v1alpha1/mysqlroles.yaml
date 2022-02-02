@@ -1,0 +1,22 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: engine.kubevault.com
+    k8s.io/kind: MySQLRole
+    k8s.io/resource: mysqlroles
+    k8s.io/version: v1alpha1
+  name: engine.kubevault.com-v1alpha1-mysqlroles
+spec:
+  resource:
+    group: engine.kubevault.com
+    kind: MySQLRole
+    name: mysqlroles
+    scope: Namespaced
+    version: v1alpha1
+  ui:
+    editor:
+      name: enginekubevaultcom-mysqlrole-editor
+      url: https://bundles.byte.builders/ui/
+      version: v0.3.0

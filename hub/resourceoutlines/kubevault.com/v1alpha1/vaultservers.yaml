@@ -11,18 +11,14 @@ metadata:
 spec:
   defaultLayout: true
   pages:
-  - name: Basic
-    # blocks:
-    # - kind: Block
-    #   name: kubevault.com-v1alpha1-vaultservers
-  - name: Security
-    blocks:
+  - blocks:
     - kind: Block
       name: kubedb.com-v1alpha2-security
-  - name: Monitoring
-    blocks:
+    name: Security
+  - blocks:
     - kind: Block
       name: kubedb.com-v1alpha2-monitoring
+    name: Monitoring
   resource:
     group: kubevault.com
     kind: VaultServer

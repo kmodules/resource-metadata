@@ -11,8 +11,7 @@ metadata:
 spec:
   defaultLayout: true
   pages:
-  - name: Basic
-    blocks:
+  - blocks:
     - actions:
         create: Always
       displayMode: List
@@ -23,6 +22,7 @@ spec:
       ref:
         group: rbac.authorization.k8s.io
         kind: RoleBinding
+    name: Basic
   resource:
     group: rbac.authorization.k8s.io
     kind: Role

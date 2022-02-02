@@ -10,9 +10,7 @@ metadata:
   name: ui.kubedb.com-v1alpha1-elasticsearchinsights
 spec:
   columns:
-  - link:
-      enable: true
-    name: Name
+  - name: Name
     pathTemplate: '{{ .metadata.name }}'
     priority: 3
     sort:

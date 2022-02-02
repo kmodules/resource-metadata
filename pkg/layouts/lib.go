@@ -307,16 +307,20 @@ func Convert_PageBlockOutline_To_PageBlockLayout(
 	priority v1alpha1.Priority,
 ) (v1alpha1.PageBlockLayout, error) {
 
-	columns := in.View.Columns
-	if in.View.Name != "" {
-		obj, err := tabledefs.LoadByName(in.View.Name)
-		if err != nil {
-			return v1alpha1.PageBlockLayout{}, err
+	var columns []v1alpha1.ResourceColumnDefinition
+	if in.View != nil {
+		if in.View.Name != "" {
+			obj, err := tabledefs.LoadByName(in.View.Name)
+			if err != nil {
+				return v1alpha1.PageBlockLayout{}, err
+			}
+			columns = obj.Spec.Columns
+		} else {
+			columns = in.View.Columns
 		}
-		columns = obj.Spec.Columns
 	}
 
-	columns, err := FlattenColumns(columns)
+	columns, err := tabledefs.FlattenColumns(columns)
 	if err != nil {
 		return v1alpha1.PageBlockLayout{}, err
 	}
@@ -330,11 +334,11 @@ func Convert_PageBlockOutline_To_PageBlockLayout(
 		if meta.IsNoMatchError(err) {
 			columns = tableconvertor.FilterColumnsWithDefaults(nil, schema.GroupVersionResource{} /*ignore*/, columns, priority)
 		} else if err == nil {
-			if in.View.Name == "" {
+			if in.View == nil || (in.View.Name == "" && len(in.View.Columns) == 0) {
 				if rv, ok := tabledefs.DefaultTableDefinitionForGVK(mapping.GroupVersionKind); ok {
 					columns = rv.Spec.Columns
 				}
-				columns, err = FlattenColumns(columns)
+				columns, err = tabledefs.FlattenColumns(columns)
 				if err != nil {
 					return v1alpha1.PageBlockLayout{}, err
 				}
@@ -358,35 +362,4 @@ func Convert_PageBlockOutline_To_PageBlockLayout(
 			Columns: columns,
 		},
 	}, nil
-}
-
-func FlattenColumns(in []v1alpha1.ResourceColumnDefinition) ([]v1alpha1.ResourceColumnDefinition, error) {
-	var foundRef bool
-	for _, c := range in {
-		if c.Type == v1alpha1.ColumnTypeRef {
-			foundRef = true
-			break
-		}
-	}
-	if !foundRef {
-		return in, nil
-	}
-
-	var out []v1alpha1.ResourceColumnDefinition
-	for _, c := range in {
-		if c.Type == v1alpha1.ColumnTypeRef {
-			def, err := tabledefs.LoadByName(c.Name)
-			if err != nil {
-				return nil, err
-			}
-			cols, err := FlattenColumns(def.Spec.Columns)
-			if err != nil {
-				return nil, err
-			}
-			out = append(out, cols...)
-		} else {
-			out = append(out, c)
-		}
-	}
-	return out, nil
 }

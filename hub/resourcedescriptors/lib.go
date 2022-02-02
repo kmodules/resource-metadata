@@ -102,3 +102,12 @@ func List() []v1alpha1.ResourceDescriptor {
 	})
 	return out
 }
+
+func Names() []string {
+	out := make([]string, 0, len(KnownDescriptors))
+	for name := range KnownDescriptors {
+		out = append(out, name)
+	}
+	sort.Strings(out)
+	return out
+}

@@ -193,12 +193,9 @@ spec:
                         type: string
                     type: object
                 required:
-                - actions
-                - displayMode
                 - kind
                 - query
                 - ref
-                - view
                 type: object
               pages:
                 items:
@@ -368,12 +365,9 @@ spec:
                                 type: string
                             type: object
                         required:
-                        - actions
-                        - displayMode
                         - kind
                         - query
                         - ref
-                        - view
                         type: object
                       type: array
                     info:
@@ -539,12 +533,9 @@ spec:
                               type: string
                           type: object
                       required:
-                      - actions
-                      - displayMode
                       - kind
                       - query
                       - ref
-                      - view
                       type: object
                     insight:
                       properties:
@@ -709,12 +700,9 @@ spec:
                               type: string
                           type: object
                       required:
-                      - actions
-                      - displayMode
                       - kind
                       - query
                       - ref
-                      - view
                       type: object
                     name:
                       type: string
@@ -908,12 +896,9 @@ spec:
                         type: string
                     type: object
                 required:
-                - actions
-                - displayMode
                 - kind
                 - query
                 - ref
-                - view
                 type: object
               ui:
                 properties:
@@ -929,7 +914,6 @@ spec:
                         type: string
                     required:
                     - name
-                    - url
                     - version
                     type: object
                   instanceLabelPaths:
@@ -950,7 +934,6 @@ spec:
                         type: string
                     required:
                     - name
-                    - url
                     - version
                     type: object
                 type: object

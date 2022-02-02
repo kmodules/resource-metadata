@@ -77,3 +77,12 @@ func List() []v1alpha1.ResourceBlockDefinition {
 	})
 	return out
 }
+
+func Names() []string {
+	out := make([]string, 0, len(rbMap))
+	for name := range rbMap {
+		out = append(out, name)
+	}
+	sort.Strings(out)
+	return out
+}

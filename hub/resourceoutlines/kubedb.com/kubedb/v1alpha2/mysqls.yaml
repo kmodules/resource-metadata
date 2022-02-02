@@ -9,6 +9,7 @@ metadata:
     k8s.io/version: v1alpha2
   name: kubedb-kubedb.com-v1alpha2-mysqls
 spec:
+  defaultLayout: false
   header:
     actions:
       create: Never
@@ -22,21 +23,28 @@ spec:
       kind: GenericResource
     view:
       name: kubedb-ui.k8s.appscode.com-v1alpha1-genericresources
-  tabBar:
-    actions:
-      create: Never
-    displayMode: Field
-    kind: Connection
-    query:
-      byLabel: view
-      type: GraphQL
-    ref:
-      group: ui.k8s.appscode.com
-      kind: GenericResourceService
-    view:
-      name: kubedb-ui.k8s.appscode.com-v1alpha1-genericresourceservices
   pages:
-  - name: Overview
+  - blocks:
+    - actions:
+        create: Never
+      displayMode: List
+      kind: Connection
+      query:
+        raw: |-
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              offshoot(group: "", kind: "Pod") {
+                refs: view(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
+        type: GraphQL
+      ref:
+        group: ui.k8s.appscode.com
+        kind: PodView
     info:
       actions:
         create: Never
@@ -59,47 +67,34 @@ spec:
       ref:
         group: ui.kubedb.com
         kind: MySQLInsight
-    blocks:
-    # - actions:
-    #     create: Never
-    #   displayMode: List
-    #   kind: Connection
-    #   query:
-    #     raw: |
-    #       request:
-    #         target:
-    #           group: kubedb.com
-    #           kind: MySQL
-    #           name: {{ .metadata.name }}
-    #           namespace: {{ .metadata.namespace }}
-    #         dashboard:
-    #           title: "<xyz>"
-    #         panels: []
-    #     type: REST
-    #   ref:
-    #     group: ui.openviz.dev
-    #     kind: EmbeddedDashboard
+    name: Overview
+  - blocks:
     - actions:
         create: Never
-      displayMode: List
+      displayMode: Field
+      fieldPath: .spec.queries
       kind: Connection
       query:
-        raw: |-
-          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
-            find(oid: $src) {
-              offshoot(group: "", kind: "Pod") {
-                refs: view(group: $targetGroup, kind: $targetKind) {
-                  namespace
-                  name
-                }
-              }
-            }
-          }
+        byLabel: view
         type: GraphQL
       ref:
-        group: ui.k8s.appscode.com
-        kind: PodView
-  - name: Database Insights
+        group: ui.kubedb.com
+        kind: MySQLQueries
+      view:
+        name: ui.kubedb.com-v1alpha1-mysqlqueries-queries
+    - actions:
+        create: Never
+      displayMode: Field
+      fieldPath: .spec.databases
+      kind: Connection
+      query:
+        byLabel: view
+        type: GraphQL
+      ref:
+        group: ui.kubedb.com
+        kind: MySQLSchemaOverview
+      view:
+        name: ui.kubedb.com-v1alpha1-mysqlschemaoverviews-databases
     info:
       actions:
         create: Never
@@ -111,53 +106,28 @@ spec:
       ref:
         group: ui.kubedb.com
         kind: MySQLInsight
-    blocks:
+    name: Database Insights
+  - blocks:
     - actions:
-        create: Never
-      displayMode: Field
+        create: Always
+      displayMode: List
       kind: Connection
-      fieldPath: .spec.queries
-      view:
-        name: ui.kubedb.com-v1alpha1-mysqlqueries-queries
       query:
-        byLabel: view
+        raw: |-
+          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+            find(oid: $src) {
+              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
+              }
+            }
+          }
         type: GraphQL
       ref:
-        group: ui.kubedb.com
-        kind: MySQLQueries
-    - actions:
-        create: Never
-      displayMode: Field
-      kind: Connection
-      fieldPath: .spec.databases
-      view:
-        name: ui.kubedb.com-v1alpha1-mysqlschemaoverviews-databases
-      query:
-        byLabel: view
-        type: GraphQL
-      ref:
-        group: ui.kubedb.com
-        kind: MySQLSchemaOverview
-    # - actions:
-    #     create: Never
-    #   displayMode: List
-    #   kind: Connection
-    #   query:
-    #     raw: |
-    #       request:
-    #         target:
-    #           group: kubedb.com
-    #           kind: MySQL
-    #           name: {{ .metadata.name }}
-    #           namespace: {{ .metadata.namespace }}
-    #         dashboard:
-    #           title: "<xyz>"
-    #         panels: []
-    #     type: REST
-    #   ref:
-    #     group: ui.openviz.dev
-    #     kind: EmbeddedDashboard
-  - name: Backups
+        group: stash.appscode.com
+        kind: BackupSession
     info:
       actions:
         create: IfEmpty
@@ -179,29 +149,8 @@ spec:
       ref:
         group: ui.stash.appscode.com
         kind: BackupOverview
-    blocks:
-    - actions:
-        create: Always
-      displayMode: List
-      kind: Connection
-      query:
-        raw: |-
-          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
-            find(oid: $src) {
-              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
-                refs: offshoot(group: $targetGroup, kind: $targetKind) {
-                  namespace
-                  name
-                }
-              }
-            }
-          }
-        type: GraphQL
-      ref:
-        group: stash.appscode.com
-        kind: BackupSession
-  - name: Operations
-    blocks:
+    name: Backups
+  - blocks:
     - actions:
         create: Always
       displayMode: List
@@ -212,16 +161,26 @@ spec:
       ref:
         group: ops.kubedb.com
         kind: MySQLOpsRequest
-  # - name: Alerts
-  #   blocks:
-  #   - kind: Block
-  #     name: kubedb.com-v1alpha2-monitoring
+    name: Operations
   resource:
     group: kubedb.com
     kind: MySQL
     name: mysqls
     scope: Namespaced
     version: v1alpha2
+  tabBar:
+    actions:
+      create: Never
+    displayMode: Field
+    kind: Connection
+    query:
+      byLabel: view
+      type: GraphQL
+    ref:
+      group: ui.k8s.appscode.com
+      kind: GenericResourceService
+    view:
+      name: kubedb-ui.k8s.appscode.com-v1alpha1-genericresourceservices
   ui:
     editor:
       name: kubedbcom-mysql-editor

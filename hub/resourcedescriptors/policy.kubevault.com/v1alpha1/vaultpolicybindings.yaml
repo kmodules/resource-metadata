@@ -20,11 +20,6 @@ spec:
     name: vaultpolicybindings
     scope: Namespaced
     version: v1alpha1
-  ui:
-    editor:
-      name: policykubevaultcom-vaultpolicybinding-editor
-      url: https://bundles.byte.builders/ui/
-      version: v0.3.0
   validation:
     openAPIV3Schema:
       properties:

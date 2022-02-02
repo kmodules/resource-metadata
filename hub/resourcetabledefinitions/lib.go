@@ -114,3 +114,43 @@ func List() []v1alpha1.ResourceTableDefinition {
 	})
 	return out
 }
+
+func Names() []string {
+	out := make([]string, 0, len(rtdMap))
+	for name := range rtdMap {
+		out = append(out, name)
+	}
+	sort.Strings(out)
+	return out
+}
+
+func FlattenColumns(in []v1alpha1.ResourceColumnDefinition) ([]v1alpha1.ResourceColumnDefinition, error) {
+	var foundRef bool
+	for _, c := range in {
+		if c.Type == v1alpha1.ColumnTypeRef {
+			foundRef = true
+			break
+		}
+	}
+	if !foundRef {
+		return in, nil
+	}
+
+	var out []v1alpha1.ResourceColumnDefinition
+	for _, c := range in {
+		if c.Type == v1alpha1.ColumnTypeRef {
+			def, err := LoadByName(c.Name)
+			if err != nil {
+				return nil, err
+			}
+			cols, err := FlattenColumns(def.Spec.Columns)
+			if err != nil {
+				return nil, err
+			}
+			out = append(out, cols...)
+		} else {
+			out = append(out, c)
+		}
+	}
+	return out, nil
+}

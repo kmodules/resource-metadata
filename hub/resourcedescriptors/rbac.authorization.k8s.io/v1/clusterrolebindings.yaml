@@ -9,35 +9,6 @@ metadata:
     k8s.io/version: v1
   name: rbac.authorization.k8s.io-v1-clusterrolebindings
 spec:
-  columns:
-  - name: Name
-    pathTemplate: '{{ .metadata.name }}'
-    priority: 3
-    type: string
-  - name: Namespace
-    pathTemplate: '{{ .metadata.namespace }}'
-    priority: 3
-    type: string
-  - name: Labels
-    pathTemplate: '{{ .metadata.labels | toRawJson }}'
-    priority: 3
-    type: object
-  - name: Annotations
-    pathTemplate: '{{ .metadata.annotations | toRawJson }}'
-    priority: 1
-    type: object
-  - name: Role Ref
-    pathTemplate: '{{ .roleRef.kind }}/{{ .roleRef.name }}'
-    priority: 3
-    type: string
-  - name: Subjects
-    pathTemplate: '{{ .subjects | rbac_subjects}}'
-    priority: 3
-    type: string
-  - name: Age
-    pathTemplate: '{{ .metadata.creationTimestamp }}'
-    priority: 3
-    type: date
   connections:
   - labels:
     - offshoot
@@ -66,11 +37,6 @@ spec:
     name: clusterrolebindings
     scope: Cluster
     version: v1
-  ui:
-    editor:
-      name: rbacauthorizationk8sio-clusterrolebinding-editor
-      url: https://bundles.byte.builders/ui/
-      version: v0.3.0
   validation:
     openAPIV3Schema:
       description: ClusterRoleBinding references a ClusterRole, but not contain it.  It can reference a ClusterRole in the global namespace, and adds who information via Subject.

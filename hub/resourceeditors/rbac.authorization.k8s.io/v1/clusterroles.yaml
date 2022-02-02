@@ -1,0 +1,22 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: rbac.authorization.k8s.io
+    k8s.io/kind: ClusterRole
+    k8s.io/resource: clusterroles
+    k8s.io/version: v1
+  name: rbac.authorization.k8s.io-v1-clusterroles
+spec:
+  resource:
+    group: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: clusterroles
+    scope: Cluster
+    version: v1
+  ui:
+    editor:
+      name: rbacauthorizationk8sio-clusterrole-editor
+      url: https://bundles.byte.builders/ui/
+      version: v0.3.0

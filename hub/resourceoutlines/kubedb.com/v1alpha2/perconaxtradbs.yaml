@@ -11,22 +11,22 @@ metadata:
 spec:
   defaultLayout: true
   pages:
-  - name: Basic
-    blocks:
+  - blocks:
     - kind: Block
       name: kubedb.com-v1alpha2-perconaxtradbs
-  - name: Backups
-    blocks:
+    name: Basic
+  - blocks:
     - kind: Block
       name: kubedb.com-v1alpha2-backups
-  - name: Security
-    blocks:
+    name: Backups
+  - blocks:
     - kind: Block
       name: kubedb.com-v1alpha2-security
-  - name: Monitoring
-    blocks:
+    name: Security
+  - blocks:
     - kind: Block
       name: kubedb.com-v1alpha2-monitoring
+    name: Monitoring
   resource:
     group: kubedb.com
     kind: PerconaXtraDB

@@ -1,0 +1,22 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: admissionregistration.k8s.io
+    k8s.io/kind: MutatingWebhookConfiguration
+    k8s.io/resource: mutatingwebhookconfigurations
+    k8s.io/version: v1
+  name: admissionregistration.k8s.io-v1-mutatingwebhookconfigurations
+spec:
+  resource:
+    group: admissionregistration.k8s.io
+    kind: MutatingWebhookConfiguration
+    name: mutatingwebhookconfigurations
+    scope: Cluster
+    version: v1
+  ui:
+    editor:
+      name: admissionregistrationk8sio-mutatingwebhookconfiguration-editor
+      url: https://bundles.byte.builders/ui/
+      version: v0.3.0

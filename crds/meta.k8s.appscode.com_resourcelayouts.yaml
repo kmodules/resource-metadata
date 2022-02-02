@@ -191,8 +191,6 @@ spec:
                         type: array
                     type: object
                 required:
-                - actions
-                - displayMode
                 - kind
                 - query
                 - ref
@@ -364,8 +362,6 @@ spec:
                                 type: array
                             type: object
                         required:
-                        - actions
-                        - displayMode
                         - kind
                         - query
                         - ref
@@ -533,8 +529,6 @@ spec:
                               type: array
                           type: object
                       required:
-                      - actions
-                      - displayMode
                       - kind
                       - query
                       - ref
@@ -701,8 +695,6 @@ spec:
                               type: array
                           type: object
                       required:
-                      - actions
-                      - displayMode
                       - kind
                       - query
                       - ref
@@ -898,8 +890,6 @@ spec:
                         type: array
                     type: object
                 required:
-                - actions
-                - displayMode
                 - kind
                 - query
                 - ref
@@ -919,7 +909,6 @@ spec:
                         type: string
                     required:
                     - name
-                    - url
                     - version
                     type: object
                   instanceLabelPaths:
@@ -940,7 +929,6 @@ spec:
                         type: string
                     required:
                     - name
-                    - url
                     - version
                     type: object
                 type: object

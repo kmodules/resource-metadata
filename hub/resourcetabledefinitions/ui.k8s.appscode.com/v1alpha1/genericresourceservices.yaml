@@ -10,9 +10,7 @@ metadata:
   name: ui.k8s.appscode.com-v1alpha1-genericresourceservices
 spec:
   columns:
-  - link:
-      enable: true
-    name: Name
+  - name: Name
     pathTemplate: '{{ .spec.name }}'
     priority: 3
     sort:
@@ -98,11 +96,11 @@ spec:
   - name: Age
     pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
-    type: date
     sort:
       enable: true
       template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
       type: integer
+    type: date
   defaultView: true
   resource:
     group: ui.k8s.appscode.com

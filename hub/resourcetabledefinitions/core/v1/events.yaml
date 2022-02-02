@@ -9,7 +9,6 @@ metadata:
     k8s.io/version: v1
   name: core-v1-events
 spec:
-  defaultView: true
   columns:
   - name: Type
     pathTemplate: '{{ .type }}'
@@ -43,6 +42,7 @@ spec:
     pathTemplate: '{{ .message }}'
     priority: 0
     type: string
+  defaultView: true
   resource:
     group: ""
     kind: Event

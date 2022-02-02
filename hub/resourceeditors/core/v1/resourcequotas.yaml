@@ -1,0 +1,22 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ""
+    k8s.io/kind: ResourceQuota
+    k8s.io/resource: resourcequotas
+    k8s.io/version: v1
+  name: core-v1-resourcequotas
+spec:
+  resource:
+    group: ""
+    kind: ResourceQuota
+    name: resourcequotas
+    scope: Namespaced
+    version: v1
+  ui:
+    editor:
+      name: core-resourcequota-editor
+      url: https://bundles.byte.builders/ui/
+      version: v0.3.0

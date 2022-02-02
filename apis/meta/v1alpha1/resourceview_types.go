@@ -39,9 +39,9 @@ type ResourcePageView struct {
 }
 
 type PageBlockView struct {
-	Kind    TableKind       `json:"kind"` // Connection | Subtable(Field)
-	Name    string          `json:"name,omitempty"`
-	Actions ResourceActions `json:"actions"`
+	Kind    TableKind        `json:"kind"` // Connection | Subtable(Field)
+	Name    string           `json:"name,omitempty"`
+	Actions *ResourceActions `json:"actions,omitempty"`
 
 	Resource *kmapi.ResourceID `json:"resource,omitempty"`
 	// +optional

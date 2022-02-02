@@ -65,9 +65,9 @@ type PageBlockLayout struct {
 
 	FieldPath string `json:"fieldPath,omitempty"`
 
-	ResourceLocator `json:",inline"`
-	DisplayMode     ResourceDisplayMode `json:"displayMode"`
-	Actions         ResourceActions     `json:"actions"`
+	*ResourceLocator `json:",inline,omitempty"`
+	DisplayMode      ResourceDisplayMode `json:"displayMode,omitempty"`
+	Actions          *ResourceActions    `json:"actions,omitempty"`
 
 	View PageBlockTableDefinition `json:"view"`
 }

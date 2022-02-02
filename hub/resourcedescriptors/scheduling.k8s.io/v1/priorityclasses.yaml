@@ -20,11 +20,6 @@ spec:
     name: priorityclasses
     scope: Cluster
     version: v1
-  ui:
-    editor:
-      name: schedulingk8sio-priorityclass-editor
-      url: https://bundles.byte.builders/ui/
-      version: v0.3.0
   validation:
     openAPIV3Schema:
       description: PriorityClass defines mapping from a priority class name to the priority integer value. The value can be any valid integer.

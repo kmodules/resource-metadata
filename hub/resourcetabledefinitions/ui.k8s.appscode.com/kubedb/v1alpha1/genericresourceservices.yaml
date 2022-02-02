@@ -10,118 +10,119 @@ metadata:
   name: kubedb-ui.k8s.appscode.com-v1alpha1-genericresourceservices
 spec:
   columns:
-    - name: Exposed
-      pathTemplate: "{{ .spec.facilities.exposed.usage }}"
-      priority: 3
-      type: string
-      icon:
-        template: |
-          {{ $status := .spec.facilities.exposed.usage }}
-          {{ $url := "https://cdn.appscode.com/***.png" }}
-          {{ if eq $status "Used" }}
-            {{ $url = "https://cdn.appscode.com/***.png" }}
-          {{ else if eq $status "Unused" }}
-            {{ $url = "https://cdn.appscode.com/***.png" }}
-          {{ else if eq $status "Unknown" }}
-            {{ $url = "https://cdn.appscode.com/***.png" }}
-          {{ end }}
-          {{- printf "%s" $url -}}
-      color:
-        template: |
-          {{ $status := .spec.facilities.exposed.usage }}
-          {{ $color := "info" }}
-          {{ if eq $status "Used" }}
-            {{ $color = "success" }}
-          {{ else if eq $status "Unused" }}
-            {{ $color = "danger" }}
-          {{ else if eq $status "Unknown" }}
-            {{ $color = "neutral" }}
-          {{ end }}
-          {{- printf "%s" $color -}}
-    - name: TLS
-      pathTemplate: "{{ .spec.facilities.tls.usage }}"
-      priority: 3
-      type: string
-      icon:
-        template: |
-          {{ $status := .spec.facilities.tls.usage }}
-          {{ $url := "https://cdn.appscode.com/***.png" }}
-          {{ if eq $status "Used" }}
-            {{ $url = "https://cdn.appscode.com/***.png" }}
-          {{ else if eq $status "Unused" }}
-            {{ $url = "https://cdn.appscode.com/***.png" }}
-          {{ else if eq $status "Unknown" }}
-            {{ $url = "https://cdn.appscode.com/***.png" }}
-          {{ end }}
-          {{- printf "%s" $url -}}
-      color:
-        template: |
-          {{ $status := .spec.facilities.tls.usage }}
-          {{ $color := "info" }}
-          {{ if eq $status "Used" }}
-            {{ $color = "success" }}
-          {{ else if eq $status "Unused" }}
-            {{ $color = "danger" }}
-          {{ else if eq $status "Unknown" }}
-            {{ $color = "neutral" }}
-          {{ end }}
-          {{- printf "%s" $color -}}
-    - name: Backup
-      pathTemplate: "{{ .spec.facilities.backup.usage }}"
-      priority: 3
-      type: string
-      icon:
-        template: |
-          {{ $status := .spec.facilities.backup.usage }}
-          {{ $url := "https://cdn.appscode.com/***.png" }}
-          {{ if eq $status "Used" }}
-            {{ $url = "https://cdn.appscode.com/***.png" }}
-          {{ else if eq $status "Unused" }}
-            {{ $url = "https://cdn.appscode.com/***.png" }}
-          {{ else if eq $status "Unknown" }}
-            {{ $url = "https://cdn.appscode.com/***.png" }}
-          {{ end }}
-          {{- printf "%s" $url -}}
-      color:
-        template: |
-          {{ $status := .spec.facilities.backup.usage }}
-          {{ $color := "info" }}
-          {{ if eq $status "Used" }}
-            {{ $color = "success" }}
-          {{ else if eq $status "Unused" }}
-            {{ $color = "danger" }}
-          {{ else if eq $status "Unknown" }}
-            {{ $color = "neutral" }}
-          {{ end }}
-          {{- printf "%s" $color -}}
-    - name: Monitoring
-      pathTemplate: "{{ .spec.facilities.monitoring.usage }}"
-      priority: 3
-      type: string
-      icon:
-        template: |
-          {{ $status := .spec.facilities.monitoring.usage }}
-          {{ $url := "https://cdn.appscode.com/***.png" }}
-          {{ if eq $status "Used" }}
-            {{ $url = "https://cdn.appscode.com/***.png" }}
-          {{ else if eq $status "Unused" }}
-            {{ $url = "https://cdn.appscode.com/***.png" }}
-          {{ else if eq $status "Unknown" }}
-            {{ $url = "https://cdn.appscode.com/***.png" }}
-          {{ end }}
-          {{- printf "%s" $url -}}
-      color:
-        template: |
-          {{ $status := .spec.facilities.monitoring.usage }}
-          {{ $color := "info" }}
-          {{ if eq $status "Used" }}
-            {{ $color = "success" }}
-          {{ else if eq $status "Unused" }}
-            {{ $color = "danger" }}
-          {{ else if eq $status "Unknown" }}
-            {{ $color = "neutral" }}
-          {{ end }}
-          {{- printf "%s" $color -}}
+  - color:
+      template: |
+        {{ $status := .spec.facilities.exposed.usage }}
+        {{ $color := "info" }}
+        {{ if eq $status "Used" }}
+          {{ $color = "success" }}
+        {{ else if eq $status "Unused" }}
+          {{ $color = "danger" }}
+        {{ else if eq $status "Unknown" }}
+          {{ $color = "neutral" }}
+        {{ end }}
+        {{- printf "%s" $color -}}
+    icon:
+      template: |
+        {{ $status := .spec.facilities.exposed.usage }}
+        {{ $url := "https://cdn.appscode.com/***.png" }}
+        {{ if eq $status "Used" }}
+          {{ $url = "https://cdn.appscode.com/***.png" }}
+        {{ else if eq $status "Unused" }}
+          {{ $url = "https://cdn.appscode.com/***.png" }}
+        {{ else if eq $status "Unknown" }}
+          {{ $url = "https://cdn.appscode.com/***.png" }}
+        {{ end }}
+        {{- printf "%s" $url -}}
+    name: Exposed
+    pathTemplate: '{{ .spec.facilities.exposed.usage }}'
+    priority: 3
+    type: string
+  - color:
+      template: |
+        {{ $status := .spec.facilities.tls.usage }}
+        {{ $color := "info" }}
+        {{ if eq $status "Used" }}
+          {{ $color = "success" }}
+        {{ else if eq $status "Unused" }}
+          {{ $color = "danger" }}
+        {{ else if eq $status "Unknown" }}
+          {{ $color = "neutral" }}
+        {{ end }}
+        {{- printf "%s" $color -}}
+    icon:
+      template: |
+        {{ $status := .spec.facilities.tls.usage }}
+        {{ $url := "https://cdn.appscode.com/***.png" }}
+        {{ if eq $status "Used" }}
+          {{ $url = "https://cdn.appscode.com/***.png" }}
+        {{ else if eq $status "Unused" }}
+          {{ $url = "https://cdn.appscode.com/***.png" }}
+        {{ else if eq $status "Unknown" }}
+          {{ $url = "https://cdn.appscode.com/***.png" }}
+        {{ end }}
+        {{- printf "%s" $url -}}
+    name: TLS
+    pathTemplate: '{{ .spec.facilities.tls.usage }}'
+    priority: 3
+    type: string
+  - color:
+      template: |
+        {{ $status := .spec.facilities.backup.usage }}
+        {{ $color := "info" }}
+        {{ if eq $status "Used" }}
+          {{ $color = "success" }}
+        {{ else if eq $status "Unused" }}
+          {{ $color = "danger" }}
+        {{ else if eq $status "Unknown" }}
+          {{ $color = "neutral" }}
+        {{ end }}
+        {{- printf "%s" $color -}}
+    icon:
+      template: |
+        {{ $status := .spec.facilities.backup.usage }}
+        {{ $url := "https://cdn.appscode.com/***.png" }}
+        {{ if eq $status "Used" }}
+          {{ $url = "https://cdn.appscode.com/***.png" }}
+        {{ else if eq $status "Unused" }}
+          {{ $url = "https://cdn.appscode.com/***.png" }}
+        {{ else if eq $status "Unknown" }}
+          {{ $url = "https://cdn.appscode.com/***.png" }}
+        {{ end }}
+        {{- printf "%s" $url -}}
+    name: Backup
+    pathTemplate: '{{ .spec.facilities.backup.usage }}'
+    priority: 3
+    type: string
+  - color:
+      template: |
+        {{ $status := .spec.facilities.monitoring.usage }}
+        {{ $color := "info" }}
+        {{ if eq $status "Used" }}
+          {{ $color = "success" }}
+        {{ else if eq $status "Unused" }}
+          {{ $color = "danger" }}
+        {{ else if eq $status "Unknown" }}
+          {{ $color = "neutral" }}
+        {{ end }}
+        {{- printf "%s" $color -}}
+    icon:
+      template: |
+        {{ $status := .spec.facilities.monitoring.usage }}
+        {{ $url := "https://cdn.appscode.com/***.png" }}
+        {{ if eq $status "Used" }}
+          {{ $url = "https://cdn.appscode.com/***.png" }}
+        {{ else if eq $status "Unused" }}
+          {{ $url = "https://cdn.appscode.com/***.png" }}
+        {{ else if eq $status "Unknown" }}
+          {{ $url = "https://cdn.appscode.com/***.png" }}
+        {{ end }}
+        {{- printf "%s" $url -}}
+    name: Monitoring
+    pathTemplate: '{{ .spec.facilities.monitoring.usage }}'
+    priority: 3
+    type: string
+  defaultView: false
   resource:
     group: ui.k8s.appscode.com
     kind: GenericResourceService

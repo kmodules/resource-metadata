@@ -194,12 +194,9 @@ spec:
                           type: string
                       type: object
                   required:
-                  - actions
-                  - displayMode
                   - kind
                   - query
                   - ref
-                  - view
                   type: object
                 type: array
               resource:
@@ -231,7 +228,6 @@ spec:
                 type: object
             required:
             - blocks
-            - resource
             type: object
         type: object
     served: true
