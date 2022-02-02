@@ -115,6 +115,15 @@ func List() []v1alpha1.ResourceTableDefinition {
 	return out
 }
 
+func Names() []string {
+	out := make([]string, 0, len(rtdMap))
+	for name := range rtdMap {
+		out = append(out, name)
+	}
+	sort.Strings(out)
+	return out
+}
+
 func FlattenColumns(in []v1alpha1.ResourceColumnDefinition) ([]v1alpha1.ResourceColumnDefinition, error) {
 	var foundRef bool
 	for _, c := range in {

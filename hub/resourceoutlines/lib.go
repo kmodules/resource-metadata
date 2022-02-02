@@ -119,3 +119,12 @@ func List() []v1alpha1.ResourceOutline {
 	})
 	return out
 }
+
+func Names() []string {
+	out := make([]string, 0, len(rlMap))
+	for name := range rlMap {
+		out = append(out, name)
+	}
+	sort.Strings(out)
+	return out
+}

@@ -94,3 +94,12 @@ func List() []v1alpha1.ResourceEditor {
 	})
 	return out
 }
+
+func Names() []string {
+	out := make([]string, 0, len(reMap))
+	for name := range reMap {
+		out = append(out, name)
+	}
+	sort.Strings(out)
+	return out
+}
