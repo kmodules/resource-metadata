@@ -38,10 +38,10 @@ func (e MenuItem) Equals(other MenuItem) bool {
 }
 
 func (a *Menu) Minus(b *Menu) {
-	for _, bs := range b.Sections {
+	for _, bs := range b.Spec.Sections {
 	NEXT_ENTRY:
 		for _, be := range bs.Items {
-			for _, as := range a.Sections {
+			for _, as := range a.Spec.Sections {
 				for idx, ae := range as.Items {
 					if ae.Equals(be) {
 						as.Items = append(as.Items[:idx], as.Items[idx+1:]...)
@@ -50,5 +50,18 @@ func (a *Menu) Minus(b *Menu) {
 				}
 			}
 		}
+	}
+}
+
+func (in *MenuSectionOutlineInfo) ToMenuSectionInfo() *MenuSectionInfo {
+	if in == nil {
+		return nil
+	}
+	return &MenuSectionInfo{
+		Name:       in.Name,
+		Path:       in.Path,
+		APIGroup:   in.AutoDiscoverAPIGroup,
+		LayoutName: in.LayoutName,
+		Icons:      in.Icons,
 	}
 }

@@ -1,72 +1,73 @@
 apiVersion: meta.k8s.appscode.com/v1alpha1
-home:
-  name: Home
-  path: /
 kind: MenuOutline
 metadata:
   creationTimestamp: null
   name: kubedb
-sections:
-- icons:
-  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/datastore.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/datastore.png
-    type: image/png
-  items:
-  - layoutName: kubedb-kubedb.com-v1alpha2-elasticsearches
-    name: Elasticsearch
-    required: true
-    type:
-      group: kubedb.com
-      kind: Elasticsearch
-  - layoutName: kubedb-kubedb.com-v1alpha2-mariadbs
-    name: MariaDB
-    required: true
-    type:
-      group: kubedb.com
-      kind: MariaDB
-  - layoutName: kubedb-kubedb.com-v1alpha2-memcacheds
-    name: Memcached
-    required: true
-    type:
-      group: kubedb.com
-      kind: Memcached
-  - layoutName: kubedb-kubedb.com-v1alpha2-mongodbs
-    name: MongoDB
-    required: true
-    type:
-      group: kubedb.com
-      kind: MongoDB
-  - layoutName: kubedb-kubedb.com-v1alpha2-mysqls
-    name: MySQL
-    required: true
-    type:
-      group: kubedb.com
-      kind: MySQL
-  - layoutName: kubedb-kubedb.com-v1alpha2-postgreses
-    name: PostgreSQL
-    required: true
-    type:
-      group: kubedb.com
-      kind: Postgres
-  - layoutName: kubedb-kubedb.com-v1alpha2-redises
-    name: Redis
-    required: true
-    type:
-      group: kubedb.com
-      kind: Redis
-  name: Datastore
-  path: /ui.appscode.com/v1alpha1/sections/datastore
-- icons:
-  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/datastore.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/resourceclasses/datastore.png
-    type: image/png
-  items:
-  - layoutName: kubedb-kubedb.com-v1alpha2-mongodbs
+spec:
+  home:
+    name: Home
+    path: /
+  sections:
+  - icons:
+    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/datastore.svg
+      type: image/svg+xml
+    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/datastore.png
+      type: image/png
+    items:
+    - layoutName: kubedb-kubedb.com-v1alpha2-elasticsearches
+      name: Elasticsearch
+      required: true
+      type:
+        group: kubedb.com
+        kind: Elasticsearch
+    - layoutName: kubedb-kubedb.com-v1alpha2-mariadbs
+      name: MariaDB
+      required: true
+      type:
+        group: kubedb.com
+        kind: MariaDB
+    - layoutName: kubedb-kubedb.com-v1alpha2-memcacheds
+      name: Memcached
+      required: true
+      type:
+        group: kubedb.com
+        kind: Memcached
+    - layoutName: kubedb-kubedb.com-v1alpha2-mongodbs
+      name: MongoDB
+      required: true
+      type:
+        group: kubedb.com
+        kind: MongoDB
+    - layoutName: kubedb-kubedb.com-v1alpha2-mysqls
+      name: MySQL
+      required: true
+      type:
+        group: kubedb.com
+        kind: MySQL
+    - layoutName: kubedb-kubedb.com-v1alpha2-postgreses
+      name: PostgreSQL
+      required: true
+      type:
+        group: kubedb.com
+        kind: Postgres
+    - layoutName: kubedb-kubedb.com-v1alpha2-redises
+      name: Redis
+      required: true
+      type:
+        group: kubedb.com
+        kind: Redis
+    name: Datastore
+    path: /ui.appscode.com/v1alpha1/sections/datastore
+  - icons:
+    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/datastore.svg
+      type: image/svg+xml
+    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/datastore.png
+      type: image/png
+    items:
+    - layoutName: kubedb-kubedb.com-v1alpha2-mongodbs
+      name: Backups
+      type:
+        group: kubedb.com
+        kind: MongoDB
     name: Backups
-    type:
-      group: kubedb.com
-      kind: MongoDB
-  name: Backups
-  path: /ui.appscode.com/v1alpha1/sections/backups
+    path: /ui.appscode.com/v1alpha1/sections/backups

@@ -133,13 +133,13 @@ func main() {
 			return err
 		}
 
-		if rc.Home != nil {
-			rc.Home.Icons, missing = processIcons(rc.Home.Icons, allIcons, missing)
+		if rc.Spec.Home != nil {
+			rc.Spec.Home.Icons, missing = processIcons(rc.Spec.Home.Icons, allIcons, missing)
 		}
-		for i := range rc.Sections {
-			rc.Sections[i].Icons, missing = processIcons(rc.Sections[i].Icons, allIcons, missing)
-			for j := range rc.Sections[i].Items {
-				rc.Sections[i].Items[j].Icons, missing = processIcons(rc.Sections[i].Items[j].Icons, allIcons, missing)
+		for i := range rc.Spec.Sections {
+			rc.Spec.Sections[i].Icons, missing = processIcons(rc.Spec.Sections[i].Icons, allIcons, missing)
+			for j := range rc.Spec.Sections[i].Items {
+				rc.Spec.Sections[i].Items[j].Icons, missing = processIcons(rc.Spec.Sections[i].Items[j].Icons, allIcons, missing)
 			}
 		}
 

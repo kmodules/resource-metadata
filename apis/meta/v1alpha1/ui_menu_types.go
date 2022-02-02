@@ -35,13 +35,38 @@ type Menu struct {
 	metav1.TypeMeta `json:",inline"`
 	// +optional
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Home              *MenuSectionInfo `json:"home,omitempty"`
-	Sections          []*MenuSection   `json:"sections,omitempty"`
+	Spec              MenuSpec `json:"spec,omitempty"`
+}
+
+type MenuSpec struct {
+	Mode MenuMode `json:"mode"`
+	// +optional
+	Home *MenuSectionInfo `json:"home,omitempty"`
+	// +optional
+	Sections []*MenuSection `json:"sections,omitempty"`
+	// +optional
+	Items []MenuItem `json:"items,omitempty"`
 }
 
 type MenuSection struct {
 	MenuSectionInfo `json:",inline,omitempty"`
 	Items           []MenuItem `json:"items"`
+}
+
+type MenuSectionInfo struct {
+	Name string `json:"name,omitempty"`
+
+	// +optional
+	Path string `json:"path,omitempty"`
+	// +optional
+	APIGroup string `json:"apiGroup,omitempty"`
+
+	// +optional
+	LayoutName string `json:"layoutName,omitempty"`
+
+	// Icons is an optional list of icons for an application. Icon information includes the source, size,
+	// and mime type.
+	Icons []ImageSpec `json:"icons,omitempty"`
 }
 
 type MenuItem struct {

@@ -40,16 +40,20 @@ type MenuOutline struct {
 	metav1.TypeMeta `json:",inline"`
 	// +optional
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Home              *MenuSectionInfo     `json:"home,omitempty"`
-	Sections          []MenuSectionOutline `json:"sections,omitempty"`
+	Spec              MenuOutlineSpec `json:"spec,omitempty"`
+}
+
+type MenuOutlineSpec struct {
+	Home     *MenuSectionOutlineInfo `json:"home,omitempty"`
+	Sections []MenuSectionOutline    `json:"sections,omitempty"`
 }
 
 type MenuSectionOutline struct {
-	MenuSectionInfo `json:",inline,omitempty"`
-	Items           []MenuEntry `json:"items"`
+	MenuSectionOutlineInfo `json:",inline,omitempty"`
+	Items                  []MenuEntry `json:"items"`
 }
 
-type MenuSectionInfo struct {
+type MenuSectionOutlineInfo struct {
 	Name string `json:"name,omitempty"`
 
 	// +optional
