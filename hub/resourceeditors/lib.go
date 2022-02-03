@@ -17,17 +17,21 @@ limitations under the License.
 package resourceeditors
 
 import (
+	"context"
 	"embed"
 	"fmt"
 	iofs "io/fs"
 	"reflect"
 	"sort"
 
+	kmapi "kmodules.xyz/client-go/api/v1"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
 	"github.com/pkg/errors"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/klog/v2"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/yaml"
 )
 
@@ -78,10 +82,28 @@ func LoadByName(name string) (*v1alpha1.ResourceEditor, error) {
 	return nil, apierrors.NewNotFound(v1alpha1.Resource(v1alpha1.ResourceKindResourceEditor), name)
 }
 
-func LoadForGVR(gvr schema.GroupVersionResource) (*v1alpha1.ResourceEditor, bool) {
+func LoadDefaultByGVR(gvr schema.GroupVersionResource) (*v1alpha1.ResourceEditor, bool) {
 	name := DefaultEditorName(gvr)
 	obj, ok := reMap[name]
 	return obj, ok
+}
+
+func LoadEditorByGVR(kc client.Client, gvr schema.GroupVersionResource) (*v1alpha1.ResourceEditor, bool) {
+	var ed v1alpha1.ResourceEditor
+	err := kc.Get(context.TODO(), client.ObjectKey{Name: DefaultEditorName(gvr)}, &ed)
+	if err == nil {
+		return &ed, true
+	} else if client.IgnoreNotFound(err) != nil {
+		klog.V(8).InfoS(fmt.Sprintf("failed to load resource editor for %+v", gvr))
+	}
+	return LoadDefaultByGVR(gvr)
+}
+
+func LoadEditorByResourceID(kc client.Client, rid *kmapi.ResourceID) (*v1alpha1.ResourceEditor, bool) {
+	if rid == nil {
+		return nil, false
+	}
+	return LoadEditorByGVR(kc, rid.GroupVersionResource())
 }
 
 func List() []v1alpha1.ResourceEditor {

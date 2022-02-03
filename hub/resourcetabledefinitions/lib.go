@@ -94,12 +94,12 @@ func LoadByName(name string) (*v1alpha1.ResourceTableDefinition, error) {
 	return nil, apierrors.NewNotFound(v1alpha1.Resource(v1alpha1.ResourceKindResourceTableDefinition), name)
 }
 
-func DefaultTableDefinitionForGVK(gvk schema.GroupVersionKind) (*v1alpha1.ResourceTableDefinition, bool) {
+func LoadDefaultByGVK(gvk schema.GroupVersionKind) (*v1alpha1.ResourceTableDefinition, bool) {
 	rv, found := rtdPerGK[gvk]
 	return rv, found
 }
 
-func DefaultTableDefinitionForGVR(gvr schema.GroupVersionResource) (*v1alpha1.ResourceTableDefinition, bool) {
+func LoadDefaultByGVR(gvr schema.GroupVersionResource) (*v1alpha1.ResourceTableDefinition, bool) {
 	rv, found := rtdPerGR[gvr]
 	return rv, found
 }

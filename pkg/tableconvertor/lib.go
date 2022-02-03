@@ -31,7 +31,7 @@ import (
 
 func NewForGVR(kc client.Client, gvr schema.GroupVersionResource, priority v1alpha1.Priority) (TableConvertor, error) {
 	var columns []v1alpha1.ResourceColumnDefinition
-	if def, ok := tabledefs.DefaultTableDefinitionForGVR(gvr); ok {
+	if def, ok := tabledefs.LoadDefaultByGVR(gvr); ok {
 		columns = def.Spec.Columns
 	}
 
