@@ -94,7 +94,7 @@ func LoadByGVR(kc client.Client, gvr schema.GroupVersionResource) (*v1alpha1.Res
 	if err == nil {
 		return &ed, true
 	} else if client.IgnoreNotFound(err) != nil {
-		klog.V(8).InfoS(fmt.Sprintf("failed to load resource editor for %+v", gvr))
+		klog.V(3).InfoS(fmt.Sprintf("failed to load resource editor for %+v", gvr))
 	}
 	return LoadDefaultByGVR(gvr)
 }
@@ -103,7 +103,16 @@ func LoadByResourceID(kc client.Client, rid *kmapi.ResourceID) (*v1alpha1.Resour
 	if rid == nil {
 		return nil, false
 	}
-	return LoadByGVR(kc, rid.GroupVersionResource())
+
+	gvr := rid.GroupVersionResource()
+	if gvr.Version == "" || gvr.Resource == "" {
+		id, err := kmapi.ExtractResourceID(kc.RESTMapper(), *rid)
+		if client.IgnoreNotFound(err) != nil {
+			klog.V(3).InfoS(fmt.Sprintf("failed to extract resource id for %+v", *rid))
+		}
+		gvr = id.GroupVersionResource()
+	}
+	return LoadByGVR(kc, gvr)
 }
 
 func List() []v1alpha1.ResourceEditor {
