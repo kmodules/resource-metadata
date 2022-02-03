@@ -88,7 +88,7 @@ func LoadDefaultByGVR(gvr schema.GroupVersionResource) (*v1alpha1.ResourceEditor
 	return obj, ok
 }
 
-func LoadEditorByGVR(kc client.Client, gvr schema.GroupVersionResource) (*v1alpha1.ResourceEditor, bool) {
+func LoadByGVR(kc client.Client, gvr schema.GroupVersionResource) (*v1alpha1.ResourceEditor, bool) {
 	var ed v1alpha1.ResourceEditor
 	err := kc.Get(context.TODO(), client.ObjectKey{Name: DefaultEditorName(gvr)}, &ed)
 	if err == nil {
@@ -99,11 +99,11 @@ func LoadEditorByGVR(kc client.Client, gvr schema.GroupVersionResource) (*v1alph
 	return LoadDefaultByGVR(gvr)
 }
 
-func LoadEditorByResourceID(kc client.Client, rid *kmapi.ResourceID) (*v1alpha1.ResourceEditor, bool) {
+func LoadByResourceID(kc client.Client, rid *kmapi.ResourceID) (*v1alpha1.ResourceEditor, bool) {
 	if rid == nil {
 		return nil, false
 	}
-	return LoadEditorByGVR(kc, rid.GroupVersionResource())
+	return LoadByGVR(kc, rid.GroupVersionResource())
 }
 
 func List() []v1alpha1.ResourceEditor {
