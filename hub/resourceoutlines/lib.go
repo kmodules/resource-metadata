@@ -99,12 +99,12 @@ func LoadByName(name string) (*v1alpha1.ResourceOutline, error) {
 	return nil, apierrors.NewNotFound(v1alpha1.Resource(v1alpha1.ResourceKindResourceOutline), name)
 }
 
-func DefaultOutlineForGVK(gvk schema.GroupVersionKind) (*v1alpha1.ResourceOutline, bool) {
+func LoadDefaultByGVK(gvk schema.GroupVersionKind) (*v1alpha1.ResourceOutline, bool) {
 	rv, found := rlPerGK[gvk]
 	return rv, found
 }
 
-func DefaultOutlineForGVR(gvr schema.GroupVersionResource) (*v1alpha1.ResourceOutline, bool) {
+func LoadDefaultByGVR(gvr schema.GroupVersionResource) (*v1alpha1.ResourceOutline, bool) {
 	rv, found := rlPerGR[gvr]
 	return rv, found
 }

@@ -40,7 +40,7 @@ const BasicPage = "Basic"
 var reg = hub.NewRegistryOfKnownResources()
 
 func LoadResourceLayoutForGVR(kc client.Client, gvr schema.GroupVersionResource) (*v1alpha1.ResourceLayout, error) {
-	outline, found := resourceoutlines.DefaultOutlineForGVR(gvr)
+	outline, found := resourceoutlines.LoadDefaultByGVR(gvr)
 	if found {
 		return GetResourceLayout(kc, outline)
 	}
@@ -74,7 +74,7 @@ func resourceIDForGVR(mapper meta.RESTMapper, gvr schema.GroupVersionResource) (
 }
 
 func LoadResourceLayoutForGVK(kc client.Client, gvk schema.GroupVersionKind) (*v1alpha1.ResourceLayout, error) {
-	outline, found := resourceoutlines.DefaultOutlineForGVK(gvk)
+	outline, found := resourceoutlines.LoadDefaultByGVK(gvk)
 	if found {
 		return GetResourceLayout(kc, outline)
 	}
@@ -335,7 +335,7 @@ func Convert_PageBlockOutline_To_PageBlockLayout(
 			columns = tableconvertor.FilterColumnsWithDefaults(nil, schema.GroupVersionResource{} /*ignore*/, columns, priority)
 		} else if err == nil {
 			if in.View == nil || (in.View.Name == "" && len(in.View.Columns) == 0) {
-				if rv, ok := tabledefs.DefaultTableDefinitionForGVK(mapping.GroupVersionKind); ok {
+				if rv, ok := tabledefs.LoadDefaultByGVK(mapping.GroupVersionKind); ok {
 					columns = rv.Spec.Columns
 				}
 				columns, err = tabledefs.FlattenColumns(columns)
