@@ -186,9 +186,8 @@ spec:
                 type: string
             required:
             - apiType
-            - appResource
+            - name
             - status
-            - totalResource
             type: object
           status:
             type: object
