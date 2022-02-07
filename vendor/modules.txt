@@ -514,11 +514,11 @@ k8s.io/client-go/util/workqueue
 ## explicit; go 1.16
 k8s.io/component-base/config
 k8s.io/component-base/config/v1alpha1
-# k8s.io/klog/v2 v2.8.0
+# k8s.io/klog/v2 v2.9.0
 ## explicit; go 1.13
 k8s.io/klog/v2
 k8s.io/klog/v2/klogr
-# k8s.io/kube-openapi v0.0.0-20210305001622-591a79e4bda7 => k8s.io/kube-openapi v0.0.0-20210305001622-591a79e4bda7
+# k8s.io/kube-openapi v0.0.0-20210421082810-95288971da7e => k8s.io/kube-openapi v0.0.0-20210305001622-591a79e4bda7
 ## explicit; go 1.12
 k8s.io/kube-openapi/pkg/common
 k8s.io/kube-openapi/pkg/util/proto
@@ -546,7 +546,7 @@ kmodules.xyz/crd-schema-fuzz
 # kmodules.xyz/offshoot-api v0.0.0-20210829122105-6f4d481b0c61
 ## explicit; go 1.15
 kmodules.xyz/offshoot-api/api/v1
-# kmodules.xyz/resource-metrics v0.0.7
+# kmodules.xyz/resource-metrics v0.0.8
 ## explicit; go 1.17
 kmodules.xyz/resource-metrics
 kmodules.xyz/resource-metrics/api
@@ -558,6 +558,9 @@ kmodules.xyz/resource-metrics/kubedb.com/v1alpha2
 # kmodules.xyz/schema-checker v0.2.0
 ## explicit; go 1.15
 kmodules.xyz/schema-checker
+# sigs.k8s.io/cli-utils v0.26.1
+## explicit; go 1.16
+sigs.k8s.io/cli-utils/pkg/kstatus/status
 # sigs.k8s.io/controller-runtime v0.9.0
 ## explicit; go 1.16
 sigs.k8s.io/controller-runtime
