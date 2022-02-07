@@ -44,6 +44,7 @@ func GenericFuncMap() map[string]interface{} {
 		"k8s_resource_replicas":          tplReplicaFn,
 		"k8s_resource_replicas_by_roles": tplRoleReplicaFn,
 		"k8s_resource_mode":              tplModeFn,
+		"k8s_resource_uses_tls":          tplUsesTLSFn,
 		"k8s_total_resource_limits":      tplTotalResourceLimitsFn,
 		"k8s_total_resource_requests":    tplTotalResourceRequestsFn,
 		"k8s_app_resource_limits":        tplAppResourceLimitsFn,
@@ -110,6 +111,19 @@ func tplModeFn(data interface{}) (string, error) {
 		return "", err
 	}
 	return c.Mode(obj)
+}
+
+func tplUsesTLSFn(data interface{}) (bool, error) {
+	obj, err := toObject(data)
+	if err != nil {
+		return false, err
+	}
+
+	c, err := api.Load(obj)
+	if err != nil {
+		return false, err
+	}
+	return c.UsesTLS(obj)
 }
 
 func tplTotalResourceLimitsFn(data interface{}) (core.ResourceList, error) {

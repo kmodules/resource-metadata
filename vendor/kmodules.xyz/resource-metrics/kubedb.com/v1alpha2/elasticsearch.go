@@ -45,6 +45,7 @@ func (r Elasticsearch) ResourceCalculator() api.ResourceCalculator {
 		RuntimeRoles:           []api.PodRole{api.PodRoleDefault, api.PodRoleExporter},
 		RoleReplicasFn:         r.roleReplicasFn,
 		ModeFn:                 r.modeFn,
+		UsesTLSFn:              r.usesTLSFn,
 		RoleResourceLimitsFn:   r.roleResourceFn(api.ResourceLimits),
 		RoleResourceRequestsFn: r.roleResourceFn(api.ResourceRequests),
 	}
@@ -94,6 +95,11 @@ func (r Elasticsearch) modeFn(obj map[string]interface{}) (string, error) {
 		return "Dedicated", nil
 	}
 	return "Combined", nil
+}
+
+func (r Elasticsearch) usesTLSFn(obj map[string]interface{}) (bool, error) {
+	_, found, err := unstructured.NestedFieldNoCopy(obj, "spec", "enableSSL")
+	return found, err
 }
 
 func (r Elasticsearch) roleResourceFn(fn func(rr core.ResourceRequirements) core.ResourceList) func(obj map[string]interface{}) (map[api.PodRole]core.ResourceList, error) {

@@ -42,6 +42,7 @@ func (r Postgres) ResourceCalculator() api.ResourceCalculator {
 		RuntimeRoles:           []api.PodRole{api.PodRoleDefault, api.PodRoleExporter},
 		RoleReplicasFn:         r.roleReplicasFn,
 		ModeFn:                 r.modeFn,
+		UsesTLSFn:              r.usesTLSFn,
 		RoleResourceLimitsFn:   r.roleResourceFn(api.ResourceLimits),
 		RoleResourceRequestsFn: r.roleResourceFn(api.ResourceRequests),
 	}
@@ -67,6 +68,11 @@ func (r Postgres) modeFn(obj map[string]interface{}) (string, error) {
 		return mode, nil
 	}
 	return DBStandalone, nil
+}
+
+func (r Postgres) usesTLSFn(obj map[string]interface{}) (bool, error) {
+	_, found, err := unstructured.NestedFieldNoCopy(obj, "spec", "tls")
+	return found, err
 }
 
 func (r Postgres) roleResourceFn(fn func(rr core.ResourceRequirements) core.ResourceList) func(obj map[string]interface{}) (map[api.PodRole]core.ResourceList, error) {

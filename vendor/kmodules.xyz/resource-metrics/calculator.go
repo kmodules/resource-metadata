@@ -51,6 +51,14 @@ func Mode(obj map[string]interface{}) (string, error) {
 	return c.Mode(obj)
 }
 
+func UsesTLS(obj map[string]interface{}) (bool, error) {
+	c, err := api.Load(obj)
+	if err != nil {
+		return false, err
+	}
+	return c.UsesTLS(obj)
+}
+
 func TotalResourceLimits(obj map[string]interface{}) (core.ResourceList, error) {
 	c, err := api.Load(obj)
 	if err != nil {
