@@ -19,10 +19,10 @@ spec:
       byLabel: view
       type: GraphQL
     ref:
-      group: ui.k8s.appscode.com
+      group: core.k8s.appscode.com
       kind: GenericResource
     view:
-      name: kubedb-ui.k8s.appscode.com-v1alpha1-genericresources
+      name: kubedb-core.k8s.appscode.com-v1alpha1-genericresources
   pages:
   - blocks:
     - actions:
@@ -43,7 +43,7 @@ spec:
           }
         type: GraphQL
       ref:
-        group: ui.k8s.appscode.com
+        group: core.k8s.appscode.com
         kind: PodView
     info:
       actions:
@@ -177,10 +177,10 @@ spec:
       byLabel: view
       type: GraphQL
     ref:
-      group: ui.k8s.appscode.com
+      group: core.k8s.appscode.com
       kind: GenericResourceService
     view:
-      name: kubedb-ui.k8s.appscode.com-v1alpha1-genericresourceservices
+      name: kubedb-core.k8s.appscode.com-v1alpha1-genericresourceservices
   ui:
     editor:
       name: kubedbcom-redis-editor

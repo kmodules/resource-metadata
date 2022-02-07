@@ -3,11 +3,11 @@ kind: ResourceTableDefinition
 metadata:
   creationTimestamp: null
   labels:
-    k8s.io/group: ui.k8s.appscode.com
+    k8s.io/group: core.k8s.appscode.com
     k8s.io/kind: PodView
     k8s.io/resource: podviews
     k8s.io/version: v1alpha1
-  name: ui.k8s.appscode.com-v1alpha1-podviews
+  name: core.k8s.appscode.com-v1alpha1-podviews
 spec:
   columns:
   - format: name
@@ -49,7 +49,7 @@ spec:
     type: date
   defaultView: true
   resource:
-    group: ui.k8s.appscode.com
+    group: core.k8s.appscode.com
     kind: PodView
     name: podviews
     scope: Namespaced

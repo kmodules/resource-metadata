@@ -3,11 +3,11 @@ kind: ResourceTableDefinition
 metadata:
   creationTimestamp: null
   labels:
-    k8s.io/group: ui.k8s.appscode.com
+    k8s.io/group: core.k8s.appscode.com
     k8s.io/kind: GenericResourceService
     k8s.io/resource: genericresourceservices
     k8s.io/version: v1alpha1
-  name: kubedb-ui.k8s.appscode.com-v1alpha1-genericresourceservices
+  name: kubedb-core.k8s.appscode.com-v1alpha1-genericresourceservices
 spec:
   columns:
   - color:
@@ -124,7 +124,7 @@ spec:
     type: string
   defaultView: false
   resource:
-    group: ui.k8s.appscode.com
+    group: core.k8s.appscode.com
     kind: GenericResourceService
     name: genericresourceservices
     scope: Namespaced

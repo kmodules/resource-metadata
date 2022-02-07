@@ -63,7 +63,7 @@ spec:
     nameTemplate: '{.metadata.name}'
     namespacePath: metadata.namespace
     target:
-      apiVersion: ui.k8s.appscode.com/v1alpha1
+      apiVersion: core.k8s.appscode.com/v1alpha1
       kind: PodView
     type: MatchName
   icons:

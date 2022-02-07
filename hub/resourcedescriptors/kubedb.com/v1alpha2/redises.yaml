@@ -77,7 +77,7 @@ spec:
     nameTemplate: '{.metadata.name}~Redis.kubedb.com'
     namespacePath: metadata.namespace
     target:
-      apiVersion: ui.k8s.appscode.com/v1alpha1
+      apiVersion: core.k8s.appscode.com/v1alpha1
       kind: GenericResource
     type: MatchName
   - labels:
@@ -85,7 +85,7 @@ spec:
     nameTemplate: '{.metadata.name}~Redis.kubedb.com'
     namespacePath: metadata.namespace
     target:
-      apiVersion: ui.k8s.appscode.com/v1alpha1
+      apiVersion: core.k8s.appscode.com/v1alpha1
       kind: GenericResourceService
     type: MatchName
   - labels:
