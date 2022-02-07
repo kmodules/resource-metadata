@@ -42,6 +42,7 @@ func (r MongoDB) ResourceCalculator() api.ResourceCalculator {
 		RuntimeRoles:           []api.PodRole{api.PodRoleDefault, api.PodRoleTotalShard, api.PodRoleConfigServer, api.PodRoleMongos, api.PodRoleExporter},
 		RoleReplicasFn:         r.roleReplicasFn,
 		ModeFn:                 r.modeFn,
+		UsesTLSFn:              r.usesTLSFn,
 		RoleResourceLimitsFn:   r.roleResourceFn(api.ResourceLimits),
 		RoleResourceRequestsFn: r.roleResourceFn(api.ResourceRequests),
 	}
@@ -106,6 +107,11 @@ func (r MongoDB) modeFn(obj map[string]interface{}) (string, error) {
 		return DBModeReplicaSet, nil
 	}
 	return DBStandalone, nil
+}
+
+func (r MongoDB) usesTLSFn(obj map[string]interface{}) (bool, error) {
+	_, found, err := unstructured.NestedFieldNoCopy(obj, "spec", "tls")
+	return found, err
 }
 
 func (r MongoDB) roleResourceFn(fn func(rr core.ResourceRequirements) core.ResourceList) func(obj map[string]interface{}) (map[api.PodRole]core.ResourceList, error) {

@@ -29,6 +29,7 @@ func EvalFuncs() map[string]func(arguments ...interface{}) (interface{}, error) 
 	return map[string]func(arguments ...interface{}) (interface{}, error){
 		"resource_replicas":       resourceReplicas,
 		"resource_mode":           resourceMode,
+		"resource_uses_tls":       resourceUsesTLS,
 		"total_resource_limits":   totalResourceLimits,
 		"total_resource_requests": totalResourceRequests,
 		"app_resource_limits":     appResourceLimits,
@@ -44,6 +45,11 @@ func resourceReplicas(args ...interface{}) (interface{}, error) {
 // resourceMode(resource_obj)
 func resourceMode(args ...interface{}) (interface{}, error) {
 	return Mode(args[0].(map[string]interface{}))
+}
+
+// resourceUsesTLS(resource_obj)
+func resourceUsesTLS(args ...interface{}) (interface{}, error) {
+	return UsesTLS(args[0].(map[string]interface{}))
 }
 
 // totalResourceLimits(resource_obj, resource_type) => cpu cores (float64)

@@ -3,16 +3,16 @@ kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
   labels:
-    k8s.io/group: ui.k8s.appscode.com
-    k8s.io/kind: GenericResource
-    k8s.io/resource: genericresources
+    k8s.io/group: core.k8s.appscode.com
+    k8s.io/kind: ResourceSummary
+    k8s.io/resource: resourcesummaries
     k8s.io/version: v1alpha1
-  name: ui.k8s.appscode.com-v1alpha1-genericresources
+  name: core.k8s.appscode.com-v1alpha1-resourcesummaries
 spec:
   resource:
-    group: ui.k8s.appscode.com
-    kind: GenericResource
-    name: genericresources
+    group: core.k8s.appscode.com
+    kind: ResourceSummary
+    name: resourcesummaries
     scope: Namespaced
     version: v1alpha1
   validation:
@@ -116,49 +116,8 @@ spec:
               required:
               - uid
               type: object
-            mode:
-              type: string
-            name:
-              type: string
-            replicas:
-              format: int64
+            count:
               type: integer
-            roleReplicas:
-              additionalProperties:
-                format: int64
-                type: integer
-              type: object
-            roleResourceLimits:
-              additionalProperties:
-                additionalProperties:
-                  anyOf:
-                  - type: integer
-                  - type: string
-                  pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                  x-kubernetes-int-or-string: true
-                description: ResourceList is a set of (resource name, quantity) pairs.
-                type: object
-              type: object
-            roleResourceRequests:
-              additionalProperties:
-                additionalProperties:
-                  anyOf:
-                  - type: integer
-                  - type: string
-                  pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                  x-kubernetes-int-or-string: true
-                description: ResourceList is a set of (resource name, quantity) pairs.
-                type: object
-              type: object
-            status:
-              properties:
-                message:
-                  description: Message
-                  type: string
-                status:
-                  description: Status
-                  type: string
-              type: object
             totalResource:
               description: ResourceRequirements describes the compute resource requirements.
               properties:
@@ -181,12 +140,7 @@ spec:
                   description: 'Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
                   type: object
               type: object
-            version:
-              type: string
           required:
           - apiType
-          - appResource
-          - status
-          - totalResource
           type: object
       type: object

@@ -42,6 +42,7 @@ func (r Memcached) ResourceCalculator() api.ResourceCalculator {
 		RuntimeRoles:           []api.PodRole{api.PodRoleDefault, api.PodRoleExporter},
 		RoleReplicasFn:         r.roleReplicasFn,
 		ModeFn:                 r.modeFn,
+		UsesTLSFn:              r.usesTLSFn,
 		RoleResourceLimitsFn:   r.roleResourceFn(api.ResourceLimits),
 		RoleResourceRequestsFn: r.roleResourceFn(api.ResourceRequests),
 	}
@@ -67,6 +68,11 @@ func (r Memcached) modeFn(obj map[string]interface{}) (string, error) {
 		return DBModeCluster, nil
 	}
 	return DBStandalone, nil
+}
+
+func (r Memcached) usesTLSFn(obj map[string]interface{}) (bool, error) {
+	_, found, err := unstructured.NestedFieldNoCopy(obj, "spec", "tls")
+	return found, err
 }
 
 func (r Memcached) roleResourceFn(fn func(rr core.ResourceRequirements) core.ResourceList) func(obj map[string]interface{}) (map[api.PodRole]core.ResourceList, error) {

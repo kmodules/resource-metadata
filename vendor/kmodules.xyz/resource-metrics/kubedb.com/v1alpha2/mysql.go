@@ -42,6 +42,7 @@ func (r MySQL) ResourceCalculator() api.ResourceCalculator {
 		RuntimeRoles:           []api.PodRole{api.PodRoleDefault, api.PodRoleExporter, api.PodRoleRouter},
 		RoleReplicasFn:         r.roleReplicasFn,
 		ModeFn:                 r.modeFn,
+		UsesTLSFn:              r.usesTLSFn,
 		RoleResourceLimitsFn:   r.roleResourceFn(api.ResourceLimits),
 		RoleResourceRequestsFn: r.roleResourceFn(api.ResourceRequests),
 	}
@@ -90,6 +91,11 @@ func (r MySQL) modeFn(obj map[string]interface{}) (string, error) {
 		return mode, nil
 	}
 	return DBStandalone, nil
+}
+
+func (r MySQL) usesTLSFn(obj map[string]interface{}) (bool, error) {
+	_, found, err := unstructured.NestedFieldNoCopy(obj, "spec", "tls")
+	return found, err
 }
 
 func (r MySQL) roleResourceFn(fn func(rr core.ResourceRequirements) core.ResourceList) func(obj map[string]interface{}) (map[api.PodRole]core.ResourceList, error) {
