@@ -17093,9 +17093,8 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourcePageLayout(ref common.R
 				Properties: map[string]spec.Schema{
 					"name": {
 						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
+							Type:   []string{"string"},
+							Format: "",
 						},
 					},
 					"info": {
@@ -17122,7 +17121,6 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourcePageLayout(ref common.R
 						},
 					},
 				},
-				Required: []string{"name"},
 			},
 		},
 		Dependencies: []string{

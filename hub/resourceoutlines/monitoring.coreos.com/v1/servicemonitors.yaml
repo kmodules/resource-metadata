@@ -16,6 +16,7 @@ spec:
         create: Never
       displayMode: List
       kind: Connection
+      name: Pods
       query:
         raw: |-
           query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
@@ -36,6 +37,7 @@ spec:
         create: Never
       displayMode: List
       kind: Connection
+      name: Services
       query:
         byLabel: monitored_by
         type: GraphQL
@@ -48,6 +50,7 @@ spec:
         create: Always
       displayMode: List
       kind: Connection
+      name: Prometheus
       query:
         byLabel: monitored_by
         type: GraphQL

@@ -24,6 +24,19 @@ spec:
       name: kubedb.com-v1alpha2-security
     name: Security
   - blocks:
+    - actions:
+        create: Always
+      displayMode: List
+      kind: Connection
+      name: Recent Operations
+      query:
+        byLabel: offshoot
+        type: GraphQL
+      ref:
+        group: ops.kubedb.com
+        kind: PerconaXtraDBOpsRequest
+    name: Operations
+  - blocks:
     - kind: Block
       name: kubedb.com-v1alpha2-monitoring
     name: Monitoring

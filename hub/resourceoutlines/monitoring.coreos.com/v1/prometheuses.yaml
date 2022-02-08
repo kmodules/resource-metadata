@@ -16,6 +16,7 @@ spec:
         create: Never
       displayMode: List
       kind: Connection
+      name: Pods
       query:
         byLabel: offshoot
         type: GraphQL
@@ -26,6 +27,7 @@ spec:
         create: Never
       displayMode: List
       kind: Connection
+      name: Services
       query:
         byLabel: exposed_by
         type: GraphQL
@@ -38,6 +40,7 @@ spec:
         create: Always
       displayMode: List
       kind: Connection
+      name: Service Monitors
       query:
         byLabel: monitored_by
         type: GraphQL
@@ -48,6 +51,7 @@ spec:
         create: Always
       displayMode: List
       kind: Connection
+      name: Pod Monitors
       query:
         byLabel: monitored_by
         type: GraphQL
