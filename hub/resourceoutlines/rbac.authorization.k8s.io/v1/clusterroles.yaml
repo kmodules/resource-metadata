@@ -16,6 +16,7 @@ spec:
         create: Always
       displayMode: List
       kind: Connection
+      name: Cluster RoleBindings
       query:
         byLabel: offshoot
         type: GraphQL
@@ -26,6 +27,7 @@ spec:
         create: Always
       displayMode: List
       kind: Connection
+      name: RoleBindings
       query:
         byLabel: offshoot
         type: GraphQL

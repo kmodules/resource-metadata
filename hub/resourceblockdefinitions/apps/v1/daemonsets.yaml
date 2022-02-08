@@ -29,6 +29,7 @@ spec:
       create: Never
     displayMode: List
     kind: Connection
+    name: Pods
     query:
       byLabel: offshoot
       type: GraphQL
@@ -39,6 +40,7 @@ spec:
       create: Never
     displayMode: List
     kind: Connection
+    name: Services
     query:
       byLabel: exposed_by
       type: GraphQL

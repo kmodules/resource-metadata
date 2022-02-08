@@ -39,6 +39,7 @@ spec:
       create: Never
     displayMode: List
     kind: Connection
+    name: Services
     query:
       byLabel: offshoot
       type: GraphQL
@@ -49,6 +50,7 @@ spec:
       create: Never
     displayMode: List
     kind: Connection
+    name: Secrets
     query:
       byLabel: offshoot
       type: GraphQL
@@ -59,6 +61,7 @@ spec:
       create: Never
     displayMode: List
     kind: Connection
+    name: ConfigMaps
     query:
       byLabel: offshoot
       type: GraphQL
@@ -69,6 +72,7 @@ spec:
       create: Never
     displayMode: List
     kind: Connection
+    name: PersistentVolumeClaims
     query:
       byLabel: offshoot
       type: GraphQL

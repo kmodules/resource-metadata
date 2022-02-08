@@ -9,6 +9,7 @@ spec:
       create: IfEmpty
     displayMode: List
     kind: Connection
+    name: Service Monitors
     query:
       raw: |-
         query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
@@ -29,6 +30,7 @@ spec:
       create: IfEmpty
     displayMode: List
     kind: Connection
+    name: Pod Monitors
     query:
       raw: |-
         query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
@@ -49,6 +51,7 @@ spec:
       create: Never
     displayMode: List
     kind: Connection
+    name: Prometheus
     query:
       raw: |-
         query Find($src: String!, $targetGroup: String!, $targetKind: String!) {

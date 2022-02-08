@@ -53,7 +53,7 @@ type ResourceLayoutSpec struct {
 }
 
 type ResourcePageLayout struct {
-	Name    string            `json:"name"`
+	Name    string            `json:"name,omitempty"`
 	Info    *PageBlockLayout  `json:"info,omitempty"`
 	Insight *PageBlockLayout  `json:"insight,omitempty"`
 	Blocks  []PageBlockLayout `json:"blocks,omitempty"`

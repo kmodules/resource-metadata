@@ -29,6 +29,7 @@ spec:
         create: Never
       displayMode: List
       kind: Connection
+      name: Pods
       query:
         raw: |-
           query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
@@ -74,6 +75,7 @@ spec:
       displayMode: Field
       fieldPath: .spec.nodes
       kind: Connection
+      name: Stats
       query:
         byLabel: view
         type: GraphQL
@@ -87,6 +89,7 @@ spec:
       displayMode: Field
       fieldPath: .spec.indices
       kind: Connection
+      name: Indices
       query:
         byLabel: view
         type: GraphQL
@@ -112,6 +115,7 @@ spec:
         create: Always
       displayMode: List
       kind: Connection
+      name: Recent Backups
       query:
         raw: |-
           query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
@@ -155,6 +159,7 @@ spec:
         create: Always
       displayMode: List
       kind: Connection
+      name: Recent Operations
       query:
         byLabel: offshoot
         type: GraphQL

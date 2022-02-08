@@ -9,6 +9,7 @@ spec:
       create: IfEmpty
     displayMode: List
     kind: Connection
+    name: Repository
     query:
       raw: |-
         query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
@@ -29,6 +30,7 @@ spec:
       create: IfEmpty
     displayMode: List
     kind: Connection
+    name: Backup Configuration
     query:
       byLabel: backup_via
       type: GraphQL
@@ -39,6 +41,7 @@ spec:
       create: Always
     displayMode: List
     kind: Connection
+    name: Recent Backups
     query:
       raw: |-
         query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
@@ -59,6 +62,7 @@ spec:
       create: Always
     displayMode: List
     kind: Connection
+    name: Recent Restores
     query:
       raw: |-
         query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
@@ -79,6 +83,7 @@ spec:
       create: Never
     displayMode: List
     kind: Connection
+    name: CronJobs
     query:
       raw: |-
         query Find($src: String!, $targetGroup: String!, $targetKind: String!) {

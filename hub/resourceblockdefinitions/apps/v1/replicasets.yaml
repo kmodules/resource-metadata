@@ -34,6 +34,7 @@ spec:
       create: Never
     displayMode: List
     kind: Connection
+    name: Pods
     query:
       byLabel: offshoot
       type: GraphQL
@@ -44,6 +45,7 @@ spec:
       create: Never
     displayMode: List
     kind: Connection
+    name: Services
     query:
       byLabel: exposed_by
       type: GraphQL
@@ -54,6 +56,7 @@ spec:
       create: IfEmpty
     displayMode: List
     kind: Connection
+    name: Horizontal Pod Autoscalers
     query:
       byLabel: offshoot
       type: GraphQL
