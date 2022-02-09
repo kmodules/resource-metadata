@@ -61,7 +61,7 @@ spec:
       required: true
       type:
         group: apps
-        kind: Daemonset
+        kind: DaemonSet
     - name: Jobs
       required: true
       type:
@@ -141,7 +141,7 @@ spec:
       required: true
       type:
         group: ""
-        kind: ""
+        kind: ConfigMap
     - name: Secrets
       required: true
       type:
