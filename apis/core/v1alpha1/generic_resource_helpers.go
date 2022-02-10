@@ -81,7 +81,7 @@ func ToGenericResource(item client.Object, apiType *kmapi.ResourceID, cmeta *kma
 			GenerateName:               item.GetGenerateName(),
 			Namespace:                  item.GetNamespace(),
 			SelfLink:                   "",
-			UID:                        "GRES-" + item.GetUID(),
+			UID:                        "gres-" + item.GetUID(),
 			ResourceVersion:            item.GetResourceVersion(),
 			Generation:                 item.GetGeneration(),
 			CreationTimestamp:          item.GetCreationTimestamp(),
