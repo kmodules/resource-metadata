@@ -6,15 +6,15 @@ metadata:
 spec:
   sections:
   - icons:
-    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/kubernetes.svg
+    - src: https://cdn.appscode.com/k8s/icons/menu/kubernetes.svg
       type: image/svg+xml
-    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/kubernetes.png
+    - src: https://cdn.appscode.com/k8s/icons/menu/kubernetes.png
       type: image/png
     items:
     - icons:
-      - src: https://cdn.appscode.com/k8s/icons/resourceclasses/basic.svg
+      - src: https://cdn.appscode.com/k8s/icons/menu/basic.svg
         type: image/svg+xml
-      - src: https://cdn.appscode.com/k8s/icons/resourceclasses/basic.png
+      - src: https://cdn.appscode.com/k8s/icons/menu/basic.png
         type: image/png
       name: Basic
       path: /
@@ -32,9 +32,9 @@ spec:
     name: Kubernetes
     path: /ui.appscode.com/v1alpha1/sections/kubernetes
   - icons:
-    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/workloads.svg
+    - src: https://cdn.appscode.com/k8s/icons/menu/workloads.svg
       type: image/svg+xml
-    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/workloads.png
+    - src: https://cdn.appscode.com/k8s/icons/menu/workloads.png
       type: image/png
     items:
     - name: Deployments
@@ -78,24 +78,24 @@ spec:
         kind: Pod
     name: Workloads
   - icons:
-    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/helm.svg
+    - src: https://cdn.appscode.com/k8s/icons/menu/helm.svg
       type: image/svg+xml
-    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/helm.png
+    - src: https://cdn.appscode.com/k8s/icons/menu/helm.png
       type: image/png
     items:
     - icons:
-      - src: https://cdn.appscode.com/k8s/icons/resourceclasses/release.svg
+      - src: https://cdn.appscode.com/k8s/icons/menu/release.svg
         type: image/svg+xml
-      - src: https://cdn.appscode.com/k8s/icons/resourceclasses/release.png
+      - src: https://cdn.appscode.com/k8s/icons/menu/release.png
         type: image/png
       name: Releases
       path: /helm/v3/releases
     name: Helm 3
   - autoDiscoverAPIGroup: kubedb.com
     icons:
-    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/datastore.svg
+    - src: https://cdn.appscode.com/k8s/icons/menu/datastore.svg
       type: image/svg+xml
-    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/datastore.png
+    - src: https://cdn.appscode.com/k8s/icons/menu/datastore.png
       type: image/png
     items:
     - name: Elasticsearch
@@ -105,9 +105,9 @@ spec:
         kind: Elasticsearch
     name: Datastore
   - icons:
-    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/networking.svg
+    - src: https://cdn.appscode.com/k8s/icons/menu/networking.svg
       type: image/svg+xml
-    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/networking.png
+    - src: https://cdn.appscode.com/k8s/icons/menu/networking.png
       type: image/png
     items:
     - name: Services
@@ -132,9 +132,9 @@ spec:
         kind: NetworkPolicy
     name: Service & Discovery
   - icons:
-    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/config.svg
+    - src: https://cdn.appscode.com/k8s/icons/menu/config.svg
       type: image/svg+xml
-    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/config.png
+    - src: https://cdn.appscode.com/k8s/icons/menu/config.png
       type: image/png
     items:
     - name: Config Maps
@@ -149,9 +149,9 @@ spec:
         kind: Secret
     name: Config
   - icons:
-    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/storage.svg
+    - src: https://cdn.appscode.com/k8s/icons/menu/storage.svg
       type: image/svg+xml
-    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/storage.png
+    - src: https://cdn.appscode.com/k8s/icons/menu/storage.png
       type: image/png
     items:
     - name: Persistent Volume Claims
@@ -172,9 +172,9 @@ spec:
     name: Storage
   - autoDiscoverAPIGroup: monitoring.coreos.com
     icons:
-    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/monitoring.svg
+    - src: https://cdn.appscode.com/k8s/icons/menu/monitoring.svg
       type: image/svg+xml
-    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/monitoring.png
+    - src: https://cdn.appscode.com/k8s/icons/menu/monitoring.png
       type: image/png
     items:
     - name: Prometheus
@@ -199,9 +199,9 @@ spec:
         kind: PodMonitor
     name: Monitoring
   - icons:
-    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/security.svg
+    - src: https://cdn.appscode.com/k8s/icons/menu/security.svg
       type: image/svg+xml
-    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/security.png
+    - src: https://cdn.appscode.com/k8s/icons/menu/security.png
       type: image/png
     items:
     - name: Policy
@@ -216,9 +216,9 @@ spec:
         kind: ServiceAccount
     name: Security
   - icons:
-    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/admin.svg
+    - src: https://cdn.appscode.com/k8s/icons/menu/admin.svg
       type: image/svg+xml
-    - src: https://cdn.appscode.com/k8s/icons/resourceclasses/admin.png
+    - src: https://cdn.appscode.com/k8s/icons/menu/admin.png
       type: image/png
     items:
     - name: Namespaces
