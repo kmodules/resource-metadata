@@ -20,6 +20,8 @@ import (
 	"embed"
 	"fmt"
 	iofs "io/fs"
+	"os"
+	"path/filepath"
 	"reflect"
 	"sort"
 
@@ -35,8 +37,12 @@ import (
 //go:embed **/**/*.yaml
 var fs embed.FS
 
-func FS() embed.FS {
-	return fs
+func FS() iofs.FS {
+	dir := filepath.Join(os.TempDir(), "hub", "resourcedescriptors")
+	if fi, err := os.Stat(dir); os.IsNotExist(err) || !fi.IsDir() {
+		return fs
+	}
+	return os.DirFS(dir)
 }
 
 var (
@@ -45,11 +51,12 @@ var (
 )
 
 func init() {
-	e2 := iofs.WalkDir(FS(), ".", func(path string, e iofs.DirEntry, err error) error {
+	fsys := FS()
+	e2 := iofs.WalkDir(fsys, ".", func(path string, e iofs.DirEntry, err error) error {
 		if e.IsDir() || err != nil {
 			return err
 		}
-		data, err := fs.ReadFile(path)
+		data, err := iofs.ReadFile(fsys, path)
 		if err != nil {
 			return errors.Wrap(err, path)
 		}

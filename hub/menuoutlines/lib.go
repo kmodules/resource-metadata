@@ -19,6 +19,8 @@ package menuoutlines
 import (
 	"embed"
 	iofs "io/fs"
+	"os"
+	"path/filepath"
 	"reflect"
 	"sort"
 	"strings"
@@ -35,8 +37,12 @@ import (
 //go:embed **/*.yaml
 var fs embed.FS
 
-func FS() embed.FS {
-	return fs
+func FS() iofs.FS {
+	dir := filepath.Join(os.TempDir(), "hub", "menuoutlines")
+	if fi, err := os.Stat(dir); os.IsNotExist(err) || !fi.IsDir() {
+		return fs
+	}
+	return os.DirFS(dir)
 }
 
 var (
@@ -44,11 +50,12 @@ var (
 )
 
 func init() {
-	if err := iofs.WalkDir(fs, ".", func(path string, d iofs.DirEntry, err error) error {
+	fsys := FS()
+	if err := iofs.WalkDir(fsys, ".", func(path string, d iofs.DirEntry, err error) error {
 		if d.IsDir() || err != nil {
 			return err
 		}
-		data, err := fs.ReadFile(path)
+		data, err := iofs.ReadFile(fsys, path)
 		if err != nil {
 			return errors.Wrap(err, path)
 		}
