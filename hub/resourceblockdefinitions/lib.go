@@ -19,6 +19,8 @@ package resourceblockdefinitions
 import (
 	"embed"
 	iofs "io/fs"
+	"os"
+	"path/filepath"
 	"reflect"
 	"sort"
 
@@ -32,19 +34,24 @@ import (
 //go:embed **/**/*.yaml
 var fs embed.FS
 
-func FS() embed.FS {
-	return fs
+func FS() iofs.FS {
+	dir := filepath.Join(os.TempDir(), "hub", "resourceblockdefinitions")
+	if fi, err := os.Stat(dir); os.IsNotExist(err) || !fi.IsDir() {
+		return fs
+	}
+	return os.DirFS(dir)
 }
 
 var rbMap map[string]*v1alpha1.ResourceBlockDefinition
 
 func init() {
+	fsys := FS()
 	rbMap = map[string]*v1alpha1.ResourceBlockDefinition{}
-	if err := iofs.WalkDir(fs, ".", func(path string, d iofs.DirEntry, err error) error {
+	if err := iofs.WalkDir(fsys, ".", func(path string, d iofs.DirEntry, err error) error {
 		if d.IsDir() || err != nil {
 			return errors.Wrap(err, path)
 		}
-		data, err := fs.ReadFile(path)
+		data, err := iofs.ReadFile(fsys, path)
 		if err != nil {
 			return errors.Wrap(err, path)
 		}
