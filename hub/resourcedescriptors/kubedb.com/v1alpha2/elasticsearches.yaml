@@ -167,6 +167,10 @@ spec:
               type: boolean
             halted:
               type: boolean
+            heapSizePercentage:
+              default: 50
+              format: int32
+              type: integer
             init:
               properties:
                 initialized:
@@ -2803,6 +2807,9 @@ spec:
               properties:
                 coordinating:
                   properties:
+                    heapSizePercentage:
+                      format: int32
+                      type: integer
                     maxUnavailable:
                       anyOf:
                       - type: integer
@@ -2902,6 +2909,9 @@ spec:
                   type: object
                 data:
                   properties:
+                    heapSizePercentage:
+                      format: int32
+                      type: integer
                     maxUnavailable:
                       anyOf:
                       - type: integer
@@ -3001,6 +3011,9 @@ spec:
                   type: object
                 dataCold:
                   properties:
+                    heapSizePercentage:
+                      format: int32
+                      type: integer
                     maxUnavailable:
                       anyOf:
                       - type: integer
@@ -3100,6 +3113,9 @@ spec:
                   type: object
                 dataContent:
                   properties:
+                    heapSizePercentage:
+                      format: int32
+                      type: integer
                     maxUnavailable:
                       anyOf:
                       - type: integer
@@ -3199,6 +3215,9 @@ spec:
                   type: object
                 dataFrozen:
                   properties:
+                    heapSizePercentage:
+                      format: int32
+                      type: integer
                     maxUnavailable:
                       anyOf:
                       - type: integer
@@ -3298,6 +3317,9 @@ spec:
                   type: object
                 dataHot:
                   properties:
+                    heapSizePercentage:
+                      format: int32
+                      type: integer
                     maxUnavailable:
                       anyOf:
                       - type: integer
@@ -3397,6 +3419,9 @@ spec:
                   type: object
                 dataWarm:
                   properties:
+                    heapSizePercentage:
+                      format: int32
+                      type: integer
                     maxUnavailable:
                       anyOf:
                       - type: integer
@@ -3496,6 +3521,9 @@ spec:
                   type: object
                 ingest:
                   properties:
+                    heapSizePercentage:
+                      format: int32
+                      type: integer
                     maxUnavailable:
                       anyOf:
                       - type: integer
@@ -3595,6 +3623,9 @@ spec:
                   type: object
                 master:
                   properties:
+                    heapSizePercentage:
+                      format: int32
+                      type: integer
                     maxUnavailable:
                       anyOf:
                       - type: integer
@@ -3694,6 +3725,9 @@ spec:
                   type: object
                 ml:
                   properties:
+                    heapSizePercentage:
+                      format: int32
+                      type: integer
                     maxUnavailable:
                       anyOf:
                       - type: integer
@@ -3793,6 +3827,9 @@ spec:
                   type: object
                 transform:
                   properties:
+                    heapSizePercentage:
+                      format: int32
+                      type: integer
                     maxUnavailable:
                       anyOf:
                       - type: integer
