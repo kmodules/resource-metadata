@@ -372,6 +372,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TableOptions":                schema_resource_metadata_apis_meta_v1alpha1_TableOptions(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TableRow":                    schema_resource_metadata_apis_meta_v1alpha1_TableRow(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.UIParameters":                schema_resource_metadata_apis_meta_v1alpha1_UIParameters(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.VariantRef":                  schema_resource_metadata_apis_meta_v1alpha1_VariantRef(ref),
 	}
 }
 
@@ -16650,7 +16651,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceEditorSpec(ref common.R
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Default: map[string]interface{}{},
-										Ref:     ref("k8s.io/api/core/v1.TypedLocalObjectReference"),
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.VariantRef"),
 									},
 								},
 							},
@@ -16666,7 +16667,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceEditorSpec(ref common.R
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.TypedLocalObjectReference", "kmodules.xyz/client-go/api/v1.ResourceID", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DeploymentParameters", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.UIParameters"},
+			"kmodules.xyz/client-go/api/v1.ResourceID", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DeploymentParameters", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.UIParameters", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.VariantRef"},
 	}
 }
 
@@ -17744,5 +17745,57 @@ func schema_resource_metadata_apis_meta_v1alpha1_UIParameters(ref common.Referen
 		},
 		Dependencies: []string{
 			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ChartRepoRef"},
+	}
+}
+
+func schema_resource_metadata_apis_meta_v1alpha1_VariantRef(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"apiGroup": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is the type of resource being referenced",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Name is the name of resource being referenced",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"icons": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Icons is an optional list of icons for an application. Icon information includes the source, size, and mime type.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ImageSpec"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"kind", "name"},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ImageSpec"},
 	}
 }

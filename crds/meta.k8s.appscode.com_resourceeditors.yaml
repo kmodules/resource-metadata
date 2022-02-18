@@ -127,9 +127,6 @@ spec:
               variants:
                 description: Kind == VendorChartPreset | ClusterChartPreset
                 items:
-                  description: TypedLocalObjectReference contains enough information
-                    to let you locate the typed referenced object inside the same
-                    namespace.
                   properties:
                     apiGroup:
                       description: APIGroup is the group for the resource being referenced.
@@ -137,6 +134,30 @@ spec:
                         the core API group. For any other third-party types, APIGroup
                         is required.
                       type: string
+                    icons:
+                      description: Icons is an optional list of icons for an application.
+                        Icon information includes the source, size, and mime type.
+                      items:
+                        description: ImageSpec contains information about an image
+                          used as an icon.
+                        properties:
+                          size:
+                            description: (optional) The size of the image in pixels
+                              (e.g., 25x25).
+                            type: string
+                          src:
+                            description: The source for image represented as either
+                              an absolute URL to the image or a Data URL containing
+                              the image. Data URLs are defined in RFC 2397.
+                            type: string
+                          type:
+                            description: (optional) The mine type of the image (e.g.,
+                              "image/png").
+                            type: string
+                        required:
+                        - src
+                        type: object
+                      type: array
                     kind:
                       description: Kind is the type of resource being referenced
                       type: string

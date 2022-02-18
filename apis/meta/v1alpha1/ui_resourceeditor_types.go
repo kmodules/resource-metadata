@@ -51,8 +51,16 @@ type ResourceEditorSpec struct {
 	Resource kmapi.ResourceID `json:"resource"`
 	UI       *UIParameters    `json:"ui,omitempty"`
 	// Kind == VendorChartPreset | ClusterChartPreset
-	Variants  []core.TypedLocalObjectReference `json:"variants,omitempty"`
-	Installer *DeploymentParameters            `json:"installer,omitempty"`
+	Variants  []VariantRef          `json:"variants,omitempty"`
+	Installer *DeploymentParameters `json:"installer,omitempty"`
+}
+
+type VariantRef struct {
+	core.TypedLocalObjectReference `json:",inline"`
+
+	// Icons is an optional list of icons for an application. Icon information includes the source, size,
+	// and mime type.
+	Icons []ImageSpec `json:"icons,omitempty"`
 }
 
 type UIParameters struct {
