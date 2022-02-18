@@ -238,7 +238,7 @@ func (r *Registry) createRegistry(cfg *rest.Config) (map[schema.GroupResource]sc
 		preferred[gvr.GroupResource()] = gvr
 	}
 
-	err = fs.WalkDir(resourcedescriptors.FS(), ".", func(filename string, e fs.DirEntry, err error) error {
+	err = fs.WalkDir(resourcedescriptors.EmbeddedFS(), ".", func(filename string, e fs.DirEntry, err error) error {
 		if !e.IsDir() {
 			delete(reg, filename)
 		}

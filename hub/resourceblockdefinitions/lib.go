@@ -23,51 +23,65 @@ import (
 	"path/filepath"
 	"reflect"
 	"sort"
+	"sync"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
 	"github.com/pkg/errors"
+	ioutilx "gomodules.xyz/x/ioutil"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"sigs.k8s.io/yaml"
 )
 
-//go:embed **/**/*.yaml
-var fs embed.FS
+var (
+	//go:embed **/**/*.yaml trigger
+	fs embed.FS
 
-func FS() iofs.FS {
-	dir := filepath.Join(os.TempDir(), "hub", "resourceblockdefinitions")
-	if fi, err := os.Stat(dir); os.IsNotExist(err) || !fi.IsDir() {
-		return fs
-	}
-	return os.DirFS(dir)
-}
+	m     sync.Mutex
+	rbMap map[string]*v1alpha1.ResourceBlockDefinition
 
-var rbMap map[string]*v1alpha1.ResourceBlockDefinition
+	loader = ioutilx.NewReloader(
+		filepath.Join(os.TempDir(), "hub", "resourceblockdefinitions"),
+		fs,
+		func(fsys iofs.FS) {
+			rbMap = map[string]*v1alpha1.ResourceBlockDefinition{}
+
+			if err := iofs.WalkDir(fsys, ".", func(path string, d iofs.DirEntry, err error) error {
+				if d.IsDir() || d.Name() == ioutilx.TriggerFile || err != nil {
+					return errors.Wrap(err, path)
+				}
+
+				data, err := iofs.ReadFile(fsys, path)
+				if err != nil {
+					return errors.Wrap(err, path)
+				}
+				var obj v1alpha1.ResourceBlockDefinition
+				err = yaml.Unmarshal(data, &obj)
+				if err != nil {
+					return errors.Wrap(err, path)
+				}
+				rbMap[obj.Name] = &obj
+				return nil
+			}); err != nil {
+				panic(errors.Wrapf(err, "failed to load %s", reflect.TypeOf(v1alpha1.ResourceBlockDefinition{})))
+			}
+		},
+	)
+)
 
 func init() {
-	fsys := FS()
-	rbMap = map[string]*v1alpha1.ResourceBlockDefinition{}
-	if err := iofs.WalkDir(fsys, ".", func(path string, d iofs.DirEntry, err error) error {
-		if d.IsDir() || err != nil {
-			return errors.Wrap(err, path)
-		}
-		data, err := iofs.ReadFile(fsys, path)
-		if err != nil {
-			return errors.Wrap(err, path)
-		}
-		var obj v1alpha1.ResourceBlockDefinition
-		err = yaml.Unmarshal(data, &obj)
-		if err != nil {
-			return errors.Wrap(err, path)
-		}
-		rbMap[obj.Name] = &obj
-		return nil
-	}); err != nil {
-		panic(errors.Wrapf(err, "failed to load %s", reflect.TypeOf(v1alpha1.ResourceBlockDefinition{})))
-	}
+	loader.ReloadIfTriggered()
+}
+
+func EmbeddedFS() iofs.FS {
+	return fs
 }
 
 func LoadByName(name string) (*v1alpha1.ResourceBlockDefinition, error) {
+	m.Lock()
+	defer m.Unlock()
+	loader.ReloadIfTriggered()
+
 	if obj, ok := rbMap[name]; ok {
 		return obj, nil
 	}
@@ -75,6 +89,10 @@ func LoadByName(name string) (*v1alpha1.ResourceBlockDefinition, error) {
 }
 
 func List() []v1alpha1.ResourceBlockDefinition {
+	m.Lock()
+	defer m.Unlock()
+	loader.ReloadIfTriggered()
+
 	out := make([]v1alpha1.ResourceBlockDefinition, 0, len(rbMap))
 	for _, rl := range rbMap {
 		out = append(out, *rl)
@@ -86,6 +104,10 @@ func List() []v1alpha1.ResourceBlockDefinition {
 }
 
 func Names() []string {
+	m.Lock()
+	defer m.Unlock()
+	loader.ReloadIfTriggered()
+
 	out := make([]string, 0, len(rbMap))
 	for name := range rbMap {
 		out = append(out, name)

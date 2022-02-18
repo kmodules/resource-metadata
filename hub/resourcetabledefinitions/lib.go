@@ -24,67 +24,78 @@ import (
 	"path/filepath"
 	"reflect"
 	"sort"
+	"sync"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
 	"github.com/pkg/errors"
+	ioutilx "gomodules.xyz/x/ioutil"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/yaml"
 )
 
-//go:embed **/**/*.yaml **/**/**/*.yaml
-var fs embed.FS
-
-func FS() iofs.FS {
-	dir := filepath.Join(os.TempDir(), "hub", "resourcetabledefinitions")
-	if fi, err := os.Stat(dir); os.IsNotExist(err) || !fi.IsDir() {
-		return fs
-	}
-	return os.DirFS(dir)
-}
-
 var (
-	rtdMap   = map[string]*v1alpha1.ResourceTableDefinition{}
-	rtdPerGK = map[schema.GroupVersionKind]*v1alpha1.ResourceTableDefinition{}
-	rtdPerGR = map[schema.GroupVersionResource]*v1alpha1.ResourceTableDefinition{}
+	//go:embed **/**/*.yaml **/**/**/*.yaml trigger
+	fs embed.FS
+
+	m        sync.Mutex
+	rtdMap   map[string]*v1alpha1.ResourceTableDefinition
+	rtdPerGK map[schema.GroupVersionKind]*v1alpha1.ResourceTableDefinition
+	rtdPerGR map[schema.GroupVersionResource]*v1alpha1.ResourceTableDefinition
+
+	loader = ioutilx.NewReloader(
+		filepath.Join(os.TempDir(), "hub", "resourcetabledefinitions"),
+		fs,
+		func(fsys iofs.FS) {
+			rtdMap = map[string]*v1alpha1.ResourceTableDefinition{}
+			rtdPerGK = map[schema.GroupVersionKind]*v1alpha1.ResourceTableDefinition{}
+			rtdPerGR = map[schema.GroupVersionResource]*v1alpha1.ResourceTableDefinition{}
+
+			if err := iofs.WalkDir(fsys, ".", func(path string, d iofs.DirEntry, err error) error {
+				if d.IsDir() || d.Name() == ioutilx.TriggerFile || err != nil {
+					return errors.Wrap(err, path)
+				}
+
+				data, err := iofs.ReadFile(fsys, path)
+				if err != nil {
+					return errors.Wrap(err, path)
+				}
+				var obj v1alpha1.ResourceTableDefinition
+				err = yaml.Unmarshal(data, &obj)
+				if err != nil {
+					return errors.Wrap(err, path)
+				}
+				rtdMap[obj.Name] = &obj
+
+				if obj.Spec.Resource != nil && obj.Spec.DefaultView {
+					gvk := obj.Spec.Resource.GroupVersionKind()
+					if rv, ok := rtdPerGK[gvk]; !ok {
+						rtdPerGK[gvk] = &obj
+					} else {
+						return fmt.Errorf("multiple %s found for %+v: %s and %s", reflect.TypeOf(v1alpha1.ResourceTableDefinition{}), gvk, rv.Name, obj.Name)
+					}
+					gvr := obj.Spec.Resource.GroupVersionResource()
+					if rv, ok := rtdPerGR[gvr]; !ok {
+						rtdPerGR[gvr] = &obj
+					} else {
+						return fmt.Errorf("multiple %s found for %+v: %s and %s", reflect.TypeOf(v1alpha1.ResourceTableDefinition{}), gvk, rv.Name, obj.Name)
+					}
+				}
+				return nil
+			}); err != nil {
+				panic(errors.Wrapf(err, "failed to load %s", reflect.TypeOf(v1alpha1.ResourceTableDefinition{})))
+			}
+		},
+	)
 )
 
 func init() {
-	fsys := FS()
-	if err := iofs.WalkDir(fsys, ".", func(path string, d iofs.DirEntry, err error) error {
-		if d.IsDir() || err != nil {
-			return errors.Wrap(err, path)
-		}
-		data, err := iofs.ReadFile(fsys, path)
-		if err != nil {
-			return errors.Wrap(err, path)
-		}
-		var obj v1alpha1.ResourceTableDefinition
-		err = yaml.Unmarshal(data, &obj)
-		if err != nil {
-			return errors.Wrap(err, path)
-		}
-		rtdMap[obj.Name] = &obj
+	loader.ReloadIfTriggered()
+}
 
-		if obj.Spec.Resource != nil && obj.Spec.DefaultView {
-			gvk := obj.Spec.Resource.GroupVersionKind()
-			if rv, ok := rtdPerGK[gvk]; !ok {
-				rtdPerGK[gvk] = &obj
-			} else {
-				return fmt.Errorf("multiple %s found for %+v: %s and %s", reflect.TypeOf(v1alpha1.ResourceTableDefinition{}), gvk, rv.Name, obj.Name)
-			}
-			gvr := obj.Spec.Resource.GroupVersionResource()
-			if rv, ok := rtdPerGR[gvr]; !ok {
-				rtdPerGR[gvr] = &obj
-			} else {
-				return fmt.Errorf("multiple %s found for %+v: %s and %s", reflect.TypeOf(v1alpha1.ResourceTableDefinition{}), gvk, rv.Name, obj.Name)
-			}
-		}
-		return nil
-	}); err != nil {
-		panic(errors.Wrapf(err, "failed to load %s", reflect.TypeOf(v1alpha1.ResourceTableDefinition{})))
-	}
+func EmbeddedFS() iofs.FS {
+	return fs
 }
 
 func GetName(gvr schema.GroupVersionResource) string {
@@ -95,6 +106,14 @@ func GetName(gvr schema.GroupVersionResource) string {
 }
 
 func LoadByName(name string) (*v1alpha1.ResourceTableDefinition, error) {
+	m.Lock()
+	defer m.Unlock()
+	loader.ReloadIfTriggered()
+
+	return loadByName(name)
+}
+
+func loadByName(name string) (*v1alpha1.ResourceTableDefinition, error) {
 	if obj, ok := rtdMap[name]; ok {
 		return obj, nil
 	}
@@ -102,16 +121,28 @@ func LoadByName(name string) (*v1alpha1.ResourceTableDefinition, error) {
 }
 
 func LoadDefaultByGVK(gvk schema.GroupVersionKind) (*v1alpha1.ResourceTableDefinition, bool) {
+	m.Lock()
+	defer m.Unlock()
+	loader.ReloadIfTriggered()
+
 	rv, found := rtdPerGK[gvk]
 	return rv, found
 }
 
 func LoadDefaultByGVR(gvr schema.GroupVersionResource) (*v1alpha1.ResourceTableDefinition, bool) {
+	m.Lock()
+	defer m.Unlock()
+	loader.ReloadIfTriggered()
+
 	rv, found := rtdPerGR[gvr]
 	return rv, found
 }
 
 func List() []v1alpha1.ResourceTableDefinition {
+	m.Lock()
+	defer m.Unlock()
+	loader.ReloadIfTriggered()
+
 	out := make([]v1alpha1.ResourceTableDefinition, 0, len(rtdMap))
 	for _, rl := range rtdMap {
 		out = append(out, *rl)
@@ -123,6 +154,10 @@ func List() []v1alpha1.ResourceTableDefinition {
 }
 
 func Names() []string {
+	m.Lock()
+	defer m.Unlock()
+	loader.ReloadIfTriggered()
+
 	out := make([]string, 0, len(rtdMap))
 	for name := range rtdMap {
 		out = append(out, name)
@@ -132,6 +167,14 @@ func Names() []string {
 }
 
 func FlattenColumns(in []v1alpha1.ResourceColumnDefinition) ([]v1alpha1.ResourceColumnDefinition, error) {
+	m.Lock()
+	defer m.Unlock()
+	loader.ReloadIfTriggered()
+
+	return flattenColumns(in)
+}
+
+func flattenColumns(in []v1alpha1.ResourceColumnDefinition) ([]v1alpha1.ResourceColumnDefinition, error) {
 	var foundRef bool
 	for _, c := range in {
 		if c.Type == v1alpha1.ColumnTypeRef {
@@ -146,7 +189,7 @@ func FlattenColumns(in []v1alpha1.ResourceColumnDefinition) ([]v1alpha1.Resource
 	var out []v1alpha1.ResourceColumnDefinition
 	for _, c := range in {
 		if c.Type == v1alpha1.ColumnTypeRef {
-			def, err := LoadByName(c.Name)
+			def, err := loadByName(c.Name)
 			if err != nil {
 				return nil, err
 			}
