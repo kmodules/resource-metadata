@@ -41,7 +41,7 @@ func (r *Reloader) needsReload(fsys iofs.FS) bool {
 	if data, err := iofs.ReadFile(fsys, TriggerFile); err == nil {
 		yes := bytes.Compare(r.trigger, data) != 0
 		r.trigger = data
-		return yes
+		return yes || !r.loaded // ensure loads at least first time
 	}
 	return !r.loaded
 }
