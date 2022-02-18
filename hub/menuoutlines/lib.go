@@ -24,51 +24,60 @@ import (
 	"reflect"
 	"sort"
 	"strings"
+	"sync"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
 	"github.com/gobuffalo/flect"
 	"github.com/pkg/errors"
 	"golang.org/x/net/publicsuffix"
+	ioutilx "gomodules.xyz/x/ioutil"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"sigs.k8s.io/yaml"
 )
 
-//go:embed **/*.yaml
-var fs embed.FS
-
-func FS() iofs.FS {
-	dir := filepath.Join(os.TempDir(), "hub", "menuoutlines")
-	if fi, err := os.Stat(dir); os.IsNotExist(err) || !fi.IsDir() {
-		return fs
-	}
-	return os.DirFS(dir)
-}
-
 var (
-	moMap = map[string]*v1alpha1.MenuOutline{}
+	//go:embed **/*.yaml trigger
+	fs embed.FS
+
+	m     sync.Mutex
+	moMap map[string]*v1alpha1.MenuOutline
+
+	loader = ioutilx.NewReloader(
+		filepath.Join(os.TempDir(), "hub", "menuoutlines"),
+		fs,
+		func(fsys iofs.FS) {
+			moMap = map[string]*v1alpha1.MenuOutline{}
+
+			if err := iofs.WalkDir(fsys, ".", func(path string, d iofs.DirEntry, err error) error {
+				if d.IsDir() || d.Name() == ioutilx.TriggerFile || err != nil {
+					return errors.Wrap(err, path)
+				}
+
+				data, err := iofs.ReadFile(fsys, path)
+				if err != nil {
+					return errors.Wrap(err, path)
+				}
+				var obj v1alpha1.MenuOutline
+				err = yaml.Unmarshal(data, &obj)
+				if err != nil {
+					return errors.Wrap(err, path)
+				}
+				moMap[obj.Name] = &obj
+				return nil
+			}); err != nil {
+				panic(errors.Wrapf(err, "failed to load %s", reflect.TypeOf(v1alpha1.MenuOutline{})))
+			}
+		},
+	)
 )
 
 func init() {
-	fsys := FS()
-	if err := iofs.WalkDir(fsys, ".", func(path string, d iofs.DirEntry, err error) error {
-		if d.IsDir() || err != nil {
-			return err
-		}
-		data, err := iofs.ReadFile(fsys, path)
-		if err != nil {
-			return errors.Wrap(err, path)
-		}
-		var obj v1alpha1.MenuOutline
-		err = yaml.Unmarshal(data, &obj)
-		if err != nil {
-			return errors.Wrap(err, path)
-		}
-		moMap[obj.Name] = &obj
-		return nil
-	}); err != nil {
-		panic(errors.Wrapf(err, "failed to load %s", reflect.TypeOf(v1alpha1.MenuOutline{})))
-	}
+	loader.ReloadIfTriggered()
+}
+
+func EmbeddedFS() iofs.FS {
+	return fs
 }
 
 func MenuSectionName(apiGroup string) string {
@@ -98,6 +107,10 @@ func MenuSectionName(apiGroup string) string {
 }
 
 func LoadByName(name string) (*v1alpha1.MenuOutline, error) {
+	m.Lock()
+	defer m.Unlock()
+	loader.ReloadIfTriggered()
+
 	if obj, ok := moMap[name]; ok {
 		return obj, nil
 	}
@@ -105,6 +118,10 @@ func LoadByName(name string) (*v1alpha1.MenuOutline, error) {
 }
 
 func List() []v1alpha1.MenuOutline {
+	m.Lock()
+	defer m.Unlock()
+	loader.ReloadIfTriggered()
+
 	out := make([]v1alpha1.MenuOutline, 0, len(moMap))
 	for _, rl := range moMap {
 		out = append(out, *rl)
@@ -116,6 +133,10 @@ func List() []v1alpha1.MenuOutline {
 }
 
 func Names() []string {
+	m.Lock()
+	defer m.Unlock()
+	loader.ReloadIfTriggered()
+
 	out := make([]string, 0, len(moMap))
 	for name := range moMap {
 		out = append(out, name)

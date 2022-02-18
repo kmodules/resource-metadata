@@ -26,16 +26,16 @@ import (
 )
 
 func main() {
-	if err := sc.CheckFS(blockdefs.FS(), &v1alpha1.ResourceBlockDefinition{}); err != nil {
+	if err := sc.CheckFS(blockdefs.EmbeddedFS(), &v1alpha1.ResourceBlockDefinition{}); err != nil {
 		panic(err)
 	}
-	if err := sc.CheckFS(resourcedescriptors.FS(), &v1alpha1.ResourceDescriptor{}); err != nil {
+	if err := sc.CheckFS(resourcedescriptors.EmbeddedFS(), &v1alpha1.ResourceDescriptor{}); err != nil {
 		panic(err)
 	}
-	if err := sc.CheckFS(resourceoutlines.FS(), &v1alpha1.ResourceOutline{}); err != nil {
+	if err := sc.CheckFS(resourceoutlines.EmbeddedFS(), &v1alpha1.ResourceOutline{}); err != nil {
 		panic(err)
 	}
-	if err := sc.CheckFS(tabledefs.FS(), &v1alpha1.ResourceTableDefinition{}); err != nil {
+	if err := sc.CheckFS(tabledefs.EmbeddedFS(), &v1alpha1.ResourceTableDefinition{}); err != nil {
 		panic(err)
 	}
 }

@@ -24,72 +24,83 @@ import (
 	"path/filepath"
 	"reflect"
 	"sort"
+	"sync"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
 	"github.com/pkg/errors"
+	ioutilx "gomodules.xyz/x/ioutil"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/yaml"
 )
 
-//go:embed **/**/*.yaml **/**/**/*.yaml
-var fs embed.FS
-
-func FS() iofs.FS {
-	dir := filepath.Join(os.TempDir(), "hub", "resourceoutlines")
-	if fi, err := os.Stat(dir); os.IsNotExist(err) || !fi.IsDir() {
-		return fs
-	}
-	return os.DirFS(dir)
-}
-
 var (
-	rlMap   = map[string]*v1alpha1.ResourceOutline{}
-	rlPerGK = map[schema.GroupVersionKind]*v1alpha1.ResourceOutline{}
-	rlPerGR = map[schema.GroupVersionResource]*v1alpha1.ResourceOutline{}
+	//go:embed **/**/*.yaml **/**/**/*.yaml trigger
+	fs embed.FS
+
+	m       sync.Mutex
+	rlMap   map[string]*v1alpha1.ResourceOutline
+	rlPerGK map[schema.GroupVersionKind]*v1alpha1.ResourceOutline
+	rlPerGR map[schema.GroupVersionResource]*v1alpha1.ResourceOutline
+
+	loader = ioutilx.NewReloader(
+		filepath.Join(os.TempDir(), "hub", "resourceoutlines"),
+		fs,
+		func(fsys iofs.FS) {
+			rlMap = map[string]*v1alpha1.ResourceOutline{}
+			rlPerGK = map[schema.GroupVersionKind]*v1alpha1.ResourceOutline{}
+			rlPerGR = map[schema.GroupVersionResource]*v1alpha1.ResourceOutline{}
+
+			if err := iofs.WalkDir(fsys, ".", func(path string, d iofs.DirEntry, err error) error {
+				if d.IsDir() || d.Name() == ioutilx.TriggerFile || err != nil {
+					return errors.Wrap(err, path)
+				}
+
+				data, err := iofs.ReadFile(fsys, path)
+				if err != nil {
+					return errors.Wrap(err, path)
+				}
+				var obj v1alpha1.ResourceOutline
+				err = yaml.Unmarshal(data, &obj)
+				if err != nil {
+					return errors.Wrap(err, path)
+				}
+				rlMap[obj.Name] = &obj
+
+				if obj.Spec.DefaultLayout {
+					gvr := obj.Spec.Resource.GroupVersionResource()
+					expectedName := DefaultLayoutName(gvr)
+					if obj.Name != expectedName {
+						return fmt.Errorf("expected default %s name to be %s, found %s", reflect.TypeOf(v1alpha1.ResourceOutline{}), expectedName, obj.Name)
+					}
+
+					gvk := obj.Spec.Resource.GroupVersionKind()
+					if rv, ok := rlPerGK[gvk]; !ok {
+						rlPerGK[gvk] = &obj
+					} else {
+						return fmt.Errorf("multiple %s found for %+v: %s and %s", reflect.TypeOf(v1alpha1.ResourceOutline{}), gvk, rv.Name, obj.Name)
+					}
+					if rv, ok := rlPerGR[gvr]; !ok {
+						rlPerGR[gvr] = &obj
+					} else {
+						return fmt.Errorf("multiple %s found for %+v: %s and %s", reflect.TypeOf(v1alpha1.ResourceOutline{}), gvk, rv.Name, obj.Name)
+					}
+				}
+				return nil
+			}); err != nil {
+				panic(errors.Wrapf(err, "failed to load %s", reflect.TypeOf(v1alpha1.ResourceOutline{})))
+			}
+		},
+	)
 )
 
 func init() {
-	fsys := FS()
-	if err := iofs.WalkDir(fsys, ".", func(path string, d iofs.DirEntry, err error) error {
-		if d.IsDir() || err != nil {
-			return err
-		}
-		data, err := iofs.ReadFile(fsys, path)
-		if err != nil {
-			return errors.Wrap(err, path)
-		}
-		var obj v1alpha1.ResourceOutline
-		err = yaml.Unmarshal(data, &obj)
-		if err != nil {
-			return errors.Wrap(err, path)
-		}
-		rlMap[obj.Name] = &obj
+	loader.ReloadIfTriggered()
+}
 
-		if obj.Spec.DefaultLayout {
-			gvr := obj.Spec.Resource.GroupVersionResource()
-			expectedName := DefaultLayoutName(gvr)
-			if obj.Name != expectedName {
-				return fmt.Errorf("expected default %s name to be %s, found %s", reflect.TypeOf(v1alpha1.ResourceOutline{}), expectedName, obj.Name)
-			}
-
-			gvk := obj.Spec.Resource.GroupVersionKind()
-			if rv, ok := rlPerGK[gvk]; !ok {
-				rlPerGK[gvk] = &obj
-			} else {
-				return fmt.Errorf("multiple %s found for %+v: %s and %s", reflect.TypeOf(v1alpha1.ResourceOutline{}), gvk, rv.Name, obj.Name)
-			}
-			if rv, ok := rlPerGR[gvr]; !ok {
-				rlPerGR[gvr] = &obj
-			} else {
-				return fmt.Errorf("multiple %s found for %+v: %s and %s", reflect.TypeOf(v1alpha1.ResourceOutline{}), gvk, rv.Name, obj.Name)
-			}
-		}
-		return nil
-	}); err != nil {
-		panic(errors.Wrapf(err, "failed to load %s", reflect.TypeOf(v1alpha1.ResourceOutline{})))
-	}
+func EmbeddedFS() iofs.FS {
+	return fs
 }
 
 func DefaultLayoutName(gvr schema.GroupVersionResource) string {
@@ -100,6 +111,10 @@ func DefaultLayoutName(gvr schema.GroupVersionResource) string {
 }
 
 func LoadByName(name string) (*v1alpha1.ResourceOutline, error) {
+	m.Lock()
+	defer m.Unlock()
+	loader.ReloadIfTriggered()
+
 	if obj, ok := rlMap[name]; ok {
 		return obj, nil
 	}
@@ -107,16 +122,28 @@ func LoadByName(name string) (*v1alpha1.ResourceOutline, error) {
 }
 
 func LoadDefaultByGVK(gvk schema.GroupVersionKind) (*v1alpha1.ResourceOutline, bool) {
+	m.Lock()
+	defer m.Unlock()
+	loader.ReloadIfTriggered()
+
 	rv, found := rlPerGK[gvk]
 	return rv, found
 }
 
 func LoadDefaultByGVR(gvr schema.GroupVersionResource) (*v1alpha1.ResourceOutline, bool) {
+	m.Lock()
+	defer m.Unlock()
+	loader.ReloadIfTriggered()
+
 	rv, found := rlPerGR[gvr]
 	return rv, found
 }
 
 func List() []v1alpha1.ResourceOutline {
+	m.Lock()
+	defer m.Unlock()
+	loader.ReloadIfTriggered()
+
 	out := make([]v1alpha1.ResourceOutline, 0, len(rlMap))
 	for _, rl := range rlMap {
 		out = append(out, *rl)
@@ -128,6 +155,10 @@ func List() []v1alpha1.ResourceOutline {
 }
 
 func Names() []string {
+	m.Lock()
+	defer m.Unlock()
+	loader.ReloadIfTriggered()
+
 	out := make([]string, 0, len(rlMap))
 	for name := range rlMap {
 		out = append(out, name)
