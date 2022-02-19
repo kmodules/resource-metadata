@@ -19,11 +19,6 @@ spec:
       apiVersion: v1
       kind: Pod
     type: MatchSelector
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/core/replicationcontrollers.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/core/replicationcontrollers.png
-    type: image/png
   resource:
     group: ""
     kind: ReplicationController

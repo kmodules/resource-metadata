@@ -28,11 +28,6 @@ spec:
       apiVersion: rbac.authorization.k8s.io/v1
       kind: Role
     type: MatchRef
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/rbac.authorization.k8s.io/rolebindings.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/rbac.authorization.k8s.io/rolebindings.png
-    type: image/png
   resource:
     group: rbac.authorization.k8s.io
     kind: RoleBinding

@@ -33,11 +33,6 @@ spec:
       apiVersion: v1
       kind: Pod
     type: MatchSelector
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/batch/jobs.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/batch/jobs.png
-    type: image/png
   resource:
     group: batch
     kind: Job

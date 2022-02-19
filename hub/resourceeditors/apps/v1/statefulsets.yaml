@@ -9,6 +9,11 @@ metadata:
     k8s.io/version: v1
   name: apps-v1-statefulsets
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/apps/statefulsets.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/apps/statefulsets.png
+    type: image/png
   resource:
     group: apps
     kind: StatefulSet

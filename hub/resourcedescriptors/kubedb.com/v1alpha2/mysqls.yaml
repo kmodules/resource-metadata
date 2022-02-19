@@ -112,11 +112,6 @@ spec:
       apiVersion: ui.kubedb.com/v1alpha1
       kind: MySQLSchemaOverview
     type: MatchName
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/kubedb.com/mysqls.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/kubedb.com/mysqls.png
-    type: image/png
   resource:
     group: kubedb.com
     kind: MySQL

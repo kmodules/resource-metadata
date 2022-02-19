@@ -9,11 +9,6 @@ metadata:
     k8s.io/version: v1alpha1
   name: stash.appscode.com-v1alpha1-restics
 spec:
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/restics.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/restics.png
-    type: image/png
   resource:
     group: stash.appscode.com
     kind: Restic

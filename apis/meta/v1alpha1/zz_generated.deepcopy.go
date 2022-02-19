@@ -1218,11 +1218,6 @@ func (in *ResourceDescriptorSpec) DeepCopyInto(out *ResourceDescriptorSpec) {
 		*out = new(apiextensionsv1.CustomResourceValidation)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.Icons != nil {
-		in, out := &in.Icons, &out.Icons
-		*out = make([]ImageSpec, len(*in))
-		copy(*out, *in)
-	}
 	if in.Maintainers != nil {
 		in, out := &in.Maintainers, &out.Maintainers
 		*out = make([]ContactData, len(*in))
@@ -1314,6 +1309,11 @@ func (in *ResourceEditorSpec) DeepCopyInto(out *ResourceEditorSpec) {
 		in, out := &in.UI, &out.UI
 		*out = new(UIParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.Icons != nil {
+		in, out := &in.Icons, &out.Icons
+		*out = make([]ImageSpec, len(*in))
+		copy(*out, *in)
 	}
 	if in.Variants != nil {
 		in, out := &in.Variants, &out.Variants

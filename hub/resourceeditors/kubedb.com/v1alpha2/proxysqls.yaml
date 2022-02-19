@@ -9,6 +9,11 @@ metadata:
     k8s.io/version: v1alpha2
   name: kubedb.com-v1alpha2-proxysqls
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/kubedb.com/proxysqls.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/kubedb.com/proxysqls.png
+    type: image/png
   resource:
     group: kubedb.com
     kind: ProxySQL

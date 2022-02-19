@@ -80,11 +80,6 @@ spec:
       apiVersion: core.k8s.appscode.com/v1alpha1
       kind: GenericResource
     type: MatchName
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/kubedb.com/memcacheds.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/kubedb.com/memcacheds.png
-    type: image/png
   resource:
     group: kubedb.com
     kind: Memcached

@@ -9,11 +9,6 @@ metadata:
     k8s.io/version: v1
   name: certificates.k8s.io-v1-certificatesigningrequests
 spec:
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/certificates.k8s.io/certificatesigningrequests.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/certificates.k8s.io/certificatesigningrequests.png
-    type: image/png
   resource:
     group: certificates.k8s.io
     kind: CertificateSigningRequest

@@ -9,6 +9,11 @@ metadata:
     k8s.io/version: v1
   name: core-v1-limitranges
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/core/limitranges.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/core/limitranges.png
+    type: image/png
   resource:
     group: ""
     kind: LimitRange

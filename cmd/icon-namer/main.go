@@ -34,7 +34,7 @@ const iconURLPrefix = "https://cdn.appscode.com/k8s/icons/"
 
 var (
 	repoRoot     = os.ExpandEnv("$HOME/go/src/kmodules.xyz/resource-metadata")
-	dirResources = path.Join(repoRoot, "hub/resourcedescriptors")
+	dirResources = path.Join(repoRoot, "hub/resourceeditors")
 	dirMenus     = path.Join(repoRoot, "hub/menuoutlines")
 	dirIcons     = path.Join(repoRoot, "icons")
 )
@@ -60,7 +60,7 @@ func main() {
 		if err != nil {
 			return err
 		}
-		var rd v1alpha1.ResourceDescriptor
+		var rd v1alpha1.ResourceEditor
 		err = yaml.Unmarshal(data, &rd)
 		if err != nil {
 			return err

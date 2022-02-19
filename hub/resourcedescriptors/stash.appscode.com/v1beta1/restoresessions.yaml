@@ -82,11 +82,6 @@ spec:
       apiVersion: v1
       kind: PersistentVolumeClaim
     type: MatchRef
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/restoresessions.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/restoresessions.png
-    type: image/png
   resource:
     group: stash.appscode.com
     kind: RestoreSession

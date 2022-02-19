@@ -18,11 +18,6 @@ spec:
       apiVersion: v1
       kind: Pod
     type: MatchSelector
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/core/services.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/core/services.png
-    type: image/png
   resource:
     group: ""
     kind: Service

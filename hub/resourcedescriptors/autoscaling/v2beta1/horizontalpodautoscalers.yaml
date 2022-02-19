@@ -50,11 +50,6 @@ spec:
       apiVersion: apps/v1
       kind: StatefulSet
     type: MatchRef
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/autoscaling/horizontalpodautoscalers.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/autoscaling/horizontalpodautoscalers.png
-    type: image/png
   resource:
     group: autoscaling
     kind: HorizontalPodAutoscaler

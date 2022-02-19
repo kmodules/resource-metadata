@@ -9,11 +9,6 @@ metadata:
     k8s.io/version: v1
   name: core-v1-nodes
 spec:
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/core/nodes.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/core/nodes.png
-    type: image/png
   resource:
     group: ""
     kind: Node

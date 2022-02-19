@@ -120,11 +120,6 @@ spec:
       apiVersion: ui.kubedb.com/v1alpha1
       kind: PostgresSettings
     type: MatchName
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/kubedb.com/postgreses.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/kubedb.com/postgreses.png
-    type: image/png
   resource:
     group: kubedb.com
     kind: Postgres

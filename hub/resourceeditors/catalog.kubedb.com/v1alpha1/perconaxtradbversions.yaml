@@ -9,6 +9,11 @@ metadata:
     k8s.io/version: v1alpha1
   name: catalog.kubedb.com-v1alpha1-perconaxtradbversions
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/catalog.kubedb.com/perconaxtradbversions.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/catalog.kubedb.com/perconaxtradbversions.png
+    type: image/png
   resource:
     group: catalog.kubedb.com
     kind: PerconaXtraDBVersion

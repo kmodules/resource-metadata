@@ -9,6 +9,11 @@ metadata:
     k8s.io/version: v1beta1
   name: extensions-v1beta1-ingresses
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/extensions/ingresses.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/extensions/ingresses.png
+    type: image/png
   resource:
     group: extensions
     kind: Ingress

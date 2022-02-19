@@ -9,11 +9,6 @@ metadata:
     k8s.io/version: v1
   name: voyager.appscode.com-v1-ingresses
 spec:
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/voyager.appscode.com/ingresses.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/voyager.appscode.com/ingresses.png
-    type: image/png
   resource:
     group: voyager.appscode.com
     kind: Ingress
