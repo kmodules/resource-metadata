@@ -20,7 +20,6 @@ import (
 	"embed"
 	"fmt"
 	iofs "io/fs"
-	"os"
 	"path/filepath"
 	"reflect"
 	"sort"
@@ -41,19 +40,23 @@ var (
 	fs embed.FS
 
 	m                sync.Mutex
-	KnownDescriptors map[string]*v1alpha1.ResourceDescriptor
-	LatestGVRs       map[schema.GroupKind]schema.GroupVersionResource
+	knownDescriptors map[string]*v1alpha1.ResourceDescriptor
+	latestGVRs       map[schema.GroupKind]schema.GroupVersionResource
 
 	loader = ioutilx.NewReloader(
-		filepath.Join(os.TempDir(), "hub", "resourcedescriptors"),
+		filepath.Join("/tmp", "hub", "resourcedescriptors"),
 		fs,
 		func(fsys iofs.FS) {
-			KnownDescriptors = map[string]*v1alpha1.ResourceDescriptor{}
-			LatestGVRs = map[schema.GroupKind]schema.GroupVersionResource{}
+			knownDescriptors = map[string]*v1alpha1.ResourceDescriptor{}
+			latestGVRs = map[schema.GroupKind]schema.GroupVersionResource{}
 
 			e2 := iofs.WalkDir(fsys, ".", func(path string, d iofs.DirEntry, err error) error {
-				if d.IsDir() || d.Name() == ioutilx.TriggerFile || err != nil {
+				if d.IsDir() || err != nil {
 					return errors.Wrap(err, path)
+				}
+				ext := filepath.Ext(d.Name())
+				if ext != ".yaml" && ext != ".yml" && ext != ".json" {
+					return nil
 				}
 
 				data, err := iofs.ReadFile(fsys, path)
@@ -65,14 +68,14 @@ var (
 				if err != nil {
 					return errors.Wrap(err, path)
 				}
-				KnownDescriptors[rd.Name] = &rd
+				knownDescriptors[rd.Name] = &rd
 
 				gvr := rd.Spec.Resource.GroupVersionResource()
 				gk := rd.Spec.Resource.GroupKind()
-				if existing, ok := LatestGVRs[gk]; !ok {
-					LatestGVRs[gk] = gvr
+				if existing, ok := latestGVRs[gk]; !ok {
+					latestGVRs[gk] = gvr
 				} else if diff, _ := apiversion.Compare(existing.Version, gvr.Version); diff < 0 {
-					LatestGVRs[gk] = gvr
+					latestGVRs[gk] = gvr
 				}
 				return err
 			})
@@ -91,6 +94,22 @@ func EmbeddedFS() iofs.FS {
 	return fs
 }
 
+func KnownDescriptors() map[string]*v1alpha1.ResourceDescriptor {
+	m.Lock()
+	defer m.Unlock()
+	loader.ReloadIfTriggered()
+
+	return knownDescriptors
+}
+
+func LatestGVRs() map[schema.GroupKind]schema.GroupVersionResource {
+	m.Lock()
+	defer m.Unlock()
+	loader.ReloadIfTriggered()
+
+	return latestGVRs
+}
+
 func LoadByGVR(gvr schema.GroupVersionResource) (*v1alpha1.ResourceDescriptor, error) {
 	return LoadByName(GetName(gvr))
 }
@@ -107,7 +126,7 @@ func LoadByName(name string) (*v1alpha1.ResourceDescriptor, error) {
 	defer m.Unlock()
 	loader.ReloadIfTriggered()
 
-	if obj, ok := KnownDescriptors[name]; ok {
+	if obj, ok := knownDescriptors[name]; ok {
 		return obj, nil
 	}
 	return nil, apierrors.NewNotFound(v1alpha1.Resource(v1alpha1.ResourceKindResourceDescriptor), name)
@@ -118,8 +137,8 @@ func List() []v1alpha1.ResourceDescriptor {
 	defer m.Unlock()
 	loader.ReloadIfTriggered()
 
-	out := make([]v1alpha1.ResourceDescriptor, 0, len(KnownDescriptors))
-	for _, rl := range KnownDescriptors {
+	out := make([]v1alpha1.ResourceDescriptor, 0, len(knownDescriptors))
+	for _, rl := range knownDescriptors {
 		out = append(out, *rl)
 	}
 	sort.Slice(out, func(i, j int) bool {
@@ -133,8 +152,8 @@ func Names() []string {
 	defer m.Unlock()
 	loader.ReloadIfTriggered()
 
-	out := make([]string, 0, len(KnownDescriptors))
-	for name := range KnownDescriptors {
+	out := make([]string, 0, len(knownDescriptors))
+	for name := range knownDescriptors {
 		out = append(out, name)
 	}
 	sort.Strings(out)

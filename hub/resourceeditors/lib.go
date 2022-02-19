@@ -21,7 +21,6 @@ import (
 	"embed"
 	"fmt"
 	iofs "io/fs"
-	"os"
 	"path/filepath"
 	"reflect"
 	"sort"
@@ -47,14 +46,18 @@ var (
 	reMap map[string]*v1alpha1.ResourceEditor
 
 	loader = ioutilx.NewReloader(
-		filepath.Join(os.TempDir(), "hub", "resourceeditors"),
+		filepath.Join("/tmp", "hub", "resourceeditors"),
 		fs,
 		func(fsys iofs.FS) {
 			reMap = map[string]*v1alpha1.ResourceEditor{}
 
 			if err := iofs.WalkDir(fsys, ".", func(path string, d iofs.DirEntry, err error) error {
-				if d.IsDir() || d.Name() == ioutilx.TriggerFile || err != nil {
+				if d.IsDir() || err != nil {
 					return errors.Wrap(err, path)
+				}
+				ext := filepath.Ext(d.Name())
+				if ext != ".yaml" && ext != ".yml" && ext != ".json" {
+					return nil
 				}
 
 				data, err := iofs.ReadFile(fsys, path)

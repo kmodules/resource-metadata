@@ -20,7 +20,6 @@ import (
 	"embed"
 	"fmt"
 	iofs "io/fs"
-	"os"
 	"path/filepath"
 	"reflect"
 	"sort"
@@ -45,7 +44,7 @@ var (
 	rtdPerGR map[schema.GroupVersionResource]*v1alpha1.ResourceTableDefinition
 
 	loader = ioutilx.NewReloader(
-		filepath.Join(os.TempDir(), "hub", "resourcetabledefinitions"),
+		filepath.Join("/tmp", "hub", "resourcetabledefinitions"),
 		fs,
 		func(fsys iofs.FS) {
 			rtdMap = map[string]*v1alpha1.ResourceTableDefinition{}
@@ -53,8 +52,12 @@ var (
 			rtdPerGR = map[schema.GroupVersionResource]*v1alpha1.ResourceTableDefinition{}
 
 			if err := iofs.WalkDir(fsys, ".", func(path string, d iofs.DirEntry, err error) error {
-				if d.IsDir() || d.Name() == ioutilx.TriggerFile || err != nil {
+				if d.IsDir() || err != nil {
 					return errors.Wrap(err, path)
+				}
+				ext := filepath.Ext(d.Name())
+				if ext != ".yaml" && ext != ".yml" && ext != ".json" {
+					return nil
 				}
 
 				data, err := iofs.ReadFile(fsys, path)
