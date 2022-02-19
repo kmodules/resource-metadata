@@ -19,7 +19,6 @@ package resourceblockdefinitions
 import (
 	"embed"
 	iofs "io/fs"
-	"os"
 	"path/filepath"
 	"reflect"
 	"sort"
@@ -41,14 +40,18 @@ var (
 	rbMap map[string]*v1alpha1.ResourceBlockDefinition
 
 	loader = ioutilx.NewReloader(
-		filepath.Join(os.TempDir(), "hub", "resourceblockdefinitions"),
+		filepath.Join("/tmp", "hub", "resourceblockdefinitions"),
 		fs,
 		func(fsys iofs.FS) {
 			rbMap = map[string]*v1alpha1.ResourceBlockDefinition{}
 
 			if err := iofs.WalkDir(fsys, ".", func(path string, d iofs.DirEntry, err error) error {
-				if d.IsDir() || d.Name() == ioutilx.TriggerFile || err != nil {
+				if d.IsDir() || err != nil {
 					return errors.Wrap(err, path)
+				}
+				ext := filepath.Ext(d.Name())
+				if ext != ".yaml" && ext != ".yml" && ext != ".json" {
+					return nil
 				}
 
 				data, err := iofs.ReadFile(fsys, path)

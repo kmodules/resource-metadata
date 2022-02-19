@@ -92,7 +92,7 @@ func NewRegistry(uid string, cache KV) *Registry {
 
 func NewRegistryOfKnownResources() *Registry {
 	return NewRegistry(KnownUID, &KVMap{
-		cache: resourcedescriptors.KnownDescriptors,
+		cache: resourcedescriptors.KnownDescriptors(),
 	})
 }
 
@@ -271,6 +271,8 @@ func (r *Registry) FindGVR(in *metav1.GroupKind, keepOfficialTypes bool) (schema
 	r.m.RLock()
 	defer r.m.RUnlock()
 
+	latestGVRs := resourcedescriptors.LatestGVRs()
+
 	for gvk, rid := range r.regGVK {
 		if gvk.Group == in.Group && gvk.Kind == in.Kind {
 			if gvr, ok := r.preferred[rid.GroupResource()]; ok {
@@ -281,7 +283,7 @@ func (r *Registry) FindGVR(in *metav1.GroupKind, keepOfficialTypes bool) (schema
 
 	gk := schema.GroupKind{Group: in.Group, Kind: in.Kind}
 	if keepOfficialTypes || !v1alpha1.IsOfficialType(in.Group) {
-		gvr, ok := resourcedescriptors.LatestGVRs[gk]
+		gvr, ok := latestGVRs[gk]
 		return gvr, ok
 	}
 	return schema.GroupVersionResource{}, false
