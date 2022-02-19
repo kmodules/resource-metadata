@@ -9,11 +9,6 @@ metadata:
     k8s.io/version: v1alpha1
   name: engine.kubevault.com-v1alpha1-postgresroles
 spec:
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/engine.kubevault.com/postgresroles.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/engine.kubevault.com/postgresroles.png
-    type: image/png
   resource:
     group: engine.kubevault.com
     kind: PostgresRole

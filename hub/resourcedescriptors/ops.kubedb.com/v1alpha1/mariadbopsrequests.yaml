@@ -18,11 +18,6 @@ spec:
       apiVersion: kubedb.com/v1alpha2
       kind: MariaDB
     type: MatchRef
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/ops.kubedb.com/mariadbopsrequests.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/ops.kubedb.com/mariadbopsrequests.png
-    type: image/png
   resource:
     group: ops.kubedb.com
     kind: MariaDBOpsRequest

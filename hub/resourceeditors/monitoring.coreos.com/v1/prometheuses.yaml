@@ -9,6 +9,11 @@ metadata:
     k8s.io/version: v1
   name: monitoring.coreos.com-v1-prometheuses
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/monitoring.coreos.com/prometheuses.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/monitoring.coreos.com/prometheuses.png
+    type: image/png
   resource:
     group: monitoring.coreos.com
     kind: Prometheus

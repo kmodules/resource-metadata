@@ -72,11 +72,6 @@ spec:
       apiVersion: cert-manager.io/v1
       kind: ClusterIssuer
     type: MatchRef
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/kubedb.com/proxysqls.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/kubedb.com/proxysqls.png
-    type: image/png
   resource:
     group: kubedb.com
     kind: ProxySQL

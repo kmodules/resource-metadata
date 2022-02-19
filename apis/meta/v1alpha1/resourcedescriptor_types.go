@@ -57,10 +57,6 @@ type ResourceDescriptorSpec struct {
 	// +optional
 	Validation *crdv1.CustomResourceValidation `json:"validation,omitempty"`
 
-	// Icons is an optional list of icons for an application. Icon information includes the source, size,
-	// and mime type.
-	Icons []ImageSpec `json:"icons,omitempty"`
-
 	// Maintainers is an optional list of maintainers of the application. The maintainers in this list maintain the
 	// the source code, images, and package for the application.
 	Maintainers []ContactData `json:"maintainers,omitempty"`

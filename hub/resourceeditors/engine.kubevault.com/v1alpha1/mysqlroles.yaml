@@ -9,6 +9,11 @@ metadata:
     k8s.io/version: v1alpha1
   name: engine.kubevault.com-v1alpha1-mysqlroles
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/engine.kubevault.com/mysqlroles.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/engine.kubevault.com/mysqlroles.png
+    type: image/png
   resource:
     group: engine.kubevault.com
     kind: MySQLRole

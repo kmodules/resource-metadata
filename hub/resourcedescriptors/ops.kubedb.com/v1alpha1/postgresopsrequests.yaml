@@ -18,11 +18,6 @@ spec:
       apiVersion: kubedb.com/v1alpha2
       kind: Postgres
     type: MatchRef
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/ops.kubedb.com/postgresopsrequests.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/ops.kubedb.com/postgresopsrequests.png
-    type: image/png
   resource:
     group: ops.kubedb.com
     kind: PostgresOpsRequest

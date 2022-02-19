@@ -9,11 +9,6 @@ metadata:
     k8s.io/version: v1beta1
   name: stash.appscode.com-v1beta1-backupblueprints
 spec:
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/backupblueprints.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/backupblueprints.png
-    type: image/png
   resource:
     group: stash.appscode.com
     kind: BackupBlueprint

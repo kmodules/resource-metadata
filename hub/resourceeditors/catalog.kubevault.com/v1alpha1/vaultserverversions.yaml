@@ -9,6 +9,11 @@ metadata:
     k8s.io/version: v1alpha1
   name: catalog.kubevault.com-v1alpha1-vaultserverversions
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/catalog.kubevault.com/vaultserverversions.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/catalog.kubevault.com/vaultserverversions.png
+    type: image/png
   resource:
     group: catalog.kubevault.com
     kind: VaultServerVersion

@@ -18,11 +18,6 @@ spec:
       apiVersion: v1
       kind: Pod
     type: MatchSelector
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/monitoring.coreos.com/podmonitors.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/monitoring.coreos.com/podmonitors.png
-    type: image/png
   resource:
     group: monitoring.coreos.com
     kind: PodMonitor

@@ -9,11 +9,6 @@ metadata:
     k8s.io/version: v1beta1
   name: stash.appscode.com-v1beta1-restorebatches
 spec:
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/restorebatches.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/restorebatches.png
-    type: image/png
   resource:
     group: stash.appscode.com
     kind: RestoreBatch

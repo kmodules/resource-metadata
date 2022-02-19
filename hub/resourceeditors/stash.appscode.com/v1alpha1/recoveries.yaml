@@ -9,6 +9,11 @@ metadata:
     k8s.io/version: v1alpha1
   name: stash.appscode.com-v1alpha1-recoveries
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/recoveries.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/recoveries.png
+    type: image/png
   resource:
     group: stash.appscode.com
     kind: Recovery

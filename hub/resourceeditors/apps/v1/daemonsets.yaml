@@ -9,6 +9,11 @@ metadata:
     k8s.io/version: v1
   name: apps-v1-daemonsets
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/apps/daemonsets.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/apps/daemonsets.png
+    type: image/png
   resource:
     group: apps
     kind: DaemonSet

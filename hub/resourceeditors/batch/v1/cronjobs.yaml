@@ -9,6 +9,11 @@ metadata:
     k8s.io/version: v1
   name: batch-v1-cronjobs
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/batch/cronjobs.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/batch/cronjobs.png
+    type: image/png
   resource:
     group: batch
     kind: CronJob

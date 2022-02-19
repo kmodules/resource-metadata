@@ -18,11 +18,6 @@ spec:
       apiVersion: kubedb.com/v1alpha2
       kind: MySQL
     type: MatchRef
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/ops.kubedb.com/mysqlopsrequests.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/ops.kubedb.com/mysqlopsrequests.png
-    type: image/png
   resource:
     group: ops.kubedb.com
     kind: MySQLOpsRequest

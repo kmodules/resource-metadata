@@ -9,11 +9,6 @@ metadata:
     k8s.io/version: v1beta1
   name: events.k8s.io-v1beta1-events
 spec:
-  icons:
-  - src: https://cdn.appscode.com/k8s/icons/events.k8s.io/events.svg
-    type: image/svg+xml
-  - src: https://cdn.appscode.com/k8s/icons/events.k8s.io/events.png
-    type: image/png
   resource:
     group: events.k8s.io
     kind: Event
