@@ -758,7 +758,7 @@ func (in *RenderAPI) DeepCopyInto(out *RenderAPI) {
 	if in.Request != nil {
 		in, out := &in.Request, &out.Request
 		*out = new(RenderAPIRequest)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Response != nil {
 		out.Response = in.Response.DeepCopyObject()
@@ -788,7 +788,16 @@ func (in *RenderAPI) DeepCopyObject() runtime.Object {
 func (in *RenderAPIRequest) DeepCopyInto(out *RenderAPIRequest) {
 	*out = *in
 	out.Resource = in.Resource
-	out.Ref = in.Ref
+	if in.Ref != nil {
+		in, out := &in.Ref, &out.Ref
+		*out = new(apiv1.ObjectReference)
+		**out = **in
+	}
+	if in.Selector != nil {
+		in, out := &in.Selector, &out.Selector
+		*out = new(v1.LabelSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	return
 }
 

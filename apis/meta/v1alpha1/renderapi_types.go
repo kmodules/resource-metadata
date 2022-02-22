@@ -43,5 +43,6 @@ type RenderAPI struct {
 
 type RenderAPIRequest struct {
 	Resource metav1.GroupVersionKind `json:"resource"`
-	Ref      kmapi.ObjectReference   `json:"ref"`
+	Ref      *kmapi.ObjectReference  `json:"ref,omitempty"`
+	Selector *metav1.LabelSelector   `json:"selector,omitempty"`
 }

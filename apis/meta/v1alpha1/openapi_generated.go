@@ -15703,16 +15703,20 @@ func schema_resource_metadata_apis_meta_v1alpha1_RenderAPIRequest(ref common.Ref
 					},
 					"ref": {
 						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("kmodules.xyz/client-go/api/v1.ObjectReference"),
+							Ref: ref("kmodules.xyz/client-go/api/v1.ObjectReference"),
+						},
+					},
+					"selector": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("k8s.io/apimachinery/pkg/apis/meta/v1.LabelSelector"),
 						},
 					},
 				},
-				Required: []string{"resource", "ref"},
+				Required: []string{"resource"},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionKind", "kmodules.xyz/client-go/api/v1.ObjectReference"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionKind", "k8s.io/apimachinery/pkg/apis/meta/v1.LabelSelector", "kmodules.xyz/client-go/api/v1.ObjectReference"},
 	}
 }
 
