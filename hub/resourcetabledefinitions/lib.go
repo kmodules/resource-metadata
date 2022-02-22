@@ -196,7 +196,7 @@ func flattenColumns(in []v1alpha1.ResourceColumnDefinition) ([]v1alpha1.Resource
 			if err != nil {
 				return nil, err
 			}
-			cols, err := FlattenColumns(def.Spec.Columns)
+			cols, err := flattenColumns(def.Spec.Columns)
 			if err != nil {
 				return nil, err
 			}
