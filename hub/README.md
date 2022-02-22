@@ -18,3 +18,12 @@ kubectl exec -it $UI_SERVER_POD -n $UI_SERVER_NAMESPACE -- sh -c "date > /tmp/hu
 # verify
 kubectl exec -it $UI_SERVER_POD -n $UI_SERVER_NAMESPACE -- cat /tmp/hub/resourceeditors/trigger
 ```
+
+## How to modify GET & LIST proxy calls
+
+```bash
+$ cd ~/go/src/kmodules.xyz/resource-metadata
+$ ln -s $(pwd)/hub /tmp/hub
+
+# Now modify the trigger file and refresh ui
+```
