@@ -10,62 +10,30 @@ metadata:
   name: core.k8s.appscode.com-v1alpha1-resourcesummaries
 spec:
   columns:
-  - name: ClusterUID
-    pathTemplate: '{{ .spec.cluster.uid }}'
-    priority: 4
-    type: string
-  - name: ClusterName
-    pathTemplate: '{{ .spec.cluster.name }}'
-    priority: 4
-    type: string
-  - name: Cluster Name
-    pathTemplate: '{{ .spec.cluster.displayName }}'
-    priority: 3
-    type: string
-  - name: Cluster Provider
-    pathTemplate: '{{ .spec.cluster.provider }}'
-    priority: 3
-    type: string
-  - name: APIGroup
-    pathTemplate: '{{ .spec.apiType.group }}'
-    priority: 4
-    type: string
-  - name: APIVersion
-    pathTemplate: '{{ .spec.apiType.version }}'
-    priority: 4
-    type: string
-  - name: APIResource
-    pathTemplate: '{{ .spec.apiType.name }}'
-    priority: 4
-    type: string
-  - name: APIKind
-    pathTemplate: '{{ .spec.apiType.kind }}'
-    priority: 3
-    type: string
-  - name: APIScope
-    pathTemplate: '{{ .spec.apiType.scope }}'
-    priority: 4
-    type: string
-  - name: Total Resource Limits
-    pathTemplate: '{{ .spec.totalResource.limits | toRawJson }}'
-    priority: 3
-    type: object
-  - name: Total Resource Requests
-    pathTemplate: '{{ .spec.totalResource.requests | toRawJson }}'
-    priority: 3
-    type: object
-  - name: App Resource Limits
-    pathTemplate: '{{ .spec.appResource.limits | toRawJson }}'
-    priority: 3
-    type: object
-  - name: App Resource Requests
-    pathTemplate: '{{ .spec.appResource.requests | toRawJson }}'
-    priority: 3
-    type: object
-  - name: Count
-    pathTemplate: '{{ .spec.count }}'
-    priority: 3
-    type: integer
+    - name: Database Type
+      pathTemplate: "{{ .spec.apiType.kind }}"
+      priority: 3
+      type: string
+      icon:
+        template: |
+          {{ $apiTypeName := .spec.apiType.name}}
+          {{- printf "https://cdn.appscode.com/k8s/icons/kubedb.com/%s.svg" $apiTypeName -}}
+    - name: Instances
+      pathTemplate: "{{ .spec.count | default 0}}"
+      priority: 3
+      type: integer
+    - name: CPU (request/limit)
+      pathTemplate: "{{ if .spec.appResource.requests.cpu }}{{ .spec.appResource.requests.cpu }} / {{ .spec.appResource.limits.cpu }}{{ end }}"
+      priority: 2
+      type: string
+    - name: Memory (request/limit)
+      pathTemplate: "{{ if .spec.appResource.requests.memory }}{{ .spec.appResource.requests.memory }} / {{ .spec.appResource.limits.memory }}{{ end }}"
+      priority: 2
+      type: string
+    - name: Storage (request/limit)
+      pathTemplate: "{{ if .spec.appResource.requests.storage }}{{ .spec.appResource.requests.storage }} / {{ .spec.appResource.limits.storage }}{{ end }}"
+      priority: 2
+      type: string
   defaultView: true
   resource:
     group: core.k8s.appscode.com
