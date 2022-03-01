@@ -28,12 +28,15 @@ spec:
     priority: 1
     type: object
   - name: Ready
+    pathTemplate: '{{ get (k8s_convert . ) "Ready" }}'
     priority: 3
     type: string
   - name: Status
+    pathTemplate: '{{ get (k8s_convert . ) "Status" }}'
     priority: 3
     type: string
   - name: Restarts
+    pathTemplate: '{{ get (k8s_convert . ) "Restarts" }}'
     priority: 3
     type: integer
   - name: IP
