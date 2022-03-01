@@ -27,7 +27,6 @@ import (
 	crdinstall "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/install"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/runtime/schema"
 	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/klog/v2/klogr"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -61,12 +60,6 @@ func main() {
 		panic(err)
 	}
 
-	gvr := schema.GroupVersionResource{
-		Group:    "apps",
-		Version:  "v1",
-		Resource: "deployments",
-	}
-
 	{
 		var list unstructured.UnstructuredList
 		list.SetAPIVersion("apps/v1")
@@ -76,7 +69,7 @@ func main() {
 			log.Fatalln(err)
 		}
 
-		t, err := tableconvertor.TableForList(c, gvr, list.Items)
+		t, err := tableconvertor.TableForList(c, list.Items)
 		if err != nil {
 			log.Fatalln(err)
 		}

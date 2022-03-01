@@ -47,8 +47,24 @@ func NewForGVR(kc client.Client, gvr schema.GroupVersionResource, priority v1alp
 	return c, err
 }
 
-func TableForList(kc client.Client, gvr schema.GroupVersionResource, items []unstructured.Unstructured) (*v1alpha1.Table, error) {
-	c, err := NewForGVR(kc, gvr, v1alpha1.List)
+func TableForList(kc client.Client, items []unstructured.Unstructured) (*v1alpha1.Table, error) {
+	if len(items) == 0 {
+		return &v1alpha1.Table{}, nil
+	}
+
+	gvk := items[0].GetObjectKind().GroupVersionKind()
+	rid, err := kmapi.ExtractResourceID(kc.RESTMapper(), kmapi.ResourceID{
+		Group:   gvk.Group,
+		Version: gvk.Version,
+		Name:    "",
+		Kind:    gvk.Kind,
+		Scope:   "",
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	c, err := NewForGVR(kc, rid.GroupVersionResource(), v1alpha1.List)
 	if err != nil {
 		return nil, err
 	}
