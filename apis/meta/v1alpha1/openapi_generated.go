@@ -15695,15 +15695,38 @@ func schema_resource_metadata_apis_meta_v1alpha1_RenderAPIRequest(ref common.Ref
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
-					"resource": {
+					"group": {
 						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionKind"),
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
 						},
 					},
-					"ref": {
+					"version": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/client-go/api/v1.ObjectReference"),
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"namespace": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
 						},
 					},
 					"selector": {
@@ -15711,12 +15734,18 @@ func schema_resource_metadata_apis_meta_v1alpha1_RenderAPIRequest(ref common.Ref
 							Ref: ref("k8s.io/apimachinery/pkg/apis/meta/v1.LabelSelector"),
 						},
 					},
+					"convertToTable": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"boolean"},
+							Format: "",
+						},
+					},
 				},
-				Required: []string{"resource"},
+				Required: []string{"group", "version", "kind", "namespace"},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionKind", "k8s.io/apimachinery/pkg/apis/meta/v1.LabelSelector", "kmodules.xyz/client-go/api/v1.ObjectReference"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.LabelSelector"},
 	}
 }
 
