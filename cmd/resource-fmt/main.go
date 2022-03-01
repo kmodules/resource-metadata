@@ -81,7 +81,7 @@ func check(typ reflect.Type, filename string, fix bool) (string, error) {
 			return "", err
 		}
 
-		err = ioutil.WriteFile(filename, data, 0644)
+		err = ioutil.WriteFile(filename, data, 0o644)
 		if err != nil {
 			return "", err
 		}

@@ -105,7 +105,7 @@ func main() {
 			return err
 		}
 
-		return ioutil.WriteFile(path, data, 0644)
+		return ioutil.WriteFile(path, data, 0o644)
 	})
 	if err != nil {
 		panic(err)
@@ -147,7 +147,7 @@ func main() {
 		if err != nil {
 			return err
 		}
-		return ioutil.WriteFile(path, data, 0644)
+		return ioutil.WriteFile(path, data, 0o644)
 	})
 	if err != nil {
 		panic(err)

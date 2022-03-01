@@ -53,8 +53,10 @@ const (
 	devURL  = "https://raw.githubusercontent.com/bytebuilders/ui-wizards/master/stable"
 )
 
-var chartRegistryURL = flag.String("chart.registry-url", prodURL, "Chart registry url (prod/dev)")
-var chartVersion = flag.String("chart.version", "v0.3.0", "Chart version")
+var (
+	chartRegistryURL = flag.String("chart.registry-url", prodURL, "Chart registry url (prod/dev)")
+	chartVersion     = flag.String("chart.version", "v0.3.0", "Chart version")
+)
 
 func check(filename string) (string, error) {
 	data, err := ioutil.ReadFile(filename)
@@ -119,7 +121,7 @@ func check(filename string) (string, error) {
 			return "", err
 		}
 
-		err = ioutil.WriteFile(filename, data, 0644)
+		err = ioutil.WriteFile(filename, data, 0o644)
 		if err != nil {
 			return "", err
 		}

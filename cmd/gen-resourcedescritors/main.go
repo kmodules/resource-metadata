@@ -122,12 +122,12 @@ func createRegistry(kc kubernetes.Interface, dir string) error {
 				return err
 			}
 
-			err = os.MkdirAll(baseDir, 0755)
+			err = os.MkdirAll(baseDir, 0o755)
 			if err != nil {
 				return err
 			}
 
-			err = ioutil.WriteFile(filepath.Join(baseDir, rs.Name+".yaml"), data, 0644)
+			err = ioutil.WriteFile(filepath.Join(baseDir, rs.Name+".yaml"), data, 0o644)
 			if err != nil {
 				return err
 			}

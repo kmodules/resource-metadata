@@ -92,7 +92,6 @@ func FilterColumnsWithDefaults(
 	columns []v1alpha1.ResourceColumnDefinition,
 	priority v1alpha1.Priority,
 ) []v1alpha1.ResourceColumnDefinition {
-
 	// columns are specified in resource description, so use those.
 	out := filterColumns(columns, priority)
 	if len(out) > 0 {
@@ -399,9 +398,9 @@ func DefaultListColumns() []v1alpha1.ResourceColumnDefinition {
 			Link: &v1alpha1.AttributeDefinition{
 				// Template: "",
 			},
-			//Shape ShapeProperty `json:"shape,omitempty"`
-			//Icon  bool          `json:"icon,omitempty"`
-			//Color ColorProperty `json:"color,omitempty"`
+			// Shape ShapeProperty `json:"shape,omitempty"`
+			// Icon  bool          `json:"icon,omitempty"`
+			// Color ColorProperty `json:"color,omitempty"`
 		},
 		{
 			Name:         "Namespace",
@@ -454,9 +453,9 @@ func DefaultDetailsColumns() []v1alpha1.ResourceColumnDefinition {
 			Link: &v1alpha1.AttributeDefinition{
 				// Template: "",
 			},
-			//Shape ShapeProperty `json:"shape,omitempty"`
-			//Icon  bool          `json:"icon,omitempty"`
-			//Color ColorProperty `json:"color,omitempty"`
+			// Shape ShapeProperty `json:"shape,omitempty"`
+			// Icon  bool          `json:"icon,omitempty"`
+			// Color ColorProperty `json:"color,omitempty"`
 		},
 		{
 			Name:         "Namespace",
