@@ -306,7 +306,6 @@ func Convert_PageBlockOutline_To_PageBlockLayout(
 	in v1alpha1.PageBlockOutline,
 	priority v1alpha1.Priority,
 ) (v1alpha1.PageBlockLayout, error) {
-
 	var columns []v1alpha1.ResourceColumnDefinition
 	if in.View != nil {
 		if in.View.Name != "" {

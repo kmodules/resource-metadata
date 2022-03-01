@@ -227,7 +227,7 @@ func WriteDescriptor(crd *crdv1.CustomResourceDefinition, dir string) error {
 		name := fmt.Sprintf("%s-%s-%s", crd.Spec.Group, version, plural)
 		baseDir := filepath.Join(dir, crd.Spec.Group, version)
 
-		err := os.MkdirAll(baseDir, 0755)
+		err := os.MkdirAll(baseDir, 0o755)
 		if err != nil {
 			return err
 		}
@@ -293,7 +293,7 @@ func WriteDescriptor(crd *crdv1.CustomResourceDefinition, dir string) error {
 			return err
 		}
 
-		err = ioutil.WriteFile(filename, data, 0644)
+		err = ioutil.WriteFile(filename, data, 0o644)
 		if err != nil {
 			return err
 		}
