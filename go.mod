@@ -16,7 +16,6 @@ require (
 	golang.org/x/net v0.0.0-20210428140749-89ef3d95e781
 	gomodules.xyz/encoding v0.0.2
 	gomodules.xyz/jsonpath v0.0.1
-	gomodules.xyz/pointer v0.1.0
 	gomodules.xyz/x v0.0.13
 	gopkg.in/yaml.v2 v2.4.0
 	k8s.io/api v0.21.1
@@ -83,6 +82,7 @@ require (
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20210723032227-1f47c861a9ac // indirect
 	gomodules.xyz/jsonpatch/v2 v2.2.0 // indirect
+	gomodules.xyz/pointer v0.1.0 // indirect
 	gomodules.xyz/sets v0.2.1 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.25.0 // indirect

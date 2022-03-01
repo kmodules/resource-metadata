@@ -18,73 +18,13 @@ package printers
 
 import (
 	"fmt"
-	"reflect"
 	"strings"
 
 	core "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/util/sets"
 )
 
-func init() {
-	Register(ServicePrinter{})
-}
-
-// ref: https://github.com/kubernetes/kubernetes/blob/v1.21.0/pkg/printers/internalversion/printers.go#L190-L198
-
-type ServicePrinter struct{}
-
-var _ ColumnConverter = ServicePrinter{}
-
-func (_ ServicePrinter) GVK() schema.GroupVersionKind {
-	return core.SchemeGroupVersion.WithKind("Service")
-}
-
-func (p ServicePrinter) Convert(o runtime.Object) (map[string]interface{}, error) {
-	obj := new(core.Service)
-	switch to := o.(type) {
-	case *unstructured.Unstructured:
-		if err := runtime.DefaultUnstructuredConverter.FromUnstructured(to.UnstructuredContent(), obj); err != nil {
-			return nil, err
-		}
-	case *core.Service:
-		obj = to
-	default:
-		return nil, fmt.Errorf("expected %v, received %v", p.GVK().Kind, reflect.TypeOf(o))
-	}
-
-	row := map[string]interface{}{}
-
-	svcType := obj.Spec.Type
-	// internalIP := None
-	/*
-		if len(obj.Spec.ClusterIPs) > 0 {
-			internalIP = obj.Spec.ClusterIPs[0]
-		}
-	*/
-	internalIP := obj.Spec.ClusterIP
-
-	externalIP := getServiceExternalIP(obj)
-	svcPorts := MakeServicePortString(obj.Spec.Ports)
-	if len(svcPorts) == 0 {
-		svcPorts = None
-	}
-
-	row["_Name"] = obj.Name
-	row["_Type"] = string(svcType)
-	row["_Cluster-IP"] = internalIP
-	row["External-IP"] = externalIP
-	row["_Port(s)"] = svcPorts
-	row["_Age"] = translateTimestampSince(obj.CreationTimestamp)
-	row["Selector"] = labels.FormatLabels(obj.Spec.Selector)
-
-	return row, nil
-}
-
-func getServiceExternalIP(svc *core.Service) string {
+func ServiceExternalIP(svc *core.Service) string {
 	switch svc.Spec.Type {
 	case core.ServiceTypeClusterIP:
 		if len(svc.Spec.ExternalIPs) > 0 {
