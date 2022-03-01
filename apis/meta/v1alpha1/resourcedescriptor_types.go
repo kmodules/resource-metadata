@@ -240,7 +240,8 @@ const (
 )
 
 type ColorDefinition struct {
-	// Available color codes: success,danger,neutral,warning,info
+	// Available color codes: success,danger,warning,info, link, white, light, dark, black
+	// see https://bulma.io/documentation/elements/tag/#colors
 	Template string `json:"template,omitempty"`
 }
 
