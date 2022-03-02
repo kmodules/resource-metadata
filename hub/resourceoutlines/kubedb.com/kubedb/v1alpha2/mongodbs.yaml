@@ -91,7 +91,7 @@ spec:
           displayMode: Field
           fieldPath: .spec.collections
           kind: Connection
-          name: Databases
+          name: Top Collections
           query:
             byLabel: view
             type: GraphQL
@@ -100,7 +100,7 @@ spec:
             kind: MongoDBSchemaOverview
           view:
             name: ui.kubedb.com-v1alpha1-mongodbschemaoverviews-collections
-      info:
+      insight:
         actions:
           create: Never
         displayMode: Field

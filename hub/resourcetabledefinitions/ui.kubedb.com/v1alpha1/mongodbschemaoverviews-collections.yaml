@@ -7,12 +7,17 @@ metadata:
   name: ui.kubedb.com-v1alpha1-mongodbschemaoverviews-collections
 spec:
   columns:
-  - name: Name
-    pathTemplate: '{{ .name }}'
-    priority: 3
-    type: string
-  - name: Total Size
-    pathTemplate: '{{ .size | join ", " }}'
-    priority: 3
-    type: string
+    - name: Name
+      pathTemplate: "{{ .name }}"
+      priority: 3
+      type: string
+    - name: Total Size
+      pathTemplate: '{{ .size | join ", " }}'
+      priority: 3
+      type: string
+      sort:
+        enable: true
+        template: "{{ .size | join ` ` | add }}"
+        type: integer
+
   defaultView: false

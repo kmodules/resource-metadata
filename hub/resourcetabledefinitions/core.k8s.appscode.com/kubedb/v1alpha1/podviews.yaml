@@ -15,8 +15,6 @@ spec:
       pathTemplate: "{{ .metadata.name }}"
       priority: 3
       type: string
-      link:
-        template: |
     - name: Role
       priority: 3
       type: string
