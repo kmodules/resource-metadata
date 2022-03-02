@@ -19,7 +19,6 @@ spec:
       kind: Node
     type: MatchRef
   - labels:
-    - offshoot
     - auth_via
     references:
     - '{.spec.serviceAccountName}'
