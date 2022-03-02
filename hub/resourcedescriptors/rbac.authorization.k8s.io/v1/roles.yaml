@@ -11,7 +11,7 @@ metadata:
 spec:
   connections:
   - labels:
-    - offshoot
+    - policy
     namespacePath: metadata.namespace
     references:
     - '{range .rules[?(@.resources[*]=="podsecuritypolicies")]}{range @.resourceNames[*]}{@}{"\n"}{end}{end}'

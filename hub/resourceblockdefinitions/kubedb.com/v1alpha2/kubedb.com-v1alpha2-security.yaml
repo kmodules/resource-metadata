@@ -60,7 +60,7 @@ spec:
     kind: Connection
     name: Issuer
     query:
-      byLabel: offshoot
+      byLabel: cert_issuer
       type: GraphQL
     ref:
       group: cert-manager.io
@@ -71,7 +71,7 @@ spec:
     kind: Connection
     name: Cluster Issuer
     query:
-      byLabel: offshoot
+      byLabel: cert_issuer
       type: GraphQL
     ref:
       group: cert-manager.io
@@ -82,7 +82,7 @@ spec:
     kind: Connection
     name: Pod Security Policies
     query:
-      byLabel: offshoot
+      byLabel: policy
       type: GraphQL
     ref:
       group: policy

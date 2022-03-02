@@ -55,7 +55,7 @@ spec:
       kind: RedisVersion
     type: MatchRef
   - labels:
-    - offshoot
+    - cert_issuer
     namespacePath: metadata.namespace
     references:
     - '{.spec.tls.issuerRef.name},{.metadata.namespace}'
@@ -64,7 +64,7 @@ spec:
       kind: Issuer
     type: MatchRef
   - labels:
-    - offshoot
+    - cert_issuer
     references:
     - '{.spec.tls.issuerRef.name}'
     target:

@@ -93,7 +93,7 @@ spec:
     kind: Connection
     name: Pod Disruption Budgets
     query:
-      byLabel: offshoot
+      byLabel: policy
       type: GraphQL
     ref:
       group: policy

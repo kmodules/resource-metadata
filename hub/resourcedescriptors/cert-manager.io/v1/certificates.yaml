@@ -11,7 +11,7 @@ metadata:
 spec:
   connections:
   - labels:
-    - offshoot
+    - cert_issuer
     namespacePath: metadata.namespace
     references:
     - '{.spec.issuerRef.name},{.metadata.namespace}'
@@ -20,7 +20,7 @@ spec:
       kind: Issuer
     type: MatchRef
   - labels:
-    - offshoot
+    - cert_issuer
     references:
     - '{.spec.issuerRef.name}'
     target:

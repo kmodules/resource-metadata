@@ -73,6 +73,8 @@ spec:
                         - restore_into
                         - scaled_by
                         - view
+                        - cert_issuer
+                        - policy
                         type: string
                       raw:
                         type: string
@@ -240,6 +242,8 @@ spec:
                                 - restore_into
                                 - scaled_by
                                 - view
+                                - cert_issuer
+                                - policy
                                 type: string
                               raw:
                                 type: string
@@ -409,6 +413,8 @@ spec:
                               - restore_into
                               - scaled_by
                               - view
+                              - cert_issuer
+                              - policy
                               type: string
                             raw:
                               type: string
@@ -576,6 +582,8 @@ spec:
                               - restore_into
                               - scaled_by
                               - view
+                              - cert_issuer
+                              - policy
                               type: string
                             raw:
                               type: string
@@ -776,6 +784,8 @@ spec:
                         - restore_into
                         - scaled_by
                         - view
+                        - cert_issuer
+                        - policy
                         type: string
                       raw:
                         type: string
