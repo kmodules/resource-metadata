@@ -47,7 +47,6 @@ spec:
       kind: AppBinding
     type: MatchName
   - labels:
-    - offshoot
     - catalog
     references:
     - '{.spec.version}'
