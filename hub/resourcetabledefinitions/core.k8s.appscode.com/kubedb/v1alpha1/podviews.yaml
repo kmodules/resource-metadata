@@ -15,6 +15,12 @@ spec:
       pathTemplate: "{{ .metadata.name }}"
       priority: 3
       type: string
+      link:
+        template: |
+    - name: Role
+      priority: 3
+      type: string
+      pathTemplate: "{{ index .metadata.labels `kubedb.com/role` | default `-` | upper}}"
     - name: CPU (usage/limit)
       pathTemplate: "{{ if .spec.resources.usage.cpu }}{{.spec.resources.usage.cpu}} / {{.spec.resources.limits.cpu}}{{ end }}"
       priority: 3
