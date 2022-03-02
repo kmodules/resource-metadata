@@ -195,7 +195,7 @@ func serviceExternalIPFn(data interface{}) (string, error) {
 		if err != nil {
 			return "", err
 		}
-	} else if _, ok := data.(interface{}); ok {
+	} else {
 		// includes IntOrString, so meta_util.DecodeObject() can't be used.
 		data, err := json.Marshal(data)
 		if err != nil {
