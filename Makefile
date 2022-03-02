@@ -239,6 +239,8 @@ fmt: $(BUILD_DIRS)
 	        REPO_PKG=$(GO_PKG)                                  \
 	        ./hack/fmt.sh $(SRC_DIRS)                           \
 	    "
+	go run ./cmd/check-edge-label/main.go
+	go run ./cmd/resource-fmt/main.go
 
 build: $(OUTBIN)
 
