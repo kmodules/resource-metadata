@@ -31,7 +31,6 @@ import (
 	"gomodules.xyz/encoding/json"
 	crd_api "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
-	metatable "k8s.io/apimachinery/pkg/api/meta/table"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -316,7 +315,7 @@ func cellForJSONValue(col columnOptions, value string) (interface{}, error) {
 		if err != nil {
 			return "<invalid>", nil
 		}
-		return metatable.ConvertToHumanReadableDateType(timestamp), nil
+		return ConvertToHumanReadableDateType(timestamp), nil
 	case "object":
 		if value == "" || value == "null" {
 			return map[string]interface{}{}, nil
