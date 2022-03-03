@@ -27,8 +27,8 @@ spec:
       pathTemplate: "{{ if .spec.resources.usage.memory }}{{.spec.resources.usage.memory}} / {{.spec.resources.limits.memory}}{{ end }}"
       priority: 3
       type: string
-    - name: Storage (usage)
-      pathTemplate: "{{.spec.resources.usage.storage}}"
+    - name: Storage (usage/limit)
+      pathTemplate: "{{ if .spec.resources.usage.storage }}{{.spec.resources.usage.storage}} / {{.spec.resources.limits.storage}}{{ end }}"
       priority: 3
       type: string
     - name: Status

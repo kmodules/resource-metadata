@@ -17,13 +17,11 @@ spec:
           {{ $color := "light" }}
           {{ if list "command" | has $operation }}
             {{ $color = "primary" }}
-          {{ else if list "query" | has $operation }}
-            {{ $color = "link" }}
           {{ else if list "insert" "group" | has $operation }}
             {{ $color = "success" }}
           {{ else if list "count" "distinct" "mapreduce" | has $operation }}
             {{ $color = "info" }}
-          {{ else if list "update" | has $operation }}
+          {{ else if list "update" "query" | has $operation }}
             {{ $color = "warning" }}
           {{ else if list "remove" | has $operation }}
             {{ $color = "danger" }}
