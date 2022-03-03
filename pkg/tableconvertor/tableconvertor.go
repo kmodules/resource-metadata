@@ -192,6 +192,17 @@ func (c *convertor) rowFn(obj interface{}) ([]v1alpha1.TableCell, error) {
 				cell.Link = v.(string)
 			}
 		}
+		if col.Tooltip != nil && col.Tooltip.Template != "" {
+			if v, err := renderTemplate(data, columnOptions{
+				Name:     col.Name,
+				Type:     "string",
+				Template: col.Tooltip.Template,
+			}, buf); err != nil {
+				return nil, err
+			} else {
+				cell.Tooltip = v.(string)
+			}
+		}
 		if col.Icon != nil && col.Icon.Template != "" {
 			if v, err := renderTemplate(data, columnOptions{
 				Name:     col.Name,

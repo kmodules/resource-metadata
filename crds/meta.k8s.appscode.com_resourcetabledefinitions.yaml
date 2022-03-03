@@ -109,6 +109,11 @@ spec:
                       required:
                       - type
                       type: object
+                    tooltip:
+                      properties:
+                        template:
+                          type: string
+                      type: object
                     type:
                       description: type is an OpenAPI type definition for this column.
                         See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types

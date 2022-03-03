@@ -50,11 +50,12 @@ type TableCell struct {
 	// cells will be as wide as the column definitions array and may contain strings, numbers (float64 or
 	// int64), booleans, simple maps, lists, or null. See the type field of the column definition for a
 	// more detailed description.
-	Data  interface{} `json:"data"`
-	Sort  interface{} `json:"sort,omitempty"`
-	Link  string      `json:"link,omitempty"`
-	Icon  string      `json:"icon,omitempty"`
-	Color string      `json:"color,omitempty"`
+	Data    interface{} `json:"data"`
+	Sort    interface{} `json:"sort,omitempty"`
+	Link    string      `json:"link,omitempty"`
+	Tooltip string      `json:"tooltip,omitempty"`
+	Icon    string      `json:"icon,omitempty"`
+	Color   string      `json:"color,omitempty"`
 }
 
 // IncludeObjectPolicy controls which portion of the object is returned with a Table.

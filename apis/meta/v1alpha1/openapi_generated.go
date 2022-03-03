@@ -16129,6 +16129,12 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceColumn(ref common.Refer
 							Format: "",
 						},
 					},
+					"tooltip": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"boolean"},
+							Format: "",
+						},
+					},
 					"shape": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
@@ -16208,6 +16214,11 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceColumnDefinition(ref co
 						},
 					},
 					"link": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.AttributeDefinition"),
+						},
+					},
+					"tooltip": {
 						SchemaProps: spec.SchemaProps{
 							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.AttributeDefinition"),
 						},
@@ -17654,6 +17665,12 @@ func schema_resource_metadata_apis_meta_v1alpha1_TableCell(ref common.ReferenceC
 						},
 					},
 					"link": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"tooltip": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
 							Format: "",

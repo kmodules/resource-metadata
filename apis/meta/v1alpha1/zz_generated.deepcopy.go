@@ -1074,6 +1074,11 @@ func (in *ResourceColumnDefinition) DeepCopyInto(out *ResourceColumnDefinition) 
 		*out = new(AttributeDefinition)
 		**out = **in
 	}
+	if in.Tooltip != nil {
+		in, out := &in.Tooltip, &out.Tooltip
+		*out = new(AttributeDefinition)
+		**out = **in
+	}
 	if in.Icon != nil {
 		in, out := &in.Icon, &out.Icon
 		*out = new(AttributeDefinition)
