@@ -49,10 +49,14 @@ spec:
     pathTemplate: '{{ .spec.lastBackupTime }}'
     priority: 3
     type: date
+    tooltip:
+      template: '{{ .spec.lastBackupTime }}'
   - name: Upcoming Backup Time
     pathTemplate: '{{ .spec.upcomingBackupTime }}'
     priority: 3
     type: date
+    tooltip:
+      template: '{{ .spec.upcomingBackupTime }}'
   - name: Repository
     pathTemplate: '{{ .spec.repository }}'
     priority: 3

@@ -200,11 +200,12 @@ type ResourceColumnDefinition struct {
 	// +optional
 	PathTemplate string `json:"pathTemplate,omitempty"`
 
-	Sort  *SortDefinition      `json:"sort,omitempty"`
-	Link  *AttributeDefinition `json:"link,omitempty"`
-	Shape ShapeProperty        `json:"shape,omitempty"`
-	Icon  *AttributeDefinition `json:"icon,omitempty"`
-	Color *ColorDefinition     `json:"color,omitempty"`
+	Sort    *SortDefinition      `json:"sort,omitempty"`
+	Link    *AttributeDefinition `json:"link,omitempty"`
+	Tooltip *AttributeDefinition `json:"tooltip,omitempty"`
+	Shape   ShapeProperty        `json:"shape,omitempty"`
+	Icon    *AttributeDefinition `json:"icon,omitempty"`
+	Color   *ColorDefinition     `json:"color,omitempty"`
 }
 
 type SortDefinition struct {
@@ -259,10 +260,11 @@ type ResourceColumn struct {
 	// should be given a higher priority.
 	Priority int32 `json:"priority"`
 
-	Sort  *SortHeader   `json:"sort,omitempty"`
-	Link  bool          `json:"link,omitempty"`
-	Shape ShapeProperty `json:"shape,omitempty"`
-	Icon  bool          `json:"icon,omitempty"`
+	Sort    *SortHeader   `json:"sort,omitempty"`
+	Link    bool          `json:"link,omitempty"`
+	Tooltip bool          `json:"tooltip,omitempty"`
+	Shape   ShapeProperty `json:"shape,omitempty"`
+	Icon    bool          `json:"icon,omitempty"`
 }
 
 // ImageSpec contains information about an image used as an icon.

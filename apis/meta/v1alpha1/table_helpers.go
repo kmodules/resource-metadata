@@ -53,6 +53,9 @@ func Convert_ResourceColumnDefinition_To_ResourceColumn(def ResourceColumnDefini
 	if def.Link != nil && def.Link.Template != "" {
 		col.Link = true
 	}
+	if def.Tooltip != nil && def.Tooltip.Template != "" {
+		col.Tooltip = true
+	}
 	if def.Icon != nil && def.Icon.Template != "" {
 		col.Icon = true
 	}
