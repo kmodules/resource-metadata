@@ -34,7 +34,6 @@ import (
 	"gomodules.xyz/jsonpath"
 	core "k8s.io/api/core/v1"
 	rbac "k8s.io/api/rbac/v1"
-	metatable "k8s.io/apimachinery/pkg/api/meta/table"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/labels"
@@ -162,7 +161,7 @@ func ageFn(data interface{}) (string, error) {
 	} else if v, ok := data.(metav1.Time); ok {
 		timestamp = v
 	}
-	return metatable.ConvertToHumanReadableDateType(timestamp), nil
+	return ConvertToHumanReadableDateType(timestamp), nil
 }
 
 func servicePortsFn(data interface{}) (string, error) {

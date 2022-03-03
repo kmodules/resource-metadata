@@ -20,9 +20,12 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"time"
 
 	core "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/util/duration"
 )
 
 const (
@@ -394,4 +397,22 @@ func convertSizeToBytes(dataSize string) (float64, error) {
 		return size, nil
 
 	}
+}
+
+// ConvertToHumanReadableDateType returns the elapsed time since timestamp in
+// human-readable approximation.
+// ref: https://github.com/kubernetes/apimachinery/blob/v0.21.1/pkg/api/meta/table/table.go#L63-L70
+// But works for timestamp before or after now.
+func ConvertToHumanReadableDateType(timestamp metav1.Time) string {
+	if timestamp.IsZero() {
+		return "<unknown>"
+	}
+	var d time.Duration
+	now := time.Now()
+	if now.After(timestamp.Time) {
+		d = now.Sub(timestamp.Time)
+	} else {
+		d = timestamp.Time.Sub(now)
+	}
+	return duration.HumanDuration(d)
 }
