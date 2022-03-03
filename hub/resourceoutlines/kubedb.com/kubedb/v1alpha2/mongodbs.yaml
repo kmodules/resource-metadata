@@ -134,6 +134,8 @@ spec:
           ref:
             group: stash.appscode.com
             kind: BackupSession
+          view:
+            name: kubedb-stash.appscode.com-v1beta1-backupsessions
       info:
         actions:
           create: IfEmpty
@@ -168,6 +170,8 @@ spec:
           ref:
             group: ops.kubedb.com
             kind: MongoDBOpsRequest
+          view:
+            name: kubedb-ops.kubedb.com-v1alpha1-mongodbopsrequests
       name: Operations
   resource:
     group: kubedb.com

@@ -35,7 +35,7 @@ spec:
     - color:
         template: |
           {{ $status := .status.phase }}
-          {{ $color := "light" }}
+          {{ $color := "gray" }}
           {{ if list "Provisioning" "DataRestoring" | has $status }}
             {{ $color = "info" }}
           {{ else if list "Ready" | has $status }}
@@ -45,7 +45,7 @@ spec:
           {{ else if list "NotReady" | has $status }}
             {{ $color = "danger" }}
           {{ else if list "Halted" | has $status }}
-            {{ $color = "light" }}
+            {{ $color = "gray" }}
           {{ end }}
           {{- printf "%s" $color -}}
       name: Status

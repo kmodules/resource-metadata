@@ -14,7 +14,7 @@ spec:
       color:
         template: |
           {{ $operation := .operation | lower }}
-          {{ $color := "light" }}
+          {{ $color := "gray" }}
           {{ if list "command" | has $operation }}
             {{ $color = "primary" }}
           {{ else if list "insert" "group" | has $operation }}

@@ -37,15 +37,15 @@ spec:
       color:
         template: |
           {{ $status := .status.phase }}
-          {{ $color := "light" }}
+          {{ $color := "gray" }}
           {{ if list "Running" "Succeeded" | has $status }}
             {{ $color = "success" }}
           {{ else if list "Pending" | has $status }}
-            {{ $color = "warning" }}
+            {{ $color = "info" }}
           {{ else if list "Failed" | has $status }}
             {{ $color = "danger" }}
           {{ else if list "Unknown" | has $status }}
-            {{ $color = "light" }}
+            {{ $color = "warning" }}
           {{ end }}
           {{- printf "%s is-light" $color -}}
       type: string
