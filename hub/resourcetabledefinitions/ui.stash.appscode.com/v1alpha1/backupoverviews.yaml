@@ -10,79 +10,79 @@ metadata:
   name: ui.stash.appscode.com-v1alpha1-backupoverviews
 spec:
   columns:
-    - name: Name
-      pathTemplate: "{{ .metadata.name }}"
-      priority: 3
-      sort:
-        enable: true
-        type: ""
-      type: string
-    - name: Namespace
-      pathTemplate: "{{ .metadata.namespace }}"
-      priority: 3
-      type: string
-    - name: Labels
-      pathTemplate: "{{ .metadata.labels | toRawJson }}"
-      priority: 3
-      type: object
-    - name: Annotations
-      pathTemplate: "{{ .metadata.annotations | toRawJson }}"
-      priority: 3
-      type: object
-    - name: Age
-      pathTemplate: "{{ .metadata.creationTimestamp }}"
-      priority: 3
-      sort:
-        enable: true
-        template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
-        type: integer
-      type: date
-    - name: Schedule
-      pathTemplate: "{{ .spec.schedule }}"
-      priority: 3
-      type: string
-    - name: Status
-      pathTemplate: "{{ .spec.status }}"
-      priority: 3
-      type: string
-      color:
-        template: |
-          {{ $status := .spec.status }}
-          {{ $color := "gray" }}
-          {{ if list "Active" | has $status }}
-            {{ $color = "success" }}
-          {{ else if list "Paused" | has $status }}
-            {{ $color = "warning" }}
-          {{ end }}
-          {{- printf "%s is-light" $color -}}
-    - name: Last Backup Time
-      pathTemplate: "{{ .spec.lastBackupTime }}"
-      priority: 3
-      type: date
-      tooltip:
-        template: "{{ .spec.lastBackupTime }}"
-    - name: Upcoming Backup Time
-      pathTemplate: "{{ .spec.upcomingBackupTime }}"
-      priority: 3
-      type: date
-      tooltip:
-        template: "{{ .spec.upcomingBackupTime }}"
-    - name: Repository
-      pathTemplate: "{{ .spec.repository }}"
-      priority: 3
-      type: string
-    - name: Data Size
-      pathTemplate: "{{ .spec.dataSize }}"
-      priority: 3
-      type: string
-    - name: Number Of Snapshots
-      pathTemplate: "{{ .spec.numberOfSnapshots }}"
-      priority: 3
+  - name: Name
+    pathTemplate: '{{ .metadata.name }}'
+    priority: 3
+    sort:
+      enable: true
+      type: ""
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ .metadata.namespace }}'
+    priority: 3
+    type: string
+  - name: Labels
+    pathTemplate: '{{ .metadata.labels | toRawJson }}'
+    priority: 3
+    type: object
+  - name: Annotations
+    pathTemplate: '{{ .metadata.annotations | toRawJson }}'
+    priority: 3
+    type: object
+  - name: Age
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
+    priority: 3
+    sort:
+      enable: true
+      template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
       type: integer
-    - name: Data Integrity
-      pathTemplate: "{{ .spec.dataIntegrity }}"
-      priority: 3
-      type: boolean
+    type: date
+  - name: Schedule
+    pathTemplate: '{{ .spec.schedule }}'
+    priority: 3
+    type: string
+  - color:
+      template: |
+        {{ $status := .spec.status }}
+        {{ $color := "gray" }}
+        {{ if list "Active" | has $status }}
+          {{ $color = "success" }}
+        {{ else if list "Paused" | has $status }}
+          {{ $color = "warning" }}
+        {{ end }}
+        {{- printf "%s is-light" $color -}}
+    name: Status
+    pathTemplate: '{{ .spec.status }}'
+    priority: 3
+    type: string
+  - name: Last Backup Time
+    pathTemplate: '{{ .spec.lastBackupTime }}'
+    priority: 3
+    tooltip:
+      template: '{{ .spec.lastBackupTime }}'
+    type: date
+  - name: Upcoming Backup Time
+    pathTemplate: '{{ .spec.upcomingBackupTime }}'
+    priority: 3
+    tooltip:
+      template: '{{ .spec.upcomingBackupTime }}'
+    type: date
+  - name: Repository
+    pathTemplate: '{{ .spec.repository }}'
+    priority: 3
+    type: string
+  - name: Data Size
+    pathTemplate: '{{ .spec.dataSize }}'
+    priority: 3
+    type: string
+  - name: Number Of Snapshots
+    pathTemplate: '{{ .spec.numberOfSnapshots }}'
+    priority: 3
+    type: integer
+  - name: Data Integrity
+    pathTemplate: '{{ .spec.dataIntegrity }}'
+    priority: 3
+    type: boolean
   defaultView: true
   resource:
     group: ui.stash.appscode.com

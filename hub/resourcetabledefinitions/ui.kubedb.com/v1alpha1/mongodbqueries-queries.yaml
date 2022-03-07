@@ -1,5 +1,3 @@
-# using fieldPath: .spec.queries
-
 apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceTableDefinition
 metadata:
@@ -7,54 +5,54 @@ metadata:
   name: ui.kubedb.com-v1alpha1-mongodbqueries-queries
 spec:
   columns:
-    - name: Operation
-      pathTemplate: "{{ .operation | default `-` | upper }}"
-      priority: 3
-      type: string
-      color:
-        template: |
-          {{ $operation := .operation | lower }}
-          {{ $color := "gray" }}
-          {{ if list "command" | has $operation }}
-            {{ $color = "primary" }}
-          {{ else if list "insert" "group" | has $operation }}
-            {{ $color = "success" }}
-          {{ else if list "count" "distinct" "mapreduce" | has $operation }}
-            {{ $color = "info" }}
-          {{ else if list "update" "query" | has $operation }}
-            {{ $color = "warning" }}
-          {{ else if list "remove" | has $operation }}
-            {{ $color = "danger" }}
-          {{ else if list "geonear" "getmore" | has $operation }}
-            {{ $color = "dark" }}
-          {{ end }}
-          {{- printf "%s" $color -}}
-    - name: Database Name
-      pathTemplate: "{{ .databaseName }}"
-      priority: 3
-      type: string
-    - name: Collection Name
-      pathTemplate: "{{ .collectionName }}"
-      priority: 3
-      type: string
-    - name: Command
-      pathTemplate: "{{ .command }}"
-      priority: 3
-      type: object
-    - name: Count
-      pathTemplate: "{{ .count }}"
-      priority: 3
-      type: integer
-    - name: Avg Execution Time (msec)
-      pathTemplate: "{{ .avgExecutionTimeMilliSeconds }}"
-      priority: 3
-      type: integer
-    - name: Min Execution Time (msec)
-      pathTemplate: "{{ .minExecutionTimeMilliSeconds }}"
-      priority: 3
-      type: integer
-    - name: Max Execution Time (msec)
-      pathTemplate: "{{ .maxExecutionTimeMilliSeconds }}"
-      priority: 3
-      type: integer
+  - color:
+      template: |
+        {{ $operation := .operation | lower }}
+        {{ $color := "gray" }}
+        {{ if list "command" | has $operation }}
+          {{ $color = "primary" }}
+        {{ else if list "insert" "group" | has $operation }}
+          {{ $color = "success" }}
+        {{ else if list "count" "distinct" "mapreduce" | has $operation }}
+          {{ $color = "info" }}
+        {{ else if list "update" "query" | has $operation }}
+          {{ $color = "warning" }}
+        {{ else if list "remove" | has $operation }}
+          {{ $color = "danger" }}
+        {{ else if list "geonear" "getmore" | has $operation }}
+          {{ $color = "dark" }}
+        {{ end }}
+        {{- printf "%s" $color -}}
+    name: Operation
+    pathTemplate: '{{ .operation | default `-` | upper }}'
+    priority: 3
+    type: string
+  - name: Database Name
+    pathTemplate: '{{ .databaseName }}'
+    priority: 3
+    type: string
+  - name: Collection Name
+    pathTemplate: '{{ .collectionName }}'
+    priority: 3
+    type: string
+  - name: Command
+    pathTemplate: '{{ .command }}'
+    priority: 3
+    type: object
+  - name: Count
+    pathTemplate: '{{ .count }}'
+    priority: 3
+    type: integer
+  - name: Avg Execution Time (msec)
+    pathTemplate: '{{ .avgExecutionTimeMilliSeconds }}'
+    priority: 3
+    type: integer
+  - name: Min Execution Time (msec)
+    pathTemplate: '{{ .minExecutionTimeMilliSeconds }}'
+    priority: 3
+    type: integer
+  - name: Max Execution Time (msec)
+    pathTemplate: '{{ .maxExecutionTimeMilliSeconds }}'
+    priority: 3
+    type: integer
   defaultView: false

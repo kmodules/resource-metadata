@@ -10,62 +10,62 @@ metadata:
   name: ui.kubedb.com-v1alpha1-mongodbinsights
 spec:
   columns:
-    - name: Current Connections
-      pathTemplate: "{{ .spec.connections.currentConnections }}"
-      priority: 3
-      type: integer
-    - name: Total Connections
-      pathTemplate: "{{ .spec.connections.totalConnections }}"
-      priority: 3
-      type: integer
-    - name: Available Connections
-      pathTemplate: "{{ .spec.connections.availableConnections }}"
-      priority: 3
-      type: integer
-    - name: Active Connections
-      pathTemplate: "{{ .spec.connections.activeConnections }}"
-      priority: 3
-      type: integer
-    - name: Total Collections
-      pathTemplate: "{{ .spec.dbStats.totalCollections }}"
-      priority: 3
-      type: integer
-    - name: Data Size
-      pathTemplate: "{{ .spec.dbStats.dataSize }}"
-      priority: 3
-      type: integer
-    - name: Total Indexes
-      pathTemplate: "{{ .spec.dbStats.totalIndexes }}"
-      priority: 3
-      type: integer
-    - name: Index Size
-      pathTemplate: "{{ .spec.dbStats.indexSize }}"
-      priority: 3
-      type: integer
-    - name: Number Of Shards
-      pathTemplate: "{{ .spec.shardsInfo.numberOfShards }}"
-      priority: 3
-      type: integer
-    - name: Replicas Per Shards
-      pathTemplate: "{{ .spec.shardsInfo.replicasPerShards }}"
-      priority: 3
-      type: integer
-    - name: Number Of Chunks
-      pathTemplate: "{{ .spec.shardsInfo.numberOfChunks }}"
-      priority: 3
-      type: integer
-    - name: Balancer Enabled
-      pathTemplate: "{{ .spec.shardsInfo.balancerEnabled }}"
-      priority: 3
-      type: boolean
-    - name: Chunks Balanced
-      pathTemplate: "{{ .spec.shardsInfo.chunksBalanced }}"
-      priority: 3
-      type: boolean
-    - name: Replicas
-      pathTemplate: "{{ .spec.replicaSetInfo.numberOfReplicas }}"
-      priority: 3
-      type: integer
+  - name: Current Connections
+    pathTemplate: '{{ .spec.connections.currentConnections }}'
+    priority: 3
+    type: integer
+  - name: Total Connections
+    pathTemplate: '{{ .spec.connections.totalConnections }}'
+    priority: 3
+    type: integer
+  - name: Available Connections
+    pathTemplate: '{{ .spec.connections.availableConnections }}'
+    priority: 3
+    type: integer
+  - name: Active Connections
+    pathTemplate: '{{ .spec.connections.activeConnections }}'
+    priority: 3
+    type: integer
+  - name: Total Collections
+    pathTemplate: '{{ .spec.dbStats.totalCollections }}'
+    priority: 3
+    type: integer
+  - name: Data Size
+    pathTemplate: '{{ .spec.dbStats.dataSize }}'
+    priority: 3
+    type: integer
+  - name: Total Indexes
+    pathTemplate: '{{ .spec.dbStats.totalIndexes }}'
+    priority: 3
+    type: integer
+  - name: Index Size
+    pathTemplate: '{{ .spec.dbStats.indexSize }}'
+    priority: 3
+    type: integer
+  - name: Number Of Shards
+    pathTemplate: '{{ .spec.shardsInfo.numberOfShards }}'
+    priority: 3
+    type: integer
+  - name: Replicas Per Shards
+    pathTemplate: '{{ .spec.shardsInfo.replicasPerShards }}'
+    priority: 3
+    type: integer
+  - name: Number Of Chunks
+    pathTemplate: '{{ .spec.shardsInfo.numberOfChunks }}'
+    priority: 3
+    type: integer
+  - name: Balancer Enabled
+    pathTemplate: '{{ .spec.shardsInfo.balancerEnabled }}'
+    priority: 3
+    type: boolean
+  - name: Chunks Balanced
+    pathTemplate: '{{ .spec.shardsInfo.chunksBalanced }}'
+    priority: 3
+    type: boolean
+  - name: Replicas
+    pathTemplate: '{{ .spec.replicaSetInfo.numberOfReplicas }}'
+    priority: 3
+    type: integer
   defaultView: true
   resource:
     group: ui.kubedb.com

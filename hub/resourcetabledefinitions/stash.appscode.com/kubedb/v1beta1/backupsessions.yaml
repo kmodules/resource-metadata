@@ -10,56 +10,56 @@ metadata:
   name: kubedb-stash.appscode.com-v1beta1-backupsessions
 spec:
   columns:
-    - name: Name
-      pathTemplate: "{{ .metadata.name }}"
-      priority: 3
-      type: string
-    - name: Namespace
-      pathTemplate: "{{ .metadata.namespace }}"
-      priority: 3
-      type: string
-    - name: Invoker Kind
-      pathTemplate: "{{ .spec.invoker.kind }}"
-      priority: 3
-      type: string
-    - name: Invoker Name
-      pathTemplate: "{{ .spec.invoker.name }}"
-      priority: 3
-      type: string
-    - name: Phase
-      pathTemplate: "{{ .status.phase }}"
-      priority: 3
-      type: string
-      color:
-        template: |
-          {{ $status := .status.phase }}
-          {{ $color := "gray" }}
-          {{ if list "Succeeded" | has $status }}
-            {{ $color = "success" }}
-          {{ else if list "Unknown" | has $status }}
-            {{ $color = "warning" }}
-          {{ else if list "Failed" | has $status }}
-            {{ $color = "danger" }}
-          {{ else if list "Pending" | has $status }}
-            {{ $color = "dark" }}
-          {{ else if list "Skipped" | has $status }}
-            {{ $color = "link" }}
-          {{ else if list "Running" | has $status }}
-            {{ $color = "info" }}
-          {{ end }}
-          {{- printf "%s" $color -}}
-    - name: Duration
-      pathTemplate: "{{ .status.sessionDuration }}"
-      priority: 3
-      type: string
-    - name: Age
-      pathTemplate: "{{ .metadata.creationTimestamp }}"
-      priority: 3
-      sort:
-        enable: true
-        template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
-        type: integer
-      type: date
+  - name: Name
+    pathTemplate: '{{ .metadata.name }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ .metadata.namespace }}'
+    priority: 3
+    type: string
+  - name: Invoker Kind
+    pathTemplate: '{{ .spec.invoker.kind }}'
+    priority: 3
+    type: string
+  - name: Invoker Name
+    pathTemplate: '{{ .spec.invoker.name }}'
+    priority: 3
+    type: string
+  - color:
+      template: |
+        {{ $status := .status.phase }}
+        {{ $color := "gray" }}
+        {{ if list "Succeeded" | has $status }}
+          {{ $color = "success" }}
+        {{ else if list "Unknown" | has $status }}
+          {{ $color = "warning" }}
+        {{ else if list "Failed" | has $status }}
+          {{ $color = "danger" }}
+        {{ else if list "Pending" | has $status }}
+          {{ $color = "dark" }}
+        {{ else if list "Skipped" | has $status }}
+          {{ $color = "link" }}
+        {{ else if list "Running" | has $status }}
+          {{ $color = "info" }}
+        {{ end }}
+        {{- printf "%s" $color -}}
+    name: Phase
+    pathTemplate: '{{ .status.phase }}'
+    priority: 3
+    type: string
+  - name: Duration
+    pathTemplate: '{{ .status.sessionDuration }}'
+    priority: 3
+    type: string
+  - name: Age
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
+    priority: 3
+    sort:
+      enable: true
+      template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+      type: integer
+    type: date
   defaultView: false
   resource:
     group: stash.appscode.com
