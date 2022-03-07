@@ -7,7 +7,7 @@ metadata:
     k8s.io/kind: MongoDBOpsRequest
     k8s.io/resource: mongodbopsrequests
     k8s.io/version: v1alpha1
-  name: ops.kubedb.com-v1alpha1-mongodbopsrequests
+  name: kubedb-ops.kubedb.com-v1alpha1-mongodbopsrequests
 spec:
   columns:
     - name: Name
@@ -18,26 +18,34 @@ spec:
       pathTemplate: "{{ .metadata.namespace }}"
       priority: 3
       type: string
-    - name: Labels
-      pathTemplate: "{{ .metadata.labels | toRawJson }}"
-      priority: 3
-      type: object
-    - name: Annotations
-      pathTemplate: "{{ .metadata.annotations | toRawJson }}"
-      priority: 1
-      type: object
     - name: Type
       pathTemplate: "{{ .spec.type }}"
-      priority: 3
-      type: string
-    - name: Target Database
-      pathTemplate: "{{ .spec.databaseRef.name }}"
       priority: 3
       type: string
     - name: Status
       pathTemplate: "{{ .status.phase }}"
       priority: 3
       type: string
+      color:
+        template: |
+          {{ $status := .status.phase }}
+          {{ $color := "gray" }}
+          {{ if list "Pending" | has $status }}
+            {{ $color = "gray" }}
+          {{ else if list "Progressing" | has $status }}
+            {{ $color = "primary" }}
+          {{ else if list "Successful" | has $status }}
+            {{ $color = "success" }}
+          {{ else if list "WaitingForApproval" | has $status }}
+            {{ $color = "warning" }}
+          {{ else if list "Failed"| has $status }}
+            {{ $color = "danger" }}
+          {{ else if list "Approved" | has $status }}
+            {{ $color = "link" }}
+          {{ else if list "Denied"| has $status }}
+            {{ $color = "dark" }}
+          {{ end }}
+          {{- printf "%s" $color -}}
     - name: Age
       pathTemplate: "{{ .metadata.creationTimestamp }}"
       priority: 3
@@ -46,7 +54,9 @@ spec:
         template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
         type: integer
       type: date
-  defaultView: true
+      tooltip:
+        template: "{{ .metadata.creationTimestamp }}"
+  defaultView: false
   resource:
     group: ops.kubedb.com
     kind: MongoDBOpsRequest
