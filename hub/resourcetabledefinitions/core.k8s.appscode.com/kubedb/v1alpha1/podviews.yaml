@@ -14,6 +14,11 @@ spec:
       name: Name
       pathTemplate: "{{ .metadata.name }}"
       priority: 3
+      link:
+        template: |
+          {{ $name := .metadata.name }}
+          {{ $namespace := .metadata.namespace }}
+          {{- printf "/${username}/${clustername}/core/v1/pods/%s?namespace=%s" $name $namespace -}}
       type: string
     - name: Role
       priority: 3

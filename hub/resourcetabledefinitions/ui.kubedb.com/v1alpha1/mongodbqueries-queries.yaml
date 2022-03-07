@@ -40,9 +40,7 @@ spec:
     - name: Command
       pathTemplate: "{{ .command }}"
       priority: 3
-      type: string
-      color:
-        template: "{{ if .command }}{{`light`}}{{end}}"
+      type: object
     - name: Count
       pathTemplate: "{{ .count }}"
       priority: 3
