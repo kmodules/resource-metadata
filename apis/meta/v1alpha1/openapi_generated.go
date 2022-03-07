@@ -14426,7 +14426,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ColorDefinition(ref common.Refe
 				Properties: map[string]spec.Schema{
 					"template": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Available color codes: success,danger,neutral,warning,info",
+							Description: "Available color codes: success,danger,warning,info, link, white, light, dark, black see https://bulma.io/documentation/elements/tag/#colors",
 							Type:        []string{"string"},
 							Format:      "",
 						},
