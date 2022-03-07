@@ -45,7 +45,7 @@ spec:
           {{ else if list "Skipped" | has $status }}
             {{ $color = "link" }}
           {{ else if list "Running" | has $status }}
-            {{ $color = "primary" }}
+            {{ $color = "info" }}
           {{ end }}
           {{- printf "%s" $color -}}
     - name: Duration

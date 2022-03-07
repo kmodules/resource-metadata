@@ -25,15 +25,15 @@ spec:
       type: string
       pathTemplate: "{{ index .metadata.labels `kubedb.com/role` | default `-` | upper}}"
     - name: CPU (usage/limit)
-      pathTemplate: "{{ if .spec.resources.usage.cpu }}{{.spec.resources.usage.cpu}} / {{.spec.resources.limits.cpu}}{{ end }}"
+      pathTemplate: "{{ if .spec.resources.usage.cpu }}{{.spec.resources.usage.cpu}} / {{ default `*` .spec.resources.limits.cpu }}{{ end }}"
       priority: 3
       type: string
     - name: Memory (usage/limit)
-      pathTemplate: "{{ if .spec.resources.usage.memory }}{{.spec.resources.usage.memory}} / {{.spec.resources.limits.memory}}{{ end }}"
+      pathTemplate: "{{ if .spec.resources.usage.memory }}{{.spec.resources.usage.memory}} / {{default `*` .spec.resources.limits.memory}}{{ end }}"
       priority: 3
       type: string
     - name: Storage (usage/limit)
-      pathTemplate: "{{ if .spec.resources.usage.storage }}{{.spec.resources.usage.storage}} / {{.spec.resources.limits.storage}}{{ end }}"
+      pathTemplate: "{{ if .spec.resources.usage.storage }}{{.spec.resources.usage.storage}} / {{default `*` .spec.resources.limits.storage}}{{ end }}"
       priority: 3
       type: string
     - name: Status
