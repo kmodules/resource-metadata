@@ -53,14 +53,17 @@ spec:
   - name: CPU (request/limit)
     pathTemplate: '{{ .spec.appResource.requests.cpu }} / {{ default `*` .spec.appResource.limits.cpu }}'
     priority: 2
+    textAlign: center
     type: string
   - name: Memory (request/limit)
     pathTemplate: '{{ .spec.appResource.requests.memory }} / {{default `*` .spec.appResource.limits.memory }}'
     priority: 2
+    textAlign: center
     type: string
   - name: Storage (request/limit)
     pathTemplate: '{{ .spec.appResource.requests.storage }} / {{default `*` .spec.appResource.limits.storage }}'
     priority: 2
+    textAlign: center
     type: string
   - color:
       template: |
