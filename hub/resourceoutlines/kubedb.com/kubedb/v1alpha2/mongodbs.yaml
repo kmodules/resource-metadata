@@ -29,6 +29,25 @@ spec:
         create: Never
       displayMode: List
       kind: Connection
+      query:
+        raw: |
+          request:
+            target:
+              group: kubedb.com
+              kind: MongoDB
+              name: {{ .metadata.name }}
+              namespace: {{ .metadata.namespace }}
+            dashboard:
+              title: "<xyz>"
+            panels: []
+        type: REST
+      ref:
+        group: ui.openviz.dev
+        kind: EmbeddedDashboard
+    - actions:
+        create: Never
+      displayMode: List
+      kind: Connection
       name: Nodes
       query:
         raw: |-
@@ -100,6 +119,25 @@ spec:
         kind: MongoDBSchemaOverview
       view:
         name: ui.kubedb.com-v1alpha1-mongodbschemaoverviews-collections
+    - actions:
+        create: Never
+      displayMode: List
+      kind: Connection
+      query:
+        raw: |
+          request:
+            target:
+              group: kubedb.com
+              kind: MongoDB
+              name: {{ .metadata.name }}
+              namespace: {{ .metadata.namespace }}
+            dashboard:
+              title: "<xyz>"
+            panels: []
+        type: REST
+      ref:
+        group: ui.openviz.dev
+        kind: EmbeddedDashboard
     insight:
       actions:
         create: Never
