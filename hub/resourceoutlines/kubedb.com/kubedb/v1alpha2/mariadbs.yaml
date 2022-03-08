@@ -29,6 +29,25 @@ spec:
         create: Never
       displayMode: List
       kind: Connection
+      query:
+        raw: |
+          request:
+            target:
+              group: kubedb.com
+              kind: MariaDB
+              name: {{ .metadata.name }}
+              namespace: {{ .metadata.namespace }}
+            dashboard:
+              title: "<xyz>"
+            panels: []
+        type: REST
+      ref:
+        group: ui.openviz.dev
+        kind: EmbeddedDashboard
+    - actions:
+        create: Never
+      displayMode: List
+      kind: Connection
       name: Pods
       query:
         raw: |-
@@ -97,6 +116,25 @@ spec:
         kind: MariaDBSchemaOverview
       view:
         name: ui.kubedb.com-v1alpha1-mariadbschemaoverviews-databases
+    - actions:
+        create: Never
+      displayMode: List
+      kind: Connection
+      query:
+        raw: |
+          request:
+            target:
+              group: kubedb.com
+              kind: MariaDB
+              name: {{ .metadata.name }}
+              namespace: {{ .metadata.namespace }}
+            dashboard:
+              title: "<xyz>"
+            panels: []
+        type: REST
+      ref:
+        group: ui.openviz.dev
+        kind: EmbeddedDashboard
     info:
       actions:
         create: Never
