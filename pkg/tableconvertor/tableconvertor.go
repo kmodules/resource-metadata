@@ -441,7 +441,7 @@ func DefaultListColumns() []v1alpha1.ResourceColumnDefinition {
 			PathTemplate: `{{ .metadata.creationTimestamp }}`,
 			Sort: &v1alpha1.SortDefinition{
 				Enable:   true,
-				Template: `{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}`,
+				Template: `{{ default "" .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}`,
 				Type:     "integer",
 			},
 		},
@@ -496,7 +496,7 @@ func DefaultDetailsColumns() []v1alpha1.ResourceColumnDefinition {
 			PathTemplate: `{{ .metadata.creationTimestamp }}`,
 			Sort: &v1alpha1.SortDefinition{
 				Enable:   true,
-				Template: `{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}`,
+				Template: `{{ default "" .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}`,
 				Type:     "integer",
 			},
 		},

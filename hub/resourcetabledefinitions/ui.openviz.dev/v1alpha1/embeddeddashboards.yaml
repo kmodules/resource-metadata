@@ -2,17 +2,15 @@ apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceTableDefinition
 metadata:
   creationTimestamp: null
-  labels:
-    k8s.io/group: ui.openviz.dev
-    k8s.io/kind: EmbeddedDashboard
-    k8s.io/resource: embeddeddashboards
-    k8s.io/version: v1alpha1
-  name: ui.openviz.dev-v1alpha1-embeddeddashboards
+  name: ui.openviz.dev-v1alpha1-embeddeddashboards-urls
 spec:
-  defaultView: true
-  resource:
-    group: ui.openviz.dev
-    kind: EmbeddedDashboard
-    name: embeddeddashboards
-    scope: Namespaced
-    version: v1alpha1
+  columns:
+  - name: Title
+    pathTemplate: '{{ .title }}'
+    priority: 3
+    type: string
+  - name: Embedded URL
+    pathTemplate: '{{ .embeddedURL }}'
+    priority: 3
+    type: string
+  defaultView: false

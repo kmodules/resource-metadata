@@ -28,6 +28,7 @@ spec:
     - actions:
         create: Never
       displayMode: List
+      fieldPath: .response.urls
       kind: Connection
       query:
         raw: |
@@ -38,12 +39,14 @@ spec:
               name: {{ .name }}
               namespace: {{ .namespace }}
             dashboard:
-              title: "<xyz>"
+              title: "KubeDB / MongoDB / Summary"
             panels: []
         type: REST
       ref:
         group: ui.openviz.dev
         kind: EmbeddedDashboard
+      view:
+        name: ui.openviz.dev-v1alpha1-embeddeddashboards-urls
     - actions:
         create: Never
       displayMode: List
@@ -122,6 +125,7 @@ spec:
     - actions:
         create: Never
       displayMode: List
+      fieldPath: .response.urls
       kind: Connection
       query:
         raw: |
@@ -132,12 +136,14 @@ spec:
               name: {{ .name }}
               namespace: {{ .namespace }}
             dashboard:
-              title: "<xyz>"
+              title: "KubeDB / MongoDB / Summary"
             panels: []
         type: REST
       ref:
         group: ui.openviz.dev
         kind: EmbeddedDashboard
+      view:
+        name: ui.openviz.dev-v1alpha1-embeddeddashboards-urls
     insight:
       actions:
         create: Never
