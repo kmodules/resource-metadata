@@ -135,6 +135,8 @@ func (r ResourceLocator) GraphQuery(oid kmapi.OID) (string, map[string]interface
 
 		buf := pool.Get().(*bytes.Buffer)
 		defer pool.Put(buf)
+		buf.Reset()
+
 		err = tpl.Execute(buf, objID)
 		if err != nil {
 			return "", nil, errors.Wrap(err, "failed to resolve template")
