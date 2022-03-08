@@ -35,8 +35,8 @@ spec:
             target:
               group: kubedb.com
               kind: MariaDB
-              name: {{ .metadata.name }}
-              namespace: {{ .metadata.namespace }}
+              name: {{ .name }}
+              namespace: {{ .namespace }}
             dashboard:
               title: "<xyz>"
             panels: []
@@ -126,8 +126,8 @@ spec:
             target:
               group: kubedb.com
               kind: MariaDB
-              name: {{ .metadata.name }}
-              namespace: {{ .metadata.namespace }}
+              name: {{ .name }}
+              namespace: {{ .namespace }}
             dashboard:
               title: "<xyz>"
             panels: []

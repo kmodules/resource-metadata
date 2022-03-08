@@ -35,8 +35,8 @@ spec:
             target:
               group: kubedb.com
               kind: Postgres
-              name: {{ .metadata.name }}
-              namespace: {{ .metadata.namespace }}
+              name: {{ .name }}
+              namespace: {{ .namespace }}
             dashboard:
               title: "<xyz>"
             panels: []
@@ -127,8 +127,8 @@ spec:
             target:
               group: kubedb.com
               kind: Postgres
-              name: {{ .metadata.name }}
-              namespace: {{ .metadata.namespace }}
+              name: {{ .name }}
+              namespace: {{ .namespace }}
             dashboard:
               title: "<xyz>"
             panels: []

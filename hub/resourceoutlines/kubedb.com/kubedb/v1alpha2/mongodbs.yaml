@@ -35,8 +35,8 @@ spec:
             target:
               group: kubedb.com
               kind: MongoDB
-              name: {{ .metadata.name }}
-              namespace: {{ .metadata.namespace }}
+              name: {{ .name }}
+              namespace: {{ .namespace }}
             dashboard:
               title: "<xyz>"
             panels: []
@@ -129,8 +129,8 @@ spec:
             target:
               group: kubedb.com
               kind: MongoDB
-              name: {{ .metadata.name }}
-              namespace: {{ .metadata.namespace }}
+              name: {{ .name }}
+              namespace: {{ .namespace }}
             dashboard:
               title: "<xyz>"
             panels: []
