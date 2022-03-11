@@ -24,6 +24,7 @@ import (
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"kmodules.xyz/resource-metadata/hub"
 	blockdefs "kmodules.xyz/resource-metadata/hub/resourceblockdefinitions"
+	"kmodules.xyz/resource-metadata/hub/resourceeditors"
 	"kmodules.xyz/resource-metadata/hub/resourceoutlines"
 	tabledefs "kmodules.xyz/resource-metadata/hub/resourcetabledefinitions"
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor"
@@ -138,7 +139,6 @@ func generateDefaultLayout(kc client.Client, rid kmapi.ResourceID) (*v1alpha1.Re
 			//		// Blocks  []PageBlockOutline `json:"blocks" json:"blocks,omitempty"`
 			//	},
 			//},
-			UI: nil,
 		},
 	}
 	return GetResourceLayout(kc, outline)
@@ -178,7 +178,9 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 	result.ObjectMeta = outline.ObjectMeta
 	result.Spec.DefaultLayout = outline.Spec.DefaultLayout
 	result.Spec.Resource = outline.Spec.Resource
-	result.Spec.UI = outline.Spec.UI
+	if ed, ok := resourceeditors.LoadByGVR(kc, outline.Spec.Resource.GroupVersionResource()); ok {
+		result.Spec.UI = ed.Spec.UI
+	}
 	if outline.Spec.Header != nil {
 		tables, err := FlattenPageBlockOutline(kc, src, *outline.Spec.Header, v1alpha1.Field)
 		if err != nil {
