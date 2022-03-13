@@ -69,7 +69,7 @@ func main() {
 			log.Fatalln(err)
 		}
 
-		t, err := tableconvertor.TableForList(c, list.Items)
+		t, err := tableconvertor.TableForAnyList(c, list.Items)
 		if err != nil {
 			log.Fatalln(err)
 		}
