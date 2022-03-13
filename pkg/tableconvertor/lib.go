@@ -47,9 +47,11 @@ func NewForGVR(kc client.Client, gvr schema.GroupVersionResource, priority v1alp
 	return c, err
 }
 
-func TableForList(kc client.Client, items []unstructured.Unstructured) (*v1alpha1.Table, error) {
+func TableForAnyList(kc client.Client, items []unstructured.Unstructured) (*v1alpha1.Table, error) {
 	if len(items) == 0 {
-		return &v1alpha1.Table{}, nil
+		return &v1alpha1.Table{
+			Rows: make([]v1alpha1.TableRow, 0),
+		}, nil
 	}
 
 	gvk := items[0].GetObjectKind().GroupVersionKind()
@@ -64,7 +66,11 @@ func TableForList(kc client.Client, items []unstructured.Unstructured) (*v1alpha
 		return nil, err
 	}
 
-	c, err := NewForGVR(kc, rid.GroupVersionResource(), v1alpha1.List)
+	return TableForList(kc, rid.GroupVersionResource(), items)
+}
+
+func TableForList(kc client.Client, gvr schema.GroupVersionResource, items []unstructured.Unstructured) (*v1alpha1.Table, error) {
+	c, err := NewForGVR(kc, gvr, v1alpha1.List)
 	if err != nil {
 		return nil, err
 	}
