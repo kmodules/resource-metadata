@@ -19,7 +19,6 @@ package tableconvertor
 import (
 	"bytes"
 	"fmt"
-	"reflect"
 	"strconv"
 	"strings"
 	"text/template"
@@ -78,20 +77,20 @@ func init() {
 	templateFns["mustToRawJson"] = mustToRawJson
 }
 
-func toDate(fmt interface{}, str string) time.Time {
+func toDate(fmt string, str interface{}) time.Time {
 	output, _ := mustToDate(fmt, str)
 	return output
 }
 
-func mustToDate(fmt interface{}, str string) (time.Time, error) {
-	if reflect.ValueOf(fmt).IsNil() {
+func mustToDate(fmt string, str interface{}) (time.Time, error) {
+	if str == nil {
 		return time.Time{}, nil
 	}
-	f, ok := fmt.(string)
-	if !ok || f == "" {
+	s, ok := str.(string)
+	if !ok || s == "" {
 		return time.Time{}, nil
 	}
-	return time.ParseInLocation(f, str, time.Local)
+	return time.ParseInLocation(fmt, s, time.Local)
 }
 
 // toRawJson encodes an item into a JSON string with no escaping of HTML characters.
