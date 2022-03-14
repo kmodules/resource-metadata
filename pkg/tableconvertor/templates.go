@@ -19,6 +19,7 @@ package tableconvertor
 import (
 	"bytes"
 	"fmt"
+	"reflect"
 	"strconv"
 	"strings"
 	"text/template"
@@ -68,6 +69,47 @@ func init() {
 	for name, fn := range resourcemetrics.TxtFuncMap() {
 		templateFns[name] = fn
 	}
+
+	// override
+	templateFns["mustToDate"] = mustToDate
+	templateFns["toDate"] = toDate
+
+	templateFns["toRawJson"] = toRawJson
+	templateFns["mustToRawJson"] = mustToRawJson
+}
+
+func toDate(fmt interface{}, str string) time.Time {
+	output, _ := mustToDate(fmt, str)
+	return output
+}
+
+func mustToDate(fmt interface{}, str string) (time.Time, error) {
+	if reflect.ValueOf(fmt).IsNil() {
+		return time.Time{}, nil
+	}
+	f, ok := fmt.(string)
+	if !ok || f == "" {
+		return time.Time{}, nil
+	}
+	return time.ParseInLocation(f, str, time.Local)
+}
+
+// toRawJson encodes an item into a JSON string with no escaping of HTML characters.
+func toRawJson(v interface{}) string {
+	output, _ := mustToRawJson(v)
+	return string(output)
+}
+
+// mustToRawJson encodes an item into a JSON string with no escaping of HTML characters.
+func mustToRawJson(v interface{}) (string, error) {
+	buf := new(bytes.Buffer)
+	enc := json.NewEncoder(buf)
+	enc.SetEscapeHTML(false)
+	err := enc.Encode(&v)
+	if err != nil {
+		return "", err
+	}
+	return strings.TrimSuffix(buf.String(), "\n"), nil
 }
 
 // TxtFuncMap returns a 'text/template'.FuncMap

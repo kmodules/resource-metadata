@@ -440,13 +440,9 @@ func DefaultListColumns() []v1alpha1.ResourceColumnDefinition {
 			Priority:     int32(v1alpha1.List),
 			PathTemplate: `{{ .metadata.creationTimestamp }}`,
 			Sort: &v1alpha1.SortDefinition{
-				Enable: true,
-				Template: `{{ $x := 0 }}
-{{ with .metadata.creationTimestamp }}
-  {{ $x = . | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}
-{{ end }}
-{{- printf "%d" $x -}}`,
-				Type: "integer",
+				Enable:   true,
+				Template: `{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}`,
+				Type:     "integer",
 			},
 		},
 	}
@@ -499,13 +495,9 @@ func DefaultDetailsColumns() []v1alpha1.ResourceColumnDefinition {
 			Priority:     int32(v1alpha1.Field | v1alpha1.List),
 			PathTemplate: `{{ .metadata.creationTimestamp }}`,
 			Sort: &v1alpha1.SortDefinition{
-				Enable: true,
-				Template: `{{ $x := 0 }}
-{{ with .metadata.creationTimestamp }}
-  {{ $x = . | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}
-{{ end }}
-{{- printf "%d" $x -}}`,
-				Type: "integer",
+				Enable:   true,
+				Template: `{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}`,
+				Type:     "integer",
 			},
 		},
 		/*
