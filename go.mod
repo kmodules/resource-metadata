@@ -16,7 +16,7 @@ require (
 	golang.org/x/net v0.0.0-20210428140749-89ef3d95e781
 	gomodules.xyz/encoding v0.0.2
 	gomodules.xyz/jsonpath v0.0.1
-	gomodules.xyz/x v0.0.13
+	gomodules.xyz/x v0.0.10
 	gopkg.in/yaml.v2 v2.4.0
 	k8s.io/api v0.21.1
 	k8s.io/apiextensions-apiserver v0.21.1
@@ -25,7 +25,7 @@ require (
 	k8s.io/klog/v2 v2.9.0
 	k8s.io/kube-openapi v0.0.0-20210421082810-95288971da7e
 	kmodules.xyz/apiversion v0.2.0
-	kmodules.xyz/client-go v0.0.0-20220308080632-2543b61b64fd
+	kmodules.xyz/client-go v0.0.0-20220215012708-9963581d69a7
 	kmodules.xyz/crd-schema-fuzz v0.0.0-20210618002152-fae23aef5fb4
 	kmodules.xyz/resource-metrics v0.0.8
 	kmodules.xyz/schema-checker v0.2.0
