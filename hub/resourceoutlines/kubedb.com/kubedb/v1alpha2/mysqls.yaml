@@ -135,7 +135,15 @@ spec:
               namespace: {{ .namespace }}
             dashboard:
               title: "KubeDB / MySQL / Summary"
-            panels: []
+            panels:
+              - CPU Usage
+              - Memory Usage
+              - Disk Usage
+              - Disk R/W Info
+              - IOPS (Reads+Writes)
+              - ThroughPut (Read+Write)
+              - Receive Bandwidth
+              - Transmit Bandwidth
         type: REST
       ref:
         group: ui.openviz.dev
