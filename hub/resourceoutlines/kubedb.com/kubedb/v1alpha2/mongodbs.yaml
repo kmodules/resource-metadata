@@ -104,7 +104,7 @@ spec:
   - blocks:
     - actions:
         create: Never
-      displayMode: Field
+      displayMode: List
       fieldPath: .spec.queries
       kind: Connection
       name: Slow Queries
@@ -118,7 +118,7 @@ spec:
         name: ui.kubedb.com-v1alpha1-mongodbqueries-queries
     - actions:
         create: Never
-      displayMode: Field
+      displayMode: List
       fieldPath: .spec.collections
       kind: Connection
       name: Top Collections
