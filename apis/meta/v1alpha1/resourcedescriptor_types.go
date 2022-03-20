@@ -207,6 +207,7 @@ type ResourceColumnDefinition struct {
 	Icon      *AttributeDefinition `json:"icon,omitempty"`
 	Color     *ColorDefinition     `json:"color,omitempty"`
 	TextAlign string               `json:"textAlign,omitempty"`
+	Dashboard string               `json:"dashboard,omitempty"`
 }
 
 type SortDefinition struct {
@@ -268,6 +269,7 @@ type ResourceColumn struct {
 	Shape     ShapeProperty `json:"shape,omitempty"`
 	Icon      bool          `json:"icon,omitempty"`
 	TextAlign string        `json:"textAlign,omitempty"`
+	Dashboard string        `json:"dashboard,omitempty"`
 }
 
 // ImageSpec contains information about an image used as an icon.

@@ -137,6 +137,18 @@ spec:
                     required:
                     - usage
                     type: object
+                  dashboards:
+                    items:
+                      properties:
+                        link:
+                          type: string
+                        title:
+                          type: string
+                      required:
+                      - link
+                      - title
+                      type: object
+                    type: array
                   exposed:
                     properties:
                       refs:

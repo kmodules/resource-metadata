@@ -141,4 +141,5 @@ func main() {
 	MustCheckType(v1alpha1.ResourceEditor{}, "resourceeditors", *fix)
 	MustCheckType(v1alpha1.ResourceOutline{}, "resourceoutlines", *fix)
 	MustCheckType(v1alpha1.ResourceTableDefinition{}, "resourcetabledefinitions", *fix)
+	MustCheckType(v1alpha1.ResourceDashboard{}, "resourcedashboards", *fix)
 }

@@ -1,0 +1,19 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceDashboard
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: kubedb.com
+    k8s.io/kind: Memcached
+    k8s.io/resource: memcacheds
+    k8s.io/version: v1alpha2
+  name: kubedb.com-v1alpha2-memcacheds
+spec:
+  dashboards: null
+  defaultDashboards: true
+  resource:
+    group: kubedb.com
+    kind: Memcached
+    name: memcacheds
+    scope: Namespaced
+    version: v1alpha2

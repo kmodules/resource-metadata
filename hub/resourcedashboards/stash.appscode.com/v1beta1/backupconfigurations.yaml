@@ -1,0 +1,19 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceDashboard
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: stash.appscode.com
+    k8s.io/kind: BackupConfiguration
+    k8s.io/resource: backupconfigurations
+    k8s.io/version: v1beta1
+  name: stash.appscode.com-v1beta1-backupconfigurations
+spec:
+  dashboards: null
+  defaultDashboards: true
+  resource:
+    group: stash.appscode.com
+    kind: BackupConfiguration
+    name: backupconfigurations
+    scope: Namespaced
+    version: v1beta1

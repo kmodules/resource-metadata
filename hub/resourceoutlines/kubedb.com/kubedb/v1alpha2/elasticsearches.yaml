@@ -33,26 +33,27 @@ spec:
       query:
         raw: |
           request:
-            target:
-              group: kubedb.com
-              kind: Elasticsearch
-              name: {{ .name }}
-              namespace: {{ .namespace }}
-            dashboard:
-              title: "KubeDB / Elasticsearch / Summary"
-            panels:
-              - CPU Usage
-              - Memory Usage
-              - Disk Usage
-              - Disk R/W Info
-              - IOPS (Reads+Writes)
-              - ThroughPut (Read+Write)
-              - Receive Bandwidth
-              - Transmit Bandwidth
+            embeddedLink: true
+            dashboards:
+            - title: "KubeDB / Elasticsearch / Summary"
+              vars:
+              - name: namespace
+                value: {{ .namespace }}
+              - name: db
+                value: {{ .name }}
+              panels:
+                - CPU Usage
+                - Memory Usage
+                - Disk Usage
+                - Disk R/W Info
+                - IOPS (Reads+Writes)
+                - ThroughPut (Read+Write)
+                - Receive Bandwidth
+                - Transmit Bandwidth
         type: REST
       ref:
         group: ui.openviz.dev
-        kind: EmbeddedDashboard
+        kind: DashboardGroup
       view:
         name: ui.openviz.dev-v1alpha1-embeddeddashboards-urls
     - actions:
@@ -128,28 +129,6 @@ spec:
         kind: ElasticsearchSchemaOverview
       view:
         name: ui.kubedb.com-v1alpha1-elasticsearchschemaoverviews-indices
-    - actions:
-        create: Never
-      displayMode: List
-      fieldPath: .response.urls
-      kind: Connection
-      query:
-        raw: |
-          request:
-            target:
-              group: kubedb.com
-              kind: Elasticsearch
-              name: {{ .name }}
-              namespace: {{ .namespace }}
-            dashboard:
-              title: "KubeDB / Elasticsearch / Summary"
-            panels: []
-        type: REST
-      ref:
-        group: ui.openviz.dev
-        kind: EmbeddedDashboard
-      view:
-        name: ui.openviz.dev-v1alpha1-embeddeddashboards-urls
     info:
       actions:
         create: Never

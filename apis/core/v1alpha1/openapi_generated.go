@@ -298,6 +298,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"k8s.io/apimachinery/pkg/version.Info":                                                schema_k8sio_apimachinery_pkg_version_Info(ref),
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ContainerView":                     schema_resource_metadata_apis_core_v1alpha1_ContainerView(ref),
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ControlPlaneInfo":                  schema_resource_metadata_apis_core_v1alpha1_ControlPlaneInfo(ref),
+		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.DashboardLink":                     schema_resource_metadata_apis_core_v1alpha1_DashboardLink(ref),
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.GenericResource":                   schema_resource_metadata_apis_core_v1alpha1_GenericResource(ref),
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.GenericResourceList":               schema_resource_metadata_apis_core_v1alpha1_GenericResourceList(ref),
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.GenericResourceService":            schema_resource_metadata_apis_core_v1alpha1_GenericResourceService(ref),
@@ -14639,6 +14640,33 @@ func schema_resource_metadata_apis_core_v1alpha1_ControlPlaneInfo(ref common.Ref
 	}
 }
 
+func schema_resource_metadata_apis_core_v1alpha1_DashboardLink(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"title": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"link": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+				},
+				Required: []string{"title", "link"},
+			},
+		},
+	}
+}
+
 func schema_resource_metadata_apis_core_v1alpha1_GenericResource(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -14847,11 +14875,24 @@ func schema_resource_metadata_apis_core_v1alpha1_GenericResourceServiceFacilitie
 							Ref:     ref("kmodules.xyz/resource-metadata/apis/core/v1alpha1.GenericResourceServiceFacilitator"),
 						},
 					},
+					"dashboards": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/core/v1alpha1.DashboardLink"),
+									},
+								},
+							},
+						},
+					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/core/v1alpha1.GenericResourceServiceFacilitator"},
+			"kmodules.xyz/resource-metadata/apis/core/v1alpha1.DashboardLink", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.GenericResourceServiceFacilitator"},
 	}
 }
 

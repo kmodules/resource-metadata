@@ -33,26 +33,27 @@ spec:
       query:
         raw: |
           request:
-            target:
-              group: kubedb.com
-              kind: MariaDB
-              name: {{ .name }}
-              namespace: {{ .namespace }}
-            dashboard:
-              title: "KubeDB / MariaDB / Summary"
-            panels:
-              - CPU Usage
-              - Memory Usage
-              - Disk Usage
-              - Disk R/W Info
-              - IOPS (Reads+Writes)
-              - ThroughPut (Read+Write)
-              - Receive Bandwidth
-              - Transmit Bandwidth
+            embeddedLink: true
+            dashboards:
+            - title: "KubeDB / MariaDB / Summary"
+              vars:
+              - name: namespace
+                value: {{ .namespace }}
+              - name: db
+                value: {{ .name }}
+              panels:
+                - CPU Usage
+                - Memory Usage
+                - Disk Usage
+                - Disk R/W Info
+                - IOPS (Reads+Writes)
+                - ThroughPut (Read+Write)
+                - Receive Bandwidth
+                - Transmit Bandwidth
         type: REST
       ref:
         group: ui.openviz.dev
-        kind: EmbeddedDashboard
+        kind: DashboardGroup
       view:
         name: ui.openviz.dev-v1alpha1-embeddeddashboards-urls
     - actions:
@@ -127,28 +128,6 @@ spec:
         kind: MariaDBSchemaOverview
       view:
         name: ui.kubedb.com-v1alpha1-mariadbschemaoverviews-databases
-    - actions:
-        create: Never
-      displayMode: List
-      fieldPath: .response.urls
-      kind: Connection
-      query:
-        raw: |
-          request:
-            target:
-              group: kubedb.com
-              kind: MariaDB
-              name: {{ .name }}
-              namespace: {{ .namespace }}
-            dashboard:
-              title: "KubeDB / MariaDB / Summary"
-            panels: []
-        type: REST
-      ref:
-        group: ui.openviz.dev
-        kind: EmbeddedDashboard
-      view:
-        name: ui.openviz.dev-v1alpha1-embeddeddashboards-urls
     info:
       actions:
         create: Never
