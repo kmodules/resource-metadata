@@ -13,21 +13,21 @@ spec:
   - title: KubeDB / Elasticsearch / Summary
     vars:
     - name: namespace
-      value: .metadata.namespace
+      value: '{{ .metadata.namespace }}'
     - name: db
-      value: .metadata.name
+      value: '{{ .metadata.name }}'
   - title: KubeDB / Elasticsearch / Database
     vars:
     - name: namespace
-      value: .metadata.namespace
+      value: '{{ .metadata.namespace }}'
     - name: db
-      value: .metadata.name
+      value: '{{ .metadata.name }}'
   - title: KubeDB / Elasticsearch / Pod
     vars:
     - name: namespace
-      value: .metadata.namespace
+      value: '{{ .metadata.namespace }}'
     - name: db
-      value: .metadata.name
+      value: '{{ .metadata.name }}'
   provider: Grafana
   resource:
     group: kubedb.com

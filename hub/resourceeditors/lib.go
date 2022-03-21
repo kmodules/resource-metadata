@@ -134,8 +134,9 @@ func LoadByResourceID(kc client.Client, rid *kmapi.ResourceID) (*v1alpha1.Resour
 	gvr := rid.GroupVersionResource()
 	if gvr.Version == "" || gvr.Resource == "" {
 		id, err := kmapi.ExtractResourceID(kc.RESTMapper(), *rid)
-		if client.IgnoreNotFound(err) != nil {
+		if err != nil {
 			klog.V(3).InfoS(fmt.Sprintf("failed to extract resource id for %+v", *rid))
+			return nil, false
 		}
 		gvr = id.GroupVersionResource()
 	}

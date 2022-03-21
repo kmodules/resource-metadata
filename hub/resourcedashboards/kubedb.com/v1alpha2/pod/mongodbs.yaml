@@ -5,15 +5,15 @@ metadata:
   name: kubedb.com-v1alpha2-mongodbs-pod
 spec:
   dashboards:
-  - title: KubeDB / MariaDB / Pod
+  - title: KubeDB / MongoDB / Pod
     vars:
     - name: namespace
-      value: .metadata.namespace
+      value: '{{ .metadata.namespace }}'
     - name: db
-      value: .metadata.name
+      value: '{{ .metadata.name }}'
     - name: pod
       type: Target
-      value: .metadata.name
+      value: '{{ .metadata.name }}'
   provider: Grafana
   resource:
     group: ""

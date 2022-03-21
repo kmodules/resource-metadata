@@ -8,12 +8,12 @@ spec:
   - title: KubeDB / MySQL / Pod
     vars:
     - name: namespace
-      value: .metadata.namespace
+      value: '{{ .metadata.namespace }}'
     - name: db
-      value: .metadata.name
+      value: '{{ .metadata.name }}'
     - name: pod
       type: Target
-      value: .metadata.name
+      value: '{{ .metadata.name }}'
   provider: Grafana
   resource:
     group: ""

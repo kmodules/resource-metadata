@@ -32,8 +32,8 @@ import (
 	"github.com/pkg/errors"
 	ioutilx "gomodules.xyz/x/ioutil"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
+	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/klog/v2"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/yaml"
 )
@@ -112,7 +112,7 @@ func LoadInternalByGVR(gvr schema.GroupVersionResource) (*v1alpha1.ResourceDashb
 func LoadByName(kc client.Client, name string) (*v1alpha1.ResourceDashboard, error) {
 	var ed v1alpha1.ResourceDashboard
 	err := kc.Get(context.TODO(), client.ObjectKey{Name: name}, &ed)
-	if apierrors.IsNotFound(err) {
+	if runtime.IsNotRegisteredError(err) || apierrors.IsNotFound(err) {
 		return LoadInternalByName(name)
 	}
 	return &ed, err
@@ -130,8 +130,8 @@ func LoadByResourceID(kc client.Client, rid *kmapi.ResourceID) (*v1alpha1.Resour
 	gvr := rid.GroupVersionResource()
 	if gvr.Version == "" || gvr.Resource == "" {
 		id, err := kmapi.ExtractResourceID(kc.RESTMapper(), *rid)
-		if client.IgnoreNotFound(err) != nil {
-			klog.V(3).InfoS(fmt.Sprintf("failed to extract resource id for %+v", *rid))
+		if err != nil {
+			return nil, errors.Wrapf(err, "failed to extract resource id for %+v", *rid)
 		}
 		gvr = id.GroupVersionResource()
 	}
