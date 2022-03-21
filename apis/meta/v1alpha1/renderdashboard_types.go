@@ -37,7 +37,7 @@ type RenderDashboard struct {
 	Request *RenderDashboardRequest `json:"request,omitempty"`
 	// Response describes the attributes for the graph response.
 	// +optional
-	Response RenderDashboardResponse `json:"response,omitempty"`
+	Response *RenderDashboardResponse `json:"response,omitempty"`
 }
 
 type RenderDashboardRequest struct {

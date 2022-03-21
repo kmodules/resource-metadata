@@ -87,8 +87,8 @@ type Dashboard struct {
 }
 
 type If struct {
-	Condition string              `json:"condition,omitempty"`
-	Connected *ResourceConnection `json:"connected,omitempty"`
+	Condition string           `json:"condition,omitempty"`
+	Connected *ResourceLocator `json:"connected,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

@@ -205,8 +205,8 @@ func (in *If) DeepCopyInto(out *If) {
 	*out = *in
 	if in.Connected != nil {
 		in, out := &in.Connected, &out.Connected
-		*out = new(ResourceConnection)
-		(*in).DeepCopyInto(*out)
+		*out = new(ResourceLocator)
+		**out = **in
 	}
 	return
 }
@@ -936,7 +936,11 @@ func (in *RenderDashboard) DeepCopyInto(out *RenderDashboard) {
 		*out = new(RenderDashboardRequest)
 		**out = **in
 	}
-	in.Response.DeepCopyInto(&out.Response)
+	if in.Response != nil {
+		in, out := &in.Response, &out.Response
+		*out = new(RenderDashboardResponse)
+		(*in).DeepCopyInto(*out)
+	}
 	return
 }
 

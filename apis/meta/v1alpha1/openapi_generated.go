@@ -14681,14 +14681,14 @@ func schema_resource_metadata_apis_meta_v1alpha1_If(ref common.ReferenceCallback
 					},
 					"connected": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceConnection"),
+							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceLocator"),
 						},
 					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceConnection"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceLocator"},
 	}
 }
 
@@ -15995,7 +15995,6 @@ func schema_resource_metadata_apis_meta_v1alpha1_RenderDashboard(ref common.Refe
 					"response": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Response describes the attributes for the graph response.",
-							Default:     map[string]interface{}{},
 							Ref:         ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderDashboardResponse"),
 						},
 					},
