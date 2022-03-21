@@ -13,23 +13,23 @@ spec:
   - title: KubeDB / Redis / Summary
     vars:
     - name: namespace
-      value: .metadata.namespace
+      value: '{{ .metadata.namespace }}'
     - name: db
-      value: .metadata.name
+      value: '{{ .metadata.name }}'
   - if:
       condition: '{{- if or (eq .spec.mode "Cluster") (eq .spec.mode "Sentinel") }}true{{ else }}false{{ end -}}'
     title: KubeDB / Redis / Shards
     vars:
     - name: namespace
-      value: .metadata.namespace
+      value: '{{ .metadata.namespace }}'
     - name: db
-      value: .metadata.name
+      value: '{{ .metadata.name }}'
   - title: KubeDB / Redis / Pod
     vars:
     - name: namespace
-      value: .metadata.namespace
+      value: '{{ .metadata.namespace }}'
     - name: db
-      value: .metadata.name
+      value: '{{ .metadata.name }}'
   provider: Grafana
   resource:
     group: kubedb.com

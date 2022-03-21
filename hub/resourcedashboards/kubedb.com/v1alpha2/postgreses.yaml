@@ -13,21 +13,21 @@ spec:
   - title: KubeDB / Postgres / Summary
     vars:
     - name: namespace
-      value: .metadata.namespace
+      value: '{{ .metadata.namespace }}'
     - name: db
-      value: .metadata.name
+      value: '{{ .metadata.name }}'
   - title: KubeDB / Postgres / Database
     vars:
     - name: namespace
-      value: .metadata.namespace
+      value: '{{ .metadata.namespace }}'
     - name: db
-      value: .metadata.name
+      value: '{{ .metadata.name }}'
   - title: KubeDB / Postgres / Pod
     vars:
     - name: namespace
-      value: .metadata.namespace
+      value: '{{ .metadata.namespace }}'
     - name: db
-      value: .metadata.name
+      value: '{{ .metadata.name }}'
   provider: Grafana
   resource:
     group: kubedb.com

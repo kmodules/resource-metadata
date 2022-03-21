@@ -13,29 +13,29 @@ spec:
   - title: KubeDB / MySQL / Summary
     vars:
     - name: namespace
-      value: .metadata.namespace
+      value: '{{ .metadata.namespace }}'
     - name: db
-      value: .metadata.name
+      value: '{{ .metadata.name }}'
   - if:
       condition: '{{- if or (eq .spec.topology.mode "GroupReplication") (eq .spec.topology.mode "InnoDBCluster") }}true{{ else }}false{{ end -}}'
     title: KubeDB / MySQL / Group-Replication-Summary
     vars:
     - name: namespace
-      value: .metadata.namespace
+      value: '{{ .metadata.namespace }}'
     - name: db
-      value: .metadata.name
+      value: '{{ .metadata.name }}'
   - title: KubeDB / MySQL / Database
     vars:
     - name: namespace
-      value: .metadata.namespace
+      value: '{{ .metadata.namespace }}'
     - name: db
-      value: .metadata.name
+      value: '{{ .metadata.name }}'
   - title: KubeDB / MySQL / Pod
     vars:
     - name: namespace
-      value: .metadata.namespace
+      value: '{{ .metadata.namespace }}'
     - name: db
-      value: .metadata.name
+      value: '{{ .metadata.name }}'
   provider: Grafana
   resource:
     group: kubedb.com
