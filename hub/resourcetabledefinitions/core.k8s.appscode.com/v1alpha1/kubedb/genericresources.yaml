@@ -23,13 +23,13 @@ spec:
     priority: 3
     type: string
   - format: resource-map
-    name: App Resource Limits
-    pathTemplate: '{{ .spec.appResource.limits | toRawJson }}'
+    name: App Resource Requests
+    pathTemplate: '{{ .spec.appResource.requests | toRawJson }}'
     priority: 3
     type: object
   - format: resource-map
-    name: App Resource Requests
-    pathTemplate: '{{ .spec.appResource.requests | toRawJson }}'
+    name: App Resource Limits
+    pathTemplate: '{{ .spec.appResource.limits | toRawJson }}'
     priority: 3
     type: object
   - color:
