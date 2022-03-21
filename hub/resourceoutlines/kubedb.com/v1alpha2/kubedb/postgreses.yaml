@@ -4,10 +4,10 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: kubedb.com
-    k8s.io/kind: MongoDB
-    k8s.io/resource: mongodbs
+    k8s.io/kind: Postgres
+    k8s.io/resource: postgreses
     k8s.io/version: v1alpha2
-  name: kubedb-kubedb.com-v1alpha2-mongodbs
+  name: kubedb.com-v1alpha2-postgreses-kubedb
 spec:
   defaultLayout: false
   header:
@@ -35,7 +35,7 @@ spec:
           request:
             embeddedLink: true
             dashboards:
-            - title: "KubeDB / MongoDB / Summary"
+            - title: "KubeDB / Postgres / Summary"
               vars:
               - name: namespace
                 value: {{ .namespace }}
@@ -60,7 +60,7 @@ spec:
         create: Never
       displayMode: List
       kind: Connection
-      name: Nodes
+      name: Pods
       query:
         raw: |-
           query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
@@ -78,7 +78,7 @@ spec:
         group: core.k8s.appscode.com
         kind: PodView
       view:
-        name: kubedb-core.k8s.appscode.com-v1alpha1-podviews
+        name: core.k8s.appscode.com-v1alpha1-podviews-kubedb-postgreses
     info:
       actions:
         create: Never
@@ -100,12 +100,12 @@ spec:
         type: GraphQL
       ref:
         group: ui.kubedb.com
-        kind: MongoDBInsight
+        kind: PostgresInsight
     name: Overview
   - blocks:
     - actions:
         create: Never
-      displayMode: List
+      displayMode: Field
       fieldPath: .spec.queries
       kind: Connection
       name: Slow Queries
@@ -114,23 +114,37 @@ spec:
         type: GraphQL
       ref:
         group: ui.kubedb.com
-        kind: MongoDBQueries
+        kind: PostgresQueries
       view:
-        name: ui.kubedb.com-v1alpha1-mongodbqueries-queries
+        name: ui.kubedb.com-v1alpha1-postgresqueries-queries
     - actions:
         create: Never
-      displayMode: List
-      fieldPath: .spec.collections
+      displayMode: Field
+      fieldPath: .spec.databases
       kind: Connection
-      name: Top Collections
+      name: Databases
       query:
         byLabel: view
         type: GraphQL
       ref:
         group: ui.kubedb.com
-        kind: MongoDBSchemaOverview
+        kind: PostgresSchemaOverview
       view:
-        name: ui.kubedb.com-v1alpha1-mongodbschemaoverviews-collections
+        name: ui.kubedb.com-v1alpha1-postgresschemaoverviews-databases
+    info:
+      actions:
+        create: Never
+      displayMode: Field
+      fieldPath: .spec.settings
+      kind: Connection
+      query:
+        byLabel: view
+        type: GraphQL
+      ref:
+        group: ui.kubedb.com
+        kind: PostgresSettings
+      view:
+        name: ui.kubedb.com-v1alpha1-postgressettings-settings
     insight:
       actions:
         create: Never
@@ -141,7 +155,7 @@ spec:
         type: GraphQL
       ref:
         group: ui.kubedb.com
-        kind: MongoDBInsight
+        kind: PostgresInsight
     name: Database Insights
   - blocks:
     - actions:
@@ -165,8 +179,6 @@ spec:
       ref:
         group: stash.appscode.com
         kind: BackupSession
-      view:
-        name: kubedb-stash.appscode.com-v1beta1-backupsessions
     info:
       actions:
         create: IfEmpty
@@ -200,14 +212,12 @@ spec:
         type: GraphQL
       ref:
         group: ops.kubedb.com
-        kind: MongoDBOpsRequest
-      view:
-        name: kubedb-ops.kubedb.com-v1alpha1-mongodbopsrequests
+        kind: PostgresOpsRequest
     name: Operations
   resource:
     group: kubedb.com
-    kind: MongoDB
-    name: mongodbs
+    kind: Postgres
+    name: postgreses
     scope: Namespaced
     version: v1alpha2
   tabBar:

@@ -4,10 +4,10 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: kubedb.com
-    k8s.io/kind: Postgres
-    k8s.io/resource: postgreses
+    k8s.io/kind: Elasticsearch
+    k8s.io/resource: elasticsearches
     k8s.io/version: v1alpha2
-  name: kubedb-kubedb.com-v1alpha2-postgreses
+  name: kubedb.com-v1alpha2-elasticsearches-kubedb
 spec:
   defaultLayout: false
   header:
@@ -35,7 +35,7 @@ spec:
           request:
             embeddedLink: true
             dashboards:
-            - title: "KubeDB / Postgres / Summary"
+            - title: "KubeDB / Elasticsearch / Summary"
               vars:
               - name: namespace
                 value: {{ .namespace }}
@@ -77,6 +77,8 @@ spec:
       ref:
         group: core.k8s.appscode.com
         kind: PodView
+      view:
+        name: core.k8s.appscode.com-v1alpha1-podviews-kubedb-elasticsearches
     info:
       actions:
         create: Never
@@ -98,62 +100,48 @@ spec:
         type: GraphQL
       ref:
         group: ui.kubedb.com
-        kind: PostgresInsight
+        kind: ElasticsearchInsight
     name: Overview
   - blocks:
     - actions:
         create: Never
       displayMode: Field
-      fieldPath: .spec.queries
+      fieldPath: .spec.nodes
       kind: Connection
-      name: Slow Queries
+      name: Stats
       query:
         byLabel: view
         type: GraphQL
       ref:
         group: ui.kubedb.com
-        kind: PostgresQueries
+        kind: ElasticsearchNodesStats
       view:
-        name: ui.kubedb.com-v1alpha1-postgresqueries-queries
+        name: ui.kubedb.com-v1alpha1-elasticsearchnodesstats-nodes
     - actions:
         create: Never
       displayMode: Field
-      fieldPath: .spec.databases
+      fieldPath: .spec.indices
       kind: Connection
-      name: Databases
+      name: Indices
       query:
         byLabel: view
         type: GraphQL
       ref:
         group: ui.kubedb.com
-        kind: PostgresSchemaOverview
+        kind: ElasticsearchSchemaOverview
       view:
-        name: ui.kubedb.com-v1alpha1-postgresschemaoverviews-databases
+        name: ui.kubedb.com-v1alpha1-elasticsearchschemaoverviews-indices
     info:
       actions:
         create: Never
       displayMode: Field
-      fieldPath: .spec.settings
       kind: Connection
       query:
         byLabel: view
         type: GraphQL
       ref:
         group: ui.kubedb.com
-        kind: PostgresSettings
-      view:
-        name: ui.kubedb.com-v1alpha1-postgressettings-settings
-    insight:
-      actions:
-        create: Never
-      displayMode: Field
-      kind: Connection
-      query:
-        byLabel: view
-        type: GraphQL
-      ref:
-        group: ui.kubedb.com
-        kind: PostgresInsight
+        kind: ElasticsearchInsight
     name: Database Insights
   - blocks:
     - actions:
@@ -210,12 +198,12 @@ spec:
         type: GraphQL
       ref:
         group: ops.kubedb.com
-        kind: PostgresOpsRequest
+        kind: ElasticsearchOpsRequest
     name: Operations
   resource:
     group: kubedb.com
-    kind: Postgres
-    name: postgreses
+    kind: Elasticsearch
+    name: elasticsearches
     scope: Namespaced
     version: v1alpha2
   tabBar:
@@ -230,4 +218,4 @@ spec:
       group: core.k8s.appscode.com
       kind: GenericResourceService
     view:
-      name: kubedb-core.k8s.appscode.com-v1alpha1-genericresourceservices
+      name: kubedb-core.k8s.appscode.com-v1alpha1-genericresources

@@ -4,10 +4,10 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: kubedb.com
-    k8s.io/kind: Elasticsearch
-    k8s.io/resource: elasticsearches
+    k8s.io/kind: MySQL
+    k8s.io/resource: mysqls
     k8s.io/version: v1alpha2
-  name: kubedb-kubedb.com-v1alpha2-elasticsearches
+  name: kubedb.com-v1alpha2-mysqls-kubedb
 spec:
   defaultLayout: false
   header:
@@ -35,7 +35,7 @@ spec:
           request:
             embeddedLink: true
             dashboards:
-            - title: "KubeDB / Elasticsearch / Summary"
+            - title: "KubeDB / MySQL / Summary"
               vars:
               - name: namespace
                 value: {{ .namespace }}
@@ -77,6 +77,8 @@ spec:
       ref:
         group: core.k8s.appscode.com
         kind: PodView
+      view:
+        name: core.k8s.appscode.com-v1alpha1-podviews-kubedb-mysqls
     info:
       actions:
         create: Never
@@ -98,37 +100,37 @@ spec:
         type: GraphQL
       ref:
         group: ui.kubedb.com
-        kind: ElasticsearchInsight
+        kind: MySQLInsight
     name: Overview
   - blocks:
     - actions:
         create: Never
       displayMode: Field
-      fieldPath: .spec.nodes
+      fieldPath: .spec.queries
       kind: Connection
-      name: Stats
+      name: Slow Queries
       query:
         byLabel: view
         type: GraphQL
       ref:
         group: ui.kubedb.com
-        kind: ElasticsearchNodesStats
+        kind: MySQLQueries
       view:
-        name: ui.kubedb.com-v1alpha1-elasticsearchnodesstats-nodes
+        name: ui.kubedb.com-v1alpha1-mysqlqueries-queries
     - actions:
         create: Never
       displayMode: Field
-      fieldPath: .spec.indices
+      fieldPath: .spec.databases
       kind: Connection
-      name: Indices
+      name: Databases
       query:
         byLabel: view
         type: GraphQL
       ref:
         group: ui.kubedb.com
-        kind: ElasticsearchSchemaOverview
+        kind: MySQLSchemaOverview
       view:
-        name: ui.kubedb.com-v1alpha1-elasticsearchschemaoverviews-indices
+        name: ui.kubedb.com-v1alpha1-mysqlschemaoverviews-databases
     info:
       actions:
         create: Never
@@ -139,7 +141,7 @@ spec:
         type: GraphQL
       ref:
         group: ui.kubedb.com
-        kind: ElasticsearchInsight
+        kind: MySQLInsight
     name: Database Insights
   - blocks:
     - actions:
@@ -196,12 +198,12 @@ spec:
         type: GraphQL
       ref:
         group: ops.kubedb.com
-        kind: ElasticsearchOpsRequest
+        kind: MySQLOpsRequest
     name: Operations
   resource:
     group: kubedb.com
-    kind: Elasticsearch
-    name: elasticsearches
+    kind: MySQL
+    name: mysqls
     scope: Namespaced
     version: v1alpha2
   tabBar:
@@ -216,4 +218,4 @@ spec:
       group: core.k8s.appscode.com
       kind: GenericResourceService
     view:
-      name: kubedb-core.k8s.appscode.com-v1alpha1-genericresources
+      name: kubedb-core.k8s.appscode.com-v1alpha1-genericresourceservices

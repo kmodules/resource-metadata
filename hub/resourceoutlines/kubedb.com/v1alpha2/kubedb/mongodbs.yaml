@@ -4,10 +4,10 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: kubedb.com
-    k8s.io/kind: Redis
-    k8s.io/resource: redises
+    k8s.io/kind: MongoDB
+    k8s.io/resource: mongodbs
     k8s.io/version: v1alpha2
-  name: kubedb-kubedb.com-v1alpha2-redises
+  name: kubedb.com-v1alpha2-mongodbs-kubedb
 spec:
   defaultLayout: false
   header:
@@ -35,7 +35,7 @@ spec:
           request:
             embeddedLink: true
             dashboards:
-            - title: "KubeDB / Redis / Summary"
+            - title: "KubeDB / MongoDB / Summary"
               vars:
               - name: namespace
                 value: {{ .namespace }}
@@ -60,7 +60,7 @@ spec:
         create: Never
       displayMode: List
       kind: Connection
-      name: Pods
+      name: Nodes
       query:
         raw: |-
           query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
@@ -77,6 +77,8 @@ spec:
       ref:
         group: core.k8s.appscode.com
         kind: PodView
+      view:
+        name: core.k8s.appscode.com-v1alpha1-podviews-kubedb-mongodbs
     info:
       actions:
         create: Never
@@ -98,12 +100,12 @@ spec:
         type: GraphQL
       ref:
         group: ui.kubedb.com
-        kind: RedisInsight
+        kind: MongoDBInsight
     name: Overview
   - blocks:
     - actions:
         create: Never
-      displayMode: Field
+      displayMode: List
       fieldPath: .spec.queries
       kind: Connection
       name: Slow Queries
@@ -112,24 +114,24 @@ spec:
         type: GraphQL
       ref:
         group: ui.kubedb.com
-        kind: RedisQueries
+        kind: MongoDBQueries
       view:
-        name: ui.kubedb.com-v1alpha1-redisqueries-queries
+        name: ui.kubedb.com-v1alpha1-mongodbqueries-queries
     - actions:
         create: Never
-      displayMode: Field
-      fieldPath: .spec.databases
+      displayMode: List
+      fieldPath: .spec.collections
       kind: Connection
-      name: Databases
+      name: Top Collections
       query:
         byLabel: view
         type: GraphQL
       ref:
         group: ui.kubedb.com
-        kind: RedisSchemaOverview
+        kind: MongoDBSchemaOverview
       view:
-        name: ui.kubedb.com-v1alpha1-redisschemaoverviews-databases
-    info:
+        name: ui.kubedb.com-v1alpha1-mongodbschemaoverviews-collections
+    insight:
       actions:
         create: Never
       displayMode: Field
@@ -139,7 +141,7 @@ spec:
         type: GraphQL
       ref:
         group: ui.kubedb.com
-        kind: RedisInsight
+        kind: MongoDBInsight
     name: Database Insights
   - blocks:
     - actions:
@@ -163,6 +165,8 @@ spec:
       ref:
         group: stash.appscode.com
         kind: BackupSession
+      view:
+        name: kubedb-stash.appscode.com-v1beta1-backupsessions
     info:
       actions:
         create: IfEmpty
@@ -196,12 +200,14 @@ spec:
         type: GraphQL
       ref:
         group: ops.kubedb.com
-        kind: RedisOpsRequest
+        kind: MongoDBOpsRequest
+      view:
+        name: kubedb-ops.kubedb.com-v1alpha1-mongodbopsrequests
     name: Operations
   resource:
     group: kubedb.com
-    kind: Redis
-    name: redises
+    kind: MongoDB
+    name: mongodbs
     scope: Namespaced
     version: v1alpha2
   tabBar:

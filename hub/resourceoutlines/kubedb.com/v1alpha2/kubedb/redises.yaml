@@ -4,10 +4,10 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: kubedb.com
-    k8s.io/kind: MariaDB
-    k8s.io/resource: mariadbs
+    k8s.io/kind: Redis
+    k8s.io/resource: redises
     k8s.io/version: v1alpha2
-  name: kubedb-kubedb.com-v1alpha2-mariadbs
+  name: kubedb.com-v1alpha2-redises-kubedb
 spec:
   defaultLayout: false
   header:
@@ -35,7 +35,7 @@ spec:
           request:
             embeddedLink: true
             dashboards:
-            - title: "KubeDB / MariaDB / Summary"
+            - title: "KubeDB / Redis / Summary"
               vars:
               - name: namespace
                 value: {{ .namespace }}
@@ -77,6 +77,8 @@ spec:
       ref:
         group: core.k8s.appscode.com
         kind: PodView
+      view:
+        name: core.k8s.appscode.com-v1alpha1-podviews-kubedb-redises
     info:
       actions:
         create: Never
@@ -98,7 +100,7 @@ spec:
         type: GraphQL
       ref:
         group: ui.kubedb.com
-        kind: MariaDBInsight
+        kind: RedisInsight
     name: Overview
   - blocks:
     - actions:
@@ -106,14 +108,15 @@ spec:
       displayMode: Field
       fieldPath: .spec.queries
       kind: Connection
+      name: Slow Queries
       query:
         byLabel: view
         type: GraphQL
       ref:
         group: ui.kubedb.com
-        kind: MariaDBQueries
+        kind: RedisQueries
       view:
-        name: ui.kubedb.com-v1alpha1-mariadbqueries-queries
+        name: ui.kubedb.com-v1alpha1-redisqueries-queries
     - actions:
         create: Never
       displayMode: Field
@@ -125,9 +128,9 @@ spec:
         type: GraphQL
       ref:
         group: ui.kubedb.com
-        kind: MariaDBSchemaOverview
+        kind: RedisSchemaOverview
       view:
-        name: ui.kubedb.com-v1alpha1-mariadbschemaoverviews-databases
+        name: ui.kubedb.com-v1alpha1-redisschemaoverviews-databases
     info:
       actions:
         create: Never
@@ -138,7 +141,7 @@ spec:
         type: GraphQL
       ref:
         group: ui.kubedb.com
-        kind: MariaDBInsight
+        kind: RedisInsight
     name: Database Insights
   - blocks:
     - actions:
@@ -195,12 +198,12 @@ spec:
         type: GraphQL
       ref:
         group: ops.kubedb.com
-        kind: MariaDBOpsRequest
+        kind: RedisOpsRequest
     name: Operations
   resource:
     group: kubedb.com
-    kind: MariaDB
-    name: mariadbs
+    kind: Redis
+    name: redises
     scope: Namespaced
     version: v1alpha2
   tabBar:

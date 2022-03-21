@@ -14,43 +14,43 @@ spec:
     - src: https://cdn.appscode.com/k8s/icons/menu/datastore.png
       type: image/png
     items:
-    - layoutName: kubedb-kubedb.com-v1alpha2-elasticsearches
+    - layoutName: kubedb.com-v1alpha2-elasticsearches-kubedb
       name: Elasticsearch
       required: true
       type:
         group: kubedb.com
         kind: Elasticsearch
-    - layoutName: kubedb-kubedb.com-v1alpha2-mariadbs
+    - layoutName: kubedb.com-v1alpha2-mariadbs-kubedb
       name: MariaDB
       required: true
       type:
         group: kubedb.com
         kind: MariaDB
-    - layoutName: kubedb-kubedb.com-v1alpha2-memcacheds
+    - layoutName: kubedb.com-v1alpha2-memcacheds-kubedb
       name: Memcached
       required: true
       type:
         group: kubedb.com
         kind: Memcached
-    - layoutName: kubedb-kubedb.com-v1alpha2-mongodbs
+    - layoutName: kubedb.com-v1alpha2-mongodbs-kubedb
       name: MongoDB
       required: true
       type:
         group: kubedb.com
         kind: MongoDB
-    - layoutName: kubedb-kubedb.com-v1alpha2-mysqls
+    - layoutName: kubedb.com-v1alpha2-mysqls-kubedb
       name: MySQL
       required: true
       type:
         group: kubedb.com
         kind: MySQL
-    - layoutName: kubedb-kubedb.com-v1alpha2-postgreses
+    - layoutName: kubedb.com-v1alpha2-postgreses-kubedb
       name: PostgreSQL
       required: true
       type:
         group: kubedb.com
         kind: Postgres
-    - layoutName: kubedb-kubedb.com-v1alpha2-redises
+    - layoutName: kubedb.com-v1alpha2-redises-kubedb
       name: Redis
       required: true
       type:
