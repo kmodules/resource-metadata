@@ -10,7 +10,6 @@ metadata:
   name: monitoring.coreos.com-v1-servicemonitors
 spec:
   dashboards: null
-  defaultDashboards: true
   resource:
     group: monitoring.coreos.com
     kind: ServiceMonitor

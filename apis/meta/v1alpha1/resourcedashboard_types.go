@@ -54,10 +54,9 @@ const (
 )
 
 type ResourceDashboardSpec struct {
-	Resource          kmapi.ResourceID  `json:"resource"`
-	DefaultDashboards bool              `json:"defaultDashboards"`
-	Provider          DashboardProvider `json:"provider,omitempty"`
-	Dashboards        []Dashboard       `json:"dashboards"`
+	Resource   kmapi.ResourceID  `json:"resource"`
+	Provider   DashboardProvider `json:"provider,omitempty"`
+	Dashboards []Dashboard       `json:"dashboards"`
 }
 
 // +kubebuilder:validation:Enum=Source;Target
@@ -88,8 +87,8 @@ type Dashboard struct {
 }
 
 type If struct {
-	Condition string              `json:"condition,omitempty"`
-	Connected *ResourceConnection `json:"connected,omitempty"`
+	Condition string           `json:"condition,omitempty"`
+	Connected *ResourceLocator `json:"connected,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

@@ -28,7 +28,6 @@ spec:
       value: .metadata.namespace
     - name: db
       value: .metadata.name
-  defaultDashboards: true
   provider: Grafana
   resource:
     group: kubedb.com

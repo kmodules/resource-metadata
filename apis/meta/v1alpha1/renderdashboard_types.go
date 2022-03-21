@@ -17,8 +17,9 @@ limitations under the License.
 package v1alpha1
 
 import (
+	kmapi "kmodules.xyz/client-go/api/v1"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 )
 
 const (
@@ -36,12 +37,29 @@ type RenderDashboard struct {
 	Request *RenderDashboardRequest `json:"request,omitempty"`
 	// Response describes the attributes for the graph response.
 	// +optional
-	Response runtime.Object `json:"response,omitempty"`
+	Response *RenderDashboardResponse `json:"response,omitempty"`
 }
 
 type RenderDashboardRequest struct {
-	metav1.GroupVersionKind `json:",inline"`
-	Namespace               string `json:"namespace"`
+	Resource kmapi.ResourceID      `json:"resource"`
+	Ref      kmapi.ObjectReference `json:"ref"`
 	// +optional
 	Name string `json:"name,omitempty"`
+}
+
+type RenderDashboardResponse struct {
+	Dashboards []DashboardResponse `json:"dashboards"`
+}
+
+type DashboardResponse struct {
+	Title string `json:"title"`
+	// +optional
+	Link string `json:"link,omitempty"`
+	// +optional
+	Panels []PanelLinkResponse `json:"panels,omitempty"`
+}
+
+type PanelLinkResponse struct {
+	Title string `json:"title"`
+	URL   string `json:"url"`
 }
