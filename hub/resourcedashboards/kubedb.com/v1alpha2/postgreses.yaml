@@ -29,6 +29,7 @@ spec:
     - name: db
       value: .metadata.name
   defaultDashboards: true
+  provider: Grafana
   resource:
     group: kubedb.com
     kind: Postgres

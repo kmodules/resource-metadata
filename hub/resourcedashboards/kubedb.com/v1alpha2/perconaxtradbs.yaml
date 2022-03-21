@@ -11,6 +11,7 @@ metadata:
 spec:
   dashboards: null
   defaultDashboards: true
+  provider: Grafana
   resource:
     group: kubedb.com
     kind: PerconaXtraDB
