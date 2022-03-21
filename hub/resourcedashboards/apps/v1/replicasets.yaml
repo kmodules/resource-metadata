@@ -1,0 +1,19 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceDashboard
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: apps
+    k8s.io/kind: ReplicaSet
+    k8s.io/resource: replicasets
+    k8s.io/version: v1
+  name: apps-v1-replicasets
+spec:
+  dashboards: null
+  defaultDashboards: true
+  resource:
+    group: apps
+    kind: ReplicaSet
+    name: replicasets
+    scope: Namespaced
+    version: v1

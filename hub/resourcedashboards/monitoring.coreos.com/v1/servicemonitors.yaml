@@ -1,0 +1,19 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceDashboard
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: monitoring.coreos.com
+    k8s.io/kind: ServiceMonitor
+    k8s.io/resource: servicemonitors
+    k8s.io/version: v1
+  name: monitoring.coreos.com-v1-servicemonitors
+spec:
+  dashboards: null
+  defaultDashboards: true
+  resource:
+    group: monitoring.coreos.com
+    kind: ServiceMonitor
+    name: servicemonitors
+    scope: Namespaced
+    version: v1

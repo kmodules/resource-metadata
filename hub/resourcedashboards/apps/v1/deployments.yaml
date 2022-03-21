@@ -1,0 +1,19 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceDashboard
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: apps
+    k8s.io/kind: Deployment
+    k8s.io/resource: deployments
+    k8s.io/version: v1
+  name: apps-v1-deployments
+spec:
+  dashboards: null
+  defaultDashboards: true
+  resource:
+    group: apps
+    kind: Deployment
+    name: deployments
+    scope: Namespaced
+    version: v1

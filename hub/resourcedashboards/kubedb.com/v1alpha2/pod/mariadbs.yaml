@@ -1,0 +1,23 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceDashboard
+metadata:
+  creationTimestamp: null
+  name: kubedb.com-v1alpha2-mariadbs-pod
+spec:
+  dashboards:
+  - title: KubeDB / MariaDB / Pod
+    vars:
+    - name: namespace
+      value: .metadata.namespace
+    - name: db
+      value: .metadata.name
+    - name: pod
+      type: Target
+      value: .metadata.name
+  defaultDashboards: false
+  resource:
+    group: ""
+    kind: ""
+    name: ""
+    scope: ""
+    version: ""
