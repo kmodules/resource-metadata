@@ -13,10 +13,14 @@ on:
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
+
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        k8s: [v1.16.15, v1.18.19, v1.19.11, v1.20.7, v1.21.2, v1.22.4, v1.23.3]
     steps:
       - name: Set up Go 1.18
         uses: actions/setup-go@v1
@@ -24,25 +28,28 @@ jobs:
           go-version: 1.18
         id: go
 
-      - uses: actions/checkout@v1
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v1
 
-      - name: Create Kubernetes cluster
+      - name: Create Kubernetes ${{ matrix.k8s }} cluster
         id: kind
         uses: engineerd/setup-kind@v0.5.0
         with:
           version: v0.11.1
-          config: hack/kubernetes/kind.yaml
-          image: kindest/node:v1.23.1
+          image: kindest/node:${{ matrix.k8s }}
 
-      - name: Prepare host
+      - name: Prepare Host
         run: |
           sudo apt-get -qq update || true
           sudo apt-get install -y bzr
-          curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.17.0/bin/linux/amd64/kubectl
+          curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.22.0/bin/linux/amd64/kubectl
           chmod +x ./kubectl
           sudo mv ./kubectl /usr/local/bin/kubectl
 
       - name: Run checks
         run: |
-          go run cmd/resource-fmt/main.go
+          echo "waiting for nodes to be ready ..."
+          kubectl wait --for=condition=Ready nodes --all --timeout=5m
+          kubectl get nodes
+          kubectl create -R -f ./crds
           make ci
