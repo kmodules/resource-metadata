@@ -54,10 +54,9 @@ const (
 )
 
 type ResourceDashboardSpec struct {
-	Resource          kmapi.ResourceID  `json:"resource"`
-	DefaultDashboards bool              `json:"defaultDashboards"`
-	Provider          DashboardProvider `json:"provider,omitempty"`
-	Dashboards        []Dashboard       `json:"dashboards"`
+	Resource   kmapi.ResourceID  `json:"resource"`
+	Provider   DashboardProvider `json:"provider,omitempty"`
+	Dashboards []Dashboard       `json:"dashboards"`
 }
 
 // +kubebuilder:validation:Enum=Source;Target

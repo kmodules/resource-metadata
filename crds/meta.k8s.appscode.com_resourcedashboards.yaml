@@ -202,8 +202,6 @@ spec:
                       type: array
                   type: object
                 type: array
-              defaultDashboards:
-                type: boolean
               provider:
                 enum:
                 - Grafana
@@ -237,7 +235,6 @@ spec:
                 type: object
             required:
             - dashboards
-            - defaultDashboards
             - resource
             type: object
         type: object

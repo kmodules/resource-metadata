@@ -302,6 +302,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ContactData":                 schema_resource_metadata_apis_meta_v1alpha1_ContactData(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Dashboard":                   schema_resource_metadata_apis_meta_v1alpha1_Dashboard(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DashboardLink":               schema_resource_metadata_apis_meta_v1alpha1_DashboardLink(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DashboardResponse":           schema_resource_metadata_apis_meta_v1alpha1_DashboardResponse(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DashboardVar":                schema_resource_metadata_apis_meta_v1alpha1_DashboardVar(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DeploymentParameters":        schema_resource_metadata_apis_meta_v1alpha1_DeploymentParameters(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.If":                          schema_resource_metadata_apis_meta_v1alpha1_If(ref),
@@ -328,11 +329,13 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockOutline":            schema_resource_metadata_apis_meta_v1alpha1_PageBlockOutline(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockTableDefinition":    schema_resource_metadata_apis_meta_v1alpha1_PageBlockTableDefinition(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockView":               schema_resource_metadata_apis_meta_v1alpha1_PageBlockView(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PanelLinkResponse":           schema_resource_metadata_apis_meta_v1alpha1_PanelLinkResponse(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Render":                      schema_resource_metadata_apis_meta_v1alpha1_Render(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderAPI":                   schema_resource_metadata_apis_meta_v1alpha1_RenderAPI(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderAPIRequest":            schema_resource_metadata_apis_meta_v1alpha1_RenderAPIRequest(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderDashboard":             schema_resource_metadata_apis_meta_v1alpha1_RenderDashboard(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderDashboardRequest":      schema_resource_metadata_apis_meta_v1alpha1_RenderDashboardRequest(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderDashboardResponse":     schema_resource_metadata_apis_meta_v1alpha1_RenderDashboardResponse(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderMenu":                  schema_resource_metadata_apis_meta_v1alpha1_RenderMenu(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderMenuRequest":           schema_resource_metadata_apis_meta_v1alpha1_RenderMenuRequest(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderRequest":               schema_resource_metadata_apis_meta_v1alpha1_RenderRequest(ref),
@@ -14559,6 +14562,47 @@ func schema_resource_metadata_apis_meta_v1alpha1_DashboardLink(ref common.Refere
 	}
 }
 
+func schema_resource_metadata_apis_meta_v1alpha1_DashboardResponse(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"title": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"link": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"panels": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PanelLinkResponse"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"title"},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PanelLinkResponse"},
+	}
+}
+
 func schema_resource_metadata_apis_meta_v1alpha1_DashboardVar(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -15755,6 +15799,33 @@ func schema_resource_metadata_apis_meta_v1alpha1_PageBlockView(ref common.Refere
 	}
 }
 
+func schema_resource_metadata_apis_meta_v1alpha1_PanelLinkResponse(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"title": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"url": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+				},
+				Required: []string{"title", "url"},
+			},
+		},
+	}
+}
+
 func schema_resource_metadata_apis_meta_v1alpha1_Render(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -15924,14 +15995,15 @@ func schema_resource_metadata_apis_meta_v1alpha1_RenderDashboard(ref common.Refe
 					"response": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Response describes the attributes for the graph response.",
-							Ref:         ref("k8s.io/apimachinery/pkg/runtime.Object"),
+							Default:     map[string]interface{}{},
+							Ref:         ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderDashboardResponse"),
 						},
 					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/runtime.Object", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderDashboardRequest"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderDashboardRequest", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderDashboardResponse"},
 	}
 }
 
@@ -15953,7 +16025,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_RenderDashboardRequest(ref comm
 							Ref:     ref("kmodules.xyz/client-go/api/v1.ObjectReference"),
 						},
 					},
-					"dashboard": {
+					"name": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
 							Format: "",
@@ -15965,6 +16037,34 @@ func schema_resource_metadata_apis_meta_v1alpha1_RenderDashboardRequest(ref comm
 		},
 		Dependencies: []string{
 			"kmodules.xyz/client-go/api/v1.ObjectReference", "kmodules.xyz/client-go/api/v1.ResourceID"},
+	}
+}
+
+func schema_resource_metadata_apis_meta_v1alpha1_RenderDashboardResponse(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"dashboards": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DashboardResponse"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"dashboards"},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DashboardResponse"},
 	}
 }
 
@@ -16756,13 +16856,6 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceDashboardSpec(ref commo
 							Ref:     ref("kmodules.xyz/client-go/api/v1.ResourceID"),
 						},
 					},
-					"defaultDashboards": {
-						SchemaProps: spec.SchemaProps{
-							Default: false,
-							Type:    []string{"boolean"},
-							Format:  "",
-						},
-					},
 					"provider": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
@@ -16783,7 +16876,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceDashboardSpec(ref commo
 						},
 					},
 				},
-				Required: []string{"resource", "defaultDashboards", "dashboards"},
+				Required: []string{"resource", "dashboards"},
 			},
 		},
 		Dependencies: []string{

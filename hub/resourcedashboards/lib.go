@@ -42,18 +42,14 @@ var (
 	//go:embed **/**/*.yaml **/**/**/*.yaml trigger
 	fs embed.FS
 
-	m       sync.Mutex
-	rdMap   map[string]*v1alpha1.ResourceDashboard
-	rdPerGK map[schema.GroupVersionKind]*v1alpha1.ResourceDashboard
-	rdPerGR map[schema.GroupVersionResource]*v1alpha1.ResourceDashboard
+	m     sync.Mutex
+	rdMap map[string]*v1alpha1.ResourceDashboard
 
 	loader = ioutilx.NewReloader(
 		filepath.Join("/tmp", "hub", "resourcedashboards"),
 		fs,
 		func(fsys iofs.FS) {
 			rdMap = map[string]*v1alpha1.ResourceDashboard{}
-			rdPerGK = map[schema.GroupVersionKind]*v1alpha1.ResourceDashboard{}
-			rdPerGR = map[schema.GroupVersionResource]*v1alpha1.ResourceDashboard{}
 
 			if err := iofs.WalkDir(fsys, ".", func(path string, d iofs.DirEntry, err error) error {
 				if d.IsDir() || err != nil {
@@ -75,25 +71,6 @@ var (
 				}
 				rdMap[obj.Name] = &obj
 
-				if obj.Spec.DefaultDashboards {
-					gvr := obj.Spec.Resource.GroupVersionResource()
-					expectedName := DefaultDashboardName(gvr)
-					if obj.Name != expectedName {
-						return fmt.Errorf("expected default %s name to be %s, found %s", reflect.TypeOf(v1alpha1.ResourceDashboard{}), expectedName, obj.Name)
-					}
-
-					gvk := obj.Spec.Resource.GroupVersionKind()
-					if rv, ok := rdPerGK[gvk]; !ok {
-						rdPerGK[gvk] = &obj
-					} else {
-						return fmt.Errorf("multiple %s found for %+v: %s and %s", reflect.TypeOf(v1alpha1.ResourceDashboard{}), gvk, rv.Name, obj.Name)
-					}
-					if rv, ok := rdPerGR[gvr]; !ok {
-						rdPerGR[gvr] = &obj
-					} else {
-						return fmt.Errorf("multiple %s found for %+v: %s and %s", reflect.TypeOf(v1alpha1.ResourceDashboard{}), gvk, rv.Name, obj.Name)
-					}
-				}
 				return nil
 			}); err != nil {
 				panic(errors.Wrapf(err, "failed to load %s", reflect.TypeOf(v1alpha1.ResourceDashboard{})))
@@ -110,14 +87,14 @@ func EmbeddedFS() iofs.FS {
 	return fs
 }
 
-func DefaultDashboardName(gvr schema.GroupVersionResource) string {
+func DefaultName(gvr schema.GroupVersionResource) string {
 	if gvr.Group == "" && gvr.Version == "v1" {
 		return fmt.Sprintf("core-v1-%s", gvr.Resource)
 	}
 	return fmt.Sprintf("%s-%s-%s", gvr.Group, gvr.Version, gvr.Resource)
 }
 
-func LoadByName(name string) (*v1alpha1.ResourceDashboard, error) {
+func LoadInternalByName(name string) (*v1alpha1.ResourceDashboard, error) {
 	m.Lock()
 	defer m.Unlock()
 	loader.ReloadIfTriggered()
@@ -128,38 +105,26 @@ func LoadByName(name string) (*v1alpha1.ResourceDashboard, error) {
 	return nil, apierrors.NewNotFound(v1alpha1.Resource(v1alpha1.ResourceKindResourceDashboard), name)
 }
 
-func LoadDefaultByGVK(gvk schema.GroupVersionKind) (*v1alpha1.ResourceDashboard, bool) {
-	m.Lock()
-	defer m.Unlock()
-	loader.ReloadIfTriggered()
-
-	rv, found := rdPerGK[gvk]
-	return rv, found
+func LoadInternalByGVR(gvr schema.GroupVersionResource) (*v1alpha1.ResourceDashboard, error) {
+	return LoadInternalByName(DefaultName(gvr))
 }
 
-func LoadDefaultByGVR(gvr schema.GroupVersionResource) (*v1alpha1.ResourceDashboard, bool) {
-	m.Lock()
-	defer m.Unlock()
-	loader.ReloadIfTriggered()
-
-	rv, found := rdPerGR[gvr]
-	return rv, found
-}
-
-func LoadByGVR(kc client.Client, gvr schema.GroupVersionResource) (*v1alpha1.ResourceDashboard, bool) {
+func LoadByName(kc client.Client, name string) (*v1alpha1.ResourceDashboard, error) {
 	var ed v1alpha1.ResourceDashboard
-	err := kc.Get(context.TODO(), client.ObjectKey{Name: DefaultDashboardName(gvr)}, &ed)
-	if err == nil {
-		return &ed, true
-	} else if client.IgnoreNotFound(err) != nil {
-		klog.V(3).InfoS(fmt.Sprintf("failed to load resource dashboard for %+v", gvr))
+	err := kc.Get(context.TODO(), client.ObjectKey{Name: name}, &ed)
+	if apierrors.IsNotFound(err) {
+		return LoadInternalByName(name)
 	}
-	return LoadDefaultByGVR(gvr)
+	return &ed, err
 }
 
-func LoadByResourceID(kc client.Client, rid *kmapi.ResourceID) (*v1alpha1.ResourceDashboard, bool) {
+func LoadByGVR(kc client.Client, gvr schema.GroupVersionResource) (*v1alpha1.ResourceDashboard, error) {
+	return LoadByName(kc, DefaultName(gvr))
+}
+
+func LoadByResourceID(kc client.Client, rid *kmapi.ResourceID) (*v1alpha1.ResourceDashboard, error) {
 	if rid == nil {
-		return nil, false
+		return nil, errors.New("missing ResourceID")
 	}
 
 	gvr := rid.GroupVersionResource()
