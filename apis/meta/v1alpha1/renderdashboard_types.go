@@ -17,6 +17,8 @@ limitations under the License.
 package v1alpha1
 
 import (
+	kmapi "kmodules.xyz/client-go/api/v1"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 )
@@ -40,8 +42,8 @@ type RenderDashboard struct {
 }
 
 type RenderDashboardRequest struct {
-	metav1.GroupVersionKind `json:",inline"`
-	Namespace               string `json:"namespace"`
+	Resource kmapi.ResourceID      `json:"resource"`
+	Ref      kmapi.ObjectReference `json:"ref"`
 	// +optional
-	Name string `json:"name,omitempty"`
+	Dashboard string `json:"dashboard,omitempty"`
 }

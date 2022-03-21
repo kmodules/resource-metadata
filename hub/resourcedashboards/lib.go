@@ -152,7 +152,7 @@ func LoadByGVR(kc client.Client, gvr schema.GroupVersionResource) (*v1alpha1.Res
 	if err == nil {
 		return &ed, true
 	} else if client.IgnoreNotFound(err) != nil {
-		klog.V(3).InfoS(fmt.Sprintf("failed to load resource editor for %+v", gvr))
+		klog.V(3).InfoS(fmt.Sprintf("failed to load resource dashboard for %+v", gvr))
 	}
 	return LoadDefaultByGVR(gvr)
 }
