@@ -53,12 +53,6 @@ type GenericResourceServiceFacilities struct {
 	TLS        GenericResourceServiceFacilitator `json:"tls,omitempty"`
 	Backup     GenericResourceServiceFacilitator `json:"backup,omitempty"`
 	Monitoring GenericResourceServiceFacilitator `json:"monitoring,omitempty"`
-	Dashboards []DashboardLink                   `json:"dashboards,omitempty"`
-}
-
-type DashboardLink struct {
-	Title string `json:"title"`
-	Link  string `json:"link"`
 }
 
 type GenericResourceServiceFacilitator struct {

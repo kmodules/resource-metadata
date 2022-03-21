@@ -42,14 +42,14 @@ spec:
               - name: db
                 value: {{ .name }}
               panels:
-                - CPU Usage
-                - Memory Usage
-                - Disk Usage
-                - Disk R/W Info
-                - IOPS (Reads+Writes)
-                - ThroughPut (Read+Write)
-                - Receive Bandwidth
-                - Transmit Bandwidth
+                - { "title": "CPU Usage", "width": 12 }
+                - { "title": "Memory Usage", "width": 12 }
+                - { "title": "Disk Usage", "width": 6 }
+                - { "title": "Disk R/W Info", "width": 6 }
+                - { "title": "IOPS (Reads+Writes)", "width": 6 }
+                - { "title": "ThroughPut (Read+Write)", "width": 6 }
+                - { "title": "Receive Bandwidth", "width": 6 }
+                - { "title": "Transmit Bandwidth", "width": 6 }
         type: REST
       ref:
         group: ui.openviz.dev
