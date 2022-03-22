@@ -58,16 +58,3 @@ spec:
         kind: Redis
     name: Datastore
     path: /ui.appscode.com/v1alpha1/sections/datastore
-  - icons:
-    - src: https://cdn.appscode.com/k8s/icons/menu/datastore.svg
-      type: image/svg+xml
-    - src: https://cdn.appscode.com/k8s/icons/menu/datastore.png
-      type: image/png
-    items:
-    - layoutName: stash.appscode.com-v1alpha1-repositories
-      name: Repositories
-      type:
-        group: stash.appscode.com
-        kind: Repository
-    name: Backups
-    path: /ui.appscode.com/v1alpha1/sections/backups
