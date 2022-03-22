@@ -28,7 +28,7 @@ spec:
     - actions:
         create: Never
       displayMode: List
-      fieldPath: .response.urls
+      fieldPath: '{.response.dashboards[0].panels}'
       kind: Connection
       query:
         raw: |
@@ -55,7 +55,7 @@ spec:
         group: ui.openviz.dev
         kind: DashboardGroup
       view:
-        name: ui.openviz.dev-v1alpha1-embeddeddashboards-urls
+        name: ui.openviz.dev-v1alpha1-dashboardgroups-panels
     - actions:
         create: Never
       displayMode: List

@@ -29,10 +29,10 @@ import (
 
 	"github.com/pkg/errors"
 	"gomodules.xyz/encoding/json"
+	jq "gomodules.xyz/encoding/json/query"
 	crd_api "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/util/sets"
@@ -284,10 +284,6 @@ func (c *convertor) ConvertToTable(_ context.Context, obj runtime.Object, _ runt
 	return table, err
 }
 
-func fields(path string) []string {
-	return strings.Split(strings.Trim(path, "."), ".")
-}
-
 func cellForJSONValue(col columnOptions, value string) (interface{}, error) {
 	value = strings.TrimSpace(value)
 	switch col.Type {
@@ -374,7 +370,7 @@ func metaToTableRow(obj runtime.Object, fieldPath string, rowFn func(obj interfa
 	}
 
 	// subtable
-	arr, ok, err := unstructured.NestedSlice(obj.(runtime.Unstructured).UnstructuredContent(), fields(fieldPath)...)
+	arr, ok, err := jq.QuerySlice(obj.(runtime.Unstructured).UnstructuredContent(), fieldPath)
 	if err != nil {
 		return nil, err
 	}
