@@ -59,6 +59,7 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/apimachinery
 
 go run cmd/import-crds/main.go --input=$HOME/go/src/stash.appscode.dev/apimachinery/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/kmodules.xyz/custom-resources/crds
+go run cmd/import-crds/main.go --input=$HOME/go/src/kmodules.xyz/resource-metadata/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/kubedb.dev/apimachinery/crds
 
 go run cmd/import-crds/main.go --input=$HOME/go/src/kubevault.dev/apimachinery/crds

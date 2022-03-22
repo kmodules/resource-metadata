@@ -54,7 +54,7 @@ type RenderDashboardResponse struct {
 type DashboardResponse struct {
 	Title string `json:"title"`
 	// +optional
-	Link string `json:"link,omitempty"`
+	URL string `json:"url,omitempty"`
 	// +optional
 	Panels []PanelLinkResponse `json:"panels,omitempty"`
 }

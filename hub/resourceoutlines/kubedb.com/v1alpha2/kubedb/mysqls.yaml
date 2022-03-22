@@ -105,6 +105,28 @@ spec:
   - blocks:
     - actions:
         create: Never
+      displayMode: List
+      fieldPath: .response.dashboards
+      kind: Connection
+      query:
+        raw: |
+          request:
+            resource:
+              group: kubedb.com
+              name: mysqls
+              version: v1alpha2
+            ref:
+              name: {{ .name }}
+              namespace: {{ .namespace }}
+            name: kubedb.com-v1alpha2-mysqls
+        type: REST
+      ref:
+        group: meta.k8s.appscode.com
+        kind: RenderDashboard
+      view:
+        name: meta.k8s.appscode.com-v1alpha1-resourcedashboards-urls
+    - actions:
+        create: Never
       displayMode: Field
       fieldPath: .spec.queries
       kind: Connection

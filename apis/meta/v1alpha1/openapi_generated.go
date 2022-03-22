@@ -14575,7 +14575,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_DashboardResponse(ref common.Re
 							Format:  "",
 						},
 					},
-					"link": {
+					"url": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
 							Format: "",
