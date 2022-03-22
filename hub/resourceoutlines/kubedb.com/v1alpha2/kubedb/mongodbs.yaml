@@ -108,6 +108,7 @@ spec:
       displayMode: List
       fieldPath: .response.dashboards
       kind: Connection
+      name: Grafana Dashboards
       query:
         raw: |
           request:
