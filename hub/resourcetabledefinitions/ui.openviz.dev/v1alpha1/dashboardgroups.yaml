@@ -2,15 +2,19 @@ apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceTableDefinition
 metadata:
   creationTimestamp: null
-  name: ui.openviz.dev-v1alpha1-embeddeddashboards-urls
+  name: ui.openviz.dev-v1alpha1-dashboardgroups-panels
 spec:
   columns:
   - name: Title
     pathTemplate: '{{ .title }}'
     priority: 3
     type: string
-  - name: Embedded URL
-    pathTemplate: '{{ .embeddedURL }}'
+  - name: URL
+    pathTemplate: '{{ .url }}'
     priority: 3
     type: string
+  - name: Width
+    pathTemplate: '{{ .width }}'
+    priority: 3
+    type: integer
   defaultView: false
