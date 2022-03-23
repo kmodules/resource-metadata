@@ -67,7 +67,7 @@ type TableCell struct {
 
 type DashboardLink struct {
 	Title string `json:"title"`
-	Link  string `json:"link"`
+	URL   string `json:"url"`
 }
 
 // IncludeObjectPolicy controls which portion of the object is returned with a Table.
