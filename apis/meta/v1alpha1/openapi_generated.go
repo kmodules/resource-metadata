@@ -14548,7 +14548,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_DashboardLink(ref common.Refere
 							Format:  "",
 						},
 					},
-					"link": {
+					"url": {
 						SchemaProps: spec.SchemaProps{
 							Default: "",
 							Type:    []string{"string"},
@@ -14556,7 +14556,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_DashboardLink(ref common.Refere
 						},
 					},
 				},
-				Required: []string{"title", "link"},
+				Required: []string{"title", "url"},
 			},
 		},
 	}
@@ -16473,7 +16473,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceColumn(ref common.Refer
 					},
 					"dashboard": {
 						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
+							Type:   []string{"boolean"},
 							Format: "",
 						},
 					},

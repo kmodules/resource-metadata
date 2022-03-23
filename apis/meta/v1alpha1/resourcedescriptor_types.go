@@ -269,7 +269,7 @@ type ResourceColumn struct {
 	Shape     ShapeProperty `json:"shape,omitempty"`
 	Icon      bool          `json:"icon,omitempty"`
 	TextAlign string        `json:"textAlign,omitempty"`
-	Dashboard string        `json:"dashboard,omitempty"`
+	Dashboard bool          `json:"dashboard,omitempty"`
 }
 
 // ImageSpec contains information about an image used as an icon.
