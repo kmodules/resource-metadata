@@ -164,7 +164,7 @@ func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition, fn Dashboa
 	return nil
 }
 
-func addTargetVars(in *v1alpha1.DashboardDefinition, obj interface{}, buf *bytes.Buffer) (string, error) {
+func addTargetVars(in *v1alpha1.DashboardDefinition, data interface{}, buf *bytes.Buffer) (string, error) {
 	varname := func(s string) string {
 		if strings.HasPrefix(s, "var-") {
 			return s
@@ -188,7 +188,7 @@ func addTargetVars(in *v1alpha1.DashboardDefinition, obj interface{}, buf *bytes
 		sb.WriteString(url.QueryEscape(varname(v.Name)))
 		sb.WriteByte('=')
 
-		val, err := renderTemplate(obj, columnOptions{
+		val, err := renderTemplate(data, columnOptions{
 			Name:     "",
 			Type:     "string",
 			Template: v.Value,
@@ -219,7 +219,7 @@ func (c *convertor) rowFn(obj interface{}) ([]v1alpha1.TableCell, error) {
 	for _, col := range c.headers {
 		var cell v1alpha1.TableCell
 		if col.Dashboard != nil && col.Dashboard.Status == v1alpha1.RenderSuccess {
-			if u, err := addTargetVars(col.Dashboard, obj, buf); err != nil {
+			if u, err := addTargetVars(col.Dashboard, data, buf); err != nil {
 				return nil, err
 			} else {
 				cell.Data = u
