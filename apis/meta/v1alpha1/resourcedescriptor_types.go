@@ -207,7 +207,18 @@ type ResourceColumnDefinition struct {
 	Icon      *AttributeDefinition `json:"icon,omitempty"`
 	Color     *ColorDefinition     `json:"color,omitempty"`
 	TextAlign string               `json:"textAlign,omitempty"`
-	Dashboard string               `json:"dashboard,omitempty"`
+	Dashboard *DashboardDefinition `json:"dashboard,omitempty"`
+}
+
+type DashboardDefinition struct {
+	Name      string     `json:"name,omitempty"`
+	Dashboard *Dashboard `json:"-"`
+	// URL does not include the target variables
+	URL string `json:"-"`
+	// Status
+	Status RenderStatus `json:"-"`
+	// Message
+	Message string `json:"-"`
 }
 
 type SortDefinition struct {
@@ -263,13 +274,21 @@ type ResourceColumn struct {
 	// should be given a higher priority.
 	Priority int32 `json:"priority"`
 
-	Sort      *SortHeader   `json:"sort,omitempty"`
-	Link      bool          `json:"link,omitempty"`
-	Tooltip   bool          `json:"tooltip,omitempty"`
-	Shape     ShapeProperty `json:"shape,omitempty"`
-	Icon      bool          `json:"icon,omitempty"`
-	TextAlign string        `json:"textAlign,omitempty"`
-	Dashboard bool          `json:"dashboard,omitempty"`
+	Sort      *SortHeader      `json:"sort,omitempty"`
+	Link      bool             `json:"link,omitempty"`
+	Tooltip   bool             `json:"tooltip,omitempty"`
+	Shape     ShapeProperty    `json:"shape,omitempty"`
+	Icon      bool             `json:"icon,omitempty"`
+	TextAlign string           `json:"textAlign,omitempty"`
+	Dashboard *DashboardResult `json:"dashboard,omitempty"`
+}
+
+type DashboardResult struct {
+	Title string `json:"title"`
+	// Status
+	Status RenderStatus `json:"status"`
+	// Message
+	Message string `json:"message,omitempty"`
 }
 
 // ImageSpec contains information about an image used as an icon.

@@ -61,13 +61,6 @@ type TableCell struct {
 	Icon string `json:"icon,omitempty"`
 	// +optional
 	Color string `json:"color,omitempty"`
-	// +optional
-	Dashboard *DashboardLink `json:"dashboard,omitempty"`
-}
-
-type DashboardLink struct {
-	Title string `json:"title"`
-	URL   string `json:"url"`
 }
 
 // IncludeObjectPolicy controls which portion of the object is returned with a Table.

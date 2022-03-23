@@ -20,6 +20,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"net/url"
 	"strconv"
 	"strings"
 	"sync"
@@ -47,24 +48,24 @@ var pool = sync.Pool{
 }
 
 type TableConvertor interface {
-	ConvertToTable(ctx context.Context, object runtime.Object, tableOptions runtime.Object) (*v1alpha1.Table, error)
+	ConvertToTable(ctx context.Context, object runtime.Object) (*v1alpha1.Table, error)
 }
 
 // New creates a new table convertor for the provided CRD column definition. If the printer definition cannot be parsed,
 // error will be returned along with a default table convertor.
-func New(fieldPath string, columns []v1alpha1.ResourceColumnDefinition) (TableConvertor, error) {
+func New(fieldPath string, columns []v1alpha1.ResourceColumnDefinition, fn DashboardRendererFunc) (TableConvertor, error) {
 	c := &convertor{
 		fieldPath: fieldPath,
 	}
-	err := c.init(columns)
+	err := c.init(columns, fn)
 	return c, err
 }
 
-func NewForList(fieldPath string, columns []v1alpha1.ResourceColumnDefinition) (TableConvertor, error) {
+func NewForList(fieldPath string, columns []v1alpha1.ResourceColumnDefinition, fn DashboardRendererFunc) (TableConvertor, error) {
 	c := &convertor{
 		fieldPath: fieldPath,
 	}
-	err := c.init(filterColumns(columns, v1alpha1.List))
+	err := c.init(filterColumns(columns, v1alpha1.List), fn)
 	return c, err
 }
 
@@ -141,9 +142,68 @@ func FilterColumnsWithDefaults(
 	return append(defaultColumns, additionalColumns...)
 }
 
-func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition) error {
+func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition, fn DashboardRendererFunc) error {
+	for i, c := range columns {
+		if c.Dashboard != nil && c.Dashboard.Name != "" {
+			if fn == nil {
+				return errors.New("missing dashboard renderer")
+			}
+			if obj, url, err := fn(c.Dashboard.Name); err != nil {
+				c.Dashboard.Status = v1alpha1.RenderError
+				c.Dashboard.Message = err.Error()
+			} else {
+				c.Dashboard.Dashboard = &obj.Spec.Dashboards[0]
+				c.Dashboard.URL = url
+				c.Dashboard.Status = v1alpha1.RenderSuccess
+			}
+		}
+		columns[i] = c
+	}
+
 	c.headers = append(c.headers, columns...)
 	return nil
+}
+
+func addTargetVars(in *v1alpha1.DashboardDefinition, obj interface{}, buf *bytes.Buffer) (string, error) {
+	varname := func(s string) string {
+		if strings.HasPrefix(s, "var-") {
+			return s
+		}
+		return "var-" + s
+	}
+	u, err := url.Parse(in.URL)
+	if err != nil {
+		return "", err
+	}
+	d := in.Dashboard
+
+	var sb strings.Builder
+	for _, v := range d.Vars {
+		if v.Type != v1alpha1.DashboardVarTypeTarget {
+			continue
+		}
+		if sb.Len() > 0 {
+			sb.WriteByte('&')
+		}
+		sb.WriteString(url.QueryEscape(varname(v.Name)))
+		sb.WriteByte('=')
+
+		val, err := renderTemplate(obj, columnOptions{
+			Name:     "",
+			Type:     "string",
+			Template: v.Value,
+		}, buf)
+		if err != nil {
+			return "", errors.Wrapf(err, "failed to render the value of variable %q in dashboard with title %s", v.Name, d.Title)
+		}
+		sb.WriteString(val.(string))
+	}
+	if len(u.RawQuery) > 0 {
+		u.RawQuery += "&"
+	}
+	u.RawQuery += sb.String()
+
+	return u.String(), nil
 }
 
 func (c *convertor) rowFn(obj interface{}) ([]v1alpha1.TableCell, error) {
@@ -157,8 +217,15 @@ func (c *convertor) rowFn(obj interface{}) ([]v1alpha1.TableCell, error) {
 
 	cells := make([]v1alpha1.TableCell, 0, len(c.headers))
 	for _, col := range c.headers {
-
 		var cell v1alpha1.TableCell
+		if col.Dashboard != nil && col.Dashboard.Status == v1alpha1.RenderSuccess {
+			if u, err := addTargetVars(col.Dashboard, obj, buf); err != nil {
+				return nil, err
+			} else {
+				cell.Data = u
+			}
+			continue
+		}
 		{
 			if v, err := renderTemplate(data, columnOptions{
 				Name:     col.Name,
@@ -260,7 +327,7 @@ func renderTemplate(data interface{}, col columnOptions, buf *bytes.Buffer) (int
 	return cellForJSONValue(col, strings.ReplaceAll(buf.String(), "<no value>", ""))
 }
 
-func (c *convertor) ConvertToTable(_ context.Context, obj runtime.Object, _ runtime.Object) (*v1alpha1.Table, error) {
+func (c *convertor) ConvertToTable(_ context.Context, obj runtime.Object) (*v1alpha1.Table, error) {
 	table := &v1alpha1.Table{
 		Columns: make([]v1alpha1.ResourceColumn, 0, len(c.headers)),
 		Rows:    make([]v1alpha1.TableRow, 0),

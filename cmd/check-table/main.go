@@ -69,7 +69,7 @@ func main() {
 			log.Fatalln(err)
 		}
 
-		t, err := tableconvertor.TableForAnyList(c, list.Items)
+		t, err := tableconvertor.TableForAnyList(c, list.Items, nil)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -91,7 +91,7 @@ func main() {
 		}
 		fmt.Println(dep.GroupVersionKind().String())
 
-		t, err := tableconvertor.TableForObject(c, &dep)
+		t, err := tableconvertor.TableForObject(c, &dep, nil)
 		if err != nil {
 			log.Fatalln(err)
 		}
