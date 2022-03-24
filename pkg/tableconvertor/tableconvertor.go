@@ -218,14 +218,21 @@ func (c *convertor) rowFn(obj interface{}) ([]v1alpha1.TableCell, error) {
 	cells := make([]v1alpha1.TableCell, 0, len(c.headers))
 	for _, col := range c.headers {
 		var cell v1alpha1.TableCell
-		if col.Dashboard != nil && col.Dashboard.Status == v1alpha1.RenderSuccess {
-			if u, err := addTargetVars(col.Dashboard, data, buf); err != nil {
-				return nil, err
-			} else {
-				cell.Data = u
+
+		// if dashboard type column, set dashboard url as data for cell
+		if col.Dashboard != nil {
+			cell.Data = ""
+			if col.Dashboard.Status == v1alpha1.RenderSuccess {
+				if u, err := addTargetVars(col.Dashboard, data, buf); err != nil {
+					return nil, err
+				} else {
+					cell.Data = u
+				}
 			}
+			cells = append(cells, cell)
 			continue
 		}
+
 		{
 			if v, err := renderTemplate(data, columnOptions{
 				Name:     col.Name,
