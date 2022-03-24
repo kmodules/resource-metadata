@@ -221,7 +221,6 @@ func (c *convertor) rowFn(obj interface{}) ([]v1alpha1.TableCell, error) {
 
 		// if dashboard type column, set dashboard url as data for cell
 		if col.Dashboard != nil {
-			cell.Data = ""
 			if col.Dashboard.Status == v1alpha1.RenderSuccess {
 				if u, err := addTargetVars(col.Dashboard, data, buf); err != nil {
 					return nil, err
@@ -229,11 +228,7 @@ func (c *convertor) rowFn(obj interface{}) ([]v1alpha1.TableCell, error) {
 					cell.Data = u
 				}
 			}
-			cells = append(cells, cell)
-			continue
-		}
-
-		{
+		} else {
 			if v, err := renderTemplate(data, columnOptions{
 				Name:     col.Name,
 				Type:     col.Type,
