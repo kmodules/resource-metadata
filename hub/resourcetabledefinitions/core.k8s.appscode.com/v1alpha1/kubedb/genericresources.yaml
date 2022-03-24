@@ -23,13 +23,18 @@ spec:
     priority: 3
     type: string
   - format: resource-map
-    name: App Resource Requests
-    pathTemplate: '{{ .spec.appResource.requests | toRawJson }}'
+    name: CPU
+    pathTemplate: '{{- printf `{ "request": "%s", "limit": "%s" }` .spec.appResource.requests.cpu .spec.appResource.limits.cpu -}}'
     priority: 3
     type: object
   - format: resource-map
-    name: App Resource Limits
-    pathTemplate: '{{ .spec.appResource.limits | toRawJson }}'
+    name: Memory
+    pathTemplate: '{{- printf `{ "request": "%s", "limit": "%s" }` .spec.appResource.requests.memory .spec.appResource.limits.memory -}}'
+    priority: 3
+    type: object
+  - format: resource-map
+    name: Storage
+    pathTemplate: '{{- printf `{ "request": "%s", "limit": "%s" }` .spec.appResource.requests.storage .spec.appResource.limits.storage -}}'
     priority: 3
     type: object
   - color:
