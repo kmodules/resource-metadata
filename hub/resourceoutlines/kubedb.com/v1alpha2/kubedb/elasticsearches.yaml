@@ -60,7 +60,7 @@ spec:
         create: Never
       displayMode: List
       kind: Connection
-      name: Pods
+      name: Nodes
       query:
         raw: |-
           query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
@@ -142,7 +142,7 @@ spec:
         name: ui.kubedb.com-v1alpha1-elasticsearchnodesstats-nodes
     - actions:
         create: Never
-      displayMode: Field
+      displayMode: List
       fieldPath: .spec.indices
       kind: Connection
       name: Indices
@@ -154,7 +154,7 @@ spec:
         kind: ElasticsearchSchemaOverview
       view:
         name: ui.kubedb.com-v1alpha1-elasticsearchschemaoverviews-indices
-    info:
+    insight:
       actions:
         create: Never
       displayMode: Field
@@ -188,6 +188,8 @@ spec:
       ref:
         group: stash.appscode.com
         kind: BackupSession
+      view:
+        name: kubedb-stash.appscode.com-v1beta1-backupsessions
     info:
       actions:
         create: IfEmpty
@@ -222,6 +224,8 @@ spec:
       ref:
         group: ops.kubedb.com
         kind: ElasticsearchOpsRequest
+      view:
+        name: kubedb-ops.kubedb.com-v1alpha1-elasticsearchopsrequests
     name: Operations
   resource:
     group: kubedb.com
@@ -241,4 +245,4 @@ spec:
       group: core.k8s.appscode.com
       kind: GenericResourceService
     view:
-      name: kubedb-core.k8s.appscode.com-v1alpha1-genericresources
+      name: kubedb-core.k8s.appscode.com-v1alpha1-genericresourceservices
