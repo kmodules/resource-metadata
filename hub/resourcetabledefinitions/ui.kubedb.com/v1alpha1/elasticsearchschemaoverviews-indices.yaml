@@ -9,12 +9,24 @@ spec:
     pathTemplate: '{{ .indexName }}'
     priority: 3
     type: string
+    sort:
+      enable: true
+      template: '{{ .indexName }}'
+      type: string
   - name: Primary Store Size (bytes)
     pathTemplate: '{{ .primaryStoreSizeBytes }}'
     priority: 3
     type: string
+    sort:
+      enable: true
+      template: '{{ .primaryStoreSizeBytes }}'
+      type: integer
   - name: Total Store Size (bytes)
     pathTemplate: '{{ .totalStoreSizeBytes }}'
     priority: 3
     type: string
+    sort:
+      enable: true
+      template: '{{ .totalStoreSizeBytes }}'
+      type: integer
   defaultView: false
