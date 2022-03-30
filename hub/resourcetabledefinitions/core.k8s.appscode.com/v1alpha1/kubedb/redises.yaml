@@ -27,14 +27,17 @@ spec:
   - name: CPU (usage/limit)
     pathTemplate: '{{ if .spec.resources.usage.cpu }}{{.spec.resources.usage.cpu}} / {{ default `*` .spec.resources.limits.cpu }}{{ end }}'
     priority: 3
+    textAlign: center
     type: string
   - name: Memory (usage/limit)
     pathTemplate: '{{ if .spec.resources.usage.memory }}{{.spec.resources.usage.memory}} / {{default `*` .spec.resources.limits.memory}}{{ end }}'
     priority: 3
+    textAlign: center
     type: string
   - name: Storage (usage/limit)
     pathTemplate: '{{ if .spec.resources.usage.storage }}{{.spec.resources.usage.storage}} / {{default `*` .spec.resources.limits.storage}}{{ end }}'
     priority: 3
+    textAlign: center
     type: string
   - color:
       template: |
@@ -66,6 +69,7 @@ spec:
       name: kubedb.com-v1alpha2-redises-pod
     name: Dashboard
     priority: 4
+    textAlign: center
     type: string
   defaultView: false
   resource:
