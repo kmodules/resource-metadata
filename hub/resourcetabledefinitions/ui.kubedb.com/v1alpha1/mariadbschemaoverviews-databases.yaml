@@ -9,12 +9,24 @@ spec:
     pathTemplate: '{{ .databaseName }}'
     priority: 3
     type: string
+    sort:
+      enable: true
+      template: '{{ .databaseName }}'
+      type: string
   - name: Table Name
     pathTemplate: '{{ .tableName }}'
     priority: 3
     type: string
+    sort:
+      enable: true
+      template: '{{ .tableName }}'
+      type: string
   - name: Table Size (bytes)
     pathTemplate: '{{ .tableSizeBytes }}'
     priority: 3
     type: string
+    sort:
+      enable: true
+      template: '{{ .tableSizeBytes }}'
+      type: integer
   defaultView: false
