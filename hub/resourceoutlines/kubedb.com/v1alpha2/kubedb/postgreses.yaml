@@ -60,7 +60,7 @@ spec:
         create: Never
       displayMode: List
       kind: Connection
-      name: Pods
+      name: Nodes
       query:
         raw: |-
           query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
@@ -128,7 +128,7 @@ spec:
         name: meta.k8s.appscode.com-v1alpha1-resourcedashboards-urls
     - actions:
         create: Never
-      displayMode: Field
+      displayMode: List
       fieldPath: .spec.queries
       kind: Connection
       name: Slow Queries
@@ -142,7 +142,7 @@ spec:
         name: ui.kubedb.com-v1alpha1-postgresqueries-queries
     - actions:
         create: Never
-      displayMode: Field
+      displayMode: List
       fieldPath: .spec.databases
       kind: Connection
       name: Databases
@@ -202,6 +202,8 @@ spec:
       ref:
         group: stash.appscode.com
         kind: BackupSession
+      view:
+        name: kubedb-stash.appscode.com-v1beta1-backupsessions
     info:
       actions:
         create: IfEmpty
@@ -236,6 +238,8 @@ spec:
       ref:
         group: ops.kubedb.com
         kind: PostgresOpsRequest
+      view:
+        name: kubedb-ops.kubedb.com-v1alpha1-postgresopsrequests
     name: Operations
   resource:
     group: kubedb.com

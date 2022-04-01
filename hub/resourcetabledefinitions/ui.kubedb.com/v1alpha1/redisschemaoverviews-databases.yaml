@@ -24,5 +24,9 @@ spec:
   - name: Avg TTL (msec)
     pathTemplate: '{{ .avgTTLMilliSeconds }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .avgTTLMilliSeconds }}'
+      type: integer
     type: string
   defaultView: false
