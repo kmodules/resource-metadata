@@ -22,7 +22,7 @@ spec:
       group: core.k8s.appscode.com
       kind: GenericResource
     view:
-      name: kubedb-core.k8s.appscode.com-v1alpha1-genericresources
+      name: core.k8s.appscode.com-v1alpha1-genericresources-kubedb
   pages:
   - blocks:
     - actions:
@@ -203,7 +203,7 @@ spec:
         group: stash.appscode.com
         kind: BackupSession
       view:
-        name: kubedb-stash.appscode.com-v1beta1-backupsessions
+        name: stash.appscode.com-v1beta1-backupsessions-kubedb
     info:
       actions:
         create: IfEmpty
@@ -239,7 +239,7 @@ spec:
         group: ops.kubedb.com
         kind: PostgresOpsRequest
       view:
-        name: kubedb-ops.kubedb.com-v1alpha1-postgresopsrequests
+        name: ops.kubedb.com-v1alpha1-postgresopsrequests-kubedb
     name: Operations
   resource:
     group: kubedb.com
@@ -259,4 +259,4 @@ spec:
       group: core.k8s.appscode.com
       kind: GenericResourceService
     view:
-      name: kubedb-core.k8s.appscode.com-v1alpha1-genericresourceservices
+      name: core.k8s.appscode.com-v1alpha1-genericresourceservices-kubedb

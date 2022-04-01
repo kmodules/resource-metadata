@@ -3,11 +3,11 @@ kind: ResourceTableDefinition
 metadata:
   creationTimestamp: null
   labels:
-    k8s.io/group: ops.kubedb.com
-    k8s.io/kind: MongoDBOpsRequest
-    k8s.io/resource: mongodbopsrequests
-    k8s.io/version: v1alpha1
-  name: kubedb-ops.kubedb.com-v1alpha1-mongodbopsrequests
+    k8s.io/group: stash.appscode.com
+    k8s.io/kind: BackupSession
+    k8s.io/resource: backupsessions
+    k8s.io/version: v1beta1
+  name: stash.appscode.com-v1beta1-backupsessions-kubedb
 spec:
   columns:
   - name: Name
@@ -18,32 +18,38 @@ spec:
     pathTemplate: '{{ .metadata.namespace }}'
     priority: 3
     type: string
-  - name: Type
-    pathTemplate: '{{ .spec.type }}'
+  - name: Invoker Kind
+    pathTemplate: '{{ .spec.invoker.kind }}'
+    priority: 3
+    type: string
+  - name: Invoker Name
+    pathTemplate: '{{ .spec.invoker.name }}'
     priority: 3
     type: string
   - color:
       template: |
         {{ $status := .status.phase }}
         {{ $color := "gray" }}
-        {{ if list "Pending" | has $status }}
-          {{ $color = "gray" }}
-        {{ else if list "Progressing" | has $status }}
-          {{ $color = "primary" }}
-        {{ else if list "Successful" | has $status }}
+        {{ if list "Succeeded" | has $status }}
           {{ $color = "success" }}
-        {{ else if list "WaitingForApproval" | has $status }}
+        {{ else if list "Unknown" | has $status }}
           {{ $color = "warning" }}
-        {{ else if list "Failed"| has $status }}
+        {{ else if list "Failed" | has $status }}
           {{ $color = "danger" }}
-        {{ else if list "Approved" | has $status }}
-          {{ $color = "link" }}
-        {{ else if list "Denied"| has $status }}
+        {{ else if list "Pending" | has $status }}
           {{ $color = "dark" }}
+        {{ else if list "Skipped" | has $status }}
+          {{ $color = "link" }}
+        {{ else if list "Running" | has $status }}
+          {{ $color = "info" }}
         {{ end }}
         {{- printf "%s" $color -}}
-    name: Status
+    name: Phase
     pathTemplate: '{{ .status.phase }}'
+    priority: 3
+    type: string
+  - name: Duration
+    pathTemplate: '{{ .status.sessionDuration }}'
     priority: 3
     type: string
   - name: Age
@@ -53,13 +59,11 @@ spec:
       enable: true
       template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
       type: integer
-    tooltip:
-      template: '{{ .metadata.creationTimestamp }}'
     type: date
   defaultView: false
   resource:
-    group: ops.kubedb.com
-    kind: MongoDBOpsRequest
-    name: mongodbopsrequests
+    group: stash.appscode.com
+    kind: BackupSession
+    name: backupsessions
     scope: Namespaced
-    version: v1alpha1
+    version: v1beta1

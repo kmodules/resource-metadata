@@ -4,10 +4,10 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: ops.kubedb.com
-    k8s.io/kind: RedisOpsRequest
-    k8s.io/resource: redisopsrequests
+    k8s.io/kind: MariaDBOpsRequest
+    k8s.io/resource: mariadbopsrequests
     k8s.io/version: v1alpha1
-  name: kubedb-ops.kubedb.com-v1alpha1-redisopsrequests
+  name: ops.kubedb.com-v1alpha1-mariadbopsrequests-kubedb
 spec:
   columns:
   - name: Name
@@ -59,7 +59,7 @@ spec:
   defaultView: false
   resource:
     group: ops.kubedb.com
-    kind: RedisOpsRequest
-    name: redisopsrequests
+    kind: MariaDBOpsRequest
+    name: mariadbopsrequests
     scope: Namespaced
     version: v1alpha1
