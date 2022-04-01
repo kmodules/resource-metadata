@@ -4,10 +4,10 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: ops.kubedb.com
-    k8s.io/kind: ElasticsearchOpsRequest
-    k8s.io/resource: elasticsearchopsrequests
+    k8s.io/kind: MongoDBOpsRequest
+    k8s.io/resource: mongodbopsrequests
     k8s.io/version: v1alpha1
-  name: kubedb-ops.kubedb.com-v1alpha1-elasticsearchopsrequests
+  name: ops.kubedb.com-v1alpha1-mongodbopsrequests-kubedb
 spec:
   columns:
   - name: Name
@@ -59,7 +59,7 @@ spec:
   defaultView: false
   resource:
     group: ops.kubedb.com
-    kind: ElasticsearchOpsRequest
-    name: elasticsearchopsrequests
+    kind: MongoDBOpsRequest
+    name: mongodbopsrequests
     scope: Namespaced
     version: v1alpha1
