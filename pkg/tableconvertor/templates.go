@@ -31,7 +31,6 @@ import (
 	"github.com/Masterminds/sprig/v3"
 	prom_op "github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1"
 	"gomodules.xyz/encoding/json"
-	"gomodules.xyz/jsonpath"
 	core "k8s.io/api/core/v1"
 	rbac "k8s.io/api/rbac/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -45,7 +44,6 @@ const UnknownValue = "<unknown>"
 var templateFns = sprig.TxtFuncMap()
 
 func init() {
-	templateFns["jp"] = jsonpathFn
 	templateFns["k8s_convert"] = convertFn
 	templateFns["k8s_fmt_selector"] = formatLabelSelectorFn
 	templateFns["k8s_fmt_label"] = formatLabelsFn
@@ -68,47 +66,6 @@ func init() {
 	for name, fn := range resourcemetrics.TxtFuncMap() {
 		templateFns[name] = fn
 	}
-
-	// override
-	templateFns["mustToDate"] = mustToDate
-	templateFns["toDate"] = toDate
-
-	templateFns["toRawJson"] = toRawJson
-	templateFns["mustToRawJson"] = mustToRawJson
-}
-
-func toDate(fmt string, str interface{}) time.Time {
-	output, _ := mustToDate(fmt, str)
-	return output
-}
-
-func mustToDate(fmt string, str interface{}) (time.Time, error) {
-	if str == nil {
-		return time.Time{}, nil
-	}
-	s, ok := str.(string)
-	if !ok || s == "" {
-		return time.Time{}, nil
-	}
-	return time.ParseInLocation(fmt, s, time.Local)
-}
-
-// toRawJson encodes an item into a JSON string with no escaping of HTML characters.
-func toRawJson(v interface{}) string {
-	output, _ := mustToRawJson(v)
-	return string(output)
-}
-
-// mustToRawJson encodes an item into a JSON string with no escaping of HTML characters.
-func mustToRawJson(v interface{}) (string, error) {
-	buf := new(bytes.Buffer)
-	enc := json.NewEncoder(buf)
-	enc.SetEscapeHTML(false)
-	err := enc.Encode(&v)
-	if err != nil {
-		return "", err
-	}
-	return strings.TrimSuffix(buf.String(), "\n"), nil
 }
 
 // TxtFuncMap returns a 'text/template'.FuncMap
@@ -118,30 +75,6 @@ func TxtFuncMap() template.FuncMap {
 		gfm[k] = v
 	}
 	return gfm
-}
-
-func jsonpathFn(expr string, data interface{}, jsonoutput ...bool) (interface{}, error) {
-	enableJSONoutput := len(jsonoutput) > 0 && jsonoutput[0]
-
-	jp := jsonpath.New("jp")
-	if err := jp.Parse(expr); err != nil {
-		return nil, fmt.Errorf("unrecognized column definition %q", expr)
-	}
-	jp.AllowMissingKeys(true)
-	jp.EnableJSONOutput(enableJSONoutput)
-
-	var buf bytes.Buffer
-	err := jp.Execute(&buf, data)
-	if err != nil {
-		return nil, err
-	}
-
-	if enableJSONoutput {
-		var v []interface{}
-		err = json.Unmarshal(buf.Bytes(), &v)
-		return v, err
-	}
-	return buf.String(), err
 }
 
 func convertFn(data interface{}) (map[string]interface{}, error) {
