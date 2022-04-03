@@ -19,6 +19,8 @@ package printers
 import (
 	"time"
 
+	"kmodules.xyz/resource-metadata/pkg/tableconvertor/lib"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/duration"
 )
@@ -27,7 +29,7 @@ import (
 // human-readable approximation.
 func translateTimestampSince(timestamp metav1.Time) string {
 	if timestamp.IsZero() {
-		return "<unknown>"
+		return lib.UnknownValue
 	}
 
 	return duration.HumanDuration(time.Since(timestamp.Time))

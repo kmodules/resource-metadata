@@ -25,6 +25,7 @@ import (
 	"time"
 
 	meta_util "kmodules.xyz/client-go/meta"
+	"kmodules.xyz/resource-metadata/pkg/tableconvertor/lib"
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor/printers"
 	resourcemetrics "kmodules.xyz/resource-metrics"
 
@@ -38,8 +39,6 @@ import (
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/util/duration"
 )
-
-const UnknownValue = "<unknown>"
 
 var templateFns = sprig.TxtFuncMap()
 
@@ -374,7 +373,7 @@ func mapKeyCountFn(data interface{}) (string, error) {
 	}
 
 	if m == nil {
-		return UnknownValue, nil
+		return lib.UnknownValue, nil
 	}
 	return strconv.Itoa(len(m)), nil
 }
@@ -423,7 +422,7 @@ func certificateValidity(data interface{}) (string, error) {
 
 	now := time.Now()
 	if certStatus.NotBefore.IsZero() || certStatus.NotAfter.IsZero() {
-		return UnknownValue, nil
+		return lib.UnknownValue, nil
 	} else if certStatus.NotBefore.After(now) {
 		return "Not valid yet", nil
 	} else if now.After(certStatus.NotAfter.Time) {
