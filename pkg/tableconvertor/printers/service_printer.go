@@ -20,6 +20,8 @@ import (
 	"fmt"
 	"strings"
 
+	"kmodules.xyz/resource-metadata/pkg/tableconvertor/lib"
+
 	core "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/util/sets"
 )
@@ -53,7 +55,7 @@ func ServiceExternalIP(svc *core.Service) string {
 	case core.ServiceTypeExternalName:
 		return svc.Spec.ExternalName
 	}
-	return "<unknown>"
+	return lib.UnknownValue
 }
 
 // loadBalancerStatusStringer behaves mostly like a string interface and converts the given status to a string.

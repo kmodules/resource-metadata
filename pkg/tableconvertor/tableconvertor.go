@@ -27,6 +27,7 @@ import (
 	"text/template"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	"kmodules.xyz/resource-metadata/pkg/tableconvertor/lib"
 
 	"github.com/pkg/errors"
 	"gomodules.xyz/encoding/json"
@@ -358,7 +359,7 @@ func cellForJSONValue(col columnOptions, value string) (interface{}, error) {
 	switch col.Type {
 	case "integer":
 		if value == "" {
-			return UnknownValue, nil
+			return lib.UnknownValue, nil
 		}
 		i64, err := strconv.ParseInt(value, 10, 64)
 		if err != nil {
@@ -367,7 +368,7 @@ func cellForJSONValue(col columnOptions, value string) (interface{}, error) {
 		return i64, nil
 	case "number":
 		if value == "" {
-			return UnknownValue, nil
+			return lib.UnknownValue, nil
 		}
 		f64, err := strconv.ParseFloat(value, 64)
 		if err != nil {
@@ -376,7 +377,7 @@ func cellForJSONValue(col columnOptions, value string) (interface{}, error) {
 		return f64, nil
 	case "boolean":
 		if value == "" {
-			return UnknownValue, nil
+			return lib.UnknownValue, nil
 		}
 		b, err := strconv.ParseBool(value)
 		if err != nil {

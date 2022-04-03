@@ -22,6 +22,8 @@ import (
 	"strings"
 	"time"
 
+	"kmodules.xyz/resource-metadata/pkg/tableconvertor/lib"
+
 	core "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -405,7 +407,7 @@ func convertSizeToBytes(dataSize string) (float64, error) {
 // But works for timestamp before or after now.
 func ConvertToHumanReadableDateType(timestamp metav1.Time) string {
 	if timestamp.IsZero() {
-		return "<unknown>"
+		return lib.UnknownValue
 	}
 	var d time.Duration
 	now := time.Now()
