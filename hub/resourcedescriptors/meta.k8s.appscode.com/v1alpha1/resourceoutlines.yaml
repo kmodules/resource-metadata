@@ -123,7 +123,10 @@ spec:
                                 type: string
                             type: object
                           dashboard:
-                            type: string
+                            properties:
+                              name:
+                                type: string
+                            type: object
                           description:
                             description: description is a human readable description of this column.
                             type: string
@@ -274,7 +277,10 @@ spec:
                                         type: string
                                     type: object
                                   dashboard:
-                                    type: string
+                                    properties:
+                                      name:
+                                        type: string
+                                    type: object
                                   description:
                                     description: description is a human readable description of this column.
                                     type: string
@@ -422,7 +428,10 @@ spec:
                                       type: string
                                   type: object
                                 dashboard:
-                                  type: string
+                                  properties:
+                                    name:
+                                      type: string
+                                  type: object
                                 description:
                                   description: description is a human readable description of this column.
                                   type: string
@@ -569,7 +578,10 @@ spec:
                                       type: string
                                   type: object
                                 dashboard:
-                                  type: string
+                                  properties:
+                                    name:
+                                      type: string
+                                  type: object
                                 description:
                                   description: description is a human readable description of this column.
                                   type: string
@@ -745,7 +757,10 @@ spec:
                                 type: string
                             type: object
                           dashboard:
-                            type: string
+                            properties:
+                              name:
+                                type: string
+                            type: object
                           description:
                             description: description is a human readable description of this column.
                             type: string
