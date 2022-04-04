@@ -10,26 +10,6 @@ metadata:
   name: ui.kubedb.com-v1alpha1-postgresinsights
 spec:
   columns:
-  - name: Application Name
-    pathTemplate: '{{ dig "replicationStatus" "applicationName" "N/A" .spec }}'
-    priority: 3
-    type: string
-  - name: State
-    pathTemplate: '{{ dig "replicationStatus" "state" "N/A" .spec }}'
-    priority: 3
-    type: string
-  - name: Write Lag
-    pathTemplate: '{{ dig "replicationStatus" "writeLag" "N/A" .spec }}'
-    priority: 3
-    type: integer
-  - name: Flush Lag
-    pathTemplate: '{{ dig "replicationStatus" "flushLag" "N/A" .spec }}'
-    priority: 3
-    type: integer
-  - name: Replay Lag
-    pathTemplate: '{{ dig "replicationStatus" "replayLag" "N/A" .spec }}'
-    priority: 3
-    type: integer
   - name: Max Connections
     pathTemplate: '{{ .spec.connectionInfo.maxConnections }}'
     priority: 3

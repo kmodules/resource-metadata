@@ -1,0 +1,28 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  name: ui.kubedb.com-v1alpha1-postgresinsights-replicationstatus
+spec:
+  columns:
+  - name: Application Name
+    pathTemplate: '{{ .applicationName }}'
+    priority: 3
+    type: string
+  - name: State
+    pathTemplate: '{{ .state }}'
+    priority: 3
+    type: string
+  - name: Write Lag
+    pathTemplate: '{{ .writeLag }}'
+    priority: 3
+    type: integer
+  - name: Flush Lag
+    pathTemplate: '{{ .flushLag }}'
+    priority: 3
+    type: integer
+  - name: Replay Lag
+    pathTemplate: '{{ .replayLag }}'
+    priority: 3
+    type: integer
+  defaultView: false
