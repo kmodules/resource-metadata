@@ -19,11 +19,11 @@ KubeDB / MySQL / Database
 KubeDB / MySQL / Group-Replication-Summary
 KubeDB / MySQL / Pod
 KubeDB / MySQL / Summary
-KubeDB / Postgres / Databases
-KubeDB / Postgres / Pods
+KubeDB / Postgres / Database
+KubeDB / Postgres / Pod
 KubeDB / Postgres / Summary
-KubeDB / Redis / Pods
-KubeDB / Redis / Shards
+KubeDB / Redis / Pod
+KubeDB / Redis / Shard
 KubeDB / Redis / Summary
 Kubernetes / API server
 Kubernetes / Compute Resources / Cluster
