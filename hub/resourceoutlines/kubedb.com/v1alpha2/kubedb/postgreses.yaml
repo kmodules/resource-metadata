@@ -106,6 +106,20 @@ spec:
     - actions:
         create: Never
       displayMode: List
+      fieldPath: .spec.replicationStatus
+      kind: Connection
+      name: Replication Status
+      query:
+        byLabel: view
+        type: GraphQL
+      ref:
+        group: ui.kubedb.com
+        kind: PostgresInsight
+      view:
+        name: ui.kubedb.com-v1alpha1-postgresinsights-replicationstatus
+    - actions:
+        create: Never
+      displayMode: List
       fieldPath: .response.dashboards
       kind: Connection
       name: Grafana Dashboards
