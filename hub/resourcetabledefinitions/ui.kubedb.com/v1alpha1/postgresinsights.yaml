@@ -11,23 +11,23 @@ metadata:
 spec:
   columns:
   - name: Application Name
-    pathTemplate: '{{ .spec.replicationStatus.applicationName }}'
+    pathTemplate: '{{ dig "replicationStatus" "applicationName" "N/A" .spec }}'
     priority: 3
     type: string
   - name: State
-    pathTemplate: '{{ .spec.replicationStatus.state }}'
+    pathTemplate: '{{ dig "replicationStatus" "state" "N/A" .spec }}'
     priority: 3
     type: string
   - name: Write Lag
-    pathTemplate: '{{ .spec.replicationStatus.writeLag }}'
+    pathTemplate: '{{ dig "replicationStatus" "writeLag" "N/A" .spec }}'
     priority: 3
     type: integer
   - name: Flush Lag
-    pathTemplate: '{{ .spec.replicationStatus.flushLag }}'
+    pathTemplate: '{{ dig "replicationStatus" "flushLag" "N/A" .spec }}'
     priority: 3
     type: integer
   - name: Replay Lag
-    pathTemplate: '{{ .spec.replicationStatus.replayLag }}'
+    pathTemplate: '{{ dig "replicationStatus" "replayLag" "N/A" .spec }}'
     priority: 3
     type: integer
   - name: Max Connections
