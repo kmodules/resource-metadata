@@ -41,8 +41,8 @@ spec:
     pathTemplate: '{{ .indices.docs.deleted }}'
     priority: 3
     type: integer
-  - name: Total Count
-    pathTemplate: '{{ .indices.shards_stats.total_count }}'
+  - name: Total Shards
+    pathTemplate: '{{ dig "shards_stats" "total_count" "0" .indices }}'
     priority: 3
     type: integer
   - name: Total Size
