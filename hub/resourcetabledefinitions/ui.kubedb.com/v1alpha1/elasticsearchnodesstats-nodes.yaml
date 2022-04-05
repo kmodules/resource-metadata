@@ -5,14 +5,6 @@ metadata:
   name: ui.kubedb.com-v1alpha1-elasticsearchnodesstats-nodes
 spec:
   columns:
-  - name: Timestamp
-    pathTemplate: '{{ .timestamp }}'
-    priority: 3
-    sort:
-      enable: true
-      template: '{{ .timestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
-      type: integer
-    type: date
   - name: Name
     pathTemplate: '{{ .name }}'
     priority: 3
