@@ -128,7 +128,7 @@ spec:
         name: meta.k8s.appscode.com-v1alpha1-resourcedashboards-urls
     - actions:
         create: Never
-      displayMode: Field
+      displayMode: List
       fieldPath: .spec.nodes
       kind: Connection
       name: Stats
