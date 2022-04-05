@@ -34,7 +34,7 @@ require (
 	sigs.k8s.io/yaml v1.2.0
 )
 
-replace github.com/Masterminds/sprig/v3 => github.com/gomodules/sprig/v3 v3.2.3-0.20220402001353-7974c9ab9cc9
+replace github.com/Masterminds/sprig/v3 => github.com/gomodules/sprig/v3 v3.2.3-0.20220405051441-0a8a99bac1b8
 
 require (
 	github.com/Masterminds/goutils v1.1.1 // indirect
