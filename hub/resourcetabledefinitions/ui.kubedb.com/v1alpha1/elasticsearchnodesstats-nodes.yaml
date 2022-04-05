@@ -48,11 +48,11 @@ spec:
   - name: Total Size
     pathTemplate: '{{ .indices.store.size }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.store.size_in_bytes }}'
+      type: integer
     type: string
-  - name: Size (bytes)
-    pathTemplate: '{{ .indices.store.size_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Index Total
     pathTemplate: '{{ .indices.indexing.index_total }}'
     priority: 3
@@ -60,11 +60,11 @@ spec:
   - name: Index Time
     pathTemplate: '{{ .indices.indexing.index_time }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.indexing.index_time_in_millis }}'
+      type: integer
     type: string
-  - name: Index Time In Millis
-    pathTemplate: '{{ .indices.indexing.index_time_in_millis }}'
-    priority: 3
-    type: integer
   - name: Index Current
     pathTemplate: '{{ .indices.indexing.index_current }}'
     priority: 3
@@ -80,11 +80,11 @@ spec:
   - name: Delete Time
     pathTemplate: '{{ .indices.indexing.delete_time }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.indexing.delete_time_in_millis }}'
+      type: integer
     type: string
-  - name: Delete Time In Millis
-    pathTemplate: '{{ .indices.indexing.delete_time_in_millis }}'
-    priority: 3
-    type: integer
   - name: Delete Current
     pathTemplate: '{{ .indices.indexing.delete_current }}'
     priority: 3
@@ -100,11 +100,11 @@ spec:
   - name: Throttled Time
     pathTemplate: '{{ .indices.indexing.throttle_time }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.indexing.throttle_time_in_millis }}'
+      type: integer
     type: string
-  - name: Throttled Time In Millis
-    pathTemplate: '{{ .indices.indexing.throttle_time_in_millis }}'
-    priority: 3
-    type: integer
   - name: Types
     pathTemplate: '{{ .indices.indexing.types | toRawJson }}'
     priority: 3
@@ -116,11 +116,11 @@ spec:
   - name: Time
     pathTemplate: '{{ .indices.get.get_time }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.get.time_in_millis }}'
+      type: integer
     type: string
-  - name: Time In Millis
-    pathTemplate: '{{ .indices.get.time_in_millis }}'
-    priority: 3
-    type: integer
   - name: Exists
     pathTemplate: '{{ .indices.get.exists }}'
     priority: 3
@@ -128,11 +128,11 @@ spec:
   - name: Exists Time
     pathTemplate: '{{ .indices.get.exists_time }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.get.exists_in_millis }}'
+      type: integer
     type: string
-  - name: Exists Time In Millis
-    pathTemplate: '{{ .indices.get.exists_in_millis }}'
-    priority: 3
-    type: integer
   - name: Missing
     pathTemplate: '{{ .indices.get.missing }}'
     priority: 3
@@ -140,11 +140,11 @@ spec:
   - name: Missing Time
     pathTemplate: '{{ .indices.get.missing_time }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.get.missing_in_millis }}'
+      type: integer
     type: string
-  - name: Missing Time In Millis
-    pathTemplate: '{{ .indices.get.missing_in_millis }}'
-    priority: 3
-    type: integer
   - name: Current
     pathTemplate: '{{ .indices.get.current }}'
     priority: 3
@@ -160,11 +160,11 @@ spec:
   - name: Query Time
     pathTemplate: '{{ .indices.search.query_time }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.search.query_time_in_millis }}'
+      type: integer
     type: string
-  - name: Query Time In Millis
-    pathTemplate: '{{ .indices.search.query_time_in_millis }}'
-    priority: 3
-    type: integer
   - name: Query Current
     pathTemplate: '{{ .indices.search.query_current }}'
     priority: 3
@@ -176,11 +176,11 @@ spec:
   - name: Fetch Time
     pathTemplate: '{{ .indices.search.fetch_time }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.search.fetch_time_in_millis }}'
+      type: integer
     type: string
-  - name: Fetch Time In Millis
-    pathTemplate: '{{ .indices.search.fetch_time_in_millis }}'
-    priority: 3
-    type: integer
   - name: Fetch Current
     pathTemplate: '{{ .indices.search.fetch_current }}'
     priority: 3
@@ -192,11 +192,11 @@ spec:
   - name: Scroll Time
     pathTemplate: '{{ .indices.search.scroll_time }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.search.scroll_time_in_millis }}'
+      type: integer
     type: string
-  - name: Scroll Time In Millis
-    pathTemplate: '{{ .indices.search.scroll_time_in_millis }}'
-    priority: 3
-    type: integer
   - name: Scroll Current
     pathTemplate: '{{ .indices.search.scroll_current }}'
     priority: 3
@@ -216,11 +216,11 @@ spec:
   - name: Current Size
     pathTemplate: '{{ .indices.merges.current_size }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.merges.current_size_in_bytes }}'
+      type: integer
     type: string
-  - name: Current Size (bytes)
-    pathTemplate: '{{ .indices.merges.current_size_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Total
     pathTemplate: '{{ .indices.merges.total }}'
     priority: 3
@@ -228,11 +228,11 @@ spec:
   - name: Total Time
     pathTemplate: '{{ .indices.merges.total_time }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.merges.total_time_in_millis }}'
+      type: integer
     type: string
-  - name: Total Time In Millis
-    pathTemplate: '{{ .indices.merges.total_time_in_millis }}'
-    priority: 3
-    type: integer
   - name: Total Docs
     pathTemplate: '{{ .indices.merges.total_docs }}'
     priority: 3
@@ -240,35 +240,35 @@ spec:
   - name: Total Size
     pathTemplate: '{{ .indices.merges.total_size }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.merges.total_size_in_bytes }}'
+      type: integer
     type: string
-  - name: Total Size (bytes)
-    pathTemplate: '{{ .indices.merges.total_size_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Total Stopped Time
     pathTemplate: '{{ .indices.merges.total_stopped_time }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.merges.total_stopped_time_in_millis }}'
+      type: integer
     type: string
-  - name: Total Stopped Time In Millis
-    pathTemplate: '{{ .indices.merges.total_stopped_time_in_millis }}'
-    priority: 3
-    type: integer
   - name: Total Throttled Time
     pathTemplate: '{{ .indices.merges.total_throttled_time }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.merges.total_throttled_time_in_millis }}'
+      type: integer
     type: string
-  - name: Total Throttled Time In Millis
-    pathTemplate: '{{ .indices.merges.total_throttled_time_in_millis }}'
-    priority: 3
-    type: integer
   - name: Total Throttle (bytes)
     pathTemplate: '{{ .indices.merges.total_auto_throttle }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.merges.total_auto_throttle_in_bytes }}'
+      type: integer
     type: string
-  - name: Total Throttle Bytes (bytes)
-    pathTemplate: '{{ .indices.merges.total_auto_throttle_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Total
     pathTemplate: '{{ .indices.refresh.total }}'
     priority: 3
@@ -276,11 +276,11 @@ spec:
   - name: Total Time
     pathTemplate: '{{ .indices.refresh.total_time }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.refresh.total_time_in_millis }}'
+      type: integer
     type: string
-  - name: Total Time In Millis
-    pathTemplate: '{{ .indices.refresh.total_time_in_millis }}'
-    priority: 3
-    type: integer
   - name: Total
     pathTemplate: '{{ .indices.flush.total }}'
     priority: 3
@@ -288,11 +288,11 @@ spec:
   - name: Total Time
     pathTemplate: '{{ .indices.flush.total_time }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.flush.total_time_in_millis }}'
+      type: integer
     type: string
-  - name: Total Time In Millis
-    pathTemplate: '{{ .indices.flush.total_time_in_millis }}'
-    priority: 3
-    type: integer
   - name: Current
     pathTemplate: '{{ .indices.warmer.current }}'
     priority: 3
@@ -304,19 +304,19 @@ spec:
   - name: Total Time
     pathTemplate: '{{ .indices.warmer.total_time }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.warmer.total_time_in_millis }}'
+      type: integer
     type: string
-  - name: Total Time In Millis
-    pathTemplate: '{{ .indices.warmer.total_time_in_millis }}'
-    priority: 3
-    type: integer
   - name: Memory Size
     pathTemplate: '{{ .indices.query_cache.memory_size }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.query_cache.memory_size_in_bytes }}'
+      type: integer
     type: string
-  - name: Memory Size (bytes)
-    pathTemplate: '{{ .indices.query_cache.memory_size_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Total Count
     pathTemplate: '{{ .indices.query_cache.total_count }}'
     priority: 3
@@ -344,39 +344,39 @@ spec:
   - name: Memory Size
     pathTemplate: '{{ .indices.fielddata.memory_size }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.fielddata.memory_size_in_bytes }}'
+      type: integer
     type: string
-  - name: Memory Size (bytes)
-    pathTemplate: '{{ .indices.fielddata.memory_size_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Evictions
     pathTemplate: '{{ .indices.fielddata.evictions }}'
     priority: 3
     type: integer
   - name: Memory Size
-    pathTemplate: '{{ .indices.fielddata.fields.memory_size }}'
+    pathTemplate: '{{ dig "fielddata" "fields" "memory_size" "" .indices }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ dig "fielddata" "fields" "memory_size_in_bytes" "0" .indices }}'
+      type: integer
     type: string
-  - name: Memory Size (bytes)
-    pathTemplate: '{{ .indices.fielddata.fields.memory_size_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Total Size
     pathTemplate: '{{ .indices.completion.size }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.completion.size_in_bytes }}'
+      type: integer
     type: string
-  - name: Size (bytes)
-    pathTemplate: '{{ .indices.completion.size_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Total Size
-    pathTemplate: '{{ .indices.completion.fields.size }}'
+    pathTemplate: '{{ dig "completion" "fields" "size" "" .indices }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ dig "completion" "fields" "size_in_bytes" "0" .indices }}'
+      type: integer
     type: string
-  - name: Size (bytes)
-    pathTemplate: '{{ .indices.completion.fields.size_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Count
     pathTemplate: '{{ .indices.segments.count }}'
     priority: 3
@@ -384,83 +384,83 @@ spec:
   - name: Memory
     pathTemplate: '{{ .indices.segments.memory }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.segments.memory_in_bytes }}'
+      type: integer
     type: string
-  - name: Memory (bytes)
-    pathTemplate: '{{ .indices.segments.memory_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Terms Memory
     pathTemplate: '{{ .indices.segments.terms_memory }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.segments.terms_memory_in_bytes }}'
+      type: integer
     type: string
-  - name: Terms Memory (bytes)
-    pathTemplate: '{{ .indices.segments.terms_memory_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Stored Fields Memory
     pathTemplate: '{{ .indices.segments.stored_fields_memory }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.segments.stored_fields_memory_in_bytes }}'
+      type: integer
     type: string
-  - name: Stored Fields Memory (bytes)
-    pathTemplate: '{{ .indices.segments.stored_fields_memory_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Term Vectors Memory
     pathTemplate: '{{ .indices.segments.term_vectors_memory }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.segments.term_vectors_memory_in_bytes }}'
+      type: integer
     type: string
-  - name: Term Vectors Memory (bytes)
-    pathTemplate: '{{ .indices.segments.term_vectors_memory_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Norms Memory
     pathTemplate: '{{ .indices.segments.norms_memory }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.segments.norms_memory_in_bytes }}'
+      type: integer
     type: string
-  - name: Norms Memory (bytes)
-    pathTemplate: '{{ .indices.segments.norms_memory_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Doc Values Memory
     pathTemplate: '{{ .indices.segments.doc_values_memory }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.segments.doc_values_memory_in_bytes }}'
+      type: integer
     type: string
-  - name: Doc Values Memory (bytes)
-    pathTemplate: '{{ .indices.segments.doc_values_memory_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Index Writer Memory
     pathTemplate: '{{ .indices.segments.index_writer_memory }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.segments.index_writer_memory_in_bytes }}'
+      type: integer
     type: string
-  - name: Index Writer Memory (bytes)
-    pathTemplate: '{{ .indices.segments.index_writer_memory_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Index Writer Max Memory
     pathTemplate: '{{ .indices.segments.index_writer_max_memory }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.segments.index_writer_max_memory_in_bytes }}'
+      type: integer
     type: string
-  - name: Index Writer Max Memory (bytes)
-    pathTemplate: '{{ .indices.segments.index_writer_max_memory_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Version Map Memory
     pathTemplate: '{{ .indices.segments.version_map_memory }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.segments.version_map_memory_in_bytes }}'
+      type: integer
     type: string
-  - name: Version Map Memory (bytes)
-    pathTemplate: '{{ .indices.segments.version_map_memory_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Fixed Bit Set Memory
     pathTemplate: '{{ .indices.segments.fixed_bit_set }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.segments.fixed_bit_set_memory_in_bytes }}'
+      type: integer
     type: string
-  - name: Fixed Bit Set Memory (bytes)
-    pathTemplate: '{{ .indices.segments.fixed_bit_set_memory_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Operations
     pathTemplate: '{{ .indices.translog.operations }}'
     priority: 3
@@ -468,19 +468,19 @@ spec:
   - name: Total Size
     pathTemplate: '{{ .indices.translog.size }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.translog.size_in_bytes }}'
+      type: integer
     type: string
-  - name: Size (bytes)
-    pathTemplate: '{{ .indices.translog.size_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Memory Size
     pathTemplate: '{{ .indices.request_cache.memory_size }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .indices.request_cache.memory_size_in_bytes }}'
+      type: integer
     type: string
-  - name: Memory Size (bytes)
-    pathTemplate: '{{ .indices.request_cache.memory_size_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Evictions
     pathTemplate: '{{ .indices.request_cache.evictions }}'
     priority: 3
@@ -524,27 +524,27 @@ spec:
   - name: Total
     pathTemplate: '{{ .os.mem.total }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .os.mem.total_in_bytes }}'
+      type: integer
     type: string
-  - name: Total (bytes)
-    pathTemplate: '{{ .os.mem.total_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Free
     pathTemplate: '{{ .os.mem.free }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .os.mem.free_in_bytes }}'
+      type: integer
     type: string
-  - name: Free (bytes)
-    pathTemplate: '{{ .os.mem.free_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Used
     pathTemplate: '{{ .os.mem.used }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .os.mem.used_in_bytes }}'
+      type: integer
     type: string
-  - name: Used (bytes)
-    pathTemplate: '{{ .os.mem.used_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Free Percent
     pathTemplate: '{{ .os.mem.free_percent }}'
     priority: 3
@@ -556,25 +556,25 @@ spec:
   - name: Total
     pathTemplate: '{{ .os.swap.total }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .os.swap.total_in_bytes }}'
+      type: integer
     type: string
-  - name: Total (bytes)
-    pathTemplate: '{{ .os.swap.total_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Free
     pathTemplate: '{{ .os.swap.free }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .os.swap.free_in_bytes }}'
+      type: integer
     type: string
-  - name: Free (bytes)
-    pathTemplate: '{{ .os.swap.free_in_bytes }}'
-    priority: 3
-    type: integer
   - name: Used
     pathTemplate: '{{ .os.swap.used }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .os.swap.used_in_bytes }}'
+      type: integer
     type: string
-  - name: Used (bytes)
-    pathTemplate: '{{ .os.swap.used_in_bytes }}'
-    priority: 3
-    type: integer
   defaultView: false
