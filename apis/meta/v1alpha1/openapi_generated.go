@@ -339,6 +339,8 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderDashboardResponse":     schema_resource_metadata_apis_meta_v1alpha1_RenderDashboardResponse(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderMenu":                  schema_resource_metadata_apis_meta_v1alpha1_RenderMenu(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderMenuRequest":           schema_resource_metadata_apis_meta_v1alpha1_RenderMenuRequest(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderRawGraph":              schema_resource_metadata_apis_meta_v1alpha1_RenderRawGraph(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderRawGraphRequest":       schema_resource_metadata_apis_meta_v1alpha1_RenderRawGraphRequest(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderRequest":               schema_resource_metadata_apis_meta_v1alpha1_RenderRequest(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderResponse":              schema_resource_metadata_apis_meta_v1alpha1_RenderResponse(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderResult":                schema_resource_metadata_apis_meta_v1alpha1_RenderResult(ref),
@@ -16174,6 +16176,65 @@ func schema_resource_metadata_apis_meta_v1alpha1_RenderMenuRequest(ref common.Re
 	}
 }
 
+func schema_resource_metadata_apis_meta_v1alpha1_RenderRawGraph(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"request": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Request describes the attributes for the graph request.",
+							Ref:         ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderRawGraphRequest"),
+						},
+					},
+					"response": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Response describes the attributes for the graph response.",
+							Ref:         ref("k8s.io/apimachinery/pkg/runtime.RawExtension"),
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/runtime.RawExtension", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.RenderRawGraphRequest"},
+	}
+}
+
+func schema_resource_metadata_apis_meta_v1alpha1_RenderRawGraphRequest(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"source": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/client-go/api/v1.ObjectInfo"),
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/client-go/api/v1.ObjectInfo"},
+	}
+}
+
 func schema_resource_metadata_apis_meta_v1alpha1_RenderRequest(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -17258,7 +17319,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceGraphRequest(ref common
 					"source": {
 						SchemaProps: spec.SchemaProps{
 							Default: map[string]interface{}{},
-							Ref:     ref("kmodules.xyz/client-go/api/v1.ObjectID"),
+							Ref:     ref("kmodules.xyz/client-go/api/v1.ObjectInfo"),
 						},
 					},
 				},
@@ -17266,7 +17327,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceGraphRequest(ref common
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/client-go/api/v1.ObjectID"},
+			"kmodules.xyz/client-go/api/v1.ObjectInfo"},
 	}
 }
 
