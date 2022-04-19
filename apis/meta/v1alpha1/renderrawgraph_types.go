@@ -38,6 +38,7 @@ type RenderRawGraph struct {
 	Request *RenderRawGraphRequest `json:"request,omitempty"`
 	// Response describes the attributes for the graph response.
 	// +optional
+	// +kubebuilder:pruning:PreserveUnknownFields
 	Response *runtime.RawExtension `json:"response,omitempty"`
 }
 
