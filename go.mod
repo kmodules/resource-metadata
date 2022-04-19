@@ -94,7 +94,7 @@ require (
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 	k8s.io/component-base v0.21.1 // indirect
 	k8s.io/utils v0.0.0-20210802155522-efc7438f0176 // indirect
-	kmodules.xyz/offshoot-api v0.0.0-20210829122105-6f4d481b0c61 // indirect
+	kmodules.xyz/offshoot-api v0.0.0-20220419215722-c7fc995091d3 // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.1.2 // indirect
 )
 
