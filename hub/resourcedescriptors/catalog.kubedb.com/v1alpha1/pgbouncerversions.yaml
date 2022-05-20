@@ -49,7 +49,14 @@ spec:
               required:
               - image
               type: object
-            server:
+            initContainer:
+              properties:
+                image:
+                  type: string
+              required:
+              - image
+              type: object
+            pgBouncer:
               properties:
                 image:
                   type: string
@@ -60,7 +67,7 @@ spec:
               type: string
           required:
           - exporter
-          - server
+          - pgBouncer
           - version
           type: object
       type: object
