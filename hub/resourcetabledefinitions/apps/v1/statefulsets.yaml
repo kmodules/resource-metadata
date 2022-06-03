@@ -51,7 +51,9 @@ spec:
     priority: 1
     type: integer
   - name: Pod Status
-    pathTemplate: '{ "Total": "{{jp "{.status.replicas}" . }}", "Current Replicas": "{{ jp "{.status.currentReplicas}" . }}", "Updated": "{{ jp "{.status.updatedReplicas}" . }}" }'
+    pathTemplate: '{ "Total": "{{jp "{.status.replicas}" . }}", "Current Replicas":
+      "{{ jp "{.status.currentReplicas}" . }}", "Updated": "{{ jp "{.status.updatedReplicas}"
+      . }}" }'
     priority: 1
     type: object
   - name: Pods
@@ -67,7 +69,10 @@ spec:
     priority: 1
     type: string
   - name: Security Context
-    pathTemplate: '{ "runAsUser": "{{ jp "{.spec.template.spec.securityContext.runAsUser}" . }}", "runAsGroup": "{{ jp "{.spec.template.spec.securityContext.runAsGroup}" . }}","fsGroup": "{{ jp "{.spec.template.spec.securityContext.fsGroup}" . }}" }'
+    pathTemplate: '{ "runAsUser": "{{ jp "{.spec.template.spec.securityContext.runAsUser}"
+      . }}", "runAsGroup": "{{ jp "{.spec.template.spec.securityContext.runAsGroup}"
+      . }}","fsGroup": "{{ jp "{.spec.template.spec.securityContext.fsGroup}" . }}"
+      }'
     priority: 1
     type: object
   - name: ServiceAccount Name
@@ -83,7 +88,8 @@ spec:
     priority: 3
     sort:
       enable: true
-      template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+      template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00"
+        | unixEpoch }}'
       type: integer
     type: date
   defaultView: true

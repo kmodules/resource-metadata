@@ -24,17 +24,20 @@ spec:
     textAlign: center
     type: integer
   - name: CPU (request/limit)
-    pathTemplate: '{{ if .spec.appResource.requests.cpu }}{{ .spec.appResource.requests.cpu }} / {{ default `*` .spec.appResource.limits.cpu }}{{ end }}'
+    pathTemplate: '{{ if .spec.appResource.requests.cpu }}{{ .spec.appResource.requests.cpu
+      }} / {{ default `*` .spec.appResource.limits.cpu }}{{ end }}'
     priority: 2
     textAlign: center
     type: string
   - name: Memory (request/limit)
-    pathTemplate: '{{ if .spec.appResource.requests.memory }}{{ .spec.appResource.requests.memory }} / {{ default `*` .spec.appResource.limits.memory }}{{ end }}'
+    pathTemplate: '{{ if .spec.appResource.requests.memory }}{{ .spec.appResource.requests.memory
+      }} / {{ default `*` .spec.appResource.limits.memory }}{{ end }}'
     priority: 2
     textAlign: center
     type: string
   - name: Storage (request/limit)
-    pathTemplate: '{{ if .spec.appResource.requests.storage }}{{ .spec.appResource.requests.storage }} / {{ default `*` .spec.appResource.limits.storage }}{{ end }}'
+    pathTemplate: '{{ if .spec.appResource.requests.storage }}{{ .spec.appResource.requests.storage
+      }} / {{ default `*` .spec.appResource.limits.storage }}{{ end }}'
     priority: 2
     textAlign: center
     type: string

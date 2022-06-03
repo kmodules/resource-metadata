@@ -17,7 +17,8 @@ spec:
     - name: db
       value: '{{ .metadata.name }}'
   - if:
-      condition: '{{- if or (eq .spec.topology.mode "GroupReplication") (eq .spec.topology.mode "InnoDBCluster") }}true{{ else }}false{{ end -}}'
+      condition: '{{- if or (eq .spec.topology.mode "GroupReplication") (eq .spec.topology.mode
+        "InnoDBCluster") }}true{{ else }}false{{ end -}}'
     title: KubeDB / MySQL / Group-Replication-Summary
     vars:
     - name: namespace

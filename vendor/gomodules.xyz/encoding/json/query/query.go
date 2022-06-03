@@ -22,6 +22,7 @@ import (
 	"strings"
 
 	"gomodules.xyz/encoding/json"
+
 	"gomodules.xyz/jsonpath"
 )
 

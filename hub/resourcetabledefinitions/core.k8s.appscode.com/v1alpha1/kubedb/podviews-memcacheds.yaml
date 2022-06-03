@@ -25,17 +25,20 @@ spec:
     priority: 3
     type: string
   - name: CPU (usage/limit)
-    pathTemplate: '{{ if .spec.resources.usage.cpu }}{{.spec.resources.usage.cpu}} / {{ default `*` .spec.resources.limits.cpu }}{{ end }}'
+    pathTemplate: '{{ if .spec.resources.usage.cpu }}{{.spec.resources.usage.cpu}}
+      / {{ default `*` .spec.resources.limits.cpu }}{{ end }}'
     priority: 3
     textAlign: center
     type: string
   - name: Memory (usage/limit)
-    pathTemplate: '{{ if .spec.resources.usage.memory }}{{.spec.resources.usage.memory}} / {{default `*` .spec.resources.limits.memory}}{{ end }}'
+    pathTemplate: '{{ if .spec.resources.usage.memory }}{{.spec.resources.usage.memory}}
+      / {{default `*` .spec.resources.limits.memory}}{{ end }}'
     priority: 3
     textAlign: center
     type: string
   - name: Storage (usage/limit)
-    pathTemplate: '{{ if .spec.resources.usage.storage }}{{.spec.resources.usage.storage}} / {{default `*` .spec.resources.limits.storage}}{{ end }}'
+    pathTemplate: '{{ if .spec.resources.usage.storage }}{{.spec.resources.usage.storage}}
+      / {{default `*` .spec.resources.limits.storage}}{{ end }}'
     priority: 3
     textAlign: center
     type: string
@@ -62,7 +65,8 @@ spec:
     priority: 3
     sort:
       enable: true
-      template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+      template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00"
+        | unixEpoch }}'
       type: integer
     type: date
   defaultView: false
