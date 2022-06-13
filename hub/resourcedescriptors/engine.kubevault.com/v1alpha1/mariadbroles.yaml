@@ -3,16 +3,16 @@ kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
   labels:
-    k8s.io/group: policy.kubevault.com
-    k8s.io/kind: VaultPolicy
-    k8s.io/resource: vaultpolicies
+    k8s.io/group: engine.kubevault.com
+    k8s.io/kind: MariaDBRole
+    k8s.io/resource: mariadbroles
     k8s.io/version: v1alpha1
-  name: policy.kubevault.com-v1alpha1-vaultpolicies
+  name: engine.kubevault.com-v1alpha1-mariadbroles
 spec:
   resource:
-    group: policy.kubevault.com
-    kind: VaultPolicy
-    name: vaultpolicies
+    group: engine.kubevault.com
+    kind: MariaDBRole
+    name: mariadbroles
     scope: Namespaced
     version: v1alpha1
   validation:
@@ -62,25 +62,34 @@ spec:
               type: object
           type: object
         spec:
-          description: 'More info: https://www.vaultproject.io/docs/concepts/policies.html'
+          description: MariaDBRoleSpec contains connection information, mariadb role
+            info etc
           properties:
-            policy:
-              description: Policy specifies a vault policy in json format.
-              type: object
-              x-kubernetes-embedded-resource: true
-              x-kubernetes-preserve-unknown-fields: true
-            policyDocument:
-              description: 'PolicyDocument specifies a vault policy in hcl format.
-                For example: path "secret/*" { capabilities = ["create", "read", "update",
-                "delete", "list"] }'
+            creationStatements:
+              description: https://www.vaultproject.io/api/secret/databases/mysql-maria.html#creation_statements
+                Specifies the database statements executed to create and configure
+                a user.
+              items:
+                type: string
+              type: array
+            defaultTTL:
+              description: Specifies the TTL for the leases associated with this role.
+                Accepts time suffixed strings ("1h") or an integer number of seconds.
+                Defaults to system/engine default TTL time
               type: string
-            vaultPolicyName:
-              description: 'VaultPolicyName is the policy name set inside Vault. This
-                defaults to following format: k8s.${cluster}.${metadata.namespace}.${metadata.name}'
+            maxTTL:
+              description: Specifies the maximum TTL for the leases associated with
+                this role. Accepts time suffixed strings ("1h") or an integer number
+                of seconds. Defaults to system/engine default TTL time.
               type: string
-            vaultRef:
-              description: VaultRef is the name of a AppBinding referencing to a Vault
-                Server
+            revocationStatements:
+              description: https://www.vaultproject.io/api/secret/databases/mysql-maria.html#revocation_statements
+                Specifies the database statements to be executed to revoke a user.
+              items:
+                type: string
+              type: array
+            secretEngineRef:
+              description: SecretEngineRef is the name of a Secret Engine
               properties:
                 name:
                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
@@ -88,6 +97,7 @@ spec:
                   type: string
               type: object
           required:
-          - vaultRef
+          - creationStatements
+          - secretEngineRef
           type: object
       type: object
