@@ -18,6 +18,7 @@ package v1alpha1
 
 import (
 	kmapi "kmodules.xyz/client-go/api/v1"
+	"kmodules.xyz/resource-metadata/apis/shared"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -49,7 +50,7 @@ type ResourceLayoutSpec struct {
 	Header        *PageBlockLayout     `json:"header,omitempty"`
 	TabBar        *PageBlockLayout     `json:"tabBar,omitempty"`
 	Pages         []ResourcePageLayout `json:"pages,omitempty"`
-	UI            *UIParameters        `json:"ui,omitempty"`
+	UI            *shared.UIParameters `json:"ui,omitempty"`
 }
 
 type ResourcePageLayout struct {
@@ -65,9 +66,9 @@ type PageBlockLayout struct {
 
 	FieldPath string `json:"fieldPath,omitempty"`
 
-	*ResourceLocator `json:",inline,omitempty"`
-	DisplayMode      ResourceDisplayMode `json:"displayMode,omitempty"`
-	Actions          *ResourceActions    `json:"actions,omitempty"`
+	*shared.ResourceLocator `json:",inline,omitempty"`
+	DisplayMode             ResourceDisplayMode `json:"displayMode,omitempty"`
+	Actions                 *ResourceActions    `json:"actions,omitempty"`
 
 	View PageBlockTableDefinition `json:"view"`
 }

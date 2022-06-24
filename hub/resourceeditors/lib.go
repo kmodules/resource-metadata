@@ -27,7 +27,8 @@ import (
 	"sync"
 
 	kmapi "kmodules.xyz/client-go/api/v1"
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	"kmodules.xyz/resource-metadata/apis/shared"
+	"kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
 
 	"github.com/pkg/errors"
 	ioutilx "gomodules.xyz/x/ioutil"
@@ -137,7 +138,7 @@ func merge(in, d *v1alpha1.ResourceEditor) *v1alpha1.ResourceEditor {
 
 	if d.Spec.UI != nil {
 		if in.Spec.UI == nil {
-			in.Spec.UI = &v1alpha1.UIParameters{
+			in.Spec.UI = &shared.UIParameters{
 				InstanceLabelPaths: d.Spec.UI.InstanceLabelPaths,
 			}
 		}

@@ -23,7 +23,7 @@ COMPRESS ?= no
 # CRD_OPTIONS          ?= "crd:trivialVersions=true"
 CRD_OPTIONS          ?= "crd:allowDangerousTypes=true,crdVersions={v1}"
 CODE_GENERATOR_IMAGE ?= appscode/gengo:release-1.24
-API_GROUPS           ?= core:v1alpha1 meta:v1alpha1
+API_GROUPS           ?= core:v1alpha1 meta:v1alpha1 ui:v1alpha1
 
 # Where to push the docker image.
 REGISTRY ?= appscode
@@ -133,19 +133,31 @@ version:
 # Generate code for Kubernetes types
 .PHONY: clientset
 clientset:
-	@docker run --rm                                            \
-		-u $$(id -u):$$(id -g)                                    \
-		-v /tmp:/.cache                                           \
-		-v $$(pwd):$(DOCKER_REPO_ROOT)                            \
-		-w $(DOCKER_REPO_ROOT)                                    \
-		--env HTTP_PROXY=$(HTTP_PROXY)                            \
-		--env HTTPS_PROXY=$(HTTPS_PROXY)                          \
-		$(CODE_GENERATOR_IMAGE)                                   \
-		/go/src/k8s.io/code-generator/generate-groups.sh          \
-			deepcopy                                                \
-			$(GO_PKG)/$(REPO)/client                                \
-			$(GO_PKG)/$(REPO)/apis                                  \
-			"$(API_GROUPS)"                                         \
+	docker run --rm	                                   \
+		-u $$(id -u):$$(id -g)                           \
+		-v /tmp:/.cache                                  \
+		-v $$(pwd):$(DOCKER_REPO_ROOT)                   \
+		-w $(DOCKER_REPO_ROOT)                           \
+		--env HTTP_PROXY=$(HTTP_PROXY)                   \
+		--env HTTPS_PROXY=$(HTTPS_PROXY)                 \
+		$(CODE_GENERATOR_IMAGE)                          \
+		deepcopy-gen                                     \
+			--go-header-file "./hack/license/go.txt"       \
+			--input-dirs "$(GO_PKG)/$(REPO)/apis/shared"   \
+			--output-file-base zz_generated.deepcopy
+	@docker run --rm                                   \
+		-u $$(id -u):$$(id -g)                           \
+		-v /tmp:/.cache                                  \
+		-v $$(pwd):$(DOCKER_REPO_ROOT)                   \
+		-w $(DOCKER_REPO_ROOT)                           \
+		--env HTTP_PROXY=$(HTTP_PROXY)                   \
+		--env HTTPS_PROXY=$(HTTPS_PROXY)                 \
+		$(CODE_GENERATOR_IMAGE)                          \
+		/go/src/k8s.io/code-generator/generate-groups.sh \
+			deepcopy                                       \
+			$(GO_PKG)/$(REPO)/client                       \
+			$(GO_PKG)/$(REPO)/apis                         \
+			"$(API_GROUPS)"                                \
 			--go-header-file "./hack/license/go.txt"
 # 	@docker run --rm                                            \
 # 		-u $$(id -u):$$(id -g)                                    \
@@ -156,22 +168,22 @@ clientset:
 # 		--env HTTPS_PROXY=$(HTTPS_PROXY)                          \
 # 		$(CODE_GENERATOR_IMAGE)                                   \
 # 		/go/src/k8s.io/code-generator/generate-internal-groups.sh \
-# 			"conversion"                                          \
-# 			$(GO_PKG)/$(REPO)/client                              \
-# 			$(GO_PKG)/$(REPO)/apis                                \
-# 			$(GO_PKG)/$(REPO)/apis                                \
-# 			"$(API_GROUPS)"                                       \
+# 			"conversion"                                            \
+# 			$(GO_PKG)/$(REPO)/client                                \
+# 			$(GO_PKG)/$(REPO)/apis                                  \
+# 			$(GO_PKG)/$(REPO)/apis                                  \
+# 			"$(API_GROUPS)"                                         \
 # 			--go-header-file "./hack/license/go.txt" --extra-dirs k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1
 # 	# for both CRD and EAS types
-# 	@docker run --rm                                              \
-# 		-u $$(id -u):$$(id -g)                                    \
-# 		-v /tmp:/.cache                                           \
-# 		-v $$(pwd):$(DOCKER_REPO_ROOT)                            \
-# 		-w $(DOCKER_REPO_ROOT)                                    \
-# 		--env HTTP_PROXY=$(HTTP_PROXY)                            \
-# 		--env HTTPS_PROXY=$(HTTPS_PROXY)                          \
-# 		$(CODE_GENERATOR_IMAGE)                                   \
-# 		/go/src/k8s.io/code-generator/generate-groups.sh          \
+# 	@docker run --rm                                          \
+# 		-u $$(id -u):$$(id -g)                                  \
+# 		-v /tmp:/.cache                                         \
+# 		-v $$(pwd):$(DOCKER_REPO_ROOT)                          \
+# 		-w $(DOCKER_REPO_ROOT)                                  \
+# 		--env HTTP_PROXY=$(HTTP_PROXY)                          \
+# 		--env HTTPS_PROXY=$(HTTPS_PROXY)                        \
+# 		$(CODE_GENERATOR_IMAGE)                                 \
+# 		/go/src/k8s.io/code-generator/generate-groups.sh        \
 # 			all                                                   \
 # 			$(GO_PKG)/$(REPO)/client                              \
 # 			$(GO_PKG)/$(REPO)/apis                                \
@@ -180,11 +192,27 @@ clientset:
 
 # Generate openapi schema
 .PHONY: openapi
-openapi: $(addprefix openapi-, $(subst :,_, $(API_GROUPS)))
+openapi: openapi-shared $(addprefix openapi-, $(subst :,_, $(API_GROUPS)))
+openapi-shared:
+	@echo "Generating openapi schema"
+	@docker run --rm	                                    \
+		-u $$(id -u):$$(id -g)                              \
+		-v /tmp:/.cache                                     \
+		-v $$(pwd):$(DOCKER_REPO_ROOT)                      \
+		-w $(DOCKER_REPO_ROOT)                              \
+		--env HTTP_PROXY=$(HTTP_PROXY)                      \
+		--env HTTPS_PROXY=$(HTTPS_PROXY)                    \
+		$(CODE_GENERATOR_IMAGE)                             \
+		openapi-gen                                         \
+			--v 1 --logtostderr                               \
+			--go-header-file "./hack/license/go.txt"          \
+			--input-dirs "$(GO_PKG)/$(REPO)/apis/shared"      \
+			--output-package "$(GO_PKG)/$(REPO)/apis/shared"  \
+			--report-filename /tmp/violation_exceptions.list
 openapi-%:
 	@echo "Generating openapi schema for $(subst _,/,$*)"
 	@mkdir -p .config/api-rules
-	@docker run --rm                                     \
+	@docker run --rm                                   \
 		-u $$(id -u):$$(id -g)                           \
 		-v /tmp:/.cache                                  \
 		-v $$(pwd):$(DOCKER_REPO_ROOT)                   \
@@ -193,9 +221,9 @@ openapi-%:
 		--env HTTPS_PROXY=$(HTTPS_PROXY)                 \
 		$(CODE_GENERATOR_IMAGE)                          \
 		openapi-gen                                      \
-			--v 1 --logtostderr                          \
-			--go-header-file "./hack/license/go.txt"     \
-			--input-dirs "$(GO_PKG)/$(REPO)/apis/$(subst _,/,$*),k8s.io/apimachinery/pkg/apis/meta/v1,k8s.io/apimachinery/pkg/api/resource,k8s.io/apimachinery/pkg/runtime,k8s.io/apimachinery/pkg/version,k8s.io/api/core/v1,k8s.io/apimachinery/pkg/util/intstr" \
+			--v 1 --logtostderr                            \
+			--go-header-file "./hack/license/go.txt"       \
+			--input-dirs "$(GO_PKG)/$(REPO)/apis/$(subst _,/,$*),$(GO_PKG)/$(REPO)/apis/shared,k8s.io/apimachinery/pkg/apis/meta/v1,k8s.io/apimachinery/pkg/api/resource,k8s.io/apimachinery/pkg/runtime,k8s.io/apimachinery/pkg/version,k8s.io/api/core/v1,k8s.io/apimachinery/pkg/util/intstr" \
 			--output-package "$(GO_PKG)/$(REPO)/apis/$(subst _,/,$*)" \
 			--report-filename .config/api-rules/violation_exceptions.list
 
@@ -208,12 +236,12 @@ gen-crds:
 		-v /tmp:/.cache                     \
 		-v $$(pwd):$(DOCKER_REPO_ROOT)      \
 		-w $(DOCKER_REPO_ROOT)              \
-	    --env HTTP_PROXY=$(HTTP_PROXY)      \
-	    --env HTTPS_PROXY=$(HTTPS_PROXY)    \
+	    --env HTTP_PROXY=$(HTTP_PROXY)    \
+	    --env HTTPS_PROXY=$(HTTPS_PROXY)  \
 		$(CODE_GENERATOR_IMAGE)             \
 		controller-gen                      \
-			$(CRD_OPTIONS)                  \
-			paths="./apis/..."              \
+			$(CRD_OPTIONS)                    \
+			paths="./apis/..."                \
 			output:crd:artifacts:config=crds
 
 .PHONY: manifests
@@ -278,7 +306,7 @@ $(OUTBIN): .go/$(OUTBIN).stamp
 	        commit_timestamp=$(commit_timestamp)                \
 	        ./hack/build.sh                                     \
 	    "
-	@if [ $(COMPRESS) = yes ] && [ $(OS) != darwin ]; then          \
+	@if [ $(COMPRESS) = yes ] && [ $(OS) != darwin ]; then        \
 		echo "compressing $(OUTBIN)";                               \
 		docker run                                                  \
 		    -i                                                      \
@@ -306,7 +334,7 @@ DOTFILE_IMAGE    = $(subst /,_,$(IMAGE))-$(TAG)
 container: bin/.container-$(DOTFILE_IMAGE)-PROD bin/.container-$(DOTFILE_IMAGE)-DBG
 bin/.container-$(DOTFILE_IMAGE)-%: bin/$(OS)_$(ARCH)/$(BIN) $(DOCKERFILE_%)
 	@echo "container: $(IMAGE):$(TAG_$*)"
-	@sed                                    \
+	@sed                                  \
 		-e 's|{ARG_BIN}|$(BIN)|g'           \
 		-e 's|{ARG_ARCH}|$(ARCH)|g'         \
 		-e 's|{ARG_OS}|$(OS)|g'             \

@@ -23,7 +23,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	uiapi "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
 
 	flag "github.com/spf13/pflag"
 	diff "github.com/yudai/gojsondiff"
@@ -74,7 +74,7 @@ func check(filename string) (string, error) {
 		return "", err
 	}
 
-	var rd v1alpha1.ResourceEditor
+	var rd uiapi.ResourceEditor
 	err = yaml.Unmarshal(data, &rd)
 	if err != nil {
 		return "", err
