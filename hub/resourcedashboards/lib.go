@@ -27,7 +27,7 @@ import (
 	"sync"
 
 	kmapi "kmodules.xyz/client-go/api/v1"
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	"kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
 
 	"github.com/pkg/errors"
 	ioutilx "gomodules.xyz/x/ioutil"

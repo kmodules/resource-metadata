@@ -24,7 +24,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	metaapi "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	"kmodules.xyz/resource-metadata/apis/shared"
+	uiapi "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
 
 	"k8s.io/apimachinery/pkg/util/sets"
 	"sigs.k8s.io/yaml"
@@ -60,7 +62,7 @@ func main() {
 		if err != nil {
 			return err
 		}
-		var rd v1alpha1.ResourceEditor
+		var rd uiapi.ResourceEditor
 		err = yaml.Unmarshal(data, &rd)
 		if err != nil {
 			return err
@@ -79,7 +81,7 @@ func main() {
 			missing = append(missing, img)
 		} else {
 			allIcons.Insert(img)
-			rd.Spec.Icons = append(rd.Spec.Icons, v1alpha1.ImageSpec{
+			rd.Spec.Icons = append(rd.Spec.Icons, shared.ImageSpec{
 				Source: iconURLPrefix + img,
 				Type:   "image/svg+xml",
 			})
@@ -89,7 +91,7 @@ func main() {
 			missing = append(missing, img)
 		} else {
 			allIcons.Insert(img)
-			rd.Spec.Icons = append(rd.Spec.Icons, v1alpha1.ImageSpec{
+			rd.Spec.Icons = append(rd.Spec.Icons, shared.ImageSpec{
 				Source: iconURLPrefix + img,
 				Type:   "image/png",
 			})
@@ -100,7 +102,7 @@ func main() {
 			return err
 		}
 
-		data, err = v1alpha1.FormatMetadata(data)
+		data, err = metaapi.FormatMetadata(data)
 		if err != nil {
 			return err
 		}
@@ -127,7 +129,7 @@ func main() {
 		if err != nil {
 			return err
 		}
-		var rc v1alpha1.MenuOutline
+		var rc metaapi.MenuOutline
 		err = yaml.Unmarshal(data, &rc)
 		if err != nil {
 			return err
@@ -205,7 +207,7 @@ func groupDir(group string) string {
 	return group
 }
 
-func processIcons(icons []v1alpha1.ImageSpec, allIcons sets.String, missing []string) ([]v1alpha1.ImageSpec, []string) {
+func processIcons(icons []shared.ImageSpec, allIcons sets.String, missing []string) ([]shared.ImageSpec, []string) {
 	m := map[string]string{} // mime -> url
 	for _, entry := range icons {
 		m[entry.Type] = entry.Source
@@ -218,7 +220,7 @@ func processIcons(icons []v1alpha1.ImageSpec, allIcons sets.String, missing []st
 			missing = append(missing, img)
 		} else {
 			allIcons.Insert(img)
-			icons = append(icons, v1alpha1.ImageSpec{
+			icons = append(icons, shared.ImageSpec{
 				Source: u,
 				Type:   "image/svg+xml",
 			})
@@ -229,7 +231,7 @@ func processIcons(icons []v1alpha1.ImageSpec, allIcons sets.String, missing []st
 			missing = append(missing, img)
 		} else {
 			allIcons.Insert(img)
-			icons = append(icons, v1alpha1.ImageSpec{
+			icons = append(icons, shared.ImageSpec{
 				Source: iconURLPrefix + img,
 				Type:   "image/png",
 			})

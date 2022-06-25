@@ -18,6 +18,7 @@ package v1alpha1
 
 import (
 	kmapi "kmodules.xyz/client-go/api/v1"
+	"kmodules.xyz/resource-metadata/apis/shared"
 
 	crdv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -63,25 +64,6 @@ type ResourceDescriptorSpec struct {
 
 	// Links are a list of descriptive URLs intended to be used to surface additional documentation, dashboards, etc.
 	Links []Link `json:"links,omitempty"`
-}
-
-type ResourceLocator struct {
-	Ref   metav1.GroupKind `json:"ref"`
-	Query ResourceQuery    `json:"query"`
-}
-
-// +kubebuilder:validation:Enum=REST;GraphQL
-type QueryType string
-
-const (
-	RESTQuery    QueryType = "REST"
-	GraphQLQuery QueryType = "GraphQL"
-)
-
-type ResourceQuery struct {
-	Type    QueryType       `json:"type"`
-	ByLabel kmapi.EdgeLabel `json:"byLabel,omitempty"`
-	Raw     string          `json:"raw,omitempty"`
 }
 
 // +kubebuilder:validation:Enum=List;Field
@@ -211,8 +193,8 @@ type ResourceColumnDefinition struct {
 }
 
 type DashboardDefinition struct {
-	Name      string     `json:"name,omitempty"`
-	Dashboard *Dashboard `json:"-"`
+	Name      string            `json:"name,omitempty"`
+	Dashboard *shared.Dashboard `json:"-"`
 	// URL does not include the target variables
 	URL string `json:"-"`
 	// Status
@@ -289,19 +271,6 @@ type DashboardResult struct {
 	Status RenderStatus `json:"status"`
 	// Message
 	Message string `json:"message,omitempty"`
-}
-
-// ImageSpec contains information about an image used as an icon.
-type ImageSpec struct {
-	// The source for image represented as either an absolute URL to the image or a Data URL containing
-	// the image. Data URLs are defined in RFC 2397.
-	Source string `json:"src"`
-
-	// (optional) The size of the image in pixels (e.g., 25x25).
-	Size string `json:"size,omitempty"`
-
-	// (optional) The mine type of the image (e.g., "image/png").
-	Type string `json:"type,omitempty"`
 }
 
 // ContactData contains information about an individual or organization.

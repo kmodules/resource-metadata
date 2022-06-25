@@ -3,11 +3,11 @@ kind: ResourceTableDefinition
 metadata:
   creationTimestamp: null
   labels:
-    k8s.io/group: meta.k8s.appscode.com
+    k8s.io/group: ui.k8s.appscode.com
     k8s.io/kind: ResourceDashboard
     k8s.io/resource: resourcedashboards
     k8s.io/version: v1alpha1
-  name: meta.k8s.appscode.com-v1alpha1-resourcedashboards-urls
+  name: ui.k8s.appscode.com-v1alpha1-resourcedashboards-urls
 spec:
   columns:
   - name: Title
@@ -20,7 +20,7 @@ spec:
     type: string
   defaultView: false
   resource:
-    group: meta.k8s.appscode.com
+    group: ui.k8s.appscode.com
     kind: ResourceDashboard
     name: resourcedashboards
     scope: Namespaced

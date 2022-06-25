@@ -17,6 +17,8 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"kmodules.xyz/resource-metadata/apis/shared"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -66,7 +68,7 @@ type MenuSectionOutlineInfo struct {
 
 	// Icons is an optional list of icons for an application. Icon information includes the source, size,
 	// and mime type.
-	Icons []ImageSpec `json:"icons,omitempty"`
+	Icons []shared.ImageSpec `json:"icons,omitempty"`
 }
 
 type MenuEntry struct {
@@ -79,7 +81,7 @@ type MenuEntry struct {
 	// +optional
 	Required bool `json:"required,omitempty"`
 	// +optional
-	Icons []ImageSpec `json:"icons,omitempty"`
+	Icons []shared.ImageSpec `json:"icons,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

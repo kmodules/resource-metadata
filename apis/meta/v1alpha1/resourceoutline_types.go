@@ -18,6 +18,7 @@ package v1alpha1
 
 import (
 	kmapi "kmodules.xyz/client-go/api/v1"
+	"kmodules.xyz/resource-metadata/apis/shared"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -69,13 +70,13 @@ const (
 )
 
 type PageBlockOutline struct {
-	Kind             TableKind `json:"kind"` // ResourceBlockDefinition | Connection | Subtable(Field)
-	Name             string    `json:"name,omitempty"`
-	FieldPath        string    `json:"fieldPath,omitempty"`
-	*ResourceLocator `json:",inline,omitempty"`
-	DisplayMode      ResourceDisplayMode         `json:"displayMode,omitempty"`
-	Actions          *ResourceActions            `json:"actions,omitempty"`
-	View             *ResourceTableDefinitionRef `json:"view,omitempty"`
+	Kind                    TableKind `json:"kind"` // ResourceBlockDefinition | Connection | Subtable(Field)
+	Name                    string    `json:"name,omitempty"`
+	FieldPath               string    `json:"fieldPath,omitempty"`
+	*shared.ResourceLocator `json:",inline,omitempty"`
+	DisplayMode             ResourceDisplayMode         `json:"displayMode,omitempty"`
+	Actions                 *ResourceActions            `json:"actions,omitempty"`
+	View                    *ResourceTableDefinitionRef `json:"view,omitempty"`
 }
 
 type ResourceTableDefinitionRef struct {

@@ -27,6 +27,7 @@ import (
 	"text/template"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	"kmodules.xyz/resource-metadata/apis/shared"
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor/lib"
 
 	"github.com/pkg/errors"
@@ -180,7 +181,7 @@ func addTargetVars(in *v1alpha1.DashboardDefinition, data interface{}, buf *byte
 
 	var sb strings.Builder
 	for _, v := range d.Vars {
-		if v.Type != v1alpha1.DashboardVarTypeTarget {
+		if v.Type != shared.DashboardVarTypeTarget {
 			continue
 		}
 		if sb.Len() > 0 {

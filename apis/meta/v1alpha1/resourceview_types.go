@@ -18,17 +18,18 @@ package v1alpha1
 
 import (
 	kmapi "kmodules.xyz/client-go/api/v1"
+	"kmodules.xyz/resource-metadata/apis/shared"
 
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 )
 
 type ResourceView struct {
-	Resource   kmapi.ResourceID   `json:"resource"`
-	LayoutName string             `json:"layoutName"`
-	Header     *PageBlockView     `json:"header,omitempty"`
-	TabBar     *PageBlockView     `json:"tabBar,omitempty"`
-	Pages      []ResourcePageView `json:"pages,omitempty"`
-	UI         *UIParameters      `json:"ui,omitempty"`
+	Resource   kmapi.ResourceID     `json:"resource"`
+	LayoutName string               `json:"layoutName"`
+	Header     *PageBlockView       `json:"header,omitempty"`
+	TabBar     *PageBlockView       `json:"tabBar,omitempty"`
+	Pages      []ResourcePageView   `json:"pages,omitempty"`
+	UI         *shared.UIParameters `json:"ui,omitempty"`
 }
 
 type ResourcePageView struct {

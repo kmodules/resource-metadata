@@ -21,6 +21,7 @@ import (
 
 	kmapi "kmodules.xyz/client-go/api/v1"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	uiapi "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
 	tabledefs "kmodules.xyz/resource-metadata/hub/resourcetabledefinitions"
 
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
@@ -29,7 +30,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-type DashboardRendererFunc func(name string) (*v1alpha1.ResourceDashboard, string, error)
+type DashboardRendererFunc func(name string) (*uiapi.ResourceDashboard, string, error)
 
 func NewForGVR(kc client.Client, gvr schema.GroupVersionResource, priority v1alpha1.Priority, fn DashboardRendererFunc) (TableConvertor, error) {
 	var columns []v1alpha1.ResourceColumnDefinition

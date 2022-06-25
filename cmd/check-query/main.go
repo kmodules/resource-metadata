@@ -19,7 +19,7 @@ package main
 import (
 	"fmt"
 
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	"kmodules.xyz/resource-metadata/apis/shared"
 	"kmodules.xyz/resource-metadata/hub/resourceblockdefinitions"
 )
 
@@ -28,7 +28,7 @@ func main() {
 		for i, p := range rd.Spec.Blocks {
 			if p.ResourceLocator != nil {
 				sec := p.ResourceLocator
-				if sec.Query.Type != v1alpha1.RESTQuery && sec.Query.Type != v1alpha1.GraphQLQuery {
+				if sec.Query.Type != shared.RESTQuery && sec.Query.Type != shared.GraphQLQuery {
 					panic(fmt.Errorf("rd.Spec.Blocks[%d]", i))
 				}
 			}

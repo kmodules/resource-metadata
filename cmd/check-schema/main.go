@@ -18,6 +18,7 @@ package main
 
 import (
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	uiapi "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
 	blockdefs "kmodules.xyz/resource-metadata/hub/resourceblockdefinitions"
 	dashboards "kmodules.xyz/resource-metadata/hub/resourcedashboards"
 	"kmodules.xyz/resource-metadata/hub/resourcedescriptors"
@@ -39,7 +40,7 @@ func main() {
 	if err := sc.CheckFS(tabledefs.EmbeddedFS(), &v1alpha1.ResourceTableDefinition{}); err != nil {
 		panic(err)
 	}
-	if err := sc.CheckFS(dashboards.EmbeddedFS(), &v1alpha1.ResourceDashboard{}); err != nil {
+	if err := sc.CheckFS(dashboards.EmbeddedFS(), &uiapi.ResourceDashboard{}); err != nil {
 		panic(err)
 	}
 }

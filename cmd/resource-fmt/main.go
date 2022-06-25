@@ -24,7 +24,8 @@ import (
 	"path/filepath"
 	"reflect"
 
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	metaapi "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	uiapi "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
 
 	"github.com/pkg/errors"
 	diff "github.com/yudai/gojsondiff"
@@ -72,7 +73,7 @@ func check(typ reflect.Type, filename string, fix bool) (string, error) {
 		if d.Modified() {
 			fmt.Println("formatted ", filename)
 		}
-		if f, ok := obj.(v1alpha1.YAMLFormatter); ok {
+		if f, ok := obj.(metaapi.YAMLFormatter); ok {
 			data, err = f.ToYAML()
 		} else {
 			data, err = yaml.Marshal(obj)
@@ -135,11 +136,11 @@ func main() {
 	fix := flag.Bool("fix", true, "Fix formatting")
 	flag.Parse()
 
-	MustCheckType(v1alpha1.MenuOutline{}, "menuoutlines", *fix)
-	MustCheckType(v1alpha1.ResourceBlockDefinition{}, "resourceblockdefinitions", *fix)
-	MustCheckType(v1alpha1.ResourceDescriptor{}, "resourcedescriptors", *fix)
-	MustCheckType(v1alpha1.ResourceEditor{}, "resourceeditors", *fix)
-	MustCheckType(v1alpha1.ResourceOutline{}, "resourceoutlines", *fix)
-	MustCheckType(v1alpha1.ResourceTableDefinition{}, "resourcetabledefinitions", *fix)
-	MustCheckType(v1alpha1.ResourceDashboard{}, "resourcedashboards", *fix)
+	MustCheckType(metaapi.MenuOutline{}, "menuoutlines", *fix)
+	MustCheckType(metaapi.ResourceBlockDefinition{}, "resourceblockdefinitions", *fix)
+	MustCheckType(metaapi.ResourceDescriptor{}, "resourcedescriptors", *fix)
+	MustCheckType(uiapi.ResourceEditor{}, "resourceeditors", *fix)
+	MustCheckType(metaapi.ResourceOutline{}, "resourceoutlines", *fix)
+	MustCheckType(metaapi.ResourceTableDefinition{}, "resourcetabledefinitions", *fix)
+	MustCheckType(uiapi.ResourceDashboard{}, "resourcedashboards", *fix)
 }
