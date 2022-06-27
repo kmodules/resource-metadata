@@ -62,14 +62,14 @@ spec:
                 configServer:
                   properties:
                     containerControlledValues:
+                      enum:
+                      - RequestsAndLimits
+                      - RequestsOnly
                       type: string
                     controlledResources:
                       items:
                         type: string
                       type: array
-                    inMemoryScalingThreshold:
-                      format: int32
-                      type: integer
                     maxAllowed:
                       additionalProperties:
                         anyOf:
@@ -91,22 +91,28 @@ spec:
                     resourceDiffPercentage:
                       format: int32
                       type: integer
+                    scalingThreshold:
+                      format: int32
+                      type: integer
                     trigger:
                       type: string
+                    usageThreshold:
+                      format: int32
+                      type: integer
                   type: object
                 disableScaleDown:
                   type: boolean
                 mongos:
                   properties:
                     containerControlledValues:
+                      enum:
+                      - RequestsAndLimits
+                      - RequestsOnly
                       type: string
                     controlledResources:
                       items:
                         type: string
                       type: array
-                    inMemoryScalingThreshold:
-                      format: int32
-                      type: integer
                     maxAllowed:
                       additionalProperties:
                         anyOf:
@@ -128,20 +134,26 @@ spec:
                     resourceDiffPercentage:
                       format: int32
                       type: integer
+                    scalingThreshold:
+                      format: int32
+                      type: integer
                     trigger:
                       type: string
+                    usageThreshold:
+                      format: int32
+                      type: integer
                   type: object
                 replicaSet:
                   properties:
                     containerControlledValues:
+                      enum:
+                      - RequestsAndLimits
+                      - RequestsOnly
                       type: string
                     controlledResources:
                       items:
                         type: string
                       type: array
-                    inMemoryScalingThreshold:
-                      format: int32
-                      type: integer
                     maxAllowed:
                       additionalProperties:
                         anyOf:
@@ -163,20 +175,26 @@ spec:
                     resourceDiffPercentage:
                       format: int32
                       type: integer
+                    scalingThreshold:
+                      format: int32
+                      type: integer
                     trigger:
                       type: string
+                    usageThreshold:
+                      format: int32
+                      type: integer
                   type: object
                 shard:
                   properties:
                     containerControlledValues:
+                      enum:
+                      - RequestsAndLimits
+                      - RequestsOnly
                       type: string
                     controlledResources:
                       items:
                         type: string
                       type: array
-                    inMemoryScalingThreshold:
-                      format: int32
-                      type: integer
                     maxAllowed:
                       additionalProperties:
                         anyOf:
@@ -198,20 +216,26 @@ spec:
                     resourceDiffPercentage:
                       format: int32
                       type: integer
+                    scalingThreshold:
+                      format: int32
+                      type: integer
                     trigger:
                       type: string
+                    usageThreshold:
+                      format: int32
+                      type: integer
                   type: object
                 standalone:
                   properties:
                     containerControlledValues:
+                      enum:
+                      - RequestsAndLimits
+                      - RequestsOnly
                       type: string
                     controlledResources:
                       items:
                         type: string
                       type: array
-                    inMemoryScalingThreshold:
-                      format: int32
-                      type: integer
                     maxAllowed:
                       additionalProperties:
                         anyOf:
@@ -233,8 +257,14 @@ spec:
                     resourceDiffPercentage:
                       format: int32
                       type: integer
+                    scalingThreshold:
+                      format: int32
+                      type: integer
                     trigger:
                       type: string
+                    usageThreshold:
+                      format: int32
+                      type: integer
                   type: object
               type: object
             databaseRef:
