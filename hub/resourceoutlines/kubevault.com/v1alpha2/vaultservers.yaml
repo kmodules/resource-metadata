@@ -6,8 +6,8 @@ metadata:
     k8s.io/group: kubevault.com
     k8s.io/kind: VaultServer
     k8s.io/resource: vaultservers
-    k8s.io/version: v1alpha1
-  name: kubevault.com-v1alpha1-vaultservers
+    k8s.io/version: v1alpha2
+  name: kubevault.com-v1alpha2-vaultservers
 spec:
   defaultLayout: true
   pages:
@@ -24,4 +24,4 @@ spec:
     kind: VaultServer
     name: vaultservers
     scope: Namespaced
-    version: v1alpha1
+    version: v1alpha2
