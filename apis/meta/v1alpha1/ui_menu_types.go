@@ -32,6 +32,8 @@ const (
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
+// +kubebuilder:object:root=true
+// +kubebuilder:resource:path=menus,singular=menu,scope=Cluster
 type Menu struct {
 	metav1.TypeMeta `json:",inline"`
 	// +optional

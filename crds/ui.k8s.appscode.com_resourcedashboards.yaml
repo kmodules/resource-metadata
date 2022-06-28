@@ -12,7 +12,7 @@ spec:
     listKind: ResourceDashboardList
     plural: resourcedashboards
     singular: resourcedashboard
-  scope: Namespaced
+  scope: Cluster
   versions:
   - additionalPrinterColumns:
     - jsonPath: .status.phase

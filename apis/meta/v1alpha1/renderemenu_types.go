@@ -28,6 +28,8 @@ const (
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
+// +kubebuilder:object:root=true
+// +kubebuilder:resource:path=rendermenus,singular=rendermenu,scope=Cluster
 type RenderMenu struct {
 	metav1.TypeMeta `json:",inline"`
 	// Request describes the attributes for the render menu request.

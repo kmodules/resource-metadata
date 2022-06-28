@@ -30,6 +30,8 @@ const (
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
+// +kubebuilder:object:root=true
+// +kubebuilder:resource:path=renders,singular=render,scope=Cluster
 type Render struct {
 	metav1.TypeMeta `json:",inline"`
 	// Request describes the attributes for the graph request.

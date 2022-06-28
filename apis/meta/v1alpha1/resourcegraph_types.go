@@ -30,6 +30,8 @@ const (
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
+// +kubebuilder:object:root=true
+// +kubebuilder:resource:path=resourcegraphs,singular=resourcegraph,scope=Cluster
 type ResourceGraph struct {
 	metav1.TypeMeta `json:",inline"`
 	// Request describes the attributes for the graph request.

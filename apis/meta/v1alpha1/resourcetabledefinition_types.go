@@ -35,7 +35,7 @@ const (
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // +kubebuilder:object:root=true
-// +kubebuilder:resource:path=resourcetabledefinitions,singular=resourcetabledefinition
+// +kubebuilder:resource:path=resourcetabledefinitions,singular=resourcetabledefinition,scope=Cluster
 type ResourceTableDefinition struct {
 	metav1.TypeMeta `json:",inline"`
 	// +optional
