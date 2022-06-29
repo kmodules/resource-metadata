@@ -133,7 +133,7 @@ version:
 # Generate code for Kubernetes types
 .PHONY: clientset
 clientset:
-	docker run --rm	                                   \
+	@docker run --rm	                                 \
 		-u $$(id -u):$$(id -g)                           \
 		-v /tmp:/.cache                                  \
 		-v $$(pwd):$(DOCKER_REPO_ROOT)                   \

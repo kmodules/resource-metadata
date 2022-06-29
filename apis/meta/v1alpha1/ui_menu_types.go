@@ -47,8 +47,6 @@ type MenuSpec struct {
 	Home *MenuSectionInfo `json:"home,omitempty"`
 	// +optional
 	Sections []*MenuSection `json:"sections,omitempty"`
-	// +optional
-	Items []MenuItem `json:"items,omitempty"`
 }
 
 type MenuSection struct {
@@ -87,6 +85,8 @@ type MenuItem struct {
 	Installer *shared.DeploymentParameters `json:"installer,omitempty"`
 	// +optional
 	Preset *core.TypedLocalObjectReference `json:"preset,omitempty"`
+	// +optional
+	AvailableVariants int `json:"availableVariants,omitempty"`
 	// +optional
 	Items []MenuItem `json:"items,omitempty"`
 }

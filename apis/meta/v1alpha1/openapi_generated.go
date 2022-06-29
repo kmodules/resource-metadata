@@ -14957,6 +14957,12 @@ func schema_resource_metadata_apis_meta_v1alpha1_MenuItem(ref common.ReferenceCa
 							Ref: ref("k8s.io/api/core/v1.TypedLocalObjectReference"),
 						},
 					},
+					"availableVariants": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"integer"},
+							Format: "int32",
+						},
+					},
 					"items": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
@@ -15411,25 +15417,12 @@ func schema_resource_metadata_apis_meta_v1alpha1_MenuSpec(ref common.ReferenceCa
 							},
 						},
 					},
-					"items": {
-						SchemaProps: spec.SchemaProps{
-							Type: []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.MenuItem"),
-									},
-								},
-							},
-						},
-					},
 				},
 				Required: []string{"mode"},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.MenuItem", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.MenuSection", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.MenuSectionInfo"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.MenuSection", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.MenuSectionInfo"},
 	}
 }
 
