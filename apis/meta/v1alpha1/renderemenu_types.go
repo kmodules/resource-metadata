@@ -49,11 +49,10 @@ type RenderMenuRequest struct {
 	Type *metav1.GroupKind `json:"type,omitempty"`
 }
 
-// +kubebuilder:validation:Enum=Accordion;DropDown;Gallery
+// +kubebuilder:validation:Enum=Accordion;Gallery
 type MenuMode string
 
 const (
 	MenuAccordion MenuMode = "Accordion"
-	MenuDropDown  MenuMode = "DropDown"
 	MenuGallery   MenuMode = "Gallery"
 )

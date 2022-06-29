@@ -480,13 +480,6 @@ func (in *MenuSpec) DeepCopyInto(out *MenuSpec) {
 			}
 		}
 	}
-	if in.Items != nil {
-		in, out := &in.Items, &out.Items
-		*out = make([]MenuItem, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
 	return
 }
 
