@@ -17,8 +17,7 @@ spec:
     - name: db
       value: '{{ .metadata.name }}'
   - if:
-      condition: '{{- if or (eq .spec.mode "Cluster") (eq .spec.mode "Sentinel") }}true{{
-        else }}false{{ end -}}'
+      condition: '{{- if or (eq .spec.mode "Cluster") (eq .spec.mode "Sentinel") }}true{{ else }}false{{ end -}}'
     title: KubeDB / Redis / Shard
     vars:
     - name: namespace

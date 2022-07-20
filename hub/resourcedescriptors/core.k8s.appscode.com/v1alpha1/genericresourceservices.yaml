@@ -19,46 +19,28 @@ spec:
     openAPIV3Schema:
       properties:
         apiVersion:
-          description: 'APIVersion defines the versioned schema of this representation
-            of an object. Servers should convert recognized schemas to the latest
-            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
           type: string
         kind:
-          description: 'Kind is a string value representing the REST resource this
-            object represents. Servers may infer this from the endpoint the client
-            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
           type: string
         metadata:
           properties:
             name:
-              description: 'Name must be unique within a namespace. Is required when
-                creating resources, although some resources may allow a client to
-                request the generation of an appropriate name automatically. Name
-                is primarily intended for creation idempotence and configuration definition.
-                Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
+              description: 'Name must be unique within a namespace. Is required when creating resources, although some resources may allow a client to request the generation of an appropriate name automatically. Name is primarily intended for creation idempotence and configuration definition. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
               type: string
             namespace:
-              description: "Namespace defines the space within which each name must
-                be unique. An empty namespace is equivalent to the \"default\" namespace,
-                but \"default\" is the canonical representation. Not all objects are
-                required to be scoped to a namespace - the value of this field for
-                those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated.
-                More info: http://kubernetes.io/docs/user-guide/namespaces"
+              description: "Namespace defines the space within which each name must be unique. An empty namespace is equivalent to the \"default\" namespace, but \"default\" is the canonical representation. Not all objects are required to be scoped to a namespace - the value of this field for those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/namespaces"
               type: string
             labels:
               additionalProperties:
                 type: string
-              description: 'Map of string keys and values that can be used to organize
-                and categorize (scope and select) objects. May match selectors of
-                replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels'
+              description: 'Map of string keys and values that can be used to organize and categorize (scope and select) objects. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels'
               type: object
             annotations:
               additionalProperties:
                 type: string
-              description: 'Annotations is an unstructured key value map stored with
-                a resource that may be set by external tools to store and retrieve
-                arbitrary metadata. They are not queryable and should be preserved
-                when modifying objects. More info: http://kubernetes.io/docs/user-guide/annotations'
+              description: 'Annotations is an unstructured key value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: http://kubernetes.io/docs/user-guide/annotations'
               type: object
           type: object
         spec:
@@ -69,17 +51,13 @@ spec:
                 group:
                   type: string
                 kind:
-                  description: Kind is the serialized kind of the resource.  It is
-                    normally CamelCase and singular.
+                  description: Kind is the serialized kind of the resource.  It is normally CamelCase and singular.
                   type: string
                 name:
-                  description: 'Name is the plural name of the resource to serve.  It
-                    must match the name of the CustomResourceDefinition-registration
-                    too: plural.group and it must be all lowercase.'
+                  description: 'Name is the plural name of the resource to serve.  It must match the name of the CustomResourceDefinition-registration too: plural.group and it must be all lowercase.'
                   type: string
                 scope:
-                  description: ResourceScope is an enum defining the different scopes
-                    available to a custom resource
+                  description: ResourceScope is an enum defining the different scopes available to a custom resource
                   type: string
                 version:
                   type: string
@@ -122,8 +100,7 @@ spec:
                   properties:
                     refs:
                       items:
-                        description: ObjectReference contains enough information to
-                          let you inspect or modify the referred object.
+                        description: ObjectReference contains enough information to let you inspect or modify the referred object.
                         properties:
                           name:
                             description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
@@ -141,17 +118,13 @@ spec:
                         group:
                           type: string
                         kind:
-                          description: Kind is the serialized kind of the resource.  It
-                            is normally CamelCase and singular.
+                          description: Kind is the serialized kind of the resource.  It is normally CamelCase and singular.
                           type: string
                         name:
-                          description: 'Name is the plural name of the resource to
-                            serve.  It must match the name of the CustomResourceDefinition-registration
-                            too: plural.group and it must be all lowercase.'
+                          description: 'Name is the plural name of the resource to serve.  It must match the name of the CustomResourceDefinition-registration too: plural.group and it must be all lowercase.'
                           type: string
                         scope:
-                          description: ResourceScope is an enum defining the different
-                            scopes available to a custom resource
+                          description: ResourceScope is an enum defining the different scopes available to a custom resource
                           type: string
                         version:
                           type: string
@@ -171,8 +144,7 @@ spec:
                   properties:
                     refs:
                       items:
-                        description: ObjectReference contains enough information to
-                          let you inspect or modify the referred object.
+                        description: ObjectReference contains enough information to let you inspect or modify the referred object.
                         properties:
                           name:
                             description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
@@ -190,17 +162,13 @@ spec:
                         group:
                           type: string
                         kind:
-                          description: Kind is the serialized kind of the resource.  It
-                            is normally CamelCase and singular.
+                          description: Kind is the serialized kind of the resource.  It is normally CamelCase and singular.
                           type: string
                         name:
-                          description: 'Name is the plural name of the resource to
-                            serve.  It must match the name of the CustomResourceDefinition-registration
-                            too: plural.group and it must be all lowercase.'
+                          description: 'Name is the plural name of the resource to serve.  It must match the name of the CustomResourceDefinition-registration too: plural.group and it must be all lowercase.'
                           type: string
                         scope:
-                          description: ResourceScope is an enum defining the different
-                            scopes available to a custom resource
+                          description: ResourceScope is an enum defining the different scopes available to a custom resource
                           type: string
                         version:
                           type: string
@@ -220,8 +188,7 @@ spec:
                   properties:
                     refs:
                       items:
-                        description: ObjectReference contains enough information to
-                          let you inspect or modify the referred object.
+                        description: ObjectReference contains enough information to let you inspect or modify the referred object.
                         properties:
                           name:
                             description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
@@ -239,17 +206,13 @@ spec:
                         group:
                           type: string
                         kind:
-                          description: Kind is the serialized kind of the resource.  It
-                            is normally CamelCase and singular.
+                          description: Kind is the serialized kind of the resource.  It is normally CamelCase and singular.
                           type: string
                         name:
-                          description: 'Name is the plural name of the resource to
-                            serve.  It must match the name of the CustomResourceDefinition-registration
-                            too: plural.group and it must be all lowercase.'
+                          description: 'Name is the plural name of the resource to serve.  It must match the name of the CustomResourceDefinition-registration too: plural.group and it must be all lowercase.'
                           type: string
                         scope:
-                          description: ResourceScope is an enum defining the different
-                            scopes available to a custom resource
+                          description: ResourceScope is an enum defining the different scopes available to a custom resource
                           type: string
                         version:
                           type: string
@@ -269,8 +232,7 @@ spec:
                   properties:
                     refs:
                       items:
-                        description: ObjectReference contains enough information to
-                          let you inspect or modify the referred object.
+                        description: ObjectReference contains enough information to let you inspect or modify the referred object.
                         properties:
                           name:
                             description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
@@ -288,17 +250,13 @@ spec:
                         group:
                           type: string
                         kind:
-                          description: Kind is the serialized kind of the resource.  It
-                            is normally CamelCase and singular.
+                          description: Kind is the serialized kind of the resource.  It is normally CamelCase and singular.
                           type: string
                         name:
-                          description: 'Name is the plural name of the resource to
-                            serve.  It must match the name of the CustomResourceDefinition-registration
-                            too: plural.group and it must be all lowercase.'
+                          description: 'Name is the plural name of the resource to serve.  It must match the name of the CustomResourceDefinition-registration too: plural.group and it must be all lowercase.'
                           type: string
                         scope:
-                          description: ResourceScope is an enum defining the different
-                            scopes available to a custom resource
+                          description: ResourceScope is an enum defining the different scopes available to a custom resource
                           type: string
                         version:
                           type: string

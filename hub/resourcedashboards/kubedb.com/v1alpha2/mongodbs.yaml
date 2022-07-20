@@ -17,8 +17,7 @@ spec:
     - name: db
       value: '{{ .metadata.name }}'
   - if:
-      condition: '{{- if or (hasKey .spec "replicaSet") (hasKey .spec "shardTopology")
-        }}true{{ else }}false{{ end -}}'
+      condition: '{{- if or (hasKey .spec "replicaSet") (hasKey .spec "shardTopology") }}true{{ else }}false{{ end -}}'
     title: KubeDB / MongoDB / Database / ReplicaSet
     vars:
     - name: namespace

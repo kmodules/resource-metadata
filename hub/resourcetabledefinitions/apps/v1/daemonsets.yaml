@@ -47,10 +47,7 @@ spec:
     priority: 1
     type: object
   - name: Pod Status
-    pathTemplate: '{ "Desired": "{{jp "{.status.desiredNumberScheduled}" . }}", "Available":
-      "{{ jp "{.status.numberAvailable}" . }}", "Updated": "{{ jp "{.status.updatedNumberScheduled}"
-      . }}", "Current Scheduled": "{{ jp "{.status.currentNumberScheduled}" . }}",
-      "Ready": "{{ jp "{.status.numberReady}" . }}" }'
+    pathTemplate: '{ "Desired": "{{jp "{.status.desiredNumberScheduled}" . }}", "Available": "{{ jp "{.status.numberAvailable}" . }}", "Updated": "{{ jp "{.status.updatedNumberScheduled}" . }}", "Current Scheduled": "{{ jp "{.status.currentNumberScheduled}" . }}", "Ready": "{{ jp "{.status.numberReady}" . }}" }'
     priority: 1
     type: object
   - name: Pods
@@ -78,10 +75,7 @@ spec:
     priority: 2
     type: string
   - name: Security Context
-    pathTemplate: '{ "runAsUser": "{{ jp "{.spec.template.spec.securityContext.runAsUser}"
-      . }}", "runAsGroup": "{{ jp "{.spec.template.spec.securityContext.runAsGroup}"
-      . }}","fsGroup": "{{ jp "{.spec.template.spec.securityContext.fsGroup}" . }}"
-      }'
+    pathTemplate: '{ "runAsUser": "{{ jp "{.spec.template.spec.securityContext.runAsUser}" . }}", "runAsGroup": "{{ jp "{.spec.template.spec.securityContext.runAsGroup}" . }}","fsGroup": "{{ jp "{.spec.template.spec.securityContext.fsGroup}" . }}" }'
     priority: 1
     type: object
   - name: ServiceAccount Name
@@ -97,8 +91,7 @@ spec:
     priority: 3
     sort:
       enable: true
-      template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00"
-        | unixEpoch }}'
+      template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
       type: integer
     type: date
   defaultView: true

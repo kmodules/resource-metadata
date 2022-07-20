@@ -24,22 +24,17 @@ spec:
     type: string
   - format: resource-map
     name: CPU
-    pathTemplate: '{{- printf `{ "request": "%s", "limit": "%s" }` (dig "requests"
-      "cpu" "" .spec.appResource) (dig "limits" "cpu" "" .spec.appResource) -}}'
+    pathTemplate: '{{- printf `{ "request": "%s", "limit": "%s" }` (dig "requests" "cpu" "" .spec.appResource) (dig "limits" "cpu" "" .spec.appResource) -}}'
     priority: 3
     type: object
   - format: resource-map
     name: Memory
-    pathTemplate: '{{- printf `{ "request": "%s", "limit": "%s" }` (dig "requests"
-      "memory" "" .spec.appResource) (dig "limits" "memory" "" .spec.appResource)
-      -}}'
+    pathTemplate: '{{- printf `{ "request": "%s", "limit": "%s" }` (dig "requests" "memory" "" .spec.appResource) (dig "limits" "memory" "" .spec.appResource) -}}'
     priority: 3
     type: object
   - format: resource-map
     name: Storage
-    pathTemplate: '{{- printf `{ "request": "%s", "limit": "%s" }` (dig "requests"
-      "storage" "" .spec.appResource) (dig "limits" "storage" "" .spec.appResource)
-      -}}'
+    pathTemplate: '{{- printf `{ "request": "%s", "limit": "%s" }` (dig "requests" "storage" "" .spec.appResource) (dig "limits" "storage" "" .spec.appResource) -}}'
     priority: 3
     type: object
   - color:

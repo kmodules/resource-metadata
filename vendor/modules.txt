@@ -281,8 +281,8 @@ google.golang.org/protobuf/types/known/timestamppb
 # gopkg.in/inf.v0 v0.9.1
 ## explicit
 gopkg.in/inf.v0
-# gopkg.in/yaml.v2 v2.4.0
-## explicit; go 1.15
+# gopkg.in/yaml.v2 v2.4.0 => gopkg.in/yaml.v2 v2.3.0
+## explicit
 gopkg.in/yaml.v2
 # gopkg.in/yaml.v3 v3.0.0
 ## explicit
@@ -651,3 +651,4 @@ sigs.k8s.io/structured-merge-diff/v4/value
 ## explicit; go 1.12
 sigs.k8s.io/yaml
 # github.com/Masterminds/sprig/v3 => github.com/gomodules/sprig/v3 v3.2.3-0.20220405051441-0a8a99bac1b8
+# gopkg.in/yaml.v2 => gopkg.in/yaml.v2 v2.3.0

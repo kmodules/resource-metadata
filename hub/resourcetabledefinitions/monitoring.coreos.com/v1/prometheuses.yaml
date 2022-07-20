@@ -47,8 +47,7 @@ spec:
     priority: 3
     type: string
   - name: Storage
-    pathTemplate: '{{ .spec.storage.volumeClaimTemplate.resources.requests.storage
-      }}'
+    pathTemplate: '{{ .spec.storage.volumeClaimTemplate.resources.requests.storage }}'
     priority: 3
     type: string
   - name: Paused
@@ -60,8 +59,7 @@ spec:
     priority: 3
     sort:
       enable: true
-      template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00"
-        | unixEpoch }}'
+      template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
       type: integer
     type: date
   defaultView: true
