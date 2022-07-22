@@ -64,6 +64,22 @@ type ResourceDescriptorSpec struct {
 
 	// Links are a list of descriptive URLs intended to be used to surface additional documentation, dashboards, etc.
 	Links []Link `json:"links,omitempty"`
+
+	// +optional
+	Exec []ResourceExec `json:"exec,omitempty"`
+}
+
+type ResourceExec struct {
+	Alias string `json:"alias"`
+	// +optional
+	If                  *shared.If `json:"if,omitempty"`
+	ServiceNameTemplate string     `json:"serviceNameTemplate"`
+	// +optional
+	Container string `json:"container,omitempty"`
+	// +optional
+	Command []string `json:"command,omitempty"`
+	// +optional
+	Help string `json:"help,omitempty"`
 }
 
 // +kubebuilder:validation:Enum=List;Field

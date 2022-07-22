@@ -111,6 +111,16 @@ spec:
       apiVersion: ui.kubedb.com/v1alpha1
       kind: MariaDBSchemaOverview
     type: MatchName
+  exec:
+  - alias: Primary
+    command:
+    - bash
+    - -c
+    - mysql -u"$MYSQL_ROOT_USERNAME" -p"$MYSQL_ROOT_PASSWORD"
+    container: mariadb
+    help: |
+      show databases;
+    serviceNameTemplate: '{{- .metadata.name -}}'
   resource:
     group: kubedb.com
     kind: MariaDB

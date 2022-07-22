@@ -111,6 +111,14 @@ spec:
       apiVersion: ui.kubedb.com/v1alpha1
       kind: ElasticsearchSchemaOverview
     type: MatchName
+  exec:
+  - alias: Primary
+    command:
+    - bash
+    container: elasticsearch
+    help: |
+      curl -XGET -k -u "$ELASTIC_USER:$ELASTIC_PASSWORD" "https://localhost:9200/_cluster/health?pretty"
+    serviceNameTemplate: '{{- .metadata.name -}}'
   resource:
     group: kubedb.com
     kind: Elasticsearch
