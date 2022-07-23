@@ -303,6 +303,8 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DashboardDefinition":         schema_resource_metadata_apis_meta_v1alpha1_DashboardDefinition(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DashboardResponse":           schema_resource_metadata_apis_meta_v1alpha1_DashboardResponse(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DashboardResult":             schema_resource_metadata_apis_meta_v1alpha1_DashboardResult(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ExecDefinition":              schema_resource_metadata_apis_meta_v1alpha1_ExecDefinition(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ExecResult":                  schema_resource_metadata_apis_meta_v1alpha1_ExecResult(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Link":                        schema_resource_metadata_apis_meta_v1alpha1_Link(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Menu":                        schema_resource_metadata_apis_meta_v1alpha1_Menu(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.MenuEntry":                   schema_resource_metadata_apis_meta_v1alpha1_MenuEntry(ref),
@@ -14769,6 +14771,112 @@ func schema_resource_metadata_apis_meta_v1alpha1_DashboardResult(ref common.Refe
 	}
 }
 
+func schema_resource_metadata_apis_meta_v1alpha1_ExecDefinition(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"alias": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"serviceNameTemplate": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"container": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"command": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+					"help": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+				},
+			},
+		},
+	}
+}
+
+func schema_resource_metadata_apis_meta_v1alpha1_ExecResult(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "cell.Data == name of resource",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"alias": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"resource": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"container": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Namespace string   `json:\"namespace\"`",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"command": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+					"help": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+				},
+				Required: []string{"alias", "resource", "container", "command"},
+			},
+		},
+	}
+}
+
 func schema_resource_metadata_apis_meta_v1alpha1_Link(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -16469,12 +16577,17 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceColumn(ref common.Refer
 							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DashboardResult"),
 						},
 					},
+					"exec": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ExecResult"),
+						},
+					},
 				},
 				Required: []string{"name", "type", "priority"},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DashboardResult", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.SortHeader"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DashboardResult", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ExecResult", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.SortHeader"},
 	}
 }
 
@@ -16572,12 +16685,17 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceColumnDefinition(ref co
 							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DashboardDefinition"),
 						},
 					},
+					"exec": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ExecDefinition"),
+						},
+					},
 				},
 				Required: []string{"name", "type", "priority"},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.AttributeDefinition", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ColorDefinition", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DashboardDefinition", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.SortDefinition"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.AttributeDefinition", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ColorDefinition", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DashboardDefinition", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ExecDefinition", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.SortDefinition"},
 	}
 }
 
@@ -16935,9 +17053,8 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceExec(ref common.Referen
 					},
 					"serviceNameTemplate": {
 						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
+							Type:   []string{"string"},
+							Format: "",
 						},
 					},
 					"container": {
@@ -16967,7 +17084,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceExec(ref common.Referen
 						},
 					},
 				},
-				Required: []string{"alias", "serviceNameTemplate"},
+				Required: []string{"alias"},
 			},
 		},
 		Dependencies: []string{
@@ -18056,6 +18173,12 @@ func schema_resource_metadata_apis_meta_v1alpha1_TableRow(ref common.ReferenceCa
 									},
 								},
 							},
+						},
+					},
+					"namespace": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
 						},
 					},
 				},

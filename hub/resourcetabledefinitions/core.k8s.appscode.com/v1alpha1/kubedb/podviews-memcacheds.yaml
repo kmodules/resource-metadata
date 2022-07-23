@@ -65,6 +65,11 @@ spec:
       template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
       type: integer
     type: date
+  - exec: {}
+    name: Exec
+    priority: 4
+    textAlign: center
+    type: string
   defaultView: false
   resource:
     group: core.k8s.appscode.com

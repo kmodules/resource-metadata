@@ -44,6 +44,8 @@ type TableRow struct {
 	// int64), booleans, simple maps, lists, or null. See the type field of the column definition for a
 	// more detailed description.
 	Cells []TableCell `json:"cells"`
+	// +optional
+	Namespace string `json:"namespace,omitempty"`
 }
 
 type TableCell struct {

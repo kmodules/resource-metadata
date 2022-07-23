@@ -14893,8 +14893,9 @@ func schema_resource_metadata_apis_core_v1alpha1_ExecServiceFacilitator(ref comm
 					},
 					"resource": {
 						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("kmodules.xyz/client-go/api/v1.ResourceID"),
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
 						},
 					},
 					"ref": {
@@ -14941,7 +14942,7 @@ func schema_resource_metadata_apis_core_v1alpha1_ExecServiceFacilitator(ref comm
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/client-go/api/v1.ObjectReference", "kmodules.xyz/client-go/api/v1.ResourceID"},
+			"kmodules.xyz/client-go/api/v1.ObjectReference"},
 	}
 }
 
