@@ -71,6 +71,16 @@ spec:
       apiVersion: cert-manager.io/v1
       kind: ClusterIssuer
     type: MatchRef
+  exec:
+  - alias: Primary
+    command:
+    - bash
+    - -c
+    - mysql -u"$MYSQL_ROOT_USERNAME" -p"$MYSQL_ROOT_PASSWORD"
+    container: perconaxtradb
+    help: |
+      show databases;
+    serviceNameTemplate: '{{- .metadata.name -}}'
   resource:
     group: kubedb.com
     kind: PerconaXtraDB

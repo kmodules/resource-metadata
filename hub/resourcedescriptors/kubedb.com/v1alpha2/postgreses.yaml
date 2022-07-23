@@ -119,6 +119,23 @@ spec:
       apiVersion: ui.kubedb.com/v1alpha1
       kind: PostgresSettings
     type: MatchName
+  exec:
+  - alias: Primary
+    command:
+    - psql
+    container: postgres
+    help: |
+      \l
+    serviceNameTemplate: '{{- .metadata.name -}}'
+  - alias: StandBy
+    command:
+    - psql
+    container: postgres
+    help: |
+      \l
+    if:
+      condition: '{{- if gt .spec.replicas 1 }}true{{ else }}false{{ end -}}'
+    serviceNameTemplate: '{{- printf "%s-standby" .metadata.name -}}'
   resource:
     group: kubedb.com
     kind: Postgres

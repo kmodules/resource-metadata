@@ -79,6 +79,11 @@ spec:
       apiVersion: core.k8s.appscode.com/v1alpha1
       kind: GenericResource
     type: MatchName
+  exec:
+  - alias: Primary
+    command:
+    - bash
+    serviceNameTemplate: '{{- .metadata.name -}}'
   resource:
     group: kubedb.com
     kind: Memcached
