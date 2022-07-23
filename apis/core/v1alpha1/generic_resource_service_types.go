@@ -67,7 +67,7 @@ type GenericResourceServiceFacilitator struct {
 
 type ExecServiceFacilitator struct {
 	Alias     string                `json:"alias"`
-	Resource  kmapi.ResourceID      `json:"resource"`
+	Resource  string                `json:"resource"`
 	Ref       kmapi.ObjectReference `json:"ref"`
 	Container string                `json:"container"`
 	Command   []string              `json:"command"`

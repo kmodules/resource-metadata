@@ -74,6 +74,10 @@ spec:
     pathTemplate: '{{ .spec.facilities.monitoring.usage }}'
     priority: 3
     type: string
+  - name: Exec
+    pathTemplate: '{{ .spec.facilities.exec }}'
+    priority: 4
+    type: object
   defaultView: false
   resource:
     group: core.k8s.appscode.com

@@ -55,19 +55,19 @@ type TableConvertor interface {
 
 // New creates a new table convertor for the provided CRD column definition. If the printer definition cannot be parsed,
 // error will be returned along with a default table convertor.
-func New(fieldPath string, columns []v1alpha1.ResourceColumnDefinition, fn DashboardRendererFunc) (TableConvertor, error) {
+func New(fieldPath string, columns []v1alpha1.ResourceColumnDefinition, fnDashboard DashboardRendererFunc, fnExec ResourceExecFunc) (TableConvertor, error) {
 	c := &convertor{
 		fieldPath: fieldPath,
 	}
-	err := c.init(columns, fn)
+	err := c.init(columns, fnDashboard, fnExec)
 	return c, err
 }
 
-func NewForList(fieldPath string, columns []v1alpha1.ResourceColumnDefinition, fn DashboardRendererFunc) (TableConvertor, error) {
+func NewForList(fieldPath string, columns []v1alpha1.ResourceColumnDefinition, fnDashboard DashboardRendererFunc, fnExec ResourceExecFunc) (TableConvertor, error) {
 	c := &convertor{
 		fieldPath: fieldPath,
 	}
-	err := c.init(filterColumns(columns, v1alpha1.List), fn)
+	err := c.init(filterColumns(columns, v1alpha1.List), fnDashboard, fnExec)
 	return c, err
 }
 
@@ -144,19 +144,36 @@ func FilterColumnsWithDefaults(
 	return append(defaultColumns, additionalColumns...)
 }
 
-func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition, fn DashboardRendererFunc) error {
+func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition, fnDashboard DashboardRendererFunc, fnExec ResourceExecFunc) error {
 	for i, c := range columns {
 		if c.Dashboard != nil && c.Dashboard.Name != "" {
-			if fn == nil {
+			if fnDashboard == nil {
 				return errors.New("missing dashboard renderer")
 			}
-			if obj, url, err := fn(c.Dashboard.Name); err != nil {
+			if obj, url, err := fnDashboard(c.Dashboard.Name); err != nil {
 				c.Dashboard.Status = v1alpha1.RenderError
 				c.Dashboard.Message = err.Error()
 			} else {
 				c.Dashboard.Dashboard = &obj.Spec.Dashboards[0]
 				c.Dashboard.URL = url
 				c.Dashboard.Status = v1alpha1.RenderSuccess
+			}
+		} else if c.Exec != nil {
+			if len(c.Exec.Command) == 0 {
+				if fnExec == nil {
+					return errors.New("missing exec renderer")
+				}
+				for idx, exec := range fnExec() {
+					match := (c.Exec.Alias == "" && idx == 0) || (c.Exec.Alias != "" && c.Exec.Alias == exec.Alias)
+					if match {
+						c.Exec.Alias = exec.Alias
+						c.Exec.ServiceNameTemplate = exec.ServiceNameTemplate
+						c.Exec.Container = exec.Container
+						c.Exec.Command = exec.Command
+						c.Exec.Help = exec.Help
+						break
+					}
+				}
 			}
 		}
 		columns[i] = c
@@ -221,13 +238,35 @@ func (c *convertor) rowFn(obj interface{}) ([]v1alpha1.TableCell, error) {
 	for _, col := range c.headers {
 		var cell v1alpha1.TableCell
 
-		// if dashboard type column, set dashboard url as data for cell
 		if col.Dashboard != nil {
+			// if dashboard type column, set dashboard url as data for cell
 			if col.Dashboard.Status == v1alpha1.RenderSuccess {
 				if u, err := addTargetVars(col.Dashboard, data, buf); err != nil {
 					return nil, err
 				} else {
 					cell.Data = u
+				}
+			}
+		} else if col.Exec != nil {
+			if col.Exec.ServiceNameTemplate == "" {
+				if v, err := renderTemplate(data, columnOptions{
+					Name:     col.Name,
+					Type:     col.Type,
+					Template: col.PathTemplate,
+				}, buf); err != nil {
+					return nil, err
+				} else {
+					cell.Data = v
+				}
+			} else {
+				if v, err := renderTemplate(data, columnOptions{
+					Name:     col.Name,
+					Type:     "string",
+					Template: col.Exec.ServiceNameTemplate,
+				}, buf); err != nil {
+					return nil, err
+				} else {
+					cell.Data = v
 				}
 			}
 		} else {
@@ -433,14 +472,23 @@ func metaToTableRow(obj runtime.Object, fieldPath string, rowFn func(obj interfa
 		if err != nil {
 			return nil, err
 		}
+		var ns string
+		if a, err := meta.Accessor(obj); err == nil {
+			ns = a.GetNamespace()
+		}
 		return []v1alpha1.TableRow{
 			{
-				Cells: cells,
+				Cells:     cells,
+				Namespace: ns,
 			},
 		}, nil
 	}
 
 	// subtable
+	var ns string
+	if a, err := meta.Accessor(obj); err == nil {
+		ns = a.GetNamespace()
+	}
 	arr, ok, err := jq.QuerySlice(obj.(runtime.Unstructured).UnstructuredContent(), fieldPath)
 	if err != nil {
 		return nil, err
@@ -451,6 +499,7 @@ func metaToTableRow(obj runtime.Object, fieldPath string, rowFn func(obj interfa
 	rows := make([]v1alpha1.TableRow, 0, len(arr))
 	for _, item := range arr {
 		var row v1alpha1.TableRow
+		row.Namespace = ns
 		row.Cells, err = rowFn(item)
 		if err != nil {
 			return nil, err

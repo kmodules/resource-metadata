@@ -20,7 +20,7 @@ import (
 	"context"
 
 	kmapi "kmodules.xyz/client-go/api/v1"
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	rsapi "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	uiapi "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
 	tabledefs "kmodules.xyz/resource-metadata/hub/resourcetabledefinitions"
 
@@ -32,8 +32,16 @@ import (
 
 type DashboardRendererFunc func(name string) (*uiapi.ResourceDashboard, string, error)
 
-func NewForGVR(kc client.Client, gvr schema.GroupVersionResource, priority v1alpha1.Priority, fn DashboardRendererFunc) (TableConvertor, error) {
-	var columns []v1alpha1.ResourceColumnDefinition
+type ResourceExecFunc func() []rsapi.ResourceExec
+
+func NewForGVR(
+	kc client.Client,
+	gvr schema.GroupVersionResource,
+	priority rsapi.Priority,
+	fnDashboard DashboardRendererFunc,
+	fnExec ResourceExecFunc,
+) (TableConvertor, error) {
+	var columns []rsapi.ResourceColumnDefinition
 	if def, ok := tabledefs.LoadDefaultByGVR(gvr); ok {
 		columns = def.Spec.Columns
 	}
@@ -46,14 +54,19 @@ func NewForGVR(kc client.Client, gvr schema.GroupVersionResource, priority v1alp
 	columns = FilterColumnsWithDefaults(kc, gvr, columns, priority)
 
 	c := &convertor{}
-	err = c.init(columns, fn)
+	err = c.init(columns, fnDashboard, fnExec)
 	return c, err
 }
 
-func TableForAnyList(kc client.Client, items []unstructured.Unstructured, fn DashboardRendererFunc) (*v1alpha1.Table, error) {
+func TableForAnyList(
+	kc client.Client,
+	items []unstructured.Unstructured,
+	fnDashboard DashboardRendererFunc,
+	fnExec ResourceExecFunc,
+) (*rsapi.Table, error) {
 	if len(items) == 0 {
-		return &v1alpha1.Table{
-			Rows: make([]v1alpha1.TableRow, 0),
+		return &rsapi.Table{
+			Rows: make([]rsapi.TableRow, 0),
 		}, nil
 	}
 
@@ -69,11 +82,17 @@ func TableForAnyList(kc client.Client, items []unstructured.Unstructured, fn Das
 		return nil, err
 	}
 
-	return TableForList(kc, rid.GroupVersionResource(), items, fn)
+	return TableForList(kc, rid.GroupVersionResource(), items, fnDashboard, fnExec)
 }
 
-func TableForList(kc client.Client, gvr schema.GroupVersionResource, items []unstructured.Unstructured, fn DashboardRendererFunc) (*v1alpha1.Table, error) {
-	c, err := NewForGVR(kc, gvr, v1alpha1.List, fn)
+func TableForList(
+	kc client.Client,
+	gvr schema.GroupVersionResource,
+	items []unstructured.Unstructured,
+	fnDashboard DashboardRendererFunc,
+	fnExec ResourceExecFunc,
+) (*rsapi.Table, error) {
+	c, err := NewForGVR(kc, gvr, rsapi.List, fnDashboard, fnExec)
 	if err != nil {
 		return nil, err
 	}
@@ -84,7 +103,12 @@ func TableForList(kc client.Client, gvr schema.GroupVersionResource, items []uns
 	return c.ConvertToTable(ctx, obj)
 }
 
-func TableForObject(kc client.Client, obj runtime.Object, fn DashboardRendererFunc) (*v1alpha1.Table, error) {
+func TableForObject(
+	kc client.Client,
+	obj runtime.Object,
+	fnDashboard DashboardRendererFunc,
+	fnExec ResourceExecFunc,
+) (*rsapi.Table, error) {
 	gvk := obj.GetObjectKind().GroupVersionKind()
 	rid, err := kmapi.ExtractResourceID(kc.RESTMapper(), kmapi.ResourceID{
 		Group:   gvk.Group,
@@ -97,7 +121,7 @@ func TableForObject(kc client.Client, obj runtime.Object, fn DashboardRendererFu
 		return nil, err
 	}
 
-	c, err := NewForGVR(kc, rid.GroupVersionResource(), v1alpha1.Field, fn)
+	c, err := NewForGVR(kc, rid.GroupVersionResource(), rsapi.Field, fnDashboard, fnExec)
 	if err != nil {
 		return nil, err
 	}
