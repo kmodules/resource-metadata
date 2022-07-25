@@ -73,6 +73,7 @@ spec:
     type: string
   - exec: {}
     name: Exec
+    pathTemplate: '{{ .metadata.name }}'
     priority: 4
     textAlign: center
     type: string

@@ -75,7 +75,7 @@ spec:
     priority: 3
     type: string
   - name: Exec
-    pathTemplate: '{{ .spec.facilities.exec }}'
+    pathTemplate: '{{ .spec.facilities.exec | toRawJson }}'
     priority: 4
     type: object
   defaultView: false
