@@ -307,11 +307,14 @@ type DashboardResult struct {
 
 // cell.Data == name of resource
 type ExecResult struct {
-	Alias    string `json:"alias"`
-	Resource string `json:"resource"` // pods or services
-	// Namespace string   `json:"namespace"`
-	Container string   `json:"container"`
-	Command   []string `json:"command"`
+	// +optional
+	Alias string `json:"alias,omitempty"`
+	// +optional
+	Resource string `json:"resource,omitempty"` // pods or services
+	// +optional
+	Container string `json:"container,omitempty"`
+	// +optional
+	Command []string `json:"command,omitempty"`
 	// +optional
 	Help string `json:"help,omitempty"`
 }
