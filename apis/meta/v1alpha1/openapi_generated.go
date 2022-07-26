@@ -14830,24 +14830,20 @@ func schema_resource_metadata_apis_meta_v1alpha1_ExecResult(ref common.Reference
 				Properties: map[string]spec.Schema{
 					"alias": {
 						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
+							Type:   []string{"string"},
+							Format: "",
 						},
 					},
 					"resource": {
 						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
+							Type:   []string{"string"},
+							Format: "",
 						},
 					},
 					"container": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Namespace string   `json:\"namespace\"`",
-							Default:     "",
-							Type:        []string{"string"},
-							Format:      "",
+							Type:   []string{"string"},
+							Format: "",
 						},
 					},
 					"command": {
@@ -14871,7 +14867,6 @@ func schema_resource_metadata_apis_meta_v1alpha1_ExecResult(ref common.Reference
 						},
 					},
 				},
-				Required: []string{"alias", "resource", "container", "command"},
 			},
 		},
 	}

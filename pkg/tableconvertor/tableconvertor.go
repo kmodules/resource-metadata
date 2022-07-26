@@ -26,6 +26,7 @@ import (
 	"sync"
 	"text/template"
 
+	meta_util "kmodules.xyz/client-go/meta"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"kmodules.xyz/resource-metadata/apis/shared"
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor/lib"
@@ -248,7 +249,29 @@ func (c *convertor) rowFn(obj interface{}) ([]v1alpha1.TableCell, error) {
 				}
 			}
 		} else if col.Exec != nil {
-			if col.Exec.ServiceNameTemplate == "" {
+			if col.Type == "string" {
+				if col.Exec.ServiceNameTemplate == "" {
+					if v, err := renderTemplate(data, columnOptions{
+						Name:     col.Name,
+						Type:     col.Type,
+						Template: col.PathTemplate,
+					}, buf); err != nil {
+						return nil, err
+					} else {
+						cell.Data = v
+					}
+				} else {
+					if v, err := renderTemplate(data, columnOptions{
+						Name:     col.Name,
+						Type:     "string",
+						Template: col.Exec.ServiceNameTemplate,
+					}, buf); err != nil {
+						return nil, err
+					} else {
+						cell.Data = v
+					}
+				}
+			} else {
 				if v, err := renderTemplate(data, columnOptions{
 					Name:     col.Name,
 					Type:     col.Type,
@@ -256,17 +279,23 @@ func (c *convertor) rowFn(obj interface{}) ([]v1alpha1.TableCell, error) {
 				}, buf); err != nil {
 					return nil, err
 				} else {
-					cell.Data = v
-				}
-			} else {
-				if v, err := renderTemplate(data, columnOptions{
-					Name:     col.Name,
-					Type:     "string",
-					Template: col.Exec.ServiceNameTemplate,
-				}, buf); err != nil {
-					return nil, err
-				} else {
-					cell.Data = v
+					if col.Exec.Alias != "" {
+						var execs []v1alpha1.ResourceExec
+						err = meta_util.DecodeObject(v, &execs)
+						if err != nil {
+							return nil, errors.Wrapf(err, "failed to decode cell value for col %s", col.Name)
+						}
+						result := make([]v1alpha1.ResourceExec, 0, len(execs))
+						for _, exec := range execs {
+							if exec.Alias == col.Exec.Alias {
+								result = append(result, exec)
+								break
+							}
+						}
+						cell.Data = result
+					} else {
+						cell.Data = v
+					}
 				}
 			}
 		} else {

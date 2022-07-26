@@ -73,9 +73,12 @@ func Convert_ResourceColumnDefinition_To_ResourceColumn(def ResourceColumnDefini
 		}
 	}
 	if def.Exec != nil {
-		rs := "pods"
-		if def.Exec.ServiceNameTemplate != "" {
-			rs = "services"
+		var rs string
+		if len(def.Exec.Command) > 0 {
+			rs = "pods"
+			if def.Exec.ServiceNameTemplate != "" {
+				rs = "services"
+			}
 		}
 		col.Exec = &ExecResult{
 			Alias:     def.Exec.Alias,
