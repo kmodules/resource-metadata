@@ -130,6 +130,21 @@ spec:
                           description:
                             description: description is a human readable description of this column.
                             type: string
+                          exec:
+                            properties:
+                              alias:
+                                type: string
+                              command:
+                                items:
+                                  type: string
+                                type: array
+                              container:
+                                type: string
+                              help:
+                                type: string
+                              serviceNameTemplate:
+                                type: string
+                            type: object
                           format:
                             description: format is an optional OpenAPI type definition for this column. The 'name' format is applied to the primary identifier column to assist in clients identifying column is the resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types for more.
                             type: string
@@ -284,6 +299,21 @@ spec:
                                   description:
                                     description: description is a human readable description of this column.
                                     type: string
+                                  exec:
+                                    properties:
+                                      alias:
+                                        type: string
+                                      command:
+                                        items:
+                                          type: string
+                                        type: array
+                                      container:
+                                        type: string
+                                      help:
+                                        type: string
+                                      serviceNameTemplate:
+                                        type: string
+                                    type: object
                                   format:
                                     description: format is an optional OpenAPI type definition for this column. The 'name' format is applied to the primary identifier column to assist in clients identifying column is the resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types for more.
                                     type: string
@@ -435,6 +465,21 @@ spec:
                                 description:
                                   description: description is a human readable description of this column.
                                   type: string
+                                exec:
+                                  properties:
+                                    alias:
+                                      type: string
+                                    command:
+                                      items:
+                                        type: string
+                                      type: array
+                                    container:
+                                      type: string
+                                    help:
+                                      type: string
+                                    serviceNameTemplate:
+                                      type: string
+                                  type: object
                                 format:
                                   description: format is an optional OpenAPI type definition for this column. The 'name' format is applied to the primary identifier column to assist in clients identifying column is the resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types for more.
                                   type: string
@@ -585,6 +630,21 @@ spec:
                                 description:
                                   description: description is a human readable description of this column.
                                   type: string
+                                exec:
+                                  properties:
+                                    alias:
+                                      type: string
+                                    command:
+                                      items:
+                                        type: string
+                                      type: array
+                                    container:
+                                      type: string
+                                    help:
+                                      type: string
+                                    serviceNameTemplate:
+                                      type: string
+                                  type: object
                                 format:
                                   description: format is an optional OpenAPI type definition for this column. The 'name' format is applied to the primary identifier column to assist in clients identifying column is the resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types for more.
                                   type: string
@@ -764,6 +824,21 @@ spec:
                           description:
                             description: description is a human readable description of this column.
                             type: string
+                          exec:
+                            properties:
+                              alias:
+                                type: string
+                              command:
+                                items:
+                                  type: string
+                                type: array
+                              container:
+                                type: string
+                              help:
+                                type: string
+                              serviceNameTemplate:
+                                type: string
+                            type: object
                           format:
                             description: format is an optional OpenAPI type definition for this column. The 'name' format is applied to the primary identifier column to assist in clients identifying column is the resource name. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types for more.
                             type: string
