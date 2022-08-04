@@ -46,6 +46,8 @@ go run cmd/icon-namer/main.go
 
 # Import crds
 
+go run cmd/import-crds/main.go --input=$HOME/go/src/kubeops.dev/supervisor/crds
+
 go run cmd/import-crds/main.go --input=$HOME/go/src/kubeops.dev/ui-server/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/stash.appscode.dev/ui-server/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/go.openviz.dev/grafana-tools/crds
