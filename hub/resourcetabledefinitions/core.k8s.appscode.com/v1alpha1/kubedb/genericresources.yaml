@@ -10,8 +10,8 @@ metadata:
   name: core.k8s.appscode.com-v1alpha1-genericresources-kubedb
 spec:
   columns:
-  - name: Cluster Name
-    pathTemplate: '{{ .spec.cluster.displayName }}'
+  - name: Namespace
+    pathTemplate: '{{ .metadata.namespace }}'
     priority: 3
     type: string
   - name: Version
