@@ -9,6 +9,187 @@ metadata:
     k8s.io/version: v1alpha1
   name: supervisor.appscode.com-v1alpha1-recommendations
 spec:
+  connections:
+  - labels:
+    - recommended_for
+    namespacePath: metadata.namespace
+    references:
+    - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: Elasticsearch
+    type: MatchRef
+  - labels:
+    - ops
+    namespacePath: metadata.namespace
+    references:
+    - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
+    target:
+      apiVersion: kubedb.com/v1alpha1
+      kind: ElasticsearchOpsRequest
+    type: MatchRef
+  - labels:
+    - recommended_for
+    namespacePath: metadata.namespace
+    references:
+    - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: MariaDB
+    type: MatchRef
+  - labels:
+    - ops
+    namespacePath: metadata.namespace
+    references:
+    - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
+    target:
+      apiVersion: kubedb.com/v1alpha1
+      kind: MariaDBOpsRequest
+    type: MatchRef
+  - labels:
+    - recommended_for
+    namespacePath: metadata.namespace
+    references:
+    - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: Memcached
+    type: MatchRef
+  - labels:
+    - ops
+    namespacePath: metadata.namespace
+    references:
+    - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
+    target:
+      apiVersion: kubedb.com/v1alpha1
+      kind: MemcachedOpsRequest
+    type: MatchRef
+  - labels:
+    - recommended_for
+    namespacePath: metadata.namespace
+    references:
+    - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: MongoDB
+    type: MatchRef
+  - labels:
+    - ops
+    namespacePath: metadata.namespace
+    references:
+    - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
+    target:
+      apiVersion: kubedb.com/v1alpha1
+      kind: MongoDBOpsRequest
+    type: MatchRef
+  - labels:
+    - recommended_for
+    namespacePath: metadata.namespace
+    references:
+    - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: MySQL
+    type: MatchRef
+  - labels:
+    - ops
+    namespacePath: metadata.namespace
+    references:
+    - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
+    target:
+      apiVersion: kubedb.com/v1alpha1
+      kind: MySQLOpsRequest
+    type: MatchRef
+  - labels:
+    - recommended_for
+    namespacePath: metadata.namespace
+    references:
+    - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: PerconaXtraDB
+    type: MatchRef
+  - labels:
+    - ops
+    namespacePath: metadata.namespace
+    references:
+    - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
+    target:
+      apiVersion: kubedb.com/v1alpha1
+      kind: PerconaXtraDBOpsRequest
+    type: MatchRef
+  - labels:
+    - recommended_for
+    namespacePath: metadata.namespace
+    references:
+    - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: PgBouncer
+    type: MatchRef
+  - labels:
+    - ops
+    namespacePath: metadata.namespace
+    references:
+    - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
+    target:
+      apiVersion: kubedb.com/v1alpha1
+      kind: PgBouncerOpsRequest
+    type: MatchRef
+  - labels:
+    - recommended_for
+    namespacePath: metadata.namespace
+    references:
+    - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: Postgres
+    type: MatchRef
+  - labels:
+    - ops
+    namespacePath: metadata.namespace
+    references:
+    - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
+    target:
+      apiVersion: kubedb.com/v1alpha1
+      kind: PostgresOpsRequest
+    type: MatchRef
+  - labels:
+    - recommended_for
+    namespacePath: metadata.namespace
+    references:
+    - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: ProxySQL
+    type: MatchRef
+  - labels:
+    - ops
+    namespacePath: metadata.namespace
+    references:
+    - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
+    target:
+      apiVersion: kubedb.com/v1alpha1
+      kind: ProxySQLOpsRequest
+    type: MatchRef
+  - labels:
+    - recommended_for
+    namespacePath: metadata.namespace
+    references:
+    - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: Redis
+    type: MatchRef
+  - labels:
+    - ops
+    namespacePath: metadata.namespace
+    references:
+    - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
+    target:
+      apiVersion: kubedb.com/v1alpha1
+      kind: RedisOpsRequest
+    type: MatchRef
   resource:
     group: supervisor.appscode.com
     kind: Recommendation

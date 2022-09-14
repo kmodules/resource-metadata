@@ -30,11 +30,24 @@ spec:
       kind: Connection
       name: Recent Operations
       query:
-        byLabel: offshoot
+        byLabel: ops
         type: GraphQL
       ref:
         group: ops.kubedb.com
         kind: MemcachedOpsRequest
+    - actions:
+        create: Always
+      displayMode: List
+      kind: Connection
+      name: Recommendations
+      query:
+        byLabel: recommended_for
+        type: GraphQL
+      ref:
+        group: supervisor.appscode.com
+        kind: Recommendation
+      view:
+        name: supervisor.appscode.com-v1alpha1-recommendations
     name: Operations
   - blocks:
     - kind: Block
