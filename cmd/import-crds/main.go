@@ -21,7 +21,6 @@ import (
 	goflag "flag"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
@@ -204,7 +203,7 @@ func processLocation(location, dir string) error {
 }
 
 func crdFileExtension(dir string) string {
-	entries, err := ioutil.ReadDir(dir)
+	entries, err := os.ReadDir(dir)
 	if err != nil {
 		panic(err)
 	}
