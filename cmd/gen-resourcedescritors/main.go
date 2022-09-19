@@ -18,7 +18,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -127,7 +126,7 @@ func createRegistry(kc kubernetes.Interface, dir string) error {
 				return err
 			}
 
-			err = ioutil.WriteFile(filepath.Join(baseDir, rs.Name+".yaml"), data, 0o644)
+			err = os.WriteFile(filepath.Join(baseDir, rs.Name+".yaml"), data, 0o644)
 			if err != nil {
 				return err
 			}

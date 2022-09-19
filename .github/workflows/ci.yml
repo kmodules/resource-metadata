@@ -22,7 +22,7 @@ jobs:
       matrix:
         k8s: [v1.18.20, v1.19.16, v1.20.15, v1.21.12, v1.22.9, v1.23.6, v1.24.0]
     steps:
-      - name: Set up Go 1.18
+      - name: Set up Go 1.19
         uses: actions/setup-go@v1
         with:
           go-version: 1.18

@@ -18,7 +18,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
@@ -58,7 +57,7 @@ func main() {
 			return nil
 		}
 
-		data, err := ioutil.ReadFile(path)
+		data, err := os.ReadFile(path)
 		if err != nil {
 			return err
 		}
@@ -107,7 +106,7 @@ func main() {
 			return err
 		}
 
-		return ioutil.WriteFile(path, data, 0o644)
+		return os.WriteFile(path, data, 0o644)
 	})
 	if err != nil {
 		panic(err)
@@ -125,7 +124,7 @@ func main() {
 			return nil
 		}
 
-		data, err := ioutil.ReadFile(path)
+		data, err := os.ReadFile(path)
 		if err != nil {
 			return err
 		}
@@ -149,7 +148,7 @@ func main() {
 		if err != nil {
 			return err
 		}
-		return ioutil.WriteFile(path, data, 0o644)
+		return os.WriteFile(path, data, 0o644)
 	})
 	if err != nil {
 		panic(err)

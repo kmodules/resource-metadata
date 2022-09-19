@@ -41,15 +41,15 @@ func (_ PodPrinter) GVK() schema.GroupVersionKind {
 }
 
 /*
-	"name": "Name",
-	"name": "Ready",
-	"name": "Status",
-	"name": "Restarts",
-	"name": "Age",
-	"name": "IP",
-	"name": "Node",
-	"name": "Nominated Node",
-	"name": "Readiness Gates",
+"name": "Name",
+"name": "Ready",
+"name": "Status",
+"name": "Restarts",
+"name": "Age",
+"name": "IP",
+"name": "Node",
+"name": "Nominated Node",
+"name": "Readiness Gates",
 */
 func (p PodPrinter) Convert(o runtime.Object) (map[string]interface{}, error) {
 	pod := new(core.Pod)

@@ -71,7 +71,6 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/kubernetes-csi/ex
 
 go run cmd/import-crds/main.go --input=$HOME/go/src/k8s.io/autoscaler/vertical-pod-autoscaler/deploy/vpa-v1-crd-gen.yaml
 go run cmd/import-crds/main.go --input=$HOME/go/src/k8s.io/autoscaler/vertical-pod-autoscaler/deploy/vpa-v1-crd.yaml
-
 */
 func main() {
 	var input []string
@@ -169,7 +168,7 @@ func processLocation(location, dir string) error {
 					return nil
 				}
 
-				data, err := ioutil.ReadFile(path)
+				data, err := os.ReadFile(path)
 				if err != nil {
 					return err
 				}
@@ -187,7 +186,7 @@ func processLocation(location, dir string) error {
 				return err
 			}
 		} else {
-			data, err := ioutil.ReadFile(location)
+			data, err := os.ReadFile(location)
 			if err != nil {
 				return err
 			}
@@ -238,7 +237,7 @@ func WriteDescriptor(crd *crdv1.CustomResourceDefinition, dir string) error {
 		filename := filepath.Join(baseDir, plural+".yaml")
 
 		var rd v1alpha1.ResourceDescriptor
-		if existing, err := ioutil.ReadFile(filename); os.IsNotExist(err) {
+		if existing, err := os.ReadFile(filename); os.IsNotExist(err) {
 			rd = v1alpha1.ResourceDescriptor{
 				TypeMeta: metav1.TypeMeta{
 					APIVersion: v1alpha1.SchemeGroupVersion.String(),
@@ -296,7 +295,7 @@ func WriteDescriptor(crd *crdv1.CustomResourceDefinition, dir string) error {
 			return err
 		}
 
-		err = ioutil.WriteFile(filename, data, 0o644)
+		err = os.WriteFile(filename, data, 0o644)
 		if err != nil {
 			return err
 		}
