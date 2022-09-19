@@ -18,14 +18,14 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 )
 
 func main() {
 	filename := "/home/tamal/go/src/kmodules.xyz/resource-metadata/hub/resourcedescriptors/kubedb.com/v1alpha2/elasticsearches.yaml"
-	data, err := ioutil.ReadFile(filename)
+	data, err := os.ReadFile(filename)
 	if err != nil {
 		panic(err)
 	}

@@ -19,7 +19,6 @@ package main
 import (
 	"fmt"
 	"io/fs"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -59,7 +58,7 @@ var (
 )
 
 func check(filename string) (string, error) {
-	data, err := ioutil.ReadFile(filename)
+	data, err := os.ReadFile(filename)
 	if err != nil {
 		return "", err
 	}
@@ -121,7 +120,7 @@ func check(filename string) (string, error) {
 			return "", err
 		}
 
-		err = ioutil.WriteFile(filename, data, 0o644)
+		err = os.WriteFile(filename, data, 0o644)
 		if err != nil {
 			return "", err
 		}

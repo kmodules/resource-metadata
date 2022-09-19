@@ -76,7 +76,6 @@ var in = `{
 $ jsonpath-checker "{range .spec.volumes[*]}{.persistentVolumeClaim.claimName}{\"\n\"}{end}"
 {range .spec.volumes[*]}{.persistentVolumeClaim.claimName}{"\n"}{end}
 myclaim
-
 */
 var yamlPod = `apiVersion: v1
 kind: Pod

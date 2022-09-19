@@ -20,7 +20,7 @@ import (
 	"flag"
 	"fmt"
 	"io/fs"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"reflect"
 
@@ -36,7 +36,7 @@ import (
 )
 
 func check(typ reflect.Type, filename string, fix bool) (string, error) {
-	data, err := ioutil.ReadFile(filename)
+	data, err := os.ReadFile(filename)
 	if err != nil {
 		return "", err
 	}
@@ -82,7 +82,7 @@ func check(typ reflect.Type, filename string, fix bool) (string, error) {
 			return "", err
 		}
 
-		err = ioutil.WriteFile(filename, data, 0o644)
+		err = os.WriteFile(filename, data, 0o644)
 		if err != nil {
 			return "", err
 		}
