@@ -83,6 +83,8 @@ spec:
           {{ $color = "danger" }}
         {{ end }}
         {{- printf "%s" $color -}}
+    tooltip:
+      template: '{{ .status.comments }}'
   - name: Age
     pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
