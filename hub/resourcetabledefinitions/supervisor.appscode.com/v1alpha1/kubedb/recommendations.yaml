@@ -22,18 +22,7 @@ spec:
     pathTemplate: '{{ .spec.description }}'
     priority: 3
     type: string
-  - name: Outdated
-    pathTemplate: |
-      {{ $outdated := .status.outdated }}
-      {{ $ans := "-" }}
-      {{ if list true | has $outdated }}
-        {{ $ans = "OUTDATED" }}
-      {{ end }}
-      {{- printf "%s" $ans -}}
-    textAlign: center
-    priority: 3
-    type: string
-    color:
+  - color:
       template: |
         {{ $outdated := .status.outdated }}
         {{ $color := "gray" }}
@@ -43,11 +32,18 @@ spec:
           {{ $color = "transparent" }}
         {{ end }}
         {{- printf "%s" $color -}}
-  - name: Status
-    pathTemplate: '{{ .status.phase }}'
+    name: Outdated
+    pathTemplate: |
+      {{ $outdated := .status.outdated }}
+      {{ $ans := "-" }}
+      {{ if list true | has $outdated }}
+        {{ $ans = "OUTDATED" }}
+      {{ end }}
+      {{- printf "%s" $ans -}}
     priority: 3
+    textAlign: center
     type: string
-    color:
+  - color:
       template: |
         {{ $status := .status.phase }}
         {{ $color := "gray" }}
@@ -65,13 +61,13 @@ spec:
           {{ $color = "dark" }}
         {{ end }}
         {{- printf "%s" $color -}}
+    name: Status
+    pathTemplate: '{{ .status.phase }}'
+    priority: 3
     tooltip:
       template: '{{ .status.reason }}'
-  - name: Approval Status
-    pathTemplate: '{{ .status.approvalStatus }}'
-    priority: 3
     type: string
-    color:
+  - color:
       template: |
         {{ $approvalStatus := .status.approvalStatus }}
         {{ $color := "gray" }}
@@ -83,8 +79,12 @@ spec:
           {{ $color = "danger" }}
         {{ end }}
         {{- printf "%s" $color -}}
+    name: Approval Status
+    pathTemplate: '{{ .status.approvalStatus }}'
+    priority: 3
     tooltip:
       template: '{{ .status.comments }}'
+    type: string
   - name: Age
     pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
