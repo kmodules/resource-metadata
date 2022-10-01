@@ -375,9 +375,14 @@ spec:
                 consul:
                   description: "ref: https://www.vaultproject.io/docs/configuration/storage/consul.html \n ConsulSpec defines the configuration to set up consul as backend storage in vault"
                   properties:
-                    aclTokenSecretName:
+                    aclTokenSecretRef:
                       description: 'Specifies the secret name that contains ACL token with permission to read and write from the path in Consul''s key-value store. secret data: - aclToken:<value>'
-                      type: string
+                      properties:
+                        name:
+                          description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?'
+                          type: string
+                      type: object
+                      x-kubernetes-map-type: atomic
                     address:
                       description: Specifies the address of the Consul agent to communicate with. This can be an IP address, DNS record, or unix socket.
                       type: string
