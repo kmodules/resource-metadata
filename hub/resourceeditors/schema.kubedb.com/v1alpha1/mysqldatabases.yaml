@@ -15,3 +15,8 @@ spec:
     name: mysqldatabases
     scope: Namespaced
     version: v1alpha1
+  ui:
+    editor:
+      name: schemakubedbcom-mysqldatabase-editor
+      url: https://bundles.byte.builders/ui/
+      version: v0.4.10
