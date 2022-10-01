@@ -164,6 +164,7 @@ spec:
                                   type: string
                                 type: object
                             type: object
+                            x-kubernetes-map-type: atomic
                         required:
                         - name
                         type: object
@@ -234,6 +235,7 @@ spec:
                                   type: string
                                 type: object
                             type: object
+                            x-kubernetes-map-type: atomic
                         required:
                         - name
                         type: object
@@ -293,6 +295,7 @@ spec:
                                   type: string
                                 type: object
                             type: object
+                            x-kubernetes-map-type: atomic
                         required:
                         - name
                         type: object
@@ -366,6 +369,7 @@ spec:
                 name:
                   type: string
               type: object
+              x-kubernetes-map-type: atomic
           required:
           - maxReplicas
           - scaleTargetRef

@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: engine.kubevault.com
+    k8s.io/kind: AzureRole
+    k8s.io/resource: azureroles
+    k8s.io/version: v1alpha1
+  name: engine.kubevault.com-v1alpha1-azureroles
+spec:
+  defaultView: true
+  resource:
+    group: engine.kubevault.com
+    kind: AzureRole
+    name: azureroles
+    scope: Namespaced
+    version: v1alpha1

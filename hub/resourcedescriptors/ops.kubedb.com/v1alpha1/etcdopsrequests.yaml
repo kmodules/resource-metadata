@@ -52,6 +52,12 @@ spec:
           type: object
         spec:
           properties:
+            apply:
+              default: IfReady
+              enum:
+              - IfReady
+              - Always
+              type: string
             configuration:
               type: object
             databaseRef:
@@ -59,6 +65,7 @@ spec:
                 name:
                   type: string
               type: object
+              x-kubernetes-map-type: atomic
             horizontalScaling:
               type: object
             restart:
@@ -96,6 +103,7 @@ spec:
                         - kind
                         - name
                         type: object
+                        x-kubernetes-map-type: atomic
                       privateKey:
                         properties:
                           encoding:
@@ -161,6 +169,7 @@ spec:
                   - kind
                   - name
                   type: object
+                  x-kubernetes-map-type: atomic
                 remove:
                   type: boolean
                 rotateCertificates:
