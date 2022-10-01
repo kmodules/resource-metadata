@@ -71,5 +71,9 @@ spec:
               - kind
               - name
               type: object
+            retryLeft:
+              description: RetryLeft specifies number of retry attempts left for the session. If this set to non-zero, Stash will create a new BackupSession if the current one fails.
+              format: int32
+              type: integer
           type: object
       type: object
