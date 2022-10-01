@@ -62,6 +62,7 @@ spec:
                   description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?'
                   type: string
               type: object
+              x-kubernetes-map-type: atomic
             ttl:
               description: Specifies the default TTL for service principals generated using this role. Accepts time suffixed strings ("1h") or an integer number of seconds. Defaults to the system/engine default TTL time.
               type: string
