@@ -29,7 +29,8 @@ import (
 	"strings"
 
 	kmapi "kmodules.xyz/client-go/api/v1"
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	rsapi "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	uiapi "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
 
 	flag "github.com/spf13/pflag"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions"
@@ -77,10 +78,8 @@ func main() {
 	flag.CommandLine.AddGoFlagSet(goflag.CommandLine)
 	flag.Parse()
 
-	dir := filepath.Join("hub", "resourcedescriptors")
-
 	for _, location := range input {
-		err := processLocation(location, dir)
+		err := processLocation(location)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -123,7 +122,7 @@ func CustomResourceDefinition(data []byte) (*crdv1.CustomResourceDefinition, err
 	return &out, nil
 }
 
-func processLocation(location, dir string) error {
+func processLocation(location string) error {
 	u, err := url.Parse(location)
 	if err != nil {
 		return err
@@ -144,7 +143,15 @@ func processLocation(location, dir string) error {
 		if err != nil {
 			return err
 		}
-		err = WriteDescriptor(crd, dir)
+		err = WriteDescriptor(crd, filepath.Join("hub", rsapi.ResourceResourceDescriptors))
+		if err != nil {
+			return err
+		}
+		err = WriteEditor(crd, filepath.Join("hub", uiapi.ResourceResourceEditors))
+		if err != nil {
+			return err
+		}
+		err = WriteTableDefinition(crd, filepath.Join("hub", rsapi.ResourceResourceTableDefinitions))
 		if err != nil {
 			return err
 		}
@@ -175,7 +182,15 @@ func processLocation(location, dir string) error {
 				if err != nil {
 					return err
 				}
-				err = WriteDescriptor(crd, dir)
+				err = WriteDescriptor(crd, filepath.Join("hub", rsapi.ResourceResourceDescriptors))
+				if err != nil {
+					return err
+				}
+				err = WriteEditor(crd, filepath.Join("hub", uiapi.ResourceResourceEditors))
+				if err != nil {
+					return err
+				}
+				err = WriteTableDefinition(crd, filepath.Join("hub", rsapi.ResourceResourceTableDefinitions))
 				if err != nil {
 					return err
 				}
@@ -193,7 +208,15 @@ func processLocation(location, dir string) error {
 			if err != nil {
 				return err
 			}
-			err = WriteDescriptor(crd, dir)
+			err = WriteDescriptor(crd, filepath.Join("hub", rsapi.ResourceResourceDescriptors))
+			if err != nil {
+				return err
+			}
+			err = WriteEditor(crd, filepath.Join("hub", uiapi.ResourceResourceEditors))
+			if err != nil {
+				return err
+			}
+			err = WriteTableDefinition(crd, filepath.Join("hub", rsapi.ResourceResourceTableDefinitions))
 			if err != nil {
 				return err
 			}
@@ -235,12 +258,12 @@ func WriteDescriptor(crd *crdv1.CustomResourceDefinition, dir string) error {
 
 		filename := filepath.Join(baseDir, plural+".yaml")
 
-		var rd v1alpha1.ResourceDescriptor
+		var rd rsapi.ResourceDescriptor
 		if existing, err := os.ReadFile(filename); os.IsNotExist(err) {
-			rd = v1alpha1.ResourceDescriptor{
+			rd = rsapi.ResourceDescriptor{
 				TypeMeta: metav1.TypeMeta{
-					APIVersion: v1alpha1.SchemeGroupVersion.String(),
-					Kind:       v1alpha1.ResourceKindResourceDescriptor,
+					APIVersion: rsapi.SchemeGroupVersion.String(),
+					Kind:       rsapi.ResourceKindResourceDescriptor,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name: name,
@@ -251,7 +274,7 @@ func WriteDescriptor(crd *crdv1.CustomResourceDefinition, dir string) error {
 						"k8s.io/kind":     kind,
 					},
 				},
-				Spec: v1alpha1.ResourceDescriptorSpec{
+				Spec: rsapi.ResourceDescriptorSpec{
 					Resource: kmapi.ResourceID{
 						Group:   crd.Spec.Group,
 						Version: version,
@@ -273,7 +296,7 @@ func WriteDescriptor(crd *crdv1.CustomResourceDefinition, dir string) error {
 			rd.Spec.Validation.OpenAPIV3Schema != nil {
 
 			var mc crdv1.JSONSchemaProps
-			err = yaml.Unmarshal([]byte(v1alpha1.ObjectMetaSchema), &mc)
+			err = yaml.Unmarshal([]byte(rsapi.ObjectMetaSchema), &mc)
 			if err != nil {
 				return err
 			}
@@ -289,7 +312,7 @@ func WriteDescriptor(crd *crdv1.CustomResourceDefinition, dir string) error {
 			return err
 		}
 
-		data, err = v1alpha1.FormatMetadata(data)
+		data, err = rsapi.FormatMetadata(data)
 		if err != nil {
 			return err
 		}
@@ -300,5 +323,132 @@ func WriteDescriptor(crd *crdv1.CustomResourceDefinition, dir string) error {
 		}
 	}
 
+	return nil
+}
+
+func WriteEditor(crd *crdv1.CustomResourceDefinition, dir string) error {
+	for _, v := range crd.Spec.Versions {
+		version := v.Name
+
+		kind := crd.Spec.Names.Kind
+		plural := crd.Spec.Names.Plural
+
+		name := fmt.Sprintf("%s-%s-%s", crd.Spec.Group, version, plural)
+		baseDir := filepath.Join(dir, crd.Spec.Group, version)
+
+		err := os.MkdirAll(baseDir, 0o755)
+		if err != nil {
+			return err
+		}
+
+		filename := filepath.Join(baseDir, plural+".yaml")
+
+		var ed uiapi.ResourceEditor
+		if _, err := os.ReadFile(filename); os.IsNotExist(err) {
+			ed = uiapi.ResourceEditor{
+				TypeMeta: metav1.TypeMeta{
+					APIVersion: uiapi.SchemeGroupVersion.String(),
+					Kind:       uiapi.ResourceKindResourceEditor,
+				},
+				ObjectMeta: metav1.ObjectMeta{
+					Name: name,
+					Labels: map[string]string{
+						"k8s.io/group":    crd.Spec.Group,
+						"k8s.io/version":  version,
+						"k8s.io/resource": plural,
+						"k8s.io/kind":     kind,
+					},
+				},
+				Spec: uiapi.ResourceEditorSpec{
+					Resource: kmapi.ResourceID{
+						Group:   crd.Spec.Group,
+						Version: version,
+						Name:    plural,
+						Kind:    kind,
+						Scope:   kmapi.ResourceScope(crd.Spec.Scope),
+					},
+				},
+			}
+
+			data, err := yaml.Marshal(ed)
+			if err != nil {
+				return err
+			}
+
+			data, err = uiapi.FormatMetadata(data)
+			if err != nil {
+				return err
+			}
+
+			err = os.WriteFile(filename, data, 0o644)
+			if err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+func WriteTableDefinition(crd *crdv1.CustomResourceDefinition, dir string) error {
+	for _, v := range crd.Spec.Versions {
+		version := v.Name
+
+		kind := crd.Spec.Names.Kind
+		plural := crd.Spec.Names.Plural
+
+		name := fmt.Sprintf("%s-%s-%s", crd.Spec.Group, version, plural)
+		baseDir := filepath.Join(dir, crd.Spec.Group, version)
+
+		err := os.MkdirAll(baseDir, 0o755)
+		if err != nil {
+			return err
+		}
+
+		filename := filepath.Join(baseDir, plural+".yaml")
+
+		var td rsapi.ResourceTableDefinition
+		if _, err := os.ReadFile(filename); os.IsNotExist(err) {
+			td = rsapi.ResourceTableDefinition{
+				TypeMeta: metav1.TypeMeta{
+					APIVersion: rsapi.SchemeGroupVersion.String(),
+					Kind:       rsapi.ResourceKindResourceTableDefinition,
+				},
+				ObjectMeta: metav1.ObjectMeta{
+					Name: name,
+					Labels: map[string]string{
+						"k8s.io/group":    crd.Spec.Group,
+						"k8s.io/version":  version,
+						"k8s.io/resource": plural,
+						"k8s.io/kind":     kind,
+					},
+				},
+				Spec: rsapi.ResourceTableDefinitionSpec{
+					DefaultView: true,
+					Resource: &kmapi.ResourceID{
+						Group:   crd.Spec.Group,
+						Version: version,
+						Name:    plural,
+						Kind:    kind,
+						Scope:   kmapi.ResourceScope(crd.Spec.Scope),
+					},
+				},
+			}
+
+			data, err := yaml.Marshal(td)
+			if err != nil {
+				return err
+			}
+
+			data, err = rsapi.FormatMetadata(data)
+			if err != nil {
+				return err
+			}
+
+			err = os.WriteFile(filename, data, 0o644)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	return nil
 }

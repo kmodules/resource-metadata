@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: stash.appscode.com
+    k8s.io/kind: Repository
+    k8s.io/resource: repositories
+    k8s.io/version: v1alpha1
+  name: stash.appscode.com-v1alpha1-repositories
+spec:
+  defaultView: true
+  resource:
+    group: stash.appscode.com
+    kind: Repository
+    name: repositories
+    scope: Namespaced
+    version: v1alpha1
