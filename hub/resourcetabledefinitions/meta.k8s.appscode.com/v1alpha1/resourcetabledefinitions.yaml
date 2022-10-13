@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: meta.k8s.appscode.com
+    k8s.io/kind: ResourceTableDefinition
+    k8s.io/resource: resourcetabledefinitions
+    k8s.io/version: v1alpha1
+  name: meta.k8s.appscode.com-v1alpha1-resourcetabledefinitions
+spec:
+  defaultView: true
+  resource:
+    group: meta.k8s.appscode.com
+    kind: ResourceTableDefinition
+    name: resourcetabledefinitions
+    scope: Cluster
+    version: v1alpha1
