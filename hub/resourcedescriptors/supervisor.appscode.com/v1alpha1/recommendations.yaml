@@ -294,6 +294,7 @@ spec:
               - kind
               - name
               type: object
+              x-kubernetes-map-type: atomic
           required:
           - operation
           - recommender
