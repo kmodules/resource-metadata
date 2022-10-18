@@ -33,6 +33,7 @@ import (
 	"github.com/pkg/errors"
 	ioutilx "gomodules.xyz/x/ioutil"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
+	"k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/klog/v2"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -122,7 +123,7 @@ func LoadByGVR(kc client.Client, gvr schema.GroupVersionResource) (*v1alpha1.Res
 	if err == nil {
 		d, _ := LoadDefaultByGVR(gvr)
 		return merge(&ed, d), true
-	} else if client.IgnoreNotFound(err) != nil {
+	} else if !meta.IsNoMatchError(err) && !apierrors.IsNotFound(err) {
 		klog.V(3).InfoS(fmt.Sprintf("failed to load resource editor for %+v", gvr))
 	}
 	return LoadDefaultByGVR(gvr)
