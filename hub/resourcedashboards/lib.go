@@ -32,7 +32,7 @@ import (
 	"github.com/pkg/errors"
 	ioutilx "gomodules.xyz/x/ioutil"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/yaml"
@@ -112,7 +112,7 @@ func LoadInternalByGVR(gvr schema.GroupVersionResource) (*v1alpha1.ResourceDashb
 func LoadByName(kc client.Client, name string) (*v1alpha1.ResourceDashboard, error) {
 	var ed v1alpha1.ResourceDashboard
 	err := kc.Get(context.TODO(), client.ObjectKey{Name: name}, &ed)
-	if runtime.IsNotRegisteredError(err) || apierrors.IsNotFound(err) {
+	if meta.IsNoMatchError(err) || apierrors.IsNotFound(err) {
 		return LoadInternalByName(name)
 	}
 	return &ed, err
