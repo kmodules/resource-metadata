@@ -18237,6 +18237,12 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ChartRepoRef(ref common.Re
 				Description: "ChartRepoRef references to a single version of a Chart",
 				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
+					"url": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
 					"name": {
 						SchemaProps: spec.SchemaProps{
 							Default: "",
@@ -18251,18 +18257,10 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ChartRepoRef(ref common.Re
 							Format:  "",
 						},
 					},
-					"sourceRef": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("kmodules.xyz/client-go/api/v1.TypedObjectReference"),
-						},
-					},
 				},
-				Required: []string{"name", "version", "sourceRef"},
+				Required: []string{"name", "version"},
 			},
 		},
-		Dependencies: []string{
-			"kmodules.xyz/client-go/api/v1.TypedObjectReference"},
 	}
 }
 
