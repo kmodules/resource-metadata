@@ -22,6 +22,7 @@ import (
 	"os"
 	"path/filepath"
 
+	kmapi "kmodules.xyz/client-go/api/v1"
 	uiapi "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
 
 	flag "github.com/spf13/pflag"
@@ -56,6 +57,11 @@ var (
 	chartRegistryURL = flag.String("chart.registry-url", prodURL, "Chart registry url (prod/dev)")
 	chartVersion     = flag.String("chart.version", "v0.3.0", "Chart version")
 )
+
+var helmRepositories = map[string]string{
+	"https://charts.appscode.com/stable/": "appscode",
+	"https://bundles.byte.builders/ui/":   "bytebuilders-ui",
+}
 
 func check(filename string) (string, error) {
 	data, err := os.ReadFile(filename)
@@ -106,11 +112,21 @@ func check(filename string) (string, error) {
 	} else {
 		if rd.Spec.UI != nil {
 			if rd.Spec.UI.Options != nil {
-				rd.Spec.UI.Options.URL = *chartRegistryURL
+				rd.Spec.UI.Options.SourceRef = kmapi.TypedObjectReference{
+					APIGroup:  "source.toolkit.fluxcd.io",
+					Kind:      "HelmRepository",
+					Namespace: "",
+					Name:      helmRepositories[*chartRegistryURL],
+				}
 				rd.Spec.UI.Options.Version = *chartVersion
 			}
 			if rd.Spec.UI.Editor != nil {
-				rd.Spec.UI.Editor.URL = *chartRegistryURL
+				rd.Spec.UI.Editor.SourceRef = kmapi.TypedObjectReference{
+					APIGroup:  "source.toolkit.fluxcd.io",
+					Kind:      "HelmRepository",
+					Namespace: "",
+					Name:      helmRepositories[*chartRegistryURL],
+				}
 				rd.Spec.UI.Editor.Version = *chartVersion
 			}
 		}
