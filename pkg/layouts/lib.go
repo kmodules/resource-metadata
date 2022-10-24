@@ -17,11 +17,14 @@ limitations under the License.
 package layouts
 
 import (
+	"context"
 	"fmt"
 	"strings"
 
 	kmapi "kmodules.xyz/client-go/api/v1"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	"kmodules.xyz/resource-metadata/apis/shared"
+	uiapi "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
 	"kmodules.xyz/resource-metadata/hub"
 	blockdefs "kmodules.xyz/resource-metadata/hub/resourceblockdefinitions"
 	"kmodules.xyz/resource-metadata/hub/resourceeditors"
@@ -29,6 +32,9 @@ import (
 	tabledefs "kmodules.xyz/resource-metadata/hub/resourcetabledefinitions"
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor"
 
+	_ "github.com/fluxcd/source-controller/api/v1beta2"
+	fluxsrc "github.com/fluxcd/source-controller/api/v1beta2"
+	"github.com/pkg/errors"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -179,7 +185,41 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 	result.Spec.DefaultLayout = outline.Spec.DefaultLayout
 	result.Spec.Resource = outline.Spec.Resource
 	if ed, ok := resourceeditors.LoadByGVR(kc, outline.Spec.Resource.GroupVersionResource()); ok {
-		result.Spec.UI = ed.Spec.UI
+		if ed.Spec.UI != nil {
+			result.Spec.UI = &shared.UIParameters{
+				InstanceLabelPaths: ed.Spec.UI.InstanceLabelPaths,
+			}
+
+			expand := func(ref *uiapi.ChartRepoRef) (*shared.ChartRepoRef, error) {
+				if ref == nil {
+					return nil, nil
+				}
+				var src fluxsrc.HelmRepository
+				err := kc.Get(context.TODO(), client.ObjectKey{Namespace: ref.SourceRef.Namespace, Name: ref.SourceRef.Name}, &src)
+				if err != nil {
+					return nil, errors.Wrapf(err, "failed to get HelmRepository %s/%s", ref.SourceRef.Namespace, ref.SourceRef.Name)
+				}
+				return &shared.ChartRepoRef{
+					Name:    ref.Name,
+					Version: ref.Version,
+					URL:     src.Spec.URL,
+				}, nil
+			}
+			{
+				ref, err := expand(ed.Spec.UI.Editor)
+				if err != nil {
+					return nil, err
+				}
+				result.Spec.UI.Editor = ref
+			}
+			{
+				ref, err := expand(ed.Spec.UI.Options)
+				if err != nil {
+					return nil, err
+				}
+				result.Spec.UI.Options = ref
+			}
+		}
 	}
 	if outline.Spec.Header != nil {
 		tables, err := FlattenPageBlockOutline(kc, src, *outline.Spec.Header, v1alpha1.Field)

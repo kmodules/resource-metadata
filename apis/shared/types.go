@@ -43,9 +43,10 @@ type DeploymentParameters struct {
 
 // ChartRepoRef references to a single version of a Chart
 type ChartRepoRef struct {
-	Name      string                     `json:"name"`
-	Version   string                     `json:"version"`
-	SourceRef kmapi.TypedObjectReference `json:"sourceRef"`
+	// +optional
+	URL     string `json:"url,omitempty"`
+	Name    string `json:"name"`
+	Version string `json:"version"`
 }
 
 type ResourceLocator struct {
