@@ -24,7 +24,6 @@ import (
 	kmapi "kmodules.xyz/client-go/api/v1"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"kmodules.xyz/resource-metadata/apis/shared"
-	uiapi "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
 	"kmodules.xyz/resource-metadata/hub"
 	blockdefs "kmodules.xyz/resource-metadata/hub/resourceblockdefinitions"
 	"kmodules.xyz/resource-metadata/hub/resourceeditors"
@@ -190,7 +189,7 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 				InstanceLabelPaths: ed.Spec.UI.InstanceLabelPaths,
 			}
 
-			expand := func(ref *uiapi.ChartRepoRef) (*shared.ChartRepoRef, error) {
+			expand := func(ref *shared.ChartRepoRef) (*shared.ExpandedChartRepoRef, error) {
 				if ref == nil {
 					return nil, nil
 				}
@@ -199,7 +198,7 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 				if err != nil {
 					return nil, errors.Wrapf(err, "failed to get HelmRepository %s/%s", ref.SourceRef.Namespace, ref.SourceRef.Name)
 				}
-				return &shared.ChartRepoRef{
+				return &shared.ExpandedChartRepoRef{
 					Name:    ref.Name,
 					Version: ref.Version,
 					URL:     src.Spec.URL,

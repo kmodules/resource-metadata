@@ -43,6 +43,13 @@ type DeploymentParameters struct {
 
 // ChartRepoRef references to a single version of a Chart
 type ChartRepoRef struct {
+	Name      string                     `json:"name"`
+	Version   string                     `json:"version"`
+	SourceRef kmapi.TypedObjectReference `json:"sourceRef"`
+}
+
+// ExpandedChartRepoRef references to a single version of a Chart
+type ExpandedChartRepoRef struct {
 	// +optional
 	URL     string `json:"url,omitempty"`
 	Name    string `json:"name"`
@@ -69,8 +76,8 @@ type ResourceQuery struct {
 }
 
 type UIParameters struct {
-	Options *ChartRepoRef `json:"options,omitempty"`
-	Editor  *ChartRepoRef `json:"editor,omitempty"`
+	Options *ExpandedChartRepoRef `json:"options,omitempty"`
+	Editor  *ExpandedChartRepoRef `json:"editor,omitempty"`
 	// app.kubernetes.io/instance label must be updated at these paths when refilling metadata
 	// +optional
 	InstanceLabelPaths []string `json:"instanceLabelPaths,omitempty"`

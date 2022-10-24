@@ -60,18 +60,11 @@ type ResourceEditorSpec struct {
 }
 
 type UIParameters struct {
-	Options *ChartRepoRef `json:"options,omitempty"`
-	Editor  *ChartRepoRef `json:"editor,omitempty"`
+	Options *shared.ChartRepoRef `json:"options,omitempty"`
+	Editor  *shared.ChartRepoRef `json:"editor,omitempty"`
 	// app.kubernetes.io/instance label must be updated at these paths when refilling metadata
 	// +optional
 	InstanceLabelPaths []string `json:"instanceLabelPaths,omitempty"`
-}
-
-// ChartRepoRef references to a single version of a Chart
-type ChartRepoRef struct {
-	Name      string                     `json:"name"`
-	Version   string                     `json:"version"`
-	SourceRef kmapi.TypedObjectReference `json:"sourceRef"`
 }
 
 type VariantRef struct {

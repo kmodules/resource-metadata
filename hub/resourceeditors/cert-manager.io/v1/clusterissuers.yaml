@@ -17,6 +17,10 @@ spec:
   installer:
     chart:
       name: cert-manager
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: jetstack
       version: ""
   resource:
     group: cert-manager.io
