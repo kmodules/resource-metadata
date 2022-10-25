@@ -1,0 +1,63 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: stash.appscode.com
+    k8s.io/kind: BackupConfiguration
+    k8s.io/resource: backupconfigurations
+    k8s.io/version: v1beta1
+  name: stash.appscode.com-v1beta1-backupconfigurations-kubedb
+spec:
+  columns:
+  - name: Name
+    pathTemplate: '{{ .metadata.name }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ .metadata.namespace }}'
+    priority: 3
+    type: string
+  - name: Driver
+    pathTemplate: '{{ .spec.driver }}'
+    priority: 3
+    type: string
+  - name: Schedule
+    pathTemplate: '{{ .spec.schedule }}'
+    priority: 3
+    type: string
+  - name: Paused
+    pathTemplate: '{{ .spec.paused }}'
+    priority: 3
+    type: string
+  - name: Repository
+    pathTemplate: '{{ .spec.repository.name }}'
+    priority: 3
+    type: string
+  - name: Target
+    pathTemplate: '{{ .spec.target.ref.kind }}/{{ .spec.target.ref.name }}'
+    priority: 3
+    type: string
+  - name: Task
+    pathTemplate: '{{ .spec.task.name }}'
+    priority: 3
+    type: string
+  - name: RetentionPolicy
+    pathTemplate: '{{ .spec.retentionPolicy.name }}'
+    priority: 3
+    type: string
+  - name: Age
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
+    priority: 3
+    sort:
+      enable: true
+      template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+      type: integer
+    type: date
+  defaultView: false
+  resource:
+    group: stash.appscode.com
+    kind: BackupConfiguration
+    name: backupconfigurations
+    scope: Namespaced
+    version: v1beta1
