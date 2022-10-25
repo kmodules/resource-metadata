@@ -38,11 +38,20 @@ func NewForGVR(
 	kc client.Client,
 	gvr schema.GroupVersionResource,
 	priority rsapi.Priority,
+	tableDefName string,
 	fnDashboard DashboardRendererFunc,
 	fnExec ResourceExecFunc,
 ) (TableConvertor, error) {
 	var columns []rsapi.ResourceColumnDefinition
-	if def, ok := tabledefs.LoadDefaultByGVR(gvr); ok {
+	if tableDefName == "" {
+		if def, ok := tabledefs.LoadDefaultByGVR(gvr); ok {
+			columns = def.Spec.Columns
+		}
+	} else {
+		def, err := tabledefs.LoadByName(tableDefName)
+		if err != nil {
+			return nil, err
+		}
 		columns = def.Spec.Columns
 	}
 
@@ -61,6 +70,7 @@ func NewForGVR(
 func TableForAnyList(
 	kc client.Client,
 	items []unstructured.Unstructured,
+	tableDefName string,
 	fnDashboard DashboardRendererFunc,
 	fnExec ResourceExecFunc,
 ) (*rsapi.Table, error) {
@@ -82,17 +92,18 @@ func TableForAnyList(
 		return nil, err
 	}
 
-	return TableForList(kc, rid.GroupVersionResource(), items, fnDashboard, fnExec)
+	return TableForList(kc, rid.GroupVersionResource(), items, tableDefName, fnDashboard, fnExec)
 }
 
 func TableForList(
 	kc client.Client,
 	gvr schema.GroupVersionResource,
 	items []unstructured.Unstructured,
+	tableDefName string,
 	fnDashboard DashboardRendererFunc,
 	fnExec ResourceExecFunc,
 ) (*rsapi.Table, error) {
-	c, err := NewForGVR(kc, gvr, rsapi.List, fnDashboard, fnExec)
+	c, err := NewForGVR(kc, gvr, rsapi.List, tableDefName, fnDashboard, fnExec)
 	if err != nil {
 		return nil, err
 	}
@@ -106,6 +117,7 @@ func TableForList(
 func TableForObject(
 	kc client.Client,
 	obj runtime.Object,
+	tableDefName string,
 	fnDashboard DashboardRendererFunc,
 	fnExec ResourceExecFunc,
 ) (*rsapi.Table, error) {
@@ -121,7 +133,7 @@ func TableForObject(
 		return nil, err
 	}
 
-	c, err := NewForGVR(kc, rid.GroupVersionResource(), rsapi.Field, fnDashboard, fnExec)
+	c, err := NewForGVR(kc, rid.GroupVersionResource(), rsapi.Field, tableDefName, fnDashboard, fnExec)
 	if err != nil {
 		return nil, err
 	}
