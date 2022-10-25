@@ -18,6 +18,7 @@ package tableconvertor
 
 import (
 	"context"
+	"fmt"
 
 	kmapi "kmodules.xyz/client-go/api/v1"
 	rsapi "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
@@ -51,6 +52,11 @@ func NewForGVR(
 		def, err := tabledefs.LoadByName(tableDefName)
 		if err != nil {
 			return nil, err
+		}
+		if def.Spec.Resource != nil {
+			if def.Spec.Resource.GroupVersionResource() != gvr {
+				return nil, fmt.Errorf("table definition %s is for %s and can't be used with %s", tableDefName, def.Spec.Resource.GroupVersionResource(), gvr)
+			}
 		}
 		columns = def.Spec.Columns
 	}
