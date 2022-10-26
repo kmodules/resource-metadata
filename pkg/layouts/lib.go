@@ -22,6 +22,7 @@ import (
 	"strings"
 
 	kmapi "kmodules.xyz/client-go/api/v1"
+	meta_util "kmodules.xyz/client-go/meta"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"kmodules.xyz/resource-metadata/apis/shared"
 	"kmodules.xyz/resource-metadata/hub"
@@ -192,6 +193,9 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 			expand := func(ref *shared.ChartRepoRef) (*shared.ExpandedChartRepoRef, error) {
 				if ref == nil {
 					return nil, nil
+				}
+				if ref.SourceRef.Namespace == "" {
+					ref.SourceRef.Namespace = meta_util.PodNamespace()
 				}
 				var src fluxsrc.HelmRepository
 				err := kc.Get(context.TODO(), client.ObjectKey{Namespace: ref.SourceRef.Namespace, Name: ref.SourceRef.Name}, &src)
