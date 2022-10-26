@@ -2,7 +2,7 @@
 
 ```bash
 export UI_SERVER_NAMESPACE=kubeops
-export UI_SERVER_POD=$(kubectl get pods -n $UI_SERVER_NAMESPACE -l app.kubernetes.io/instance=kube-ui-server -o jsonpath={.items[0].metadata.name})
+export UI_SERVER_POD=$(kubectl get pods -n $UI_SERVER_NAMESPACE -l app.kubernetes.io/name=kube-ui-server -o jsonpath={.items[0].metadata.name})
 
 kubectl cp hub $UI_SERVER_POD:/tmp -n $UI_SERVER_NAMESPACE
 # verify
