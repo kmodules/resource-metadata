@@ -11,18 +11,13 @@ metadata:
 spec:
   defaultLayout: false
   pages:
-  - blocks:
-    info:
+  - info:
       actions:
         create: Never
-      displayMode: List
-      kind: Connection
-      query:
-        byLabel: offshoot
-        type: GraphQL
-      ref:
-        group: stash.appscode.com
-        kind: BackupConfiguration
+      displayMode: Field
+      kind: Self
+      view:
+        name: stash.appscode.com-v1beta1-backupconfigurations-kubedb
     name: Overview
   resource:
     group: stash.appscode.com
