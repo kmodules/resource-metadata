@@ -11,7 +11,13 @@ metadata:
 spec:
   defaultLayout: false
   pages:
-  - name: Overview
-    blocks:
+  - blocks:
     - kind: Block
       name: stash.appscode.com-v1beta1-backupconfigurations-kubedb
+    name: Overview
+  resource:
+    group: stash.appscode.com
+    kind: BackupConfiguration
+    name: backupconfigurations
+    scope: Namespaced
+    version: v1beta1
