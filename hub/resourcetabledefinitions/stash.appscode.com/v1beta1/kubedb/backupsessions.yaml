@@ -10,9 +10,18 @@ metadata:
   name: stash.appscode.com-v1beta1-backupsessions-kubedb
 spec:
   columns:
-  - name: Name
+  - link:
+      template: |
+        {{ $apiVersion := .apiVersion }}
+        {{ $name := .metadata.name }}
+        {{ $namespace := .metadata.namespace }}
+        {{- printf "/${username}/${clustername}/%s/backupsessions/%s?namespace=%s" $apiVersion $name $namespace -}}
+    name: Name
     pathTemplate: '{{ .metadata.name }}'
     priority: 3
+    sort:
+      enable: true
+      type: ""
     type: string
   - name: Namespace
     pathTemplate: '{{ .metadata.namespace }}'

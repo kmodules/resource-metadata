@@ -4,10 +4,10 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: stash.appscode.com
-    k8s.io/kind: BackupConfiguration
-    k8s.io/resource: backupconfigurations
+    k8s.io/kind: RestoreSession
+    k8s.io/resource: restoresessions
     k8s.io/version: v1beta1
-  name: stash.appscode.com-v1beta1-backupconfigurations-kubedb
+  name: stash.appscode.com-v1beta1-restoresessions-kubedb
 spec:
   columns:
   - link:
@@ -15,7 +15,7 @@ spec:
         {{ $apiVersion := .apiVersion }}
         {{ $name := .metadata.name }}
         {{ $namespace := .metadata.namespace }}
-        {{- printf "/${username}/${clustername}/%s/backupconfigurations/%s?namespace=%s" $apiVersion $name $namespace -}}
+        {{- printf "/${username}/${clustername}/%s/restoresessions/%s?namespace=%s" $apiVersion $name $namespace -}}
     name: Name
     pathTemplate: '{{ .metadata.name }}'
     priority: 3
@@ -31,14 +31,6 @@ spec:
     pathTemplate: '{{ .spec.driver }}'
     priority: 3
     type: string
-  - name: Schedule
-    pathTemplate: '{{ .spec.schedule }}'
-    priority: 3
-    type: string
-  - name: Paused
-    pathTemplate: '{{ .spec.paused }}'
-    priority: 3
-    type: string
   - name: Repository
     pathTemplate: '{{ .spec.repository.name }}'
     priority: 3
@@ -47,18 +39,24 @@ spec:
     pathTemplate: '{{ .spec.target.ref.kind }}/{{ .spec.target.ref.name }}'
     priority: 3
     type: string
-  - name: RetentionPolicy
-    pathTemplate: '{{ .spec.retentionPolicy.name }}'
+  - name: Duration
+    pathTemplate: '{{ .status.sessionDuration }}'
     priority: 3
     type: string
   - color:
       template: |
         {{ $status := .status.phase }}
         {{ $color := "gray" }}
-        {{ if list "Ready" | has $status }}
+        {{ if list "Running" | has $status }}
+          {{ $color = "info" }}
+        {{ else if list "Succeeded" | has $status }}
           {{ $color = "success" }}
-        {{ else if list "Invalid" | has $status }}
+        {{ else if list "Unknown" | has $status }}
+          {{ $color = "warning" }}
+        {{ else if list "Failed" "Invalid" | has $status }}
           {{ $color = "danger" }}
+        {{ else if list "Pending" | has $status }}
+          {{ $color = "gray" }}
         {{ end }}
         {{- printf "%s" $color -}}
     name: Status
@@ -76,7 +74,7 @@ spec:
   defaultView: false
   resource:
     group: stash.appscode.com
-    kind: BackupConfiguration
-    name: backupconfigurations
+    kind: RestoreSession
+    name: restoresessions
     scope: Namespaced
     version: v1beta1

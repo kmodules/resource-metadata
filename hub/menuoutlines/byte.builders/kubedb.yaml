@@ -78,7 +78,7 @@ spec:
         type: image/svg+xml
       - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/backupsessions.png
         type: image/png
-      layoutName: stash.appscode.com-v1beta1-backupsessions
+      layoutName: stash.appscode.com-v1beta1-backupsessions-kubedb
       name: Backup Session
       required: true
       type:
@@ -89,7 +89,7 @@ spec:
         type: image/svg+xml
       - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/repositories.png
         type: image/png
-      layoutName: stash.appscode.com-v1alpha1-repositories
+      layoutName: stash.appscode.com-v1alpha1-repositories-kubedb
       name: Repository
       required: true
       type:
@@ -100,7 +100,7 @@ spec:
         type: image/svg+xml
       - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/restoresessions.png
         type: image/png
-      layoutName: stash.appscode.com-v1beta1-restoresessions
+      layoutName: stash.appscode.com-v1beta1-restoresessions-kubedb
       name: Restore Session
       required: true
       type:

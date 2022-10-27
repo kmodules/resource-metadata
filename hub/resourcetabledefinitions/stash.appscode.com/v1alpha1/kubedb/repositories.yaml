@@ -4,10 +4,10 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: stash.appscode.com
-    k8s.io/kind: BackupConfiguration
-    k8s.io/resource: backupconfigurations
-    k8s.io/version: v1beta1
-  name: stash.appscode.com-v1beta1-backupconfigurations-kubedb
+    k8s.io/kind: Repository
+    k8s.io/resource: repositories
+    k8s.io/version: v1alpha1
+  name: stash.appscode.com-v1alpha1-repositories-kubedb
 spec:
   columns:
   - link:
@@ -15,7 +15,7 @@ spec:
         {{ $apiVersion := .apiVersion }}
         {{ $name := .metadata.name }}
         {{ $namespace := .metadata.namespace }}
-        {{- printf "/${username}/${clustername}/%s/backupconfigurations/%s?namespace=%s" $apiVersion $name $namespace -}}
+        {{- printf "/${username}/${clustername}/%s/repositories/%s?namespace=%s" $apiVersion $name $namespace -}}
     name: Name
     pathTemplate: '{{ .metadata.name }}'
     priority: 3
@@ -27,42 +27,30 @@ spec:
     pathTemplate: '{{ .metadata.namespace }}'
     priority: 3
     type: string
-  - name: Driver
-    pathTemplate: '{{ .spec.driver }}'
+  - name: Size
+    pathTemplate: '{{ .status.totalSize }}'
     priority: 3
     type: string
-  - name: Schedule
-    pathTemplate: '{{ .spec.schedule }}'
+  - name: Snapshot Count
+    pathTemplate: '{{ .status.snapshotCount }}'
     priority: 3
     type: string
-  - name: Paused
-    pathTemplate: '{{ .spec.paused }}'
-    priority: 3
-    type: string
-  - name: Repository
-    pathTemplate: '{{ .spec.repository.name }}'
-    priority: 3
-    type: string
-  - name: Target
-    pathTemplate: '{{ .spec.target.ref.kind }}/{{ .spec.target.ref.name }}'
-    priority: 3
-    type: string
-  - name: RetentionPolicy
-    pathTemplate: '{{ .spec.retentionPolicy.name }}'
+  - name: Last-Successful-Backup
+    pathTemplate: '{{ .status.lastBackupTime }}'
     priority: 3
     type: string
   - color:
       template: |
-        {{ $status := .status.phase }}
+        {{ $integrity := .status.integrity }}
         {{ $color := "gray" }}
-        {{ if list "Ready" | has $status }}
+        {{ if $integrity }}
           {{ $color = "success" }}
-        {{ else if list "Invalid" | has $status }}
+        {{ else }}
           {{ $color = "danger" }}
         {{ end }}
         {{- printf "%s" $color -}}
-    name: Status
-    pathTemplate: '{{ .status.phase }}'
+    name: Integrity
+    pathTemplate: '{{ .status.integrity | quote | upper }}'
     priority: 3
     type: string
   - name: Age
@@ -76,7 +64,7 @@ spec:
   defaultView: false
   resource:
     group: stash.appscode.com
-    kind: BackupConfiguration
-    name: backupconfigurations
+    kind: Repository
+    name: repositories
     scope: Namespaced
-    version: v1beta1
+    version: v1alpha1
