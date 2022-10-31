@@ -36,7 +36,7 @@ spec:
     priority: 3
     type: string
   - name: Last-Successful-Backup
-    pathTemplate: '{{ .status.lastBackupTime }}'
+    pathTemplate: '{{ .status.lastBackupTime | k8s_duration }}'
     priority: 3
     type: string
   - color:

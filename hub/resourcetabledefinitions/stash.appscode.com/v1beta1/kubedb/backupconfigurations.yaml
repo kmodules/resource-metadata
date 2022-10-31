@@ -41,11 +41,11 @@ spec:
     type: string
   - name: Repository
     pathTemplate: '{{ .spec.repository.name }}'
-    priority: 3
+    priority: 2
     type: string
   - name: Target
     pathTemplate: '{{ .spec.target.ref.kind }}/{{ .spec.target.ref.name }}'
-    priority: 3
+    priority: 2
     type: string
   - name: RetentionPolicy
     pathTemplate: '{{ .spec.retentionPolicy.name }}'
