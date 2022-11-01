@@ -49,6 +49,11 @@ spec:
         kind: Repository
       view:
         name: stash.appscode.com-v1alpha1-repositories-kubedb
+    - fieldPath: '{range .status.targets[*]}{range .stats[*]}{.snapshots}{end}{end}'
+      kind: SubTable
+      name: Snapshots
+      view:
+        name: stash.appscode.com-v1beta1-snapshots-kubedb
   resource:
     group: stash.appscode.com
     kind: BackupSession
