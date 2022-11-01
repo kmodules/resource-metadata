@@ -1,0 +1,70 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceBlockDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: stash.appscode.com
+    k8s.io/kind: Repository
+    k8s.io/resource: repositories
+    k8s.io/version: v1alpha1
+  name: stash.appscode.com-v1alpha1-repositories-kubedb
+spec:
+  blocks:
+    - actions:
+        create: Never
+      displayMode: Field
+      kind: Connection
+      name: Target
+      query:
+        byLabel: backup_via
+        type: GraphQL
+      ref:
+        group: appcatalog.appscode.com
+        kind: AppBinding
+      view:
+        name: appcatalog.appscode.com-v1alpha1-appbindings-kubedb
+    - actions:
+        create: Never
+      displayMode: Field
+      kind: Connection
+      name: Backup Configuration
+      query:
+        byLabel: offshoot
+        type: GraphQL
+      ref:
+        group: stash.appscode.com
+        kind: BackupConfiguration
+      view:
+        name: stash.appscode.com-v1beta1-backupconfigurations-kubedb
+    - actions:
+        create: Never
+      displayMode: List
+      kind: Connection
+      name: Recent Backups
+      query:
+        byLabel: offshoot
+        type: GraphQL
+      ref:
+        group: stash.appscode.com
+        kind: BackupSession
+      view:
+        name: stash.appscode.com-v1beta1-backupsessions-kubedb
+    - actions:
+        create: Never
+      displayMode: List
+      kind: Connection
+      name: Recent Restores
+      query:
+        byLabel: offshoot
+        type: GraphQL
+      ref:
+        group: stash.appscode.com
+        kind: RestoreSession
+      view:
+        name: stash.appscode.com-v1beta1-restoresessions-kubedb
+  resource:
+    group: stash.appscode.com
+    kind: Repository
+    name: repositories
+    scope: Namespaced
+    version: v1alpha1

@@ -18,6 +18,9 @@ spec:
       kind: Self
       view:
         name: stash.appscode.com-v1alpha1-repositories-kubedb
+    blocks:
+    - kind: Block
+      name: stash.appscode.com-v1alpha1-repositories-kubedb
     name: Overview
   resource:
     group: stash.appscode.com
