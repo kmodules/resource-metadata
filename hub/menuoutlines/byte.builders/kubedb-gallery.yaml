@@ -2,7 +2,7 @@ apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: MenuOutline
 metadata:
   creationTimestamp: null
-  name: kubedb
+  name: kubedb-gallery
 spec:
   home:
     name: Home
@@ -59,31 +59,9 @@ spec:
     name: Datastore
     path: /ui.appscode.com/v1alpha1/sections/datastore
   - icons:
-    - src: https://cdn.appscode.com/k8s/icons/apiextensions.k8s.io/customresourcedefinitions.svg
+    - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/backupconfigurations.svg
       type: image/svg+xml
     items:
-    - icons:
-      - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/backupconfigurations.svg
-        type: image/svg+xml
-      - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/backupconfigurations.png
-        type: image/png
-      layoutName: stash.appscode.com-v1beta1-backupconfigurations-kubedb
-      name: Backup Configuration
-      required: true
-      type:
-        group: stash.appscode.com
-        kind: BackupConfiguration
-    - icons:
-      - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/backupsessions.svg
-        type: image/svg+xml
-      - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/backupsessions.png
-        type: image/png
-      layoutName: stash.appscode.com-v1beta1-backupsessions-kubedb
-      name: Backup Session
-      required: true
-      type:
-        group: stash.appscode.com
-        kind: BackupSession
     - icons:
       - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/repositories.svg
         type: image/svg+xml
@@ -95,15 +73,4 @@ spec:
       type:
         group: stash.appscode.com
         kind: Repository
-    - icons:
-      - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/restoresessions.svg
-        type: image/svg+xml
-      - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/restoresessions.png
-        type: image/png
-      layoutName: stash.appscode.com-v1beta1-restoresessions-kubedb
-      name: Restore Session
-      required: true
-      type:
-        group: stash.appscode.com
-        kind: RestoreSession
     name: Backups

@@ -21,8 +21,8 @@ spec:
     scope: Namespaced
     version: v1alpha1
   ui:
-    editor:
-      name: stashappscodecom-repository-editor
+    options:
+      name: stashappscodecom-repository-editor-options
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
