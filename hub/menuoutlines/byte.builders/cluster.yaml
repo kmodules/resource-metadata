@@ -5,242 +5,242 @@ metadata:
   name: cluster
 spec:
   sections:
-  - icons:
-    - src: https://cdn.appscode.com/k8s/icons/menu/kubernetes.svg
-      type: image/svg+xml
-    - src: https://cdn.appscode.com/k8s/icons/menu/kubernetes.png
-      type: image/png
-    items:
     - icons:
-      - src: https://cdn.appscode.com/k8s/icons/menu/basic.svg
-        type: image/svg+xml
-      - src: https://cdn.appscode.com/k8s/icons/menu/basic.png
-        type: image/png
-      name: Basic
-      path: /
-      required: true
-    - name: Nodes
-      required: true
-      type:
-        group: ""
-        kind: Node
-    name: Kubernetes
-    path: /ui.appscode.com/v1alpha1/sections/kubernetes
-  - icons:
-    - src: https://cdn.appscode.com/k8s/icons/menu/workloads.svg
-      type: image/svg+xml
-    - src: https://cdn.appscode.com/k8s/icons/menu/workloads.png
-      type: image/png
-    items:
-    - name: Deployments
-      required: true
-      type:
-        group: apps
-        kind: Deployment
-    - name: Replica Sets
-      required: true
-      type:
-        group: apps
-        kind: ReplicaSet
-    - name: Replication Controllers
-      required: true
-      type:
-        group: ""
-        kind: ReplicationController
-    - name: Stateful Sets
-      required: true
-      type:
-        group: apps
-        kind: StatefulSet
-    - name: Daemon Sets
-      required: true
-      type:
-        group: apps
-        kind: DaemonSet
-    - name: Jobs
-      required: true
-      type:
-        group: batch
-        kind: Job
-    - name: Cron Jobs
-      type:
-        group: batch
-        kind: CronJob
-    - name: Pods
-      required: true
-      type:
-        group: ""
-        kind: Pod
-    name: Workloads
-  - icons:
-    - src: https://cdn.appscode.com/k8s/icons/menu/helm.svg
-      type: image/svg+xml
-    - src: https://cdn.appscode.com/k8s/icons/menu/helm.png
-      type: image/png
-    items:
+        - src: https://cdn.appscode.com/k8s/icons/menu/kubernetes.svg
+          type: image/svg+xml
+        - src: https://cdn.appscode.com/k8s/icons/menu/kubernetes.png
+          type: image/png
+      items:
+        - icons:
+            - src: https://cdn.appscode.com/k8s/icons/menu/basic.svg
+              type: image/svg+xml
+            - src: https://cdn.appscode.com/k8s/icons/menu/basic.png
+              type: image/png
+          name: Basic
+          path: /
+          required: true
+        - name: Nodes
+          required: true
+          type:
+            group: ""
+            kind: Node
+      name: Kubernetes
+      path: /ui.appscode.com/v1alpha1/sections/kubernetes
     - icons:
-      - src: https://cdn.appscode.com/k8s/icons/menu/release.svg
-        type: image/svg+xml
-      - src: https://cdn.appscode.com/k8s/icons/menu/release.png
-        type: image/png
-      name: Releases
-      path: /helm/v3/releases
-    name: Helm 3
-  - autoDiscoverAPIGroup: kubedb.com
-    icons:
-    - src: https://cdn.appscode.com/k8s/icons/menu/datastore.svg
-      type: image/svg+xml
-    - src: https://cdn.appscode.com/k8s/icons/menu/datastore.png
-      type: image/png
-    items:
-    - name: Elasticsearch
-      required: true
-      type:
-        group: kubedb.com
-        kind: Elasticsearch
-    name: Datastore
-  - icons:
-    - src: https://cdn.appscode.com/k8s/icons/menu/networking.svg
-      type: image/svg+xml
-    - src: https://cdn.appscode.com/k8s/icons/menu/networking.png
-      type: image/png
-    items:
-    - name: Services
-      required: true
-      type:
-        group: ""
-        kind: Service
-    - name: Ingresses
-      required: true
-      type:
-        group: networking.k8s.io
-        kind: Ingress
-    - name: Voyager Ingresses
-      required: true
-      type:
-        group: voyager.appscode.com
-        kind: Ingress
-    - name: Network Policies
-      required: true
-      type:
-        group: networking.k8s.io
-        kind: NetworkPolicy
-    name: Service & Discovery
-  - icons:
-    - src: https://cdn.appscode.com/k8s/icons/menu/config.svg
-      type: image/svg+xml
-    - src: https://cdn.appscode.com/k8s/icons/menu/config.png
-      type: image/png
-    items:
-    - name: Config Maps
-      required: true
-      type:
-        group: ""
-        kind: ConfigMap
-    - name: Secrets
-      required: true
-      type:
-        group: ""
-        kind: Secret
-    name: Config
-  - icons:
-    - src: https://cdn.appscode.com/k8s/icons/menu/storage.svg
-      type: image/svg+xml
-    - src: https://cdn.appscode.com/k8s/icons/menu/storage.png
-      type: image/png
-    items:
-    - name: Persistent Volume Claims
-      required: true
-      type:
-        group: ""
-        kind: PersistentVolumeClaim
-    - name: Persistent Volulmes
-      required: true
-      type:
-        group: ""
-        kind: PersistentVolume
-    - name: Storage Classes
-      required: true
-      type:
-        group: storage.k8s.io
-        kind: StorageClass
-    name: Storage
-  - autoDiscoverAPIGroup: monitoring.coreos.com
-    icons:
-    - src: https://cdn.appscode.com/k8s/icons/menu/monitoring.svg
-      type: image/svg+xml
-    - src: https://cdn.appscode.com/k8s/icons/menu/monitoring.png
-      type: image/png
-    items:
-    - name: Prometheus
-      required: true
-      type:
-        group: monitoring.coreos.com
-        kind: Prometheus
-    - name: Alertmanager
-      required: true
-      type:
-        group: monitoring.coreos.com
-        kind: Alertmanager
-    - name: ServiceMonitor
-      required: true
-      type:
-        group: monitoring.coreos.com
-        kind: ServiceMonitor
-    - name: PodMonitor
-      required: true
-      type:
-        group: monitoring.coreos.com
-        kind: PodMonitor
-    name: Monitoring
-  - icons:
-    - src: https://cdn.appscode.com/k8s/icons/menu/security.svg
-      type: image/svg+xml
-    - src: https://cdn.appscode.com/k8s/icons/menu/security.png
-      type: image/png
-    items:
-    - name: Policy
-      required: true
-      type:
-        group: policy
-        kind: PodSecurityPolicy
-    - name: Service Accounts
-      required: true
-      type:
-        group: ""
-        kind: ServiceAccount
-    name: Security
-  - icons:
-    - src: https://cdn.appscode.com/k8s/icons/menu/admin.svg
-      type: image/svg+xml
-    - src: https://cdn.appscode.com/k8s/icons/menu/admin.png
-      type: image/png
-    items:
-    - name: Namespaces
-      required: true
-      type:
-        group: ""
-        kind: Namespace
-    - name: Limit Ranges
-      type:
-        group: ""
-        kind: LimitRange
-    - name: Resource Quotas
-      type:
-        group: ""
-        kind: ResourceQuota
-    - name: Cluster Roles
-      required: true
-      type:
-        group: rbac.authorization.k8s.io
-        kind: ClusterRole
-    - name: Roles
-      required: true
-      type:
-        group: rbac.authorization.k8s.io
-        kind: Role
-    - name: CSI Drivers
-      type:
-        group: storage.k8s.io
-        kind: CSIDriver
-    name: Admin
+        - src: https://cdn.appscode.com/k8s/icons/menu/workloads.svg
+          type: image/svg+xml
+        - src: https://cdn.appscode.com/k8s/icons/menu/workloads.png
+          type: image/png
+      items:
+        - name: Deployments
+          required: true
+          type:
+            group: apps
+            kind: Deployment
+        - name: Replica Sets
+          required: true
+          type:
+            group: apps
+            kind: ReplicaSet
+        - name: Replication Controllers
+          required: true
+          type:
+            group: ""
+            kind: ReplicationController
+        - name: Stateful Sets
+          required: true
+          type:
+            group: apps
+            kind: StatefulSet
+        - name: Daemon Sets
+          required: true
+          type:
+            group: apps
+            kind: DaemonSet
+        - name: Jobs
+          required: true
+          type:
+            group: batch
+            kind: Job
+        - name: Cron Jobs
+          type:
+            group: batch
+            kind: CronJob
+        - name: Pods
+          required: true
+          type:
+            group: ""
+            kind: Pod
+      name: Workloads
+    - icons:
+        - src: https://cdn.appscode.com/k8s/icons/menu/helm.svg
+          type: image/svg+xml
+        - src: https://cdn.appscode.com/k8s/icons/menu/helm.png
+          type: image/png
+      items:
+        - icons:
+            - src: https://cdn.appscode.com/k8s/icons/menu/release.svg
+              type: image/svg+xml
+            - src: https://cdn.appscode.com/k8s/icons/menu/release.png
+              type: image/png
+          name: Releases
+          path: /helm/v3/releases
+      name: Helm 3
+    - autoDiscoverAPIGroup: kubedb.com
+      icons:
+        - src: https://cdn.appscode.com/k8s/icons/menu/datastore.svg
+          type: image/svg+xml
+        - src: https://cdn.appscode.com/k8s/icons/menu/datastore.png
+          type: image/png
+      items:
+        - name: Elasticsearch
+          required: true
+          type:
+            group: kubedb.com
+            kind: Elasticsearch
+      name: Datastore
+    - icons:
+        - src: https://cdn.appscode.com/k8s/icons/menu/networking.svg
+          type: image/svg+xml
+        - src: https://cdn.appscode.com/k8s/icons/menu/networking.png
+          type: image/png
+      items:
+        - name: Services
+          required: true
+          type:
+            group: ""
+            kind: Service
+        - name: Ingresses
+          required: true
+          type:
+            group: networking.k8s.io
+            kind: Ingress
+        - name: Voyager Ingresses
+          required: true
+          type:
+            group: voyager.appscode.com
+            kind: Ingress
+        - name: Network Policies
+          required: true
+          type:
+            group: networking.k8s.io
+            kind: NetworkPolicy
+      name: Service & Discovery
+    - icons:
+        - src: https://cdn.appscode.com/k8s/icons/menu/config.svg
+          type: image/svg+xml
+        - src: https://cdn.appscode.com/k8s/icons/menu/config.png
+          type: image/png
+      items:
+        - name: Config Maps
+          required: true
+          type:
+            group: ""
+            kind: ConfigMap
+        - name: Secrets
+          required: true
+          type:
+            group: ""
+            kind: Secret
+      name: Config
+    - icons:
+        - src: https://cdn.appscode.com/k8s/icons/menu/storage.svg
+          type: image/svg+xml
+        - src: https://cdn.appscode.com/k8s/icons/menu/storage.png
+          type: image/png
+      items:
+        - name: Persistent Volume Claims
+          required: true
+          type:
+            group: ""
+            kind: PersistentVolumeClaim
+        - name: Persistent Volulmes
+          required: true
+          type:
+            group: ""
+            kind: PersistentVolume
+        - name: Storage Classes
+          required: true
+          type:
+            group: storage.k8s.io
+            kind: StorageClass
+      name: Storage
+    - autoDiscoverAPIGroup: monitoring.coreos.com
+      icons:
+        - src: https://cdn.appscode.com/k8s/icons/menu/monitoring.svg
+          type: image/svg+xml
+        - src: https://cdn.appscode.com/k8s/icons/menu/monitoring.png
+          type: image/png
+      items:
+        - name: Prometheus
+          required: true
+          type:
+            group: monitoring.coreos.com
+            kind: Prometheus
+        - name: Alertmanager
+          required: true
+          type:
+            group: monitoring.coreos.com
+            kind: Alertmanager
+        - name: ServiceMonitor
+          required: true
+          type:
+            group: monitoring.coreos.com
+            kind: ServiceMonitor
+        - name: PodMonitor
+          required: true
+          type:
+            group: monitoring.coreos.com
+            kind: PodMonitor
+      name: Monitoring
+    - icons:
+        - src: https://cdn.appscode.com/k8s/icons/menu/security.svg
+          type: image/svg+xml
+        - src: https://cdn.appscode.com/k8s/icons/menu/security.png
+          type: image/png
+      items:
+        - name: Policy
+          required: true
+          type:
+            group: policy
+            kind: PodSecurityPolicy
+        - name: Service Accounts
+          required: true
+          type:
+            group: ""
+            kind: ServiceAccount
+      name: Security
+    - icons:
+        - src: https://cdn.appscode.com/k8s/icons/menu/admin.svg
+          type: image/svg+xml
+        - src: https://cdn.appscode.com/k8s/icons/menu/admin.png
+          type: image/png
+      items:
+        - name: Namespaces
+          required: true
+          type:
+            group: ""
+            kind: Namespace
+        - name: Limit Ranges
+          type:
+            group: ""
+            kind: LimitRange
+        - name: Resource Quotas
+          type:
+            group: ""
+            kind: ResourceQuota
+        - name: Cluster Roles
+          required: true
+          type:
+            group: rbac.authorization.k8s.io
+            kind: ClusterRole
+        - name: Roles
+          required: true
+          type:
+            group: rbac.authorization.k8s.io
+            kind: Role
+        - name: CSI Drivers
+          type:
+            group: storage.k8s.io
+            kind: CSIDriver
+      name: Admin
