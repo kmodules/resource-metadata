@@ -10,45 +10,45 @@ metadata:
   name: stash.appscode.com-v1beta1-backupconfigurations-kubedb
 spec:
   blocks:
-    - actions:
-        create: Never
-      displayMode: Field
-      kind: Connection
-      name: Target
-      query:
-        byLabel: backup_via
-        type: GraphQL
-      ref:
-        group: appcatalog.appscode.com
-        kind: AppBinding
-      view:
-        name: appcatalog.appscode.com-v1alpha1-appbindings-kubedb
-    - actions:
-        create: Never
-      displayMode: Field
-      kind: Connection
-      name: Repository
-      query:
-        byLabel: offshoot
-        type: GraphQL
-      ref:
-        group: stash.appscode.com
-        kind: Repository
-      view:
-        name: stash.appscode.com-v1alpha1-repositories-kubedb
-    - actions:
-        create: Never
-      displayMode: List
-      kind: Connection
-      name: Recent Backups
-      query:
-        byLabel: offshoot
-        type: GraphQL
-      ref:
-        group: stash.appscode.com
-        kind: BackupSession
-      view:
-        name: stash.appscode.com-v1beta1-backupsessions-kubedb
+  - actions:
+      create: Never
+    displayMode: Field
+    kind: Connection
+    name: Target
+    query:
+      byLabel: backup_via
+      type: GraphQL
+    ref:
+      group: appcatalog.appscode.com
+      kind: AppBinding
+    view:
+      name: appcatalog.appscode.com-v1alpha1-appbindings-kubedb
+  - actions:
+      create: Never
+    displayMode: Field
+    kind: Connection
+    name: Repository
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: stash.appscode.com
+      kind: Repository
+    view:
+      name: stash.appscode.com-v1alpha1-repositories-kubedb
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Recent Backups
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: stash.appscode.com
+      kind: BackupSession
+    view:
+      name: stash.appscode.com-v1beta1-backupsessions-kubedb
   resource:
     group: stash.appscode.com
     kind: BackupConfiguration

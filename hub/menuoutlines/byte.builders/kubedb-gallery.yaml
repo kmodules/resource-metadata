@@ -8,80 +8,80 @@ spec:
     name: Home
     path: /
   sections:
+  - icons:
+    - src: https://cdn.appscode.com/k8s/icons/menu/datastore.svg
+      type: image/svg+xml
+    - src: https://cdn.appscode.com/k8s/icons/menu/datastore.png
+      type: image/png
+    items:
+    - layoutName: kubedb.com-v1alpha2-elasticsearches-kubedb
+      name: Elasticsearch
+      required: true
+      type:
+        group: kubedb.com
+        kind: Elasticsearch
+    - layoutName: kubedb.com-v1alpha2-mariadbs-kubedb
+      name: MariaDB
+      required: true
+      type:
+        group: kubedb.com
+        kind: MariaDB
+    - layoutName: kubedb.com-v1alpha2-memcacheds-kubedb
+      name: Memcached
+      required: true
+      type:
+        group: kubedb.com
+        kind: Memcached
+    - layoutName: kubedb.com-v1alpha2-mongodbs-kubedb
+      name: MongoDB
+      required: true
+      type:
+        group: kubedb.com
+        kind: MongoDB
+    - layoutName: kubedb.com-v1alpha2-mysqls-kubedb
+      name: MySQL
+      required: true
+      type:
+        group: kubedb.com
+        kind: MySQL
+    - layoutName: kubedb.com-v1alpha2-postgreses-kubedb
+      name: PostgreSQL
+      required: true
+      type:
+        group: kubedb.com
+        kind: Postgres
+    - layoutName: kubedb.com-v1alpha2-redises-kubedb
+      name: Redis
+      required: true
+      type:
+        group: kubedb.com
+        kind: Redis
+    name: Datastore
+    path: /ui.appscode.com/v1alpha1/sections/datastore
+  - icons:
+    - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/backupconfigurations.svg
+      type: image/svg+xml
+    items:
     - icons:
-        - src: https://cdn.appscode.com/k8s/icons/menu/datastore.svg
-          type: image/svg+xml
-        - src: https://cdn.appscode.com/k8s/icons/menu/datastore.png
-          type: image/png
-      items:
-        - layoutName: kubedb.com-v1alpha2-elasticsearches-kubedb
-          name: Elasticsearch
-          required: true
-          type:
-            group: kubedb.com
-            kind: Elasticsearch
-        - layoutName: kubedb.com-v1alpha2-mariadbs-kubedb
-          name: MariaDB
-          required: true
-          type:
-            group: kubedb.com
-            kind: MariaDB
-        - layoutName: kubedb.com-v1alpha2-memcacheds-kubedb
-          name: Memcached
-          required: true
-          type:
-            group: kubedb.com
-            kind: Memcached
-        - layoutName: kubedb.com-v1alpha2-mongodbs-kubedb
-          name: MongoDB
-          required: true
-          type:
-            group: kubedb.com
-            kind: MongoDB
-        - layoutName: kubedb.com-v1alpha2-mysqls-kubedb
-          name: MySQL
-          required: true
-          type:
-            group: kubedb.com
-            kind: MySQL
-        - layoutName: kubedb.com-v1alpha2-postgreses-kubedb
-          name: PostgreSQL
-          required: true
-          type:
-            group: kubedb.com
-            kind: Postgres
-        - layoutName: kubedb.com-v1alpha2-redises-kubedb
-          name: Redis
-          required: true
-          type:
-            group: kubedb.com
-            kind: Redis
-      name: Datastore
-      path: /ui.appscode.com/v1alpha1/sections/datastore
+      - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/repositories.svg
+        type: image/svg+xml
+      - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/repositories.png
+        type: image/png
+      layoutName: stash.appscode.com-v1alpha1-repositories-kubedb
+      name: Repository
+      required: true
+      type:
+        group: stash.appscode.com
+        kind: Repository
     - icons:
-        - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/backupconfigurations.svg
-          type: image/svg+xml
-      items:
-        - icons:
-            - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/repositories.svg
-              type: image/svg+xml
-            - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/repositories.png
-              type: image/png
-          layoutName: stash.appscode.com-v1alpha1-repositories-kubedb
-          name: Repository
-          required: true
-          type:
-            group: stash.appscode.com
-            kind: Repository
-        - icons:
-            - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/restoresessions.svg
-              type: image/svg+xml
-            - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/restoresessions.png
-              type: image/png
-          layoutName: stash.appscode.com-v1beta1-restoresessions-kubedb
-          name: Restore
-          required: true
-          type:
-            group: stash.appscode.com
-            kind: RestoreSession
-      name: Backups
+      - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/restoresessions.svg
+        type: image/svg+xml
+      - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/restoresessions.png
+        type: image/png
+      layoutName: stash.appscode.com-v1beta1-restoresessions-kubedb
+      name: Restore
+      required: true
+      type:
+        group: stash.appscode.com
+        kind: RestoreSession
+    name: Backups

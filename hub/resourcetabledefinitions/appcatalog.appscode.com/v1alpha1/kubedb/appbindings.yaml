@@ -10,14 +10,7 @@ metadata:
   name: appcatalog.appscode.com-v1alpha1-appbindings-kubedb
 spec:
   columns:
-  - name: Name
-    pathTemplate: |
-      {{ $name:= "" }}
-      {{ with (first .metadata.ownerReferences) }}
-      {{ $name = .name }}
-      {{ end }}
-      {{- printf "%s" $name -}}
-    link:
+  - link:
       template: |
         {{ $name := "" }}
         {{ $apiVersion := "" }}
@@ -29,7 +22,13 @@ spec:
         {{ end }}
         {{ $resource = (index .metadata.labels "app.kubernetes.io/name" | split ".") }}
         {{- printf "/${username}/${clustername}/%s/%s/%s?namespace=%s" $apiVersion $resource._0 $name $namespace -}}
-
+    name: Name
+    pathTemplate: |
+      {{ $name:= "" }}
+      {{ with (first .metadata.ownerReferences) }}
+      {{ $name = .name }}
+      {{ end }}
+      {{- printf "%s" $name -}}
     priority: 3
     type: string
   - name: Namespace

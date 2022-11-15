@@ -10,32 +10,32 @@ metadata:
   name: stash.appscode.com-v1beta1-restoresessions-kubedb
 spec:
   blocks:
-    - actions:
-        create: Never
-      displayMode: Field
-      kind: Connection
-      name: Target
-      query:
-        byLabel: restore_into
-        type: GraphQL
-      ref:
-        group: appcatalog.appscode.com
-        kind: AppBinding
-      view:
-        name: appcatalog.appscode.com-v1alpha1-appbindings-kubedb
-    - actions:
-        create: Never
-      displayMode: Field
-      kind: Connection
-      name: Repository
-      query:
-        byLabel: offshoot
-        type: GraphQL
-      ref:
-        group: stash.appscode.com
-        kind: Repository
-      view:
-        name: stash.appscode.com-v1alpha1-repositories-kubedb
+  - actions:
+      create: Never
+    displayMode: Field
+    kind: Connection
+    name: Target
+    query:
+      byLabel: restore_into
+      type: GraphQL
+    ref:
+      group: appcatalog.appscode.com
+      kind: AppBinding
+    view:
+      name: appcatalog.appscode.com-v1alpha1-appbindings-kubedb
+  - actions:
+      create: Never
+    displayMode: Field
+    kind: Connection
+    name: Repository
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: stash.appscode.com
+      kind: Repository
+    view:
+      name: stash.appscode.com-v1alpha1-repositories-kubedb
   resource:
     group: stash.appscode.com
     kind: RestoreSession

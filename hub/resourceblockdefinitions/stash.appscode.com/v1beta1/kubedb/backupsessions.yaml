@@ -10,50 +10,50 @@ metadata:
   name: stash.appscode.com-v1beta1-backupsessions-kubedb
 spec:
   blocks:
-    - actions:
-        create: Never
-      displayMode: Field
-      kind: Connection
-      name: Target
-      query:
-        byLabel: backup_via
-        type: GraphQL
-      ref:
-        group: appcatalog.appscode.com
-        kind: AppBinding
-      view:
-        name: appcatalog.appscode.com-v1alpha1-appbindings-kubedb
-    - actions:
-        create: Never
-      displayMode: Field
-      kind: Connection
-      name: Backup Configuration
-      query:
-        byLabel: offshoot
-        type: GraphQL
-      ref:
-        group: stash.appscode.com
-        kind: BackupConfiguration
-      view:
-        name: stash.appscode.com-v1beta1-backupconfigurations-kubedb
-    - actions:
-        create: Never
-      displayMode: Field
-      kind: Connection
-      name: Repository
-      query:
-        byLabel: offshoot
-        type: GraphQL
-      ref:
-        group: stash.appscode.com
-        kind: Repository
-      view:
-        name: stash.appscode.com-v1alpha1-repositories-kubedb
-    - fieldPath: '{range .status.targets[*]}{range .stats[*]}{.snapshots}{end}{end}'
-      kind: SubTable
-      name: Snapshots
-      view:
-        name: stash.appscode.com-v1beta1-snapshots-kubedb
+  - actions:
+      create: Never
+    displayMode: Field
+    kind: Connection
+    name: Target
+    query:
+      byLabel: backup_via
+      type: GraphQL
+    ref:
+      group: appcatalog.appscode.com
+      kind: AppBinding
+    view:
+      name: appcatalog.appscode.com-v1alpha1-appbindings-kubedb
+  - actions:
+      create: Never
+    displayMode: Field
+    kind: Connection
+    name: Backup Configuration
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: stash.appscode.com
+      kind: BackupConfiguration
+    view:
+      name: stash.appscode.com-v1beta1-backupconfigurations-kubedb
+  - actions:
+      create: Never
+    displayMode: Field
+    kind: Connection
+    name: Repository
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: stash.appscode.com
+      kind: Repository
+    view:
+      name: stash.appscode.com-v1alpha1-repositories-kubedb
+  - fieldPath: '{range .status.targets[*]}{range .stats[*]}{.snapshots}{end}{end}'
+    kind: SubTable
+    name: Snapshots
+    view:
+      name: stash.appscode.com-v1beta1-snapshots-kubedb
   resource:
     group: stash.appscode.com
     kind: BackupSession
