@@ -190,6 +190,19 @@ spec:
         kind: BackupSession
       view:
         name: stash.appscode.com-v1beta1-backupsessions-kubedb
+    - actions:
+        create: Never
+      displayMode: List
+      kind: Connection
+      name: Recent Restores
+      query:
+        byLabel: restore_into
+        type: GraphQL
+      ref:
+        group: stash.appscode.com
+        kind: RestoreSession
+      view:
+        name: stash.appscode.com-v1beta1-restoresessions-kubedb
     info:
       actions:
         create: IfEmpty
