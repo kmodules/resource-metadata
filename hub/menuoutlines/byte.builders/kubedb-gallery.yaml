@@ -26,12 +26,6 @@ spec:
       type:
         group: kubedb.com
         kind: MariaDB
-    - layoutName: kubedb.com-v1alpha2-memcacheds-kubedb
-      name: Memcached
-      required: true
-      type:
-        group: kubedb.com
-        kind: Memcached
     - layoutName: kubedb.com-v1alpha2-mongodbs-kubedb
       name: MongoDB
       required: true

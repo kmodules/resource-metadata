@@ -67,7 +67,12 @@ spec:
     tooltip:
       template: '{{ .spec.upcomingBackupTime }}'
     type: date
-  - name: Repository
+  - link:
+      template: |
+        {{ $name := .spec.repository }}
+        {{ $namespace := .metadata.namespace }}
+        {{- printf "/${username}/${clustername}/stash.appscode.com/v1alpha1/repositories/%s?namespace=%s" $name $namespace -}}
+    name: Repository
     pathTemplate: '{{ .spec.repository }}'
     priority: 3
     type: string
