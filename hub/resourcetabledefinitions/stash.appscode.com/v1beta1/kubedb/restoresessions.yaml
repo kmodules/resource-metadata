@@ -4,10 +4,10 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: stash.appscode.com
-    k8s.io/kind: BackupSession
-    k8s.io/resource: backupsessions
+    k8s.io/kind: RestoreSession
+    k8s.io/resource: restoresessions
     k8s.io/version: v1beta1
-  name: stash.appscode.com-v1beta1-backupsessions-kubedb
+  name: stash.appscode.com-v1beta1-restoresessions-kubedb
 spec:
   columns:
   - link:
@@ -15,7 +15,7 @@ spec:
         {{ $apiVersion := .apiVersion }}
         {{ $name := .metadata.name }}
         {{ $namespace := .metadata.namespace }}
-        {{- printf "/${username}/${clustername}/%s/backupsessions/%s?namespace=%s" $apiVersion $name $namespace -}}
+        {{- printf "/${username}/${clustername}/%s/restoresessions/%s?namespace=%s" $apiVersion $name $namespace -}}
     name: Name
     pathTemplate: '{{ .metadata.name }}'
     priority: 3
@@ -27,38 +27,40 @@ spec:
     pathTemplate: '{{ .metadata.namespace }}'
     priority: 3
     type: string
-  - name: Invoker Kind
-    pathTemplate: '{{ .spec.invoker.kind }}'
+  - name: Driver
+    pathTemplate: '{{ .spec.driver }}'
     priority: 3
     type: string
-  - name: Invoker Name
-    pathTemplate: '{{ .spec.invoker.name }}'
+  - name: Repository
+    pathTemplate: '{{ .spec.repository.name }}'
+    priority: 2
+    type: string
+  - name: Target
+    pathTemplate: '{{ .spec.target.ref.kind }}/{{ .spec.target.ref.name }}'
+    priority: 2
+    type: string
+  - name: Duration
+    pathTemplate: '{{ .status.sessionDuration }}'
     priority: 3
     type: string
   - color:
       template: |
         {{ $status := .status.phase }}
         {{ $color := "gray" }}
-        {{ if list "Succeeded" | has $status }}
+        {{ if list "Running" | has $status }}
+          {{ $color = "info" }}
+        {{ else if list "Succeeded" | has $status }}
           {{ $color = "success" }}
         {{ else if list "Unknown" | has $status }}
           {{ $color = "warning" }}
-        {{ else if list "Failed" | has $status }}
+        {{ else if list "Failed" "Invalid" | has $status }}
           {{ $color = "danger" }}
         {{ else if list "Pending" | has $status }}
-          {{ $color = "dark" }}
-        {{ else if list "Skipped" | has $status }}
-          {{ $color = "link" }}
-        {{ else if list "Running" | has $status }}
-          {{ $color = "info" }}
+          {{ $color = "gray" }}
         {{ end }}
         {{- printf "%s" $color -}}
-    name: Phase
+    name: Status
     pathTemplate: '{{ .status.phase }}'
-    priority: 3
-    type: string
-  - name: Duration
-    pathTemplate: '{{ .status.sessionDuration }}'
     priority: 3
     type: string
   - name: Age
@@ -72,7 +74,7 @@ spec:
   defaultView: false
   resource:
     group: stash.appscode.com
-    kind: BackupSession
-    name: backupsessions
+    kind: RestoreSession
+    name: restoresessions
     scope: Namespaced
     version: v1beta1

@@ -1,0 +1,30 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceOutline
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: stash.appscode.com
+    k8s.io/kind: BackupConfiguration
+    k8s.io/resource: backupconfigurations
+    k8s.io/version: v1beta1
+  name: stash.appscode.com-v1beta1-backupconfigurations-kubedb
+spec:
+  defaultLayout: false
+  pages:
+  - blocks:
+    - kind: Block
+      name: stash.appscode.com-v1beta1-backupconfigurations-kubedb
+    info:
+      actions:
+        create: Never
+      displayMode: Field
+      kind: Self
+      view:
+        name: stash.appscode.com-v1beta1-backupconfigurations-kubedb
+    name: Overview
+  resource:
+    group: stash.appscode.com
+    kind: BackupConfiguration
+    name: backupconfigurations
+    scope: Namespaced
+    version: v1beta1

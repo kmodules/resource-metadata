@@ -4,10 +4,10 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: stash.appscode.com
-    k8s.io/kind: BackupSession
-    k8s.io/resource: backupsessions
-    k8s.io/version: v1beta1
-  name: stash.appscode.com-v1beta1-backupsessions-kubedb
+    k8s.io/kind: Repository
+    k8s.io/resource: repositories
+    k8s.io/version: v1alpha1
+  name: stash.appscode.com-v1alpha1-repositories-kubedb
 spec:
   columns:
   - link:
@@ -15,7 +15,7 @@ spec:
         {{ $apiVersion := .apiVersion }}
         {{ $name := .metadata.name }}
         {{ $namespace := .metadata.namespace }}
-        {{- printf "/${username}/${clustername}/%s/backupsessions/%s?namespace=%s" $apiVersion $name $namespace -}}
+        {{- printf "/${username}/${clustername}/%s/repositories/%s?namespace=%s" $apiVersion $name $namespace -}}
     name: Name
     pathTemplate: '{{ .metadata.name }}'
     priority: 3
@@ -27,38 +27,30 @@ spec:
     pathTemplate: '{{ .metadata.namespace }}'
     priority: 3
     type: string
-  - name: Invoker Kind
-    pathTemplate: '{{ .spec.invoker.kind }}'
+  - name: Size
+    pathTemplate: '{{ .status.totalSize }}'
     priority: 3
     type: string
-  - name: Invoker Name
-    pathTemplate: '{{ .spec.invoker.name }}'
+  - name: Snapshot Count
+    pathTemplate: '{{ .status.snapshotCount }}'
+    priority: 3
+    type: string
+  - name: Last-Successful-Backup
+    pathTemplate: '{{ .status.lastBackupTime | k8s_duration }}'
     priority: 3
     type: string
   - color:
       template: |
-        {{ $status := .status.phase }}
+        {{ $integrity := .status.integrity }}
         {{ $color := "gray" }}
-        {{ if list "Succeeded" | has $status }}
+        {{ if $integrity }}
           {{ $color = "success" }}
-        {{ else if list "Unknown" | has $status }}
-          {{ $color = "warning" }}
-        {{ else if list "Failed" | has $status }}
+        {{ else }}
           {{ $color = "danger" }}
-        {{ else if list "Pending" | has $status }}
-          {{ $color = "dark" }}
-        {{ else if list "Skipped" | has $status }}
-          {{ $color = "link" }}
-        {{ else if list "Running" | has $status }}
-          {{ $color = "info" }}
         {{ end }}
         {{- printf "%s" $color -}}
-    name: Phase
-    pathTemplate: '{{ .status.phase }}'
-    priority: 3
-    type: string
-  - name: Duration
-    pathTemplate: '{{ .status.sessionDuration }}'
+    name: Integrity
+    pathTemplate: '{{ .status.integrity | quote | upper }}'
     priority: 3
     type: string
   - name: Age
@@ -72,7 +64,7 @@ spec:
   defaultView: false
   resource:
     group: stash.appscode.com
-    kind: BackupSession
-    name: backupsessions
+    kind: Repository
+    name: repositories
     scope: Namespaced
-    version: v1beta1
+    version: v1alpha1

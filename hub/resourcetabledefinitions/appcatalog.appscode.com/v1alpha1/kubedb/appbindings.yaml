@@ -1,0 +1,60 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: appcatalog.appscode.com
+    k8s.io/kind: AppBinding
+    k8s.io/resource: appbindings
+    k8s.io/version: v1alpha1
+  name: appcatalog.appscode.com-v1alpha1-appbindings-kubedb
+spec:
+  columns:
+  - link:
+      template: |
+        {{ $name := "" }}
+        {{ $apiVersion := "" }}
+        {{ $resource := ""}}
+        {{ $namespace := .metadata.namespace }}
+        {{ with (first .metadata.ownerReferences) }}
+          {{ $name = .name }}
+          {{ $apiVersion = .apiVersion }}
+        {{ end }}
+        {{ $resource = (index .metadata.labels "app.kubernetes.io/name" | split ".") }}
+        {{- printf "/${username}/${clustername}/%s/%s/%s?namespace=%s" $apiVersion $resource._0 $name $namespace -}}
+    name: Name
+    pathTemplate: |
+      {{ $name:= "" }}
+      {{ with (first .metadata.ownerReferences) }}
+      {{ $name = .name }}
+      {{ end }}
+      {{- printf "%s" $name -}}
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ .metadata.namespace }}'
+    priority: 3
+    type: string
+  - name: Type
+    pathTemplate: '{{ .spec.type }}'
+    priority: 3
+    type: string
+  - name: Version
+    pathTemplate: '{{ .spec.version }}'
+    priority: 3
+    type: string
+  - name: Age
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
+    priority: 3
+    sort:
+      enable: true
+      template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+      type: integer
+    type: date
+  defaultView: false
+  resource:
+    group: appcatalog.appscode.com
+    kind: AppBinding
+    name: appbindings
+    scope: Namespaced
+    version: v1alpha1

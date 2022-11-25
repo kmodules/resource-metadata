@@ -196,7 +196,7 @@ spec:
     name: Database Insights
   - blocks:
     - actions:
-        create: Always
+        create: Never
       displayMode: List
       kind: Connection
       name: Recent Backups
@@ -218,9 +218,22 @@ spec:
         kind: BackupSession
       view:
         name: stash.appscode.com-v1beta1-backupsessions-kubedb
+    - actions:
+        create: Never
+      displayMode: List
+      kind: Connection
+      name: Recent Restores
+      query:
+        byLabel: restore_into
+        type: GraphQL
+      ref:
+        group: stash.appscode.com
+        kind: RestoreSession
+      view:
+        name: stash.appscode.com-v1beta1-restoresessions-kubedb
     info:
       actions:
-        create: IfEmpty
+        create: Never
       displayMode: Field
       kind: Connection
       query:
@@ -242,7 +255,7 @@ spec:
     name: Backups
   - blocks:
     - actions:
-        create: Always
+        create: Never
       displayMode: List
       kind: Connection
       name: Recent Operations
@@ -255,7 +268,7 @@ spec:
       view:
         name: ops.kubedb.com-v1alpha1-postgresopsrequests-kubedb
     - actions:
-        create: Always
+        create: Never
       displayMode: List
       kind: Connection
       name: Recommendations
