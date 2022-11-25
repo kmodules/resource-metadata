@@ -25,7 +25,7 @@ spec:
     name: Security
   - blocks:
     - actions:
-        create: Always
+        create: Never
       displayMode: List
       kind: Connection
       name: Recent Operations
@@ -36,7 +36,7 @@ spec:
         group: ops.kubedb.com
         kind: MemcachedOpsRequest
     - actions:
-        create: Always
+        create: Never
       displayMode: List
       kind: Connection
       name: Recommendations
