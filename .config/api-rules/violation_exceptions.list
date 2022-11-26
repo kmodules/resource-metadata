@@ -121,12 +121,20 @@ API rule violation: list_type_missing,k8s.io/apimachinery/pkg/apis/meta/v1,Table
 API rule violation: list_type_missing,k8s.io/apimachinery/pkg/apis/meta/v1,UpdateOptions,DryRun
 API rule violation: list_type_missing,k8s.io/apimachinery/pkg/runtime,RawExtension,Raw
 API rule violation: list_type_missing,k8s.io/apimachinery/pkg/runtime,Unknown,Raw
+API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/shared,Action,Icons
+API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/shared,ActionGroup,Items
+API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/shared,ActionTemplate,Icons
+API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/shared,ActionTemplateGroup,Items
 API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/shared,Dashboard,Panels
 API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/shared,Dashboard,Vars
+API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/shared,UIParameterTemplate,Actions
+API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/shared,UIParameterTemplate,InstanceLabelPaths
+API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/shared,UIParameters,Actions
 API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/shared,UIParameters,InstanceLabelPaths
 API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/ui/v1alpha1,ResourceDashboardSpec,Dashboards
 API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/ui/v1alpha1,ResourceEditorSpec,Icons
 API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/ui/v1alpha1,ResourceEditorSpec,Variants
+API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/ui/v1alpha1,UIParameters,Actions
 API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/ui/v1alpha1,UIParameters,InstanceLabelPaths
 API rule violation: list_type_missing,kmodules.xyz/resource-metadata/apis/ui/v1alpha1,VariantRef,Icons
 API rule violation: names_match,k8s.io/api/core/v1,AzureDiskVolumeSource,DataDiskURI
@@ -174,4 +182,6 @@ API rule violation: names_match,k8s.io/apimachinery/pkg/runtime,Unknown,Raw
 API rule violation: names_match,k8s.io/apimachinery/pkg/util/intstr,IntOrString,IntVal
 API rule violation: names_match,k8s.io/apimachinery/pkg/util/intstr,IntOrString,StrVal
 API rule violation: names_match,k8s.io/apimachinery/pkg/util/intstr,IntOrString,Type
+API rule violation: names_match,kmodules.xyz/resource-metadata/apis/shared,Action,OperationID
+API rule violation: names_match,kmodules.xyz/resource-metadata/apis/shared,ActionTemplate,OperationID
 API rule violation: names_match,kmodules.xyz/resource-metadata/apis/shared,ImageSpec,Source

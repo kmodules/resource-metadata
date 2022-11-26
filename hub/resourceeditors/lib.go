@@ -139,6 +139,7 @@ func merge(in, d *v1alpha1.ResourceEditor) *v1alpha1.ResourceEditor {
 	if d.Spec.UI != nil {
 		if in.Spec.UI == nil {
 			in.Spec.UI = &v1alpha1.UIParameters{
+				Actions:            d.Spec.UI.Actions,
 				InstanceLabelPaths: d.Spec.UI.InstanceLabelPaths,
 			}
 		}

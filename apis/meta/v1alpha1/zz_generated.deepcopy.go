@@ -1600,7 +1600,7 @@ func (in *ResourceLayoutSpec) DeepCopyInto(out *ResourceLayoutSpec) {
 	}
 	if in.UI != nil {
 		in, out := &in.UI, &out.UI
-		*out = new(shared.UIParameters)
+		*out = new(shared.UIParameterTemplate)
 		(*in).DeepCopyInto(*out)
 	}
 	return
@@ -1695,6 +1695,17 @@ func (in *ResourceOutlineSpec) DeepCopyInto(out *ResourceOutlineSpec) {
 		*out = make([]ResourcePageOutline, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.Actions != nil {
+		in, out := &in.Actions, &out.Actions
+		*out = make([]*shared.ActionTemplateGroup, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(shared.ActionTemplateGroup)
+				(*in).DeepCopyInto(*out)
+			}
 		}
 	}
 	return

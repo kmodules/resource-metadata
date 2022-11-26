@@ -78,9 +78,35 @@ type ResourceQuery struct {
 type UIParameters struct {
 	Options *ExpandedChartRepoRef `json:"options,omitempty"`
 	Editor  *ExpandedChartRepoRef `json:"editor,omitempty"`
+	// +optional
+	Actions []*ActionGroup `json:"actions,omitempty"`
 	// app.kubernetes.io/instance label must be updated at these paths when refilling metadata
 	// +optional
 	InstanceLabelPaths []string `json:"instanceLabelPaths,omitempty"`
+}
+
+type UIParameterTemplate struct {
+	Options *ExpandedChartRepoRef `json:"options,omitempty"`
+	Editor  *ExpandedChartRepoRef `json:"editor,omitempty"`
+	// +optional
+	Actions []*ActionTemplateGroup `json:"actions,omitempty"`
+	// app.kubernetes.io/instance label must be updated at these paths when refilling metadata
+	// +optional
+	InstanceLabelPaths []string `json:"instanceLabelPaths,omitempty"`
+}
+
+type ActionGroup struct {
+	ActionInfo `json:",inline,omitempty"`
+	Items      []Action `json:"items"`
+}
+
+type Action struct {
+	ActionInfo `json:",inline,omitempty"`
+	// +optional
+	Icons       []ImageSpec `json:"icons,omitempty"`
+	OperationID string      `json:"operationId"`
+	Flow        string      `json:"flow"`
+	Disabled    bool        `json:"disabled"`
 }
 
 // +kubebuilder:validation:Enum=Source;Target
@@ -113,4 +139,23 @@ type Dashboard struct {
 type If struct {
 	Condition string           `json:"condition,omitempty"`
 	Connected *ResourceLocator `json:"connected,omitempty"`
+}
+
+type ActionTemplateGroup struct {
+	ActionInfo `json:",inline,omitempty"`
+	Items      []ActionTemplate `json:"items"`
+}
+
+type ActionTemplate struct {
+	ActionInfo `json:",inline,omitempty"`
+	// +optional
+	Icons            []ImageSpec `json:"icons,omitempty"`
+	OperationID      string      `json:"operationId"`
+	Flow             string      `json:"flow"`
+	DisabledTemplate string      `json:"disabledTemplate,omitempty"`
+}
+
+type ActionInfo struct {
+	Name        string `json:"name,omitempty"`
+	Description string `json:"description,omitempty"`
 }

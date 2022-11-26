@@ -228,6 +228,17 @@ func (in *UIParameters) DeepCopyInto(out *UIParameters) {
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
+	if in.Actions != nil {
+		in, out := &in.Actions, &out.Actions
+		*out = make([]*shared.ActionTemplateGroup, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(shared.ActionTemplateGroup)
+				(*in).DeepCopyInto(*out)
+			}
+		}
+	}
 	return
 }
 

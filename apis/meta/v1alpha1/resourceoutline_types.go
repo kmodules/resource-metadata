@@ -50,6 +50,8 @@ type ResourceOutlineSpec struct {
 	Header        *PageBlockOutline     `json:"header,omitempty"`
 	TabBar        *PageBlockOutline     `json:"tabBar,omitempty"`
 	Pages         []ResourcePageOutline `json:"pages,omitempty"`
+	// +optional
+	Actions []*shared.ActionTemplateGroup `json:"actions,omitempty"`
 }
 
 type ResourcePageOutline struct {

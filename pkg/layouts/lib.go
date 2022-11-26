@@ -186,7 +186,8 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 	result.Spec.Resource = outline.Spec.Resource
 	if ed, ok := resourceeditors.LoadByGVR(kc, outline.Spec.Resource.GroupVersionResource()); ok {
 		if ed.Spec.UI != nil {
-			result.Spec.UI = &shared.UIParameters{
+			result.Spec.UI = &shared.UIParameterTemplate{
+				Actions:            ed.Spec.UI.Actions,
 				InstanceLabelPaths: ed.Spec.UI.InstanceLabelPaths,
 			}
 
@@ -221,6 +222,9 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 					return nil, err
 				}
 				result.Spec.UI.Options = ref
+			}
+
+			{
 			}
 		}
 	}

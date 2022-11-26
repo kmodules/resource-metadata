@@ -45,12 +45,12 @@ type ResourceLayout struct {
 }
 
 type ResourceLayoutSpec struct {
-	Resource      kmapi.ResourceID     `json:"resource"`
-	DefaultLayout bool                 `json:"defaultLayout"`
-	Header        *PageBlockLayout     `json:"header,omitempty"`
-	TabBar        *PageBlockLayout     `json:"tabBar,omitempty"`
-	Pages         []ResourcePageLayout `json:"pages,omitempty"`
-	UI            *shared.UIParameters `json:"ui,omitempty"`
+	Resource      kmapi.ResourceID            `json:"resource"`
+	DefaultLayout bool                        `json:"defaultLayout"`
+	Header        *PageBlockLayout            `json:"header,omitempty"`
+	TabBar        *PageBlockLayout            `json:"tabBar,omitempty"`
+	Pages         []ResourcePageLayout        `json:"pages,omitempty"`
+	UI            *shared.UIParameterTemplate `json:"ui,omitempty"`
 }
 
 type ResourcePageLayout struct {
