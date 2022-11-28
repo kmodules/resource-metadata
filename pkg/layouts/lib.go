@@ -187,7 +187,6 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 	if ed, ok := resourceeditors.LoadByGVR(kc, outline.Spec.Resource.GroupVersionResource()); ok {
 		if ed.Spec.UI != nil {
 			result.Spec.UI = &shared.UIParameterTemplate{
-				Actions:            ed.Spec.UI.Actions,
 				InstanceLabelPaths: ed.Spec.UI.InstanceLabelPaths,
 			}
 
@@ -223,8 +222,30 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 				}
 				result.Spec.UI.Options = ref
 			}
-
 			{
+				result.Spec.UI.Actions = make([]*shared.ActionTemplateGroup, 0, len(ed.Spec.UI.Actions))
+				for _, ag := range ed.Spec.UI.Actions {
+					ag2 := shared.ActionTemplateGroup{
+						ActionInfo: ag.ActionInfo,
+						Items:      make([]shared.ActionTemplate, 0, len(ag.Items)),
+					}
+					for _, a := range ag.Items {
+						a2 := shared.ActionTemplate{
+							ActionInfo:       a.ActionInfo,
+							Icons:            a.Icons,
+							OperationID:      a.OperationID,
+							Flow:             a.Flow,
+							DisabledTemplate: a.DisabledTemplate,
+						}
+						ref, err := expand(a.Editor)
+						if err != nil {
+							return nil, err
+						}
+						a2.Editor = ref
+						ag2.Items = append(ag2.Items, a2)
+					}
+					result.Spec.UI.Actions = append(result.Spec.UI.Actions, &ag2)
+				}
 			}
 		}
 	}

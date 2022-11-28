@@ -313,6 +313,8 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/shared.ResourceQuery":              schema_kmodulesxyz_resource_metadata_apis_shared_ResourceQuery(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.UIParameterTemplate":        schema_kmodulesxyz_resource_metadata_apis_shared_UIParameterTemplate(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.UIParameters":               schema_kmodulesxyz_resource_metadata_apis_shared_UIParameters(ref),
+		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ActionTemplate":        schema_resource_metadata_apis_ui_v1alpha1_ActionTemplate(ref),
+		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ActionTemplateGroup":   schema_resource_metadata_apis_ui_v1alpha1_ActionTemplateGroup(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ResourceDashboard":     schema_resource_metadata_apis_ui_v1alpha1_ResourceDashboard(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ResourceDashboardList": schema_resource_metadata_apis_ui_v1alpha1_ResourceDashboardList(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ResourceDashboardSpec": schema_resource_metadata_apis_ui_v1alpha1_ResourceDashboardSpec(ref),
@@ -14638,12 +14640,17 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_Action(ref common.Referenc
 							Format:  "",
 						},
 					},
+					"editor": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef"),
+						},
+					},
 				},
 				Required: []string{"operationId", "flow", "disabled"},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
+			"kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef", "kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
 	}
 }
 
@@ -14762,12 +14769,17 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplate(ref common.
 							Format: "",
 						},
 					},
+					"editor": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef"),
+						},
+					},
 				},
 				Required: []string{"operationId", "flow"},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
+			"kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef", "kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
 	}
 }
 
@@ -15219,6 +15231,111 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_UIParameters(ref common.Re
 	}
 }
 
+func schema_resource_metadata_apis_ui_v1alpha1_ActionTemplate(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"description": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"icons": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ImageSpec"),
+									},
+								},
+							},
+						},
+					},
+					"operationId": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"flow": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"disabledTemplate": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"editor": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/resource-metadata/apis/shared.ChartRepoRef"),
+						},
+					},
+				},
+				Required: []string{"operationId", "flow"},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/resource-metadata/apis/shared.ChartRepoRef", "kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
+	}
+}
+
+func schema_resource_metadata_apis_ui_v1alpha1_ActionTemplateGroup(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"description": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"items": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ActionTemplate"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"items"},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ActionTemplate"},
+	}
+}
+
 func schema_resource_metadata_apis_ui_v1alpha1_ResourceDashboard(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -15529,7 +15646,7 @@ func schema_resource_metadata_apis_ui_v1alpha1_UIParameters(ref common.Reference
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
-										Ref: ref("kmodules.xyz/resource-metadata/apis/shared.ActionTemplateGroup"),
+										Ref: ref("kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ActionTemplateGroup"),
 									},
 								},
 							},
@@ -15539,7 +15656,7 @@ func schema_resource_metadata_apis_ui_v1alpha1_UIParameters(ref common.Reference
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/shared.ActionTemplateGroup", "kmodules.xyz/resource-metadata/apis/shared.ChartRepoRef"},
+			"kmodules.xyz/resource-metadata/apis/shared.ChartRepoRef", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ActionTemplateGroup"},
 	}
 }
 

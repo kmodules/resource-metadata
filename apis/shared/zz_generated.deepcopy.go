@@ -30,6 +30,11 @@ func (in *Action) DeepCopyInto(out *Action) {
 		*out = make([]ImageSpec, len(*in))
 		copy(*out, *in)
 	}
+	if in.Editor != nil {
+		in, out := &in.Editor, &out.Editor
+		*out = new(ExpandedChartRepoRef)
+		**out = **in
+	}
 	return
 }
 
@@ -91,6 +96,11 @@ func (in *ActionTemplate) DeepCopyInto(out *ActionTemplate) {
 		in, out := &in.Icons, &out.Icons
 		*out = make([]ImageSpec, len(*in))
 		copy(*out, *in)
+	}
+	if in.Editor != nil {
+		in, out := &in.Editor, &out.Editor
+		*out = new(ExpandedChartRepoRef)
+		**out = **in
 	}
 	return
 }

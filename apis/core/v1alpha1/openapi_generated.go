@@ -15952,12 +15952,17 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_Action(ref common.Referenc
 							Format:  "",
 						},
 					},
+					"editor": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef"),
+						},
+					},
 				},
 				Required: []string{"operationId", "flow", "disabled"},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
+			"kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef", "kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
 	}
 }
 
@@ -16076,12 +16081,17 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplate(ref common.
 							Format: "",
 						},
 					},
+					"editor": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef"),
+						},
+					},
 				},
 				Required: []string{"operationId", "flow"},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
+			"kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef", "kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
 	}
 }
 
