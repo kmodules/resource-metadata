@@ -30,6 +30,11 @@ import (
 
 func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenAPIDefinition {
 	return map[string]common.OpenAPIDefinition{
+		"kmodules.xyz/resource-metadata/apis/shared.Action":               schema_kmodulesxyz_resource_metadata_apis_shared_Action(ref),
+		"kmodules.xyz/resource-metadata/apis/shared.ActionGroup":          schema_kmodulesxyz_resource_metadata_apis_shared_ActionGroup(ref),
+		"kmodules.xyz/resource-metadata/apis/shared.ActionInfo":           schema_kmodulesxyz_resource_metadata_apis_shared_ActionInfo(ref),
+		"kmodules.xyz/resource-metadata/apis/shared.ActionTemplate":       schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplate(ref),
+		"kmodules.xyz/resource-metadata/apis/shared.ActionTemplateGroup":  schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplateGroup(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.ChartRepoRef":         schema_kmodulesxyz_resource_metadata_apis_shared_ChartRepoRef(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.Dashboard":            schema_kmodulesxyz_resource_metadata_apis_shared_Dashboard(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.DashboardVar":         schema_kmodulesxyz_resource_metadata_apis_shared_DashboardVar(ref),
@@ -39,7 +44,243 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/shared.ImageSpec":            schema_kmodulesxyz_resource_metadata_apis_shared_ImageSpec(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.ResourceLocator":      schema_kmodulesxyz_resource_metadata_apis_shared_ResourceLocator(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.ResourceQuery":        schema_kmodulesxyz_resource_metadata_apis_shared_ResourceQuery(ref),
+		"kmodules.xyz/resource-metadata/apis/shared.UIParameterTemplate":  schema_kmodulesxyz_resource_metadata_apis_shared_UIParameterTemplate(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.UIParameters":         schema_kmodulesxyz_resource_metadata_apis_shared_UIParameters(ref),
+	}
+}
+
+func schema_kmodulesxyz_resource_metadata_apis_shared_Action(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"description": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"icons": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ImageSpec"),
+									},
+								},
+							},
+						},
+					},
+					"operationId": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"flow": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"disabled": {
+						SchemaProps: spec.SchemaProps{
+							Default: false,
+							Type:    []string{"boolean"},
+							Format:  "",
+						},
+					},
+					"editor": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef"),
+						},
+					},
+				},
+				Required: []string{"operationId", "flow", "disabled"},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef", "kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
+	}
+}
+
+func schema_kmodulesxyz_resource_metadata_apis_shared_ActionGroup(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"description": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"items": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.Action"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"items"},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/resource-metadata/apis/shared.Action"},
+	}
+}
+
+func schema_kmodulesxyz_resource_metadata_apis_shared_ActionInfo(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"description": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+				},
+			},
+		},
+	}
+}
+
+func schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplate(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"description": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"icons": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ImageSpec"),
+									},
+								},
+							},
+						},
+					},
+					"operationId": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"flow": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"disabledTemplate": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"editor": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef"),
+						},
+					},
+				},
+				Required: []string{"operationId", "flow"},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef", "kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
+	}
+}
+
+func schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplateGroup(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"description": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"items": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ActionTemplate"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"items"},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/resource-metadata/apis/shared.ActionTemplate"},
 	}
 }
 
@@ -349,7 +590,7 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ResourceQuery(ref common.R
 	}
 }
 
-func schema_kmodulesxyz_resource_metadata_apis_shared_UIParameters(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_kmodulesxyz_resource_metadata_apis_shared_UIParameterTemplate(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
@@ -363,6 +604,18 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_UIParameters(ref common.Re
 					"editor": {
 						SchemaProps: spec.SchemaProps{
 							Ref: ref("kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef"),
+						},
+					},
+					"actions": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("kmodules.xyz/resource-metadata/apis/shared.ActionTemplateGroup"),
+									},
+								},
+							},
 						},
 					},
 					"instanceLabelPaths": {
@@ -384,6 +637,57 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_UIParameters(ref common.Re
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef"},
+			"kmodules.xyz/resource-metadata/apis/shared.ActionTemplateGroup", "kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef"},
+	}
+}
+
+func schema_kmodulesxyz_resource_metadata_apis_shared_UIParameters(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"options": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef"),
+						},
+					},
+					"editor": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef"),
+						},
+					},
+					"actions": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("kmodules.xyz/resource-metadata/apis/shared.ActionGroup"),
+									},
+								},
+							},
+						},
+					},
+					"instanceLabelPaths": {
+						SchemaProps: spec.SchemaProps{
+							Description: "app.kubernetes.io/instance label must be updated at these paths when refilling metadata",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/resource-metadata/apis/shared.ActionGroup", "kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef"},
 	}
 }

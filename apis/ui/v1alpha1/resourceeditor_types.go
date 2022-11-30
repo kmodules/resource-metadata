@@ -65,6 +65,23 @@ type UIParameters struct {
 	// app.kubernetes.io/instance label must be updated at these paths when refilling metadata
 	// +optional
 	InstanceLabelPaths []string `json:"instanceLabelPaths,omitempty"`
+	// +optional
+	Actions []*ActionTemplateGroup `json:"actions,omitempty"`
+}
+
+type ActionTemplateGroup struct {
+	shared.ActionInfo `json:",inline,omitempty"`
+	Items             []ActionTemplate `json:"items"`
+}
+
+type ActionTemplate struct {
+	shared.ActionInfo `json:",inline,omitempty"`
+	// +optional
+	Icons            []shared.ImageSpec   `json:"icons,omitempty"`
+	OperationID      string               `json:"operationId"`
+	Flow             string               `json:"flow"`
+	DisabledTemplate string               `json:"disabledTemplate,omitempty"`
+	Editor           *shared.ChartRepoRef `json:"editor,omitempty"`
 }
 
 type VariantRef struct {
