@@ -120,7 +120,9 @@ spec:
         operationId: create-opsrequest-volumeexpansion
       name: Scaling
     - items:
-      - editor:
+      - disabledTemplate: |
+          {{ not (and (hasKey .spec "tls") ( hasKey .spec.tls "issuerRef"))}}
+        editor:
           name: opskubedbcom-elasticsearchopsrequest-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io

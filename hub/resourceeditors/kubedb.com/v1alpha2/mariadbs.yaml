@@ -79,7 +79,9 @@ spec:
         operationId: create-opsrequest-restart
       name: Operations
     - items:
-      - editor:
+      - disabledTemplate: |
+          {{ not (gt .spec.replicas 1) }}
+        editor:
           name: opskubedbcom-mariadbopsrequest-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io

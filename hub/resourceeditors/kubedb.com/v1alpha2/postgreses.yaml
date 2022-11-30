@@ -79,7 +79,9 @@ spec:
         operationId: create-opsrequest-restart
       name: Operations
     - items:
-      - editor:
+      - disabledTemplate: |
+          {{ not (hasKey .spec "standbyMode") }}
+        editor:
           name: opskubedbcom-postgresopsrequest-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io

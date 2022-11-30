@@ -79,7 +79,9 @@ spec:
         operationId: create-opsrequest-restart
       name: Operations
     - items:
-      - editor:
+      - disabledTemplate: |
+          {{ not (or (hasKey .spec "shardTopology") ( hasKey .spec "replicaSet"))}}
+        editor:
           name: opskubedbcom-mongodbopsrequest-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io

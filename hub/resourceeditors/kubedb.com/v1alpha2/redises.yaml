@@ -79,7 +79,9 @@ spec:
         operationId: create-opsrequest-restart
       name: Operations
     - items:
-      - editor:
+      - disabledTemplate: |
+          {{ or (not (hasKey .spec "mode")) (eq .spec.mode "Standalone") }}
+        editor:
           name: opskubedbcom-redisopsrequest-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io

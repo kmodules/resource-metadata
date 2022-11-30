@@ -79,7 +79,9 @@ spec:
         operationId: create-opsrequest-restart
       name: Operations
     - items:
-      - editor:
+      - disabledTemplate: |
+          {{ not (and (hasKey .spec "topology") (hasKey .spec.topology "mode")) }}
+        editor:
           name: opskubedbcom-mysqlopsrequest-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
