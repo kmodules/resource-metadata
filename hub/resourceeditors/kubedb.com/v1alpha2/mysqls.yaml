@@ -37,13 +37,13 @@ spec:
         name: Backup
         operationId: edit-self-backupconfiguration
       - editor:
-          name: kubedbcom-mysql-editor
+          name: stashappscodecom-restoresession-editor-options
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: bytebuilders-ui
           version: v0.4.11
-        flow: standalone-edit
+        flow: standalone-create
         icons:
         - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/restoresessions.svg
           type: image/svg+xml
@@ -52,7 +52,7 @@ spec:
       name: Backups
     - items:
       - editor:
-          name: kubedbcom-mysql-editor
+          name: opskubedbcom-mysqlopsrequest-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
@@ -65,7 +65,7 @@ spec:
         name: Update Version
         operationId: create-opsrequest-upgrade
       - editor:
-          name: kubedbcom-mysql-editor
+          name: opskubedbcom-mysqlopsrequest-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
@@ -80,7 +80,7 @@ spec:
       name: Operations
     - items:
       - editor:
-          name: kubedbcom-mysql-editor
+          name: opskubedbcom-mysqlopsrequest-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
@@ -93,7 +93,7 @@ spec:
         name: Horizontal Scale
         operationId: create-opsrequest-horizontalscaling
       - editor:
-          name: kubedbcom-mysql-editor
+          name: opskubedbcom-mysqlopsrequest-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
@@ -106,7 +106,7 @@ spec:
         name: Vertical Scale
         operationId: create-opsrequest-verticalscaling
       - editor:
-          name: kubedbcom-mysql-editor
+          name: opskubedbcom-mysqlopsrequest-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
@@ -121,7 +121,7 @@ spec:
       name: Scaling
     - items:
       - editor:
-          name: kubedbcom-mysql-editor
+          name: opskubedbcom-mysqlopsrequest-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
@@ -133,7 +133,20 @@ spec:
           type: image/svg+xml
         name: TLS Configure
         operationId: create-opsrequest-reconfiguretls
-      name: Security
+      - editor:
+          name: kubedbcom-mysql-editor
+          sourceRef:
+            apiGroup: source.toolkit.fluxcd.io
+            kind: HelmRepository
+            name: bytebuilders-ui
+          version: v0.4.11
+        flow: standalone-edit
+        icons:
+        - src: https://cdn.appscode.com/k8s/icons/menu/monitoring.svg
+          type: image/svg+xml
+        name: Monitoring
+        operationId: edit-self-monitoring
+      name: Security & Monitoring
     editor:
       name: kubedbcom-mysql-editor
       sourceRef:
