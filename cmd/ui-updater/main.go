@@ -129,6 +129,13 @@ func check(filename string) (string, error) {
 				}
 				rd.Spec.UI.Editor.Version = *chartVersion
 			}
+			for i, ag := range rd.Spec.UI.Actions {
+				for j, a := range ag.Items {
+					a.Editor.Version = *chartVersion
+					ag.Items[j] = a
+				}
+				rd.Spec.UI.Actions[i] = ag
+			}
 		}
 
 		data, err := yaml.Marshal(rd)
