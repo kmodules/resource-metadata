@@ -58,6 +58,61 @@ spec:
               required:
               - image
               type: object
+            stash:
+              description: Stash defines backup and restore task definitions.
+              properties:
+                addon:
+                  description: StashTaskSpec is the spec for app
+                  properties:
+                    backupTask:
+                      description: Backup task definition
+                      properties:
+                        name:
+                          type: string
+                        params:
+                          description: Params specifies a list of parameter to pass to the Task. Stash will use this parameters to resolve the task.
+                          items:
+                            description: Param declares a value to use for the Param called Name.
+                            properties:
+                              name:
+                                type: string
+                              value:
+                                type: string
+                            required:
+                            - name
+                            - value
+                            type: object
+                          type: array
+                      required:
+                      - name
+                      type: object
+                    restoreTask:
+                      description: Restore task definition
+                      properties:
+                        name:
+                          type: string
+                        params:
+                          description: Params specifies a list of parameter to pass to the Task. Stash will use this parameters to resolve the task.
+                          items:
+                            description: Param declares a value to use for the Param called Name.
+                            properties:
+                              name:
+                                type: string
+                              value:
+                                type: string
+                            required:
+                            - name
+                            - value
+                            type: object
+                          type: array
+                      required:
+                      - name
+                      type: object
+                  required:
+                  - backupTask
+                  - restoreTask
+                  type: object
+              type: object
             unsealer:
               description: Unsealer Image
               properties:

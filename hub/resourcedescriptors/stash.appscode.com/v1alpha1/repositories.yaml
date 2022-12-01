@@ -57,6 +57,8 @@ spec:
                       type: integer
                     prefix:
                       type: string
+                  required:
+                  - container
                   type: object
                 b2:
                   properties:
@@ -67,6 +69,8 @@ spec:
                       type: integer
                     prefix:
                       type: string
+                  required:
+                  - bucket
                   type: object
                 gcs:
                   properties:
@@ -77,6 +81,8 @@ spec:
                       type: integer
                     prefix:
                       type: string
+                  required:
+                  - bucket
                   type: object
                 local:
                   properties:
@@ -1023,6 +1029,8 @@ spec:
                       required:
                       - volumePath
                       type: object
+                  required:
+                  - mountPath
                   type: object
                 rest:
                   properties:
@@ -1039,6 +1047,9 @@ spec:
                       type: string
                     region:
                       type: string
+                  required:
+                  - bucket
+                  - endpoint
                   type: object
                 storageSecretName:
                   type: string
@@ -1048,6 +1059,8 @@ spec:
                       type: string
                     prefix:
                       type: string
+                  required:
+                  - container
                   type: object
               type: object
             usagePolicy:
