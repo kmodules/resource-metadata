@@ -82,15 +82,64 @@ spec:
     info:
       actions:
         create: Never
+      displayMode: Field
+      kind: Self
+      view:
+        name: kubedb.com-v1alpha2-proxysqls-kubedb
+    name: Overview
+  - blocks:
+    - actions:
+        create: Never
+      displayMode: List
+      fieldPath: .response.dashboards
+      kind: Connection
+      name: Grafana Dashboards
+      query:
+        raw: |
+          request:
+            resource:
+              group: kubedb.com
+              name: proxysqls
+              version: v1alpha2
+            ref:
+              name: {{ .name }}
+              namespace: {{ .namespace }}
+            name: kubedb.com-v1alpha2-proxysqls
+        type: REST
+      ref:
+        group: meta.k8s.appscode.com
+        kind: RenderDashboard
+      view:
+        name: ui.k8s.appscode.com-v1alpha1-resourcedashboards-urls
+    name: Insights
+  - blocks:
+    - actions:
+        create: Never
       displayMode: List
       kind: Connection
+      name: Recent Operations
       query:
-        byLabel: offshoot
+        byLabel: ops
         type: GraphQL
       ref:
-        group: appcatalog.appscode.com
-        kind: AppBinding
-    name: Overview
+        group: ops.kubedb.com
+        kind: ProxySQLOpsRequest
+      view:
+        name: ops.kubedb.com-v1alpha1-proxysqlopsrequests-kubedb
+    - actions:
+        create: Never
+      displayMode: List
+      kind: Connection
+      name: Recommendations
+      query:
+        byLabel: recommended_for
+        type: GraphQL
+      ref:
+        group: supervisor.appscode.com
+        kind: Recommendation
+      view:
+        name: supervisor.appscode.com-v1alpha1-recommendations-kubedb
+    name: Operations
   resource:
     group: kubedb.com
     kind: ProxySQL

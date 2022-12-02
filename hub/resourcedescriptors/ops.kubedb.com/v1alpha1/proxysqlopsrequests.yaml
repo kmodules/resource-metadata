@@ -13,7 +13,7 @@ spec:
   - labels:
     - ops
     references:
-    - '{.spec.databaseRef.name}'
+    - '{.spec.proxyRef.name}'
     target:
       apiVersion: kubedb.com/v1alpha2
       kind: ProxySQL
