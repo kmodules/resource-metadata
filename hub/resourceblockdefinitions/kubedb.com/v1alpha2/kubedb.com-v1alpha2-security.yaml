@@ -16,7 +16,7 @@ spec:
     kind: Connection
     name: ServiceAccount
     query:
-      byLabel: auth_via
+      byLabel: id
       type: GraphQL
     ref:
       group: ""
@@ -27,7 +27,7 @@ spec:
     kind: Connection
     name: Roles
     query:
-      byLabel: auth_via
+      byLabel: id
       type: GraphQL
     ref:
       group: rbac.authorization.k8s.io
@@ -38,7 +38,7 @@ spec:
     kind: Connection
     name: RoleBindings
     query:
-      byLabel: auth_via
+      byLabel: id
       type: GraphQL
     ref:
       group: rbac.authorization.k8s.io

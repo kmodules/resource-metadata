@@ -76,7 +76,7 @@ spec:
                   properties:
                     byLabel:
                       enum:
-                      - auth_via
+                      - id
                       - backup_via
                       - catalog
                       - connect_via
@@ -247,7 +247,7 @@ spec:
                           properties:
                             byLabel:
                               enum:
-                              - auth_via
+                              - id
                               - backup_via
                               - catalog
                               - connect_via
@@ -415,7 +415,7 @@ spec:
                         properties:
                           byLabel:
                             enum:
-                            - auth_via
+                            - id
                             - backup_via
                             - catalog
                             - connect_via
@@ -582,7 +582,7 @@ spec:
                         properties:
                           byLabel:
                             enum:
-                            - auth_via
+                            - id
                             - backup_via
                             - catalog
                             - connect_via
@@ -778,7 +778,7 @@ spec:
                   properties:
                     byLabel:
                       enum:
-                      - auth_via
+                      - id
                       - backup_via
                       - catalog
                       - connect_via
