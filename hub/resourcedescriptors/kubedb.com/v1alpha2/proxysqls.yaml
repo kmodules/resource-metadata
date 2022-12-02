@@ -71,6 +71,22 @@ spec:
       apiVersion: cert-manager.io/v1
       kind: ClusterIssuer
     type: MatchRef
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}~ProxySQL.kubedb.com'
+    namespacePath: metadata.namespace
+    target:
+      apiVersion: core.k8s.appscode.com/v1alpha1
+      kind: GenericResource
+    type: MatchName
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}~ProxySQL.kubedb.com'
+    namespacePath: metadata.namespace
+    target:
+      apiVersion: core.k8s.appscode.com/v1alpha1
+      kind: GenericResourceService
+    type: MatchName
   resource:
     group: kubedb.com
     kind: ProxySQL
