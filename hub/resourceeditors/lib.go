@@ -40,7 +40,7 @@ import (
 )
 
 var (
-	//go:embed **/**/*.yaml trigger
+	//go:embed **/**/*.yaml **/**/**/*.yaml trigger
 	fs embed.FS
 
 	m     sync.Mutex
