@@ -57,7 +57,7 @@ jobs:
   # Stub Build check to keep branch protection rules happy
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: k8s
     steps:
       - name: Build
