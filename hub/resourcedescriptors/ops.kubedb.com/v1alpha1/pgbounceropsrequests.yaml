@@ -60,16 +60,16 @@ spec:
               type: string
             configuration:
               type: object
-            databaseRef:
+            horizontalScaling:
+              type: object
+            restart:
+              type: object
+            serverRef:
               properties:
                 name:
                   type: string
               type: object
               x-kubernetes-map-type: atomic
-            horizontalScaling:
-              type: object
-            restart:
-              type: object
             tls:
               properties:
                 certificates:
@@ -197,7 +197,7 @@ spec:
                   type: object
               type: object
           required:
-          - databaseRef
+          - serverRef
           - type
           type: object
       type: object
