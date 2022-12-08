@@ -11,7 +11,7 @@ metadata:
 spec:
   connections:
   - labels:
-    - auth_via
+    - id
     namespacePath: metadata.namespace
     references:
     - '{range .subjects[*]}{.name},{.namespace},{.kind}{"\n"}{end}'
@@ -20,7 +20,7 @@ spec:
       kind: ServiceAccount
     type: MatchRef
   - labels:
-    - auth_via
+    - id
     namespacePath: metadata.namespace
     references:
     - '{.roleRef.name},{.metadata.namespace},{.roleRef.kind}'

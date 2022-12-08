@@ -71,6 +71,32 @@ spec:
       apiVersion: cert-manager.io/v1
       kind: ClusterIssuer
     type: MatchRef
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}~ProxySQL.kubedb.com'
+    namespacePath: metadata.namespace
+    target:
+      apiVersion: core.k8s.appscode.com/v1alpha1
+      kind: GenericResource
+    type: MatchName
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}~ProxySQL.kubedb.com'
+    namespacePath: metadata.namespace
+    target:
+      apiVersion: core.k8s.appscode.com/v1alpha1
+      kind: GenericResourceService
+    type: MatchName
+  exec:
+  - alias: Primary
+    command:
+    - bash
+    - -c
+    - mysql -uadmin -padmin -h127.0.0.1 -P6032 --prompt="ProxySQLAdmin > "
+    container: proxysql
+    help: |
+      SELECT * FROM mysql_servers;
+    serviceNameTemplate: '{{- .metadata.name -}}'
   resource:
     group: kubedb.com
     kind: ProxySQL

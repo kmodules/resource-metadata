@@ -9,7 +9,25 @@ metadata:
     k8s.io/version: v1alpha2
   name: kubedb.com-v1alpha2-proxysqls
 spec:
-  dashboards: null
+  dashboards:
+  - title: KubeDB / ProxySQL / Summary
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+  - title: KubeDB / ProxySQL / Database
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+  - title: KubeDB / ProxySQL / Pod
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
   provider: Grafana
   resource:
     group: kubedb.com

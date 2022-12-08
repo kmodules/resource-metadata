@@ -20,7 +20,7 @@ spec:
       kind: Service
     type: MatchRef
   - labels:
-    - offshoot
+    - config
     namespacePath: metadata.namespace
     references:
     - '{.spec.clientConfig.secret.name}'
