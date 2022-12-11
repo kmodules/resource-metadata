@@ -70,7 +70,7 @@ type Requirements struct {
 	// +optional
 	DependsOn []string `json:"dependsOn,omitempty"`
 	// RequiredResources specifies the resources that should be registered to consider this feature as enabled.
-	RequiredResources []metav1.GroupVersionResource `json:"requiredResources,omitempty"`
+	RequiredResources []metav1.GroupVersionKind `json:"requiredResources,omitempty"`
 }
 
 type FeatureStatus struct {

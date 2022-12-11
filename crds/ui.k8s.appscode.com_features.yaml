@@ -95,20 +95,19 @@ spec:
                     description: RequiredResources specifies the resources that should
                       be registered to consider this feature as enabled.
                     items:
-                      description: GroupVersionResource unambiguously identifies a
-                        resource.  It doesn't anonymously include GroupVersion to
-                        avoid automatic coercion.  It doesn't use a GroupVersion to
-                        avoid custom marshalling
+                      description: GroupVersionKind unambiguously identifies a kind.  It
+                        doesn't anonymously include GroupVersion to avoid automatic
+                        coercion.  It doesn't use a GroupVersion to avoid custom marshalling
                       properties:
                         group:
                           type: string
-                        resource:
+                        kind:
                           type: string
                         version:
                           type: string
                       required:
                       - group
-                      - resource
+                      - kind
                       - version
                       type: object
                     type: array

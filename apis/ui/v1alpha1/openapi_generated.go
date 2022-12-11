@@ -15812,7 +15812,7 @@ func schema_resource_metadata_apis_ui_v1alpha1_Requirements(ref common.Reference
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Default: map[string]interface{}{},
-										Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource"),
+										Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionKind"),
 									},
 								},
 							},
@@ -15822,7 +15822,7 @@ func schema_resource_metadata_apis_ui_v1alpha1_Requirements(ref common.Reference
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionKind"},
 	}
 }
 

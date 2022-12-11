@@ -313,7 +313,7 @@ func (in *Requirements) DeepCopyInto(out *Requirements) {
 	}
 	if in.RequiredResources != nil {
 		in, out := &in.RequiredResources, &out.RequiredResources
-		*out = make([]v1.GroupVersionResource, len(*in))
+		*out = make([]v1.GroupVersionKind, len(*in))
 		copy(*out, *in)
 	}
 	return
