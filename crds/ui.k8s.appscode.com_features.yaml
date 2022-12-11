@@ -45,42 +45,10 @@ spec:
             type: object
           spec:
             properties:
-              dependsOn:
-                description: DependsOn specifies a list of Feature names that must
-                  be enabled for using this feature.
-                items:
-                  type: string
-                type: array
               description:
                 description: Description specifies a short description of the service
                   this feature provides.
                 type: string
-              existenceCheck:
-                description: ExistenceCheck specifies how to check whether this feature
-                  enabled or not.
-                properties:
-                  requiredResources:
-                    description: RequiredResources specifies the resources that should
-                      be registered to consider this feature as enabled.
-                    items:
-                      description: GroupVersionResource unambiguously identifies a
-                        resource.  It doesn't anonymously include GroupVersion to
-                        avoid automatic coercion.  It doesn't use a GroupVersion to
-                        avoid custom marshalling
-                      properties:
-                        group:
-                          type: string
-                        resource:
-                          type: string
-                        version:
-                          type: string
-                      required:
-                      - group
-                      - resource
-                      - version
-                      type: object
-                    type: array
-                type: object
               featureSet:
                 description: FeatureSet specifies the name of the FeatureSet where
                   this feature belong to.
@@ -113,13 +81,45 @@ spec:
                 description: Required specify whether this feature is mandatory or
                   not for enabling the respecting FeatureSet.
                 type: boolean
+              requirements:
+                description: Requirements specifies the requirements for this feature
+                  to consider enabled.
+                properties:
+                  dependsOn:
+                    description: DependsOn specifies a list of Feature names that
+                      must be enabled for using this feature.
+                    items:
+                      type: string
+                    type: array
+                  requiredResources:
+                    description: RequiredResources specifies the resources that should
+                      be registered to consider this feature as enabled.
+                    items:
+                      description: GroupVersionResource unambiguously identifies a
+                        resource.  It doesn't anonymously include GroupVersion to
+                        avoid automatic coercion.  It doesn't use a GroupVersion to
+                        avoid custom marshalling
+                      properties:
+                        group:
+                          type: string
+                        resource:
+                          type: string
+                        version:
+                          type: string
+                      required:
+                      - group
+                      - resource
+                      - version
+                      type: object
+                    type: array
+                type: object
               title:
                 description: Title specify the title of this feature.
                 type: string
             required:
             - description
-            - existenceCheck
             - featureSet
+            - requirements
             - title
             type: object
           status:
@@ -132,6 +132,10 @@ spec:
                 description: Managed specifies whether this feature is managed by
                   AppsCode Inc. or not.
                 type: boolean
+              note:
+                description: Note specifies the respective reason if the feature does
+                  not meet the requirements or is not ready.
+                type: string
               ready:
                 description: Ready specifies whether this feature is ready to user
                   or not. This field will be present only for the features that are

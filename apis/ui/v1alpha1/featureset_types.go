@@ -57,6 +57,9 @@ type FeatureSetSpec struct {
 	// Required specify whether this feature set is mandatory or not for using the UI.
 	// +optional
 	Required bool `json:"required,omitempty"`
+	// RequiredFeatures specifies list of features that are necessary to consider this feature set as enabled.
+	// +optional
+	RequiredFeatures []string `json:"requiredFeatures,omitempty"`
 	// Chart specifies the chart that contains the respective resources for component features and the UI wizard.
 	Chart shared.ExpandedChartRepoRef `json:"chart"`
 }
@@ -68,6 +71,9 @@ type FeatureSetStatus struct {
 	// Features specifies the status of the component features that belong to this feature set.
 	// +optional
 	Features []ComponentStatus `json:"features,omitempty"`
+	// Note specifies the respective reason if the feature set is considered as disabled.
+	// +optional
+	Note string `json:"note,omitempty"`
 }
 
 type ComponentStatus struct {

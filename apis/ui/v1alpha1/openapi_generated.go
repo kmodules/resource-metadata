@@ -316,7 +316,6 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ActionTemplate":        schema_resource_metadata_apis_ui_v1alpha1_ActionTemplate(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ActionTemplateGroup":   schema_resource_metadata_apis_ui_v1alpha1_ActionTemplateGroup(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ComponentStatus":       schema_resource_metadata_apis_ui_v1alpha1_ComponentStatus(ref),
-		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ExistenceCheck":        schema_resource_metadata_apis_ui_v1alpha1_ExistenceCheck(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Feature":               schema_resource_metadata_apis_ui_v1alpha1_Feature(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.FeatureList":           schema_resource_metadata_apis_ui_v1alpha1_FeatureList(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.FeatureSet":            schema_resource_metadata_apis_ui_v1alpha1_FeatureSet(ref),
@@ -325,6 +324,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.FeatureSetStatus":      schema_resource_metadata_apis_ui_v1alpha1_FeatureSetStatus(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.FeatureSpec":           schema_resource_metadata_apis_ui_v1alpha1_FeatureSpec(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.FeatureStatus":         schema_resource_metadata_apis_ui_v1alpha1_FeatureStatus(ref),
+		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Requirements":          schema_resource_metadata_apis_ui_v1alpha1_Requirements(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ResourceDashboard":     schema_resource_metadata_apis_ui_v1alpha1_ResourceDashboard(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ResourceDashboardList": schema_resource_metadata_apis_ui_v1alpha1_ResourceDashboardList(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ResourceDashboardSpec": schema_resource_metadata_apis_ui_v1alpha1_ResourceDashboardSpec(ref),
@@ -15374,34 +15374,6 @@ func schema_resource_metadata_apis_ui_v1alpha1_ComponentStatus(ref common.Refere
 	}
 }
 
-func schema_resource_metadata_apis_ui_v1alpha1_ExistenceCheck(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Type: []string{"object"},
-				Properties: map[string]spec.Schema{
-					"requiredResources": {
-						SchemaProps: spec.SchemaProps{
-							Description: "RequiredResources specifies the resources that should be registered to consider this feature as enabled.",
-							Type:        []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: map[string]interface{}{},
-										Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource"),
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		},
-		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource"},
-	}
-}
-
 func schema_resource_metadata_apis_ui_v1alpha1_Feature(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -15631,6 +15603,21 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSetSpec(ref common.Referen
 							Format:      "",
 						},
 					},
+					"requiredFeatures": {
+						SchemaProps: spec.SchemaProps{
+							Description: "RequiredFeatures specifies list of features that are necessary to consider this feature set as enabled.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
 					"chart": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Chart specifies the chart that contains the respective resources for component features and the UI wizard.",
@@ -15672,6 +15659,13 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSetStatus(ref common.Refer
 									},
 								},
 							},
+						},
+					},
+					"note": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Note specifies the respective reason if the feature set is considered as disabled.",
+							Type:        []string{"string"},
+							Format:      "",
 						},
 					},
 				},
@@ -15733,34 +15727,19 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSpec(ref common.ReferenceC
 							Format:      "",
 						},
 					},
-					"dependsOn": {
+					"requirements": {
 						SchemaProps: spec.SchemaProps{
-							Description: "DependsOn specifies a list of Feature names that must be enabled for using this feature.",
-							Type:        []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: "",
-										Type:    []string{"string"},
-										Format:  "",
-									},
-								},
-							},
-						},
-					},
-					"existenceCheck": {
-						SchemaProps: spec.SchemaProps{
-							Description: "ExistenceCheck specifies how to check whether this feature enabled or not.",
+							Description: "Requirements specifies the requirements for this feature to consider enabled.",
 							Default:     map[string]interface{}{},
-							Ref:         ref("kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ExistenceCheck"),
+							Ref:         ref("kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Requirements"),
 						},
 					},
 				},
-				Required: []string{"title", "description", "featureSet", "existenceCheck"},
+				Required: []string{"title", "description", "featureSet", "requirements"},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/shared.ImageSpec", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ExistenceCheck"},
+			"kmodules.xyz/resource-metadata/apis/shared.ImageSpec", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Requirements"},
 	}
 }
 
@@ -15791,9 +15770,59 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureStatus(ref common.Referenc
 							Format:      "",
 						},
 					},
+					"note": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Note specifies the respective reason if the feature does not meet the requirements or is not ready.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
 				},
 			},
 		},
+	}
+}
+
+func schema_resource_metadata_apis_ui_v1alpha1_Requirements(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"dependsOn": {
+						SchemaProps: spec.SchemaProps{
+							Description: "DependsOn specifies a list of Feature names that must be enabled for using this feature.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+					"requiredResources": {
+						SchemaProps: spec.SchemaProps{
+							Description: "RequiredResources specifies the resources that should be registered to consider this feature as enabled.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource"),
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionResource"},
 	}
 }
 

@@ -61,14 +61,14 @@ type FeatureSpec struct {
 	// Required specify whether this feature is mandatory or not for enabling the respecting FeatureSet.
 	// +optional
 	Required bool `json:"required,omitempty"`
+	// Requirements specifies the requirements for this feature to consider enabled.
+	Requirements Requirements `json:"requirements"`
+}
+
+type Requirements struct {
 	// DependsOn specifies a list of Feature names that must be enabled for using this feature.
 	// +optional
 	DependsOn []string `json:"dependsOn,omitempty"`
-	// ExistenceCheck specifies how to check whether this feature enabled or not.
-	ExistenceCheck ExistenceCheck `json:"existenceCheck"`
-}
-
-type ExistenceCheck struct {
 	// RequiredResources specifies the resources that should be registered to consider this feature as enabled.
 	RequiredResources []metav1.GroupVersionResource `json:"requiredResources,omitempty"`
 }
@@ -84,6 +84,9 @@ type FeatureStatus struct {
 	// features that are managed by AppsCode Inc.
 	// +optional
 	Ready bool `json:"ready,omitempty"`
+	// Note specifies the respective reason if the feature does not meet the requirements or is not ready.
+	// +optional
+	Note string `json:"note,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
