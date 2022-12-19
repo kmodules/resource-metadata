@@ -85,15 +85,15 @@ spec:
                 description: Requirements specifies the requirements for this feature
                   to consider enabled.
                 properties:
-                  dependsOn:
-                    description: DependsOn specifies a list of Feature names that
-                      must be enabled for using this feature.
+                  features:
+                    description: Features specifies a list of Feature names that must
+                      be enabled for using this feature.
                     items:
                       type: string
                     type: array
-                  requiredResources:
-                    description: RequiredResources specifies the resources that should
-                      be registered to consider this feature as enabled.
+                  resources:
+                    description: Resources specifies the resources that should be
+                      registered to consider this feature as enabled.
                     items:
                       description: GroupVersionKind unambiguously identifies a kind.  It
                         doesn't anonymously include GroupVersion to avoid automatic
@@ -118,7 +118,6 @@ spec:
             required:
             - description
             - featureSet
-            - requirements
             - title
             type: object
           status:

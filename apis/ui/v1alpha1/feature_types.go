@@ -62,15 +62,17 @@ type FeatureSpec struct {
 	// +optional
 	Required bool `json:"required,omitempty"`
 	// Requirements specifies the requirements for this feature to consider enabled.
-	Requirements Requirements `json:"requirements"`
+	// +optional
+	Requirements Requirements `json:"requirements,omitempty"`
 }
 
 type Requirements struct {
-	// DependsOn specifies a list of Feature names that must be enabled for using this feature.
+	// Features specifies a list of Feature names that must be enabled for using this feature.
 	// +optional
-	DependsOn []string `json:"dependsOn,omitempty"`
-	// RequiredResources specifies the resources that should be registered to consider this feature as enabled.
-	RequiredResources []metav1.GroupVersionKind `json:"requiredResources,omitempty"`
+	Features []string `json:"features,omitempty"`
+	// Resources specifies the resources that should be registered to consider this feature as enabled.
+	// +optional
+	Resources []metav1.GroupVersionKind `json:"resources,omitempty"`
 }
 
 type FeatureStatus struct {

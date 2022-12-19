@@ -15735,7 +15735,7 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSpec(ref common.ReferenceC
 						},
 					},
 				},
-				Required: []string{"title", "description", "featureSet", "requirements"},
+				Required: []string{"title", "description", "featureSet"},
 			},
 		},
 		Dependencies: []string{
@@ -15789,9 +15789,9 @@ func schema_resource_metadata_apis_ui_v1alpha1_Requirements(ref common.Reference
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
-					"dependsOn": {
+					"features": {
 						SchemaProps: spec.SchemaProps{
-							Description: "DependsOn specifies a list of Feature names that must be enabled for using this feature.",
+							Description: "Features specifies a list of Feature names that must be enabled for using this feature.",
 							Type:        []string{"array"},
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
@@ -15804,9 +15804,9 @@ func schema_resource_metadata_apis_ui_v1alpha1_Requirements(ref common.Reference
 							},
 						},
 					},
-					"requiredResources": {
+					"resources": {
 						SchemaProps: spec.SchemaProps{
-							Description: "RequiredResources specifies the resources that should be registered to consider this feature as enabled.",
+							Description: "Resources specifies the resources that should be registered to consider this feature as enabled.",
 							Type:        []string{"array"},
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
