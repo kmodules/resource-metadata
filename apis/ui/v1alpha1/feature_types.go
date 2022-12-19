@@ -76,14 +76,14 @@ type Requirements struct {
 type FeatureStatus struct {
 	// Enabled specifies whether this feature is enabled or not.
 	// +optional
-	Enabled bool `json:"enabled,omitempty"`
+	Enabled *bool `json:"enabled,omitempty"`
 	// Managed specifies whether this feature is managed by AppsCode Inc. or not.
 	// +optional
-	Managed bool `json:"managed,omitempty"`
+	Managed *bool `json:"managed,omitempty"`
 	// Ready specifies whether this feature is ready to user or not. This field will be present only for the
 	// features that are managed by AppsCode Inc.
 	// +optional
-	Ready bool `json:"ready,omitempty"`
+	Ready *bool `json:"ready,omitempty"`
 	// Note specifies the respective reason if the feature does not meet the requirements or is not ready.
 	// +optional
 	Note string `json:"note,omitempty"`

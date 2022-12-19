@@ -67,7 +67,7 @@ type FeatureSetSpec struct {
 type FeatureSetStatus struct {
 	// Enabled specifies whether this feature set is enabled or not.
 	// +optional
-	Enabled bool `json:"enabled,omitempty"`
+	Enabled *bool `json:"enabled,omitempty"`
 	// Features specifies the status of the component features that belong to this feature set.
 	// +optional
 	Features []ComponentStatus `json:"features,omitempty"`
@@ -81,7 +81,7 @@ type ComponentStatus struct {
 	Name string `json:"name"`
 	// Enabled specifies whether the component feature has been enabled or not.
 	// +optional
-	Enabled bool `json:"enabled,omitempty"`
+	Enabled *bool `json:"enabled,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
