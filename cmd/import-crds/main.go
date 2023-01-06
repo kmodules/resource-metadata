@@ -71,6 +71,10 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/kubernetes-csi/ex
 
 go run cmd/import-crds/main.go --input=$HOME/go/src/k8s.io/autoscaler/vertical-pod-autoscaler/deploy/vpa-v1-crd-gen.yaml
 go run cmd/import-crds/main.go --input=$HOME/go/src/k8s.io/autoscaler/vertical-pod-autoscaler/deploy/vpa-v1-crd.yaml
+
+# FluxCD CRDs
+helm template flux fluxcd-community/flux2 --output-dir=/tmp/fluxcd-manifests
+go run cmd/import-crds/main.go --input=/tmp/fluxcd-manifests
 */
 func main() {
 	var input []string
