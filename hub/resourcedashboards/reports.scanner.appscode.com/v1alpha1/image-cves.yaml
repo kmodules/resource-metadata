@@ -11,6 +11,9 @@ metadata:
 spec:
   dashboards:
   - title: ACE / Scanner / Image CVEs
+    vars:
+    - name: img
+      value: '{{ .request.ref.name }}'
   provider: Grafana
   resource:
     group: reports.scanner.appscode.com

@@ -13,13 +13,13 @@ spec:
   - title: ACE / Scanner / App CVEs
     vars:
     - name: group
-      value: '{{ .apiVersion | k8s_api_group }}'
+      value: '{{ .request.resource.group }}'
     - name: kind
-      value: '{{ .kind }}'
+      value: '{{ .request.resource.kind }}'
     - name: ns
-      value: '{{ .metadata.namespace }}'
+      value: '{{ .request.ref.namespace }}'
     - name: name
-      value: '{{ .metadata.name }}'
+      value: '{{ .request.ref.name }}'
   provider: Grafana
   resource:
     group: reports.scanner.appscode.com

@@ -13,7 +13,7 @@ spec:
   - title: ACE / Scanner / Namespace CVEs
     vars:
     - name: ns
-      value: '{{ .metadata.name }}'
+      value: '{{ .request.ref.name }}'
   provider: Grafana
   resource:
     group: reports.scanner.appscode.com
