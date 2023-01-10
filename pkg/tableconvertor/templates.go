@@ -37,12 +37,15 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/labels"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/util/duration"
 )
 
 var templateFns = sprig.TxtFuncMap()
 
 func init() {
+	templateFns["k8s_api_group"] = apiGroup
+	templateFns["k8s_api_version"] = apiVersion
 	templateFns["k8s_convert"] = convertFn
 	templateFns["k8s_fmt_selector"] = formatLabelSelectorFn
 	templateFns["k8s_fmt_label"] = formatLabelsFn
@@ -74,6 +77,22 @@ func TxtFuncMap() template.FuncMap {
 		gfm[k] = v
 	}
 	return gfm
+}
+
+func apiGroup(gv string) (string, error) {
+	out, err := schema.ParseGroupVersion(gv)
+	if err != nil {
+		return "", err
+	}
+	return out.Group, nil
+}
+
+func apiVersion(gv string) (string, error) {
+	out, err := schema.ParseGroupVersion(gv)
+	if err != nil {
+		return "", err
+	}
+	return out.Version, nil
 }
 
 func convertFn(data interface{}) (map[string]interface{}, error) {

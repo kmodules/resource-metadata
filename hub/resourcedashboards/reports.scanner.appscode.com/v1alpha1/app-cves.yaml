@@ -1,0 +1,29 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceDashboard
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: reports.scanner.appscode.com
+    k8s.io/kind: CVEReport
+    k8s.io/resource: cvereports
+    k8s.io/version: v1alpha1
+  name: reports.scanner.appscode.com-v1alpha1-app-cves
+spec:
+  dashboards:
+  - title: ACE / Scanner / App CVEs
+    vars:
+    - name: group
+      value: '{{ .apiVersion | k8s_api_group }}'
+    - name: kind
+      value: '{{ .kind }}'
+    - name: ns
+      value: '{{ .metadata.namespace }}'
+    - name: name
+      value: '{{ .metadata.name }}'
+  provider: Grafana
+  resource:
+    group: reports.scanner.appscode.com
+    kind: CVEReport
+    name: cvereports
+    scope: Cluster
+    version: v1alpha1
