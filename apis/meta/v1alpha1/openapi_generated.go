@@ -16119,6 +16119,12 @@ func schema_resource_metadata_apis_meta_v1alpha1_RenderDashboardRequest(ref comm
 							Format: "",
 						},
 					},
+					"embeddedLink": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"boolean"},
+							Format: "",
+						},
+					},
 				},
 			},
 		},

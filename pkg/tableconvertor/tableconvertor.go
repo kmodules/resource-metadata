@@ -29,6 +29,7 @@ import (
 	meta_util "kmodules.xyz/client-go/meta"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"kmodules.xyz/resource-metadata/apis/shared"
+	uiapi "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor/lib"
 
 	"github.com/pkg/errors"
@@ -155,7 +156,18 @@ func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition, fnDashboar
 				c.Dashboard.Status = v1alpha1.RenderError
 				c.Dashboard.Message = err.Error()
 			} else {
-				c.Dashboard.Dashboard = &obj.Spec.Dashboards[0]
+				c.Dashboard.Dashboard = func(in *uiapi.Dashboard) *shared.Dashboard {
+					out := shared.Dashboard{
+						Title:  in.Title,
+						Vars:   in.Vars,
+						Panels: make([]string, 0, len(in.Panels)),
+						If:     in.If,
+					}
+					for _, p := range in.Panels {
+						out.Panels = append(out.Panels, p.Title)
+					}
+					return &out
+				}(&obj.Spec.Dashboards[0])
 				c.Dashboard.URL = url
 				c.Dashboard.Status = v1alpha1.RenderSuccess
 			}
