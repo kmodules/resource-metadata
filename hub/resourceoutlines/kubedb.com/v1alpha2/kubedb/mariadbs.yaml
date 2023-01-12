@@ -112,13 +112,14 @@ spec:
       query:
         raw: |
           request:
-            resource:
-              group: kubedb.com
-              name: mariadbs
-              version: v1alpha2
-            ref:
-              name: {{ .name }}
-              namespace: {{ .namespace }}
+            sourceLocator:
+              resource:
+                group: kubedb.com
+                name: mariadbs
+                version: v1alpha2
+              ref:
+                name: {{ .name }}
+                namespace: {{ .namespace }}
             name: kubedb.com-v1alpha2-mariadbs
         type: REST
       ref:

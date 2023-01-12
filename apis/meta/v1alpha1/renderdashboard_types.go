@@ -20,6 +20,7 @@ import (
 	kmapi "kmodules.xyz/client-go/api/v1"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
 )
 
 const (
@@ -43,10 +44,23 @@ type RenderDashboard struct {
 }
 
 type RenderDashboardRequest struct {
-	Resource kmapi.ResourceID      `json:"resource"`
-	Ref      kmapi.ObjectReference `json:"ref"`
+	// Source provides the source object as-is
+	// +optional
+	// +kubebuilder:pruning:PreserveUnknownFields
+	Source *runtime.RawExtension `json:"source,omitempty"`
+
+	// +optional
+	SourceLocator *SourceLocator `json:"sourceLocator,omitempty"`
+
 	// +optional
 	Name string `json:"name,omitempty"`
+}
+
+type SourceLocator struct {
+	// +optional
+	Resource kmapi.ResourceID `json:"resource"`
+	// +optional
+	Ref kmapi.ObjectReference `json:"ref"`
 }
 
 type RenderDashboardResponse struct {
