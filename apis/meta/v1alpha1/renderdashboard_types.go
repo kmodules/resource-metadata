@@ -54,6 +54,9 @@ type RenderDashboardRequest struct {
 
 	// +optional
 	Name string `json:"name,omitempty"`
+
+	// +optional
+	EmbeddedLink bool `json:"embeddedLink,omitempty"`
 }
 
 type SourceLocator struct {
