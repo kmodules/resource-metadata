@@ -14,17 +14,17 @@ spec:
       condition: '{{- if keys .request }}false{{ else }}true{{ end -}}'
     panels:
     - title: Cluster CVE Occurance Total
-      width: 6
+      width: 4
     - title: Cluster CVE Count Total
-      width: 6
+      width: 4
     title: ACE / Scanner / Cluster CVEs
   - if:
       condition: '{{- if eq (dig "request" "resource" "kind" "-" .) "Namespace" }}true{{ else }}false{{ end -}}'
     panels:
     - title: Namespace CVE Occurance Total
-      width: 6
+      width: 4
     - title: Namespace CVE Count Total
-      width: 6
+      width: 4
     title: ACE / Scanner / Namespace CVEs
     vars:
     - name: ns
@@ -33,9 +33,9 @@ spec:
       condition: '{{- if eq (dig "request" "resource" "kind" "-" .) "CVE" }}true{{ else }}false{{ end -}}'
     panels:
     - title: CVE occurrence in cluster
-      width: 6
+      width: 4
     - title: CVE occurrence in Namespace
-      width: 6
+      width: 4
     title: ACE / Scanner / CVE Report
     vars:
     - name: cve
@@ -44,9 +44,9 @@ spec:
       condition: '{{- if eq (dig "request" "resource" "kind" "-" .) "Image" }}true{{ else }}false{{ end -}}'
     panels:
     - title: Image CVE Occurance Total
-      width: 6
+      width: 4
     - title: Image CVE Count Total
-      width: 6
+      width: 4
     title: ACE / Scanner / Image CVEs
     vars:
     - name: img
@@ -55,9 +55,9 @@ spec:
       condition: '{{- if and (keys .request) (not (has (printf "%s/%s" (dig "request" "resource" "group" "-" .) (dig "request" "resource" "kind" "-" .)) (list "/Namespace" "reports.scanner.appscode.com/CVE" "reports.scanner.appscode.com/Image"))) }}true{{ else }}false{{ end -}}'
     panels:
     - title: App CVE Occurance Total
-      width: 6
+      width: 4
     - title: App CVE Count Total
-      width: 6
+      width: 4
     title: ACE / Scanner / App CVEs
     vars:
     - name: group
