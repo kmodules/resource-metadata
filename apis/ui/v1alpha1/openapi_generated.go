@@ -315,6 +315,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/shared.UIParameters":               schema_kmodulesxyz_resource_metadata_apis_shared_UIParameters(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ActionTemplate":        schema_resource_metadata_apis_ui_v1alpha1_ActionTemplate(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ActionTemplateGroup":   schema_resource_metadata_apis_ui_v1alpha1_ActionTemplateGroup(ref),
+		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ChartInfo":             schema_resource_metadata_apis_ui_v1alpha1_ChartInfo(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ComponentStatus":       schema_resource_metadata_apis_ui_v1alpha1_ComponentStatus(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Dashboard":             schema_resource_metadata_apis_ui_v1alpha1_Dashboard(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Feature":               schema_resource_metadata_apis_ui_v1alpha1_Feature(ref),
@@ -15348,6 +15349,50 @@ func schema_resource_metadata_apis_ui_v1alpha1_ActionTemplateGroup(ref common.Re
 	}
 }
 
+func schema_resource_metadata_apis_ui_v1alpha1_ChartInfo(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Name specifies the name of the chart",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"namespace": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Namespace where the respective feature resources will be deployed.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"version": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Version specifies the version of the chart.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"sourceRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "SourceRef specifies the source of the chart",
+							Default:     map[string]interface{}{},
+							Ref:         ref("kmodules.xyz/client-go/api/v1.TypedObjectReference"),
+						},
+					},
+				},
+				Required: []string{"name", "sourceRef"},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/client-go/api/v1.TypedObjectReference"},
+	}
+}
+
 func schema_resource_metadata_apis_ui_v1alpha1_ComponentStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -15787,12 +15832,19 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSpec(ref common.ReferenceC
 							Ref:         ref("kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Requirements"),
 						},
 					},
+					"chart": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Chart specifies the chart information that will be used by the FluxCD to install the respective feature",
+							Default:     map[string]interface{}{},
+							Ref:         ref("kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ChartInfo"),
+						},
+					},
 				},
 				Required: []string{"title", "description", "featureSet"},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/shared.ImageSpec", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Requirements"},
+			"kmodules.xyz/resource-metadata/apis/shared.ImageSpec", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ChartInfo", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Requirements"},
 	}
 }
 

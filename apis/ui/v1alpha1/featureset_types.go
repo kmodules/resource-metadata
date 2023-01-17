@@ -36,6 +36,7 @@ const (
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:path=featuresets,singular=featureset,scope=Cluster
 // +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="Required",type="boolean",JSONPath=".spec.required"
 // +kubebuilder:printcolumn:name="Enabled",type="boolean",JSONPath=".status.enabled"
 // +kubebuilder:printcolumn:name="Age",type="date",JSONPath=".metadata.creationTimestamp"
 type FeatureSet struct {

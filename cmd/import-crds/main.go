@@ -18,6 +18,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	goflag "flag"
 	"fmt"
 	"io"
@@ -29,6 +30,7 @@ import (
 	"strings"
 
 	kmapi "kmodules.xyz/client-go/api/v1"
+	"kmodules.xyz/client-go/tools/parser"
 	rsapi "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	uiapi "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
 
@@ -143,22 +145,7 @@ func processLocation(location string) error {
 		if err != nil {
 			return err
 		}
-		crd, err := CustomResourceDefinition(buf.Bytes())
-		if err != nil {
-			return err
-		}
-		err = WriteDescriptor(crd, filepath.Join("hub", rsapi.ResourceResourceDescriptors))
-		if err != nil {
-			return err
-		}
-		err = WriteEditor(crd, filepath.Join("hub", uiapi.ResourceResourceEditors))
-		if err != nil {
-			return err
-		}
-		err = WriteTableDefinition(crd, filepath.Join("hub", rsapi.ResourceResourceTableDefinitions))
-		if err != nil {
-			return err
-		}
+		return parser.ProcessResources(buf.Bytes(), processObject)
 	} else {
 		fi, err := os.Stat(location)
 		if err != nil {
@@ -182,23 +169,7 @@ func processLocation(location string) error {
 				if err != nil {
 					return err
 				}
-				crd, err := CustomResourceDefinition(data)
-				if err != nil {
-					return err
-				}
-				err = WriteDescriptor(crd, filepath.Join("hub", rsapi.ResourceResourceDescriptors))
-				if err != nil {
-					return err
-				}
-				err = WriteEditor(crd, filepath.Join("hub", uiapi.ResourceResourceEditors))
-				if err != nil {
-					return err
-				}
-				err = WriteTableDefinition(crd, filepath.Join("hub", rsapi.ResourceResourceTableDefinitions))
-				if err != nil {
-					return err
-				}
-				return nil
+				return parser.ProcessResources(data, processObject)
 			})
 			if err != nil {
 				return err
@@ -225,6 +196,30 @@ func processLocation(location string) error {
 				return err
 			}
 		}
+	}
+	return nil
+}
+
+func processObject(ri parser.ResourceInfo) error {
+	data, err := json.Marshal(ri.Object)
+	if err != nil {
+		return err
+	}
+	crd, err := CustomResourceDefinition(data)
+	if err != nil {
+		return err
+	}
+	err = WriteDescriptor(crd, filepath.Join("hub", rsapi.ResourceResourceDescriptors))
+	if err != nil {
+		return err
+	}
+	err = WriteEditor(crd, filepath.Join("hub", uiapi.ResourceResourceEditors))
+	if err != nil {
+		return err
+	}
+	err = WriteTableDefinition(crd, filepath.Join("hub", rsapi.ResourceResourceTableDefinitions))
+	if err != nil {
+		return err
 	}
 	return nil
 }
