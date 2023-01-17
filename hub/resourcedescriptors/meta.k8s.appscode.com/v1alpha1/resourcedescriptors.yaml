@@ -256,10 +256,6 @@ spec:
                   type: string
               required:
               - group
-              - kind
-              - name
-              - scope
-              - version
               type: object
             validation:
               description: validation describes the schema used for validation and pruning of the custom resource. If present, this validation schema is used to validate all versions. Top-level and per-version schemas are mutually exclusive.

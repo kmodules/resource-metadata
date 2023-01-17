@@ -15,6 +15,9 @@ spec:
   scope: Cluster
   versions:
   - additionalPrinterColumns:
+    - jsonPath: .spec.required
+      name: Required
+      type: boolean
     - jsonPath: .status.enabled
       name: Enabled
       type: boolean
