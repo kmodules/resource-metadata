@@ -199,6 +199,11 @@ spec:
     - src: https://cdn.appscode.com/k8s/icons/menu/security.png
       type: image/png
     items:
+    - name: Overview
+      required: true
+      type:
+        group: reports.scanner.appscode.com
+        kind: CVEReport
     - name: Policy
       required: true
       type:
