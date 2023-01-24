@@ -11,17 +11,18 @@ metadata:
 spec:
   defaultLayout: false
   pages:
-  - blocks:
-    - kind: Block
-      name: stash.appscode.com-v1alpha1-repositories-kubedb
-    info:
-      actions:
-        create: Never
-      displayMode: Field
-      kind: Self
-      view:
+  - name: Overview
+    tabs:
+    - blocks:
+      - kind: Block
         name: stash.appscode.com-v1alpha1-repositories-kubedb
-    name: Overview
+      info:
+        actions:
+          create: Never
+        displayMode: Field
+        kind: Self
+        view:
+          name: stash.appscode.com-v1alpha1-repositories-kubedb
   resource:
     group: stash.appscode.com
     kind: Repository

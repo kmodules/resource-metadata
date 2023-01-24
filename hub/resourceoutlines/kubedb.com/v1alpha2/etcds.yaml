@@ -11,22 +11,26 @@ metadata:
 spec:
   defaultLayout: true
   pages:
-  - blocks:
-    - kind: Block
-      name: kubedb.com-v1alpha2-etcds
-    name: Basic
-  - blocks:
-    - kind: Block
-      name: kubedb.com-v1alpha2-backups
-    name: Backups
-  - blocks:
-    - kind: Block
-      name: kubedb.com-v1alpha2-security
-    name: Security
-  - blocks:
-    - kind: Block
-      name: kubedb.com-v1alpha2-monitoring
-    name: Monitoring
+  - name: Basic
+    tabs:
+    - blocks:
+      - kind: Block
+        name: kubedb.com-v1alpha2-etcds
+  - name: Backups
+    tabs:
+    - blocks:
+      - kind: Block
+        name: kubedb.com-v1alpha2-backups
+  - name: Security
+    tabs:
+    - blocks:
+      - kind: Block
+        name: kubedb.com-v1alpha2-security
+  - name: Monitoring
+    tabs:
+    - blocks:
+      - kind: Block
+        name: kubedb.com-v1alpha2-monitoring
   resource:
     group: kubedb.com
     kind: Etcd

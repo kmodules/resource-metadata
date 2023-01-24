@@ -277,60 +277,65 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 		pages = append([]v1alpha1.ResourcePageOutline{
 			{
 				Name: BasicPage,
-				//Info: &v1alpha1.PageBlockOutline{
-				//	Kind:        v1alpha1.TableKindSelf,
-				//	DisplayMode: v1alpha1.DisplayModeField,
-				//},
-				// Insight *PageBlockOutline  `json:"insight,omitempty"`
-				// Blocks  []PageBlockOutline `json:"blocks" json:"blocks,omitempty"`
+				Tabs: nil,
 			},
 		}, outline.Spec.Pages...)
 	}
-	if pages[0].Name == BasicPage && pages[0].Info == nil {
-		pages[0].Info = &v1alpha1.PageBlockOutline{
-			Kind:        v1alpha1.TableKindSelf,
-			DisplayMode: v1alpha1.DisplayModeField,
+	if pages[0].Name == BasicPage && len(pages[0].Tabs) == 0 {
+		pages[0].Tabs = []v1alpha1.TabOutline{
+			{
+				Info: &v1alpha1.PageBlockOutline{
+					Kind:        v1alpha1.TableKindSelf,
+					DisplayMode: v1alpha1.DisplayModeField,
+				},
+			},
 		}
 	}
 
 	for _, pageOutline := range pages {
 		page := v1alpha1.ResourcePageLayout{
-			Name:    pageOutline.Name,
-			Info:    nil,
-			Insight: nil,
-			Blocks:  nil,
+			Name: pageOutline.Name,
+			Tabs: make([]v1alpha1.TabLayout, 0, len(pageOutline.Tabs)),
 		}
-		if pageOutline.Info != nil {
-			tables, err := FlattenPageBlockOutline(kc, src, *pageOutline.Info, v1alpha1.Field)
-			if err != nil {
-				return nil, err
-			}
-			if len(tables) != 1 {
-				return nil, fmt.Errorf("ResourceOutline %s page %s uses multiple basic blocks", outline.Name, page.Name)
-			}
-			page.Info = &tables[0]
-		}
-		if pageOutline.Insight != nil {
-			tables, err := FlattenPageBlockOutline(kc, src, *pageOutline.Insight, v1alpha1.Field)
-			if err != nil {
-				return nil, err
-			}
-			if len(tables) != 1 {
-				return nil, fmt.Errorf("ResourceOutline %s page %s uses multiple insight blocks", outline.Name, page.Name)
-			}
-			page.Insight = &tables[0]
-		}
+		for _, tabOutline := range pageOutline.Tabs {
 
-		var tables []v1alpha1.PageBlockLayout
-		for _, block := range pageOutline.Blocks {
-			blocks, err := FlattenPageBlockOutline(kc, src, block, v1alpha1.List)
-			if err != nil {
-				return nil, err
+			tab := v1alpha1.TabLayout{
+				Name:    tabOutline.Name,
+				Icons:   tabOutline.Icons,
+				Info:    nil,
+				Insight: nil,
 			}
-			tables = append(tables, blocks...)
-		}
-		page.Blocks = tables
+			if tabOutline.Info != nil {
+				tables, err := FlattenPageBlockOutline(kc, src, *tabOutline.Info, v1alpha1.Field)
+				if err != nil {
+					return nil, err
+				}
+				if len(tables) != 1 {
+					return nil, fmt.Errorf("ResourceOutline %s page %s uses multiple basic blocks", outline.Name, tab.Name)
+				}
+				tab.Info = &tables[0]
+			}
+			if tabOutline.Insight != nil {
+				tables, err := FlattenPageBlockOutline(kc, src, *tabOutline.Insight, v1alpha1.Field)
+				if err != nil {
+					return nil, err
+				}
+				if len(tables) != 1 {
+					return nil, fmt.Errorf("ResourceOutline %s page %s uses multiple insight blocks", outline.Name, tab.Name)
+				}
+				tab.Insight = &tables[0]
+			}
 
+			var tables []v1alpha1.PageBlockLayout
+			for _, block := range tabOutline.Blocks {
+				blocks, err := FlattenPageBlockOutline(kc, src, block, v1alpha1.List)
+				if err != nil {
+					return nil, err
+				}
+				tables = append(tables, blocks...)
+			}
+			tab.Blocks = tables
+		}
 		result.Spec.Pages = append(result.Spec.Pages, page)
 	}
 
@@ -345,6 +350,7 @@ func FlattenPageBlockOutline(
 ) ([]v1alpha1.PageBlockLayout, error) {
 	if in.Kind == v1alpha1.TableKindSubTable ||
 		in.Kind == v1alpha1.TableKindConnection ||
+		in.Kind == v1alpha1.TableKindCustom ||
 		in.Kind == v1alpha1.TableKindSelf {
 		out, err := Convert_PageBlockOutline_To_PageBlockLayout(kc, src, in, priority)
 		if err != nil {
@@ -420,15 +426,20 @@ func Convert_PageBlockOutline_To_PageBlockLayout(
 		columns = tableconvertor.FilterColumnsWithDefaults(kc, src.GroupVersionResource(), columns, priority)
 	}
 
-	return v1alpha1.PageBlockLayout{
+	result := v1alpha1.PageBlockLayout{
 		Kind:            in.Kind,
 		Name:            in.Name,
+		Width:           in.Width,
+		Icons:           in.Icons,
 		FieldPath:       in.FieldPath,
 		ResourceLocator: in.ResourceLocator,
 		DisplayMode:     in.DisplayMode,
 		Actions:         in.Actions,
-		View: v1alpha1.PageBlockTableDefinition{
+	}
+	if len(columns) > 0 {
+		result.View = &v1alpha1.PageBlockTableDefinition{
 			Columns: columns,
-		},
-	}, nil
+		}
+	}
+	return result, nil
 }

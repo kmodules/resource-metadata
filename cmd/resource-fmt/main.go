@@ -35,7 +35,16 @@ import (
 	"sigs.k8s.io/yaml"
 )
 
+func handlePanic(filename string) {
+	a := recover()
+	if a != nil {
+		fmt.Println("RECOVER", filename, a)
+	}
+}
+
 func check(typ reflect.Type, filename string, fix bool) (string, error) {
+	defer handlePanic(filename)
+
 	data, err := os.ReadFile(filename)
 	if err != nil {
 		return "", err
