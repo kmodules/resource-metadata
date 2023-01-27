@@ -79,11 +79,11 @@ type Requirements struct {
 	Resources []metav1.GroupVersionKind `json:"resources,omitempty"`
 	// Workloads specifies the workloads that should exist to consider this feature as enabled.
 	// +optional
-	Workloads []metav1.GroupVersionKind `json:"workloads,omitempty"`
+	Workloads []WorkloadInfo `json:"workloads,omitempty"`
 }
 
 type WorkloadInfo struct {
-	metav1.GroupVersionKind
+	metav1.GroupVersionKind `json:",inline"`
 	// Selector specifies label selector that should be used to select this workload
 	Selector map[string]string `json:"selector"`
 }

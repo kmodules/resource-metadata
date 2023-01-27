@@ -15958,7 +15958,7 @@ func schema_resource_metadata_apis_ui_v1alpha1_Requirements(ref common.Reference
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Default: map[string]interface{}{},
-										Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionKind"),
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/ui/v1alpha1.WorkloadInfo"),
 									},
 								},
 							},
@@ -15968,7 +15968,7 @@ func schema_resource_metadata_apis_ui_v1alpha1_Requirements(ref common.Reference
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionKind"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionKind", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.WorkloadInfo"},
 	}
 }
 
@@ -16354,10 +16354,25 @@ func schema_resource_metadata_apis_ui_v1alpha1_WorkloadInfo(ref common.Reference
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
-					"GroupVersionKind": {
+					"group": {
 						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionKind"),
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"version": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
 						},
 					},
 					"selector": {
@@ -16377,10 +16392,8 @@ func schema_resource_metadata_apis_ui_v1alpha1_WorkloadInfo(ref common.Reference
 						},
 					},
 				},
-				Required: []string{"GroupVersionKind", "selector"},
+				Required: []string{"group", "version", "kind", "selector"},
 			},
 		},
-		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionKind"},
 	}
 }

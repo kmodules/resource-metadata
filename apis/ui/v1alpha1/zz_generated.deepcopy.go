@@ -410,8 +410,10 @@ func (in *Requirements) DeepCopyInto(out *Requirements) {
 	}
 	if in.Workloads != nil {
 		in, out := &in.Workloads, &out.Workloads
-		*out = make([]v1.GroupVersionKind, len(*in))
-		copy(*out, *in)
+		*out = make([]WorkloadInfo, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	return
 }
