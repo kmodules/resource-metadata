@@ -281,7 +281,9 @@ func WriteDescriptor(crd *crdv1.CustomResourceDefinition, dir string) error {
 						Kind:    kind,
 						Scope:   kmapi.ResourceScope(crd.Spec.Scope),
 					},
-					Validation: v.Schema,
+					Validation:               v.Schema,
+					AdditionalPrinterColumns: v.AdditionalPrinterColumns,
+					Subresources:             v.Subresources,
 				},
 			}
 		} else {

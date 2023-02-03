@@ -57,8 +57,16 @@ type ResourceDescriptorSpec struct {
 	// Top-level and per-version schemas are mutually exclusive.
 	// +optional
 	Validation *crdv1.CustomResourceValidation `json:"validation,omitempty"`
+	// subresources specify what subresources this version of the defined custom resource have.
+	// +optional
+	Subresources *crdv1.CustomResourceSubresources `json:"subresources,omitempty"`
+	// additionalPrinterColumns specifies additional columns returned in Table output.
+	// See https://kubernetes.io/docs/reference/using-api/api-concepts/#receiving-resources-as-tables for details.
+	// If no columns are specified, a single column displaying the age of the custom resource is used.
+	// +optional
+	AdditionalPrinterColumns []crdv1.CustomResourceColumnDefinition `json:"additionalPrinterColumns,omitempty"`
 
-	// Maintainers is an optional list of maintainers of the application. The maintainers in this list maintain the
+	// Maintainers is an optional list of maintainers of the application. The maintainers in this list maintain
 	// the source code, images, and package for the application.
 	Maintainers []ContactData `json:"maintainers,omitempty"`
 
