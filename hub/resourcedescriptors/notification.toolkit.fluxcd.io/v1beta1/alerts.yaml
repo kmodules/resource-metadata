@@ -9,24 +9,12 @@ metadata:
     k8s.io/version: v1beta1
   name: notification.toolkit.fluxcd.io-v1beta1-alerts
 spec:
-  additionalPrinterColumns:
-  - jsonPath: .metadata.creationTimestamp
-    name: Age
-    type: date
-  - jsonPath: .status.conditions[?(@.type=="Ready")].status
-    name: Ready
-    type: string
-  - jsonPath: .status.conditions[?(@.type=="Ready")].message
-    name: Status
-    type: string
   resource:
     group: notification.toolkit.fluxcd.io
     kind: Alert
     name: alerts
     scope: Namespaced
     version: v1beta1
-  subresources:
-    status: {}
   validation:
     openAPIV3Schema:
       description: Alert is the Schema for the alerts API

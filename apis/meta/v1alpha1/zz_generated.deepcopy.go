@@ -1389,16 +1389,6 @@ func (in *ResourceDescriptorSpec) DeepCopyInto(out *ResourceDescriptorSpec) {
 		*out = new(apiextensionsv1.CustomResourceValidation)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.Subresources != nil {
-		in, out := &in.Subresources, &out.Subresources
-		*out = new(apiextensionsv1.CustomResourceSubresources)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.AdditionalPrinterColumns != nil {
-		in, out := &in.AdditionalPrinterColumns, &out.AdditionalPrinterColumns
-		*out = make([]apiextensionsv1.CustomResourceColumnDefinition, len(*in))
-		copy(*out, *in)
-	}
 	if in.Maintainers != nil {
 		in, out := &in.Maintainers, &out.Maintainers
 		*out = make([]ContactData, len(*in))

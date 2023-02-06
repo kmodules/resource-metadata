@@ -9,27 +9,12 @@ metadata:
     k8s.io/version: v1beta2
   name: source.toolkit.fluxcd.io-v1beta2-ocirepositories
 spec:
-  additionalPrinterColumns:
-  - jsonPath: .spec.url
-    name: URL
-    type: string
-  - jsonPath: .status.conditions[?(@.type=="Ready")].status
-    name: Ready
-    type: string
-  - jsonPath: .status.conditions[?(@.type=="Ready")].message
-    name: Status
-    type: string
-  - jsonPath: .metadata.creationTimestamp
-    name: Age
-    type: date
   resource:
     group: source.toolkit.fluxcd.io
     kind: OCIRepository
     name: ocirepositories
     scope: Namespaced
     version: v1beta2
-  subresources:
-    status: {}
   validation:
     openAPIV3Schema:
       description: OCIRepository is the Schema for the ocirepositories API

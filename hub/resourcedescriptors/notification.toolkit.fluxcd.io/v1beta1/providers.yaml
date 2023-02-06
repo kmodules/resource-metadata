@@ -9,24 +9,12 @@ metadata:
     k8s.io/version: v1beta1
   name: notification.toolkit.fluxcd.io-v1beta1-providers
 spec:
-  additionalPrinterColumns:
-  - jsonPath: .metadata.creationTimestamp
-    name: Age
-    type: date
-  - jsonPath: .status.conditions[?(@.type=="Ready")].status
-    name: Ready
-    type: string
-  - jsonPath: .status.conditions[?(@.type=="Ready")].message
-    name: Status
-    type: string
   resource:
     group: notification.toolkit.fluxcd.io
     kind: Provider
     name: providers
     scope: Namespaced
     version: v1beta1
-  subresources:
-    status: {}
   validation:
     openAPIV3Schema:
       description: Provider is the Schema for the providers API

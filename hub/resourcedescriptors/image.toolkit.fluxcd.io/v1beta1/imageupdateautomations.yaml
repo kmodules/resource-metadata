@@ -9,18 +9,12 @@ metadata:
     k8s.io/version: v1beta1
   name: image.toolkit.fluxcd.io-v1beta1-imageupdateautomations
 spec:
-  additionalPrinterColumns:
-  - jsonPath: .status.lastAutomationRunTime
-    name: Last run
-    type: string
   resource:
     group: image.toolkit.fluxcd.io
     kind: ImageUpdateAutomation
     name: imageupdateautomations
     scope: Namespaced
     version: v1beta1
-  subresources:
-    status: {}
   validation:
     openAPIV3Schema:
       description: ImageUpdateAutomation is the Schema for the imageupdateautomations API

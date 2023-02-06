@@ -281,17 +281,13 @@ func WriteDescriptor(crd *crdv1.CustomResourceDefinition, dir string) error {
 						Kind:    kind,
 						Scope:   kmapi.ResourceScope(crd.Spec.Scope),
 					},
-					Validation:               v.Schema,
-					AdditionalPrinterColumns: v.AdditionalPrinterColumns,
-					Subresources:             v.Subresources,
+					Validation: v.Schema,
 				},
 			}
 		} else {
 			err = yaml.Unmarshal(existing, &rd)
 			if err == nil {
 				rd.Spec.Validation = v.Schema
-				rd.Spec.AdditionalPrinterColumns = v.AdditionalPrinterColumns
-				rd.Spec.Subresources = v.Subresources
 			}
 		}
 
