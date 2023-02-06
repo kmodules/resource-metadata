@@ -290,6 +290,8 @@ func WriteDescriptor(crd *crdv1.CustomResourceDefinition, dir string) error {
 			err = yaml.Unmarshal(existing, &rd)
 			if err == nil {
 				rd.Spec.Validation = v.Schema
+				rd.Spec.AdditionalPrinterColumns = v.AdditionalPrinterColumns
+				rd.Spec.Subresources = v.Subresources
 			}
 		}
 

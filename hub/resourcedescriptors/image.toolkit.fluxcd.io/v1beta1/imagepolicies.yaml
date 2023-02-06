@@ -9,12 +9,18 @@ metadata:
     k8s.io/version: v1beta1
   name: image.toolkit.fluxcd.io-v1beta1-imagepolicies
 spec:
+  additionalPrinterColumns:
+  - jsonPath: .status.latestImage
+    name: LatestImage
+    type: string
   resource:
     group: image.toolkit.fluxcd.io
     kind: ImagePolicy
     name: imagepolicies
     scope: Namespaced
     version: v1beta1
+  subresources:
+    status: {}
   validation:
     openAPIV3Schema:
       description: ImagePolicy is the Schema for the imagepolicies API

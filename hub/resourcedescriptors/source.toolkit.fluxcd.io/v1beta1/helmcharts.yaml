@@ -9,12 +9,36 @@ metadata:
     k8s.io/version: v1beta1
   name: source.toolkit.fluxcd.io-v1beta1-helmcharts
 spec:
+  additionalPrinterColumns:
+  - jsonPath: .spec.chart
+    name: Chart
+    type: string
+  - jsonPath: .spec.version
+    name: Version
+    type: string
+  - jsonPath: .spec.sourceRef.kind
+    name: Source Kind
+    type: string
+  - jsonPath: .spec.sourceRef.name
+    name: Source Name
+    type: string
+  - jsonPath: .status.conditions[?(@.type=="Ready")].status
+    name: Ready
+    type: string
+  - jsonPath: .status.conditions[?(@.type=="Ready")].message
+    name: Status
+    type: string
+  - jsonPath: .metadata.creationTimestamp
+    name: Age
+    type: date
   resource:
     group: source.toolkit.fluxcd.io
     kind: HelmChart
     name: helmcharts
     scope: Namespaced
     version: v1beta1
+  subresources:
+    status: {}
   validation:
     openAPIV3Schema:
       description: HelmChart is the Schema for the helmcharts API

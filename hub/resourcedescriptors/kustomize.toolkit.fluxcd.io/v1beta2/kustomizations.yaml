@@ -9,12 +9,24 @@ metadata:
     k8s.io/version: v1beta2
   name: kustomize.toolkit.fluxcd.io-v1beta2-kustomizations
 spec:
+  additionalPrinterColumns:
+  - jsonPath: .metadata.creationTimestamp
+    name: Age
+    type: date
+  - jsonPath: .status.conditions[?(@.type=="Ready")].status
+    name: Ready
+    type: string
+  - jsonPath: .status.conditions[?(@.type=="Ready")].message
+    name: Status
+    type: string
   resource:
     group: kustomize.toolkit.fluxcd.io
     kind: Kustomization
     name: kustomizations
     scope: Namespaced
     version: v1beta2
+  subresources:
+    status: {}
   validation:
     openAPIV3Schema:
       description: Kustomization is the Schema for the kustomizations API.

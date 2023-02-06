@@ -9,12 +9,27 @@ metadata:
     k8s.io/version: v1beta2
   name: source.toolkit.fluxcd.io-v1beta2-buckets
 spec:
+  additionalPrinterColumns:
+  - jsonPath: .spec.endpoint
+    name: Endpoint
+    type: string
+  - jsonPath: .metadata.creationTimestamp
+    name: Age
+    type: date
+  - jsonPath: .status.conditions[?(@.type=="Ready")].status
+    name: Ready
+    type: string
+  - jsonPath: .status.conditions[?(@.type=="Ready")].message
+    name: Status
+    type: string
   resource:
     group: source.toolkit.fluxcd.io
     kind: Bucket
     name: buckets
     scope: Namespaced
     version: v1beta2
+  subresources:
+    status: {}
   validation:
     openAPIV3Schema:
       description: Bucket is the Schema for the buckets API.

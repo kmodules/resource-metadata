@@ -9,12 +9,21 @@ metadata:
     k8s.io/version: v1beta1
   name: image.toolkit.fluxcd.io-v1beta1-imagerepositories
 spec:
+  additionalPrinterColumns:
+  - jsonPath: .status.lastScanResult.scanTime
+    name: Last scan
+    type: string
+  - jsonPath: .status.lastScanResult.tagCount
+    name: Tags
+    type: string
   resource:
     group: image.toolkit.fluxcd.io
     kind: ImageRepository
     name: imagerepositories
     scope: Namespaced
     version: v1beta1
+  subresources:
+    status: {}
   validation:
     openAPIV3Schema:
       description: ImageRepository is the Schema for the imagerepositories API
