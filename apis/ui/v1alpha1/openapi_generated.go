@@ -15415,6 +15415,13 @@ func schema_resource_metadata_apis_ui_v1alpha1_ComponentStatus(ref common.Refere
 							Format:      "",
 						},
 					},
+					"ready": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Ready specifies whether the component feature is ready or not.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
 				},
 				Required: []string{"name"},
 			},

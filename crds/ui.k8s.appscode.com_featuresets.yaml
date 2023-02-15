@@ -123,6 +123,10 @@ spec:
                     name:
                       description: Name specify the name of the component feature.
                       type: string
+                    ready:
+                      description: Ready specifies whether the component feature is
+                        ready or not.
+                      type: boolean
                   required:
                   - name
                   type: object

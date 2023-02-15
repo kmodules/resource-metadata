@@ -87,6 +87,9 @@ type ComponentStatus struct {
 	// Enabled specifies whether the component feature has been enabled or not.
 	// +optional
 	Enabled *bool `json:"enabled,omitempty"`
+	// Ready specifies whether the component feature is ready or not.
+	// +optional
+	Ready *bool `json:"ready,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
