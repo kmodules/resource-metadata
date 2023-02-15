@@ -305,6 +305,11 @@ func (in *FeatureSetStatus) DeepCopyInto(out *FeatureSetStatus) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.Ready != nil {
+		in, out := &in.Ready, &out.Ready
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Features != nil {
 		in, out := &in.Features, &out.Features
 		*out = make([]ComponentStatus, len(*in))

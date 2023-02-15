@@ -15704,7 +15704,7 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSetSpec(ref common.Referen
 					},
 					"requiredFeatures": {
 						SchemaProps: spec.SchemaProps{
-							Description: "RequiredFeatures specifies list of features that are necessary to consider this feature set as enabled.",
+							Description: "RequiredFeatures specifies list of features that are necessary to consider this feature set as ready.",
 							Type:        []string{"array"},
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
@@ -15742,6 +15742,13 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSetStatus(ref common.Refer
 					"enabled": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Enabled specifies whether this feature set is enabled or not.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
+					"ready": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Ready specifies whether this feature set is ready not.",
 							Type:        []string{"boolean"},
 							Format:      "",
 						},
