@@ -109,6 +109,11 @@ func (in *ComponentStatus) DeepCopyInto(out *ComponentStatus) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.Managed != nil {
+		in, out := &in.Managed, &out.Managed
+		*out = new(bool)
+		**out = **in
+	}
 	return
 }
 

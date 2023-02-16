@@ -90,6 +90,9 @@ type ComponentStatus struct {
 	// Ready specifies whether the component feature is ready or not.
 	// +optional
 	Ready *bool `json:"ready,omitempty"`
+	// Managed specifies whether the component is managed by platform or not.
+	// +optional
+	Managed *bool `json:"managed,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

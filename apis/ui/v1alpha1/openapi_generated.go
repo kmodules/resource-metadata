@@ -15422,6 +15422,13 @@ func schema_resource_metadata_apis_ui_v1alpha1_ComponentStatus(ref common.Refere
 							Format:      "",
 						},
 					},
+					"managed": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Managed specifies whether the component is managed by platform or not.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
 				},
 				Required: []string{"name"},
 			},

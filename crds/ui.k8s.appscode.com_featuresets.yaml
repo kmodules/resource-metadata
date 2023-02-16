@@ -120,6 +120,10 @@ spec:
                       description: Enabled specifies whether the component feature
                         has been enabled or not.
                       type: boolean
+                    managed:
+                      description: Managed specifies whether the component is managed
+                        by platform or not.
+                      type: boolean
                     name:
                       description: Name specify the name of the component feature.
                       type: string
