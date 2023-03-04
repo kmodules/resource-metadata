@@ -30,7 +30,7 @@ require (
 	kmodules.xyz/resource-metrics v0.25.0
 	kmodules.xyz/schema-checker v0.4.1
 	sigs.k8s.io/cli-utils v0.33.0
-	sigs.k8s.io/controller-runtime v0.13.0
+	sigs.k8s.io/controller-runtime v0.13.1
 	sigs.k8s.io/yaml v1.3.0
 )
 
