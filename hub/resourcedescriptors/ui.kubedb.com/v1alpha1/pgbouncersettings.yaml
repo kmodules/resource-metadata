@@ -3,17 +3,17 @@ kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
   labels:
-    k8s.io/group: catalog.kubedb.com
-    k8s.io/kind: PgBouncerVersion
-    k8s.io/resource: pgbouncerversions
+    k8s.io/group: ui.kubedb.com
+    k8s.io/kind: PgBouncerSettings
+    k8s.io/resource: pgbouncersettings
     k8s.io/version: v1alpha1
-  name: catalog.kubedb.com-v1alpha1-pgbouncerversions
+  name: ui.kubedb.com-v1alpha1-pgbouncersettings
 spec:
   resource:
-    group: catalog.kubedb.com
-    kind: PgBouncerVersion
-    name: pgbouncerversions
-    scope: Cluster
+    group: ui.kubedb.com
+    kind: PgBouncerSettings
+    name: pgbouncersettings
+    scope: Namespaced
     version: v1alpha1
   validation:
     openAPIV3Schema:
@@ -26,6 +26,9 @@ spec:
           properties:
             name:
               description: 'Name must be unique within a namespace. Is required when creating resources, although some resources may allow a client to request the generation of an appropriate name automatically. Name is primarily intended for creation idempotence and configuration definition. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
+              type: string
+            namespace:
+              description: "Namespace defines the space within which each name must be unique. An empty namespace is equivalent to the \"default\" namespace, but \"default\" is the canonical representation. Not all objects are required to be scoped to a namespace - the value of this field for those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/namespaces"
               type: string
             labels:
               additionalProperties:
@@ -40,46 +43,25 @@ spec:
           type: object
         spec:
           properties:
-            deprecated:
-              type: boolean
-            exporter:
-              properties:
-                image:
-                  type: string
-              required:
-              - image
-              type: object
-            pgBouncer:
-              properties:
-                image:
-                  type: string
-              required:
-              - image
-              type: object
-            securityContext:
-              properties:
-                runAsAnyNonRoot:
-                  type: boolean
-                runAsUser:
-                  format: int64
-                  type: integer
-              type: object
-            upgradeConstraints:
-              properties:
-                allowlist:
-                  items:
+            settings:
+              items:
+                properties:
+                  changeable:
+                    type: boolean
+                  currentValue:
                     type: string
-                  type: array
-                denylist:
-                  items:
+                  defaultValue:
                     type: string
-                  type: array
-              type: object
-            version:
-              type: string
+                  name:
+                    type: string
+                required:
+                - changeable
+                - currentValue
+                - defaultValue
+                - name
+                type: object
+              type: array
           required:
-          - exporter
-          - pgBouncer
-          - version
+          - settings
           type: object
       type: object

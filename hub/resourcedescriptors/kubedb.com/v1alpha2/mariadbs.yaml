@@ -3826,6 +3826,11 @@ spec:
               type: object
             version:
               type: string
+            wsrepSSTMethod:
+              enum:
+              - rsync
+              - mariabackup
+              type: string
           required:
           - version
           type: object
