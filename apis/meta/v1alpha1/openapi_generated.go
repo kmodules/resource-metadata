@@ -17037,7 +17037,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceDescriptorSpec(ref comm
 					},
 					"maintainers": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Maintainers is an optional list of maintainers of the application. The maintainers in this list maintain the the source code, images, and package for the application.",
+							Description: "Maintainers is an optional list of maintainers of the application. The maintainers in this list maintain the source code, images, and package for the application.",
 							Type:        []string{"array"},
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{

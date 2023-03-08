@@ -77,6 +77,15 @@ type Requirements struct {
 	// Resources specifies the resources that should be registered to consider this feature as enabled.
 	// +optional
 	Resources []metav1.GroupVersionKind `json:"resources,omitempty"`
+	// Workloads specifies the workloads that should exist to consider this feature as enabled.
+	// +optional
+	Workloads []WorkloadInfo `json:"workloads,omitempty"`
+}
+
+type WorkloadInfo struct {
+	metav1.GroupVersionKind `json:",inline"`
+	// Selector specifies label selector that should be used to select this workload
+	Selector map[string]string `json:"selector"`
 }
 
 type ChartInfo struct {

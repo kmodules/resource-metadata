@@ -145,6 +145,30 @@ spec:
                       - version
                       type: object
                     type: array
+                  workloads:
+                    description: Workloads specifies the workloads that should exist
+                      to consider this feature as enabled.
+                    items:
+                      properties:
+                        group:
+                          type: string
+                        kind:
+                          type: string
+                        selector:
+                          additionalProperties:
+                            type: string
+                          description: Selector specifies label selector that should
+                            be used to select this workload
+                          type: object
+                        version:
+                          type: string
+                      required:
+                      - group
+                      - kind
+                      - selector
+                      - version
+                      type: object
+                    type: array
                 type: object
               title:
                 description: Title specify the title of this feature.

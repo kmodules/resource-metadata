@@ -336,6 +336,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ResourceEditorSpec":    schema_resource_metadata_apis_ui_v1alpha1_ResourceEditorSpec(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.UIParameters":          schema_resource_metadata_apis_ui_v1alpha1_UIParameters(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.VariantRef":            schema_resource_metadata_apis_ui_v1alpha1_VariantRef(ref),
+		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.WorkloadInfo":          schema_resource_metadata_apis_ui_v1alpha1_WorkloadInfo(ref),
 	}
 }
 
@@ -15414,6 +15415,20 @@ func schema_resource_metadata_apis_ui_v1alpha1_ComponentStatus(ref common.Refere
 							Format:      "",
 						},
 					},
+					"ready": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Ready specifies whether the component feature is ready or not.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
+					"managed": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Managed specifies whether the component is managed by platform or not.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
 				},
 				Required: []string{"name"},
 			},
@@ -15703,7 +15718,7 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSetSpec(ref common.Referen
 					},
 					"requiredFeatures": {
 						SchemaProps: spec.SchemaProps{
-							Description: "RequiredFeatures specifies list of features that are necessary to consider this feature set as enabled.",
+							Description: "RequiredFeatures specifies list of features that are necessary to consider this feature set as ready.",
 							Type:        []string{"array"},
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
@@ -15741,6 +15756,13 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSetStatus(ref common.Refer
 					"enabled": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Enabled specifies whether this feature set is enabled or not.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
+					"ready": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Ready specifies whether this feature set is ready not.",
 							Type:        []string{"boolean"},
 							Format:      "",
 						},
@@ -15949,11 +15971,25 @@ func schema_resource_metadata_apis_ui_v1alpha1_Requirements(ref common.Reference
 							},
 						},
 					},
+					"workloads": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Workloads specifies the workloads that should exist to consider this feature as enabled.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/ui/v1alpha1.WorkloadInfo"),
+									},
+								},
+							},
+						},
+					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionKind"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionKind", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.WorkloadInfo"},
 	}
 }
 
@@ -16330,5 +16366,55 @@ func schema_resource_metadata_apis_ui_v1alpha1_VariantRef(ref common.ReferenceCa
 		},
 		Dependencies: []string{
 			"kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
+	}
+}
+
+func schema_resource_metadata_apis_ui_v1alpha1_WorkloadInfo(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"group": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"version": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"selector": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Selector specifies label selector that should be used to select this workload",
+							Type:        []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"group", "version", "kind", "selector"},
+			},
+		},
 	}
 }

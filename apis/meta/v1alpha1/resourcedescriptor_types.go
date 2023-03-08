@@ -58,7 +58,7 @@ type ResourceDescriptorSpec struct {
 	// +optional
 	Validation *crdv1.CustomResourceValidation `json:"validation,omitempty"`
 
-	// Maintainers is an optional list of maintainers of the application. The maintainers in this list maintain the
+	// Maintainers is an optional list of maintainers of the application. The maintainers in this list maintain
 	// the source code, images, and package for the application.
 	Maintainers []ContactData `json:"maintainers,omitempty"`
 
