@@ -77,6 +77,13 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/k8s.io/autoscaler/vertical-p
 # FluxCD CRDs
 helm template flux fluxcd-community/flux2 --output-dir=/tmp/fluxcd-manifests
 go run cmd/import-crds/main.go --input=/tmp/fluxcd-manifests
+
+# External DNS
+go run cmd/import-crds/main.go --input=$HOME/go/src/kubeops.dev/external-dns-operator/crds
+
+# CAPI / Managed DB
+go run cmd/import-crds/main.go --input=$HOME/go/src/sigs.k8s.io/cluster-api/config/crd/bases
+go run cmd/import-crds/main.go --input=$HOME/go/src/sigs.k8s.io/cluster-api-provider-aws/config/crd/bases
 */
 func main() {
 	var input []string

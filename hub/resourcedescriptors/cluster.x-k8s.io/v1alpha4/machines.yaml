@@ -1,4 +1,4 @@
-apiVersion: meta.k8s.appscode.com/v1alpha3
+apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
@@ -6,15 +6,15 @@ metadata:
     k8s.io/group: cluster.x-k8s.io
     k8s.io/kind: Machine
     k8s.io/resource: machines
-    k8s.io/version: v1alpha3
-  name: cluster.x-k8s.io-v1alpha3-machines
+    k8s.io/version: v1alpha4
+  name: cluster.x-k8s.io-v1alpha4-machines
 spec:
   resource:
     group: cluster.x-k8s.io
     kind: Machine
     name: machines
     scope: Namespaced
-    version: v1alpha3
+    version: v1alpha4
   validation:
     openAPIV3Schema:
       description: "Machine is the Schema for the machines API. \n Deprecated: This type will be removed in one of the next releases."
@@ -51,7 +51,7 @@ spec:
               description: Bootstrap is a reference to a local struct which encapsulates fields to configure the Machine’s bootstrapping mechanism.
               properties:
                 configRef:
-                  description: ConfigRef is a reference to a bootstrap provider-specific resource that holds configuration details. The reference is optional to allow users/operators to specify Bootstrap.Data without the need of a controller.
+                  description: ConfigRef is a reference to a bootstrap provider-specific resource that holds configuration details. The reference is optional to allow users/operators to specify Bootstrap.DataSecretName without the need of a controller.
                   properties:
                     apiVersion:
                       description: API version of the referent.
@@ -76,9 +76,6 @@ spec:
                       type: string
                   type: object
                   x-kubernetes-map-type: atomic
-                data:
-                  description: "Data contains the bootstrap data, such as cloud-init details scripts. If nil, the Machine should remain in the Pending state. \n Deprecated: Switch to DataSecretName."
-                  type: string
                 dataSecretName:
                   description: DataSecretName is the name of the secret that stores the bootstrap data script. If nil, the Machine should remain in the Pending state.
                   type: string
