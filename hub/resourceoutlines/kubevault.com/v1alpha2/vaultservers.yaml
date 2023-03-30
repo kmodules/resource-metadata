@@ -12,12 +12,12 @@ spec:
   defaultLayout: true
   pages:
   - name: Security
-    tabs:
+    sections:
     - blocks:
       - kind: Block
         name: kubedb.com-v1alpha2-security
   - name: Monitoring
-    tabs:
+    sections:
     - blocks:
       - kind: Block
         name: kubedb.com-v1alpha2-monitoring

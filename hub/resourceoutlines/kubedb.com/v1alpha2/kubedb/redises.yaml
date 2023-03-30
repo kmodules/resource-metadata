@@ -25,7 +25,7 @@ spec:
       name: core.k8s.appscode.com-v1alpha1-genericresources-kubedb
   pages:
   - name: Overview
-    tabs:
+    sections:
     - blocks:
       - actions:
           create: Never
@@ -104,7 +104,7 @@ spec:
           group: ui.kubedb.com
           kind: RedisInsight
   - name: Database Insights
-    tabs:
+    sections:
     - blocks:
       - actions:
           create: Never
@@ -170,7 +170,7 @@ spec:
           group: ui.kubedb.com
           kind: RedisInsight
   - name: Backups
-    tabs:
+    sections:
     - blocks:
       - actions:
           create: Never
@@ -230,7 +230,7 @@ spec:
           group: ui.stash.appscode.com
           kind: BackupOverview
   - name: Operations
-    tabs:
+    sections:
     - blocks:
       - actions:
           create: Never

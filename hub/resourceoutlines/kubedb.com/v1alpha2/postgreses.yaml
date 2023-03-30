@@ -12,22 +12,22 @@ spec:
   defaultLayout: true
   pages:
   - name: Basic
-    tabs:
+    sections:
     - blocks:
       - kind: Block
         name: kubedb.com-v1alpha2-postgreses
   - name: Backups
-    tabs:
+    sections:
     - blocks:
       - kind: Block
         name: kubedb.com-v1alpha2-backups
   - name: Security
-    tabs:
+    sections:
     - blocks:
       - kind: Block
         name: kubedb.com-v1alpha2-security
   - name: Operations
-    tabs:
+    sections:
     - blocks:
       - actions:
           create: Always
@@ -54,7 +54,7 @@ spec:
         view:
           name: supervisor.appscode.com-v1alpha1-recommendations
   - name: Monitoring
-    tabs:
+    sections:
     - blocks:
       - kind: Block
         name: kubedb.com-v1alpha2-monitoring

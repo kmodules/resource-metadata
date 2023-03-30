@@ -54,11 +54,11 @@ type ResourceLayoutSpec struct {
 }
 
 type ResourcePageLayout struct {
-	Name string      `json:"name"`
-	Tabs []TabLayout `json:"tabs,omitempty"`
+	Name     string          `json:"name"`
+	Sections []SectionLayout `json:"sections,omitempty"`
 }
 
-type TabLayout struct {
+type SectionLayout struct {
 	Name    string             `json:"name,omitempty"`
 	Icons   []shared.ImageSpec `json:"icons,omitempty"`
 	Info    *PageBlockLayout   `json:"info,omitempty"`

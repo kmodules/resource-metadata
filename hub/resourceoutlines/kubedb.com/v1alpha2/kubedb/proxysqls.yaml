@@ -25,7 +25,7 @@ spec:
       name: core.k8s.appscode.com-v1alpha1-genericresources-kubedb
   pages:
   - name: Overview
-    tabs:
+    sections:
     - blocks:
       - actions:
           create: Never
@@ -89,7 +89,7 @@ spec:
         view:
           name: kubedb.com-v1alpha2-proxysqls-kubedb
   - name: Insights
-    tabs:
+    sections:
     - blocks:
       - actions:
           create: Never
@@ -116,7 +116,7 @@ spec:
         view:
           name: ui.k8s.appscode.com-v1alpha1-resourcedashboards-urls
   - name: Operations
-    tabs:
+    sections:
     - blocks:
       - actions:
           create: Never

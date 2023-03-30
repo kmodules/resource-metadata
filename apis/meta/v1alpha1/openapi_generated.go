@@ -365,18 +365,18 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourcePageView":            schema_resource_metadata_apis_meta_v1alpha1_ResourcePageView(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceQuery":               schema_resource_metadata_apis_meta_v1alpha1_ResourceQuery(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceQueryRequest":        schema_resource_metadata_apis_meta_v1alpha1_ResourceQueryRequest(ref),
-		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceTabView":             schema_resource_metadata_apis_meta_v1alpha1_ResourceTabView(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceSectionView":         schema_resource_metadata_apis_meta_v1alpha1_ResourceSectionView(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceTableDefinition":     schema_resource_metadata_apis_meta_v1alpha1_ResourceTableDefinition(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceTableDefinitionList": schema_resource_metadata_apis_meta_v1alpha1_ResourceTableDefinitionList(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceTableDefinitionRef":  schema_resource_metadata_apis_meta_v1alpha1_ResourceTableDefinitionRef(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceTableDefinitionSpec": schema_resource_metadata_apis_meta_v1alpha1_ResourceTableDefinitionSpec(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceView":                schema_resource_metadata_apis_meta_v1alpha1_ResourceView(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.SectionLayout":               schema_resource_metadata_apis_meta_v1alpha1_SectionLayout(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.SectionOutline":              schema_resource_metadata_apis_meta_v1alpha1_SectionOutline(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.SortDefinition":              schema_resource_metadata_apis_meta_v1alpha1_SortDefinition(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.SortHeader":                  schema_resource_metadata_apis_meta_v1alpha1_SortHeader(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.SourceInfo":                  schema_resource_metadata_apis_meta_v1alpha1_SourceInfo(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.SourceLocator":               schema_resource_metadata_apis_meta_v1alpha1_SourceLocator(ref),
-		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TabLayout":                   schema_resource_metadata_apis_meta_v1alpha1_TabLayout(ref),
-		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TabOutline":                  schema_resource_metadata_apis_meta_v1alpha1_TabOutline(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.Table":                       schema_resource_metadata_apis_meta_v1alpha1_Table(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TableCell":                   schema_resource_metadata_apis_meta_v1alpha1_TableCell(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TableOptions":                schema_resource_metadata_apis_meta_v1alpha1_TableOptions(ref),
@@ -17592,14 +17592,14 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourcePageLayout(ref common.R
 							Format:  "",
 						},
 					},
-					"tabs": {
+					"sections": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TabLayout"),
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.SectionLayout"),
 									},
 								},
 							},
@@ -17610,7 +17610,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourcePageLayout(ref common.R
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TabLayout"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.SectionLayout"},
 	}
 }
 
@@ -17627,14 +17627,14 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourcePageOutline(ref common.
 							Format:  "",
 						},
 					},
-					"tabs": {
+					"sections": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TabOutline"),
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.SectionOutline"),
 									},
 								},
 							},
@@ -17645,7 +17645,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourcePageOutline(ref common.
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.TabOutline"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.SectionOutline"},
 	}
 }
 
@@ -17662,14 +17662,14 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourcePageView(ref common.Ref
 							Format:  "",
 						},
 					},
-					"tabs": {
+					"sections": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceTabView"),
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceSectionView"),
 									},
 								},
 							},
@@ -17680,7 +17680,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourcePageView(ref common.Ref
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceTabView"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceSectionView"},
 	}
 }
 
@@ -17757,7 +17757,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceQueryRequest(ref common
 	}
 }
 
-func schema_resource_metadata_apis_meta_v1alpha1_ResourceTabView(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_resource_metadata_apis_meta_v1alpha1_ResourceSectionView(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
@@ -18018,6 +18018,118 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceView(ref common.Referen
 	}
 }
 
+func schema_resource_metadata_apis_meta_v1alpha1_SectionLayout(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"icons": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ImageSpec"),
+									},
+								},
+							},
+						},
+					},
+					"info": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockLayout"),
+						},
+					},
+					"insight": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockLayout"),
+						},
+					},
+					"blocks": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockLayout"),
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockLayout", "kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
+	}
+}
+
+func schema_resource_metadata_apis_meta_v1alpha1_SectionOutline(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"icons": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ImageSpec"),
+									},
+								},
+							},
+						},
+					},
+					"info": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockOutline"),
+						},
+					},
+					"insight": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockOutline"),
+						},
+					},
+					"blocks": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockOutline"),
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockOutline", "kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
+	}
+}
+
 func schema_resource_metadata_apis_meta_v1alpha1_SortDefinition(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -18150,118 +18262,6 @@ func schema_resource_metadata_apis_meta_v1alpha1_SourceLocator(ref common.Refere
 		},
 		Dependencies: []string{
 			"kmodules.xyz/client-go/api/v1.ObjectReference", "kmodules.xyz/client-go/api/v1.ResourceID"},
-	}
-}
-
-func schema_resource_metadata_apis_meta_v1alpha1_TabLayout(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Type: []string{"object"},
-				Properties: map[string]spec.Schema{
-					"name": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
-					"icons": {
-						SchemaProps: spec.SchemaProps{
-							Type: []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ImageSpec"),
-									},
-								},
-							},
-						},
-					},
-					"info": {
-						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockLayout"),
-						},
-					},
-					"insight": {
-						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockLayout"),
-						},
-					},
-					"blocks": {
-						SchemaProps: spec.SchemaProps{
-							Type: []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockLayout"),
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		},
-		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockLayout", "kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
-	}
-}
-
-func schema_resource_metadata_apis_meta_v1alpha1_TabOutline(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Type: []string{"object"},
-				Properties: map[string]spec.Schema{
-					"name": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
-					"icons": {
-						SchemaProps: spec.SchemaProps{
-							Type: []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ImageSpec"),
-									},
-								},
-							},
-						},
-					},
-					"info": {
-						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockOutline"),
-						},
-					},
-					"insight": {
-						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockOutline"),
-						},
-					},
-					"blocks": {
-						SchemaProps: spec.SchemaProps{
-							Type: []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockOutline"),
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		},
-		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockOutline", "kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
 	}
 }
 

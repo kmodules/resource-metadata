@@ -276,13 +276,13 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 	if outline.Spec.DefaultLayout && (len(outline.Spec.Pages) == 0 || outline.Spec.Pages[0].Name != BasicPage) {
 		pages = append([]v1alpha1.ResourcePageOutline{
 			{
-				Name: BasicPage,
-				Tabs: nil,
+				Name:     BasicPage,
+				Sections: nil,
 			},
 		}, outline.Spec.Pages...)
 	}
-	if pages[0].Name == BasicPage && len(pages[0].Tabs) == 0 {
-		pages[0].Tabs = []v1alpha1.TabOutline{
+	if pages[0].Name == BasicPage && len(pages[0].Sections) == 0 {
+		pages[0].Sections = []v1alpha1.SectionOutline{
 			{
 				Info: &v1alpha1.PageBlockOutline{
 					Kind:        v1alpha1.TableKindSelf,
@@ -294,47 +294,49 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 
 	for _, pageOutline := range pages {
 		page := v1alpha1.ResourcePageLayout{
-			Name: pageOutline.Name,
-			Tabs: make([]v1alpha1.TabLayout, 0, len(pageOutline.Tabs)),
+			Name:     pageOutline.Name,
+			Sections: make([]v1alpha1.SectionLayout, 0, len(pageOutline.Sections)),
 		}
-		for _, tabOutline := range pageOutline.Tabs {
+		for _, sectionOutline := range pageOutline.Sections {
 
-			tab := v1alpha1.TabLayout{
-				Name:    tabOutline.Name,
-				Icons:   tabOutline.Icons,
+			section := v1alpha1.SectionLayout{
+				Name:    sectionOutline.Name,
+				Icons:   sectionOutline.Icons,
 				Info:    nil,
 				Insight: nil,
 			}
-			if tabOutline.Info != nil {
-				tables, err := FlattenPageBlockOutline(kc, src, *tabOutline.Info, v1alpha1.Field)
+			if sectionOutline.Info != nil {
+				tables, err := FlattenPageBlockOutline(kc, src, *sectionOutline.Info, v1alpha1.Field)
 				if err != nil {
 					return nil, err
 				}
 				if len(tables) != 1 {
-					return nil, fmt.Errorf("ResourceOutline %s page %s uses multiple basic blocks", outline.Name, tab.Name)
+					return nil, fmt.Errorf("ResourceOutline %s page %s uses multiple basic blocks", outline.Name, section.Name)
 				}
-				tab.Info = &tables[0]
+				section.Info = &tables[0]
 			}
-			if tabOutline.Insight != nil {
-				tables, err := FlattenPageBlockOutline(kc, src, *tabOutline.Insight, v1alpha1.Field)
+			if sectionOutline.Insight != nil {
+				tables, err := FlattenPageBlockOutline(kc, src, *sectionOutline.Insight, v1alpha1.Field)
 				if err != nil {
 					return nil, err
 				}
 				if len(tables) != 1 {
-					return nil, fmt.Errorf("ResourceOutline %s page %s uses multiple insight blocks", outline.Name, tab.Name)
+					return nil, fmt.Errorf("ResourceOutline %s page %s uses multiple insight blocks", outline.Name, section.Name)
 				}
-				tab.Insight = &tables[0]
+				section.Insight = &tables[0]
 			}
 
 			var tables []v1alpha1.PageBlockLayout
-			for _, block := range tabOutline.Blocks {
+			for _, block := range sectionOutline.Blocks {
 				blocks, err := FlattenPageBlockOutline(kc, src, block, v1alpha1.List)
 				if err != nil {
 					return nil, err
 				}
 				tables = append(tables, blocks...)
 			}
-			tab.Blocks = tables
+			section.Blocks = tables
+
+			page.Sections = append(page.Sections, section)
 		}
 		result.Spec.Pages = append(result.Spec.Pages, page)
 	}

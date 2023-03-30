@@ -55,11 +55,11 @@ type ResourceOutlineSpec struct {
 }
 
 type ResourcePageOutline struct {
-	Name string       `json:"name"`
-	Tabs []TabOutline `json:"tabs,omitempty"`
+	Name     string           `json:"name"`
+	Sections []SectionOutline `json:"sections,omitempty"`
 }
 
-type TabOutline struct {
+type SectionOutline struct {
 	Name    string             `json:"name,omitempty"`
 	Icons   []shared.ImageSpec `json:"icons,omitempty"`
 	Info    *PageBlockOutline  `json:"info,omitempty"`

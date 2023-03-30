@@ -12,17 +12,17 @@ spec:
   defaultLayout: true
   pages:
   - name: Basic
-    tabs:
+    sections:
     - blocks:
       - kind: Block
         name: core-v1-replicationcontrollers
   - name: Backups
-    tabs:
+    sections:
     - blocks:
       - kind: Block
         name: stash.appscode.com-v1-backup
   - name: Monitoring
-    tabs:
+    sections:
     - blocks:
       - kind: Block
         name: monitoring.coreos.com-v1-monitoring

@@ -12,22 +12,22 @@ spec:
   defaultLayout: true
   pages:
   - name: Basic
-    tabs:
+    sections:
     - blocks:
       - kind: Block
         name: kubedb.com-v1alpha2-etcds
   - name: Backups
-    tabs:
+    sections:
     - blocks:
       - kind: Block
         name: kubedb.com-v1alpha2-backups
   - name: Security
-    tabs:
+    sections:
     - blocks:
       - kind: Block
         name: kubedb.com-v1alpha2-security
   - name: Monitoring
-    tabs:
+    sections:
     - blocks:
       - kind: Block
         name: kubedb.com-v1alpha2-monitoring
