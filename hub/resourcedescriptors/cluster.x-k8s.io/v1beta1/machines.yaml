@@ -1,4 +1,4 @@
-apiVersion: meta.k8s.appscode.com/v1alpha3
+apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
@@ -6,18 +6,18 @@ metadata:
     k8s.io/group: cluster.x-k8s.io
     k8s.io/kind: Machine
     k8s.io/resource: machines
-    k8s.io/version: v1alpha3
-  name: cluster.x-k8s.io-v1alpha3-machines
+    k8s.io/version: v1beta1
+  name: cluster.x-k8s.io-v1beta1-machines
 spec:
   resource:
     group: cluster.x-k8s.io
     kind: Machine
     name: machines
     scope: Namespaced
-    version: v1alpha3
+    version: v1beta1
   validation:
     openAPIV3Schema:
-      description: "Machine is the Schema for the machines API. \n Deprecated: This type will be removed in one of the next releases."
+      description: Machine is the Schema for the machines API.
       properties:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
@@ -51,7 +51,7 @@ spec:
               description: Bootstrap is a reference to a local struct which encapsulates fields to configure the Machine’s bootstrapping mechanism.
               properties:
                 configRef:
-                  description: ConfigRef is a reference to a bootstrap provider-specific resource that holds configuration details. The reference is optional to allow users/operators to specify Bootstrap.Data without the need of a controller.
+                  description: ConfigRef is a reference to a bootstrap provider-specific resource that holds configuration details. The reference is optional to allow users/operators to specify Bootstrap.DataSecretName without the need of a controller.
                   properties:
                     apiVersion:
                       description: API version of the referent.
@@ -76,9 +76,6 @@ spec:
                       type: string
                   type: object
                   x-kubernetes-map-type: atomic
-                data:
-                  description: "Data contains the bootstrap data, such as cloud-init details scripts. If nil, the Machine should remain in the Pending state. \n Deprecated: Switch to DataSecretName."
-                  type: string
                 dataSecretName:
                   description: DataSecretName is the name of the secret that stores the bootstrap data script. If nil, the Machine should remain in the Pending state.
                   type: string
@@ -116,8 +113,14 @@ spec:
                   type: string
               type: object
               x-kubernetes-map-type: atomic
+            nodeDeletionTimeout:
+              description: NodeDeletionTimeout defines how long the controller will attempt to delete the Node that the Machine hosts after the Machine is marked for deletion. A duration of 0 will retry deletion indefinitely. Defaults to 10 seconds.
+              type: string
             nodeDrainTimeout:
               description: 'NodeDrainTimeout is the total amount of time that the controller will spend on draining a node. The default value is 0, meaning that the node can be drained without any time limitations. NOTE: NodeDrainTimeout is different from `kubectl drain --timeout`'
+              type: string
+            nodeVolumeDetachTimeout:
+              description: NodeVolumeDetachTimeout is the total amount of time that the controller will spend on waiting for all volumes to be detached. The default value is 0, meaning that the volumes can be detached without any time limitations.
               type: string
             providerID:
               description: ProviderID is the identification ID of the machine provided by the provider. This field must match the provider ID as seen on the node object corresponding to this machine. This field is required by higher level consumers of cluster-api. Example use case is cluster autoscaler with cluster-api as provider. Clean-up logic in the autoscaler compares machines to nodes to find out machines at provider which could not get registered as Kubernetes nodes. With cluster-api as a generic out-of-tree provider for autoscaler, this field is required by autoscaler to be able to have a provider view of the list of machines. Another list of nodes is queried from the k8s apiserver and then a comparison is done to find out unregistered machines and are marked for delete. This field will be set by the actuators and consumed by higher level entities like autoscaler that will be interfacing with cluster-api as generic provider.
