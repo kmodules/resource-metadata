@@ -84,6 +84,8 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/kubeops.dev/external-dns-ope
 # CAPI / Managed DB
 go run cmd/import-crds/main.go --input=$HOME/go/src/sigs.k8s.io/cluster-api/config/crd/bases
 go run cmd/import-crds/main.go --input=$HOME/go/src/sigs.k8s.io/cluster-api-provider-aws/config/crd/bases
+go run cmd/import-crds/main.go --input=$HOME/go/src/sigs.k8s.io/cluster-api-provider-azure/config/crd/bases
+go run cmd/import-crds/main.go --input=$HOME/go/src/sigs.k8s.io/cluster-api-provider-gcp/config/crd/bases
 */
 func main() {
 	var input []string
