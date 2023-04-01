@@ -354,6 +354,11 @@ spec:
               - ReconfigureTLS
               - Reprovision
               type: string
+            updateVersion:
+              properties:
+                targetVersion:
+                  type: string
+              type: object
             upgrade:
               properties:
                 targetVersion:
