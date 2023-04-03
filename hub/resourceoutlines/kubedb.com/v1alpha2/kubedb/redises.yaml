@@ -24,236 +24,240 @@ spec:
     view:
       name: core.k8s.appscode.com-v1alpha1-genericresources-kubedb
   pages:
-  - blocks:
-    - actions:
-        create: Never
-      displayMode: List
-      fieldPath: '{.response.dashboards[0].panels}'
-      kind: Connection
-      query:
-        raw: |
-          request:
-            embeddedLink: true
-            dashboards:
-            - title: "KubeDB / Redis / Summary"
-              vars:
-              - name: namespace
-                value: {{ .namespace }}
-              - name: db
-                value: {{ .name }}
-              panels:
-                - { "title": "CPU Usage", "width": 12 }
-                - { "title": "Memory Usage", "width": 12 }
-                - { "title": "Disk Usage", "width": 6 }
-                - { "title": "Disk R/W Info", "width": 6 }
-                - { "title": "IOPS (Reads+Writes)", "width": 6 }
-                - { "title": "ThroughPut (Read+Write)", "width": 6 }
-                - { "title": "Receive Bandwidth", "width": 6 }
-                - { "title": "Transmit Bandwidth", "width": 6 }
-        type: REST
-      ref:
-        group: ui.openviz.dev
-        kind: DashboardGroup
-      view:
-        name: ui.openviz.dev-v1alpha1-dashboardgroups-panels
-    - actions:
-        create: Never
-      displayMode: List
-      kind: Connection
-      name: Nodes
-      query:
-        raw: |-
-          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
-            find(oid: $src) {
-              offshoot(group: "", kind: "Pod") {
-                refs: view(group: $targetGroup, kind: $targetKind) {
-                  namespace
-                  name
+  - name: Overview
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        fieldPath: '{.response.dashboards[0].panels}'
+        kind: Connection
+        query:
+          raw: |
+            request:
+              embeddedLink: true
+              dashboards:
+              - title: "KubeDB / Redis / Summary"
+                vars:
+                - name: namespace
+                  value: {{ .namespace }}
+                - name: db
+                  value: {{ .name }}
+                panels:
+                  - { "title": "CPU Usage", "width": 12 }
+                  - { "title": "Memory Usage", "width": 12 }
+                  - { "title": "Disk Usage", "width": 6 }
+                  - { "title": "Disk R/W Info", "width": 6 }
+                  - { "title": "IOPS (Reads+Writes)", "width": 6 }
+                  - { "title": "ThroughPut (Read+Write)", "width": 6 }
+                  - { "title": "Receive Bandwidth", "width": 6 }
+                  - { "title": "Transmit Bandwidth", "width": 6 }
+          type: REST
+        ref:
+          group: ui.openviz.dev
+          kind: DashboardGroup
+        view:
+          name: ui.openviz.dev-v1alpha1-dashboardgroups-panels
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Nodes
+        query:
+          raw: |-
+            query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+              find(oid: $src) {
+                offshoot(group: "", kind: "Pod") {
+                  refs: view(group: $targetGroup, kind: $targetKind) {
+                    namespace
+                    name
+                  }
                 }
               }
             }
-          }
-        type: GraphQL
-      ref:
-        group: core.k8s.appscode.com
-        kind: PodView
-      view:
-        name: core.k8s.appscode.com-v1alpha1-podviews-kubedb-redises
-    info:
-      actions:
-        create: Never
-      displayMode: List
-      kind: Connection
-      query:
-        byLabel: offshoot
-        type: GraphQL
-      ref:
-        group: appcatalog.appscode.com
-        kind: AppBinding
-    insight:
-      actions:
-        create: Never
-      displayMode: Field
-      kind: Connection
-      query:
-        byLabel: view
-        type: GraphQL
-      ref:
-        group: ui.kubedb.com
-        kind: RedisInsight
-    name: Overview
-  - blocks:
-    - actions:
-        create: Never
-      displayMode: List
-      fieldPath: .response.dashboards
-      kind: Connection
-      name: Grafana Dashboards
-      query:
-        raw: |
-          request:
-            sourceLocator:
-              resource:
-                group: kubedb.com
-                name: redises
-                version: v1alpha2
-              ref:
-                name: {{ .name }}
-                namespace: {{ .namespace }}
-            name: kubedb.com-v1alpha2-redises
-        type: REST
-      ref:
-        group: meta.k8s.appscode.com
-        kind: RenderDashboard
-      view:
-        name: ui.k8s.appscode.com-v1alpha1-resourcedashboards-urls
-    - actions:
-        create: Never
-      displayMode: List
-      fieldPath: .spec.queries
-      kind: Connection
-      name: Slow Queries
-      query:
-        byLabel: view
-        type: GraphQL
-      ref:
-        group: ui.kubedb.com
-        kind: RedisQueries
-      view:
-        name: ui.kubedb.com-v1alpha1-redisqueries-queries
-    - actions:
-        create: Never
-      displayMode: List
-      fieldPath: .spec.databases
-      kind: Connection
-      name: Databases
-      query:
-        byLabel: view
-        type: GraphQL
-      ref:
-        group: ui.kubedb.com
-        kind: RedisSchemaOverview
-      view:
-        name: ui.kubedb.com-v1alpha1-redisschemaoverviews-databases
-    insight:
-      actions:
-        create: Never
-      displayMode: Field
-      kind: Connection
-      query:
-        byLabel: view
-        type: GraphQL
-      ref:
-        group: ui.kubedb.com
-        kind: RedisInsight
-    name: Database Insights
-  - blocks:
-    - actions:
-        create: Never
-      displayMode: List
-      kind: Connection
-      name: Recent Backups
-      query:
-        raw: |-
-          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
-            find(oid: $src) {
-              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
-                refs: offshoot(group: $targetGroup, kind: $targetKind) {
-                  namespace
-                  name
+          type: GraphQL
+        ref:
+          group: core.k8s.appscode.com
+          kind: PodView
+        view:
+          name: core.k8s.appscode.com-v1alpha1-podviews-kubedb-redises
+      info:
+        actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        query:
+          byLabel: offshoot
+          type: GraphQL
+        ref:
+          group: appcatalog.appscode.com
+          kind: AppBinding
+      insight:
+        actions:
+          create: Never
+        displayMode: Field
+        kind: Connection
+        query:
+          byLabel: view
+          type: GraphQL
+        ref:
+          group: ui.kubedb.com
+          kind: RedisInsight
+  - name: Database Insights
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        fieldPath: .response.dashboards
+        kind: Connection
+        name: Grafana Dashboards
+        query:
+          raw: |
+            request:
+              sourceLocator:
+                resource:
+                  group: kubedb.com
+                  name: redises
+                  version: v1alpha2
+                ref:
+                  name: {{ .name }}
+                  namespace: {{ .namespace }}
+              name: kubedb.com-v1alpha2-redises
+          type: REST
+        ref:
+          group: meta.k8s.appscode.com
+          kind: RenderDashboard
+        view:
+          name: ui.k8s.appscode.com-v1alpha1-resourcedashboards-urls
+      - actions:
+          create: Never
+        displayMode: List
+        fieldPath: .spec.queries
+        kind: Connection
+        name: Slow Queries
+        query:
+          byLabel: view
+          type: GraphQL
+        ref:
+          group: ui.kubedb.com
+          kind: RedisQueries
+        view:
+          name: ui.kubedb.com-v1alpha1-redisqueries-queries
+      - actions:
+          create: Never
+        displayMode: List
+        fieldPath: .spec.databases
+        kind: Connection
+        name: Databases
+        query:
+          byLabel: view
+          type: GraphQL
+        ref:
+          group: ui.kubedb.com
+          kind: RedisSchemaOverview
+        view:
+          name: ui.kubedb.com-v1alpha1-redisschemaoverviews-databases
+      insight:
+        actions:
+          create: Never
+        displayMode: Field
+        kind: Connection
+        query:
+          byLabel: view
+          type: GraphQL
+        ref:
+          group: ui.kubedb.com
+          kind: RedisInsight
+  - name: Backups
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Recent Backups
+        query:
+          raw: |-
+            query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+              find(oid: $src) {
+                backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                  refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                    namespace
+                    name
+                  }
                 }
               }
             }
-          }
-        type: GraphQL
-      ref:
-        group: stash.appscode.com
-        kind: BackupSession
-      view:
-        name: stash.appscode.com-v1beta1-backupsessions-kubedb
-    - actions:
-        create: Never
-      displayMode: List
-      kind: Connection
-      name: Recent Restores
-      query:
-        byLabel: restore_into
-        type: GraphQL
-      ref:
-        group: stash.appscode.com
-        kind: RestoreSession
-      view:
-        name: stash.appscode.com-v1beta1-restoresessions-kubedb
-    info:
-      actions:
-        create: Never
-      displayMode: Field
-      kind: Connection
-      query:
-        raw: |-
-          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
-            find(oid: $src) {
-              backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
-                refs: view(group: $targetGroup, kind: $targetKind) {
-                  namespace
-                  name
+          type: GraphQL
+        ref:
+          group: stash.appscode.com
+          kind: BackupSession
+        view:
+          name: stash.appscode.com-v1beta1-backupsessions-kubedb
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Recent Restores
+        query:
+          byLabel: restore_into
+          type: GraphQL
+        ref:
+          group: stash.appscode.com
+          kind: RestoreSession
+        view:
+          name: stash.appscode.com-v1beta1-restoresessions-kubedb
+      info:
+        actions:
+          create: Never
+        displayMode: Field
+        kind: Connection
+        query:
+          raw: |-
+            query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+              find(oid: $src) {
+                backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+                  refs: view(group: $targetGroup, kind: $targetKind) {
+                    namespace
+                    name
+                  }
                 }
               }
             }
-          }
-        type: GraphQL
-      ref:
-        group: ui.stash.appscode.com
-        kind: BackupOverview
-    name: Backups
-  - blocks:
-    - actions:
-        create: Never
-      displayMode: List
-      kind: Connection
-      name: Recent Operations
-      query:
-        byLabel: ops
-        type: GraphQL
-      ref:
-        group: ops.kubedb.com
-        kind: RedisOpsRequest
-      view:
-        name: ops.kubedb.com-v1alpha1-mongodbopsrequests-kubedb
-    - actions:
-        create: Never
-      displayMode: List
-      kind: Connection
-      name: Recommendations
-      query:
-        byLabel: recommended_for
-        type: GraphQL
-      ref:
-        group: supervisor.appscode.com
-        kind: Recommendation
-      view:
-        name: supervisor.appscode.com-v1alpha1-recommendations-kubedb
-    name: Operations
+          type: GraphQL
+        ref:
+          group: ui.stash.appscode.com
+          kind: BackupOverview
+  - name: Operations
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Recent Operations
+        query:
+          byLabel: ops
+          type: GraphQL
+        ref:
+          group: ops.kubedb.com
+          kind: RedisOpsRequest
+        view:
+          name: ops.kubedb.com-v1alpha1-mongodbopsrequests-kubedb
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Recommendations
+        query:
+          byLabel: recommended_for
+          type: GraphQL
+        ref:
+          group: supervisor.appscode.com
+          kind: Recommendation
+        view:
+          name: supervisor.appscode.com-v1alpha1-recommendations-kubedb
   resource:
     group: kubedb.com
     kind: Redis

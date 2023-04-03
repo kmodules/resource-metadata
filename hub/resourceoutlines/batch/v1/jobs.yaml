@@ -11,10 +11,11 @@ metadata:
 spec:
   defaultLayout: true
   pages:
-  - blocks:
-    - kind: Block
-      name: batch-v1-jobs
-    name: Basic
+  - name: Basic
+    sections:
+    - blocks:
+      - kind: Block
+        name: batch-v1-jobs
   resource:
     group: batch
     kind: Job

@@ -54,23 +54,30 @@ type ResourceLayoutSpec struct {
 }
 
 type ResourcePageLayout struct {
-	Name    string            `json:"name,omitempty"`
-	Info    *PageBlockLayout  `json:"info,omitempty"`
-	Insight *PageBlockLayout  `json:"insight,omitempty"`
-	Blocks  []PageBlockLayout `json:"blocks,omitempty"`
+	Name     string          `json:"name"`
+	Sections []SectionLayout `json:"sections,omitempty"`
+}
+
+type SectionLayout struct {
+	Name    string             `json:"name,omitempty"`
+	Icons   []shared.ImageSpec `json:"icons,omitempty"`
+	Info    *PageBlockLayout   `json:"info,omitempty"`
+	Insight *PageBlockLayout   `json:"insight,omitempty"`
+	Blocks  []PageBlockLayout  `json:"blocks,omitempty"`
 }
 
 type PageBlockLayout struct {
-	Kind TableKind `json:"kind"` // Connection | Subtable(Field)
-	Name string    `json:"name,omitempty"`
-
-	FieldPath string `json:"fieldPath,omitempty"`
+	Kind      TableKind          `json:"kind"` // Connection | Subtable(Field)
+	Name      string             `json:"name,omitempty"`
+	Width     int                `json:"width,omitempty"`
+	Icons     []shared.ImageSpec `json:"icons,omitempty"`
+	FieldPath string             `json:"fieldPath,omitempty"`
 
 	*shared.ResourceLocator `json:",inline,omitempty"`
 	DisplayMode             ResourceDisplayMode `json:"displayMode,omitempty"`
 	Actions                 *ResourceActions    `json:"actions,omitempty"`
 
-	View PageBlockTableDefinition `json:"view"`
+	View *PageBlockTableDefinition `json:"view,omitempty"`
 }
 
 type PageBlockTableDefinition struct {

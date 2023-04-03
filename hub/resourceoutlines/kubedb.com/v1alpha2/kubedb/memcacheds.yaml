@@ -11,48 +11,53 @@ metadata:
 spec:
   defaultLayout: false
   pages:
-  - blocks:
-    - kind: Block
-      name: kubedb.com-v1alpha2-memcacheds
-    name: Basic
-  - blocks:
-    - kind: Block
-      name: kubedb.com-v1alpha2-backups
-    name: Backups
-  - blocks:
-    - kind: Block
-      name: kubedb.com-v1alpha2-security
-    name: Security
-  - blocks:
-    - actions:
-        create: Never
-      displayMode: List
-      kind: Connection
-      name: Recent Operations
-      query:
-        byLabel: ops
-        type: GraphQL
-      ref:
-        group: ops.kubedb.com
-        kind: MemcachedOpsRequest
-    - actions:
-        create: Never
-      displayMode: List
-      kind: Connection
-      name: Recommendations
-      query:
-        byLabel: recommended_for
-        type: GraphQL
-      ref:
-        group: supervisor.appscode.com
-        kind: Recommendation
-      view:
-        name: supervisor.appscode.com-v1alpha1-recommendations-kubedb
-    name: Operations
-  - blocks:
-    - kind: Block
-      name: kubedb.com-v1alpha2-monitoring
-    name: Monitoring
+  - name: Basic
+    sections:
+    - blocks:
+      - kind: Block
+        name: kubedb.com-v1alpha2-memcacheds
+  - name: Backups
+    sections:
+    - blocks:
+      - kind: Block
+        name: kubedb.com-v1alpha2-backups
+  - name: Security
+    sections:
+    - blocks:
+      - kind: Block
+        name: kubedb.com-v1alpha2-security
+  - name: Operations
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Recent Operations
+        query:
+          byLabel: ops
+          type: GraphQL
+        ref:
+          group: ops.kubedb.com
+          kind: MemcachedOpsRequest
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Recommendations
+        query:
+          byLabel: recommended_for
+          type: GraphQL
+        ref:
+          group: supervisor.appscode.com
+          kind: Recommendation
+        view:
+          name: supervisor.appscode.com-v1alpha1-recommendations-kubedb
+  - name: Monitoring
+    sections:
+    - blocks:
+      - kind: Block
+        name: kubedb.com-v1alpha2-monitoring
   resource:
     group: kubedb.com
     kind: Memcached

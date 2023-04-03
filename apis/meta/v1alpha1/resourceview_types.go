@@ -33,6 +33,11 @@ type ResourceView struct {
 }
 
 type ResourcePageView struct {
+	Name     string                `json:"name"`
+	Sections []ResourceSectionView `json:"sections,omitempty"`
+}
+
+type ResourceSectionView struct {
 	Name    string          `json:"name"`
 	Info    *PageBlockView  `json:"info,omitempty"`
 	Insight *PageBlockView  `json:"insight,omitempty"`

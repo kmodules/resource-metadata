@@ -11,17 +11,18 @@ metadata:
 spec:
   defaultLayout: false
   pages:
-  - blocks:
-    - kind: Block
-      name: stash.appscode.com-v1beta1-restoresessions-kubedb
-    info:
-      actions:
-        create: Never
-      displayMode: Field
-      kind: Self
-      view:
+  - name: Overview
+    sections:
+    - blocks:
+      - kind: Block
         name: stash.appscode.com-v1beta1-restoresessions-kubedb
-    name: Overview
+      info:
+        actions:
+          create: Never
+        displayMode: Field
+        kind: Self
+        view:
+          name: stash.appscode.com-v1beta1-restoresessions-kubedb
   resource:
     group: stash.appscode.com
     kind: RestoreSession

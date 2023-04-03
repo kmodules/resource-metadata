@@ -11,19 +11,20 @@ metadata:
 spec:
   defaultLayout: true
   pages:
-  - blocks:
-    - actions:
-        create: Always
-      displayMode: List
-      kind: Connection
-      name: RoleBindings
-      query:
-        byLabel: id
-        type: GraphQL
-      ref:
-        group: rbac.authorization.k8s.io
-        kind: RoleBinding
-    name: Basic
+  - name: Basic
+    sections:
+    - blocks:
+      - actions:
+          create: Always
+        displayMode: List
+        kind: Connection
+        name: RoleBindings
+        query:
+          byLabel: id
+          type: GraphQL
+        ref:
+          group: rbac.authorization.k8s.io
+          kind: RoleBinding
   resource:
     group: rbac.authorization.k8s.io
     kind: Role

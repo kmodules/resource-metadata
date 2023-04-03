@@ -24,123 +24,126 @@ spec:
     view:
       name: core.k8s.appscode.com-v1alpha1-genericresources-kubedb
   pages:
-  - blocks:
-    - actions:
-        create: Never
-      displayMode: List
-      fieldPath: '{.response.dashboards[0].panels}'
-      kind: Connection
-      query:
-        raw: |
-          request:
-            embeddedLink: true
-            dashboards:
-            - title: "KubeDB / ProxySQL / Summary"
-              vars:
-              - name: namespace
-                value: {{ .namespace }}
-              - name: db
-                value: {{ .name }}
-              panels:
-                - { "title": "CPU Usage", "width": 12 }
-                - { "title": "Memory Usage", "width": 12 }
-                - { "title": "Disk Usage", "width": 6 }
-                - { "title": "Disk R/W Info", "width": 6 }
-                - { "title": "IOPS (Reads+Writes)", "width": 6 }
-                - { "title": "ThroughPut (Read+Write)", "width": 6 }
-                - { "title": "Receive Bandwidth", "width": 6 }
-                - { "title": "Transmit Bandwidth", "width": 6 }
-        type: REST
-      ref:
-        group: ui.openviz.dev
-        kind: DashboardGroup
-      view:
-        name: ui.openviz.dev-v1alpha1-dashboardgroups-panels
-    - actions:
-        create: Never
-      displayMode: List
-      kind: Connection
-      name: Nodes
-      query:
-        raw: |-
-          query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
-            find(oid: $src) {
-              offshoot(group: "", kind: "Pod") {
-                refs: view(group: $targetGroup, kind: $targetKind) {
-                  namespace
-                  name
+  - name: Overview
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        fieldPath: '{.response.dashboards[0].panels}'
+        kind: Connection
+        query:
+          raw: |
+            request:
+              embeddedLink: true
+              dashboards:
+              - title: "KubeDB / ProxySQL / Summary"
+                vars:
+                - name: namespace
+                  value: {{ .namespace }}
+                - name: db
+                  value: {{ .name }}
+                panels:
+                  - { "title": "CPU Usage", "width": 12 }
+                  - { "title": "Memory Usage", "width": 12 }
+                  - { "title": "Disk Usage", "width": 6 }
+                  - { "title": "Disk R/W Info", "width": 6 }
+                  - { "title": "IOPS (Reads+Writes)", "width": 6 }
+                  - { "title": "ThroughPut (Read+Write)", "width": 6 }
+                  - { "title": "Receive Bandwidth", "width": 6 }
+                  - { "title": "Transmit Bandwidth", "width": 6 }
+          type: REST
+        ref:
+          group: ui.openviz.dev
+          kind: DashboardGroup
+        view:
+          name: ui.openviz.dev-v1alpha1-dashboardgroups-panels
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Nodes
+        query:
+          raw: |-
+            query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+              find(oid: $src) {
+                offshoot(group: "", kind: "Pod") {
+                  refs: view(group: $targetGroup, kind: $targetKind) {
+                    namespace
+                    name
+                  }
                 }
               }
             }
-          }
-        type: GraphQL
-      ref:
-        group: core.k8s.appscode.com
-        kind: PodView
-      view:
-        name: core.k8s.appscode.com-v1alpha1-podviews-kubedb-proxysqls
-    info:
-      actions:
-        create: Never
-      displayMode: Field
-      kind: Self
-      view:
-        name: kubedb.com-v1alpha2-proxysqls-kubedb
-    name: Overview
-  - blocks:
-    - actions:
-        create: Never
-      displayMode: List
-      fieldPath: .response.dashboards
-      kind: Connection
-      name: Grafana Dashboards
-      query:
-        raw: |
-          request:
-            sourceLocator:
-              resource:
-                group: kubedb.com
-                name: proxysqls
-                version: v1alpha2
-              ref:
-                name: {{ .name }}
-                namespace: {{ .namespace }}
-            name: kubedb.com-v1alpha2-proxysqls
-        type: REST
-      ref:
-        group: meta.k8s.appscode.com
-        kind: RenderDashboard
-      view:
-        name: ui.k8s.appscode.com-v1alpha1-resourcedashboards-urls
-    name: Insights
-  - blocks:
-    - actions:
-        create: Never
-      displayMode: List
-      kind: Connection
-      name: Recent Operations
-      query:
-        byLabel: ops
-        type: GraphQL
-      ref:
-        group: ops.kubedb.com
-        kind: ProxySQLOpsRequest
-      view:
-        name: ops.kubedb.com-v1alpha1-proxysqlopsrequests-kubedb
-    - actions:
-        create: Never
-      displayMode: List
-      kind: Connection
-      name: Recommendations
-      query:
-        byLabel: recommended_for
-        type: GraphQL
-      ref:
-        group: supervisor.appscode.com
-        kind: Recommendation
-      view:
-        name: supervisor.appscode.com-v1alpha1-recommendations-kubedb
-    name: Operations
+          type: GraphQL
+        ref:
+          group: core.k8s.appscode.com
+          kind: PodView
+        view:
+          name: core.k8s.appscode.com-v1alpha1-podviews-kubedb-proxysqls
+      info:
+        actions:
+          create: Never
+        displayMode: Field
+        kind: Self
+        view:
+          name: kubedb.com-v1alpha2-proxysqls-kubedb
+  - name: Insights
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        fieldPath: .response.dashboards
+        kind: Connection
+        name: Grafana Dashboards
+        query:
+          raw: |
+            request:
+              sourceLocator:
+                resource:
+                  group: kubedb.com
+                  name: proxysqls
+                  version: v1alpha2
+                ref:
+                  name: {{ .name }}
+                  namespace: {{ .namespace }}
+              name: kubedb.com-v1alpha2-proxysqls
+          type: REST
+        ref:
+          group: meta.k8s.appscode.com
+          kind: RenderDashboard
+        view:
+          name: ui.k8s.appscode.com-v1alpha1-resourcedashboards-urls
+  - name: Operations
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Recent Operations
+        query:
+          byLabel: ops
+          type: GraphQL
+        ref:
+          group: ops.kubedb.com
+          kind: ProxySQLOpsRequest
+        view:
+          name: ops.kubedb.com-v1alpha1-proxysqlopsrequests-kubedb
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Recommendations
+        query:
+          byLabel: recommended_for
+          type: GraphQL
+        ref:
+          group: supervisor.appscode.com
+          kind: Recommendation
+        view:
+          name: supervisor.appscode.com-v1alpha1-recommendations-kubedb
   resource:
     group: kubedb.com
     kind: ProxySQL

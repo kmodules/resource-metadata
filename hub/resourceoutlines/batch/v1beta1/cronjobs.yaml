@@ -11,10 +11,11 @@ metadata:
 spec:
   defaultLayout: true
   pages:
-  - blocks:
-    - kind: Block
-      name: batch-v1beta1-cronjobs
-    name: Basic
+  - name: Basic
+    sections:
+    - blocks:
+      - kind: Block
+        name: batch-v1beta1-cronjobs
   resource:
     group: batch
     kind: CronJob

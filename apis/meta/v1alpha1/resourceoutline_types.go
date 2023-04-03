@@ -55,13 +55,19 @@ type ResourceOutlineSpec struct {
 }
 
 type ResourcePageOutline struct {
-	Name    string             `json:"name"`
+	Name     string           `json:"name"`
+	Sections []SectionOutline `json:"sections,omitempty"`
+}
+
+type SectionOutline struct {
+	Name    string             `json:"name,omitempty"`
+	Icons   []shared.ImageSpec `json:"icons,omitempty"`
 	Info    *PageBlockOutline  `json:"info,omitempty"`
 	Insight *PageBlockOutline  `json:"insight,omitempty"`
 	Blocks  []PageBlockOutline `json:"blocks,omitempty"`
 }
 
-// +kubebuilder:validation:Enum=Block;Self;SubTable;Connection
+// +kubebuilder:validation:Enum=Block;Self;SubTable;Connection;Custom
 type TableKind string
 
 const (
@@ -69,12 +75,15 @@ const (
 	TableKindConnection TableKind = "Connection"
 	TableKindSubTable   TableKind = "SubTable"
 	TableKindSelf       TableKind = "Self"
+	TableKindCustom     TableKind = "Custom"
 )
 
 type PageBlockOutline struct {
-	Kind                    TableKind `json:"kind"` // ResourceBlockDefinition | Connection | Subtable(Field)
-	Name                    string    `json:"name,omitempty"`
-	FieldPath               string    `json:"fieldPath,omitempty"`
+	Kind                    TableKind          `json:"kind"` // ResourceBlockDefinition | Connection | Subtable(Field) | Custom
+	Name                    string             `json:"name,omitempty"`
+	Width                   int                `json:"width,omitempty"`
+	Icons                   []shared.ImageSpec `json:"icons,omitempty"`
+	FieldPath               string             `json:"fieldPath,omitempty"`
 	*shared.ResourceLocator `json:",inline,omitempty"`
 	DisplayMode             ResourceDisplayMode         `json:"displayMode,omitempty"`
 	Actions                 *ResourceActions            `json:"actions,omitempty"`
