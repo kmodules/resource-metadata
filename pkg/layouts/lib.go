@@ -281,14 +281,23 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 			},
 		}, outline.Spec.Pages...)
 	}
-	if pages[0].Name == BasicPage && len(pages[0].Sections) == 0 {
-		pages[0].Sections = []v1alpha1.SectionOutline{
-			{
-				Info: &v1alpha1.PageBlockOutline{
+	if pages[0].Name == BasicPage {
+		if len(pages[0].Sections) == 0 {
+			pages[0].Sections = []v1alpha1.SectionOutline{
+				{
+					Info: &v1alpha1.PageBlockOutline{
+						Kind:        v1alpha1.TableKindSelf,
+						DisplayMode: v1alpha1.DisplayModeField,
+					},
+				},
+			}
+		} else {
+			if pages[0].Sections[0].Info == nil {
+				pages[0].Sections[0].Info = &v1alpha1.PageBlockOutline{
 					Kind:        v1alpha1.TableKindSelf,
 					DisplayMode: v1alpha1.DisplayModeField,
-				},
-			},
+				}
+			}
 		}
 	}
 
