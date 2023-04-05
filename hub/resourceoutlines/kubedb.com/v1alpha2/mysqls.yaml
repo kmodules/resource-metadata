@@ -16,16 +16,6 @@ spec:
     - blocks:
       - kind: Block
         name: kubedb.com-v1alpha2-mysqls
-  - name: Backups
-    sections:
-    - blocks:
-      - kind: Block
-        name: kubedb.com-v1alpha2-backups
-  - name: Security
-    sections:
-    - blocks:
-      - kind: Block
-        name: kubedb.com-v1alpha2-security
   - name: Operations
     sections:
     - blocks:
@@ -53,11 +43,34 @@ spec:
           kind: Recommendation
         view:
           name: supervisor.appscode.com-v1alpha1-recommendations
+  - name: Backups
+    sections:
+    - blocks:
+      - kind: Block
+        name: kubedb.com-v1alpha2-backups
   - name: Monitoring
     sections:
     - blocks:
       - kind: Block
         name: kubedb.com-v1alpha2-monitoring
+  - name: Security
+    sections:
+    - blocks:
+      - kind: Custom
+        name: CVE Report
+      name: CVE Report
+    - blocks:
+      - kind: Block
+        name: kubedb.com-v1alpha2-rbac
+      name: Access Control
+    - blocks:
+      - kind: Block
+        name: kubedb.com-v1alpha2-tls
+      name: TLS
+    - blocks:
+      - kind: Block
+        name: kubedb.com-v1alpha2-policies
+      name: Policies
   resource:
     group: kubedb.com
     kind: MySQL

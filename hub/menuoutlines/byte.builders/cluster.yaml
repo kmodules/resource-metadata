@@ -16,7 +16,7 @@ spec:
         type: image/svg+xml
       - src: https://cdn.appscode.com/k8s/icons/menu/basic.png
         type: image/png
-      name: Basic
+      name: Overview
       path: /
       required: true
     - name: Nodes
@@ -25,7 +25,6 @@ spec:
         group: ""
         kind: Node
     name: Kubernetes
-    path: /ui.appscode.com/v1alpha1/sections/kubernetes
   - icons:
     - src: https://cdn.appscode.com/k8s/icons/menu/workloads.svg
       type: image/svg+xml

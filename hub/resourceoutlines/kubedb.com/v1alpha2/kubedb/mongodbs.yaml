@@ -169,6 +169,11 @@ spec:
         ref:
           group: ui.kubedb.com
           kind: MongoDBInsight
+  - name: Security
+    sections:
+    - blocks:
+      - kind: Custom
+        name: CVE Report
   - name: Backups
     sections:
     - blocks:

@@ -16,11 +16,6 @@ spec:
     - blocks:
       - kind: Block
         name: kubedb.com-v1alpha2-redissentinels
-  - name: Security
-    sections:
-    - blocks:
-      - kind: Block
-        name: kubedb.com-v1alpha2-security
   - name: Operations
     sections:
     - blocks:
@@ -53,6 +48,24 @@ spec:
     - blocks:
       - kind: Block
         name: kubedb.com-v1alpha2-monitoring
+  - name: Security
+    sections:
+    - blocks:
+      - kind: Custom
+        name: CVE Report
+      name: CVE Report
+    - blocks:
+      - kind: Block
+        name: kubedb.com-v1alpha2-rbac
+      name: Access Control
+    - blocks:
+      - kind: Block
+        name: kubedb.com-v1alpha2-tls
+      name: TLS
+    - blocks:
+      - kind: Block
+        name: kubedb.com-v1alpha2-policies
+      name: Policies
   resource:
     group: kubedb.com
     kind: RedisSentinel

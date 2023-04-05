@@ -1,0 +1,46 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceBlockDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: kubedb.com
+    k8s.io/kind: MongoDB
+    k8s.io/resource: mongodbs
+    k8s.io/version: v1alpha2
+  name: kubedb.com-v1alpha2-rbac
+spec:
+  blocks:
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: ServiceAccount
+    query:
+      byLabel: id
+      type: GraphQL
+    ref:
+      group: ""
+      kind: Service Account
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Roles
+    query:
+      byLabel: id
+      type: GraphQL
+    ref:
+      group: rbac.authorization.k8s.io
+      kind: Role
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: RoleBindings
+    query:
+      byLabel: id
+      type: GraphQL
+    ref:
+      group: rbac.authorization.k8s.io
+      kind: RoleBinding
+

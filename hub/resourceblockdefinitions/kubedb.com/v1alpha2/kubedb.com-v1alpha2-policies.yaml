@@ -1,0 +1,23 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceBlockDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: kubedb.com
+    k8s.io/kind: MongoDB
+    k8s.io/resource: mongodbs
+    k8s.io/version: v1alpha2
+  name: kubedb.com-v1alpha2-policies
+spec:
+  blocks:
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Pod Security Policies
+    query:
+      byLabel: policy
+      type: GraphQL
+    ref:
+      group: policy
+      kind: PodSecurityPolicy
