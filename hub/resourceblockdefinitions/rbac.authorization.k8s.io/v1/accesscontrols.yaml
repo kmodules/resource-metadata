@@ -3,24 +3,24 @@ kind: ResourceBlockDefinition
 metadata:
   creationTimestamp: null
   labels:
-    k8s.io/group: kubedb.com
-    k8s.io/kind: MongoDB
-    k8s.io/resource: mongodbs
-    k8s.io/version: v1alpha2
-  name: kubedb.com-v1alpha2-rbac
+    k8s.io/group: rbac.authorization.k8s
+    k8s.io/kind: Role
+    k8s.io/resource: roles
+    k8s.io/version: v1
+  name: rbac.authorization.k8s.io-v1-accesscontrols
 spec:
   blocks:
   - actions:
       create: Never
     displayMode: List
     kind: Connection
-    name: ServiceAccount
+    name: Service Account
     query:
       byLabel: id
       type: GraphQL
     ref:
       group: ""
-      kind: Service Account
+      kind: ServiceAccount
   - actions:
       create: Never
     displayMode: List
