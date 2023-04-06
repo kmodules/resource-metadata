@@ -11,20 +11,13 @@ spec:
     - src: https://cdn.appscode.com/k8s/icons/menu/kubernetes.png
       type: image/png
     items:
-    - icons:
-      - src: https://cdn.appscode.com/k8s/icons/menu/basic.svg
-        type: image/svg+xml
-      - src: https://cdn.appscode.com/k8s/icons/menu/basic.png
-        type: image/png
-      name: Overview
-      path: /
-      required: true
     - name: Nodes
       required: true
       type:
         group: ""
         kind: Node
     name: Kubernetes
+    path: /
   - icons:
     - src: https://cdn.appscode.com/k8s/icons/menu/workloads.svg
       type: image/svg+xml
@@ -209,6 +202,7 @@ spec:
         group: ""
         kind: ServiceAccount
     name: Security
+    path: /reports.scanner.appscode.com/v1alpha1/cvereports
   - icons:
     - src: https://cdn.appscode.com/k8s/icons/menu/admin.svg
       type: image/svg+xml
