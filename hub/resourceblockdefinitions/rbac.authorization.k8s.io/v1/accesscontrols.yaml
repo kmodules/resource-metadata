@@ -1,0 +1,46 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceBlockDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: rbac.authorization.k8s
+    k8s.io/kind: Role
+    k8s.io/resource: roles
+    k8s.io/version: v1
+  name: rbac.authorization.k8s.io-v1-accesscontrols
+spec:
+  blocks:
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Service Account
+    query:
+      byLabel: id
+      type: GraphQL
+    ref:
+      group: ""
+      kind: ServiceAccount
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Roles
+    query:
+      byLabel: id
+      type: GraphQL
+    ref:
+      group: rbac.authorization.k8s.io
+      kind: Role
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: RoleBindings
+    query:
+      byLabel: id
+      type: GraphQL
+    ref:
+      group: rbac.authorization.k8s.io
+      kind: RoleBinding
+

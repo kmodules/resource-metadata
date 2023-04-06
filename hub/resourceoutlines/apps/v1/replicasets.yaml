@@ -20,12 +20,30 @@ spec:
     sections:
     - blocks:
       - kind: Block
-        name: stash.appscode.com-v1-backup
+        name: stash.appscode.com-v1-apps-backup
   - name: Monitoring
     sections:
     - blocks:
       - kind: Block
-        name: monitoring.coreos.com-v1-monitoring
+        name: monitoring.coreos.com-v1-apps-monitoring
+  - name: Security
+    sections:
+    - blocks:
+      - kind: Custom
+        name: CVE Report
+      name: CVE Report
+    - blocks:
+      - kind: Block
+        name: rbac.authorization.k8s.io-v1-accesscontrols
+      name: Access Control
+    - blocks:
+      - kind: Block
+        name: cert-manager.io-v1-tls
+      name: TLS
+    - blocks:
+      - kind: Block
+        name: policy-v1-policies
+      name: Policies
   resource:
     group: apps
     kind: ReplicaSet
