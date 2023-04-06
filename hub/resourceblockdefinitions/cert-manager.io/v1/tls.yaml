@@ -2,12 +2,7 @@ apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceBlockDefinition
 metadata:
   creationTimestamp: null
-  labels:
-    k8s.io/group: kubedb.com
-    k8s.io/kind: MongoDB
-    k8s.io/resource: mongodbs
-    k8s.io/version: v1alpha2
-  name: kubedb.com-v1alpha2-tls
+  name: cert-manager.io-v1-tls
 spec:
   blocks:
   - actions:

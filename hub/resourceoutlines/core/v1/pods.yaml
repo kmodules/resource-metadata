@@ -20,12 +20,12 @@ spec:
     sections:
     - blocks:
       - kind: Block
-        name: stash.appscode.com-v1-backup
+        name: stash.appscode.com-v1-apps-backup
   - name: Monitoring
     sections:
     - blocks:
       - kind: Block
-        name: monitoring.coreos.com-v1-monitoring
+        name: monitoring.coreos.com-v1-apps-monitoring
   resource:
     group: ""
     kind: Pod

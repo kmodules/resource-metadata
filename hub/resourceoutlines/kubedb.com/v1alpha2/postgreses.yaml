@@ -47,12 +47,12 @@ spec:
     sections:
     - blocks:
       - kind: Block
-        name: kubedb.com-v1alpha2-backups
+        name: stash.appscode.com-v1-kubedb-backup
   - name: Monitoring
     sections:
     - blocks:
       - kind: Block
-        name: kubedb.com-v1alpha2-monitoring
+        name: monitoring.coreos.com-v1-kubedb-monitoring
   - name: Security
     sections:
     - blocks:
@@ -65,11 +65,11 @@ spec:
       name: Access Control
     - blocks:
       - kind: Block
-        name: kubedb.com-v1alpha2-tls
+        name: cert-manager.io-v1-tls
       name: TLS
     - blocks:
       - kind: Block
-        name: kubedb.com-v1alpha2-policies
+        name: policy-v1-policies
       name: Policies
   resource:
     group: kubedb.com

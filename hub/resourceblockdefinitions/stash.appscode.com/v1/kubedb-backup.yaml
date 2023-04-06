@@ -2,7 +2,7 @@ apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceBlockDefinition
 metadata:
   creationTimestamp: null
-  name: kubedb.com-v1alpha2-backups
+  name: stash.appscode.com-v1-kubedb-backup
 spec:
   blocks:
   - actions:
