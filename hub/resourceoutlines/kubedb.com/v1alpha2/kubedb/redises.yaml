@@ -169,6 +169,35 @@ spec:
         ref:
           group: ui.kubedb.com
           kind: RedisInsight
+  - name: Operations
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Recent Operations
+        query:
+          byLabel: ops
+          type: GraphQL
+        ref:
+          group: ops.kubedb.com
+          kind: RedisOpsRequest
+        view:
+          name: ops.kubedb.com-v1alpha1-mongodbopsrequests-kubedb
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Recommendations
+        query:
+          byLabel: recommended_for
+          type: GraphQL
+        ref:
+          group: supervisor.appscode.com
+          kind: Recommendation
+        view:
+          name: supervisor.appscode.com-v1alpha1-recommendations-kubedb
   - name: Backups
     sections:
     - blocks:
@@ -229,35 +258,24 @@ spec:
         ref:
           group: ui.stash.appscode.com
           kind: BackupOverview
-  - name: Operations
+  - name: Security
     sections:
     - blocks:
-      - actions:
-          create: Never
-        displayMode: List
-        kind: Connection
-        name: Recent Operations
-        query:
-          byLabel: ops
-          type: GraphQL
-        ref:
-          group: ops.kubedb.com
-          kind: RedisOpsRequest
-        view:
-          name: ops.kubedb.com-v1alpha1-mongodbopsrequests-kubedb
-      - actions:
-          create: Never
-        displayMode: List
-        kind: Connection
-        name: Recommendations
-        query:
-          byLabel: recommended_for
-          type: GraphQL
-        ref:
-          group: supervisor.appscode.com
-          kind: Recommendation
-        view:
-          name: supervisor.appscode.com-v1alpha1-recommendations-kubedb
+      - kind: Custom
+        name: CVE Report
+      name: CVE Report
+    - blocks:
+      - kind: Block
+        name: rbac.authorization.k8s.io-v1-accesscontrols
+      name: Access Control
+    - blocks:
+      - kind: Block
+        name: cert-manager.io-v1-tls
+      name: TLS
+    - blocks:
+      - kind: Block
+        name: policy-v1-policies
+      name: Policies
   resource:
     group: kubedb.com
     kind: Redis
