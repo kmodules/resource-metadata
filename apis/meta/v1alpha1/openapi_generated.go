@@ -386,13 +386,10 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/shared.ActionInfo":                         schema_kmodulesxyz_resource_metadata_apis_shared_ActionInfo(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.ActionTemplate":                     schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplate(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.ActionTemplateGroup":                schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplateGroup(ref),
-		"kmodules.xyz/resource-metadata/apis/shared.ChartRepoRef":                       schema_kmodulesxyz_resource_metadata_apis_shared_ChartRepoRef(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.Dashboard":                          schema_kmodulesxyz_resource_metadata_apis_shared_Dashboard(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.DashboardVar":                       schema_kmodulesxyz_resource_metadata_apis_shared_DashboardVar(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.DeploymentParameters":               schema_kmodulesxyz_resource_metadata_apis_shared_DeploymentParameters(ref),
-		"kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef":               schema_kmodulesxyz_resource_metadata_apis_shared_ExpandedChartRepoRef(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.If":                                 schema_kmodulesxyz_resource_metadata_apis_shared_If(ref),
-		"kmodules.xyz/resource-metadata/apis/shared.ImageSpec":                          schema_kmodulesxyz_resource_metadata_apis_shared_ImageSpec(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.ResourceLocator":                    schema_kmodulesxyz_resource_metadata_apis_shared_ResourceLocator(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.ResourceQuery":                      schema_kmodulesxyz_resource_metadata_apis_shared_ResourceQuery(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.UIParameterTemplate":                schema_kmodulesxyz_resource_metadata_apis_shared_UIParameterTemplate(ref),
@@ -15038,7 +15035,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_MenuEntry(ref common.ReferenceC
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ImageSpec"),
+										Ref:     ref("x-helm.dev/apimachinery/apis/shared.ImageSpec"),
 									},
 								},
 							},
@@ -15049,7 +15046,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_MenuEntry(ref common.ReferenceC
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupKind", "kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupKind", "x-helm.dev/apimachinery/apis/shared.ImageSpec"},
 	}
 }
 
@@ -15102,7 +15099,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_MenuItem(ref common.ReferenceCa
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ImageSpec"),
+										Ref:     ref("x-helm.dev/apimachinery/apis/shared.ImageSpec"),
 									},
 								},
 							},
@@ -15142,7 +15139,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_MenuItem(ref common.ReferenceCa
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.TypedLocalObjectReference", "kmodules.xyz/client-go/api/v1.ResourceID", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.MenuItem", "kmodules.xyz/resource-metadata/apis/shared.DeploymentParameters", "kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
+			"k8s.io/api/core/v1.TypedLocalObjectReference", "kmodules.xyz/client-go/api/v1.ResourceID", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.MenuItem", "kmodules.xyz/resource-metadata/apis/shared.DeploymentParameters", "x-helm.dev/apimachinery/apis/shared.ImageSpec"},
 	}
 }
 
@@ -15350,7 +15347,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_MenuSection(ref common.Referenc
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ImageSpec"),
+										Ref:     ref("x-helm.dev/apimachinery/apis/shared.ImageSpec"),
 									},
 								},
 							},
@@ -15374,7 +15371,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_MenuSection(ref common.Referenc
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.MenuItem", "kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.MenuItem", "x-helm.dev/apimachinery/apis/shared.ImageSpec"},
 	}
 }
 
@@ -15416,7 +15413,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_MenuSectionInfo(ref common.Refe
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ImageSpec"),
+										Ref:     ref("x-helm.dev/apimachinery/apis/shared.ImageSpec"),
 									},
 								},
 							},
@@ -15426,7 +15423,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_MenuSectionInfo(ref common.Refe
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
+			"x-helm.dev/apimachinery/apis/shared.ImageSpec"},
 	}
 }
 
@@ -15468,7 +15465,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_MenuSectionOutline(ref common.R
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ImageSpec"),
+										Ref:     ref("x-helm.dev/apimachinery/apis/shared.ImageSpec"),
 									},
 								},
 							},
@@ -15492,7 +15489,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_MenuSectionOutline(ref common.R
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.MenuEntry", "kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.MenuEntry", "x-helm.dev/apimachinery/apis/shared.ImageSpec"},
 	}
 }
 
@@ -15534,7 +15531,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_MenuSectionOutlineInfo(ref comm
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ImageSpec"),
+										Ref:     ref("x-helm.dev/apimachinery/apis/shared.ImageSpec"),
 									},
 								},
 							},
@@ -15544,7 +15541,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_MenuSectionOutlineInfo(ref comm
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
+			"x-helm.dev/apimachinery/apis/shared.ImageSpec"},
 	}
 }
 
@@ -15808,7 +15805,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_PageBlockLayout(ref common.Refe
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ImageSpec"),
+										Ref:     ref("x-helm.dev/apimachinery/apis/shared.ImageSpec"),
 									},
 								},
 							},
@@ -15853,7 +15850,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_PageBlockLayout(ref common.Refe
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupKind", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockTableDefinition", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceActions", "kmodules.xyz/resource-metadata/apis/shared.ImageSpec", "kmodules.xyz/resource-metadata/apis/shared.ResourceQuery"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupKind", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockTableDefinition", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceActions", "kmodules.xyz/resource-metadata/apis/shared.ResourceQuery", "x-helm.dev/apimachinery/apis/shared.ImageSpec"},
 	}
 }
 
@@ -15890,7 +15887,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_PageBlockOutline(ref common.Ref
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ImageSpec"),
+										Ref:     ref("x-helm.dev/apimachinery/apis/shared.ImageSpec"),
 									},
 								},
 							},
@@ -15935,7 +15932,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_PageBlockOutline(ref common.Ref
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupKind", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceActions", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceTableDefinitionRef", "kmodules.xyz/resource-metadata/apis/shared.ImageSpec", "kmodules.xyz/resource-metadata/apis/shared.ResourceQuery"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupKind", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceActions", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceTableDefinitionRef", "kmodules.xyz/resource-metadata/apis/shared.ResourceQuery", "x-helm.dev/apimachinery/apis/shared.ImageSpec"},
 	}
 }
 
@@ -18037,7 +18034,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_SectionLayout(ref common.Refere
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ImageSpec"),
+										Ref:     ref("x-helm.dev/apimachinery/apis/shared.ImageSpec"),
 									},
 								},
 							},
@@ -18070,7 +18067,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_SectionLayout(ref common.Refere
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockLayout", "kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockLayout", "x-helm.dev/apimachinery/apis/shared.ImageSpec"},
 	}
 }
 
@@ -18093,7 +18090,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_SectionOutline(ref common.Refer
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ImageSpec"),
+										Ref:     ref("x-helm.dev/apimachinery/apis/shared.ImageSpec"),
 									},
 								},
 							},
@@ -18126,7 +18123,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_SectionOutline(ref common.Refer
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockOutline", "kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockOutline", "x-helm.dev/apimachinery/apis/shared.ImageSpec"},
 	}
 }
 
@@ -18474,7 +18471,7 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_Action(ref common.Referenc
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ImageSpec"),
+										Ref:     ref("x-helm.dev/apimachinery/apis/shared.ImageSpec"),
 									},
 								},
 							},
@@ -18503,7 +18500,7 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_Action(ref common.Referenc
 					},
 					"editor": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef"),
+							Ref: ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartRepoRef"),
 						},
 					},
 				},
@@ -18511,7 +18508,7 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_Action(ref common.Referenc
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef", "kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
+			"x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartRepoRef", "x-helm.dev/apimachinery/apis/shared.ImageSpec"},
 	}
 }
 
@@ -18604,7 +18601,7 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplate(ref common.
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ImageSpec"),
+										Ref:     ref("x-helm.dev/apimachinery/apis/shared.ImageSpec"),
 									},
 								},
 							},
@@ -18632,7 +18629,7 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplate(ref common.
 					},
 					"editor": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef"),
+							Ref: ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartRepoRef"),
 						},
 					},
 				},
@@ -18640,7 +18637,7 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplate(ref common.
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef", "kmodules.xyz/resource-metadata/apis/shared.ImageSpec"},
+			"x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartRepoRef", "x-helm.dev/apimachinery/apis/shared.ImageSpec"},
 	}
 }
 
@@ -18681,42 +18678,6 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplateGroup(ref co
 		},
 		Dependencies: []string{
 			"kmodules.xyz/resource-metadata/apis/shared.ActionTemplate"},
-	}
-}
-
-func schema_kmodulesxyz_resource_metadata_apis_shared_ChartRepoRef(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Description: "ChartRepoRef references to a single version of a Chart",
-				Type:        []string{"object"},
-				Properties: map[string]spec.Schema{
-					"name": {
-						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
-						},
-					},
-					"version": {
-						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
-						},
-					},
-					"sourceRef": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("kmodules.xyz/client-go/api/v1.TypedObjectReference"),
-						},
-					},
-				},
-				Required: []string{"name", "version", "sourceRef"},
-			},
-		},
-		Dependencies: []string{
-			"kmodules.xyz/client-go/api/v1.TypedObjectReference"},
 	}
 }
 
@@ -18825,48 +18786,14 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_DeploymentParameters(ref c
 					},
 					"chart": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/resource-metadata/apis/shared.ChartRepoRef"),
+							Ref: ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartSourceRef"),
 						},
 					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/shared.ChartRepoRef"},
-	}
-}
-
-func schema_kmodulesxyz_resource_metadata_apis_shared_ExpandedChartRepoRef(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Description: "ExpandedChartRepoRef references to a single version of a Chart",
-				Type:        []string{"object"},
-				Properties: map[string]spec.Schema{
-					"url": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
-					"name": {
-						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
-						},
-					},
-					"version": {
-						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
-						},
-					},
-				},
-				Required: []string{"name", "version"},
-			},
-		},
+			"x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartSourceRef"},
 	}
 }
 
@@ -18892,42 +18819,6 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_If(ref common.ReferenceCal
 		},
 		Dependencies: []string{
 			"kmodules.xyz/resource-metadata/apis/shared.ResourceLocator"},
-	}
-}
-
-func schema_kmodulesxyz_resource_metadata_apis_shared_ImageSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Description: "ImageSpec contains information about an image used as an icon.",
-				Type:        []string{"object"},
-				Properties: map[string]spec.Schema{
-					"src": {
-						SchemaProps: spec.SchemaProps{
-							Description: "The source for image represented as either an absolute URL to the image or a Data URL containing the image. Data URLs are defined in RFC 2397.",
-							Default:     "",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"size": {
-						SchemaProps: spec.SchemaProps{
-							Description: "(optional) The size of the image in pixels (e.g., 25x25).",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"type": {
-						SchemaProps: spec.SchemaProps{
-							Description: "(optional) The mine type of the image (e.g., \"image/png\").",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-				},
-				Required: []string{"src"},
-			},
-		},
 	}
 }
 
@@ -18998,12 +18889,12 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_UIParameterTemplate(ref co
 				Properties: map[string]spec.Schema{
 					"options": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef"),
+							Ref: ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartRepoRef"),
 						},
 					},
 					"editor": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef"),
+							Ref: ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartRepoRef"),
 						},
 					},
 					"actions": {
@@ -19037,7 +18928,7 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_UIParameterTemplate(ref co
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/shared.ActionTemplateGroup", "kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef"},
+			"kmodules.xyz/resource-metadata/apis/shared.ActionTemplateGroup", "x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartRepoRef"},
 	}
 }
 
@@ -19049,12 +18940,12 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_UIParameters(ref common.Re
 				Properties: map[string]spec.Schema{
 					"options": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef"),
+							Ref: ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartRepoRef"),
 						},
 					},
 					"editor": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef"),
+							Ref: ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartRepoRef"),
 						},
 					},
 					"actions": {
@@ -19088,6 +18979,6 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_UIParameters(ref common.Re
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/shared.ActionGroup", "kmodules.xyz/resource-metadata/apis/shared.ExpandedChartRepoRef"},
+			"kmodules.xyz/resource-metadata/apis/shared.ActionGroup", "x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartRepoRef"},
 	}
 }

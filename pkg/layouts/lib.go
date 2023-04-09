@@ -40,6 +40,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	releasesapi "x-helm.dev/apimachinery/apis/releases/v1alpha1"
 )
 
 const BasicPage = "Basic"
@@ -190,7 +191,7 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 				InstanceLabelPaths: ed.Spec.UI.InstanceLabelPaths,
 			}
 
-			expand := func(ref *shared.ChartRepoRef) (*shared.ExpandedChartRepoRef, error) {
+			expand := func(ref *releasesapi.ChartSourceRef) (*releasesapi.ChartRepoRef, error) {
 				if ref == nil {
 					return nil, nil
 				}
@@ -202,7 +203,7 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 				if err != nil {
 					return nil, errors.Wrapf(err, "failed to get HelmRepository %s/%s", ref.SourceRef.Namespace, ref.SourceRef.Name)
 				}
-				return &shared.ExpandedChartRepoRef{
+				return &releasesapi.ChartRepoRef{
 					Name:    ref.Name,
 					Version: ref.Version,
 					URL:     src.Spec.URL,

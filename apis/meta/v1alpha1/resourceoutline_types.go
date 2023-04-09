@@ -21,6 +21,7 @@ import (
 	"kmodules.xyz/resource-metadata/apis/shared"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	helmshared "x-helm.dev/apimachinery/apis/shared"
 )
 
 const (
@@ -60,11 +61,11 @@ type ResourcePageOutline struct {
 }
 
 type SectionOutline struct {
-	Name    string             `json:"name,omitempty"`
-	Icons   []shared.ImageSpec `json:"icons,omitempty"`
-	Info    *PageBlockOutline  `json:"info,omitempty"`
-	Insight *PageBlockOutline  `json:"insight,omitempty"`
-	Blocks  []PageBlockOutline `json:"blocks,omitempty"`
+	Name    string                 `json:"name,omitempty"`
+	Icons   []helmshared.ImageSpec `json:"icons,omitempty"`
+	Info    *PageBlockOutline      `json:"info,omitempty"`
+	Insight *PageBlockOutline      `json:"insight,omitempty"`
+	Blocks  []PageBlockOutline     `json:"blocks,omitempty"`
 }
 
 // +kubebuilder:validation:Enum=Block;Self;SubTable;Connection;Custom
@@ -79,11 +80,11 @@ const (
 )
 
 type PageBlockOutline struct {
-	Kind                    TableKind          `json:"kind"` // ResourceBlockDefinition | Connection | Subtable(Field) | Custom
-	Name                    string             `json:"name,omitempty"`
-	Width                   int                `json:"width,omitempty"`
-	Icons                   []shared.ImageSpec `json:"icons,omitempty"`
-	FieldPath               string             `json:"fieldPath,omitempty"`
+	Kind                    TableKind              `json:"kind"` // ResourceBlockDefinition | Connection | Subtable(Field) | Custom
+	Name                    string                 `json:"name,omitempty"`
+	Width                   int                    `json:"width,omitempty"`
+	Icons                   []helmshared.ImageSpec `json:"icons,omitempty"`
+	FieldPath               string                 `json:"fieldPath,omitempty"`
 	*shared.ResourceLocator `json:",inline,omitempty"`
 	DisplayMode             ResourceDisplayMode         `json:"displayMode,omitempty"`
 	Actions                 *ResourceActions            `json:"actions,omitempty"`
