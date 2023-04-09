@@ -13,25 +13,26 @@ require (
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.8.0
 	github.com/yudai/gojsondiff v1.0.0
-	golang.org/x/net v0.7.0
+	golang.org/x/net v0.9.0
 	gomodules.xyz/encoding v0.0.7
 	gomodules.xyz/jsonpath v0.0.2
 	gomodules.xyz/x v0.0.14
 	gopkg.in/yaml.v2 v2.4.0
-	k8s.io/api v0.25.1
+	k8s.io/api v0.25.3
 	k8s.io/apiextensions-apiserver v0.25.1
 	k8s.io/apimachinery v0.25.3
-	k8s.io/client-go v0.25.1
+	k8s.io/client-go v0.25.3
 	k8s.io/klog/v2 v2.80.1
 	k8s.io/kube-openapi v0.0.0-20220803162953-67bda5d908f1
 	kmodules.xyz/apiversion v0.2.0
-	kmodules.xyz/client-go v0.25.16
+	kmodules.xyz/client-go v0.25.21
 	kmodules.xyz/crd-schema-fuzz v0.25.0
 	kmodules.xyz/resource-metrics v0.25.0
 	kmodules.xyz/schema-checker v0.4.1
 	sigs.k8s.io/cli-utils v0.33.0
 	sigs.k8s.io/controller-runtime v0.13.1
 	sigs.k8s.io/yaml v1.3.0
+	x-helm.dev/apimachinery v0.0.2-0.20230409005828-30df5f7bd52d
 )
 
 require (
@@ -83,10 +84,10 @@ require (
 	github.com/spf13/cast v1.3.1 // indirect
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	golang.org/x/crypto v0.6.0 // indirect
-	golang.org/x/oauth2 v0.1.0 // indirect
-	golang.org/x/sys v0.5.0 // indirect
-	golang.org/x/term v0.5.0 // indirect
-	golang.org/x/text v0.7.0 // indirect
+	golang.org/x/oauth2 v0.7.0 // indirect
+	golang.org/x/sys v0.7.0 // indirect
+	golang.org/x/term v0.7.0 // indirect
+	golang.org/x/text v0.9.0 // indirect
 	golang.org/x/time v0.0.0-20220722155302-e5dcc9cfc0b9 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.2.0 // indirect
 	gomodules.xyz/mergo v0.3.13 // indirect

@@ -21,6 +21,7 @@ import (
 	"kmodules.xyz/resource-metadata/apis/shared"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	helmshared "x-helm.dev/apimachinery/apis/shared"
 )
 
 const (
@@ -59,19 +60,19 @@ type ResourcePageLayout struct {
 }
 
 type SectionLayout struct {
-	Name    string             `json:"name,omitempty"`
-	Icons   []shared.ImageSpec `json:"icons,omitempty"`
-	Info    *PageBlockLayout   `json:"info,omitempty"`
-	Insight *PageBlockLayout   `json:"insight,omitempty"`
-	Blocks  []PageBlockLayout  `json:"blocks,omitempty"`
+	Name    string                 `json:"name,omitempty"`
+	Icons   []helmshared.ImageSpec `json:"icons,omitempty"`
+	Info    *PageBlockLayout       `json:"info,omitempty"`
+	Insight *PageBlockLayout       `json:"insight,omitempty"`
+	Blocks  []PageBlockLayout      `json:"blocks,omitempty"`
 }
 
 type PageBlockLayout struct {
-	Kind      TableKind          `json:"kind"` // Connection | Subtable(Field)
-	Name      string             `json:"name,omitempty"`
-	Width     int                `json:"width,omitempty"`
-	Icons     []shared.ImageSpec `json:"icons,omitempty"`
-	FieldPath string             `json:"fieldPath,omitempty"`
+	Kind      TableKind              `json:"kind"` // Connection | Subtable(Field)
+	Name      string                 `json:"name,omitempty"`
+	Width     int                    `json:"width,omitempty"`
+	Icons     []helmshared.ImageSpec `json:"icons,omitempty"`
+	FieldPath string                 `json:"fieldPath,omitempty"`
 
 	*shared.ResourceLocator `json:",inline,omitempty"`
 	DisplayMode             ResourceDisplayMode `json:"displayMode,omitempty"`

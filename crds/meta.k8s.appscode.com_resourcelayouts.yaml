@@ -1238,8 +1238,8 @@ spec:
                               disabledTemplate:
                                 type: string
                               editor:
-                                description: ExpandedChartRepoRef references to a
-                                  single version of a Chart
+                                description: ChartRepoRef references to a single version
+                                  of a Chart
                                 properties:
                                   name:
                                     type: string
@@ -1292,8 +1292,8 @@ spec:
                       type: object
                     type: array
                   editor:
-                    description: ExpandedChartRepoRef references to a single version
-                      of a Chart
+                    description: ChartRepoRef references to a single version of a
+                      Chart
                     properties:
                       name:
                         type: string
@@ -1312,8 +1312,8 @@ spec:
                       type: string
                     type: array
                   options:
-                    description: ExpandedChartRepoRef references to a single version
-                      of a Chart
+                    description: ChartRepoRef references to a single version of a
+                      Chart
                     properties:
                       name:
                         type: string

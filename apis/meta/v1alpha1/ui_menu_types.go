@@ -22,6 +22,7 @@ import (
 
 	core "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	helmshared "x-helm.dev/apimachinery/apis/shared"
 )
 
 const (
@@ -67,7 +68,7 @@ type MenuSectionInfo struct {
 
 	// Icons is an optional list of icons for an application. Icon information includes the source, size,
 	// and mime type.
-	Icons []shared.ImageSpec `json:"icons,omitempty"`
+	Icons []helmshared.ImageSpec `json:"icons,omitempty"`
 }
 
 type MenuItem struct {
@@ -81,7 +82,7 @@ type MenuItem struct {
 	// +optional
 	LayoutName string `json:"layoutName,omitempty"`
 	// +optional
-	Icons     []shared.ImageSpec           `json:"icons,omitempty"`
+	Icons     []helmshared.ImageSpec       `json:"icons,omitempty"`
 	Installer *shared.DeploymentParameters `json:"installer,omitempty"`
 	// +optional
 	Preset *core.TypedLocalObjectReference `json:"preset,omitempty"`

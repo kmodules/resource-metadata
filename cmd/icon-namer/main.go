@@ -24,11 +24,11 @@ import (
 	"strings"
 
 	metaapi "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	"kmodules.xyz/resource-metadata/apis/shared"
 	uiapi "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
 
 	"k8s.io/apimachinery/pkg/util/sets"
 	"sigs.k8s.io/yaml"
+	helmshared "x-helm.dev/apimachinery/apis/shared"
 )
 
 const iconURLPrefix = "https://cdn.appscode.com/k8s/icons/"
@@ -80,7 +80,7 @@ func main() {
 			missing = append(missing, img)
 		} else {
 			allIcons.Insert(img)
-			rd.Spec.Icons = append(rd.Spec.Icons, shared.ImageSpec{
+			rd.Spec.Icons = append(rd.Spec.Icons, helmshared.ImageSpec{
 				Source: iconURLPrefix + img,
 				Type:   "image/svg+xml",
 			})
@@ -90,7 +90,7 @@ func main() {
 			missing = append(missing, img)
 		} else {
 			allIcons.Insert(img)
-			rd.Spec.Icons = append(rd.Spec.Icons, shared.ImageSpec{
+			rd.Spec.Icons = append(rd.Spec.Icons, helmshared.ImageSpec{
 				Source: iconURLPrefix + img,
 				Type:   "image/png",
 			})
@@ -206,7 +206,7 @@ func groupDir(group string) string {
 	return group
 }
 
-func processIcons(icons []shared.ImageSpec, allIcons sets.String, missing []string) ([]shared.ImageSpec, []string) {
+func processIcons(icons []helmshared.ImageSpec, allIcons sets.String, missing []string) ([]helmshared.ImageSpec, []string) {
 	m := map[string]string{} // mime -> url
 	for _, entry := range icons {
 		m[entry.Type] = entry.Source
@@ -219,7 +219,7 @@ func processIcons(icons []shared.ImageSpec, allIcons sets.String, missing []stri
 			missing = append(missing, img)
 		} else {
 			allIcons.Insert(img)
-			icons = append(icons, shared.ImageSpec{
+			icons = append(icons, helmshared.ImageSpec{
 				Source: u,
 				Type:   "image/svg+xml",
 			})
@@ -230,7 +230,7 @@ func processIcons(icons []shared.ImageSpec, allIcons sets.String, missing []stri
 			missing = append(missing, img)
 		} else {
 			allIcons.Insert(img)
-			icons = append(icons, shared.ImageSpec{
+			icons = append(icons, helmshared.ImageSpec{
 				Source: iconURLPrefix + img,
 				Type:   "image/png",
 			})
