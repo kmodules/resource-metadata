@@ -50,8 +50,8 @@ type ResourceQuery struct {
 }
 
 type UIParameters struct {
-	Options *releasesapi.ChartRepoRef `json:"options,omitempty"`
-	Editor  *releasesapi.ChartRepoRef `json:"editor,omitempty"`
+	Options *releasesapi.ChartSourceRef `json:"options,omitempty"`
+	Editor  *releasesapi.ChartSourceRef `json:"editor,omitempty"`
 	// +optional
 	Actions []*ActionGroup `json:"actions,omitempty"`
 	// app.kubernetes.io/instance label must be updated at these paths when refilling metadata
@@ -60,8 +60,8 @@ type UIParameters struct {
 }
 
 type UIParameterTemplate struct {
-	Options *releasesapi.ChartRepoRef `json:"options,omitempty"`
-	Editor  *releasesapi.ChartRepoRef `json:"editor,omitempty"`
+	Options *releasesapi.ChartSourceRef `json:"options,omitempty"`
+	Editor  *releasesapi.ChartSourceRef `json:"editor,omitempty"`
 	// +optional
 	Actions []*ActionTemplateGroup `json:"actions,omitempty"`
 	// app.kubernetes.io/instance label must be updated at these paths when refilling metadata
@@ -77,11 +77,11 @@ type ActionGroup struct {
 type Action struct {
 	ActionInfo `json:",inline,omitempty"`
 	// +optional
-	Icons       []helmshared.ImageSpec    `json:"icons,omitempty"`
-	OperationID string                    `json:"operationId"`
-	Flow        string                    `json:"flow"`
-	Disabled    bool                      `json:"disabled"`
-	Editor      *releasesapi.ChartRepoRef `json:"editor,omitempty"`
+	Icons       []helmshared.ImageSpec      `json:"icons,omitempty"`
+	OperationID string                      `json:"operationId"`
+	Flow        string                      `json:"flow"`
+	Disabled    bool                        `json:"disabled"`
+	Editor      *releasesapi.ChartSourceRef `json:"editor,omitempty"`
 }
 
 // +kubebuilder:validation:Enum=Source;Target
@@ -124,11 +124,11 @@ type ActionTemplateGroup struct {
 type ActionTemplate struct {
 	ActionInfo `json:",inline,omitempty"`
 	// +optional
-	Icons            []helmshared.ImageSpec    `json:"icons,omitempty"`
-	OperationID      string                    `json:"operationId"`
-	Flow             string                    `json:"flow"`
-	DisabledTemplate string                    `json:"disabledTemplate,omitempty"`
-	Editor           *releasesapi.ChartRepoRef `json:"editor,omitempty"`
+	Icons            []helmshared.ImageSpec      `json:"icons,omitempty"`
+	OperationID      string                      `json:"operationId"`
+	Flow             string                      `json:"flow"`
+	DisabledTemplate string                      `json:"disabledTemplate,omitempty"`
+	Editor           *releasesapi.ChartSourceRef `json:"editor,omitempty"`
 }
 
 type ActionInfo struct {
