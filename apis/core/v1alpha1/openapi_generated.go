@@ -15951,7 +15951,7 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_Action(ref common.Referenc
 					},
 					"editor": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartRepoRef"),
+							Ref: ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartSourceRef"),
 						},
 					},
 				},
@@ -15959,7 +15959,7 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_Action(ref common.Referenc
 			},
 		},
 		Dependencies: []string{
-			"x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartRepoRef", "x-helm.dev/apimachinery/apis/shared.ImageSpec"},
+			"x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartSourceRef", "x-helm.dev/apimachinery/apis/shared.ImageSpec"},
 	}
 }
 
@@ -16080,7 +16080,7 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplate(ref common.
 					},
 					"editor": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartRepoRef"),
+							Ref: ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartSourceRef"),
 						},
 					},
 				},
@@ -16088,7 +16088,7 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplate(ref common.
 			},
 		},
 		Dependencies: []string{
-			"x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartRepoRef", "x-helm.dev/apimachinery/apis/shared.ImageSpec"},
+			"x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartSourceRef", "x-helm.dev/apimachinery/apis/shared.ImageSpec"},
 	}
 }
 
@@ -16340,12 +16340,12 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_UIParameterTemplate(ref co
 				Properties: map[string]spec.Schema{
 					"options": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartRepoRef"),
+							Ref: ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartSourceRef"),
 						},
 					},
 					"editor": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartRepoRef"),
+							Ref: ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartSourceRef"),
 						},
 					},
 					"actions": {
@@ -16379,7 +16379,7 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_UIParameterTemplate(ref co
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/shared.ActionTemplateGroup", "x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartRepoRef"},
+			"kmodules.xyz/resource-metadata/apis/shared.ActionTemplateGroup", "x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartSourceRef"},
 	}
 }
 
@@ -16391,12 +16391,12 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_UIParameters(ref common.Re
 				Properties: map[string]spec.Schema{
 					"options": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartRepoRef"),
+							Ref: ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartSourceRef"),
 						},
 					},
 					"editor": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartRepoRef"),
+							Ref: ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartSourceRef"),
 						},
 					},
 					"actions": {
@@ -16430,6 +16430,6 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_UIParameters(ref common.Re
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/shared.ActionGroup", "x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartRepoRef"},
+			"kmodules.xyz/resource-metadata/apis/shared.ActionGroup", "x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartSourceRef"},
 	}
 }

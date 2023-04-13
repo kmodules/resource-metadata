@@ -37,7 +37,7 @@ func (in *Action) DeepCopyInto(out *Action) {
 	}
 	if in.Editor != nil {
 		in, out := &in.Editor, &out.Editor
-		*out = new(v1alpha1.ChartRepoRef)
+		*out = new(v1alpha1.ChartSourceRef)
 		**out = **in
 	}
 	return
@@ -104,7 +104,7 @@ func (in *ActionTemplate) DeepCopyInto(out *ActionTemplate) {
 	}
 	if in.Editor != nil {
 		in, out := &in.Editor, &out.Editor
-		*out = new(v1alpha1.ChartRepoRef)
+		*out = new(v1alpha1.ChartSourceRef)
 		**out = **in
 	}
 	return
@@ -272,12 +272,12 @@ func (in *UIParameterTemplate) DeepCopyInto(out *UIParameterTemplate) {
 	*out = *in
 	if in.Options != nil {
 		in, out := &in.Options, &out.Options
-		*out = new(v1alpha1.ChartRepoRef)
+		*out = new(v1alpha1.ChartSourceRef)
 		**out = **in
 	}
 	if in.Editor != nil {
 		in, out := &in.Editor, &out.Editor
-		*out = new(v1alpha1.ChartRepoRef)
+		*out = new(v1alpha1.ChartSourceRef)
 		**out = **in
 	}
 	if in.Actions != nil {
@@ -314,12 +314,12 @@ func (in *UIParameters) DeepCopyInto(out *UIParameters) {
 	*out = *in
 	if in.Options != nil {
 		in, out := &in.Options, &out.Options
-		*out = new(v1alpha1.ChartRepoRef)
+		*out = new(v1alpha1.ChartSourceRef)
 		**out = **in
 	}
 	if in.Editor != nil {
 		in, out := &in.Editor, &out.Editor
-		*out = new(v1alpha1.ChartRepoRef)
+		*out = new(v1alpha1.ChartSourceRef)
 		**out = **in
 	}
 	if in.Actions != nil {

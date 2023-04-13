@@ -17,7 +17,6 @@ limitations under the License.
 package layouts
 
 import (
-	"context"
 	"fmt"
 	"strings"
 
@@ -33,8 +32,6 @@ import (
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor"
 
 	_ "github.com/fluxcd/source-controller/api/v1beta2"
-	fluxsrc "github.com/fluxcd/source-controller/api/v1beta2"
-	"github.com/pkg/errors"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -191,37 +188,20 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 				InstanceLabelPaths: ed.Spec.UI.InstanceLabelPaths,
 			}
 
-			expand := func(ref *releasesapi.ChartSourceRef) (*releasesapi.ChartRepoRef, error) {
+			expand := func(ref *releasesapi.ChartSourceRef) *releasesapi.ChartSourceRef {
 				if ref == nil {
-					return nil, nil
+					return nil
 				}
 				if ref.SourceRef.Namespace == "" {
 					ref.SourceRef.Namespace = meta_util.PodNamespace()
 				}
-				var src fluxsrc.HelmRepository
-				err := kc.Get(context.TODO(), client.ObjectKey{Namespace: ref.SourceRef.Namespace, Name: ref.SourceRef.Name}, &src)
-				if err != nil {
-					return nil, errors.Wrapf(err, "failed to get HelmRepository %s/%s", ref.SourceRef.Namespace, ref.SourceRef.Name)
-				}
-				return &releasesapi.ChartRepoRef{
-					Name:    ref.Name,
-					Version: ref.Version,
-					URL:     src.Spec.URL,
-				}, nil
+				return ref
 			}
 			{
-				ref, err := expand(ed.Spec.UI.Editor)
-				if err != nil {
-					return nil, err
-				}
-				result.Spec.UI.Editor = ref
+				result.Spec.UI.Editor = expand(ed.Spec.UI.Editor)
 			}
 			{
-				ref, err := expand(ed.Spec.UI.Options)
-				if err != nil {
-					return nil, err
-				}
-				result.Spec.UI.Options = ref
+				result.Spec.UI.Options = expand(ed.Spec.UI.Options)
 			}
 			{
 				result.Spec.UI.Actions = make([]*shared.ActionTemplateGroup, 0, len(ed.Spec.UI.Actions))
@@ -238,11 +218,7 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 							Flow:             a.Flow,
 							DisabledTemplate: a.DisabledTemplate,
 						}
-						ref, err := expand(a.Editor)
-						if err != nil {
-							return nil, err
-						}
-						a2.Editor = ref
+						a2.Editor = expand(a.Editor)
 						ag2.Items = append(ag2.Items, a2)
 					}
 					result.Spec.UI.Actions = append(result.Spec.UI.Actions, &ag2)
