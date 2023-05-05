@@ -20,6 +20,12 @@ spec:
       type:
         group: kubedb.com
         kind: Elasticsearch
+    - layoutName: kubedb.com-v1alpha2-kafkas-kubedb
+      name: Kafka
+      required: true
+      type:
+        group: kubedb.com
+        kind: Kafka
     - layoutName: kubedb.com-v1alpha2-mariadbs-kubedb
       name: MariaDB
       required: true
@@ -61,6 +67,8 @@ spec:
   - icons:
     - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/backupconfigurations.svg
       type: image/svg+xml
+    - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/backupconfigurations.png
+      type: image/png
     items:
     - layoutName: stash.appscode.com-v1beta1-backupsessions-kubedb
       name: Recent Backups

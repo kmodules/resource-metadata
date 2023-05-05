@@ -38,7 +38,23 @@ spec:
     pathTemplate: '{{ k8s_resource_replicas_by_roles . | toRawJson }}'
     priority: 3
     type: string
-  - name: Phase
+  - color:
+      template: |
+        {{ $status := .status.phase }}
+        {{ $color := "gray" }}
+        {{ if list "Provisioning" "DataRestoring" | has $status }}
+          {{ $color = "info" }}
+        {{ else if list "Ready" | has $status }}
+          {{ $color = "success" }}
+        {{ else if list "Critical" | has $status }}
+          {{ $color = "warning" }}
+        {{ else if list "NotReady" | has $status }}
+          {{ $color = "danger" }}
+        {{ else if list "Halted" | has $status }}
+          {{ $color = "gray" }}
+        {{ end }}
+        {{- printf "%s" $color -}}
+    name: Phase
     pathTemplate: '{{ .status.phase }}'
     priority: 3
     type: string
