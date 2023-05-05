@@ -28,15 +28,15 @@ import (
 
 func init() {
 	api.Register(schema.GroupVersionKind{
-		Group:   "kubedb.com",
+		Group:   "kubevault.com",
 		Version: "v1alpha2",
-		Kind:    "Redis",
-	}, Redis{}.ResourceCalculator())
+		Kind:    "VaultServer",
+	}, VaultServer{}.ResourceCalculator())
 }
 
-type Redis struct{}
+type VaultServer struct{}
 
-func (r Redis) ResourceCalculator() api.ResourceCalculator {
+func (r VaultServer) ResourceCalculator() api.ResourceCalculator {
 	return &api.ResourceCalculatorFuncs{
 		AppRoles:               []api.PodRole{api.PodRoleDefault},
 		RuntimeRoles:           []api.PodRole{api.PodRoleDefault, api.PodRoleExporter},
@@ -48,29 +48,7 @@ func (r Redis) ResourceCalculator() api.ResourceCalculator {
 	}
 }
 
-func (r Redis) roleReplicasFn(obj map[string]interface{}) (api.ReplicaList, error) {
-	mode, found, err := unstructured.NestedString(obj, "spec", "mode")
-	if err != nil {
-		return nil, err
-	}
-	if found && mode == DBModeCluster {
-		shards, _, err := unstructured.NestedInt64(obj, "spec", "cluster", "master")
-		if err != nil {
-			return nil, err
-		}
-		shardReplicas, _, err := unstructured.NestedInt64(obj, "spec", "cluster", "replicas")
-		if err != nil {
-			return nil, err
-		}
-		return api.ReplicaList{
-			api.PodRoleTotalShard:       shards * shardReplicas,
-			api.PodRoleDefault:          shards * shardReplicas,
-			api.PodRoleShard:            shards,
-			api.PodRoleReplicasPerShard: shardReplicas,
-		}, nil
-	}
-
-	// Standalone or sentinel
+func (r VaultServer) roleReplicasFn(obj map[string]interface{}) (api.ReplicaList, error) {
 	replicas, found, err := unstructured.NestedInt64(obj, "spec", "replicas")
 	if err != nil {
 		return nil, fmt.Errorf("failed to read spec.replicas %v: %w", obj, err)
@@ -81,52 +59,33 @@ func (r Redis) roleReplicasFn(obj map[string]interface{}) (api.ReplicaList, erro
 	return api.ReplicaList{api.PodRoleDefault: replicas}, nil
 }
 
-func (r Redis) modeFn(obj map[string]interface{}) (string, error) {
-	mode, found, err := unstructured.NestedString(obj, "spec", "mode")
-	if err != nil {
-		return "", err
-	}
-	if found {
-		return mode, nil
-	}
-	return DBStandalone, nil
+func (r VaultServer) modeFn(obj map[string]interface{}) (string, error) {
+	return VaultModeDefault, nil
 }
 
-func (r Redis) usesTLSFn(obj map[string]interface{}) (bool, error) {
+func (r VaultServer) usesTLSFn(obj map[string]interface{}) (bool, error) {
 	_, found, err := unstructured.NestedFieldNoCopy(obj, "spec", "tls")
 	return found, err
 }
 
-func (r Redis) roleResourceFn(fn func(rr core.ResourceRequirements) core.ResourceList) func(obj map[string]interface{}) (map[api.PodRole]core.ResourceList, error) {
+func (r VaultServer) roleResourceFn(fn func(rr core.ResourceRequirements) core.ResourceList) func(obj map[string]interface{}) (map[api.PodRole]core.ResourceList, error) {
 	return func(obj map[string]interface{}) (map[api.PodRole]core.ResourceList, error) {
 		exporter, err := api.ContainerResources(obj, fn, "spec", "monitor", "prometheus", "exporter")
 		if err != nil {
 			return nil, err
 		}
 
-		// Redis Sentinel or Standalone
 		container, replicas, err := api.AppNodeResources(obj, fn, "spec")
 		if err != nil {
 			return nil, err
 		}
 
-		mode, found, err := unstructured.NestedString(obj, "spec", "mode")
+		raftBackend, _, err := api.AppNodeResources(obj, fn, "spec", "backend", "raft")
 		if err != nil {
 			return nil, err
 		}
-		if found && mode == DBModeCluster {
-			shards, _, err := unstructured.NestedInt64(obj, "spec", "cluster", "master")
-			if err != nil {
-				return nil, err
-			}
-			shardReplicas, _, err := unstructured.NestedInt64(obj, "spec", "cluster", "replicas")
-			if err != nil {
-				return nil, err
-			}
-			// If spec.cluster.replicas = x
-			// That means in each shard there are (x+1) redis replicas
-			shardReplicas += 1
-			replicas = shards * shardReplicas
+		if raftBackend != nil {
+			container[core.ResourceStorage] = raftBackend[core.ResourceStorage]
 		}
 
 		return map[api.PodRole]core.ResourceList{

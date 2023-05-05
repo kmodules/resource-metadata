@@ -589,7 +589,7 @@ k8s.io/utils/trace
 # kmodules.xyz/apiversion v0.2.0
 ## explicit; go 1.14
 kmodules.xyz/apiversion
-# kmodules.xyz/client-go v0.25.21
+# kmodules.xyz/client-go v0.25.22
 ## explicit; go 1.18
 kmodules.xyz/client-go
 kmodules.xyz/client-go/api/v1
@@ -604,7 +604,7 @@ kmodules.xyz/crd-schema-fuzz
 # kmodules.xyz/offshoot-api v0.25.0
 ## explicit; go 1.18
 kmodules.xyz/offshoot-api/api/v1
-# kmodules.xyz/resource-metrics v0.25.0
+# kmodules.xyz/resource-metrics v0.25.2
 ## explicit; go 1.18
 kmodules.xyz/resource-metrics
 kmodules.xyz/resource-metrics/api
@@ -613,6 +613,7 @@ kmodules.xyz/resource-metrics/batch/v1
 kmodules.xyz/resource-metrics/batch/v1beta1
 kmodules.xyz/resource-metrics/core/v1
 kmodules.xyz/resource-metrics/kubedb.com/v1alpha2
+kmodules.xyz/resource-metrics/kubevault.com/v1alpha2
 # kmodules.xyz/schema-checker v0.4.1
 ## explicit; go 1.17
 kmodules.xyz/schema-checker
@@ -675,7 +676,7 @@ sigs.k8s.io/structured-merge-diff/v4/value
 # sigs.k8s.io/yaml v1.3.0
 ## explicit; go 1.12
 sigs.k8s.io/yaml
-# x-helm.dev/apimachinery v0.0.7
+# x-helm.dev/apimachinery v0.0.9
 ## explicit; go 1.19
 x-helm.dev/apimachinery/apis/releases/v1alpha1
 x-helm.dev/apimachinery/apis/shared

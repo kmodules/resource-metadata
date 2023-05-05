@@ -25,14 +25,14 @@ require (
 	k8s.io/klog/v2 v2.80.1
 	k8s.io/kube-openapi v0.0.0-20220803162953-67bda5d908f1
 	kmodules.xyz/apiversion v0.2.0
-	kmodules.xyz/client-go v0.25.21
+	kmodules.xyz/client-go v0.25.22
 	kmodules.xyz/crd-schema-fuzz v0.25.0
-	kmodules.xyz/resource-metrics v0.25.0
+	kmodules.xyz/resource-metrics v0.25.2
 	kmodules.xyz/schema-checker v0.4.1
 	sigs.k8s.io/cli-utils v0.33.0
 	sigs.k8s.io/controller-runtime v0.13.1
 	sigs.k8s.io/yaml v1.3.0
-	x-helm.dev/apimachinery v0.0.7
+	x-helm.dev/apimachinery v0.0.9
 )
 
 require (
