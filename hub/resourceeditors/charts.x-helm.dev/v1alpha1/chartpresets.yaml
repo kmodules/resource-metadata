@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: charts.x-helm.dev
+    k8s.io/kind: ChartPreset
+    k8s.io/resource: chartpresets
+    k8s.io/version: v1alpha1
+  name: charts.x-helm.dev-v1alpha1-chartpresets
+spec:
+  resource:
+    group: charts.x-helm.dev
+    kind: ChartPreset
+    name: chartpresets
+    scope: Namespaced
+    version: v1alpha1

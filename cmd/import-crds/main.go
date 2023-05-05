@@ -78,6 +78,12 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/k8s.io/autoscaler/vertical-p
 helm template flux fluxcd-community/flux2 --output-dir=/tmp/fluxcd-manifests
 go run cmd/import-crds/main.go --input=/tmp/fluxcd-manifests
 
+# x-helm/kubepack
+go run cmd/import-crds/main.go --input=$HOME/go/src/x-helm.dev/apimachinery/crds
+
+# OPA
+go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/open-policy-agent/gatekeeper/config/crd/bases
+
 # External DNS
 go run cmd/import-crds/main.go --input=$HOME/go/src/kubeops.dev/external-dns-operator/crds
 
