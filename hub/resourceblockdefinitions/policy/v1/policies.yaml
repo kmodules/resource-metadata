@@ -5,6 +5,8 @@ metadata:
   name: policy-v1-policies
 spec:
   blocks:
+  - kind: Custom
+    name: Policy Report
   - actions:
       create: Never
     displayMode: List
