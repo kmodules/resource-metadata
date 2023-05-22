@@ -191,6 +191,13 @@ spec:
     - src: https://cdn.appscode.com/k8s/icons/menu/security.png
       type: image/png
     items:
+    - icons:
+      - src: https://cdn.appscode.com/k8s/icons/menu/monitoring.svg
+        type: image/svg+xml
+      - src: https://cdn.appscode.com/k8s/icons/menu/monitoring.png
+        type: image/png
+      name: Gatekeeper Report
+      path: /gatekeeper-report
     - name: Policy
       required: true
       type:
