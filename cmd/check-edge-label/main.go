@@ -34,7 +34,7 @@ func main() {
 
 			var offshoot bool
 			for _, lbl := range c.Labels {
-				if lbl == kmapi.EdgeOffshoot {
+				if lbl == kmapi.EdgeLabelOffshoot {
 					offshoot = true
 					break
 				}
