@@ -17,13 +17,15 @@ limitations under the License.
 package hub
 
 import (
+	"testing"
+
 	kmapi "kmodules.xyz/client-go/api/v1"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
 	"k8s.io/apimachinery/pkg/util/sets"
 )
 
-func ListEdgeLabels(skipLabels ...kmapi.EdgeLabel) []kmapi.EdgeLabel {
+func TestEdgeLabels(t *testing.T) {
 	labels := sets.NewString()
 	reg := NewRegistryOfKnownResources()
 	reg.Visit(func(key string, rd *v1alpha1.ResourceDescriptor) {
@@ -33,13 +35,10 @@ func ListEdgeLabels(skipLabels ...kmapi.EdgeLabel) []kmapi.EdgeLabel {
 			}
 		}
 	})
-	for _, skipLabel := range skipLabels {
-		labels.Delete(string(skipLabel))
-	}
 
-	result := make([]kmapi.EdgeLabel, 0, len(labels))
-	for lbl := range labels {
-		result = append(result, kmapi.EdgeLabel(lbl))
+	labels.Delete(kmapi.EdgeLabelNames()...)
+
+	if len(labels) != 0 {
+		t.Errorf("kmapi.EdgeLabel is missing constants %v", labels)
 	}
-	return result
 }
