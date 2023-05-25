@@ -62,34 +62,54 @@ spec:
                     type: string
                   fieldPath:
                     type: string
+                  icons:
+                    items:
+                      description: ImageSpec contains information about an image used as an icon.
+                      properties:
+                        size:
+                          description: (optional) The size of the image in pixels (e.g., 25x25).
+                          type: string
+                        src:
+                          description: The source for image represented as either an absolute URL to the image or a Data URL containing the image. Data URLs are defined in RFC 2397.
+                          type: string
+                        type:
+                          description: (optional) The mine type of the image (e.g., "image/png").
+                          type: string
+                      required:
+                      - src
+                      type: object
+                    type: array
                   kind:
                     enum:
                     - Block
                     - Self
                     - SubTable
                     - Connection
+                    - Custom
                     type: string
                   name:
                     type: string
                   query:
                     properties:
                       byLabel:
+                        description: ENUM(backup_via,catalog,cert_issuer,config,connect_via,exposed_by,id,located_on,monitored_by,offshoot,ops,policy,recommended_for,restore_into,scaled_by,view)
                         enum:
-                        - id
-                        - config
                         - backup_via
                         - catalog
+                        - cert_issuer
+                        - config
                         - connect_via
                         - exposed_by
+                        - id
+                        - located_on
                         - monitored_by
                         - offshoot
+                        - ops
+                        - policy
+                        - recommended_for
                         - restore_into
                         - scaled_by
                         - view
-                        - cert_issuer
-                        - policy
-                        - recommended_for
-                        - ops
                         type: string
                       raw:
                         type: string
@@ -209,6 +229,8 @@ spec:
                       name:
                         type: string
                     type: object
+                  width:
+                    type: integer
                 required:
                 - kind
                 - query

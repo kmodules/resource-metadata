@@ -54,22 +54,24 @@ spec:
                           query:
                             properties:
                               byLabel:
+                                description: ENUM(backup_via,catalog,cert_issuer,config,connect_via,exposed_by,id,located_on,monitored_by,offshoot,ops,policy,recommended_for,restore_into,scaled_by,view)
                                 enum:
-                                - id
-                                - config
                                 - backup_via
                                 - catalog
+                                - cert_issuer
+                                - config
                                 - connect_via
                                 - exposed_by
+                                - id
+                                - located_on
                                 - monitored_by
                                 - offshoot
+                                - ops
+                                - policy
+                                - recommended_for
                                 - restore_into
                                 - scaled_by
                                 - view
-                                - cert_issuer
-                                - policy
-                                - recommended_for
-                                - ops
                                 type: string
                               raw:
                                 type: string
@@ -99,7 +101,14 @@ spec:
                     type: object
                   panels:
                     items:
-                      type: string
+                      properties:
+                        title:
+                          type: string
+                        width:
+                          type: integer
+                      required:
+                      - title
+                      type: object
                     type: array
                   title:
                     type: string

@@ -50,22 +50,24 @@ spec:
                 properties:
                   labels:
                     items:
+                      description: ENUM(backup_via,catalog,cert_issuer,config,connect_via,exposed_by,id,located_on,monitored_by,offshoot,ops,policy,recommended_for,restore_into,scaled_by,view)
                       enum:
-                      - id
-                      - config
                       - backup_via
                       - catalog
+                      - cert_issuer
+                      - config
                       - connect_via
                       - exposed_by
+                      - id
+                      - located_on
                       - monitored_by
                       - offshoot
+                      - ops
+                      - policy
+                      - recommended_for
                       - restore_into
                       - scaled_by
                       - view
-                      - cert_issuer
-                      - policy
-                      - recommended_for
-                      - ops
                       type: string
                     type: array
                   level:
@@ -160,22 +162,24 @@ spec:
                           query:
                             properties:
                               byLabel:
+                                description: ENUM(backup_via,catalog,cert_issuer,config,connect_via,exposed_by,id,located_on,monitored_by,offshoot,ops,policy,recommended_for,restore_into,scaled_by,view)
                                 enum:
-                                - id
-                                - config
                                 - backup_via
                                 - catalog
+                                - cert_issuer
+                                - config
                                 - connect_via
                                 - exposed_by
+                                - id
+                                - located_on
                                 - monitored_by
                                 - offshoot
+                                - ops
+                                - policy
+                                - recommended_for
                                 - restore_into
                                 - scaled_by
                                 - view
-                                - cert_issuer
-                                - policy
-                                - recommended_for
-                                - ops
                                 type: string
                               raw:
                                 type: string
@@ -223,7 +227,7 @@ spec:
                 type: object
               type: array
             maintainers:
-              description: Maintainers is an optional list of maintainers of the application. The maintainers in this list maintain the the source code, images, and package for the application.
+              description: Maintainers is an optional list of maintainers of the application. The maintainers in this list maintain the source code, images, and package for the application.
               items:
                 description: ContactData contains information about an individual or organization.
                 properties:
