@@ -17,9 +17,9 @@ limitations under the License.
 package v1alpha1
 
 import (
-	kmapi "kmodules.xyz/client-go/api/v1"
 	v1 "kmodules.xyz/client-go/api/v1"
 
+	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	helmshared "x-helm.dev/apimachinery/apis/shared"
 )
@@ -63,23 +63,27 @@ type FeatureSpec struct {
 	// Required specify whether this feature is mandatory or not for enabling the respecting FeatureSet.
 	// +optional
 	Required bool `json:"required,omitempty"`
-	// Requirements specifies the requirements for this feature to consider enabled.
+	// Requirements specifies the requirements to enable this feature.
 	// +optional
 	Requirements Requirements `json:"requirements,omitempty"`
-	// DependsOn may contain a kmapi.ObjectReference slice with
-	// references to HelmRelease resources that must be ready before this HelmRelease
-	// can be reconciled.
+	// ReadinessChecks specifies the conditions for this feature to be considered enabled.
 	// +optional
-	DependsOn []kmapi.ObjectReference `json:"dependsOn,omitempty"`
+	ReadinessChecks ReadinessChecks `json:"readinessChecks,omitempty"`
 	// Chart specifies the chart information that will be used by the FluxCD to install the respective feature
 	// +optional
 	Chart ChartInfo `json:"chart,omitempty"`
+	// Values holds the values for this Helm release.
+	// +optional
+	Values *apiextensionsv1.JSON `json:"values,omitempty"`
 }
 
 type Requirements struct {
 	// Features specifies a list of Feature names that must be enabled for using this feature.
 	// +optional
 	Features []string `json:"features,omitempty"`
+}
+
+type ReadinessChecks struct {
 	// Resources specifies the resources that should be registered to consider this feature as enabled.
 	// +optional
 	Resources []metav1.GroupVersionKind `json:"resources,omitempty"`

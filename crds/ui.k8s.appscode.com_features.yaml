@@ -79,24 +79,6 @@ spec:
                 - name
                 - sourceRef
                 type: object
-              dependsOn:
-                description: DependsOn may contain a kmapi.ObjectReference slice with
-                  references to HelmRelease resources that must be ready before this
-                  HelmRelease can be reconciled.
-                items:
-                  description: ObjectReference contains enough information to let
-                    you inspect or modify the referred object.
-                  properties:
-                    name:
-                      description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
-                      type: string
-                    namespace:
-                      description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
-                      type: string
-                  required:
-                  - name
-                  type: object
-                type: array
               description:
                 description: Description specifies a short description of the service
                   this feature provides.
@@ -129,20 +111,10 @@ spec:
                   - src
                   type: object
                 type: array
-              required:
-                description: Required specify whether this feature is mandatory or
-                  not for enabling the respecting FeatureSet.
-                type: boolean
-              requirements:
-                description: Requirements specifies the requirements for this feature
-                  to consider enabled.
+              readinessChecks:
+                description: ReadinessChecks specifies the conditions for this feature
+                  to be considered enabled.
                 properties:
-                  features:
-                    description: Features specifies a list of Feature names that must
-                      be enabled for using this feature.
-                    items:
-                      type: string
-                    type: array
                   resources:
                     description: Resources specifies the resources that should be
                       registered to consider this feature as enabled.
@@ -188,9 +160,27 @@ spec:
                       type: object
                     type: array
                 type: object
+              required:
+                description: Required specify whether this feature is mandatory or
+                  not for enabling the respecting FeatureSet.
+                type: boolean
+              requirements:
+                description: Requirements specifies the requirements to enable this
+                  feature.
+                properties:
+                  features:
+                    description: Features specifies a list of Feature names that must
+                      be enabled for using this feature.
+                    items:
+                      type: string
+                    type: array
+                type: object
               title:
                 description: Title specify the title of this feature.
                 type: string
+              values:
+                description: Values holds the values for this Helm release.
+                x-kubernetes-preserve-unknown-fields: true
             required:
             - description
             - featureSet

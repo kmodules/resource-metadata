@@ -324,6 +324,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.FeatureSpec":           schema_resource_metadata_apis_ui_v1alpha1_FeatureSpec(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.FeatureStatus":         schema_resource_metadata_apis_ui_v1alpha1_FeatureStatus(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.PanelLinkRequest":      schema_resource_metadata_apis_ui_v1alpha1_PanelLinkRequest(ref),
+		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ReadinessChecks":       schema_resource_metadata_apis_ui_v1alpha1_ReadinessChecks(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Requirements":          schema_resource_metadata_apis_ui_v1alpha1_Requirements(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ResourceDashboard":     schema_resource_metadata_apis_ui_v1alpha1_ResourceDashboard(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ResourceDashboardList": schema_resource_metadata_apis_ui_v1alpha1_ResourceDashboardList(ref),
@@ -15740,23 +15741,16 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSpec(ref common.ReferenceC
 					},
 					"requirements": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Requirements specifies the requirements for this feature to consider enabled.",
+							Description: "Requirements specifies the requirements to enable this feature.",
 							Default:     map[string]interface{}{},
 							Ref:         ref("kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Requirements"),
 						},
 					},
-					"dependsOn": {
+					"readinessChecks": {
 						SchemaProps: spec.SchemaProps{
-							Description: "DependsOn may contain a kmapi.ObjectReference slice with references to HelmRelease resources that must be ready before this HelmRelease can be reconciled.",
-							Type:        []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/client-go/api/v1.ObjectReference"),
-									},
-								},
-							},
+							Description: "ReadinessChecks specifies the conditions for this feature to be considered enabled.",
+							Default:     map[string]interface{}{},
+							Ref:         ref("kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ReadinessChecks"),
 						},
 					},
 					"chart": {
@@ -15766,12 +15760,18 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSpec(ref common.ReferenceC
 							Ref:         ref("kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ChartInfo"),
 						},
 					},
+					"values": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Values holds the values for this Helm release.",
+							Ref:         ref("k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON"),
+						},
+					},
 				},
 				Required: []string{"title", "description", "featureSet"},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/client-go/api/v1.ObjectReference", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ChartInfo", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Requirements", "x-helm.dev/apimachinery/apis/shared.ImageSpec"},
+			"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ChartInfo", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ReadinessChecks", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Requirements", "x-helm.dev/apimachinery/apis/shared.ImageSpec"},
 	}
 }
 
@@ -15841,27 +15841,12 @@ func schema_resource_metadata_apis_ui_v1alpha1_PanelLinkRequest(ref common.Refer
 	}
 }
 
-func schema_resource_metadata_apis_ui_v1alpha1_Requirements(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_resource_metadata_apis_ui_v1alpha1_ReadinessChecks(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
-					"features": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Features specifies a list of Feature names that must be enabled for using this feature.",
-							Type:        []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: "",
-										Type:    []string{"string"},
-										Format:  "",
-									},
-								},
-							},
-						},
-					},
 					"resources": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Resources specifies the resources that should be registered to consider this feature as enabled.",
@@ -15895,6 +15880,33 @@ func schema_resource_metadata_apis_ui_v1alpha1_Requirements(ref common.Reference
 		},
 		Dependencies: []string{
 			"k8s.io/apimachinery/pkg/apis/meta/v1.GroupVersionKind", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.WorkloadInfo"},
+	}
+}
+
+func schema_resource_metadata_apis_ui_v1alpha1_Requirements(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"features": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Features specifies a list of Feature names that must be enabled for using this feature.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
 	}
 }
 
