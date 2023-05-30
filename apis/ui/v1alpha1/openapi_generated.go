@@ -15745,6 +15745,20 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSpec(ref common.ReferenceC
 							Ref:         ref("kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Requirements"),
 						},
 					},
+					"dependsOn": {
+						SchemaProps: spec.SchemaProps{
+							Description: "DependsOn may contain a kmapi.ObjectReference slice with references to HelmRelease resources that must be ready before this HelmRelease can be reconciled.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/client-go/api/v1.ObjectReference"),
+									},
+								},
+							},
+						},
+					},
 					"chart": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Chart specifies the chart information that will be used by the FluxCD to install the respective feature",
@@ -15757,7 +15771,7 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSpec(ref common.ReferenceC
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ChartInfo", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Requirements", "x-helm.dev/apimachinery/apis/shared.ImageSpec"},
+			"kmodules.xyz/client-go/api/v1.ObjectReference", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ChartInfo", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Requirements", "x-helm.dev/apimachinery/apis/shared.ImageSpec"},
 	}
 }
 

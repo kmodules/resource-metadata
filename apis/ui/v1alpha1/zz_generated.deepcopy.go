@@ -22,9 +22,10 @@ limitations under the License.
 package v1alpha1
 
 import (
+	v1 "kmodules.xyz/client-go/api/v1"
 	apisshared "kmodules.xyz/resource-metadata/apis/shared"
 
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	releasesv1alpha1 "x-helm.dev/apimachinery/apis/releases/v1alpha1"
 	shared "x-helm.dev/apimachinery/apis/shared"
@@ -351,6 +352,11 @@ func (in *FeatureSpec) DeepCopyInto(out *FeatureSpec) {
 		copy(*out, *in)
 	}
 	in.Requirements.DeepCopyInto(&out.Requirements)
+	if in.DependsOn != nil {
+		in, out := &in.DependsOn, &out.DependsOn
+		*out = make([]v1.ObjectReference, len(*in))
+		copy(*out, *in)
+	}
 	out.Chart = in.Chart
 	return
 }
@@ -422,7 +428,7 @@ func (in *Requirements) DeepCopyInto(out *Requirements) {
 	}
 	if in.Resources != nil {
 		in, out := &in.Resources, &out.Resources
-		*out = make([]v1.GroupVersionKind, len(*in))
+		*out = make([]metav1.GroupVersionKind, len(*in))
 		copy(*out, *in)
 	}
 	if in.Workloads != nil {
