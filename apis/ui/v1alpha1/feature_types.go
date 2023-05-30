@@ -17,6 +17,7 @@ limitations under the License.
 package v1alpha1
 
 import (
+	kmapi "kmodules.xyz/client-go/api/v1"
 	v1 "kmodules.xyz/client-go/api/v1"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -65,6 +66,11 @@ type FeatureSpec struct {
 	// Requirements specifies the requirements for this feature to consider enabled.
 	// +optional
 	Requirements Requirements `json:"requirements,omitempty"`
+	// DependsOn may contain a kmapi.ObjectReference slice with
+	// references to HelmRelease resources that must be ready before this HelmRelease
+	// can be reconciled.
+	// +optional
+	DependsOn []kmapi.ObjectReference `json:"dependsOn,omitempty"`
 	// Chart specifies the chart information that will be used by the FluxCD to install the respective feature
 	// +optional
 	Chart ChartInfo `json:"chart,omitempty"`
