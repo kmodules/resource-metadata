@@ -15696,7 +15696,7 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSpec(ref common.ReferenceC
 				Properties: map[string]spec.Schema{
 					"title": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Title specify the title of this feature.",
+							Description: "Title specifies the title of this feature.",
 							Default:     "",
 							Type:        []string{"string"},
 							Format:      "",
@@ -15732,9 +15732,16 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSpec(ref common.ReferenceC
 							Format:      "",
 						},
 					},
+					"featureBlock": {
+						SchemaProps: spec.SchemaProps{
+							Description: "FeatureBlock specifies the ui block name of this feature.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
 					"required": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Required specify whether this feature is mandatory or not for enabling the respecting FeatureSet.",
+							Description: "Required specifies whether this feature is mandatory or not for enabling the respecting FeatureSet.",
 							Type:        []string{"boolean"},
 							Format:      "",
 						},

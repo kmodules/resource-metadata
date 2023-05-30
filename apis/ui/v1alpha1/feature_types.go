@@ -51,7 +51,7 @@ type Feature struct {
 }
 
 type FeatureSpec struct {
-	// Title specify the title of this feature.
+	// Title specifies the title of this feature.
 	Title string `json:"title"`
 	// Description specifies a short description of the service this feature provides.
 	Description string `json:"description"`
@@ -60,7 +60,10 @@ type FeatureSpec struct {
 	Icons []helmshared.ImageSpec `json:"icons,omitempty"`
 	// FeatureSet specifies the name of the FeatureSet where this feature belong to.
 	FeatureSet string `json:"featureSet"`
-	// Required specify whether this feature is mandatory or not for enabling the respecting FeatureSet.
+	// FeatureBlock specifies the ui block name of this feature.
+	// +optional
+	FeatureBlock string `json:"featureBlock,omitempty"`
+	// Required specifies whether this feature is mandatory or not for enabling the respecting FeatureSet.
 	// +optional
 	Required bool `json:"required,omitempty"`
 	// Requirements specifies the requirements to enable this feature.
