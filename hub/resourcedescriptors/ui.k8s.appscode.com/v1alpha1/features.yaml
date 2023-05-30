@@ -77,6 +77,9 @@ spec:
             description:
               description: Description specifies a short description of the service this feature provides.
               type: string
+            featureBlock:
+              description: FeatureBlock specifies the ui block name of this feature.
+              type: string
             featureSet:
               description: FeatureSet specifies the name of the FeatureSet where this feature belong to.
               type: string
@@ -142,7 +145,7 @@ spec:
                   type: array
               type: object
             required:
-              description: Required specify whether this feature is mandatory or not for enabling the respecting FeatureSet.
+              description: Required specifies whether this feature is mandatory or not for enabling the respecting FeatureSet.
               type: boolean
             requirements:
               description: Requirements specifies the requirements to enable this feature.
@@ -154,7 +157,7 @@ spec:
                   type: array
               type: object
             title:
-              description: Title specify the title of this feature.
+              description: Title specifies the title of this feature.
               type: string
             values:
               description: Values holds the values for this Helm release.
