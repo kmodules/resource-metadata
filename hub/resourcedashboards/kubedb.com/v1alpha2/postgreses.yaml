@@ -14,19 +14,19 @@ spec:
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
-    - name: db
+    - name: app
       value: '{{ .metadata.name }}'
   - title: KubeDB / Postgres / Database
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
-    - name: db
+    - name: app
       value: '{{ .metadata.name }}'
   - title: KubeDB / Postgres / Pod
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
-    - name: db
+    - name: app
       value: '{{ .metadata.name }}'
   provider: Grafana
   resource:

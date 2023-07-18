@@ -14,7 +14,7 @@ spec:
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
-    - name: db
+    - name: app
       value: '{{ .metadata.name }}'
   - if:
       condition: '{{- if or (hasKey .spec "replicaSet") (hasKey .spec "shardTopology") }}true{{ else }}false{{ end -}}'
@@ -22,13 +22,13 @@ spec:
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
-    - name: db
+    - name: app
       value: '{{ .metadata.name }}'
   - title: KubeDB / MongoDB / Pod
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
-    - name: db
+    - name: app
       value: '{{ .metadata.name }}'
   provider: Grafana
   resource:

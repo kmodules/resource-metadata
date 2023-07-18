@@ -14,7 +14,7 @@ spec:
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
-    - name: db
+    - name: app
       value: '{{ .metadata.name }}'
   - if:
       condition: '{{- if or (eq .spec.mode "Cluster") (eq .spec.mode "Sentinel") }}true{{ else }}false{{ end -}}'
@@ -22,13 +22,13 @@ spec:
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
-    - name: db
+    - name: app
       value: '{{ .metadata.name }}'
   - title: KubeDB / Redis / Pod
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
-    - name: db
+    - name: app
       value: '{{ .metadata.name }}'
   provider: Grafana
   resource:
