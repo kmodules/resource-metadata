@@ -14,25 +14,25 @@ spec:
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
-    - name: db
+    - name: app
       value: '{{ .metadata.name }}'
   - title: KubeDB / MariaDB / Galera-Cluster
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
-    - name: db
+    - name: app
       value: '{{ .metadata.name }}'
   - title: KubeDB / MariaDB / Database
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
-    - name: db
+    - name: app
       value: '{{ .metadata.name }}'
   - title: KubeDB / MariaDB / Pod
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
-    - name: db
+    - name: app
       value: '{{ .metadata.name }}'
   provider: Grafana
   resource:

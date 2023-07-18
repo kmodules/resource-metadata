@@ -9,7 +9,7 @@ spec:
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
-    - name: db
+    - name: app
       value: '{{ .metadata.name }}'
     - name: pod
       type: Target

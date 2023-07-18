@@ -41,7 +41,7 @@ spec:
                 vars:
                 - name: namespace
                   value: {{ .namespace }}
-                - name: db
+                - name: app
                   value: {{ .name }}
                 panels:
                   - { "title": "CPU Usage", "width": 12 }
