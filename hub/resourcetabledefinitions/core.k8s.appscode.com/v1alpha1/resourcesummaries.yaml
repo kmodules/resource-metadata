@@ -18,26 +18,31 @@ spec:
     pathTemplate: '{{ .spec.apiType.kind }}'
     priority: 3
     type: string
+    width: 1
   - name: Instances
     pathTemplate: '{{ .spec.count | default 0}}'
     priority: 3
     textAlign: center
     type: integer
+    width: 1
   - name: CPU (request/limit)
     pathTemplate: '{{ if .spec.appResource.requests.cpu }}{{ .spec.appResource.requests.cpu }} / {{ default `*` .spec.appResource.limits.cpu }}{{ end }}'
     priority: 2
     textAlign: center
     type: string
+    width: 1
   - name: Memory (request/limit)
     pathTemplate: '{{ if .spec.appResource.requests.memory }}{{ .spec.appResource.requests.memory }} / {{ default `*` .spec.appResource.limits.memory }}{{ end }}'
     priority: 2
     textAlign: center
     type: string
+    width: 1
   - name: Storage (request/limit)
     pathTemplate: '{{ if .spec.appResource.requests.storage }}{{ .spec.appResource.requests.storage }} / {{ default `*` .spec.appResource.limits.storage }}{{ end }}'
     priority: 2
     textAlign: center
     type: string
+    width: 1
   defaultView: true
   resource:
     group: core.k8s.appscode.com

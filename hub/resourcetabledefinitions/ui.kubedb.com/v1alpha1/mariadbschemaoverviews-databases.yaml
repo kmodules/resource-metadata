@@ -13,6 +13,7 @@ spec:
       template: '{{ .databaseName }}'
       type: string
     type: string
+    width: 1
   - name: Table Name
     pathTemplate: '{{ .tableName }}'
     priority: 3
@@ -21,6 +22,7 @@ spec:
       template: '{{ .tableName }}'
       type: string
     type: string
+    width: 1
   - name: Table Size (bytes)
     pathTemplate: '{{ .tableSizeBytes }}'
     priority: 3
@@ -29,4 +31,5 @@ spec:
       template: '{{ .tableSizeBytes }}'
       type: integer
     type: string
+    width: 1
   defaultView: false

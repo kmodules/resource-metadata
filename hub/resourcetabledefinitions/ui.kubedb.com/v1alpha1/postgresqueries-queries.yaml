@@ -9,95 +9,117 @@ spec:
     pathTemplate: '{{ .userOID }}'
     priority: 3
     type: integer
+    width: 1
   - name: Database OID
     pathTemplate: '{{ .databaseOID }}'
     priority: 3
     type: integer
+    width: 1
   - name: Query
     pathTemplate: '{{ .query }}'
     priority: 3
     type: string
+    width: 1
   - name: Calls
     pathTemplate: '{{ .calls }}'
     priority: 3
     type: integer
+    width: 1
   - name: Rows
     pathTemplate: '{{ .rows }}'
     priority: 3
     type: integer
+    width: 1
   - format: double
     name: Total Time (msec)
     pathTemplate: '{{ .totalTimeMilliSeconds }}'
     priority: 3
     type: number
+    width: 1
   - format: double
     name: Min Time (msec)
     pathTemplate: '{{ .minTimeMilliSeconds }}'
     priority: 3
     type: number
+    width: 1
   - format: double
     name: Max Time (msec)
     pathTemplate: '{{ .maxTimeMilliSeconds }}'
     priority: 3
     type: number
+    width: 1
   - name: Shared Blks Hit
     pathTemplate: '{{ .sharedBlksHit }}'
     priority: 3
     type: integer
+    width: 1
   - name: Shared Blks Read
     pathTemplate: '{{ .sharedBlksRead }}'
     priority: 3
     type: integer
+    width: 1
   - name: Shared Blks Dirtied
     pathTemplate: '{{ .sharedBlksDirtied }}'
     priority: 3
     type: integer
+    width: 1
   - name: Shared Blks Written
     pathTemplate: '{{ .sharedBlksWritten }}'
     priority: 3
     type: integer
+    width: 1
   - name: Local Blks Hit
     pathTemplate: '{{ .localBlksHit }}'
     priority: 3
     type: integer
+    width: 1
   - name: Local Blks Read
     pathTemplate: '{{ .localBlksRead }}'
     priority: 3
     type: integer
+    width: 1
   - name: Local Blks Dirtied
     pathTemplate: '{{ .localBlksDirtied }}'
     priority: 3
     type: integer
+    width: 1
   - name: Local Blks Written
     pathTemplate: '{{ .localBlksWritten }}'
     priority: 3
     type: integer
+    width: 1
   - name: Temp Blks Read
     pathTemplate: '{{ .tempBlksRead }}'
     priority: 3
     type: integer
+    width: 1
   - name: Temp Blks Written
     pathTemplate: '{{ .tempBlksWritten }}'
     priority: 3
     type: integer
+    width: 1
   - format: double
     name: Blk Read Time (msec)
     pathTemplate: '{{ .blkReadTimeMilliSeconds }}'
     priority: 3
     type: number
+    width: 1
   - format: double
     name: Blk Write Time
     pathTemplate: '{{ .blkWriteTime }}'
     priority: 3
     type: number
+    width: 1
   - format: double
     name: Buffer Hit (%)
     pathTemplate: '{{ .bufferHitPercentage }}'
     priority: 3
     type: number
+    width: 1
   - format: double
     name: Local Buffer Hit (%)
     pathTemplate: '{{ .localBufferHitPercentage }}'
     priority: 3
     type: number
+    width: 1
   defaultView: false

@@ -14,50 +14,62 @@ spec:
     pathTemplate: '{{ .spec.activePrimaryShards }}'
     priority: 3
     type: integer
+    width: 1
   - name: Active Shards
     pathTemplate: '{{ .spec.activeShards }}'
     priority: 3
     type: integer
+    width: 1
   - name: Active Shards (%)
     pathTemplate: '{{ .spec.activeShardsPercentAsNumber }}'
     priority: 3
     type: integer
+    width: 1
   - name: Delayed Unassigned Shards
     pathTemplate: '{{ .spec.delayedUnassignedShards }}'
     priority: 3
     type: integer
+    width: 1
   - name: Initializing Shards
     pathTemplate: '{{ .spec.initializingShards }}'
     priority: 3
     type: integer
+    width: 1
   - name: Data Nodes
     pathTemplate: '{{ .spec.numberOfDataNodes }}'
     priority: 3
     type: integer
+    width: 1
   - name: In Flight Fetches
     pathTemplate: '{{ .spec.numberOfInFlightFetch }}'
     priority: 3
     type: integer
+    width: 1
   - name: Total Nodes
     pathTemplate: '{{ .spec.numberOfNodes }}'
     priority: 3
     type: integer
+    width: 1
   - name: Pending Tasks
     pathTemplate: '{{ .spec.numberOfPendingTasks }}'
     priority: 3
     type: integer
+    width: 1
   - name: Relocating Shards
     pathTemplate: '{{ .spec.relocatingShards }}'
     priority: 3
     type: integer
+    width: 1
   - name: Unassigned Shards
     pathTemplate: '{{ .spec.unassignedShards }}'
     priority: 3
     type: integer
+    width: 1
   - name: Task Max Waiting In Queue (msec)
     pathTemplate: '{{ .spec.taskMaxWaitingInQueueMilliSeconds }}'
     priority: 3
     type: integer
+    width: 1
   defaultView: true
   resource:
     group: ui.kubedb.com

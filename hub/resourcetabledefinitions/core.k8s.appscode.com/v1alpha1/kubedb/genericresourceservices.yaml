@@ -26,6 +26,7 @@ spec:
     pathTemplate: '{{ .spec.facilities.exposed.usage }}'
     priority: 3
     type: string
+    width: 1
   - color:
       template: |
         {{ $status := .spec.facilities.tls.usage }}
@@ -42,6 +43,7 @@ spec:
     pathTemplate: '{{ .spec.facilities.tls.usage }}'
     priority: 3
     type: string
+    width: 1
   - color:
       template: |
         {{ $status := .spec.facilities.backup.usage }}
@@ -58,6 +60,7 @@ spec:
     pathTemplate: '{{ .spec.facilities.backup.usage }}'
     priority: 3
     type: string
+    width: 1
   - color:
       template: |
         {{ $status := .spec.facilities.monitoring.usage }}
@@ -74,11 +77,13 @@ spec:
     pathTemplate: '{{ .spec.facilities.monitoring.usage }}'
     priority: 3
     type: string
+    width: 1
   - exec: {}
     name: Exec
     pathTemplate: '{{ .spec.facilities.exec | toRawJson }}'
     priority: 4
     type: object
+    width: 1
   defaultView: false
   resource:
     group: core.k8s.appscode.com

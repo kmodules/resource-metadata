@@ -13,6 +13,7 @@ spec:
       template: '{{ .indexName }}'
       type: string
     type: string
+    width: 1
   - name: Primary Store Size (bytes)
     pathTemplate: '{{ .primaryStoreSizeBytes }}'
     priority: 3
@@ -21,6 +22,7 @@ spec:
       template: '{{ .primaryStoreSizeBytes }}'
       type: integer
     type: string
+    width: 1
   - name: Total Store Size (bytes)
     pathTemplate: '{{ .totalStoreSizeBytes }}'
     priority: 3
@@ -29,4 +31,5 @@ spec:
       template: '{{ .totalStoreSizeBytes }}'
       type: integer
     type: string
+    width: 1
   defaultView: false

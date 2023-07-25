@@ -14,22 +14,27 @@ spec:
     pathTemplate: '{{ .metadata.name }}'
     priority: 3
     type: string
+    width: 1
   - name: Namespace
     pathTemplate: '{{ .metadata.namespace }}'
     priority: 3
     type: string
+    width: 1
   - name: Reference
     pathTemplate: '{{ .spec.scaleTargetRef.kind }}/{{ .spec.scaleTargetRef.name }}'
     priority: 3
     type: string
+    width: 1
   - name: Min-Replica(s)
     pathTemplate: '{{ .spec.minReplicas }}'
     priority: 3
     type: string
+    width: 1
   - name: Max-Replica(s)
     pathTemplate: '{{ .spec.maxReplicas }}'
     priority: 3
     type: string
+    width: 1
   - name: Age
     pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
@@ -38,6 +43,7 @@ spec:
       template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
       type: integer
     type: date
+    width: 1
   defaultView: true
   resource:
     group: autoscaling

@@ -9,6 +9,7 @@ spec:
     pathTemplate: '{{ .name }}'
     priority: 3
     type: string
+    width: 1
   - name: Total Size
     pathTemplate: '{{ .size | join ", " }}'
     priority: 3
@@ -17,4 +18,5 @@ spec:
       template: '{{ .size | join ` ` | add }}'
       type: integer
     type: string
+    width: 1
   defaultView: false

@@ -325,10 +325,16 @@ spec:
                                 this column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
                                 for more.
                               type: string
+                            width:
+                              description: Width is an integer defining the relative
+                                width of the column among all the columns
+                              format: int32
+                              type: integer
                           required:
                           - name
                           - priority
                           - type
+                          - width
                           type: object
                         type: array
                       name:
@@ -569,10 +575,17 @@ spec:
                                               for this column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
                                               for more.
                                             type: string
+                                          width:
+                                            description: Width is an integer defining
+                                              the relative width of the column among
+                                              all the columns
+                                            format: int32
+                                            type: integer
                                         required:
                                         - name
                                         - priority
                                         - type
+                                        - width
                                         type: object
                                       type: array
                                     name:
@@ -825,10 +838,17 @@ spec:
                                             for this column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
                                             for more.
                                           type: string
+                                        width:
+                                          description: Width is an integer defining
+                                            the relative width of the column among
+                                            all the columns
+                                          format: int32
+                                          type: integer
                                       required:
                                       - name
                                       - priority
                                       - type
+                                      - width
                                       type: object
                                     type: array
                                   name:
@@ -1057,10 +1077,17 @@ spec:
                                             for this column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
                                             for more.
                                           type: string
+                                        width:
+                                          description: Width is an integer defining
+                                            the relative width of the column among
+                                            all the columns
+                                          format: int32
+                                          type: integer
                                       required:
                                       - name
                                       - priority
                                       - type
+                                      - width
                                       type: object
                                     type: array
                                   name:
@@ -1311,10 +1338,16 @@ spec:
                                 this column. See https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
                                 for more.
                               type: string
+                            width:
+                              description: Width is an integer defining the relative
+                                width of the column among all the columns
+                              format: int32
+                              type: integer
                           required:
                           - name
                           - priority
                           - type
+                          - width
                           type: object
                         type: array
                       name:

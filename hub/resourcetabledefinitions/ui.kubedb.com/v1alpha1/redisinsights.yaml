@@ -14,46 +14,57 @@ spec:
     pathTemplate: '{{ .spec.evictionPolicy }}'
     priority: 3
     type: string
+    width: 1
   - name: Max Clients
     pathTemplate: '{{ .spec.maxClients }}'
     priority: 3
     type: integer
+    width: 1
   - name: Connected Clients
     pathTemplate: '{{ .spec.connectedClients }}'
     priority: 3
     type: integer
+    width: 1
   - name: Blocked Clients
     pathTemplate: '{{ .spec.blockedClients }}'
     priority: 3
     type: integer
+    width: 1
   - name: Total Keys
     pathTemplate: '{{ .spec.totalKeys }}'
     priority: 3
     type: integer
+    width: 1
   - name: Expired Keys
     pathTemplate: '{{ .spec.expiredKeys }}'
     priority: 3
     type: integer
+    width: 1
   - name: Evicted Keys
     pathTemplate: '{{ .spec.evictedKeys }}'
     priority: 3
     type: integer
+    width: 1
   - name: Received Connections
     pathTemplate: '{{ .spec.receivedConnections }}'
     priority: 3
     type: integer
+    width: 1
   - name: Rejected Connections
     pathTemplate: '{{ .spec.rejectedConnections }}'
     priority: 3
     type: integer
+    width: 1
   - name: Slow Log Threshold (µsec)
     pathTemplate: '{{ .spec.slowLogThresholdMicroSeconds }}'
     priority: 3
     type: integer
+    width: 1
   - name: Slow Log Max Len
     pathTemplate: '{{ .spec.slowLogMaxLen }}'
     priority: 3
     type: integer
+    width: 1
   defaultView: true
   resource:
     group: ui.kubedb.com

@@ -14,47 +14,58 @@ spec:
     pathTemplate: '{{ .spec.maxConnections }}'
     priority: 3
     type: integer
+    width: 1
   - name: Max Used Connections
     pathTemplate: '{{ .spec.maxUsedConnections }}'
     priority: 3
     type: integer
+    width: 1
   - name: Questions
     pathTemplate: '{{ .spec.questions }}'
     priority: 3
     type: integer
+    width: 1
   - format: double
     name: Long Query Time Threshold (sec)
     pathTemplate: '{{ .spec.longQueryTimeThresholdSeconds }}'
     priority: 3
     type: number
+    width: 1
   - name: Slow Queries
     pathTemplate: '{{ .spec.numberOfSlowQueries }}'
     priority: 3
     type: integer
+    width: 1
   - name: Aborted Clients
     pathTemplate: '{{ .spec.abortedClients }}'
     priority: 3
     type: integer
+    width: 1
   - name: Aborted Connections
     pathTemplate: '{{ .spec.abortedConnections }}'
     priority: 3
     type: integer
+    width: 1
   - name: Threads Cached
     pathTemplate: '{{ .spec.threadsCached }}'
     priority: 3
     type: integer
+    width: 1
   - name: Threads Connected
     pathTemplate: '{{ .spec.threadsConnected }}'
     priority: 3
     type: integer
+    width: 1
   - name: Threads Created
     pathTemplate: '{{ .spec.threadsCreated }}'
     priority: 3
     type: integer
+    width: 1
   - name: Threads Running
     pathTemplate: '{{ .spec.threadsRunning }}'
     priority: 3
     type: integer
+    width: 1
   defaultView: true
   resource:
     group: ui.kubedb.com

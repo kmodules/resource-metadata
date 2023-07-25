@@ -9,12 +9,15 @@ spec:
     pathTemplate: '{{ .title }}'
     priority: 3
     type: string
+    width: 1
   - name: URL
     pathTemplate: '{{ .url }}'
     priority: 3
     type: string
+    width: 1
   - name: Width
     pathTemplate: '{{ .width }}'
     priority: 3
     type: integer
+    width: 1
   defaultView: false

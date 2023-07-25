@@ -9,20 +9,25 @@ spec:
     pathTemplate: '{{ .name }}'
     priority: 3
     type: string
+    width: 1
   - name: Current Value
     pathTemplate: '{{ .currentValue }}'
     priority: 3
     type: string
+    width: 1
   - name: Default Value
     pathTemplate: '{{ .defaultValue }}'
     priority: 3
     type: string
+    width: 1
   - name: Unit
     pathTemplate: '{{ .unit }}'
     priority: 3
     type: string
+    width: 1
   - name: Source
     pathTemplate: '{{ .source }}'
     priority: 3
     type: string
+    width: 1
   defaultView: false
