@@ -315,6 +315,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ChartInfo":             schema_resource_metadata_apis_ui_v1alpha1_ChartInfo(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ComponentStatus":       schema_resource_metadata_apis_ui_v1alpha1_ComponentStatus(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Dashboard":             schema_resource_metadata_apis_ui_v1alpha1_Dashboard(ref),
+		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Dependency":            schema_resource_metadata_apis_ui_v1alpha1_Dependency(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Feature":               schema_resource_metadata_apis_ui_v1alpha1_Feature(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.FeatureList":           schema_resource_metadata_apis_ui_v1alpha1_FeatureList(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.FeatureSet":            schema_resource_metadata_apis_ui_v1alpha1_FeatureSet(ref),
@@ -15379,6 +15380,33 @@ func schema_resource_metadata_apis_ui_v1alpha1_Dashboard(ref common.ReferenceCal
 	}
 }
 
+func schema_resource_metadata_apis_ui_v1alpha1_Dependency(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"featureSets": {
+						SchemaProps: spec.SchemaProps{
+							Description: "FeatureSets specifies a list of FeatureSet names that are depended on this FeatureSet",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+}
+
 func schema_resource_metadata_apis_ui_v1alpha1_Feature(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -15673,6 +15701,13 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSetStatus(ref common.Refer
 							},
 						},
 					},
+					"dependency": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Dependency specifies the dependencies of this FeatureSet",
+							Default:     map[string]interface{}{},
+							Ref:         ref("kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Dependency"),
+						},
+					},
 					"note": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Note specifies the respective reason if the feature set is considered as disabled.",
@@ -15684,7 +15719,7 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSetStatus(ref common.Refer
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ComponentStatus"},
+			"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ComponentStatus", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Dependency"},
 	}
 }
 
