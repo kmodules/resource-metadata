@@ -9,20 +9,25 @@ spec:
     pathTemplate: '{{ .applicationName }}'
     priority: 3
     type: string
+    width: 1
   - name: State
     pathTemplate: '{{ .state }}'
     priority: 3
     type: string
+    width: 1
   - name: Write Lag
     pathTemplate: '{{ .writeLag }}'
     priority: 3
     type: integer
+    width: 1
   - name: Flush Lag
     pathTemplate: '{{ .flushLag }}'
     priority: 3
     type: integer
+    width: 1
   - name: Replay Lag
     pathTemplate: '{{ .replayLag }}'
     priority: 3
     type: integer
+    width: 1
   defaultView: false

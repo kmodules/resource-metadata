@@ -14,29 +14,35 @@ spec:
     pathTemplate: '{{ .metadata.namespace }}'
     priority: 3
     type: string
+    width: 1
   - name: Version
     pathTemplate: '{{ .spec.version }}'
     priority: 3
     type: string
+    width: 1
   - name: Mode
     pathTemplate: '{{ .spec.mode }}'
     priority: 3
     type: string
+    width: 1
   - format: resource-map
     name: CPU
     pathTemplate: '{{- printf `{ "request": "%s", "limit": "%s" }` (dig "requests" "cpu" "" .spec.appResource) (dig "limits" "cpu" "" .spec.appResource) -}}'
     priority: 3
     type: object
+    width: 1
   - format: resource-map
     name: Memory
     pathTemplate: '{{- printf `{ "request": "%s", "limit": "%s" }` (dig "requests" "memory" "" .spec.appResource) (dig "limits" "memory" "" .spec.appResource) -}}'
     priority: 3
     type: object
+    width: 1
   - format: resource-map
     name: Storage
     pathTemplate: '{{- printf `{ "request": "%s", "limit": "%s" }` (dig "requests" "storage" "" .spec.appResource) (dig "limits" "storage" "" .spec.appResource) -}}'
     priority: 3
     type: object
+    width: 1
   - color:
       template: |
         {{ $status := .status.phase }}
@@ -57,6 +63,7 @@ spec:
     pathTemplate: '{{ .status.phase }}'
     priority: 3
     type: string
+    width: 1
   defaultView: false
   resource:
     group: core.k8s.appscode.com

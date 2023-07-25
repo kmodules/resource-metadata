@@ -20,25 +20,30 @@ spec:
     pathTemplate: '{{ .metadata.name }}'
     priority: 3
     type: string
+    width: 1
   - name: Role
     pathTemplate: '{{ index .metadata.labels `kubedb.com/role` | default `-` | upper}}'
     priority: 3
     type: string
+    width: 1
   - name: CPU (usage/limit)
     pathTemplate: '{{ if .spec.resources.usage.cpu }}{{.spec.resources.usage.cpu}} / {{ default `*` .spec.resources.limits.cpu }}{{ end }}'
     priority: 3
     textAlign: center
     type: string
+    width: 1
   - name: Memory (usage/limit)
     pathTemplate: '{{ if .spec.resources.usage.memory }}{{.spec.resources.usage.memory}} / {{default `*` .spec.resources.limits.memory}}{{ end }}'
     priority: 3
     textAlign: center
     type: string
+    width: 1
   - name: Storage (usage/limit)
     pathTemplate: '{{ if .spec.resources.usage.storage }}{{.spec.resources.usage.storage}} / {{default `*` .spec.resources.limits.storage}}{{ end }}'
     priority: 3
     textAlign: center
     type: string
+    width: 1
   - color:
       template: |
         {{ $status := .status.phase }}
@@ -57,6 +62,7 @@ spec:
     pathTemplate: '{{ .status.phase }}'
     priority: 3
     type: string
+    width: 1
   - name: Age
     pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
@@ -65,18 +71,21 @@ spec:
       template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
       type: integer
     type: date
+    width: 1
   - dashboard:
       name: kubedb.com-v1alpha2-mariadbs-pod
     name: Dashboard
     priority: 4
     textAlign: center
     type: string
+    width: 1
   - exec: {}
     name: Exec
     pathTemplate: '{{ .metadata.name }}'
     priority: 4
     textAlign: center
     type: string
+    width: 1
   defaultView: false
   resource:
     group: core.k8s.appscode.com

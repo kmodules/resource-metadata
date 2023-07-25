@@ -9,32 +9,40 @@ spec:
     pathTemplate: '{{ .name }}'
     priority: 0
     type: string
+    width: 1
   - name: File
     pathTemplate: '{{ .path }}'
     priority: 0
     type: string
+    width: 1
   - name: Total Size
     pathTemplate: '{{ .totalSize }}'
     priority: 0
     type: string
+    width: 1
   - name: Uploaded
     pathTemplate: '{{ .uploaded }}'
     priority: 0
     type: string
+    width: 1
   - name: Total Files
     pathTemplate: '{{ .fileStats.totalFiles }}'
     priority: 0
     type: integer
+    width: 1
   - name: New Files
     pathTemplate: '{{ .fileStats.newFiles }}'
     priority: 0
     type: integer
+    width: 1
   - name: Modified Files
     pathTemplate: '{{ .fileStats.modifiedFiles }}'
     priority: 0
     type: integer
+    width: 1
   - name: Processing Time
     pathTemplate: '{{ .processingTime }}'
     priority: 0
     type: string
+    width: 1
   defaultView: false
