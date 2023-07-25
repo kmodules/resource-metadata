@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: pkg.crossplane.io
+    k8s.io/kind: ControllerConfig
+    k8s.io/resource: controllerconfigs
+    k8s.io/version: v1alpha1
+  name: pkg.crossplane.io-v1alpha1-controllerconfigs
+spec:
+  defaultView: true
+  resource:
+    group: pkg.crossplane.io
+    kind: ControllerConfig
+    name: controllerconfigs
+    scope: Cluster
+    version: v1alpha1

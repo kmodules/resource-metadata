@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: network.azure.kubeform.com
+    k8s.io/kind: VirtualNetworkPeering
+    k8s.io/resource: virtualnetworkpeerings
+    k8s.io/version: v1alpha1
+  name: network.azure.kubeform.com-v1alpha1-virtualnetworkpeerings
+spec:
+  resource:
+    group: network.azure.kubeform.com
+    kind: VirtualNetworkPeering
+    name: virtualnetworkpeerings
+    scope: Cluster
+    version: v1alpha1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: pkg.crossplane.io
+    k8s.io/kind: Provider
+    k8s.io/resource: providers
+    k8s.io/version: v1
+  name: pkg.crossplane.io-v1-providers
+spec:
+  resource:
+    group: pkg.crossplane.io
+    kind: Provider
+    name: providers
+    scope: Cluster
+    version: v1

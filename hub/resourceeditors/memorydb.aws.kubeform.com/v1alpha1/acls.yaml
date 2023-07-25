@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: memorydb.aws.kubeform.com
+    k8s.io/kind: ACL
+    k8s.io/resource: acls
+    k8s.io/version: v1alpha1
+  name: memorydb.aws.kubeform.com-v1alpha1-acls
+spec:
+  resource:
+    group: memorydb.aws.kubeform.com
+    kind: ACL
+    name: acls
+    scope: Cluster
+    version: v1alpha1
