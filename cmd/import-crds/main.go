@@ -92,6 +92,18 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/sigs.k8s.io/cluster-api/conf
 go run cmd/import-crds/main.go --input=$HOME/go/src/sigs.k8s.io/cluster-api-provider-aws/config/crd/bases
 go run cmd/import-crds/main.go --input=$HOME/go/src/sigs.k8s.io/cluster-api-provider-azure/config/crd/bases
 go run cmd/import-crds/main.go --input=$HOME/go/src/sigs.k8s.io/cluster-api-provider-gcp/config/crd/bases
+
+# ocm
+go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/api/cluster/v1
+go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/api/cluster/v1beta2
+go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/api/cluster/v1beta1
+go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/api/cluster/v1alpha1
+go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/api/work/v1
+go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/api/work/v1alpha1
+go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/api/crdsv1beta1
+go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/api/addon/v1alpha1
+go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/api/operator/v1
+
 */
 func main() {
 	var input []string
