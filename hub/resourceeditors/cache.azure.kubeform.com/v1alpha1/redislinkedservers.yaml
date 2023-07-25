@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cache.azure.kubeform.com
+    k8s.io/kind: RedisLinkedServer
+    k8s.io/resource: redislinkedservers
+    k8s.io/version: v1alpha1
+  name: cache.azure.kubeform.com-v1alpha1-redislinkedservers
+spec:
+  resource:
+    group: cache.azure.kubeform.com
+    kind: RedisLinkedServer
+    name: redislinkedservers
+    scope: Cluster
+    version: v1alpha1

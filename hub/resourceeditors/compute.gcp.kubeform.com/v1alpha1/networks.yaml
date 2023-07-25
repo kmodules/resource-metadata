@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: compute.gcp.kubeform.com
+    k8s.io/kind: Network
+    k8s.io/resource: networks
+    k8s.io/version: v1alpha1
+  name: compute.gcp.kubeform.com-v1alpha1-networks
+spec:
+  resource:
+    group: compute.gcp.kubeform.com
+    kind: Network
+    name: networks
+    scope: Cluster
+    version: v1alpha1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: dbformysql.azure.kubeform.com
+    k8s.io/kind: FlexibleServerFirewallRule
+    k8s.io/resource: flexibleserverfirewallrules
+    k8s.io/version: v1alpha1
+  name: dbformysql.azure.kubeform.com-v1alpha1-flexibleserverfirewallrules
+spec:
+  resource:
+    group: dbformysql.azure.kubeform.com
+    kind: FlexibleServerFirewallRule
+    name: flexibleserverfirewallrules
+    scope: Cluster
+    version: v1alpha1
