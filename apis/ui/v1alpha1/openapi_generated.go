@@ -315,7 +315,8 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ChartInfo":             schema_resource_metadata_apis_ui_v1alpha1_ChartInfo(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ComponentStatus":       schema_resource_metadata_apis_ui_v1alpha1_ComponentStatus(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Dashboard":             schema_resource_metadata_apis_ui_v1alpha1_Dashboard(ref),
-		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Dependency":            schema_resource_metadata_apis_ui_v1alpha1_Dependency(ref),
+		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.DependentFeatureSet":   schema_resource_metadata_apis_ui_v1alpha1_DependentFeatureSet(ref),
+		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Dependents":            schema_resource_metadata_apis_ui_v1alpha1_Dependents(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Feature":               schema_resource_metadata_apis_ui_v1alpha1_Feature(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.FeatureList":           schema_resource_metadata_apis_ui_v1alpha1_FeatureList(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.FeatureSet":            schema_resource_metadata_apis_ui_v1alpha1_FeatureSet(ref),
@@ -15380,15 +15381,22 @@ func schema_resource_metadata_apis_ui_v1alpha1_Dashboard(ref common.ReferenceCal
 	}
 }
 
-func schema_resource_metadata_apis_ui_v1alpha1_Dependency(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_resource_metadata_apis_ui_v1alpha1_DependentFeatureSet(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
-					"featureSets": {
+					"name": {
 						SchemaProps: spec.SchemaProps{
-							Description: "FeatureSets specifies a list of FeatureSet names that are depended on this FeatureSet",
+							Description: "Name specifies the name of the dependent FeatureSet",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"features": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Features specifies the Feature names of the dependent FeatureSet",
 							Type:        []string{"array"},
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
@@ -15404,6 +15412,34 @@ func schema_resource_metadata_apis_ui_v1alpha1_Dependency(ref common.ReferenceCa
 				},
 			},
 		},
+	}
+}
+
+func schema_resource_metadata_apis_ui_v1alpha1_Dependents(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"featureSets": {
+						SchemaProps: spec.SchemaProps{
+							Description: "FeatureSets specifies a list of FeatureSet names that depend on this FeatureSet",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/ui/v1alpha1.DependentFeatureSet"),
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.DependentFeatureSet"},
 	}
 }
 
@@ -15701,11 +15737,11 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSetStatus(ref common.Refer
 							},
 						},
 					},
-					"dependency": {
+					"dependents": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Dependency specifies the dependencies of this FeatureSet",
+							Description: "Dependents specifies the feature sets which depend on this FeatureSet",
 							Default:     map[string]interface{}{},
-							Ref:         ref("kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Dependency"),
+							Ref:         ref("kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Dependents"),
 						},
 					},
 					"note": {
@@ -15719,7 +15755,7 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSetStatus(ref common.Refer
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ComponentStatus", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Dependency"},
+			"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ComponentStatus", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Dependents"},
 	}
 }
 

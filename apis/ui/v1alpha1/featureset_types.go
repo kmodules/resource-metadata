@@ -76,9 +76,9 @@ type FeatureSetStatus struct {
 	// Features specifies the status of the component features that belong to this feature set.
 	// +optional
 	Features []ComponentStatus `json:"features,omitempty"`
-	// Dependency specifies the dependencies of this FeatureSet
+	// Dependents specifies the feature sets which depend on this FeatureSet
 	// +optional
-	Dependency Dependency `json:"dependency,omitempty"`
+	Dependents Dependents `json:"dependents,omitempty"`
 	// Note specifies the respective reason if the feature set is considered as disabled.
 	// +optional
 	Note string `json:"note,omitempty"`
@@ -98,10 +98,17 @@ type ComponentStatus struct {
 	Managed *bool `json:"managed,omitempty"`
 }
 
-type Dependency struct {
-	// FeatureSets specifies a list of FeatureSet names that are depended on this FeatureSet
+type Dependents struct {
+	// FeatureSets specifies a list of FeatureSet names that depend on this FeatureSet
 	// +optional
-	FeatureSets []string `json:"featureSets,omitempty"`
+	FeatureSets []DependentFeatureSet `json:"featureSets,omitempty"`
+}
+
+type DependentFeatureSet struct {
+	// Name specifies the name of the dependent FeatureSet
+	Name string `json:"name,omitempty"`
+	// Features specifies the Feature names of the dependent FeatureSet
+	Features []string `json:"features,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
