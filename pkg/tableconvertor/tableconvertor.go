@@ -134,7 +134,7 @@ func FilterColumnsWithDefaults(
 							}
 							col.JSONPath = strings.TrimSpace(col.JSONPath)
 							if col.JSONPath != "" {
-								def.PathTemplate = fmt.Sprintf(`{{ jp "{%s}" . }}`, col.JSONPath)
+								def.PathTemplate = fmt.Sprintf("{{ jp `{%s}` . }}", col.JSONPath)
 							}
 							additionalColumns = append(additionalColumns, def)
 						}
