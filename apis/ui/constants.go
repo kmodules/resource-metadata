@@ -14,22 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1alpha1
+package ui
 
-import (
-	"kmodules.xyz/client-go/apiextensions"
-	"kmodules.xyz/resource-metadata/apis/ui"
-	"kmodules.xyz/resource-metadata/crds"
-
-	"k8s.io/apimachinery/pkg/labels"
+const (
+	LabelFeatureSet = "byte.builders/feature-set"
 )
-
-func (v Feature) CustomResourceDefinition() *apiextensions.CustomResourceDefinition {
-	return crds.MustCustomResourceDefinition(SchemeGroupVersion.WithResource(ResourceFeatures))
-}
-
-func (_ Feature) FormatLabels(featureSet string) labels.Selector {
-	return labels.SelectorFromSet(map[string]string{
-		ui.LabelFeatureSet: featureSet,
-	})
-}
