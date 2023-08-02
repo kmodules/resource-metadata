@@ -14,42 +14,34 @@ spec:
     pathTemplate: '{{ .type }}'
     priority: 3
     type: string
-    width: 1
   - name: Reason
     pathTemplate: '{{ .reason }}'
     priority: 3
     type: string
-    width: 1
   - name: Source
     pathTemplate: '{{ .source.component }}'
     priority: 3
     type: string
-    width: 1
   - name: Involved Object
     pathTemplate: '{{ .involvedObject.kind }}/{{ .involvedObject.name }}'
     priority: 3
     type: string
-    width: 1
   - name: Count
     pathTemplate: '{{ .count }}'
     priority: 3
     type: string
-    width: 1
   - name: First Seen
     pathTemplate: '{{ .firstTimestamp }}'
     priority: 0
     type: date
-    width: 1
   - name: Last Seen
     pathTemplate: '{{ .firstTimestamp }}'
     priority: 0
     type: date
-    width: 1
   - name: Message
     pathTemplate: '{{ .message }}'
     priority: 0
     type: string
-    width: 1
   defaultView: true
   resource:
     group: ""

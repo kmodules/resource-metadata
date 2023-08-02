@@ -14,20 +14,16 @@ spec:
     pathTemplate: '{{ .effect }}'
     priority: 0
     type: string
-    width: 1
   - name: Key
     pathTemplate: '{{ .key }}'
     priority: 0
     type: string
-    width: 1
   - name: Operator
     pathTemplate: '{{ .operator }}'
     priority: 0
     type: string
-    width: 1
   - name: Toleration Seconds
     pathTemplate: '{{ .tolerationSeconds }}'
     priority: 0
     type: string
-    width: 1
   defaultView: false

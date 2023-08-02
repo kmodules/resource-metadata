@@ -23,42 +23,34 @@ spec:
       enable: true
       type: ""
     type: string
-    width: 1
   - name: Namespace
     pathTemplate: '{{ .metadata.namespace }}'
     priority: 3
     type: string
-    width: 1
   - name: Driver
     pathTemplate: '{{ .spec.driver }}'
     priority: 3
     type: string
-    width: 1
   - name: Schedule
     pathTemplate: '{{ .spec.schedule }}'
     priority: 3
     type: string
-    width: 1
   - name: Paused
     pathTemplate: '{{ .spec.paused }}'
     priority: 3
     type: string
-    width: 1
   - name: Repository
     pathTemplate: '{{ .spec.repository.name }}'
     priority: 2
     type: string
-    width: 1
   - name: Target
     pathTemplate: '{{ .spec.target.ref.kind }}/{{ .spec.target.ref.name }}'
     priority: 2
     type: string
-    width: 1
   - name: RetentionPolicy
     pathTemplate: '{{ .spec.retentionPolicy.name }}'
     priority: 3
     type: string
-    width: 1
   - color:
       template: |
         {{ $status := .status.phase }}
@@ -73,7 +65,6 @@ spec:
     pathTemplate: '{{ .status.phase }}'
     priority: 3
     type: string
-    width: 1
   - name: Age
     pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
@@ -82,7 +73,6 @@ spec:
       template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
       type: integer
     type: date
-    width: 1
   defaultView: false
   resource:
     group: stash.appscode.com

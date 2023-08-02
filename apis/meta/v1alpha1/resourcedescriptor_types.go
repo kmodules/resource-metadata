@@ -192,8 +192,6 @@ type ResourceColumnDefinition struct {
 	// numbers are considered higher priority. Columns that may be omitted in limited space scenarios
 	// should be given a higher priority.
 	Priority int32 `json:"priority"`
-	// Width is an integer defining the relative width of the column among all the columns
-	Width int32 `json:"width"`
 	// PathTemplate is a Go text template that will be evaluated to determine cell value.
 	// Users can use JSONPath expression to extract nested fields and apply template functions from Masterminds/sprig library.
 	// The template function for JSON path is called `jp`.
@@ -288,8 +286,6 @@ type ResourceColumn struct {
 	// numbers are considered higher priority. Columns that may be omitted in limited space scenarios
 	// should be given a higher priority.
 	Priority int32 `json:"priority"`
-	// Width is an integer defining the relative width of the column among all the columns
-	Width int32 `json:"width"`
 
 	Sort      *SortHeader      `json:"sort,omitempty"`
 	Link      bool             `json:"link,omitempty"`

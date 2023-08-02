@@ -14,12 +14,10 @@ spec:
     pathTemplate: '{{ .title }}'
     priority: 3
     type: string
-    width: 1
   - name: URL
     pathTemplate: '{{ .url }}'
     priority: 3
     type: string
-    width: 1
   defaultView: false
   resource:
     group: ui.k8s.appscode.com

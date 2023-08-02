@@ -14,22 +14,18 @@ spec:
     pathTemplate: '{{ .spec.connectionInfo.maxConnections }}'
     priority: 3
     type: integer
-    width: 1
   - name: Active Connections
     pathTemplate: '{{ .spec.connectionInfo.activeConnections }}'
     priority: 3
     type: integer
-    width: 1
   - name: Auto Vacuum
     pathTemplate: '{{ .spec.vacuumInfo.autoVacuum }}'
     priority: 3
     type: string
-    width: 1
   - name: Active Vacuum Process
     pathTemplate: '{{ .spec.vacuumInfo.activeVacuumProcess }}'
     priority: 3
     type: integer
-    width: 1
   defaultView: true
   resource:
     group: ui.kubedb.com

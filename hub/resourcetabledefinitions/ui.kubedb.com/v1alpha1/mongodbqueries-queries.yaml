@@ -27,40 +27,32 @@ spec:
     pathTemplate: '{{ .operation | default `-` | upper }}'
     priority: 3
     type: string
-    width: 1
   - name: Database Name
     pathTemplate: '{{ .databaseName }}'
     priority: 3
     type: string
-    width: 1
   - name: Collection Name
     pathTemplate: '{{ .collectionName }}'
     priority: 3
     type: string
-    width: 1
   - name: Command
     pathTemplate: '{{ .command }}'
     priority: 3
     type: object
-    width: 1
   - name: Count
     pathTemplate: '{{ .count }}'
     priority: 3
     type: integer
-    width: 1
   - name: Avg Execution Time (msec)
     pathTemplate: '{{ .avgExecutionTimeMilliSeconds }}'
     priority: 3
     type: integer
-    width: 1
   - name: Min Execution Time (msec)
     pathTemplate: '{{ .minExecutionTimeMilliSeconds }}'
     priority: 3
     type: integer
-    width: 1
   - name: Max Execution Time (msec)
     pathTemplate: '{{ .maxExecutionTimeMilliSeconds }}'
     priority: 3
     type: integer
-    width: 1
   defaultView: false

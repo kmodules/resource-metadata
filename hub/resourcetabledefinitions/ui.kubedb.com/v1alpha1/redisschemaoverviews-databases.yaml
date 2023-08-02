@@ -9,12 +9,10 @@ spec:
     pathTemplate: '{{ .dbId }}'
     priority: 3
     type: string
-    width: 1
   - name: Keys
     pathTemplate: '{{ .keys }}'
     priority: 3
     type: string
-    width: 1
   - name: Expires
     pathTemplate: '{{ .expires }}'
     priority: 3
@@ -23,7 +21,6 @@ spec:
       template: '{{ .expires | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
       type: integer
     type: date
-    width: 1
   - name: Avg TTL (msec)
     pathTemplate: '{{ .avgTTLMilliSeconds }}'
     priority: 3
@@ -32,5 +29,4 @@ spec:
       template: '{{ .avgTTLMilliSeconds }}'
       type: integer
     type: string
-    width: 1
   defaultView: false
