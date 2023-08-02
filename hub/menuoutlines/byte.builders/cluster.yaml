@@ -77,7 +77,11 @@ spec:
         type: image/png
       name: Releases
       path: /helm/v3/releases
-    name: Helm 3
+    - name: HelmRelease
+      type:
+        group: helm.toolkit.fluxcd.io
+        kind: HelmRelease
+    name: Helm
   - autoDiscoverAPIGroup: kubedb.com
     icons:
     - src: https://cdn.appscode.com/k8s/icons/menu/datastore.svg
