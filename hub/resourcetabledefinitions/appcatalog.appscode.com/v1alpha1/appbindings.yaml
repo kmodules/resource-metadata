@@ -14,52 +14,42 @@ spec:
     pathTemplate: '{{ .metadata.name }}'
     priority: 3
     type: string
-    width: 1
   - name: Namespace
     pathTemplate: '{{ .metadata.namespace }}'
     priority: 3
     type: string
-    width: 1
   - name: Labels
     pathTemplate: '{{ .metadata.labels | toRawJson }}'
     priority: 3
     type: object
-    width: 1
   - name: Annotations
     pathTemplate: '{{ .metadata.annotations | toRawJson }}'
     priority: 1
     type: object
-    width: 1
   - name: Type
     pathTemplate: '{{ .spec.type }}'
     priority: 3
     type: string
-    width: 1
   - name: Version
     pathTemplate: '{{ .spec.version }}'
     priority: 3
     type: string
-    width: 1
   - name: Service
     pathTemplate: '{{ .spec.clientConfig.service.name }}'
     priority: 3
     type: string
-    width: 1
   - name: Secret
     pathTemplate: '{{ .spec.secret.name }}'
     priority: 3
     type: string
-    width: 1
   - name: Backup Task
     pathTemplate: '{{ .spec.parameters.stash.addon.backupTask.name }}'
     priority: 1
     type: string
-    width: 1
   - name: Restore Task
     pathTemplate: '{{ .spec.parameters.stash.addon.restoreTask.name }}'
     priority: 1
     type: string
-    width: 1
   - name: Age
     pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
@@ -68,7 +58,6 @@ spec:
       template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
       type: integer
     type: date
-    width: 1
   defaultView: true
   resource:
     group: appcatalog.appscode.com

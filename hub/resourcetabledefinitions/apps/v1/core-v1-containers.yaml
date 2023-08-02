@@ -9,30 +9,24 @@ spec:
     pathTemplate: '{{ .name }}'
     priority: 0
     type: string
-    width: 1
   - name: Image
     pathTemplate: '{{ .image }}'
     priority: 0
     type: string
-    width: 1
   - name: Arguments
     pathTemplate: '{{ .args | fmt_list }}'
     priority: 0
     type: object
-    width: 1
   - name: Environment Variables
     pathTemplate: '{{ .env | fmt_list }}'
     priority: 0
     type: object
-    width: 1
   - name: Ports
     pathTemplate: '{{ .ports | k8s_container_ports }}'
     priority: 0
     type: string
-    width: 1
   - name: Volume Mounts
     pathTemplate: '{{ .volumeMounts | k8s_volumeMounts }}'
     priority: 0
     type: string
-    width: 1
   defaultView: false

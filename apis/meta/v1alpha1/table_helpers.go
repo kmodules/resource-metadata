@@ -42,7 +42,6 @@ func Convert_ResourceColumnDefinition_To_ResourceColumn(def ResourceColumnDefini
 		Type:     def.Type,
 		Format:   def.Format,
 		Priority: def.Priority,
-		Width:    def.Width,
 	}
 	if def.Sort != nil && def.Sort.Enable {
 		col.Sort = &SortHeader{

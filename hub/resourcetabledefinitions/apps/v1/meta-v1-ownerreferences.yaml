@@ -9,25 +9,20 @@ spec:
     pathTemplate: '{{ .apiVersion }}'
     priority: 0
     type: string
-    width: 1
   - name: Kind
     pathTemplate: '{{ .kind }}'
     priority: 0
     type: string
-    width: 1
   - name: Name
     pathTemplate: '{{ .name }}'
     priority: 0
     type: string
-    width: 1
   - name: Controller
     pathTemplate: '{{ .controller }}'
     priority: 0
     type: string
-    width: 1
   - name: Block Onwer Deletion
     pathTemplate: '{{ .blockOwnerDeletion }}'
     priority: 0
     type: string
-    width: 1
   defaultView: false

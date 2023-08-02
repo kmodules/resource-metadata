@@ -130,7 +130,6 @@ func FilterColumnsWithDefaults(
 								Format:      col.Format,
 								Description: col.Description,
 								Priority:    col.Priority,
-								Width:       1,
 							}
 							col.JSONPath = strings.TrimSpace(col.JSONPath)
 							if col.JSONPath != "" {
@@ -558,7 +557,6 @@ func DefaultListColumns() []v1alpha1.ResourceColumnDefinition {
 			Type:         "string",
 			Format:       "",
 			Priority:     int32(v1alpha1.List),
-			Width:        1,
 			PathTemplate: `{{ .metadata.name }}`,
 			Sort: &v1alpha1.SortDefinition{
 				Enable: true,
@@ -576,7 +574,6 @@ func DefaultListColumns() []v1alpha1.ResourceColumnDefinition {
 			Type:         "string",
 			Format:       "",
 			Priority:     int32(v1alpha1.List),
-			Width:        1,
 			PathTemplate: `{{ .metadata.namespace }}`,
 		},
 		{
@@ -584,7 +581,6 @@ func DefaultListColumns() []v1alpha1.ResourceColumnDefinition {
 			Type:         "object",
 			Format:       "",
 			Priority:     int32(v1alpha1.List),
-			Width:        1,
 			PathTemplate: `{{ .metadata.labels | toRawJson }}`,
 		},
 		{
@@ -592,7 +588,6 @@ func DefaultListColumns() []v1alpha1.ResourceColumnDefinition {
 			Type:         "object",
 			Format:       "",
 			Priority:     int32(v1alpha1.List),
-			Width:        1,
 			PathTemplate: `{{ .metadata.annotations | toRawJson }}`,
 		},
 		{
@@ -600,7 +595,6 @@ func DefaultListColumns() []v1alpha1.ResourceColumnDefinition {
 			Type:         "date",
 			Format:       "",
 			Priority:     int32(v1alpha1.List),
-			Width:        1,
 			PathTemplate: `{{ .metadata.creationTimestamp }}`,
 			Sort: &v1alpha1.SortDefinition{
 				Enable:   true,
@@ -618,7 +612,6 @@ func DefaultDetailsColumns() []v1alpha1.ResourceColumnDefinition {
 			Type:         "string",
 			Format:       "",
 			Priority:     int32(v1alpha1.Field | v1alpha1.List),
-			Width:        1,
 			PathTemplate: `{{ .metadata.name }}`,
 			Sort: &v1alpha1.SortDefinition{
 				Enable: true,
@@ -636,7 +629,6 @@ func DefaultDetailsColumns() []v1alpha1.ResourceColumnDefinition {
 			Type:         "string",
 			Format:       "",
 			Priority:     int32(v1alpha1.Field | v1alpha1.List),
-			Width:        1,
 			PathTemplate: `{{ .metadata.namespace }}`,
 		},
 		{
@@ -644,7 +636,6 @@ func DefaultDetailsColumns() []v1alpha1.ResourceColumnDefinition {
 			Type:         "object",
 			Format:       "",
 			Priority:     int32(v1alpha1.Field | v1alpha1.List),
-			Width:        1,
 			PathTemplate: `{{ .metadata.labels | toRawJson }}`,
 		},
 		{
@@ -652,7 +643,6 @@ func DefaultDetailsColumns() []v1alpha1.ResourceColumnDefinition {
 			Type:         "object",
 			Format:       "",
 			Priority:     int32(v1alpha1.Field | v1alpha1.List),
-			Width:        1,
 			PathTemplate: `{{ .metadata.annotations | toRawJson }}`,
 		},
 		{
@@ -660,7 +650,6 @@ func DefaultDetailsColumns() []v1alpha1.ResourceColumnDefinition {
 			Type:         "date",
 			Format:       "",
 			Priority:     int32(v1alpha1.Field | v1alpha1.List),
-			Width:        1,
 			PathTemplate: `{{ .metadata.creationTimestamp }}`,
 			Sort: &v1alpha1.SortDefinition{
 				Enable:   true,

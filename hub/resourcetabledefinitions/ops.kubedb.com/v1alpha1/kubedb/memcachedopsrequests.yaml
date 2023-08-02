@@ -14,17 +14,14 @@ spec:
     pathTemplate: '{{ .metadata.name }}'
     priority: 3
     type: string
-    width: 1
   - name: Namespace
     pathTemplate: '{{ .metadata.namespace }}'
     priority: 3
     type: string
-    width: 1
   - name: Type
     pathTemplate: '{{ .spec.type }}'
     priority: 3
     type: string
-    width: 1
   - color:
       template: |
         {{ $status := .status.phase }}
@@ -49,7 +46,6 @@ spec:
     pathTemplate: '{{ .status.phase }}'
     priority: 3
     type: string
-    width: 1
   - name: Age
     pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
@@ -60,7 +56,6 @@ spec:
     tooltip:
       template: '{{ .metadata.creationTimestamp }}'
     type: date
-    width: 1
   defaultView: false
   resource:
     group: ops.kubedb.com

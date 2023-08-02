@@ -13,65 +13,52 @@ spec:
       template: '{{ .startTime | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
       type: integer
     type: date
-    width: 1
   - name: User Host
     pathTemplate: '{{ .userHost }}'
     priority: 3
     type: string
-    width: 1
   - name: Query Time (msec)
     pathTemplate: '{{ .queryTimeMilliSeconds }}'
     priority: 3
     type: string
-    width: 1
   - name: Lock Time (msec)
     pathTemplate: '{{ .lockTimeMilliSeconds }}'
     priority: 3
     type: string
-    width: 1
   - name: Rows Sent
     pathTemplate: '{{ .rowsSent }}'
     priority: 3
     type: integer
-    width: 1
   - name: Rows Examined
     pathTemplate: '{{ .rowsExamined }}'
     priority: 3
     type: integer
-    width: 1
   - name: DB
     pathTemplate: '{{ .db }}'
     priority: 3
     type: string
-    width: 1
   - name: Last Insert ID
     pathTemplate: '{{ .lastInsertId }}'
     priority: 3
     type: integer
-    width: 1
   - name: Insert ID
     pathTemplate: '{{ .insertId }}'
     priority: 3
     type: integer
-    width: 1
   - name: Server ID
     pathTemplate: '{{ .serverId }}'
     priority: 3
     type: integer
-    width: 1
   - name: SQL Text
     pathTemplate: '{{ .sqlText }}'
     priority: 3
     type: string
-    width: 1
   - name: Thread ID
     pathTemplate: '{{ .threadId }}'
     priority: 3
     type: integer
-    width: 1
   - name: Rows Affected
     pathTemplate: '{{ .rowsAffected }}'
     priority: 3
     type: integer
-    width: 1
   defaultView: false

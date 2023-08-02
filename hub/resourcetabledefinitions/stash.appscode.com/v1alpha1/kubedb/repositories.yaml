@@ -23,27 +23,22 @@ spec:
       enable: true
       type: ""
     type: string
-    width: 1
   - name: Namespace
     pathTemplate: '{{ .metadata.namespace }}'
     priority: 3
     type: string
-    width: 1
   - name: Size
     pathTemplate: '{{ .status.totalSize }}'
     priority: 3
     type: string
-    width: 1
   - name: Snapshot Count
     pathTemplate: '{{ .status.snapshotCount }}'
     priority: 3
     type: string
-    width: 1
   - name: Last-Successful-Backup
     pathTemplate: '{{ .status.lastBackupTime | k8s_duration }}'
     priority: 3
     type: string
-    width: 1
   - color:
       template: |
         {{ $integrity := .status.integrity }}
@@ -58,7 +53,6 @@ spec:
     pathTemplate: '{{ .status.integrity | quote | upper }}'
     priority: 3
     type: string
-    width: 1
   - name: Age
     pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
@@ -67,7 +61,6 @@ spec:
       template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
       type: integer
     type: date
-    width: 1
   defaultView: false
   resource:
     group: stash.appscode.com

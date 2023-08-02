@@ -14,47 +14,38 @@ spec:
     pathTemplate: '{{ .metadata.name }}'
     priority: 3
     type: string
-    width: 1
   - name: Labels
     pathTemplate: '{{ .metadata.labels | toRawJson }}'
     priority: 3
     type: object
-    width: 1
   - name: Annotations
     pathTemplate: '{{ .metadata.annotations | toRawJson }}'
     priority: 1
     type: object
-    width: 1
   - name: Version
     pathTemplate: '{{ .spec.version }}'
     priority: 3
     type: string
-    width: 1
   - name: Distribution
     pathTemplate: '{{ .spec.distribution }}'
     priority: 3
     type: string
-    width: 1
   - name: DB Image
     pathTemplate: '{{ .spec.db.image }}'
     priority: 3
     type: string
-    width: 1
   - name: Deprecated
     pathTemplate: '{{ .spec.deprecated }}'
     priority: 3
     type: string
-    width: 1
   - name: Backup Task
     pathTemplate: '{{ .spec.stash.addon.backupTask.name }}'
     priority: 3
     type: string
-    width: 1
   - name: Restore Task
     pathTemplate: '{{ .spec.stash.addon.restoreTask.name }}'
     priority: 3
     type: string
-    width: 1
   - name: Age
     pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
@@ -63,7 +54,6 @@ spec:
       template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
       type: integer
     type: date
-    width: 1
   defaultView: true
   resource:
     group: catalog.kubedb.com

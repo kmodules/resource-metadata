@@ -14,33 +14,27 @@ spec:
     pathTemplate: '{{ .metadata.name }}'
     priority: 0
     type: string
-    width: 1
   - name: Capacity
     pathTemplate: '{{ .spec.capacity }}'
     priority: 0
     type: string
-    width: 1
   - format: array
     name: Access Modes
     pathTemplate: '{{ .spec.accessModes }}'
     priority: 0
     type: string
-    width: 1
   - name: Reclaim Policy
     pathTemplate: '{{ .spec.persistentVolumeReclaimPolicy }}'
     priority: 0
     type: string
-    width: 1
   - name: Status
     pathTemplate: '{{ .status.phase }}'
     priority: 0
     type: string
-    width: 1
   - name: Storage Class
     pathTemplate: '{{ .spec.storageClassName }}'
     priority: 0
     type: string
-    width: 1
   - name: Age
     pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 0
@@ -49,7 +43,6 @@ spec:
       template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
       type: integer
     type: date
-    width: 1
   defaultView: true
   resource:
     group: ""

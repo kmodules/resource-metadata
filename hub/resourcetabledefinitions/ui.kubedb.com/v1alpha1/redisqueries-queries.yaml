@@ -9,7 +9,6 @@ spec:
     pathTemplate: '{{ .queryId }}'
     priority: 3
     type: integer
-    width: 1
   - name: Query Timestamp
     pathTemplate: '{{ .queryTimestamp }}'
     priority: 3
@@ -18,15 +17,12 @@ spec:
       template: '{{ .queryTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
       type: integer
     type: date
-    width: 1
   - name: Exec Time (µsec)
     pathTemplate: '{{ .execTimeMicroSeconds }}'
     priority: 3
     type: integer
-    width: 1
   - name: Args
     pathTemplate: '{{ .args }}'
     priority: 3
     type: string
-    width: 1
   defaultView: false

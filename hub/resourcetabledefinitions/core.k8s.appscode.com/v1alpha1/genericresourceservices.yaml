@@ -17,22 +17,18 @@ spec:
       enable: true
       type: ""
     type: string
-    width: 1
   - name: Namespace
     pathTemplate: '{{ .metadata.namespace }}'
     priority: 3
     type: string
-    width: 1
   - name: Labels
     pathTemplate: '{{ .metadata.labels | toRawJson }}'
     priority: 3
     type: object
-    width: 1
   - name: Annotations
     pathTemplate: '{{ .metadata.annotations | toRawJson }}'
     priority: 3
     type: object
-    width: 1
   - name: Age
     pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
@@ -41,77 +37,62 @@ spec:
       template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
       type: integer
     type: date
-    width: 1
   - name: ClusterUID
     pathTemplate: '{{ .spec.cluster.uid }}'
     priority: 4
     type: string
-    width: 1
   - name: ClusterName
     pathTemplate: '{{ .spec.cluster.name }}'
     priority: 4
     type: string
-    width: 1
   - name: Cluster Name
     pathTemplate: '{{ .spec.cluster.displayName }}'
     priority: 3
     type: string
-    width: 1
   - name: Cluster Provider
     pathTemplate: '{{ .spec.cluster.provider }}'
     priority: 3
     type: string
-    width: 1
   - name: APIGroup
     pathTemplate: '{{ .spec.apiType.group }}'
     priority: 4
     type: string
-    width: 1
   - name: APIVersion
     pathTemplate: '{{ .spec.apiType.version }}'
     priority: 4
     type: string
-    width: 1
   - name: APIResource
     pathTemplate: '{{ .spec.apiType.name }}'
     priority: 4
     type: string
-    width: 1
   - name: APIKind
     pathTemplate: '{{ .spec.apiType.kind }}'
     priority: 3
     type: string
-    width: 1
   - name: APIScope
     pathTemplate: '{{ .spec.apiType.scope }}'
     priority: 4
     type: string
-    width: 1
   - name: Exposed
     pathTemplate: '{{ .spec.facilities.exposed.usage }}'
     priority: 3
     type: string
-    width: 1
   - name: TLS
     pathTemplate: '{{ .spec.facilities.tls.usage }}'
     priority: 3
     type: string
-    width: 1
   - name: Backup
     pathTemplate: '{{ .spec.facilities.backup.usage }}'
     priority: 3
     type: string
-    width: 1
   - name: Monitoring
     pathTemplate: '{{ .spec.facilities.monitoring.usage }}'
     priority: 3
     type: string
-    width: 1
   - name: Status
     pathTemplate: '{{ .status.phase }}'
     priority: 3
     type: string
-    width: 1
   - name: Age
     pathTemplate: '{{ .metadata.creationTimestamp }}'
     priority: 3
@@ -120,7 +101,6 @@ spec:
       template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
       type: integer
     type: date
-    width: 1
   defaultView: true
   resource:
     group: core.k8s.appscode.com
