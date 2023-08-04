@@ -158,7 +158,7 @@ spec:
                                   items:
                                     type: string
                                   type: array
-                                container:
+                                containerNameTemplate:
                                   type: string
                                 help:
                                   type: string
@@ -391,7 +391,7 @@ spec:
                                                 items:
                                                   type: string
                                                 type: array
-                                              container:
+                                              containerNameTemplate:
                                                 type: string
                                               help:
                                                 type: string
@@ -648,7 +648,7 @@ spec:
                                               items:
                                                 type: string
                                               type: array
-                                            container:
+                                            containerNameTemplate:
                                               type: string
                                             help:
                                               type: string
@@ -878,7 +878,7 @@ spec:
                                               items:
                                                 type: string
                                               type: array
-                                            container:
+                                            containerNameTemplate:
                                               type: string
                                             help:
                                               type: string
@@ -1136,7 +1136,7 @@ spec:
                                   items:
                                     type: string
                                   type: array
-                                container:
+                                containerNameTemplate:
                                   type: string
                                 help:
                                   type: string
