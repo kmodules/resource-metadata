@@ -20,7 +20,7 @@ spec:
         kind: Connection
         name: Pods
         query:
-          byLabel: offshoot
+          byLabel: exposed_by
           type: GraphQL
         ref:
           group: ""
