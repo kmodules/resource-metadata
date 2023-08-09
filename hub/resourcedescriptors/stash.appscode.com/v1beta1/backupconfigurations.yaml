@@ -12,7 +12,8 @@ spec:
   connections:
   - labels:
     - offshoot
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.repository.name},{.metadata.namespace},{"Repository"},{"stash.appscode.com/v1beta1"}'
     target:
@@ -21,7 +22,8 @@ spec:
     type: MatchRef
   - labels:
     - backup_via
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
     target:
@@ -30,7 +32,8 @@ spec:
     type: MatchRef
   - labels:
     - backup_via
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
     target:
@@ -39,7 +42,8 @@ spec:
     type: MatchRef
   - labels:
     - backup_via
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
     target:
@@ -48,7 +52,8 @@ spec:
     type: MatchRef
   - labels:
     - backup_via
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind}'
     target:
@@ -57,7 +62,8 @@ spec:
     type: MatchRef
   - labels:
     - backup_via
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
     target:
@@ -66,7 +72,8 @@ spec:
     type: MatchRef
   - labels:
     - backup_via
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
     target:
@@ -75,7 +82,8 @@ spec:
     type: MatchRef
   - labels:
     - backup_via
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.target.ref.name},{.metadata.namespace},{.spec.target.ref.kind},{.spec.target.ref.apiVersion}'
     target:
@@ -85,7 +93,8 @@ spec:
   - labels:
     - view
     nameTemplate: '{.metadata.name}'
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     target:
       apiVersion: ui.stash.appscode.com/v1alpha1
       kind: BackupOverview

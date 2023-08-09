@@ -12,7 +12,8 @@ spec:
   connections:
   - labels:
     - monitored_by
-    namespacePath: spec.serviceMonitorNamespaceSelector
+    namespace:
+      labelSelector: spec.serviceMonitorNamespaceSelector
     selectorPath: spec.serviceMonitorSelector
     target:
       apiVersion: monitoring.coreos.com/v1
@@ -20,7 +21,8 @@ spec:
     type: MatchSelector
   - labels:
     - monitored_by
-    namespacePath: spec.podMonitorNamespaceSelector
+    namespace:
+      labelSelector: spec.podMonitorNamespaceSelector
     selectorPath: spec.podMonitorSelector
     target:
       apiVersion: monitoring.coreos.com/v1

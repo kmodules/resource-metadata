@@ -13,7 +13,8 @@ spec:
   - labels:
     - offshoot
     - scaled_by
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.scaleTargetRef.name},{.metadata.namespace},{.spec.scaleTargetRef.kind},{.spec.scaleTargetRef.apiVersion}'
     target:
@@ -23,7 +24,8 @@ spec:
   - labels:
     - offshoot
     - scaled_by
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.scaleTargetRef.name},{.metadata.namespace},{.spec.scaleTargetRef.kind},{.spec.scaleTargetRef.apiVersion}'
     target:
@@ -33,7 +35,8 @@ spec:
   - labels:
     - offshoot
     - scaled_by
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.scaleTargetRef.name},{.metadata.namespace},{.spec.scaleTargetRef.kind}'
     target:
@@ -43,7 +46,8 @@ spec:
   - labels:
     - offshoot
     - scaled_by
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.scaleTargetRef.name},{.metadata.namespace},{.spec.scaleTargetRef.kind},{.spec.scaleTargetRef.apiVersion}'
     target:

@@ -12,7 +12,8 @@ spec:
   connections:
   - labels:
     - cert_issuer
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.issuerRef.name},{.metadata.namespace}'
     target:

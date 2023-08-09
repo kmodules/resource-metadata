@@ -70,8 +70,15 @@ spec:
                       type: string
                     nameTemplate:
                       type: string
-                    namespacePath:
-                      type: string
+                    namespace:
+                      properties:
+                        labelSelector:
+                          type: string
+                        path:
+                          type: string
+                        selector:
+                          type: string
+                      type: object
                     references:
                       description: "References are a jsonpath that returns a CSV formatted
                         references to target resources \n If each row has a single

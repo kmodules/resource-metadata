@@ -12,7 +12,8 @@ spec:
   connections:
   - labels:
     - id
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{range .subjects[*]}{.name},{.namespace},{.kind}{"\n"}{end}'
     target:
@@ -21,7 +22,8 @@ spec:
     type: MatchRef
   - labels:
     - id
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.roleRef.name},{.metadata.namespace},{.roleRef.kind}'
     target:

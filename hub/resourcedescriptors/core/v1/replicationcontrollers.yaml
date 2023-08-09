@@ -13,7 +13,8 @@ spec:
   - labels:
     - offshoot
     level: Controller
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     selectorPath: spec.selector
     target:
       apiVersion: v1
