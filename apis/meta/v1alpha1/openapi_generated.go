@@ -319,6 +319,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.MenuSectionOutlineInfo":      schema_resource_metadata_apis_meta_v1alpha1_MenuSectionOutlineInfo(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.MenuSpec":                    schema_resource_metadata_apis_meta_v1alpha1_MenuSpec(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.NamedEdge":                   schema_resource_metadata_apis_meta_v1alpha1_NamedEdge(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.NamespaceRef":                schema_resource_metadata_apis_meta_v1alpha1_NamespaceRef(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ObjectConnection":            schema_resource_metadata_apis_meta_v1alpha1_ObjectConnection(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ObjectLocator":               schema_resource_metadata_apis_meta_v1alpha1_ObjectLocator(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ObjectPointer":               schema_resource_metadata_apis_meta_v1alpha1_ObjectPointer(ref),
@@ -15624,6 +15625,36 @@ func schema_resource_metadata_apis_meta_v1alpha1_NamedEdge(ref common.ReferenceC
 	}
 }
 
+func schema_resource_metadata_apis_meta_v1alpha1_NamespaceRef(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"path": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"selector": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"labelSelector": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+				},
+			},
+		},
+	}
+}
+
 func schema_resource_metadata_apis_meta_v1alpha1_ObjectConnection(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -16821,10 +16852,9 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceConnection(ref common.R
 							Format:  "",
 						},
 					},
-					"namespacePath": {
+					"namespace": {
 						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
+							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.NamespaceRef"),
 						},
 					},
 					"targetLabelPath": {
@@ -16877,7 +16907,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceConnection(ref common.R
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.LabelSelector", "k8s.io/apimachinery/pkg/apis/meta/v1.TypeMeta"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.LabelSelector", "k8s.io/apimachinery/pkg/apis/meta/v1.TypeMeta", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.NamespaceRef"},
 	}
 }
 
@@ -16894,10 +16924,9 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceConnectionSpec(ref comm
 							Format:  "",
 						},
 					},
-					"namespacePath": {
+					"namespace": {
 						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
+							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.NamespaceRef"),
 						},
 					},
 					"targetLabelPath": {
@@ -16950,7 +16979,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceConnectionSpec(ref comm
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.LabelSelector"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.LabelSelector", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.NamespaceRef"},
 	}
 }
 

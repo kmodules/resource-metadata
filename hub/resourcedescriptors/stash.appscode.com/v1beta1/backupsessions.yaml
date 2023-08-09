@@ -12,7 +12,8 @@ spec:
   connections:
   - labels:
     - offshoot
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.invoker.name},{.metadata.namespace},{.spec.invoker.kind},{.spec.invoker.apiVersion}'
     target:

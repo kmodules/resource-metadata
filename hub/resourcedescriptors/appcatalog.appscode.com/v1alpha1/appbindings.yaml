@@ -12,7 +12,8 @@ spec:
   connections:
   - labels:
     - exposed_by
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.clientConfig.service.name}'
     target:
@@ -21,7 +22,8 @@ spec:
     type: MatchRef
   - labels:
     - config
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.clientConfig.secret.name}'
     target:

@@ -28,7 +28,8 @@ spec:
     type: MatchRef
   - labels:
     - offshoot
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{range .spec.volumes[*]}{.persistentVolumeClaim.claimName}{"\n"}{end}'
     target:
@@ -37,22 +38,26 @@ spec:
     type: MatchRef
   - labels:
     - config
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{range .spec.containers[*].envFrom[*]}{.configMapRef.name}{"\n"}{end}'
     - '{range .spec.containers[*].env[*]}{.valueFrom.configMapKeyRef.name}{"\n"}{end}'
     - '{range .spec.volumes[*]}{.configMap.name}{"\n"}{end}'
+    - '{range .spec.volumes[*].projected.sources[*]}{.configMap.name}{"\n"}{end}'
     target:
       apiVersion: v1
       kind: ConfigMap
     type: MatchRef
   - labels:
     - config
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{range .spec.containers[*].envFrom[*]}{.secretRef.name}{"\n"}{end}'
     - '{range .spec.containers[*].env[*]}{.valueFrom.secretKeyRef.name}{"\n"}{end}'
     - '{range .spec.volumes[*]}{.secret.secretName}{"\n"}{end}'
+    - '{range .spec.volumes[*].projected.sources[*]}{.secret.name}{"\n"}{end}'
     target:
       apiVersion: v1
       kind: Secret
@@ -60,7 +65,8 @@ spec:
   - labels:
     - view
     nameTemplate: '{.metadata.name}'
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     target:
       apiVersion: core.k8s.appscode.com/v1alpha1
       kind: PodView

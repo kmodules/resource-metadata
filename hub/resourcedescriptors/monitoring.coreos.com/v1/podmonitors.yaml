@@ -12,7 +12,8 @@ spec:
   connections:
   - labels:
     - monitored_by
-    namespacePath: spec.namespaceSelector
+    namespace:
+      selector: spec.namespaceSelector
     selectorPath: spec.selector
     target:
       apiVersion: v1

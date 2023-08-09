@@ -12,7 +12,8 @@ spec:
   connections:
   - labels:
     - recommended_for
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
@@ -21,7 +22,8 @@ spec:
     type: MatchRef
   - labels:
     - ops
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
@@ -30,7 +32,8 @@ spec:
     type: MatchRef
   - labels:
     - recommended_for
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
@@ -39,7 +42,8 @@ spec:
     type: MatchRef
   - labels:
     - ops
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
@@ -48,7 +52,8 @@ spec:
     type: MatchRef
   - labels:
     - recommended_for
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
@@ -57,7 +62,8 @@ spec:
     type: MatchRef
   - labels:
     - ops
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
@@ -66,7 +72,8 @@ spec:
     type: MatchRef
   - labels:
     - recommended_for
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
@@ -75,7 +82,8 @@ spec:
     type: MatchRef
   - labels:
     - ops
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
@@ -84,7 +92,8 @@ spec:
     type: MatchRef
   - labels:
     - recommended_for
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
@@ -93,7 +102,8 @@ spec:
     type: MatchRef
   - labels:
     - ops
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
@@ -102,7 +112,8 @@ spec:
     type: MatchRef
   - labels:
     - recommended_for
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
@@ -111,7 +122,8 @@ spec:
     type: MatchRef
   - labels:
     - ops
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
@@ -120,7 +132,8 @@ spec:
     type: MatchRef
   - labels:
     - recommended_for
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
@@ -129,7 +142,8 @@ spec:
     type: MatchRef
   - labels:
     - ops
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
@@ -138,7 +152,8 @@ spec:
     type: MatchRef
   - labels:
     - recommended_for
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
@@ -147,7 +162,8 @@ spec:
     type: MatchRef
   - labels:
     - ops
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
@@ -156,7 +172,8 @@ spec:
     type: MatchRef
   - labels:
     - recommended_for
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
@@ -165,7 +182,8 @@ spec:
     type: MatchRef
   - labels:
     - ops
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
@@ -174,7 +192,8 @@ spec:
     type: MatchRef
   - labels:
     - recommended_for
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
@@ -183,7 +202,8 @@ spec:
     type: MatchRef
   - labels:
     - ops
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
