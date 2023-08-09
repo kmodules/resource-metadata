@@ -126,7 +126,7 @@ spec:
     - bash
     - -c
     - mysql -u"$MYSQL_ROOT_USERNAME" -p"$MYSQL_ROOT_PASSWORD"
-    container: mysql
+    containerNameTemplate: '{{- if eq .spec.topology.mode "InnoDBCluster" }}mysql-router{{ else }}mysql{{ end -}}'
     help: |
       show databases;
     serviceNameTemplate: '{{- .metadata.name -}}'
@@ -135,7 +135,7 @@ spec:
     - bash
     - -c
     - mysql -u"$MYSQL_ROOT_USERNAME" -p"$MYSQL_ROOT_PASSWORD"
-    container: mysql
+    containerNameTemplate: '{{- if eq .spec.topology.mode "InnoDBCluster" }}mysql-router{{ else }}mysql{{ end -}}'
     help: |
       show databases;
     if:

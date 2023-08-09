@@ -81,11 +81,10 @@ func Convert_ResourceColumnDefinition_To_ResourceColumn(def ResourceColumnDefini
 			}
 		}
 		col.Exec = &ExecResult{
-			Alias:     def.Exec.Alias,
-			Resource:  rs,
-			Container: def.Exec.Container,
-			Command:   def.Exec.Command,
-			Help:      def.Exec.Help,
+			Alias:    def.Exec.Alias,
+			Resource: rs,
+			Command:  def.Exec.Command,
+			Help:     def.Exec.Help,
 		}
 	}
 	return col

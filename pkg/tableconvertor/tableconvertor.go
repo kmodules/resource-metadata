@@ -181,7 +181,7 @@ func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition, fnDashboar
 					if match {
 						c.Exec.Alias = exec.Alias
 						c.Exec.ServiceNameTemplate = exec.ServiceNameTemplate
-						c.Exec.Container = exec.Container
+						c.Exec.ContainerNameTemplate = exec.ContainerNameTemplate
 						c.Exec.Command = exec.Command
 						c.Exec.Help = exec.Help
 						break
@@ -273,6 +273,14 @@ func (c *convertor) rowFn(obj interface{}) ([]v1alpha1.TableCell, error) {
 						cell.Data = v
 					}
 				} else {
+					d := struct {
+						Service   string `json:"service,omitempty"`
+						Container string `json:"container,omitempty"`
+					}{
+						Service:   "",
+						Container: col.Exec.ContainerNameTemplate,
+					}
+
 					if v, err := renderTemplate(data, columnOptions{
 						Name:     col.Name,
 						Type:     "string",
@@ -280,8 +288,22 @@ func (c *convertor) rowFn(obj interface{}) ([]v1alpha1.TableCell, error) {
 					}, buf); err != nil {
 						return nil, err
 					} else {
-						cell.Data = v
+						d.Service = fmt.Sprintf("%v", v)
 					}
+
+					if strings.Contains(d.Container, "{{") {
+						if v, err := renderTemplate(data, columnOptions{
+							Name:     col.Name,
+							Type:     "string",
+							Template: col.Exec.ContainerNameTemplate,
+						}, buf); err != nil {
+							return nil, err
+						} else {
+							d.Container = fmt.Sprintf("%v", v)
+						}
+					}
+
+					cell.Data = d
 				}
 			} else {
 				if v, err := renderTemplate(data, columnOptions{
