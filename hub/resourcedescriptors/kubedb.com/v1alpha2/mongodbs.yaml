@@ -130,6 +130,19 @@ spec:
     help: |
       show dbs;
     serviceNameTemplate: '{{- .metadata.name -}}'
+    if:
+      condition: '{{- if or (hasPrefix .spec.version "percona-") (hasPrefix .spec.version "3.") (hasPrefix .spec.version "4.") (hasPrefix .spec.version "5.") }}true{{ else }}false{{ end -}}'
+  - alias: Primary
+    command:
+    - bash
+    - -c
+    - mongo admin -u "$MONGO_INITDB_ROOT_USERNAME" -p "$MONGO_INITDB_ROOT_PASSWORD"
+    container: mongodb
+    help: |
+      show dbs;
+    serviceNameTemplate: '{{- .metadata.name -}}'
+    if:
+      condition: '{{- if or (hasPrefix .spec.version "percona-") (hasPrefix .spec.version "3.") (hasPrefix .spec.version "4.") (hasPrefix .spec.version "5.") }}false{{ else }}true{{ end -}}'
   resource:
     group: kubedb.com
     kind: MongoDB
