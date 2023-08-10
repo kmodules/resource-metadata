@@ -14843,7 +14843,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ExecDefinition(ref common.Refer
 							Format: "",
 						},
 					},
-					"containerNameTemplate": {
+					"container": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
 							Format: "",
@@ -14889,6 +14889,12 @@ func schema_resource_metadata_apis_meta_v1alpha1_ExecResult(ref common.Reference
 						},
 					},
 					"resource": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"container": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
 							Format: "",
@@ -17169,7 +17175,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceExec(ref common.Referen
 							Format: "",
 						},
 					},
-					"containerNameTemplate": {
+					"container": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
 							Format: "",

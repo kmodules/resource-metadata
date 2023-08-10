@@ -124,7 +124,7 @@ spec:
   - alias: Primary
     command:
     - redis-cli
-    containerNameTemplate: redis
+    container: redis
     help: |
       ping
     serviceNameTemplate: '{{- .metadata.name -}}'

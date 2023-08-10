@@ -133,14 +133,14 @@ spec:
   - alias: Primary
     command:
     - psql
-    containerNameTemplate: postgres
+    container: postgres
     help: |
       \l
     serviceNameTemplate: '{{- .metadata.name -}}'
   - alias: StandBy
     command:
     - psql
-    containerNameTemplate: postgres
+    container: postgres
     help: |
       \l
     if:

@@ -124,7 +124,7 @@ spec:
   - alias: Primary
     command:
     - bash
-    containerNameTemplate: elasticsearch
+    container: elasticsearch
     help: |
       curl -XGET -k -u "$ELASTIC_USER:$ELASTIC_PASSWORD" "https://localhost:9200/_cluster/health?pretty"
     serviceNameTemplate: '{{- .metadata.name -}}'

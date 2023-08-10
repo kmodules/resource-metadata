@@ -99,7 +99,7 @@ spec:
     - bash
     - -c
     - mysql -uadmin -padmin -h127.0.0.1 -P6032 --prompt="ProxySQLAdmin > "
-    containerNameTemplate: proxysql
+    container: proxysql
     help: |
       SELECT * FROM mysql_servers;
     serviceNameTemplate: '{{- .metadata.name -}}'
