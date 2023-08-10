@@ -129,6 +129,19 @@ spec:
     container: mysql
     help: |
       show databases;
+    if:
+      condition: '{{- if or (eq .spec.topology.mode "GroupReplication") (eq .spec.topology.mode "Standalone") }}true{{ else }}false{{ end -}}'
+    serviceNameTemplate: '{{- .metadata.name -}}'
+  - alias: Primary
+    command:
+    - bash
+    - -c
+    - mysql -u"$MYSQL_USER" -p"$MYSQL_PASSWORD"
+    container: mysql-router
+    help: |
+      show databases;
+    if:
+      condition: '{{- if eq .spec.topology.mode "InnoDBCluster" }}true{{ else }}false{{ end -}}'
     serviceNameTemplate: '{{- .metadata.name -}}'
   - alias: StandBy
     command:
@@ -139,7 +152,18 @@ spec:
     help: |
       show databases;
     if:
-      condition: '{{- if or (eq .spec.topology.mode "GroupReplication") (eq .spec.topology.mode "InnoDBCluster") }}true{{ else }}false{{ end -}}'
+      condition: '{{- if eq .spec.topology.mode "GroupReplication" }}true{{ else }}false{{ end -}}'
+    serviceNameTemplate: '{{- printf "%s-standby" .metadata.name -}}'
+  - alias: StandBy
+    command:
+    - bash
+    - -c
+    - mysql -u"$MYSQL_USER" -p"$MYSQL_PASSWORD"
+    container: mysql-router
+    help: |
+      show databases;
+    if:
+      condition: '{{- if eq .spec.topology.mode "InnoDBCluster" }}true{{ else }}false{{ end -}}'
     serviceNameTemplate: '{{- printf "%s-standby" .metadata.name -}}'
   resource:
     group: kubedb.com
