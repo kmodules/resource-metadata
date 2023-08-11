@@ -51,7 +51,7 @@ spec:
     priority: 1
     type: object
   - name: Pods
-    pathTemplate: '{{ .status.numberReady }/{{ .status.desiredNumberScheduled }}'
+    pathTemplate: '{{ .status.numberReady }}/{{ .status.desiredNumberScheduled }}'
     priority: 2
     type: string
   - name: Dsired
