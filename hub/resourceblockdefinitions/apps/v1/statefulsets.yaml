@@ -58,6 +58,17 @@ spec:
     ref:
       group: autoscaling
       kind: HorizontalPodAutoscaler
+  - action:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: PersistentVolumeClaims
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: ""
+      kind: PersistentVolumeClaim
   resource:
     group: apps
     kind: StatefulSet
