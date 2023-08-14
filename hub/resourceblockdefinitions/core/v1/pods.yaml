@@ -79,6 +79,17 @@ spec:
     ref:
       group: ""
       kind: PersistentVolumeClaim
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: PodDisruptionBudget
+    query:
+      byLabel: policy
+      type: GraphQL
+    ref:
+      group: policy
+      kind: PodDisruptionBudget
   resource:
     group: ""
     kind: Pod
