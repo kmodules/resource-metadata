@@ -63,6 +63,17 @@ spec:
     ref:
       group: autoscaling
       kind: HorizontalPodAutoscaler
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: PodDisruptionBudget
+    query:
+      byLabel: policy
+      type: GraphQL
+    ref:
+      group: policy
+      kind: PodDisruptionBudget
   resource:
     group: apps
     kind: ReplicaSet
