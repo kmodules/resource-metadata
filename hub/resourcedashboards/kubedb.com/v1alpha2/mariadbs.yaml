@@ -17,7 +17,7 @@ spec:
     - name: app
       value: '{{ .metadata.name }}'
   - if:
-      condition: '{{- if eq .spec.replicas "1" }}false{{ else }}true{{ end -}}'
+      condition: '{{- if eq .spec.replicas 1 }}false{{ else }}true{{ end -}}'
     title: KubeDB / MariaDB / Galera-Cluster
     vars:
     - name: namespace
