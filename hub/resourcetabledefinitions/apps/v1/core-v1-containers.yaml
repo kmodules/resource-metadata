@@ -13,8 +13,8 @@ spec:
     pathTemplate: '{{ .image }}'
     priority: 0
     type: string
-  - name: Arguments
-    pathTemplate: '{{ .args | fmt_list }}'
+  - name: Command
+    pathTemplate: '{{if and .command .args}}{{ (concat .command .args) | fmt_list }}{{else if .command}}{{ .command | fmt_list }}{{else}}{{ .args | fmt_list }}{{end}}'
     priority: 0
     type: object
   - name: Environment Variables
