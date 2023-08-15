@@ -47,6 +47,15 @@ spec:
     ref:
       group: ""
       kind: Service
+  - displayMode: List
+    kind: Connection
+    name: PersistentVolumeClaims
+    query:
+      byLabel: storage
+      type: GraphQL
+    ref:
+      group: ""
+      kind: PersistentVolumeClaim
   resource:
     group: apps
     kind: DaemonSet
