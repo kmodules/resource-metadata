@@ -1,0 +1,24 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceOutline
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: work.open-cluster-management.io
+    k8s.io/kind: ManifestWork
+    k8s.io/resource: manifestworks
+    k8s.io/version: v1
+  name: work.open-cluster-management.io-v1-manifestworks
+spec:
+  defaultLayout: true
+  pages:
+  - name: Basic
+    sections:
+    - blocks:
+      - kind: Block
+        name: work.open-cluster-management.io-v1-manifestworks
+  resource:
+    group: work.open-cluster-management.io
+    kind: ManifestWork
+    name: manifestworks
+    scope: Namespaced
+    version: v1

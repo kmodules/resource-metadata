@@ -1,0 +1,24 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceOutline
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cluster.open-cluster-management.io
+    k8s.io/kind: PlacementDecision
+    k8s.io/resource: placementdecisions
+    k8s.io/version: v1beta1
+  name: cluster.open-cluster-management.io-v1beta1-placementdecisions
+spec:
+  defaultLayout: true
+  pages:
+  - name: Basic
+    sections:
+    - blocks:
+      - kind: Block
+        name: cluster.open-cluster-management.io-v1beta1-placementdecisions
+  resource:
+    group: cluster.open-cluster-management.io
+    kind: PlacementDecision
+    name: placementdecisions
+    scope: Namespaced
+    version: v1beta1

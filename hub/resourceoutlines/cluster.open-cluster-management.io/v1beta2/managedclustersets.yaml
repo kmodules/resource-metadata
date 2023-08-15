@@ -1,0 +1,24 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cluster.open-cluster-management.io
+    k8s.io/kind: ManagedClusterSet
+    k8s.io/resource: managedclustersets
+    k8s.io/version: v1beta2
+  name: cluster.open-cluster-management.io-v1beta2-managedclustersets
+spec:
+  defaultLayout: true
+  pages:
+  - name: Basic
+    sections:
+    - blocks:
+      - kind: Block
+        name: cluster.open-cluster-management.io-v1beta2-managedclustersets
+  resource:
+    group: cluster.open-cluster-management.io
+    kind: ManagedClusterSet
+    name: managedclustersets
+    scope: Cluster
+    version: v1beta2
