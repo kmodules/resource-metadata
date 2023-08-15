@@ -10,17 +10,17 @@ metadata:
   name: core-v1-persistentvolumeclaims
 spec:
   blocks:
-    - actions:
-        create: Never
-      displayMode: List
-      kind: Connection
-      name: Pods
-      query:
-        byLabel: offshoot
-        type: GraphQL
-      ref:
-        group: ""
-        kind: Pod
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Pods
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: ""
+      kind: Pod
   resource:
     group: ""
     kind: PersistentVolumeClaim

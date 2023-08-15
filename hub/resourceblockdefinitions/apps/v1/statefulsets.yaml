@@ -58,9 +58,7 @@ spec:
     ref:
       group: autoscaling
       kind: HorizontalPodAutoscaler
-  - action:
-      create: Never
-    displayMode: List
+  - displayMode: List
     kind: Connection
     name: PersistentVolumeClaims
     query:
