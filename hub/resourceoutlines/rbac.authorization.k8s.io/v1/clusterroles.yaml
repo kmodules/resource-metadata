@@ -20,7 +20,7 @@ spec:
         kind: Connection
         name: Cluster RoleBindings
         query:
-          byLabel: id
+          byLabel: authz
           type: GraphQL
         ref:
           group: rbac.authorization.k8s.io
@@ -31,7 +31,7 @@ spec:
         kind: Connection
         name: RoleBindings
         query:
-          byLabel: id
+          byLabel: authz
           type: GraphQL
         ref:
           group: rbac.authorization.k8s.io
