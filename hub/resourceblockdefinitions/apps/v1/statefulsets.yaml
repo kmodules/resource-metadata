@@ -20,11 +20,6 @@ spec:
     name: Init-Containers
     view:
       name: core-v1-containers
-  - fieldPath: .status.conditions
-    kind: SubTable
-    name: Conditions
-    view:
-      name: apps-v1-conditions
   - actions:
       create: Never
     displayMode: List
