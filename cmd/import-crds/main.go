@@ -116,6 +116,9 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/a
 go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/charts/gateway-helm/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/charts/gateway-helm/crds/generated
 go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/charts/gateway-helm/crds/voyager
+
+# kubeware
+go run cmd/import-crds/main.go --input=$HOME/go/src/go.kubeware.dev/catalog/config/crd/bases
 */
 func main() {
 	var input []string
