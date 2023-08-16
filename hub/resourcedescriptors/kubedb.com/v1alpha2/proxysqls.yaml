@@ -25,21 +25,6 @@ spec:
       kind: StatefulSet
     type: MatchSelector
   - labels:
-    - exposed_by
-    level: Owner
-    namespace:
-      path: metadata.namespace
-    selector:
-      matchLabels:
-        app.kubernetes.io/instance: '{.metadata.name}'
-        app.kubernetes.io/managed-by: kubedb.com
-        app.kubernetes.io/name: proxysqls.kubedb.com
-    target:
-      apiVersion: v1
-      kind: Service
-    type: MatchSelector
-  - labels:
-    - offshoot
     - connect_via
     level: Controller
     nameTemplate: '{.metadata.name}'

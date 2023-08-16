@@ -16,7 +16,7 @@ spec:
     kind: Connection
     name: Service Account
     query:
-      byLabel: id
+      byLabel: authn
       type: GraphQL
     ref:
       group: ""
@@ -25,9 +25,61 @@ spec:
       create: Never
     displayMode: List
     kind: Connection
+    name: ClusterRoles
+    query:
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            authn(group: "", kind: "ServiceAccount") {
+              refs: authz(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+          }
+        }
+      type: GraphQL
+    ref:
+      group: rbac.authorization.k8s.io
+      kind: ClusterRole
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: ClusterRoleBindings
+    query:
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            authn(group: "", kind: "ServiceAccount") {
+              refs: authz(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+          }
+        }
+      type: GraphQL
+    ref:
+      group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
     name: Roles
     query:
-      byLabel: id
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            authn(group: "", kind: "ServiceAccount") {
+              refs: authz(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+          }
+        }
       type: GraphQL
     ref:
       group: rbac.authorization.k8s.io
@@ -38,7 +90,17 @@ spec:
     kind: Connection
     name: RoleBindings
     query:
-      byLabel: id
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            authn(group: "", kind: "ServiceAccount") {
+              refs: authz(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+          }
+        }
       type: GraphQL
     ref:
       group: rbac.authorization.k8s.io

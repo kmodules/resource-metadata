@@ -11,7 +11,7 @@ metadata:
 spec:
   connections:
   - labels:
-    - id
+    - authz
     references:
     - '{range .subjects[*]}{.name},{.namespace},{.kind}{"\n"}{end}'
     target:
@@ -19,7 +19,7 @@ spec:
       kind: ServiceAccount
     type: MatchRef
   - labels:
-    - id
+    - authz
     references:
     - '{.roleRef.name}'
     target:

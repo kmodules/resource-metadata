@@ -16,7 +16,7 @@ spec:
     kind: Connection
     name: Client Connections
     query:
-      byLabel: offshoot
+      byLabel: connect_via
       type: GraphQL
     ref:
       group: appcatalog.appscode.com
@@ -82,7 +82,7 @@ spec:
     kind: Connection
     name: PersistentVolumeClaims
     query:
-      byLabel: offshoot
+      byLabel: storage
       type: GraphQL
     ref:
       group: ""

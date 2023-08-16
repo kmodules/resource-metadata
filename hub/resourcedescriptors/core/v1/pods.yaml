@@ -19,7 +19,7 @@ spec:
       kind: Node
     type: MatchRef
   - labels:
-    - id
+    - authn
     references:
     - '{.spec.serviceAccountName}'
     target:
@@ -27,7 +27,7 @@ spec:
       kind: ServiceAccount
     type: MatchRef
   - labels:
-    - offshoot
+    - storage
     namespace:
       path: metadata.namespace
     references:

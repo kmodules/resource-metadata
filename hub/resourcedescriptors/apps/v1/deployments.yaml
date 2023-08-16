@@ -9,17 +9,6 @@ metadata:
     k8s.io/version: v1
   name: apps-v1-deployments
 spec:
-  connections:
-  - labels:
-    - offshoot
-    level: Controller
-    namespace:
-      path: metadata.namespace
-    selectorPath: spec.selector
-    target:
-      apiVersion: apps/v1
-      kind: ReplicaSet
-    type: MatchSelector
   resource:
     group: apps
     kind: Deployment
