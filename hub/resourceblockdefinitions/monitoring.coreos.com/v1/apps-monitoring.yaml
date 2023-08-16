@@ -57,15 +57,19 @@ spec:
         query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
           find(oid: $src) {
             services: exposed_by(group: "", kind: "Service") {
-              refs: monitored_by(group: $targetGroup, kind: $targetKind) {
-                namespace
-                name
+              monitored_by(group: "monitoring.coreos.com", kind: "ServiceMonitor") {
+                refs: monitored_by(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
               }
             }
             pods: offshoot(group: "", kind: "Pod") {
-              refs: monitored_by(group: $targetGroup, kind: $targetKind) {
-                namespace
-                name
+              monitored_by(group: "monitoring.coreos.com", kind: "PodMonitor") {
+                refs: monitored_by(group: $targetGroup, kind: $targetKind) {
+                  namespace
+                  name
+                }
               }
             }
           }
