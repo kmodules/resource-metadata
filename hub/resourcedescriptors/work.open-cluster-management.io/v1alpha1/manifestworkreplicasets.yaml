@@ -9,6 +9,16 @@ metadata:
     k8s.io/version: v1alpha1
   name: work.open-cluster-management.io-v1alpha1-manifestworkreplicasets
 spec:
+  connections:
+  - labels:
+    - offshoot
+    selector:
+      matchLabels:
+        work.open-cluster-management.io/manifestworkreplicaset: '{.metadata.namespace}.{.metadata.name}'
+    target:
+      apiVersion: work.open-cluster-management.io/v1
+      kind: ManifestWork
+    type: MatchSelector
   resource:
     group: work.open-cluster-management.io
     kind: ManifestWorkReplicaSet

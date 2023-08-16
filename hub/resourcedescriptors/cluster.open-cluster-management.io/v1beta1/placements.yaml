@@ -9,6 +9,16 @@ metadata:
     k8s.io/version: v1beta1
   name: cluster.open-cluster-management.io-v1beta1-placements
 spec:
+  connections:
+  - labels:
+    - offshoot
+    selector:
+      matchLabels:
+        cluster.open-cluster-management.io/placement: '{.metadata.name}'
+    target:
+      apiVersion: cluster.open-cluster-management.io/v1beta1
+      kind: PlacementDecision
+    type: MatchSelector
   resource:
     group: cluster.open-cluster-management.io
     kind: Placement
