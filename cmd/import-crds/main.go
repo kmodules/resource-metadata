@@ -111,6 +111,11 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/a
 go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/api/crdsv1beta1
 go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/api/addon/v1alpha1
 go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/api/operator/v1
+
+# Gateway
+go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/charts/gateway-helm/crds
+go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/charts/gateway-helm/crds/generated
+go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/charts/gateway-helm/crds/voyager
 */
 func main() {
 	var input []string

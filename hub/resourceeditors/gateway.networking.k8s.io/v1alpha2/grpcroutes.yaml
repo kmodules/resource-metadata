@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: gateway.networking.k8s.io
+    k8s.io/kind: GRPCRoute
+    k8s.io/resource: grpcroutes
+    k8s.io/version: v1alpha2
+  name: gateway.networking.k8s.io-v1alpha2-grpcroutes
+spec:
+  resource:
+    group: gateway.networking.k8s.io
+    kind: GRPCRoute
+    name: grpcroutes
+    scope: Namespaced
+    version: v1alpha2
