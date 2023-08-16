@@ -31,17 +31,9 @@ spec:
         query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
           find(oid: $src) {
             authn(group: "", kind: "ServiceAccount") {
-              crb: authz(group: "rbac.authorization.k8s.io", kind: "ClusterRoleBinding") {
-                refs: authz(group: $targetGroup, kind: $targetKind) {
-                  namespace
-                  name
-                }
-              }
-              rb: authz(group: "rbac.authorization.k8s.io", kind: "RoleBinding") {
-                refs: authz(group: $targetGroup, kind: $targetKind) {
-                  namespace
-                  name
-                }
+              refs: authz(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
               }
             }
           }
@@ -81,11 +73,9 @@ spec:
         query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
           find(oid: $src) {
             authn(group: "", kind: "ServiceAccount") {
-              authz(group: "rbac.authorization.k8s.io", kind: "RoleBinding") {
-                refs: authz(group: $targetGroup, kind: $targetKind) {
-                  namespace
-                  name
-                }
+              refs: authz(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
               }
             }
           }
