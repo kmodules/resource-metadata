@@ -25,7 +25,6 @@ spec:
       kind: StatefulSet
     type: MatchSelector
   - labels:
-    - offshoot
     - connect_via
     level: Controller
     nameTemplate: '{.metadata.name}'
