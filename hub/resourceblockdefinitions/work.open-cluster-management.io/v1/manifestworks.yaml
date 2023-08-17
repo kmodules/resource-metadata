@@ -9,7 +9,18 @@ metadata:
     k8s.io/version: v1
   name: work.open-cluster-management.io-v1-manifestworks
 spec:
-  blocks: null
+  blocks:
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: ManifestWorkReplicaSets
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: work.open-cluster-management.io
+      kind: ManifestWorkReplicaSet
   resource:
     group: work.open-cluster-management.io
     kind: ManifestWork

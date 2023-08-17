@@ -9,7 +9,40 @@ metadata:
     k8s.io/version: v1beta2
   name: cluster.open-cluster-management.io-v1beta2-managedclustersets
 spec:
-  blocks: null
+  blocks:
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: ManagedClusterSetBinding
+    query:
+      byLabel: ocm_bind
+      type: GraphQL
+    ref:
+      group: cluster.open-cluster-management.io
+      kind: ManagedClusterSetBinding
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: ManagedClusters
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: cluster.open-cluster-management.io
+      kind: ManagedCluster
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Placements
+    query:
+      byLabel: placed_into
+      type: GraphQL
+    ref:
+      group: cluster.open-cluster-management.io
+      kind: Placement
   resource:
     group: cluster.open-cluster-management.io
     kind: ManagedClusterSet
