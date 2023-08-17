@@ -22,13 +22,14 @@ limitations under the License.
 package v1alpha1
 
 import (
+	apiv1 "kmodules.xyz/client-go/api/v1"
+	shared "kmodules.xyz/resource-metadata/apis/shared"
+
 	corev1 "k8s.io/api/core/v1"
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	unstructured "k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	runtime "k8s.io/apimachinery/pkg/runtime"
-	apiv1 "kmodules.xyz/client-go/api/v1"
-	shared "kmodules.xyz/resource-metadata/apis/shared"
 	apisshared "x-helm.dev/apimachinery/apis/shared"
 )
 

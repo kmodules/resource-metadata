@@ -19,6 +19,14 @@ spec:
       apiVersion: cluster.open-cluster-management.io/v1beta1
       kind: PlacementDecision
     type: MatchSelector
+  - labels:
+    - placed_into
+    references:
+    - '{range .spec.clusterSets[*]}{}{"\n"}{end}'
+    target:
+      apiVersion: cluster.open-cluster-management.io/v1beta2
+      kind: ManagedClusterSet
+    type: MatchRef
   resource:
     group: cluster.open-cluster-management.io
     kind: Placement
