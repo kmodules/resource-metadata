@@ -9,6 +9,40 @@ metadata:
     k8s.io/version: v1
   name: cluster.open-cluster-management.io-v1-managedclusters
 spec:
+  columns:
+  - format: name
+    name: Name
+    pathTemplate: '{{ .metadata.name }}'
+    priority: 3
+    type: string
+  - name: Labels
+    pathTemplate: '{{ .metadata.labels | toRawJson }}'
+    priority: 3
+    type: object
+  - name: Hub Accepted
+    pathTemplate: '{{ jp `{.spec.hubAcceptsClient}` . }}'
+    priority: 3
+    type: boolean
+  - name: Managed Cluster URLs
+    pathTemplate: '{{ jp `{.spec.managedClusterClientConfigs[*].url}` . }}'
+    priority: 3
+    type: string
+  - name: Joined
+    pathTemplate: '{{ jp `{.status.conditions[?(@.type=="ManagedClusterJoined")].status}` . }}'
+    priority: 3
+    type: string
+  - name: Available
+    pathTemplate: '{{ jp `{.status.conditions[?(@.type=="ManagedClusterConditionAvailable")].status}` . }}'
+    priority: 3
+    type: string
+  - name: Age
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
+    priority: 3
+    sort:
+      enable: true
+      template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+      type: integer
+    type: date
   defaultView: true
   resource:
     group: cluster.open-cluster-management.io
