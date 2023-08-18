@@ -25,6 +25,14 @@ spec:
       kind: StatefulSet
     type: MatchSelector
   - labels:
+    - offshoot
+    references:
+    - '{.spec.authSecret.name}'
+    target:
+      apiVersion: v1
+      kind: Secret
+    type: MatchRef
+  - labels:
     - connect_via
     level: Controller
     nameTemplate: '{.metadata.name}'
