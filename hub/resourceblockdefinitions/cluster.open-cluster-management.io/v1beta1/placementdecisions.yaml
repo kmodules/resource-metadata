@@ -1,0 +1,29 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceBlockDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cluster.open-cluster-management.io
+    k8s.io/kind: PlacementDecision
+    k8s.io/resource: placementdecisions
+    k8s.io/version: v1beta1
+  name: cluster.open-cluster-management.io-v1beta1-placementdecisions
+spec:
+  blocks:
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Placements
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: cluster.open-cluster-management.io
+      kind: Placement
+  resource:
+    group: cluster.open-cluster-management.io
+    kind: PlacementDecision
+    name: placementdecisions
+    scope: Namespaced
+    version: v1beta1

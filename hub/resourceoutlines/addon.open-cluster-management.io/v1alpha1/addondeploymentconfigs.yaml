@@ -1,0 +1,24 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceOutline
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: addon.open-cluster-management.io
+    k8s.io/kind: AddOnDeploymentConfig
+    k8s.io/resource: addondeploymentconfigs
+    k8s.io/version: v1alpha1
+  name: addon.open-cluster-management.io-v1alpha1-addondeploymentconfigs
+spec:
+  defaultLayout: true
+  pages:
+  - name: Basic
+    sections:
+    - blocks:
+      - kind: Block
+        name: addon.open-cluster-management.io-v1alpha1-addondeploymentconfigs
+  resource:
+    group: addon.open-cluster-management.io
+    kind: AddOnDeploymentConfig
+    name: addondeploymentconfigs
+    scope: Namespaced
+    version: v1alpha1

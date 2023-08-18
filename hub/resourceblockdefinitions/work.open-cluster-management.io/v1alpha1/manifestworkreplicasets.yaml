@@ -1,0 +1,29 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceBlockDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: work.open-cluster-management.io
+    k8s.io/kind: ManifestWorkReplicaSet
+    k8s.io/resource: manifestworkreplicasets
+    k8s.io/version: v1alpha1
+  name: work.open-cluster-management.io-v1alpha1-manifestworkreplicasets
+spec:
+  blocks:
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: ManifestWork
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: work.open-cluster-management.io
+      kind: ManifestWork
+  resource:
+    group: work.open-cluster-management.io
+    kind: ManifestWorkReplicaSet
+    name: manifestworkreplicasets
+    scope: Namespaced
+    version: v1alpha1
