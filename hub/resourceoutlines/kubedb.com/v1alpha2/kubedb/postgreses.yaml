@@ -232,7 +232,7 @@ spec:
         kind: Connection
         name: VaultServers
         query:
-          byLabel: offshoot
+          byLabel: authz
           type: GraphQL
         ref:
           group: kubevault.com
