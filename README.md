@@ -7,4 +7,4 @@
 
 # resource-metadata
 
-API for defining metadata about Kubernetes resources. You can read about the motivation and design of `ResourceDescriptors` in our blog post: https://blog.byte.builders/post/resourcedescriptor/
+API for defining metadata about Kubernetes resources. You can read about the motivation and design of `ResourceDescriptors` in our blog post: https://byte.builders/blog/post/resourcedescriptor/
