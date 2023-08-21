@@ -206,7 +206,7 @@ spec:
         kind: Connection
         name: Root User
         query:
-          byLabel: offshoot
+          byLabel: auth_secret
           type: GraphQL
         ref:
           group: ""

@@ -25,7 +25,7 @@ spec:
       kind: StatefulSet
     type: MatchSelector
   - labels:
-    - offshoot
+    - auth_secret
     references:
     - '{.spec.authSecret.name}'
     target:
