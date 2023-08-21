@@ -33,16 +33,6 @@ spec:
       kind: Secret
     type: MatchRef
   - labels:
-    - connect_via
-    level: Controller
-    nameTemplate: '{.metadata.name}'
-    namespace:
-      path: metadata.namespace
-    target:
-      apiVersion: appcatalog.appscode.com/v1alpha1
-      kind: AppBinding
-    type: MatchName
-  - labels:
     - catalog
     references:
     - '{.spec.version}'

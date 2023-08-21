@@ -30,6 +30,84 @@ spec:
       apiVersion: v1
       kind: Secret
     type: MatchRef
+  - labels:
+    - connect_via
+    namespace:
+      path: spec.appRef.namespace
+    references:
+    - '{.spec.appRef.apiGroup}'
+    - '{.spec.appRef.kind}'
+    - '{.spec.appRef.name}'
+    - '{.spec.appRef.namespace}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: Postgres
+    type: MatchRef
+  - labels:
+    - connect_via
+    namespace:
+      path: spec.appRef.namespace
+    references:
+    - '{.spec.appRef.apiGroup}'
+    - '{.spec.appRef.kind}'
+    - '{.spec.appRef.name}'
+    - '{.spec.appRef.namespace}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: Elasticsearch
+    type: MatchRef
+  - labels:
+    - connect_via
+    namespace:
+      path: spec.appRef.namespace
+    references:
+    - '{.spec.appRef.apiGroup}'
+    - '{.spec.appRef.kind}'
+    - '{.spec.appRef.name}'
+    - '{.spec.appRef.namespace}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: MariaDB
+    type: MatchRef
+  - labels:
+    - connect_via
+    namespace:
+      path: spec.appRef.namespace
+    references:
+    - '{.spec.appRef.apiGroup}'
+    - '{.spec.appRef.kind}'
+    - '{.spec.appRef.name}'
+    - '{.spec.appRef.namespace}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: MongoDB
+    type: MatchRef
+  - labels:
+    - connect_via
+    namespace:
+      path: spec.appRef.namespace
+    references:
+    - '{.spec.appRef.apiGroup}'
+    - '{.spec.appRef.kind}'
+    - '{.spec.appRef.name}'
+    - '{.spec.appRef.namespace}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: MySQL
+    type: MatchRef
+  - labels:
+    - connect_via
+    namespace:
+      path: spec.appRef.namespace
+    references:
+    - '{.spec.appRef.apiGroup}'
+    - '{.spec.appRef.kind}'
+    - '{.spec.appRef.name}'
+    - '{.spec.appRef.namespace}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: Redis
+    type: MatchRef
   resource:
     group: appcatalog.appscode.com
     kind: AppBinding
