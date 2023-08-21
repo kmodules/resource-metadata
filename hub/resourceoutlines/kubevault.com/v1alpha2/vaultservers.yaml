@@ -11,6 +11,11 @@ metadata:
 spec:
   defaultLayout: true
   pages:
+  - name: Basic
+    sections:
+    - blocks:
+      - kind: Block
+        name: kubevault.com-v1alpha2-vaultservers
   - name: Monitoring
     sections:
     - blocks:

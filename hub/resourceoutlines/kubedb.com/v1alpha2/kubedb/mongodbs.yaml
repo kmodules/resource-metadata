@@ -169,6 +169,87 @@ spec:
         ref:
           group: ui.kubedb.com
           kind: MongoDBInsight
+  - name: Users
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Root User
+        query:
+          byLabel: auth_secret
+          type: GraphQL
+        ref:
+          group: ""
+          kind: Secret
+        view:
+          name: core-v1-secrets
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: AppBinding
+        query:
+          byLabel: connect_via
+          type: GraphQL
+        ref:
+          group: appcatalog.appscode.com
+          kind: AppBindings
+        view:
+          name: appcatalog.appscode.com-v1alpha1-appbindings-kubedb
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: VaultServers
+        query:
+          byLabel: authz
+          type: GraphQL
+        ref:
+          group: kubevault.com
+          kind: VaultServer
+        view:
+          name: kubevault.com-v1alpha2-vaultservers
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: SecretEngines
+        query:
+          byLabel: offshoot
+          type: GraphQL
+        ref:
+          group: engine.kubevault.com
+          kind: SecretEngine
+        view:
+          name: engine.kubevault.com-v1alpha1-secretengines
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: MongoDBRoles
+        query:
+          byLabel: offshoot
+          type: GraphQL
+        ref:
+          group: engine.kubevault.com
+          kind: MongoDBRole
+        view:
+          name: engine.kubevault.com-v1alpha1-mongodbroles
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: SecretAccessRequests
+        query:
+          byLabel: offshoot
+          type: GraphQL
+        ref:
+          group: engine.kubevault.com
+          kind: SecretAccessRequest
+        view:
+          name: engine.kubevault.com-v1alpha1-secretaccessrequests
   - name: Operations
     sections:
     - blocks:

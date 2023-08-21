@@ -9,6 +9,15 @@ metadata:
     k8s.io/version: v1alpha1
   name: engine.kubevault.com-v1alpha1-elasticsearchroles
 spec:
+  connections:
+  - labels:
+    - offshoot
+    references:
+    - '{.spec.secretEngineRef.name}'
+    target:
+      apiVersion: engine.kubevault.com/v1alpha1
+      kind: SecretEngine
+    type: MatchRef
   resource:
     group: engine.kubevault.com
     kind: ElasticsearchRole

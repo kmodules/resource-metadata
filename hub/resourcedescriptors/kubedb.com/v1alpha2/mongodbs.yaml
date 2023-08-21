@@ -25,15 +25,13 @@ spec:
       kind: StatefulSet
     type: MatchSelector
   - labels:
-    - connect_via
-    level: Controller
-    nameTemplate: '{.metadata.name}'
-    namespace:
-      path: metadata.namespace
+    - auth_secret
+    references:
+    - '{.spec.authSecret.name}'
     target:
-      apiVersion: appcatalog.appscode.com/v1alpha1
-      kind: AppBinding
-    type: MatchName
+      apiVersion: v1
+      kind: Secret
+    type: MatchRef
   - labels:
     - catalog
     references:
