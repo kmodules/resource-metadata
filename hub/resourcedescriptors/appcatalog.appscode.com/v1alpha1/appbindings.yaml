@@ -32,78 +32,48 @@ spec:
     type: MatchRef
   - labels:
     - connect_via
-    namespace:
-      path: spec.appRef.namespace
     references:
-    - '{.spec.appRef.apiGroup}'
-    - '{.spec.appRef.kind}'
-    - '{.spec.appRef.name}'
-    - '{.spec.appRef.namespace}'
+    - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
     target:
       apiVersion: kubedb.com/v1alpha2
       kind: Postgres
     type: MatchRef
   - labels:
     - connect_via
-    namespace:
-      path: spec.appRef.namespace
     references:
-    - '{.spec.appRef.apiGroup}'
-    - '{.spec.appRef.kind}'
-    - '{.spec.appRef.name}'
-    - '{.spec.appRef.namespace}'
+    - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
     target:
       apiVersion: kubedb.com/v1alpha2
       kind: Elasticsearch
     type: MatchRef
   - labels:
     - connect_via
-    namespace:
-      path: spec.appRef.namespace
     references:
-    - '{.spec.appRef.apiGroup}'
-    - '{.spec.appRef.kind}'
-    - '{.spec.appRef.name}'
-    - '{.spec.appRef.namespace}'
+    - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
     target:
       apiVersion: kubedb.com/v1alpha2
       kind: MariaDB
     type: MatchRef
   - labels:
     - connect_via
-    namespace:
-      path: spec.appRef.namespace
     references:
-    - '{.spec.appRef.apiGroup}'
-    - '{.spec.appRef.kind}'
-    - '{.spec.appRef.name}'
-    - '{.spec.appRef.namespace}'
+    - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
     target:
       apiVersion: kubedb.com/v1alpha2
       kind: MongoDB
     type: MatchRef
   - labels:
     - connect_via
-    namespace:
-      path: spec.appRef.namespace
     references:
-    - '{.spec.appRef.apiGroup}'
-    - '{.spec.appRef.kind}'
-    - '{.spec.appRef.name}'
-    - '{.spec.appRef.namespace}'
+    - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
     target:
       apiVersion: kubedb.com/v1alpha2
       kind: MySQL
     type: MatchRef
   - labels:
     - connect_via
-    namespace:
-      path: spec.appRef.namespace
     references:
-    - '{.spec.appRef.apiGroup}'
-    - '{.spec.appRef.kind}'
-    - '{.spec.appRef.name}'
-    - '{.spec.appRef.namespace}'
+    - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
     target:
       apiVersion: kubedb.com/v1alpha2
       kind: Redis
