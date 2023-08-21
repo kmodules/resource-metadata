@@ -1,0 +1,24 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceOutline
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: engine.kubevault.com
+    k8s.io/kind: RedisRole
+    k8s.io/resource: redisroles
+    k8s.io/version: v1alpha1
+  name: engine.kubevault.com-v1alpha1-redisroles
+spec:
+  defaultLayout: true
+  pages:
+  - name: Basic
+    sections:
+    - blocks:
+      - kind: Block
+        name: engine.kubevault.com-v1alpha1-redisroles
+  resource:
+    group: engine.kubevault.com
+    kind: RedisRole
+    name: redisroles
+    scope: Namespaced
+    version: v1alpha1
