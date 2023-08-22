@@ -18,7 +18,7 @@ spec:
     selector:
       matchLabels:
         app.kubernetes.io/instance: '{.metadata.name}'
-        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/managed-by: kubevault.com
         app.kubernetes.io/name: vaultservers.kubevault.com
     target:
       apiVersion: apps/v1
@@ -29,7 +29,7 @@ spec:
     references:
     - '{.spec.version}'
     target:
-      apiVersion: catalog.kubevault.com/v1alpha2
+      apiVersion: catalog.kubevault.com/v1alpha1
       kind: VaultServerVersion
     type: MatchRef
   resource:
