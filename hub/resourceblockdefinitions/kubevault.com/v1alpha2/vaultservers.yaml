@@ -14,13 +14,90 @@ spec:
       create: Never
     displayMode: List
     kind: Connection
-    name: SecretEngines
+    name: Client Connections
     query:
-      byLabel: authz
+      byLabel: connect_via
       type: GraphQL
     ref:
-      group: engine.kubevault.com
-      kind: SecretEngine
+      group: appcatalog.appscode.com
+      kind: AppBinding
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: KubeVault Version
+    query:
+      byLabel: catalog
+      type: GraphQL
+    ref:
+      group: catalog.kubevault.com
+      kind: VaultServerVersion
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: StatefulSets
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: apps
+      kind: StatefulSet
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Pods
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: ""
+      kind: Pod
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Services
+    query:
+      byLabel: exposed_by
+      type: GraphQL
+    ref:
+      group: ""
+      kind: Service
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Secrets
+    query:
+      byLabel: config
+      type: GraphQL
+    ref:
+      group: ""
+      kind: Secret
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: PersistentVolumeClaims
+    query:
+      byLabel: storage
+      type: GraphQL
+    ref:
+      group: ""
+      kind: PersistentVolumeClaim
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Pod Disruption Budgets
+    query:
+      byLabel: policy
+      type: GraphQL
+    ref:
+      group: policy
+      kind: PodDisruptionBudget
   resource:
     group: kubevault.com
     kind: VaultServer

@@ -16,6 +16,85 @@ spec:
     - blocks:
       - kind: Block
         name: kubedb.com-v1alpha2-elasticsearches
+  - name: Users
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Root User
+        query:
+          byLabel: auth_secret
+          type: GraphQL
+        ref:
+          group: ""
+          kind: Secret
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: AppBindings
+        query:
+          byLabel: connect_via
+          type: GraphQL
+        ref:
+          group: appcatalog.appscode.com
+          kind: AppBinding
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: VaultServers
+        query:
+          raw: |-
+            query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+              find(oid: $src) {
+                authz(group: "engine.kubevault.com", kind: "SecretEngine") {
+                  refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                    namespace
+                    name
+                  }
+                }
+             }
+            }
+          type: GraphQL
+        ref:
+          group: kubevault.com
+          kind: VaultServer
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: SecretEngines
+        query:
+          byLabel: authz
+          type: GraphQL
+        ref:
+          group: engine.kubevault.com
+          kind: SecretEngine
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: ElasticSearchRoles
+        query:
+          byLabel: authz
+          type: GraphQL
+        ref:
+          group: engine.kubevault.com
+          kind: ElasticSearchRole
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: SecretAccessRequests
+        query:
+          byLabel: authz
+          type: GraphQL
+        ref:
+          group: engine.kubevault.com
+          kind: SecretAccessRequest
   - name: Operations
     sections:
     - blocks:

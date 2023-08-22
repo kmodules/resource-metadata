@@ -14,24 +14,56 @@ spec:
       create: Never
     displayMode: List
     kind: Connection
-    name: SecretAccessRequests
+    name: MySQL
     query:
-      byLabel: offshoot
+      byLabel: authz
       type: GraphQL
     ref:
-      group: engine.kubevault.com
-      kind: SecretAccessRequest
+      group: kubedb.com
+      kind: MySQL
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: VaultServers
+    query:
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            authz(group: "engine.kubevault.com", kind: "SecretEngine") {
+              refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+         }
+        }
+      type: GraphQL
+    ref:
+      group: kubevault.com
+      kind: VaultServer
   - actions:
       create: Never
     displayMode: List
     kind: Connection
     name: SecretEngine
     query:
-      byLabel: offshoot
+      byLabel: authz
       type: GraphQL
     ref:
       group: engine.kubevault.com
       kind: SecretEngine
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: SecretAccessRequests
+    query:
+      byLabel: authz
+      type: GraphQL
+    ref:
+      group: engine.kubevault.com
+      kind: SecretAccessRequest
   resource:
     group: engine.kubevault.com
     kind: MySQLRole

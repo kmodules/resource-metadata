@@ -9,6 +9,29 @@ metadata:
     k8s.io/version: v1alpha2
   name: kubevault.com-v1alpha2-vaultservers
 spec:
+  connections:
+  - labels:
+    - offshoot
+    level: Controller
+    namespace:
+      path: metadata.namespace
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: '{.metadata.name}'
+        app.kubernetes.io/managed-by: kubevault.com
+        app.kubernetes.io/name: vaultservers.kubevault.com
+    target:
+      apiVersion: apps/v1
+      kind: StatefulSet
+    type: MatchSelector
+  - labels:
+    - catalog
+    references:
+    - '{.spec.version}'
+    target:
+      apiVersion: catalog.kubevault.com/v1alpha1
+      kind: VaultServerVersion
+    type: MatchRef
   resource:
     group: kubevault.com
     kind: VaultServer
