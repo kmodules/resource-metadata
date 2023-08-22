@@ -78,6 +78,14 @@ spec:
       apiVersion: kubedb.com/v1alpha2
       kind: Redis
     type: MatchRef
+  - labels:
+    - connect_via
+    references:
+    - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
+    target:
+      apiVersion: kubevault.com/v1alpha2
+      kind: VaultServer
+    type: MatchRef
   resource:
     group: appcatalog.appscode.com
     kind: AppBinding

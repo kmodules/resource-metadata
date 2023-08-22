@@ -14,6 +14,17 @@ spec:
       create: Never
     displayMode: List
     kind: Connection
+    name: Databases
+    query:
+      byLabel: authz
+      type: GraphQL
+    ref:
+      group: kubedb.com
+      kind: MariaDB
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
     name: SecretAccessRequests
     query:
       byLabel: authz
