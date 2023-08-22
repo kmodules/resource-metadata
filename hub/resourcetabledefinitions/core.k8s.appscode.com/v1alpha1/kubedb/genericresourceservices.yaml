@@ -75,7 +75,7 @@ spec:
     priority: 3
     type: string
   - exec: {}
-    name: Exec
+    name: Connect
     pathTemplate: '{{ .spec.facilities.exec | toRawJson }}'
     priority: 4
     type: object
