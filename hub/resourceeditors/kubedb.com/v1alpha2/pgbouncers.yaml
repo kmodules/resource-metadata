@@ -27,11 +27,11 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: bytebuilders-ui
-      version: v0.4.16
+      version: sha256:a9979ef525cf80405f6b4a1c8f5e5f3714f7e44afd49aae8a88e264cefda2040
     options:
       name: kubedbcom-pgbouncer-editor-options
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: bytebuilders-ui
-      version: v0.4.16
+      version: sha256:eeee8da02c20f7ab029811164c56917700d4c613e0c363062ed34406bced740b

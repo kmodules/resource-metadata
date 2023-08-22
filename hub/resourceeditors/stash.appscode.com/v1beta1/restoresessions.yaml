@@ -27,11 +27,11 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: bytebuilders-ui
-      version: v0.4.16
+      version: sha256:a40c4a4f97975d0ddbb6360261563a2c2e2e0aa3e469c3cc542edfdd754a7222
     options:
       name: stashappscodecom-restoresession-editor-options
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: bytebuilders-ui
-      version: v0.4.16
+      version: sha256:b09517a983ee8a7fa3f6af1de5861b216575d33754a6432431af6c88c72391c0
