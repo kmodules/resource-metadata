@@ -25,6 +25,8 @@ import (
 	kmapi "kmodules.xyz/client-go/api/v1"
 	uiapi "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
 
+	"github.com/google/go-containerregistry/pkg/authn"
+	"github.com/google/go-containerregistry/pkg/crane"
 	flag "github.com/spf13/pflag"
 	diff "github.com/yudai/gojsondiff"
 	"github.com/yudai/gojsondiff/formatter"
@@ -55,7 +57,8 @@ const (
 
 var (
 	chartRegistryURL = flag.String("chart.registry-url", prodURL, "Chart registry url (prod/dev)")
-	chartVersion     = flag.String("chart.version", "v0.3.0", "Chart version")
+	chartVersion     = flag.String("chart.version", "v0.4.16", "Chart version")
+	useDigest        = flag.Bool("use-digest", true, "Use digest instead of tag")
 )
 
 var helmRepositories = map[string]string{
@@ -111,27 +114,28 @@ func check(filename string) (string, error) {
 		return result, nil
 	} else {
 		if rd.Spec.UI != nil {
+			repoName := helmRepositories[*chartRegistryURL]
 			if rd.Spec.UI.Options != nil {
 				rd.Spec.UI.Options.SourceRef = kmapi.TypedObjectReference{
 					APIGroup:  "source.toolkit.fluxcd.io",
 					Kind:      "HelmRepository",
 					Namespace: "",
-					Name:      helmRepositories[*chartRegistryURL],
+					Name:      repoName,
 				}
-				rd.Spec.UI.Options.Version = *chartVersion
+				rd.Spec.UI.Options.Version = getDigestOrVersion(repoName, rd.Spec.UI.Options.Name, *chartVersion)
 			}
 			if rd.Spec.UI.Editor != nil {
 				rd.Spec.UI.Editor.SourceRef = kmapi.TypedObjectReference{
 					APIGroup:  "source.toolkit.fluxcd.io",
 					Kind:      "HelmRepository",
 					Namespace: "",
-					Name:      helmRepositories[*chartRegistryURL],
+					Name:      repoName,
 				}
-				rd.Spec.UI.Editor.Version = *chartVersion
+				rd.Spec.UI.Editor.Version = getDigestOrVersion(repoName, rd.Spec.UI.Editor.Name, *chartVersion)
 			}
 			for i, ag := range rd.Spec.UI.Actions {
 				for j, a := range ag.Items {
-					a.Editor.Version = *chartVersion
+					a.Editor.Version = getDigestOrVersion(a.Editor.SourceRef.Name, a.Editor.Name, *chartVersion)
 					ag.Items[j] = a
 				}
 				rd.Spec.UI.Actions[i] = ag
@@ -185,4 +189,18 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func getDigestOrVersion(repo, bin, ver string) string {
+	if !*useDigest {
+		return ver
+	}
+	if repo != "bytebuilders-ui" {
+		return ver
+	}
+	digest, err := crane.Digest(fmt.Sprintf("r.appscode.com/charts/%s:%s", bin, ver), crane.WithAuthFromKeychain(authn.DefaultKeychain))
+	if err == nil {
+		return digest
+	}
+	return ver
 }
