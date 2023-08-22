@@ -25,13 +25,23 @@ spec:
       create: Never
     displayMode: List
     kind: Connection
-    name: SecretAccessRequests
+    name: VaultServers
     query:
-      byLabel: authz
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            authz(group: "engine.kubevault.com", kind: "SecretEngine") {
+              refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+         }
+        }
       type: GraphQL
     ref:
-      group: engine.kubevault.com
-      kind: SecretAccessRequest
+      group: kubevault.com
+      kind: VaultServer
   - actions:
       create: Never
     displayMode: List
@@ -43,6 +53,17 @@ spec:
     ref:
       group: engine.kubevault.com
       kind: SecretEngine
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: SecretAccessRequests
+    query:
+      byLabel: authz
+      type: GraphQL
+    ref:
+      group: engine.kubevault.com
+      kind: SecretAccessRequest
   resource:
     group: engine.kubevault.com
     kind: PostgresRole
