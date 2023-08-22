@@ -16,7 +16,7 @@ spec:
     kind: Connection
     name: SecretAccessRequests
     query:
-      byLabel: offshoot
+      byLabel: authz
       type: GraphQL
     ref:
       group: engine.kubevault.com
@@ -27,7 +27,7 @@ spec:
     kind: Connection
     name: SecretEngine
     query:
-      byLabel: offshoot
+      byLabel: authz
       type: GraphQL
     ref:
       group: engine.kubevault.com
