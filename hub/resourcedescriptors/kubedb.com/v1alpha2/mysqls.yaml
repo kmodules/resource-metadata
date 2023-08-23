@@ -113,7 +113,7 @@ spec:
     help: |
       show databases;
     if:
-      condition: '{{- if or (eq .spec.topology.mode "GroupReplication") (eq .spec.topology.mode "Standalone") }}true{{ else }}false{{ end -}}'
+      condition: '{{- if or (eq .spec.topology.mode "GroupReplication") (eq .spec.replicas 1) }}true{{ else }}false{{ end -}}'
     serviceNameTemplate: '{{- .metadata.name -}}'
   - alias: Primary
     command:
