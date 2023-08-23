@@ -198,7 +198,7 @@ func getDigestOrVersion(repo, bin, ver string) string {
 	if repo != "bytebuilders-ui" {
 		return ver
 	}
-	digest, err := crane.Digest(fmt.Sprintf("r.appscode.com/charts/%s:%s", bin, ver), crane.WithAuthFromKeychain(authn.DefaultKeychain))
+	digest, err := crane.Digest(fmt.Sprintf("r.byte.builders/charts/%s:%s", bin, ver), crane.WithAuthFromKeychain(authn.DefaultKeychain))
 	if err == nil {
 		return digest
 	}
