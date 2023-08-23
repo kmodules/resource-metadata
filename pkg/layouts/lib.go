@@ -40,7 +40,7 @@ import (
 	releasesapi "x-helm.dev/apimachinery/apis/releases/v1alpha1"
 )
 
-const BasicPage = "Basic"
+const HomePage = "Overview"
 
 var reg = hub.NewRegistryOfKnownResources()
 
@@ -250,15 +250,16 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 	result.Spec.Pages = make([]v1alpha1.ResourcePageLayout, 0, len(outline.Spec.Pages))
 
 	pages := outline.Spec.Pages
-	if outline.Spec.DefaultLayout && (len(outline.Spec.Pages) == 0 || outline.Spec.Pages[0].Name != BasicPage) {
+	if outline.Spec.DefaultLayout && (len(pages) == 0 || pages[0].Name != HomePage) {
 		pages = append([]v1alpha1.ResourcePageOutline{
 			{
-				Name:     BasicPage,
+				Name:     HomePage,
 				Sections: nil,
 			},
 		}, outline.Spec.Pages...)
 	}
-	if pages[0].Name == BasicPage {
+
+	if pages[0].Name == HomePage {
 		if len(pages[0].Sections) == 0 {
 			pages[0].Sections = []v1alpha1.SectionOutline{
 				{
