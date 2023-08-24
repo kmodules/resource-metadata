@@ -40,6 +40,13 @@ spec:
           type: object
         spec:
           properties:
+            cruiseControl:
+              properties:
+                image:
+                  type: string
+              required:
+              - image
+              type: object
             db:
               properties:
                 image:
@@ -117,6 +124,7 @@ spec:
             version:
               type: string
           required:
+          - cruiseControl
           - db
           - version
           type: object
