@@ -1,0 +1,20 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceBlockDefinition
+metadata:
+  creationTimestamp: null
+  name: falco.appscode.com-v1alpha1-falcoevents-app
+spec:
+  blocks:
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Falco Events
+    query:
+      byLabel: event
+      type: GraphQL
+    ref:
+      group: falco.appscode.com
+      kind: FalcoEvent
+    view:
+      name: falco.appscode.com-v1alpha1-falcoevents-app
