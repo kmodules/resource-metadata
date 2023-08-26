@@ -3,31 +3,20 @@ kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
   labels:
-    k8s.io/group: ""
-    k8s.io/kind: Namespace
-    k8s.io/resource: namespaces
-    k8s.io/version: v1
-  name: core-v1-namespaces
+    k8s.io/group: falco.appscode.com
+    k8s.io/kind: FalcoEvent
+    k8s.io/resource: falcoevents
+    k8s.io/version: v1alpha1
+  name: falco.appscode.com-v1alpha1-falcoevents
 spec:
-  connections:
-  - labels:
-    - event
-    selector:
-      matchLabels:
-        k8s.ns.name: '{.metadata.name}'
-    target:
-      apiVersion: falco.appscode.com/v1alpha1
-      kind: FalcoEvent
-    type: MatchSelector
   resource:
-    group: ""
-    kind: Namespace
-    name: namespaces
-    scope: Cluster
-    version: v1
+    group: falco.appscode.com
+    kind: FalcoEvent
+    name: falcoevents
+    scope: Namespaced
+    version: v1alpha1
   validation:
     openAPIV3Schema:
-      description: Namespace provides a scope for Names. Use of multiple namespaces is optional.
       properties:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
@@ -39,6 +28,9 @@ spec:
           properties:
             name:
               description: 'Name must be unique within a namespace. Is required when creating resources, although some resources may allow a client to request the generation of an appropriate name automatically. Name is primarily intended for creation idempotence and configuration definition. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
+              type: string
+            namespace:
+              description: "Namespace defines the space within which each name must be unique. An empty namespace is equivalent to the \"default\" namespace, but \"default\" is the canonical representation. Not all objects are required to be scoped to a namespace - the value of this field for those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/namespaces"
               type: string
             labels:
               additionalProperties:
@@ -52,13 +44,37 @@ spec:
               type: object
           type: object
         spec:
-          description: 'Spec defines the behavior of the Namespace. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status'
+          description: Spec describes the attributes for the Image Scan SingleReport
           properties:
-            finalizers:
-              description: 'Finalizers is an opaque list of values that must be empty to permanently remove object from storage. More info: https://kubernetes.io/docs/tasks/administer-cluster/namespaces/'
+            hostname:
+              type: string
+            nodename:
+              type: string
+            output:
+              type: string
+            outputFields:
+              x-kubernetes-preserve-unknown-fields: true
+            priority:
+              type: string
+            rule:
+              type: string
+            source:
+              type: string
+            tags:
               items:
-                description: FinalizerName is the name identifying a finalizer during namespace lifecycle.
                 type: string
               type: array
+            time:
+              format: date-time
+              type: string
+            uuid:
+              type: string
+          required:
+          - output
+          - outputFields
+          - priority
+          - rule
+          - source
+          - time
           type: object
       type: object

@@ -1,0 +1,25 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceOutline
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ""
+    k8s.io/kind: Namespace
+    k8s.io/resource: namespaces
+    k8s.io/version: v1
+  name: core-v1-namespaces
+spec:
+  defaultLayout: true
+  pages:
+  - name: Security
+    sections:
+    - blocks:
+      - kind: Block
+        name: falco.appscode.com-v1alpha1-falcoevents
+      name: Runtime Security
+  resource:
+    group: ""
+    kind: Namespace
+    name: namespaces
+    scope: Namespaced
+    version: v1

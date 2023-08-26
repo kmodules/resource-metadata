@@ -1,0 +1,60 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: falco.appscode.com
+    k8s.io/kind: FalcoEvent
+    k8s.io/resource: falcoevents
+    k8s.io/version: v1alpha1
+  name: falco.appscode.com-v1alpha1-falcoevents
+spec:
+  columns:
+  - format: name
+    name: Name
+    pathTemplate: '{{ .metadata.name }}'
+    priority: 4
+    type: string
+  - name: Rule
+    pathTemplate: '{{ .spec.rule }}'
+    priority: 3
+    type: string
+  - name: Source
+    pathTemplate: '{{ .spec.source }}'
+    priority: 3
+    type: string
+  - name: Priority
+    pathTemplate: '{{ .spec.priority }}'
+    priority: 3
+    type: string
+  - name: Node
+    pathTemplate: '{{ .spec.nodename }}'
+    priority: 1
+    type: string
+  - name: Pod
+    pathTemplate: '{{ printf "%s/%s" (dig "outputFields" "k8s.ns.name" "" .spec) (dig "outputFields" "k8s.pod.name" "" .spec) }}'
+    priority: 3
+    type: string
+  - name: Output
+    pathTemplate: '{{ .spec.output }}'
+    priority: 1
+    type: string
+  - name: Output Fields
+    pathTemplate: '{{ .spec.outputFields | toRawJson }}'
+    priority: 1
+    type: object
+  - name: Last Seen
+    pathTemplate: '{{ .spec.time }}'
+    priority: 3
+    sort:
+      enable: true
+      template: '{{ .spec.time | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+      type: integer
+    type: date
+  defaultView: true
+  resource:
+    group: falco.appscode.com
+    kind: FalcoEvent
+    name: falcoevents
+    scope: Namespaced
+    version: v1alpha1

@@ -119,6 +119,9 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/ch
 
 # kubeware
 go run cmd/import-crds/main.go --input=$HOME/go/src/go.kubeware.dev/catalog/config/crd/bases
+
+# falco
+go run cmd/import-crds/main.go --input=$HOME/go/src/kubeops.dev/falco-ui-server/crds
 */
 func main() {
 	var input []string

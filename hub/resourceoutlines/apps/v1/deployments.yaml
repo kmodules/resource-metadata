@@ -44,6 +44,10 @@ spec:
       - kind: Block
         name: policy-v1-policies
       name: Policies
+    - blocks:
+      - kind: Block
+        name: falco.appscode.com-v1alpha1-falcoevents-app
+      name: Runtime Security
   resource:
     group: apps
     kind: Deployment

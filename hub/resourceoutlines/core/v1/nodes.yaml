@@ -1,0 +1,25 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceOutline
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ""
+    k8s.io/kind: Node
+    k8s.io/resource: nodes
+    k8s.io/version: v1
+  name: core-v1-nodes
+spec:
+  defaultLayout: true
+  pages:
+  - name: Security
+    sections:
+    - blocks:
+      - kind: Block
+        name: falco.appscode.com-v1alpha1-falcoevents-node
+      name: Runtime Security
+  resource:
+    group: ""
+    kind: Node
+    name: nodes
+    scope: Namespaced
+    version: v1
