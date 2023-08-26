@@ -7,7 +7,7 @@ metadata:
     k8s.io/kind: FalcoEvent
     k8s.io/resource: falcoevents
     k8s.io/version: v1alpha1
-  name: falco.appscode.com-v1alpha1-falcoevents
+  name: falco.appscode.com-v1alpha1-falcoevents-app
 spec:
   columns:
   - name: Rule
@@ -22,12 +22,8 @@ spec:
     pathTemplate: '{{ .spec.priority }}'
     priority: 3
     type: string
-  - name: Node
-    pathTemplate: '{{ .spec.nodename }}'
-    priority: 3
-    type: string
   - name: Pod
-    pathTemplate: '{{ printf "%s/%s" (dig "outputFields" "k8s.ns.name" "" .spec) (dig "outputFields" "k8s.pod.name" "" .spec) }}'
+    pathTemplate: '{{ dig "outputFields" "k8s.pod.name" "" .spec }}'
     priority: 3
     type: string
   - name: Output
