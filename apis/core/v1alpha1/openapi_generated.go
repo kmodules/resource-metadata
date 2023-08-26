@@ -314,6 +314,8 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.PodView":                           schema_resource_metadata_apis_core_v1alpha1_PodView(ref),
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.PodViewList":                       schema_resource_metadata_apis_core_v1alpha1_PodViewList(ref),
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.PodViewSpec":                       schema_resource_metadata_apis_core_v1alpha1_PodViewSpec(ref),
+		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceCalculator":                schema_resource_metadata_apis_core_v1alpha1_ResourceCalculator(ref),
+		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceCalculatorResponse":        schema_resource_metadata_apis_core_v1alpha1_ResourceCalculatorResponse(ref),
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceSummary":                   schema_resource_metadata_apis_core_v1alpha1_ResourceSummary(ref),
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceSummaryList":               schema_resource_metadata_apis_core_v1alpha1_ResourceSummaryList(ref),
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceSummarySpec":               schema_resource_metadata_apis_core_v1alpha1_ResourceSummarySpec(ref),
@@ -15667,6 +15669,160 @@ func schema_resource_metadata_apis_core_v1alpha1_PodViewSpec(ref common.Referenc
 		},
 		Dependencies: []string{
 			"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ContainerView", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceView"},
+	}
+}
+
+func schema_resource_metadata_apis_core_v1alpha1_ResourceCalculator(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
+						},
+					},
+					"request": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("k8s.io/apimachinery/pkg/runtime.RawExtension"),
+						},
+					},
+					"response": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceCalculatorResponse"),
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta", "k8s.io/apimachinery/pkg/runtime.RawExtension", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceCalculatorResponse"},
+	}
+}
+
+func schema_resource_metadata_apis_core_v1alpha1_ResourceCalculatorResponse(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"apiType": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("kmodules.xyz/client-go/api/v1.ResourceID"),
+						},
+					},
+					"version": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"replicas": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"integer"},
+							Format: "int64",
+						},
+					},
+					"roleReplicas": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: 0,
+										Type:    []string{"integer"},
+										Format:  "int64",
+									},
+								},
+							},
+						},
+					},
+					"mode": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"totalResource": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("k8s.io/api/core/v1.ResourceRequirements"),
+						},
+					},
+					"appResource": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("k8s.io/api/core/v1.ResourceRequirements"),
+						},
+					},
+					"roleResourceLimits": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Type: []string{"object"},
+										AdditionalProperties: &spec.SchemaOrBool{
+											Allows: true,
+											Schema: &spec.Schema{
+												SchemaProps: spec.SchemaProps{
+													Default: map[string]interface{}{},
+													Ref:     ref("k8s.io/apimachinery/pkg/api/resource.Quantity"),
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+					"roleResourceRequests": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Type: []string{"object"},
+										AdditionalProperties: &spec.SchemaOrBool{
+											Allows: true,
+											Schema: &spec.Schema{
+												SchemaProps: spec.SchemaProps{
+													Default: map[string]interface{}{},
+													Ref:     ref("k8s.io/apimachinery/pkg/api/resource.Quantity"),
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"apiType"},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.ResourceRequirements", "k8s.io/apimachinery/pkg/api/resource.Quantity", "kmodules.xyz/client-go/api/v1.ResourceID"},
 	}
 }
 
