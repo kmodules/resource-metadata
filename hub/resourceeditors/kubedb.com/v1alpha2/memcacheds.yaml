@@ -27,11 +27,11 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: bytebuilders-ui
-      version: sha256:a550ddd54adc22bc8aa926fe4aabf05c192963845c13cd796cfb51a2cacebd02
+      version: sha256:575cd73fec5081f20b56006aa4346b3b689f4c2570281959e7492b5192713a80
     options:
       name: kubedbcom-memcached-editor-options
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: bytebuilders-ui
-      version: sha256:ca2ba0d7114bffad46d5fd008b2051c67af0bc9695538980e250141a08bd5ebe
+      version: sha256:658c3ba7d02c0362037c401942ee6952e402d7e9d4aa1ce73997a0af60e63422
