@@ -433,7 +433,11 @@ func certificateValidity(data interface{}) (string, error) {
 			return "", err
 		}
 	} else if _, ok := data.(map[string]interface{}); ok {
-		err := meta_util.DecodeObject(data, &certStatus)
+		d, err := json.Marshal(data)
+		if err != nil {
+			return "", err
+		}
+		err = json.Unmarshal(d, &certStatus)
 		if err != nil {
 			return "", err
 		}
