@@ -1,0 +1,24 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceOutline
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cert-manager.io
+    k8s.io/kind: Certificate
+    k8s.io/resource: certificates
+    k8s.io/version: v1
+  name: cert-manager.io-v1-certificates
+spec:
+  defaultLayout: true
+  pages:
+  - name: Overview
+    sections:
+    - blocks:
+      - kind: Block
+        name: cert-manager.io-v1-certificates
+  resource:
+    group: cert-manager.io
+    kind: Certificate
+    name: certificates
+    scope: Namespaced
+    version: v1

@@ -1,0 +1,24 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceBlockDefinition
+metadata:
+  creationTimestamp: null
+  name: cert-manager.io-v1-issuers
+spec:
+  blocks:
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Certificate
+    query:
+      byLabel: cert_issuer
+      type: GraphQL
+    ref:
+      group: cert-manager.io
+      kind: Certificate
+  resource:
+    group: cert-manager.io
+    kind: Issuer
+    name: issuers
+    scope: Namespaced
+    version: v1
