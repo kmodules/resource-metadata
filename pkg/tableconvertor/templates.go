@@ -424,8 +424,8 @@ func rbacSubjects(data interface{}) (string, error) {
 
 func certificateValidity(data interface{}) (string, error) {
 	certStatus := struct {
-		NotBefore metav1.Time `json:"notBefore"`
-		NotAfter  metav1.Time `json:"notAfter"`
+		NotBefore string `json:"notBefore"`
+		NotAfter  string `json:"notAfter"`
 	}{}
 	if s, ok := data.(string); ok && s != "" {
 		err := json.Unmarshal([]byte(s), &certStatus)
@@ -444,14 +444,23 @@ func certificateValidity(data interface{}) (string, error) {
 	}
 
 	now := time.Now()
-	if certStatus.NotBefore.IsZero() || certStatus.NotAfter.IsZero() {
+	notBefore, err := time.ParseInLocation(time.RFC3339, certStatus.NotBefore, now.Location())
+	if err != nil {
+		return "", err
+	}
+	notAfter, err := time.ParseInLocation(time.RFC3339, certStatus.NotAfter, now.Location())
+	if err != nil {
+		return "", err
+	}
+
+	if notBefore.IsZero() || notAfter.IsZero() {
 		return lib.UnknownValue, nil
-	} else if certStatus.NotBefore.After(now) {
+	} else if notBefore.After(now) {
 		return "Not valid yet", nil
-	} else if now.After(certStatus.NotAfter.Time) {
+	} else if now.After(notAfter) {
 		return "Expired", nil
 	}
-	return duration.HumanDuration(time.Until(certStatus.NotAfter.Time)), nil
+	return duration.HumanDuration(time.Until(notAfter)), nil
 }
 
 func formatResourceCPUFn(data interface{}) (string, error) {
