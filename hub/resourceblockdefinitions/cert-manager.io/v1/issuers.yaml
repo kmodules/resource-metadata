@@ -16,6 +16,17 @@ spec:
     ref:
       group: cert-manager.io
       kind: Certificate
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Secret
+    query:
+      byLabel: cert_issuer
+      type: GraphQL
+    ref:
+      group: ""
+      kind: Secret
   resource:
     group: cert-manager.io
     kind: Issuer
