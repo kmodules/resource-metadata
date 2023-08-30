@@ -9,6 +9,27 @@ spec:
       create: Never
     displayMode: List
     kind: Connection
+    name: Secret
+    query:
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            cert_issuer(group: "cert-manager.io", kind: "Issuer") {
+              refs: auth_secret(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+         }
+        }
+    type: GraphQL
+    ref:
+      group: ""
+      kind: Secret
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
     name: Issuer
     query:
       byLabel: cert_issuer
@@ -16,6 +37,50 @@ spec:
     ref:
       group: cert-manager.io
       kind: Issuer
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Cluster Issuer
+    query:
+      byLabel: cert_issuer
+      type: GraphQL
+    ref:
+      group: cert-manager.io
+      kind: ClusterIssuer
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Certificate Issuer
+    query:
+      byLabel: cert_issuer
+      type: GraphQL
+    ref:
+      group: cert-manager.io
+      kind: ClusterIssuer
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Certificate Request
+    query:
+      byLabel: cert_issuer
+      type: GraphQL
+    ref:
+      group: cert-manager.io
+      kind: ClusterIssuer
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Order
+    query:
+      byLabel: cert_issuer
+      type: GraphQL
+    ref:
+      group: cert-manager.io
+      kind: ClusterIssuer
   resource:
     group: cert-manager.io
     kind: Certificate
