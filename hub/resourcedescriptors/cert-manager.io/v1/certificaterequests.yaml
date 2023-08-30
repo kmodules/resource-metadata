@@ -9,6 +9,14 @@ metadata:
     k8s.io/version: v1
   name: cert-manager.io-v1-certificaterequests
 spec:
+  connections:
+  - labels:
+    - offshoot
+    level: Controller
+    target:
+      apiVersion: cert-manager.io/v1
+      kind: Certificate
+    type: OwnedBy
   resource:
     group: cert-manager.io
     kind: CertificateRequest

@@ -22,7 +22,7 @@ spec:
             }
          }
         }
-    type: GraphQL
+      type: GraphQL
     ref:
       group: ""
       kind: Secret
@@ -52,24 +52,13 @@ spec:
       create: Never
     displayMode: List
     kind: Connection
-    name: Certificate Issuer
-    query:
-      byLabel: cert_issuer
-      type: GraphQL
-    ref:
-      group: cert-manager.io
-      kind: ClusterIssuer
-  - actions:
-      create: Never
-    displayMode: List
-    kind: Connection
     name: Certificate Request
     query:
-      byLabel: cert_issuer
+      byLabel: offshoot
       type: GraphQL
     ref:
       group: cert-manager.io
-      kind: ClusterIssuer
+      kind: CertificateRequest
   - actions:
       create: Never
     displayMode: List
@@ -79,8 +68,8 @@ spec:
       byLabel: cert_issuer
       type: GraphQL
     ref:
-      group: cert-manager.io
-      kind: ClusterIssuer
+      group: acme.cert-manager.io
+      kind: Order
   resource:
     group: cert-manager.io
     kind: Certificate
