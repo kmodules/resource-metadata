@@ -22,11 +22,10 @@ limitations under the License.
 package v1alpha1
 
 import (
-	apisshared "kmodules.xyz/resource-metadata/apis/shared"
-
 	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
+	apisshared "kmodules.xyz/resource-metadata/apis/shared"
 	releasesv1alpha1 "x-helm.dev/apimachinery/apis/releases/v1alpha1"
 	shared "x-helm.dev/apimachinery/apis/shared"
 )

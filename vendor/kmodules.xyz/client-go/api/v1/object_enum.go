@@ -28,6 +28,8 @@ const (
 	EdgeLabelConfig EdgeLabel = "config"
 	// EdgeLabelConnectVia is a EdgeLabel of type connect_via.
 	EdgeLabelConnectVia EdgeLabel = "connect_via"
+	// EdgeLabelClusterSecret is a EdgeLabel of type cluster_secret.
+	EdgeLabelClusterSecret EdgeLabel = "cluster_secret"
 	// EdgeLabelExposedBy is a EdgeLabel of type exposed_by.
 	EdgeLabelExposedBy EdgeLabel = "exposed_by"
 	// EdgeLabelEvent is a EdgeLabel of type event.
@@ -69,6 +71,7 @@ var _EdgeLabelNames = []string{
 	string(EdgeLabelCertIssuer),
 	string(EdgeLabelConfig),
 	string(EdgeLabelConnectVia),
+	string(EdgeLabelClusterSecret),
 	string(EdgeLabelExposedBy),
 	string(EdgeLabelEvent),
 	string(EdgeLabelLocatedOn),
@@ -103,6 +106,7 @@ func EdgeLabelValues() []EdgeLabel {
 		EdgeLabelCertIssuer,
 		EdgeLabelConfig,
 		EdgeLabelConnectVia,
+		EdgeLabelClusterSecret,
 		EdgeLabelExposedBy,
 		EdgeLabelEvent,
 		EdgeLabelLocatedOn,
@@ -141,6 +145,7 @@ var _EdgeLabelValue = map[string]EdgeLabel{
 	"cert_issuer":     EdgeLabelCertIssuer,
 	"config":          EdgeLabelConfig,
 	"connect_via":     EdgeLabelConnectVia,
+	"cluster_secret":  EdgeLabelClusterSecret,
 	"exposed_by":      EdgeLabelExposedBy,
 	"event":           EdgeLabelEvent,
 	"located_on":      EdgeLabelLocatedOn,

@@ -2,7 +2,7 @@ apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceBlockDefinition
 metadata:
   creationTimestamp: null
-  name: cert-manager.io-v1-tls
+  name: cert-manager.io-v1-clusterissuers
 spec:
   blocks:
   - actions:
@@ -20,21 +20,16 @@ spec:
       create: Never
     displayMode: List
     kind: Connection
-    name: Issuer
+    name: Secret
     query:
       byLabel: cert_issuer
       type: GraphQL
     ref:
-      group: cert-manager.io
-      kind: Issuer
-  - actions:
-      create: Never
-    displayMode: List
-    kind: Connection
-    name: Cluster Issuer
-    query:
-      byLabel: cert_issuer
-      type: GraphQL
-    ref:
-      group: cert-manager.io
-      kind: ClusterIssuer
+      group: ""
+      kind: Secret
+  resource:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: clusterissuers
+    scope: Cluster
+    version: v1
