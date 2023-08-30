@@ -22,7 +22,7 @@ spec:
     kind: Connection
     name: Secret
     query:
-      byLabel: cert_issuer
+      byLabel: auth_secret
       type: GraphQL
     ref:
       group: ""
