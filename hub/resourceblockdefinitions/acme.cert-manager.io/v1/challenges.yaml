@@ -1,0 +1,13 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceBlockDefinition
+metadata:
+  creationTimestamp: null
+  name: acme.cert-manager.io-v1-challenges
+spec:
+  blocks: null
+  resource:
+    group: acme.cert-manager.io
+    kind: Challenge
+    name: challenges
+    scope: Namespaced
+    version: v1
