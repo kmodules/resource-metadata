@@ -9,6 +9,15 @@ metadata:
     k8s.io/version: v1
   name: cert-manager.io-v1-issuers
 spec:
+  connections:
+  - labels:
+    - auth_secret
+    references:
+    - '{.spec.ca.secretName}'
+    target:
+      apiVersion: v1
+      kind: Secret
+    type: MatchRef
   resource:
     group: cert-manager.io
     kind: Issuer

@@ -11,7 +11,7 @@ spec:
     kind: Connection
     name: Certificates
     query:
-      byLabel: offshoot
+      byLabel: cert_issuer
       type: GraphQL
     ref:
       group: cert-manager.io
@@ -38,3 +38,24 @@ spec:
     ref:
       group: cert-manager.io
       kind: ClusterIssuer
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Secrets
+    query:
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            offshoot(group: "apps", kind: "StatefulSet") {
+              refs: config(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+         }
+        }
+      type: GraphQL
+    ref:
+      group: ""
+      kind: Secret

@@ -1,0 +1,78 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceBlockDefinition
+metadata:
+  creationTimestamp: null
+  name: cert-manager.io-v1-certificates
+spec:
+  blocks:
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Secret
+    query:
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            cert_issuer(group: "cert-manager.io", kind: "Issuer") {
+              refs: auth_secret(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+         }
+        }
+      type: GraphQL
+    ref:
+      group: ""
+      kind: Secret
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Issuer
+    query:
+      byLabel: cert_issuer
+      type: GraphQL
+    ref:
+      group: cert-manager.io
+      kind: Issuer
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Cluster Issuer
+    query:
+      byLabel: cert_issuer
+      type: GraphQL
+    ref:
+      group: cert-manager.io
+      kind: ClusterIssuer
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Certificate Request
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: cert-manager.io
+      kind: CertificateRequest
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Order
+    query:
+      byLabel: cert_issuer
+      type: GraphQL
+    ref:
+      group: acme.cert-manager.io
+      kind: Order
+  resource:
+    group: cert-manager.io
+    kind: Certificate
+    name: certificates
+    scope: Namespaced
+    version: v1

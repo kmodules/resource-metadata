@@ -1,0 +1,13 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceBlockDefinition
+metadata:
+  creationTimestamp: null
+  name: acme.cert-manager.io-v1-orders
+spec:
+  blocks: null
+  resource:
+    group: acme.cert-manager.io
+    kind: Order
+    name: orders
+    scope: Namespaced
+    version: v1
