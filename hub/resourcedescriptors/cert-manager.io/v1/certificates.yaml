@@ -28,6 +28,14 @@ spec:
       apiVersion: cert-manager.io/v1
       kind: ClusterIssuer
     type: MatchRef
+  - labels:
+    - auth_secret
+    references:
+    - '{.spec.secretName}'
+    target:
+      apiVersion: v1
+      kind: Secret
+    type: MatchRef
   resource:
     group: cert-manager.io
     kind: Certificate

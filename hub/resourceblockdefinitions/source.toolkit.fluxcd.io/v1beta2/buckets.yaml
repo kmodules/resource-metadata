@@ -1,0 +1,13 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceBlockDefinition
+metadata:
+  creationTimestamp: null
+  name: source.toolkit.fluxcd.io-v1beta2-buckets
+spec:
+  blocks: null
+  resource:
+    group: source.toolkit.fluxcd.io
+    kind: Bucket
+    name: buckets
+    scope: Namespaced
+    version: v1beta2
