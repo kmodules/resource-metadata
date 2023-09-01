@@ -13,7 +13,7 @@ spec:
   - labels:
     - auth_secret
     references:
-    - '{.spec.ca.secretName}'
+    - '{.spec.ca.secretName},cert-manager'
     target:
       apiVersion: v1
       kind: Secret
