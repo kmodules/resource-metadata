@@ -13,7 +13,7 @@ spec:
   - labels:
     - offshoot
     references:
-    - '{.spec.sourceRef.name},{.metadata.namespace}'
+    - '{.spec.sourceRef.name}'
     target:
       apiVersion: source.toolkit.fluxcd.io/v1beta2
       kind: HelmRepository

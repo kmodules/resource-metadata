@@ -9,6 +9,15 @@ metadata:
     k8s.io/version: v2beta1
   name: helm.toolkit.fluxcd.io-v2beta1-helmreleases
 spec:
+  connections:
+  - labels:
+    - offshoot
+    references:
+    - '{.spec.chart.spec.sourceRef.name}'
+    target:
+      apiVersion: source.toolkit.fluxcd.io/v1beta2
+      kind: HelmRepository
+    type: MatchRef
   resource:
     group: helm.toolkit.fluxcd.io
     kind: HelmRelease

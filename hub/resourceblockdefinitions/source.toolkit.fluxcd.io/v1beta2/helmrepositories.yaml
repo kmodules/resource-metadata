@@ -1,0 +1,35 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceBlockDefinition
+metadata:
+  creationTimestamp: null
+  name: source.toolkit.fluxcd.io-v1beta2-helmrepositories
+spec:
+  blocks:
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: HelmCharts
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: source.toolkit.fluxcd.io
+      kind: HelmChart
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: HelmReleases
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: helm.toolkit.fluxcd.io
+      kind: HelmRelease
+  resource:
+    group: source.toolkit.fluxcd.io
+    kind: HelmRepository
+    name: helmrepositories
+    scope: Namespaced
+    version: v1beta2
