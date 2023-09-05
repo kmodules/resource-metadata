@@ -35,3 +35,8 @@ spec:
         kind: HelmRepository
         name: bytebuilders-ui
       version: v0.4.16
+  variants:
+  - name: ""
+    selector:
+      matchLabels:
+        cluster.x-k8s.io/is-default-preset: "true"

@@ -20,7 +20,6 @@ import (
 	kmapi "kmodules.xyz/client-go/api/v1"
 	"kmodules.xyz/resource-metadata/apis/shared"
 
-	core "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	releasesapi "x-helm.dev/apimachinery/apis/releases/v1alpha1"
 	helmshared "x-helm.dev/apimachinery/apis/shared"
@@ -87,7 +86,11 @@ type ActionTemplate struct {
 }
 
 type VariantRef struct {
-	core.TypedLocalObjectReference `json:",inline"`
+	// +optional
+	Name        string                `json:"name"`
+	Title       string                `json:"title,omitempty"`
+	Description string                `json:"description,omitempty"`
+	Selector    *metav1.LabelSelector `json:"selector,omitempty"`
 
 	// Icons is an optional list of icons for an application. Icon information includes the source, size,
 	// and mime type.

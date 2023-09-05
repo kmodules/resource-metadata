@@ -25,7 +25,6 @@ import (
 	apiv1 "kmodules.xyz/client-go/api/v1"
 	shared "kmodules.xyz/resource-metadata/apis/shared"
 
-	corev1 "k8s.io/api/core/v1"
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	unstructured "k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
@@ -266,11 +265,6 @@ func (in *MenuItem) DeepCopyInto(out *MenuItem) {
 	if in.Installer != nil {
 		in, out := &in.Installer, &out.Installer
 		*out = new(shared.DeploymentParameters)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Preset != nil {
-		in, out := &in.Preset, &out.Preset
-		*out = new(corev1.TypedLocalObjectReference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Items != nil {

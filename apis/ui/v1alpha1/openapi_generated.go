@@ -16318,27 +16318,28 @@ func schema_resource_metadata_apis_ui_v1alpha1_VariantRef(ref common.ReferenceCa
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
-					"apiGroup": {
-						SchemaProps: spec.SchemaProps{
-							Description: "APIGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"kind": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Kind is the type of resource being referenced",
-							Default:     "",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
 					"name": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Name is the name of resource being referenced",
-							Default:     "",
-							Type:        []string{"string"},
-							Format:      "",
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"title": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"description": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"selector": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("k8s.io/apimachinery/pkg/apis/meta/v1.LabelSelector"),
 						},
 					},
 					"icons": {
@@ -16356,11 +16357,10 @@ func schema_resource_metadata_apis_ui_v1alpha1_VariantRef(ref common.ReferenceCa
 						},
 					},
 				},
-				Required: []string{"kind", "name"},
 			},
 		},
 		Dependencies: []string{
-			"x-helm.dev/apimachinery/apis/shared.ImageSpec"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.LabelSelector", "x-helm.dev/apimachinery/apis/shared.ImageSpec"},
 	}
 }
 
