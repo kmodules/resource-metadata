@@ -32,7 +32,7 @@ spec:
           version: sha256:24372612f04406e82876ae5a94f90932891cbf801756c068c600d4dcb9fd5341
         flow: standalone-edit
         icons:
-        - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/backupconfigurations.svg
+        - src: https://cdn.appscode.com/k8s/icons/actions-icons/backup.svg
           type: image/svg+xml
         name: Backup
         operationId: edit-self-backupconfiguration
@@ -45,7 +45,7 @@ spec:
           version: sha256:6ba77473ddc5aa00e34f952c7804e76ef7d4be78659402669add1e9f01984350
         flow: standalone-create
         icons:
-        - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/restoresessions.svg
+        - src: https://cdn.appscode.com/k8s/icons/actions-icons/restore.svg
           type: image/svg+xml
         name: Restore
         operationId: create-restoresession
@@ -131,7 +131,7 @@ spec:
           version: sha256:e99c057a7923479ba8d856ea2cd0045236520c2749583ec094b24e3186ea8ab3
         flow: standalone-create
         icons:
-        - src: https://cdn.appscode.com/k8s/icons/menu/networking.svg
+        - src: https://cdn.appscode.com/k8s/icons/actions-icons/configure.svg
           type: image/svg+xml
         name: TLS Configure
         operationId: create-opsrequest-reconfiguretls
@@ -144,7 +144,7 @@ spec:
           version: sha256:24372612f04406e82876ae5a94f90932891cbf801756c068c600d4dcb9fd5341
         flow: standalone-edit
         icons:
-        - src: https://cdn.appscode.com/k8s/icons/menu/monitoring.svg
+        - src: https://cdn.appscode.com/k8s/icons/actions-icons/monitor.svg
           type: image/svg+xml
         name: Monitoring
         operationId: edit-self-monitoring
