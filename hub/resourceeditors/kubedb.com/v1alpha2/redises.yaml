@@ -32,7 +32,7 @@ spec:
           version: sha256:9deeb13a6bcf2fae0b42ec4fc40679d51f9820611df8078c7316efb5b261dbae
         flow: standalone-edit
         icons:
-        - src: https://cdn.appscode.com/k8s/icons/actions-icons/backup.svg
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/backup.svg
           type: image/svg+xml
         name: Backup
         operationId: edit-self-backupconfiguration
@@ -45,7 +45,7 @@ spec:
           version: sha256:6ba77473ddc5aa00e34f952c7804e76ef7d4be78659402669add1e9f01984350
         flow: standalone-create
         icons:
-        - src: https://cdn.appscode.com/k8s/icons/actions-icons/restore.svg
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/restore.svg
           type: image/svg+xml
         name: Restore
         operationId: create-restoresession
@@ -86,7 +86,7 @@ spec:
           version: sha256:716f1de22a88e31f0c5740c32069fd7ddf4d6a976d91c8dc4d93bc754f8a48d8
         flow: standalone-create
         icons:
-        - src: https://cdn.appscode.com/k8s/icons/actions-icons/reconfigure.svg
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/reconfigure.svg
           type: image/svg+xml
         name: Reconfigure
         operationId: create-opsrequest-reconfigure
@@ -144,7 +144,7 @@ spec:
           version: sha256:716f1de22a88e31f0c5740c32069fd7ddf4d6a976d91c8dc4d93bc754f8a48d8
         flow: standalone-create
         icons:
-        - src: https://cdn.appscode.com/k8s/icons/actions-icons/configure.svg
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/configure.svg
           type: image/svg+xml
         name: TLS Configure
         operationId: create-opsrequest-reconfiguretls
@@ -157,7 +157,7 @@ spec:
           version: sha256:9deeb13a6bcf2fae0b42ec4fc40679d51f9820611df8078c7316efb5b261dbae
         flow: standalone-edit
         icons:
-        - src: https://cdn.appscode.com/k8s/icons/actions-icons/monitor.svg
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/monitor.svg
           type: image/svg+xml
         name: Monitoring
         operationId: edit-self-monitoring
