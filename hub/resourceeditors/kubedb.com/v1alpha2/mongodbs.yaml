@@ -60,7 +60,7 @@ spec:
           version: sha256:9ba4f112d8d4aa5310fa7521324119cde9f5b986c03408e6d6b16925218f5a44
         flow: standalone-create
         icons:
-        - src: https://img.icons8.com/plasticine/512/buy-upgrade.png
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/version.svg
           type: image/svg+xml
         name: Update Version
         operationId: create-opsrequest-upgrade
@@ -73,7 +73,7 @@ spec:
           version: sha256:9ba4f112d8d4aa5310fa7521324119cde9f5b986c03408e6d6b16925218f5a44
         flow: standalone-create
         icons:
-        - src: https://img.icons8.com/plasticine/512/restart.png
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/restart.svg
           type: image/svg+xml
         name: Restart
         operationId: create-opsrequest-restart
@@ -103,7 +103,7 @@ spec:
           version: sha256:9ba4f112d8d4aa5310fa7521324119cde9f5b986c03408e6d6b16925218f5a44
         flow: standalone-create
         icons:
-        - src: https://img.icons8.com/plasticine/512/resize-horizontal.png
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/horizontal_scale.svg
           type: image/svg+xml
         name: Horizontal Scale
         operationId: create-opsrequest-horizontalscaling
@@ -116,7 +116,7 @@ spec:
           version: sha256:9ba4f112d8d4aa5310fa7521324119cde9f5b986c03408e6d6b16925218f5a44
         flow: standalone-create
         icons:
-        - src: https://img.icons8.com/plasticine/512/resize-vertical.png
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/vertical_scale.svg
           type: image/svg+xml
         name: Vertical Scale
         operationId: create-opsrequest-verticalscaling
@@ -129,7 +129,7 @@ spec:
           version: sha256:9ba4f112d8d4aa5310fa7521324119cde9f5b986c03408e6d6b16925218f5a44
         flow: standalone-create
         icons:
-        - src: https://img.icons8.com/plasticine/512/expand.png
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/expand.svg
           type: image/svg+xml
         name: Expand Volume
         operationId: create-opsrequest-volumeexpansion
