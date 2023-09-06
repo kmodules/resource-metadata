@@ -20,7 +20,6 @@ import (
 	kmapi "kmodules.xyz/client-go/api/v1"
 	"kmodules.xyz/resource-metadata/apis/shared"
 
-	core "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	helmshared "x-helm.dev/apimachinery/apis/shared"
 )
@@ -85,7 +84,7 @@ type MenuItem struct {
 	Icons     []helmshared.ImageSpec       `json:"icons,omitempty"`
 	Installer *shared.DeploymentParameters `json:"installer,omitempty"`
 	// +optional
-	Preset *core.TypedLocalObjectReference `json:"preset,omitempty"`
+	Preset string `json:"preset,omitempty"`
 	// +optional
 	AvailableVariants int `json:"availableVariants,omitempty"`
 	// +optional

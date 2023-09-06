@@ -176,3 +176,8 @@ spec:
         kind: HelmRepository
         name: bytebuilders-ui
       version: sha256:68d00d0106325b599c9e2c7a191e7ee49e9aea9f4bed6276dee9541fb944e0c3
+  variants:
+  - name: ""
+    selector:
+      matchLabels:
+        cluster.x-k8s.io/is-default-preset: "true"

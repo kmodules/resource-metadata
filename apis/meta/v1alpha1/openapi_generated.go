@@ -15113,7 +15113,8 @@ func schema_resource_metadata_apis_meta_v1alpha1_MenuItem(ref common.ReferenceCa
 					},
 					"preset": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("k8s.io/api/core/v1.TypedLocalObjectReference"),
+							Type:   []string{"string"},
+							Format: "",
 						},
 					},
 					"availableVariants": {
@@ -15140,7 +15141,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_MenuItem(ref common.ReferenceCa
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.TypedLocalObjectReference", "kmodules.xyz/client-go/api/v1.ResourceID", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.MenuItem", "kmodules.xyz/resource-metadata/apis/shared.DeploymentParameters", "x-helm.dev/apimachinery/apis/shared.ImageSpec"},
+			"kmodules.xyz/client-go/api/v1.ResourceID", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.MenuItem", "kmodules.xyz/resource-metadata/apis/shared.DeploymentParameters", "x-helm.dev/apimachinery/apis/shared.ImageSpec"},
 	}
 }
 
