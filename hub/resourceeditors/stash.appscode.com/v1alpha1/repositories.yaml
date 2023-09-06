@@ -27,11 +27,11 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: bytebuilders-ui
-      version: sha256:c5608b8fddfa1b245a6300ffde41402879212fc6636989f3793062e9a3b549e1
+      version: sha256:015ad62e12c32fa9d4db051e76351f5912bc24c01b07d1965a77bf9448f8ca45
     options:
       name: stashappscodecom-repository-editor-options
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: bytebuilders-ui
-      version: sha256:b6efa14fdac95b01e7fd1b9778dce87692e1d685c4f5ccc909f2b2b294bbd275
+      version: sha256:85b18a2128b5497ef5deb80e20530cdd747a4eec7718aab02c0e016420c2e8e4
