@@ -32,7 +32,7 @@ spec:
           version: sha256:88cbae49d6efd8d027c4ac195bb8dbac3b5f9cab69d5842e16b6dc4d6eea46db
         flow: standalone-create
         icons:
-        - src: https://img.icons8.com/plasticine/512/buy-upgrade.png
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/version.svg
           type: image/svg+xml
         name: Update Version
         operationId: create-opsrequest-upgrade
@@ -45,7 +45,7 @@ spec:
           version: sha256:88cbae49d6efd8d027c4ac195bb8dbac3b5f9cab69d5842e16b6dc4d6eea46db
         flow: standalone-create
         icons:
-        - src: https://img.icons8.com/plasticine/512/restart.png
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/restart.svg
           type: image/svg+xml
         name: Restart
         operationId: create-opsrequest-restart
@@ -58,7 +58,7 @@ spec:
           version: sha256:88cbae49d6efd8d027c4ac195bb8dbac3b5f9cab69d5842e16b6dc4d6eea46db
         flow: standalone-create
         icons:
-        - src: https://cdn.appscode.com/k8s/icons/menu/config.svg
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/reconfigure.svg
           type: image/svg+xml
         name: Reconfigure
         operationId: create-opsrequest-reconfigure
@@ -73,7 +73,7 @@ spec:
           version: sha256:88cbae49d6efd8d027c4ac195bb8dbac3b5f9cab69d5842e16b6dc4d6eea46db
         flow: standalone-create
         icons:
-        - src: https://img.icons8.com/plasticine/512/resize-horizontal.png
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/horizontal_scale.svg
           type: image/svg+xml
         name: Horizontal Scale
         operationId: create-opsrequest-horizontalscaling
@@ -86,7 +86,7 @@ spec:
           version: sha256:88cbae49d6efd8d027c4ac195bb8dbac3b5f9cab69d5842e16b6dc4d6eea46db
         flow: standalone-create
         icons:
-        - src: https://img.icons8.com/plasticine/512/resize-vertical.png
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/vertical_scale.svg
           type: image/svg+xml
         name: Vertical Scale
         operationId: create-opsrequest-verticalscaling
@@ -101,7 +101,7 @@ spec:
           version: sha256:88cbae49d6efd8d027c4ac195bb8dbac3b5f9cab69d5842e16b6dc4d6eea46db
         flow: standalone-create
         icons:
-        - src: https://cdn.appscode.com/k8s/icons/menu/networking.svg
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/configure.svg
           type: image/svg+xml
         name: TLS Configure
         operationId: create-opsrequest-reconfiguretls
@@ -114,7 +114,7 @@ spec:
           version: sha256:e54518eeaceb3ecd4a363fb6ce75f463b37b2620e619b665a2e3690259aa961b
         flow: standalone-edit
         icons:
-        - src: https://cdn.appscode.com/k8s/icons/menu/monitoring.svg
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/monitor.svg
           type: image/svg+xml
         name: Monitoring
         operationId: edit-self-monitoring
