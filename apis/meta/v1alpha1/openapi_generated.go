@@ -15075,12 +15075,6 @@ func schema_resource_metadata_apis_meta_v1alpha1_MenuItem(ref common.ReferenceCa
 							Ref: ref("kmodules.xyz/client-go/api/v1.ResourceID"),
 						},
 					},
-					"missing": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"boolean"},
-							Format: "",
-						},
-					},
 					"required": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"boolean"},

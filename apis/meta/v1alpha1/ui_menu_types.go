@@ -75,7 +75,6 @@ type MenuItem struct {
 	// +optional
 	Path     string            `json:"path,omitempty"`
 	Resource *kmapi.ResourceID `json:"resource,omitempty"`
-	Missing  bool              `json:"missing,omitempty"`
 	// +optional
 	Required bool `json:"required,omitempty"`
 	// +optional
