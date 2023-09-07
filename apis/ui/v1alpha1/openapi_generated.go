@@ -16357,6 +16357,7 @@ func schema_resource_metadata_apis_ui_v1alpha1_VariantRef(ref common.ReferenceCa
 						},
 					},
 				},
+				Required: []string{"name"},
 			},
 		},
 		Dependencies: []string{

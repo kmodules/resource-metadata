@@ -357,6 +357,8 @@ spec:
                       x-kubernetes-map-type: atomic
                     title:
                       type: string
+                  required:
+                  - name
                   type: object
                 type: array
             required:
