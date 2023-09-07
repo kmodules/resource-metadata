@@ -177,7 +177,7 @@ spec:
         name: bytebuilders-ui
       version: sha256:ebfc8905d9a98089da3bc583cf2e62576d9264ffe729f20fd77cd94922fde9f8
   variants:
-  - name: ""
+  - name: default
     selector:
       matchLabels:
         charts.x-helm.dev/is-default-preset: "true"

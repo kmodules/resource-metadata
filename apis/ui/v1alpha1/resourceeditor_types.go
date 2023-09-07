@@ -86,7 +86,6 @@ type ActionTemplate struct {
 }
 
 type VariantRef struct {
-	// +optional
 	Name        string                `json:"name"`
 	Title       string                `json:"title,omitempty"`
 	Description string                `json:"description,omitempty"`
