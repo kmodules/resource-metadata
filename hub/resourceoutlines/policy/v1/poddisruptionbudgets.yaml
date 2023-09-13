@@ -14,8 +14,17 @@ spec:
   - name: Overview
     sections:
     - blocks:
-      - kind: Block
-        name: policy-v1-poddisruptionbudgets
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Pods
+        query:
+          byLabel: policy
+          type: GraphQL
+        ref:
+          group: ""
+          kind: Pod
   resource:
     group: policy
     kind: PodDisruptionBudget
