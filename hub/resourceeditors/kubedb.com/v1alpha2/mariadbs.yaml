@@ -29,7 +29,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: bytebuilders-ui
-          version: sha256:5a2fab61fbdff6dfca3d8c0f9818d126a5ee378c299c8e047749aea87fb70db0
+          version: v0.4.17
         flow: standalone-edit
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/backup.svg
@@ -42,7 +42,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: bytebuilders-ui
-          version: sha256:b0c23d0e8bd0e8acd37ee08aaaa15e32228de34683562555b499bd3df3093c5a
+          version: v0.4.17
         flow: standalone-create
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/restore.svg
@@ -57,7 +57,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: bytebuilders-ui
-          version: sha256:618dea45ef0574256545cd000d4a44b85ffa8daef2e10b293697b5b689f0dda4
+          version: v0.4.17
         flow: standalone-create
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/version.svg
@@ -70,7 +70,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: bytebuilders-ui
-          version: sha256:618dea45ef0574256545cd000d4a44b85ffa8daef2e10b293697b5b689f0dda4
+          version: v0.4.17
         flow: standalone-create
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/restart.svg
@@ -83,7 +83,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: bytebuilders-ui
-          version: sha256:618dea45ef0574256545cd000d4a44b85ffa8daef2e10b293697b5b689f0dda4
+          version: v0.4.17
         flow: standalone-create
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/reconfigure.svg
@@ -100,7 +100,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: bytebuilders-ui
-          version: sha256:618dea45ef0574256545cd000d4a44b85ffa8daef2e10b293697b5b689f0dda4
+          version: v0.4.17
         flow: standalone-create
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/horizontal_scale.svg
@@ -113,7 +113,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: bytebuilders-ui
-          version: sha256:618dea45ef0574256545cd000d4a44b85ffa8daef2e10b293697b5b689f0dda4
+          version: v0.4.17
         flow: standalone-create
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/vertical_scale.svg
@@ -126,7 +126,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: bytebuilders-ui
-          version: sha256:618dea45ef0574256545cd000d4a44b85ffa8daef2e10b293697b5b689f0dda4
+          version: v0.4.17
         flow: standalone-create
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/expand.svg
@@ -141,7 +141,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: bytebuilders-ui
-          version: sha256:618dea45ef0574256545cd000d4a44b85ffa8daef2e10b293697b5b689f0dda4
+          version: v0.4.17
         flow: standalone-create
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/configure.svg
@@ -154,7 +154,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: bytebuilders-ui
-          version: sha256:5a2fab61fbdff6dfca3d8c0f9818d126a5ee378c299c8e047749aea87fb70db0
+          version: v0.4.17
         flow: standalone-edit
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/monitor.svg
@@ -168,14 +168,14 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: bytebuilders-ui
-      version: sha256:5a2fab61fbdff6dfca3d8c0f9818d126a5ee378c299c8e047749aea87fb70db0
+      version: v0.4.17
     options:
       name: kubedbcom-mariadb-editor-options
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: bytebuilders-ui
-      version: sha256:36cb30aba53e0d99f74f05e4f9be46493a5b4c588baf2637db454d9b826f7da0
+      version: v0.4.17
   variants:
   - name: default
     selector:

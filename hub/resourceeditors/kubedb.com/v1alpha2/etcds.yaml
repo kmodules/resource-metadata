@@ -27,7 +27,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: bytebuilders-ui
-      version: sha256:f383fbab81ee194bc6fe7758a61c9f97ae653fba641f13b4817c15fb5832616e
+      version: v0.4.17
     options:
       name: kubedbcom-etcd-editor-options
       sourceRef:
