@@ -33,6 +33,9 @@ const (
 
 // ResourceCalculator is the Schema for any resource supported by resource-metrics library
 
+// +genclient
+// +genclient:nonNamespaced
+// +genclient:onlyVerbs=create
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 type ResourceCalculator struct {
 	metav1.TypeMeta   `json:",inline"`
