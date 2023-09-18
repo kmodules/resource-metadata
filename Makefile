@@ -154,7 +154,7 @@ clientset:
 		--env HTTPS_PROXY=$(HTTPS_PROXY)                 \
 		$(CODE_GENERATOR_IMAGE)                          \
 		/go/src/k8s.io/code-generator/generate-groups.sh \
-			deepcopy                                       \
+			deepcopy,client                                \
 			$(GO_PKG)/$(REPO)/client                       \
 			$(GO_PKG)/$(REPO)/apis                         \
 			"$(API_GROUPS)"                                \
