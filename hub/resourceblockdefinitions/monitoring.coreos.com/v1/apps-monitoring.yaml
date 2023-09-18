@@ -62,11 +62,9 @@ spec:
                 name
               }
             }
-            pods: offshoot(group: "", kind: "Pod") {
-              refs: monitored_by(group: $targetGroup, kind: $targetKind) {
-                namespace
-                name
-              }
+            refs: monitored_by(group: $targetGroup, kind: $targetKind) {
+              namespace
+              name
             }
           }
         }
