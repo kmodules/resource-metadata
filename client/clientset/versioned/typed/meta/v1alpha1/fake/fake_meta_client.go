@@ -28,6 +28,10 @@ type FakeMetaV1alpha1 struct {
 	*testing.Fake
 }
 
+func (c *FakeMetaV1alpha1) ChartPresetQueries() v1alpha1.ChartPresetQueryInterface {
+	return &FakeChartPresetQueries{c}
+}
+
 func (c *FakeMetaV1alpha1) MenuOutlines(namespace string) v1alpha1.MenuOutlineInterface {
 	return &FakeMenuOutlines{c, namespace}
 }
