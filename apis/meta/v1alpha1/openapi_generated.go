@@ -298,6 +298,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"k8s.io/apimachinery/pkg/util/intstr.IntOrString":                               schema_apimachinery_pkg_util_intstr_IntOrString(ref),
 		"k8s.io/apimachinery/pkg/version.Info":                                          schema_k8sio_apimachinery_pkg_version_Info(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.AttributeDefinition":         schema_resource_metadata_apis_meta_v1alpha1_AttributeDefinition(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ChartPresetQuery":            schema_resource_metadata_apis_meta_v1alpha1_ChartPresetQuery(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ColorDefinition":             schema_resource_metadata_apis_meta_v1alpha1_ColorDefinition(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ContactData":                 schema_resource_metadata_apis_meta_v1alpha1_ContactData(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.DashboardDefinition":         schema_resource_metadata_apis_meta_v1alpha1_DashboardDefinition(ref),
@@ -14675,6 +14676,54 @@ func schema_resource_metadata_apis_meta_v1alpha1_AttributeDefinition(ref common.
 				},
 			},
 		},
+	}
+}
+
+func schema_resource_metadata_apis_meta_v1alpha1_ChartPresetQuery(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"request": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Request describes the attributes for the preset query.",
+							Ref:         ref("x-helm.dev/apimachinery/apis/charts/v1alpha1.ChartPresetFlatRef"),
+						},
+					},
+					"response": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Response describes the attributes for the preset response.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("x-helm.dev/apimachinery/apis/charts/v1alpha1.ChartPresetValues"),
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"x-helm.dev/apimachinery/apis/charts/v1alpha1.ChartPresetFlatRef", "x-helm.dev/apimachinery/apis/charts/v1alpha1.ChartPresetValues"},
 	}
 }
 

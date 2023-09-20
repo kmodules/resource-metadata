@@ -28,6 +28,7 @@ import (
 
 type MetaV1alpha1Interface interface {
 	RESTClient() rest.Interface
+	ChartPresetQueriesGetter
 	MenuOutlinesGetter
 	RendersGetter
 	RenderDashboardsGetter
@@ -45,6 +46,10 @@ type MetaV1alpha1Interface interface {
 // MetaV1alpha1Client is used to interact with features provided by the meta.k8s.appscode.com group.
 type MetaV1alpha1Client struct {
 	restClient rest.Interface
+}
+
+func (c *MetaV1alpha1Client) ChartPresetQueries() ChartPresetQueryInterface {
+	return newChartPresetQueries(c)
 }
 
 func (c *MetaV1alpha1Client) MenuOutlines(namespace string) MenuOutlineInterface {
