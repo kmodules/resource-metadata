@@ -31,6 +31,7 @@ type CoreV1alpha1Interface interface {
 	GenericResourcesGetter
 	GenericResourceServicesGetter
 	PodViewsGetter
+	ProjectsGetter
 	ResourceCalculatorsGetter
 	ResourceSummariesGetter
 }
@@ -50,6 +51,10 @@ func (c *CoreV1alpha1Client) GenericResourceServices(namespace string) GenericRe
 
 func (c *CoreV1alpha1Client) PodViews(namespace string) PodViewInterface {
 	return newPodViews(c, namespace)
+}
+
+func (c *CoreV1alpha1Client) Projects() ProjectInterface {
+	return newProjects(c)
 }
 
 func (c *CoreV1alpha1Client) ResourceCalculators() ResourceCalculatorInterface {
