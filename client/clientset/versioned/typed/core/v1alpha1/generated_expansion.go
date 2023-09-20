@@ -24,6 +24,8 @@ type GenericResourceServiceExpansion interface{}
 
 type PodViewExpansion interface{}
 
+type ProjectExpansion interface{}
+
 type ResourceCalculatorExpansion interface{}
 
 type ResourceSummaryExpansion interface{}
