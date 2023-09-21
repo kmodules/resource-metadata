@@ -17,9 +17,9 @@ limitations under the License.
 package v1alpha1
 
 import (
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	kmapi "kmodules.xyz/client-go/api/v1"
-	"kmodules.xyz/resource-metadata/apis/core/v1alpha1"
+
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 const (
@@ -82,8 +82,4 @@ type ProjectList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Project `json:"items"`
-}
-
-func init() {
-	v1alpha1.SchemeBuilder.Register(&Project{}, &ProjectList{})
 }
