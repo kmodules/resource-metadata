@@ -30,6 +30,7 @@ type MetaV1alpha1Interface interface {
 	RESTClient() rest.Interface
 	ChartPresetQueriesGetter
 	MenuOutlinesGetter
+	ProjectsGetter
 	RendersGetter
 	RenderDashboardsGetter
 	RenderMenusGetter
@@ -54,6 +55,10 @@ func (c *MetaV1alpha1Client) ChartPresetQueries() ChartPresetQueryInterface {
 
 func (c *MetaV1alpha1Client) MenuOutlines(namespace string) MenuOutlineInterface {
 	return newMenuOutlines(c, namespace)
+}
+
+func (c *MetaV1alpha1Client) Projects() ProjectInterface {
+	return newProjects(c)
 }
 
 func (c *MetaV1alpha1Client) Renders() RenderInterface {

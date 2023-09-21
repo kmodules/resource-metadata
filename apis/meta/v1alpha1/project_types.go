@@ -18,6 +18,8 @@ package v1alpha1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	kmapi "kmodules.xyz/client-go/api/v1"
+	"kmodules.xyz/resource-metadata/apis/core/v1alpha1"
 )
 
 const (
@@ -32,6 +34,16 @@ type ProjectSpec struct {
 	Type              ProjectType           `json:"type,omitempty"`
 	Namespaces        []string              `json:"namespaces,omitempty"`
 	NamespaceSelector *metav1.LabelSelector `json:"namespaceSelector,omitempty"`
+	Monitoring        *ProjectMonitoring    `json:"monitoring,omitempty"`
+	Presets           []SourceLocator       `json:"presets,omitempty"`
+}
+
+type ProjectMonitoring struct {
+	PrometheusURL   string                 `json:"prometheusURL,omitempty"`
+	GrafanaURL      string                 `json:"grafanaURL,omitempty"`
+	AlertmanagerURL string                 `json:"alertmanagerURL,omitempty"`
+	PrometheusRef   *kmapi.ObjectReference `json:"prometheusRef,omitempty"`
+	AlertmanagerRef *kmapi.ObjectReference `json:"alertmanagerRef,omitempty"`
 }
 
 // +kubebuilder:validation:Enum=Default;System;User
@@ -73,5 +85,5 @@ type ProjectList struct {
 }
 
 func init() {
-	SchemeBuilder.Register(&Project{}, &ProjectList{})
+	v1alpha1.SchemeBuilder.Register(&Project{}, &ProjectList{})
 }

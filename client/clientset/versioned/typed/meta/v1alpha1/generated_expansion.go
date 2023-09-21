@@ -22,6 +22,8 @@ type ChartPresetQueryExpansion interface{}
 
 type MenuOutlineExpansion interface{}
 
+type ProjectExpansion interface{}
+
 type RenderExpansion interface{}
 
 type RenderDashboardExpansion interface{}

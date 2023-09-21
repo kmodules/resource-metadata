@@ -36,6 +36,10 @@ func (c *FakeMetaV1alpha1) MenuOutlines(namespace string) v1alpha1.MenuOutlineIn
 	return &FakeMenuOutlines{c, namespace}
 }
 
+func (c *FakeMetaV1alpha1) Projects() v1alpha1.ProjectInterface {
+	return &FakeProjects{c}
+}
+
 func (c *FakeMetaV1alpha1) Renders() v1alpha1.RenderInterface {
 	return &FakeRenders{c}
 }
