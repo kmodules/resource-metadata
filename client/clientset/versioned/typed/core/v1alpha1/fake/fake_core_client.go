@@ -40,8 +40,8 @@ func (c *FakeCoreV1alpha1) PodViews(namespace string) v1alpha1.PodViewInterface 
 	return &FakePodViews{c, namespace}
 }
 
-func (c *FakeCoreV1alpha1) ResourceCalculators() v1alpha1.ResourceCalculatorInterface {
-	return &FakeResourceCalculators{c}
+func (c *FakeCoreV1alpha1) Projects() v1alpha1.ProjectInterface {
+	return &FakeProjects{c}
 }
 
 func (c *FakeCoreV1alpha1) ResourceSummaries(namespace string) v1alpha1.ResourceSummaryInterface {

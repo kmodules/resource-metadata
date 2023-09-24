@@ -314,8 +314,12 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.PodView":                           schema_resource_metadata_apis_core_v1alpha1_PodView(ref),
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.PodViewList":                       schema_resource_metadata_apis_core_v1alpha1_PodViewList(ref),
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.PodViewSpec":                       schema_resource_metadata_apis_core_v1alpha1_PodViewSpec(ref),
-		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceCalculator":                schema_resource_metadata_apis_core_v1alpha1_ResourceCalculator(ref),
-		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceCalculatorResponse":        schema_resource_metadata_apis_core_v1alpha1_ResourceCalculatorResponse(ref),
+		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.Project":                           schema_resource_metadata_apis_core_v1alpha1_Project(ref),
+		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ProjectList":                       schema_resource_metadata_apis_core_v1alpha1_ProjectList(ref),
+		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ProjectMonitoring":                 schema_resource_metadata_apis_core_v1alpha1_ProjectMonitoring(ref),
+		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ProjectSpec":                       schema_resource_metadata_apis_core_v1alpha1_ProjectSpec(ref),
+		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ProjectStatus":                     schema_resource_metadata_apis_core_v1alpha1_ProjectStatus(ref),
+		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceQuota":                     schema_resource_metadata_apis_core_v1alpha1_ResourceQuota(ref),
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceSummary":                   schema_resource_metadata_apis_core_v1alpha1_ResourceSummary(ref),
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceSummaryList":               schema_resource_metadata_apis_core_v1alpha1_ResourceSummaryList(ref),
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceSummarySpec":               schema_resource_metadata_apis_core_v1alpha1_ResourceSummarySpec(ref),
@@ -15672,11 +15676,12 @@ func schema_resource_metadata_apis_core_v1alpha1_PodViewSpec(ref common.Referenc
 	}
 }
 
-func schema_resource_metadata_apis_core_v1alpha1_ResourceCalculator(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_resource_metadata_apis_core_v1alpha1_Project(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
-				Type: []string{"object"},
+				Description: "Project is the Schema for the projects API",
+				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"kind": {
 						SchemaProps: spec.SchemaProps{
@@ -15698,131 +15703,257 @@ func schema_resource_metadata_apis_core_v1alpha1_ResourceCalculator(ref common.R
 							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
 						},
 					},
-					"request": {
+					"spec": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("k8s.io/apimachinery/pkg/runtime.RawExtension"),
+							Default: map[string]interface{}{},
+							Ref:     ref("kmodules.xyz/resource-metadata/apis/core/v1alpha1.ProjectSpec"),
 						},
 					},
-					"response": {
+					"status": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceCalculatorResponse"),
+							Default: map[string]interface{}{},
+							Ref:     ref("kmodules.xyz/resource-metadata/apis/core/v1alpha1.ProjectStatus"),
 						},
 					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta", "k8s.io/apimachinery/pkg/runtime.RawExtension", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceCalculatorResponse"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.ProjectSpec", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.ProjectStatus"},
 	}
 }
 
-func schema_resource_metadata_apis_core_v1alpha1_ResourceCalculatorResponse(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_resource_metadata_apis_core_v1alpha1_ProjectList(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ProjectList contains a list of Project",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"),
+						},
+					},
+					"items": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/core/v1alpha1.Project"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"items"},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.Project"},
+	}
+}
+
+func schema_resource_metadata_apis_core_v1alpha1_ProjectMonitoring(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
-					"apiType": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("kmodules.xyz/client-go/api/v1.ResourceID"),
-						},
-					},
-					"version": {
+					"prometheusURL": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
 							Format: "",
 						},
 					},
-					"replicas": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"integer"},
-							Format: "int64",
-						},
-					},
-					"roleReplicas": {
-						SchemaProps: spec.SchemaProps{
-							Type: []string{"object"},
-							AdditionalProperties: &spec.SchemaOrBool{
-								Allows: true,
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: 0,
-										Type:    []string{"integer"},
-										Format:  "int64",
-									},
-								},
-							},
-						},
-					},
-					"mode": {
+					"grafanaURL": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
 							Format: "",
 						},
 					},
-					"totalResource": {
+					"alertmanagerURL": {
 						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("k8s.io/api/core/v1.ResourceRequirements"),
+							Type:   []string{"string"},
+							Format: "",
 						},
 					},
-					"appResource": {
+					"prometheusRef": {
 						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("k8s.io/api/core/v1.ResourceRequirements"),
+							Ref: ref("kmodules.xyz/client-go/api/v1.ObjectReference"),
 						},
 					},
-					"roleResourceLimits": {
+					"alertmanagerRef": {
 						SchemaProps: spec.SchemaProps{
-							Type: []string{"object"},
-							AdditionalProperties: &spec.SchemaOrBool{
-								Allows: true,
+							Ref: ref("kmodules.xyz/client-go/api/v1.ObjectReference"),
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/client-go/api/v1.ObjectReference"},
+	}
+}
+
+func schema_resource_metadata_apis_core_v1alpha1_ProjectSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ProjectSpec defines the desired state of Project",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"type": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"namespaces": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
-										Type: []string{"object"},
-										AdditionalProperties: &spec.SchemaOrBool{
-											Allows: true,
-											Schema: &spec.Schema{
-												SchemaProps: spec.SchemaProps{
-													Default: map[string]interface{}{},
-													Ref:     ref("k8s.io/apimachinery/pkg/api/resource.Quantity"),
-												},
-											},
-										},
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
 									},
 								},
 							},
 						},
 					},
-					"roleResourceRequests": {
+					"namespaceSelector": {
 						SchemaProps: spec.SchemaProps{
-							Type: []string{"object"},
-							AdditionalProperties: &spec.SchemaOrBool{
-								Allows: true,
+							Ref: ref("k8s.io/apimachinery/pkg/apis/meta/v1.LabelSelector"),
+						},
+					},
+					"monitoring": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/resource-metadata/apis/core/v1alpha1.ProjectMonitoring"),
+						},
+					},
+					"presets": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
-										Type: []string{"object"},
-										AdditionalProperties: &spec.SchemaOrBool{
-											Allows: true,
-											Schema: &spec.Schema{
-												SchemaProps: spec.SchemaProps{
-													Default: map[string]interface{}{},
-													Ref:     ref("k8s.io/apimachinery/pkg/api/resource.Quantity"),
-												},
-											},
-										},
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.SourceLocator"),
 									},
 								},
 							},
 						},
 					},
 				},
-				Required: []string{"apiType"},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.ResourceRequirements", "k8s.io/apimachinery/pkg/api/resource.Quantity", "kmodules.xyz/client-go/api/v1.ResourceID"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.LabelSelector", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.ProjectMonitoring", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.SourceLocator"},
+	}
+}
+
+func schema_resource_metadata_apis_core_v1alpha1_ProjectStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ProjectStatus defines the observed state of Project",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"quotas": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceQuota"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"quotas"},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceQuota"},
+	}
+}
+
+func schema_resource_metadata_apis_core_v1alpha1_ResourceQuota(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"group": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"hard": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Hard is the set of enforced hard limits for each named resource. More info: https://kubernetes.io/docs/concepts/policy/resource-quotas/",
+							Type:        []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("k8s.io/apimachinery/pkg/api/resource.Quantity"),
+									},
+								},
+							},
+						},
+					},
+					"used": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Used is the current observed total usage of the resource in the namespace.",
+							Type:        []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("k8s.io/apimachinery/pkg/api/resource.Quantity"),
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/api/resource.Quantity"},
 	}
 }
 

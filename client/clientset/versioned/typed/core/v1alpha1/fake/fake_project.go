@@ -25,17 +25,17 @@ import (
 	labels "k8s.io/apimachinery/pkg/labels"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	testing "k8s.io/client-go/testing"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	v1alpha1 "kmodules.xyz/resource-metadata/apis/core/v1alpha1"
 )
 
 // FakeProjects implements ProjectInterface
 type FakeProjects struct {
-	Fake *FakeMetaV1alpha1
+	Fake *FakeCoreV1alpha1
 }
 
-var projectsResource = schema.GroupVersionResource{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Resource: "projects"}
+var projectsResource = schema.GroupVersionResource{Group: "core.k8s.appscode.com", Version: "v1alpha1", Resource: "projects"}
 
-var projectsKind = schema.GroupVersionKind{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Kind: "Project"}
+var projectsKind = schema.GroupVersionKind{Group: "core.k8s.appscode.com", Version: "v1alpha1", Kind: "Project"}
 
 // Get takes name of the project, and returns the corresponding project object, and an error if there is any.
 func (c *FakeProjects) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.Project, err error) {

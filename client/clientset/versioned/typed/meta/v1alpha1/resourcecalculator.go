@@ -23,7 +23,7 @@ import (
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/core/v1alpha1"
+	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 )
 
@@ -45,7 +45,7 @@ type resourceCalculators struct {
 }
 
 // newResourceCalculators returns a ResourceCalculators
-func newResourceCalculators(c *CoreV1alpha1Client) *resourceCalculators {
+func newResourceCalculators(c *MetaV1alpha1Client) *resourceCalculators {
 	return &resourceCalculators{
 		client: c.RESTClient(),
 	}

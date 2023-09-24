@@ -17,6 +17,7 @@ limitations under the License.
 package fuzzer
 
 import (
+	v1alpha12 "kmodules.xyz/resource-metadata/apis/core/v1alpha1"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 
 	fuzz "github.com/google/gofuzz"
@@ -29,7 +30,7 @@ var Funcs = func(codecs runtimeserializer.CodecFactory) []interface{} {
 		func(s *v1alpha1.ResourceDescriptor, c fuzz.Continue) {
 			c.FuzzNoCustom(s) // fuzz self without calling this function again
 		},
-		func(s *v1alpha1.Project, c fuzz.Continue) {
+		func(s *v1alpha12.Project, c fuzz.Continue) {
 			c.FuzzNoCustom(s) // fuzz self without calling this function again
 		},
 	}

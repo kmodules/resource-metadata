@@ -65,8 +65,22 @@ type ResourceCalculatorResponse struct {
 	RoleResourceLimits map[api.PodRole]core.ResourceList `json:"roleResourceLimits,omitempty"`
 	// +optional
 	RoleResourceRequests map[api.PodRole]core.ResourceList `json:"roleResourceRequests,omitempty"`
+	Quota                QuotaDecision                     `json:"quota"`
 }
 
-func init() {
-	SchemeBuilder.Register(&ResourceCalculator{})
+// +kubebuilder:validation:Enum=Allow;Deny
+type Decision string
+
+const (
+	// DecisionNoOpionion means that quota restrictions have no opinion on an action.
+	DecisionNoOpinion Decision = ""
+	// DecisionAllow means that quota restrictions allow the action.
+	DecisionAllow Decision = "Allow"
+	// DecisionDeny means that quota restrictions deny the action.
+	DecisionDeny Decision = "Deny"
+)
+
+type QuotaDecision struct {
+	Decision   Decision `json:"decision"`
+	Violations []string `json:"violations,omitempty"`
 }
