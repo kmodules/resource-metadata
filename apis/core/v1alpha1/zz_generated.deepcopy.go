@@ -23,7 +23,7 @@ package v1alpha1
 
 import (
 	apiv1 "kmodules.xyz/client-go/api/v1"
-	metav1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	shared "kmodules.xyz/resource-metadata/apis/shared"
 	api "kmodules.xyz/resource-metrics/api"
 
 	v1 "k8s.io/api/core/v1"
@@ -691,7 +691,7 @@ func (in *ProjectSpec) DeepCopyInto(out *ProjectSpec) {
 	}
 	if in.Presets != nil {
 		in, out := &in.Presets, &out.Presets
-		*out = make([]metav1alpha1.SourceLocator, len(*in))
+		*out = make([]shared.SourceLocator, len(*in))
 		copy(*out, *in)
 	}
 	return

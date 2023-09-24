@@ -24,6 +24,13 @@ import (
 	helmshared "x-helm.dev/apimachinery/apis/shared"
 )
 
+type SourceLocator struct {
+	// +optional
+	Resource kmapi.ResourceID `json:"resource"`
+	// +optional
+	Ref kmapi.ObjectReference `json:"ref"`
+}
+
 type DeploymentParameters struct {
 	ProductID string                      `json:"productID,omitempty"`
 	PlanID    string                      `json:"planID,omitempty"`

@@ -17,7 +17,7 @@ limitations under the License.
 package v1alpha1
 
 import (
-	kmapi "kmodules.xyz/client-go/api/v1"
+	"kmodules.xyz/resource-metadata/apis/shared"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -53,20 +53,13 @@ type RenderDashboardRequest struct {
 	Source *runtime.RawExtension `json:"source,omitempty"`
 
 	// +optional
-	SourceLocator *SourceLocator `json:"sourceLocator,omitempty"`
+	SourceLocator *shared.SourceLocator `json:"sourceLocator,omitempty"`
 
 	// +optional
 	Name string `json:"name,omitempty"`
 
 	// +optional
 	EmbeddedLink bool `json:"embeddedLink,omitempty"`
-}
-
-type SourceLocator struct {
-	// +optional
-	Resource kmapi.ResourceID `json:"resource"`
-	// +optional
-	Ref kmapi.ObjectReference `json:"ref"`
 }
 
 type RenderDashboardResponse struct {

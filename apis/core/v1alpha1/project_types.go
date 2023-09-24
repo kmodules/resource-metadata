@@ -18,7 +18,7 @@ package v1alpha1
 
 import (
 	kmapi "kmodules.xyz/client-go/api/v1"
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	"kmodules.xyz/resource-metadata/apis/shared"
 
 	core "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -33,11 +33,11 @@ const (
 // ProjectSpec defines the desired state of Project
 type ProjectSpec struct {
 	// +kubebuilder:default=User
-	Type              ProjectType              `json:"type,omitempty"`
-	Namespaces        []string                 `json:"namespaces,omitempty"`
-	NamespaceSelector *metav1.LabelSelector    `json:"namespaceSelector,omitempty"`
-	Monitoring        *ProjectMonitoring       `json:"monitoring,omitempty"`
-	Presets           []v1alpha1.SourceLocator `json:"presets,omitempty"`
+	Type              ProjectType            `json:"type,omitempty"`
+	Namespaces        []string               `json:"namespaces,omitempty"`
+	NamespaceSelector *metav1.LabelSelector  `json:"namespaceSelector,omitempty"`
+	Monitoring        *ProjectMonitoring     `json:"monitoring,omitempty"`
+	Presets           []shared.SourceLocator `json:"presets,omitempty"`
 }
 
 type ProjectMonitoring struct {

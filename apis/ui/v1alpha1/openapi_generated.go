@@ -308,6 +308,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/shared.If":                         schema_kmodulesxyz_resource_metadata_apis_shared_If(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.ResourceLocator":            schema_kmodulesxyz_resource_metadata_apis_shared_ResourceLocator(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.ResourceQuery":              schema_kmodulesxyz_resource_metadata_apis_shared_ResourceQuery(ref),
+		"kmodules.xyz/resource-metadata/apis/shared.SourceLocator":              schema_kmodulesxyz_resource_metadata_apis_shared_SourceLocator(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.UIParameterTemplate":        schema_kmodulesxyz_resource_metadata_apis_shared_UIParameterTemplate(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.UIParameters":               schema_kmodulesxyz_resource_metadata_apis_shared_UIParameters(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ActionTemplate":        schema_resource_metadata_apis_ui_v1alpha1_ActionTemplate(ref),
@@ -15034,6 +15035,32 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ResourceQuery(ref common.R
 				Required: []string{"type"},
 			},
 		},
+	}
+}
+
+func schema_kmodulesxyz_resource_metadata_apis_shared_SourceLocator(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"resource": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("kmodules.xyz/client-go/api/v1.ResourceID"),
+						},
+					},
+					"ref": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("kmodules.xyz/client-go/api/v1.ObjectReference"),
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/client-go/api/v1.ObjectReference", "kmodules.xyz/client-go/api/v1.ResourceID"},
 	}
 }
 
