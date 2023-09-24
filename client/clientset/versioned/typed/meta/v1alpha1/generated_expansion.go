@@ -22,8 +22,6 @@ type ChartPresetQueryExpansion interface{}
 
 type MenuOutlineExpansion interface{}
 
-type ProjectExpansion interface{}
-
 type RenderExpansion interface{}
 
 type RenderDashboardExpansion interface{}
@@ -33,6 +31,8 @@ type RenderMenuExpansion interface{}
 type RenderRawGraphExpansion interface{}
 
 type ResourceBlockDefinitionExpansion interface{}
+
+type ResourceCalculatorExpansion interface{}
 
 type ResourceDescriptorExpansion interface{}
 

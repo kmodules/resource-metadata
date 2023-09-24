@@ -30,12 +30,12 @@ type MetaV1alpha1Interface interface {
 	RESTClient() rest.Interface
 	ChartPresetQueriesGetter
 	MenuOutlinesGetter
-	ProjectsGetter
 	RendersGetter
 	RenderDashboardsGetter
 	RenderMenusGetter
 	RenderRawGraphsGetter
 	ResourceBlockDefinitionsGetter
+	ResourceCalculatorsGetter
 	ResourceDescriptorsGetter
 	ResourceGraphsGetter
 	ResourceLayoutsGetter
@@ -57,10 +57,6 @@ func (c *MetaV1alpha1Client) MenuOutlines(namespace string) MenuOutlineInterface
 	return newMenuOutlines(c, namespace)
 }
 
-func (c *MetaV1alpha1Client) Projects() ProjectInterface {
-	return newProjects(c)
-}
-
 func (c *MetaV1alpha1Client) Renders() RenderInterface {
 	return newRenders(c)
 }
@@ -79,6 +75,10 @@ func (c *MetaV1alpha1Client) RenderRawGraphs() RenderRawGraphInterface {
 
 func (c *MetaV1alpha1Client) ResourceBlockDefinitions() ResourceBlockDefinitionInterface {
 	return newResourceBlockDefinitions(c)
+}
+
+func (c *MetaV1alpha1Client) ResourceCalculators() ResourceCalculatorInterface {
+	return newResourceCalculators(c)
 }
 
 func (c *MetaV1alpha1Client) ResourceDescriptors() ResourceDescriptorInterface {

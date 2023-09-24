@@ -36,10 +36,6 @@ func (c *FakeMetaV1alpha1) MenuOutlines(namespace string) v1alpha1.MenuOutlineIn
 	return &FakeMenuOutlines{c, namespace}
 }
 
-func (c *FakeMetaV1alpha1) Projects() v1alpha1.ProjectInterface {
-	return &FakeProjects{c}
-}
-
 func (c *FakeMetaV1alpha1) Renders() v1alpha1.RenderInterface {
 	return &FakeRenders{c}
 }
@@ -58,6 +54,10 @@ func (c *FakeMetaV1alpha1) RenderRawGraphs() v1alpha1.RenderRawGraphInterface {
 
 func (c *FakeMetaV1alpha1) ResourceBlockDefinitions() v1alpha1.ResourceBlockDefinitionInterface {
 	return &FakeResourceBlockDefinitions{c}
+}
+
+func (c *FakeMetaV1alpha1) ResourceCalculators() v1alpha1.ResourceCalculatorInterface {
+	return &FakeResourceCalculators{c}
 }
 
 func (c *FakeMetaV1alpha1) ResourceDescriptors() v1alpha1.ResourceDescriptorInterface {
