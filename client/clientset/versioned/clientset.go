@@ -26,6 +26,7 @@ import (
 	rest "k8s.io/client-go/rest"
 	flowcontrol "k8s.io/client-go/util/flowcontrol"
 	corev1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/core/v1alpha1"
+	managementv1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/management/v1alpha1"
 	metav1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/meta/v1alpha1"
 	uiv1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/ui/v1alpha1"
 )
@@ -33,6 +34,7 @@ import (
 type Interface interface {
 	Discovery() discovery.DiscoveryInterface
 	CoreV1alpha1() corev1alpha1.CoreV1alpha1Interface
+	ManagementV1alpha1() managementv1alpha1.ManagementV1alpha1Interface
 	MetaV1alpha1() metav1alpha1.MetaV1alpha1Interface
 	UiV1alpha1() uiv1alpha1.UiV1alpha1Interface
 }
@@ -41,14 +43,20 @@ type Interface interface {
 // version included in a Clientset.
 type Clientset struct {
 	*discovery.DiscoveryClient
-	coreV1alpha1 *corev1alpha1.CoreV1alpha1Client
-	metaV1alpha1 *metav1alpha1.MetaV1alpha1Client
-	uiV1alpha1   *uiv1alpha1.UiV1alpha1Client
+	coreV1alpha1       *corev1alpha1.CoreV1alpha1Client
+	managementV1alpha1 *managementv1alpha1.ManagementV1alpha1Client
+	metaV1alpha1       *metav1alpha1.MetaV1alpha1Client
+	uiV1alpha1         *uiv1alpha1.UiV1alpha1Client
 }
 
 // CoreV1alpha1 retrieves the CoreV1alpha1Client
 func (c *Clientset) CoreV1alpha1() corev1alpha1.CoreV1alpha1Interface {
 	return c.coreV1alpha1
+}
+
+// ManagementV1alpha1 retrieves the ManagementV1alpha1Client
+func (c *Clientset) ManagementV1alpha1() managementv1alpha1.ManagementV1alpha1Interface {
+	return c.managementV1alpha1
 }
 
 // MetaV1alpha1 retrieves the MetaV1alpha1Client
@@ -109,6 +117,10 @@ func NewForConfigAndClient(c *rest.Config, httpClient *http.Client) (*Clientset,
 	if err != nil {
 		return nil, err
 	}
+	cs.managementV1alpha1, err = managementv1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
+	if err != nil {
+		return nil, err
+	}
 	cs.metaV1alpha1, err = metav1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
 		return nil, err
@@ -139,6 +151,7 @@ func NewForConfigOrDie(c *rest.Config) *Clientset {
 func New(c rest.Interface) *Clientset {
 	var cs Clientset
 	cs.coreV1alpha1 = corev1alpha1.New(c)
+	cs.managementV1alpha1 = managementv1alpha1.New(c)
 	cs.metaV1alpha1 = metav1alpha1.New(c)
 	cs.uiV1alpha1 = uiv1alpha1.New(c)
 

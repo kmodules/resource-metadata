@@ -25,6 +25,7 @@ import (
 	serializer "k8s.io/apimachinery/pkg/runtime/serializer"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	corev1alpha1 "kmodules.xyz/resource-metadata/apis/core/v1alpha1"
+	managementv1alpha1 "kmodules.xyz/resource-metadata/apis/management/v1alpha1"
 	metav1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	uiv1alpha1 "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
 )
@@ -34,6 +35,7 @@ var codecs = serializer.NewCodecFactory(scheme)
 
 var localSchemeBuilder = runtime.SchemeBuilder{
 	corev1alpha1.AddToScheme,
+	managementv1alpha1.AddToScheme,
 	metav1alpha1.AddToScheme,
 	uiv1alpha1.AddToScheme,
 }

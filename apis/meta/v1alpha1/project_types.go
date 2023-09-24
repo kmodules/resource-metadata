@@ -19,6 +19,7 @@ package v1alpha1
 import (
 	kmapi "kmodules.xyz/client-go/api/v1"
 
+	core "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -56,7 +57,21 @@ const (
 )
 
 // ProjectStatus defines the observed state of Project
-type ProjectStatus struct{}
+type ProjectStatus struct {
+	Quotas []ResourceQuota `json:"quotas"`
+}
+
+type ResourceQuota struct {
+	Group string `json:"group,omitempty"`
+	Kind  string `json:"kind,omitempty"`
+	// Hard is the set of enforced hard limits for each named resource.
+	// More info: https://kubernetes.io/docs/concepts/policy/resource-quotas/
+	// +optional
+	Hard core.ResourceList `json:"hard,omitempty"`
+	// Used is the current observed total usage of the resource in the namespace.
+	// +optional
+	Used core.ResourceList `json:"used,omitempty"`
+}
 
 // +genclient
 // +genclient:nonNamespaced
