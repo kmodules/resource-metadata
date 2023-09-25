@@ -41,20 +41,38 @@ type ProjectQuota struct {
 	metav1.TypeMeta `json:",inline"`
 	// +optional
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProjectQuotaSpec `json:"spec,omitempty"`
+	Spec              ProjectQuotaSpec   `json:"spec,omitempty"`
+	Status            ProjectQuotaStatus `json:"status,omitempty"`
 }
 
 type ProjectQuotaSpec struct {
-	Quotas []ResourceQuota `json:"quotas"`
+	Quotas []ResourceQuotaSpec `json:"quotas"`
 }
 
-type ResourceQuota struct {
+type ResourceQuotaSpec struct {
 	Group string `json:"group,omitempty"`
 	Kind  string `json:"kind,omitempty"`
 	// Hard is the set of enforced hard limits for each named resource.
 	// More info: https://kubernetes.io/docs/concepts/policy/resource-quotas/
 	// +optional
 	Hard core.ResourceList `json:"hard,omitempty"`
+}
+
+// ProjectQuotaStatus defines the observed state of ProjectQuota
+type ProjectQuotaStatus struct {
+	Quotas []ResourceQuotaStatus `json:"quotas"`
+}
+
+type ResourceQuotaStatus struct {
+	Group string `json:"group,omitempty"`
+	Kind  string `json:"kind,omitempty"`
+	// Hard is the set of enforced hard limits for each named resource.
+	// More info: https://kubernetes.io/docs/concepts/policy/resource-quotas/
+	// +optional
+	Hard core.ResourceList `json:"hard,omitempty"`
+	// Used is the current observed total usage of the resource in the namespace.
+	// +optional
+	Used core.ResourceList `json:"used,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

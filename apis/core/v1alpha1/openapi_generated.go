@@ -318,8 +318,6 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ProjectList":                       schema_resource_metadata_apis_core_v1alpha1_ProjectList(ref),
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ProjectMonitoring":                 schema_resource_metadata_apis_core_v1alpha1_ProjectMonitoring(ref),
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ProjectSpec":                       schema_resource_metadata_apis_core_v1alpha1_ProjectSpec(ref),
-		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ProjectStatus":                     schema_resource_metadata_apis_core_v1alpha1_ProjectStatus(ref),
-		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceQuota":                     schema_resource_metadata_apis_core_v1alpha1_ResourceQuota(ref),
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceSummary":                   schema_resource_metadata_apis_core_v1alpha1_ResourceSummary(ref),
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceSummaryList":               schema_resource_metadata_apis_core_v1alpha1_ResourceSummaryList(ref),
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceSummarySpec":               schema_resource_metadata_apis_core_v1alpha1_ResourceSummarySpec(ref),
@@ -15710,17 +15708,11 @@ func schema_resource_metadata_apis_core_v1alpha1_Project(ref common.ReferenceCal
 							Ref:     ref("kmodules.xyz/resource-metadata/apis/core/v1alpha1.ProjectSpec"),
 						},
 					},
-					"status": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("kmodules.xyz/resource-metadata/apis/core/v1alpha1.ProjectStatus"),
-						},
-					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.ProjectSpec", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.ProjectStatus"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.ProjectSpec"},
 	}
 }
 
@@ -15870,91 +15862,6 @@ func schema_resource_metadata_apis_core_v1alpha1_ProjectSpec(ref common.Referenc
 		},
 		Dependencies: []string{
 			"k8s.io/apimachinery/pkg/apis/meta/v1.LabelSelector", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.ProjectMonitoring", "kmodules.xyz/resource-metadata/apis/shared.SourceLocator"},
-	}
-}
-
-func schema_resource_metadata_apis_core_v1alpha1_ProjectStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Description: "ProjectStatus defines the observed state of Project",
-				Type:        []string{"object"},
-				Properties: map[string]spec.Schema{
-					"quotas": {
-						SchemaProps: spec.SchemaProps{
-							Type: []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceQuota"),
-									},
-								},
-							},
-						},
-					},
-				},
-				Required: []string{"quotas"},
-			},
-		},
-		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceQuota"},
-	}
-}
-
-func schema_resource_metadata_apis_core_v1alpha1_ResourceQuota(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Type: []string{"object"},
-				Properties: map[string]spec.Schema{
-					"group": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
-					"kind": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
-					"hard": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Hard is the set of enforced hard limits for each named resource. More info: https://kubernetes.io/docs/concepts/policy/resource-quotas/",
-							Type:        []string{"object"},
-							AdditionalProperties: &spec.SchemaOrBool{
-								Allows: true,
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: map[string]interface{}{},
-										Ref:     ref("k8s.io/apimachinery/pkg/api/resource.Quantity"),
-									},
-								},
-							},
-						},
-					},
-					"used": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Used is the current observed total usage of the resource in the namespace.",
-							Type:        []string{"object"},
-							AdditionalProperties: &spec.SchemaOrBool{
-								Allows: true,
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: map[string]interface{}{},
-										Ref:     ref("k8s.io/apimachinery/pkg/api/resource.Quantity"),
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		},
-		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/api/resource.Quantity"},
 	}
 }
 
