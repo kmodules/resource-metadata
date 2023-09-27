@@ -64,12 +64,7 @@ type ProjectQuotaStatus struct {
 }
 
 type ResourceQuotaStatus struct {
-	Group string `json:"group,omitempty"`
-	Kind  string `json:"kind,omitempty"`
-	// Hard is the set of enforced hard limits for each named resource.
-	// More info: https://kubernetes.io/docs/concepts/policy/resource-quotas/
-	// +optional
-	Hard core.ResourceList `json:"hard,omitempty"`
+	ResourceQuotaSpec `json:",inline"`
 	// Used is the current observed total usage of the resource in the namespace.
 	// +optional
 	Used core.ResourceList `json:"used,omitempty"`
