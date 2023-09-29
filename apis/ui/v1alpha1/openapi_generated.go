@@ -15692,7 +15692,7 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSetSpec(ref common.Referen
 							},
 						},
 					},
-					"required": {
+					"recommended": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Required specify whether this feature set is mandatory or not for using the UI.",
 							Type:        []string{"boolean"},
@@ -15837,7 +15837,7 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSpec(ref common.ReferenceC
 							Format:      "",
 						},
 					},
-					"required": {
+					"recommended": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Required specifies whether this feature is mandatory or not for enabling the respecting FeatureSet.",
 							Type:        []string{"boolean"},
