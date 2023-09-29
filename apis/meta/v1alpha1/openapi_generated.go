@@ -15163,7 +15163,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_MenuItem(ref common.ReferenceCa
 							Ref: ref("kmodules.xyz/resource-metadata/apis/shared.DeploymentParameters"),
 						},
 					},
-					"preset": {
+					"variant": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
 							Format: "",

@@ -65,10 +65,19 @@ type ProjectQuotaStatus struct {
 
 type ResourceQuotaStatus struct {
 	ResourceQuotaSpec `json:",inline"`
+	Result            QuotaResult `json:"result"`
 	// Used is the current observed total usage of the resource in the namespace.
 	// +optional
 	Used core.ResourceList `json:"used,omitempty"`
 }
+
+// +kubebuilder:validation:Enum=Success;Error
+type QuotaResult string
+
+const (
+	ResultSuccess QuotaResult = "Success"
+	ResultError   QuotaResult = "Error"
+)
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +kubebuilder:object:root=true

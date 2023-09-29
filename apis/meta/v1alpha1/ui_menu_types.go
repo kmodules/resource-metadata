@@ -84,7 +84,7 @@ type MenuItem struct {
 	Icons     []helmshared.ImageSpec       `json:"icons,omitempty"`
 	Installer *shared.DeploymentParameters `json:"installer,omitempty"`
 	// +optional
-	Preset string `json:"preset,omitempty"`
+	Variant string `json:"variant,omitempty"`
 	// +optional
 	AvailableVariants int `json:"availableVariants,omitempty"`
 	// +optional
