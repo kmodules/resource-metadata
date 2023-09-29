@@ -81,6 +81,11 @@ spec:
                       type: object
                     kind:
                       type: string
+                    result:
+                      enum:
+                      - Success
+                      - Error
+                      type: string
                     used:
                       additionalProperties:
                         anyOf:
@@ -91,6 +96,8 @@ spec:
                       description: Used is the current observed total usage of the
                         resource in the namespace.
                       type: object
+                  required:
+                  - result
                   type: object
                 type: array
             required:

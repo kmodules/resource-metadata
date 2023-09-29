@@ -47,11 +47,11 @@ type ChartPresetFlatRef struct {
 	releasesv1alpha1.ChartSourceFlatRef `json:",inline"`
 
 	// Editor GVR
-	Group      string `json:"group,omitempty"`
-	Resource   string `json:"resource,omitempty"`
-	Kind       string `json:"kind,omitempty"`
-	PresetName string `json:"presetName,omitempty"`
-	Namespace  string `json:"namespace,omitempty"`
+	Group     string `json:"group,omitempty"`
+	Resource  string `json:"resource,omitempty"`
+	Kind      string `json:"kind,omitempty"`
+	Variant   string `json:"variant,omitempty"`
+	Namespace string `json:"namespace,omitempty"`
 }
 
 type ChartPresetValues struct {
