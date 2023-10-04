@@ -65,10 +65,16 @@ type ProjectQuotaStatus struct {
 
 type ResourceQuotaStatus struct {
 	ResourceQuotaSpec `json:",inline"`
-	Result            QuotaResult `json:"result"`
+	QuotaStatus       QuotaStatus `json:"quotaStatus"`
+
 	// Used is the current observed total usage of the resource in the namespace.
 	// +optional
 	Used core.ResourceList `json:"used,omitempty"`
+}
+
+type QuotaStatus struct {
+	Result QuotaResult `json:"result"`
+	Reason string      `json:"reason,omitempty"`
 }
 
 // +kubebuilder:validation:Enum=Success;Error

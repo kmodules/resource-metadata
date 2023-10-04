@@ -301,6 +301,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/management/v1alpha1.ProjectQuotaList":    schema_resource_metadata_apis_management_v1alpha1_ProjectQuotaList(ref),
 		"kmodules.xyz/resource-metadata/apis/management/v1alpha1.ProjectQuotaSpec":    schema_resource_metadata_apis_management_v1alpha1_ProjectQuotaSpec(ref),
 		"kmodules.xyz/resource-metadata/apis/management/v1alpha1.ProjectQuotaStatus":  schema_resource_metadata_apis_management_v1alpha1_ProjectQuotaStatus(ref),
+		"kmodules.xyz/resource-metadata/apis/management/v1alpha1.QuotaStatus":         schema_resource_metadata_apis_management_v1alpha1_QuotaStatus(ref),
 		"kmodules.xyz/resource-metadata/apis/management/v1alpha1.ResourceQuotaSpec":   schema_resource_metadata_apis_management_v1alpha1_ResourceQuotaSpec(ref),
 		"kmodules.xyz/resource-metadata/apis/management/v1alpha1.ResourceQuotaStatus": schema_resource_metadata_apis_management_v1alpha1_ResourceQuotaStatus(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.Action":                           schema_kmodulesxyz_resource_metadata_apis_shared_Action(ref),
@@ -14732,6 +14733,32 @@ func schema_resource_metadata_apis_management_v1alpha1_ProjectQuotaStatus(ref co
 	}
 }
 
+func schema_resource_metadata_apis_management_v1alpha1_QuotaStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"result": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"reason": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+				},
+				Required: []string{"result"},
+			},
+		},
+	}
+}
+
 func schema_resource_metadata_apis_management_v1alpha1_ResourceQuotaSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -14806,11 +14833,10 @@ func schema_resource_metadata_apis_management_v1alpha1_ResourceQuotaStatus(ref c
 							},
 						},
 					},
-					"result": {
+					"quotaStatus": {
 						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
+							Default: map[string]interface{}{},
+							Ref:     ref("kmodules.xyz/resource-metadata/apis/management/v1alpha1.QuotaStatus"),
 						},
 					},
 					"used": {
@@ -14829,11 +14855,11 @@ func schema_resource_metadata_apis_management_v1alpha1_ResourceQuotaStatus(ref c
 						},
 					},
 				},
-				Required: []string{"result"},
+				Required: []string{"quotaStatus"},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/api/resource.Quantity"},
+			"k8s.io/apimachinery/pkg/api/resource.Quantity", "kmodules.xyz/resource-metadata/apis/management/v1alpha1.QuotaStatus"},
 	}
 }
 

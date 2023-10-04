@@ -81,11 +81,18 @@ spec:
                       type: object
                     kind:
                       type: string
-                    result:
-                      enum:
-                      - Success
-                      - Error
-                      type: string
+                    quotaStatus:
+                      properties:
+                        reason:
+                          type: string
+                        result:
+                          enum:
+                          - Success
+                          - Error
+                          type: string
+                      required:
+                      - result
+                      type: object
                     used:
                       additionalProperties:
                         anyOf:
@@ -97,7 +104,7 @@ spec:
                         resource in the namespace.
                       type: object
                   required:
-                  - result
+                  - quotaStatus
                   type: object
                 type: array
             required:
