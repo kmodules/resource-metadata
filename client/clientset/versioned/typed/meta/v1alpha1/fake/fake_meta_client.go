@@ -32,6 +32,10 @@ func (c *FakeMetaV1alpha1) ChartPresetQueries() v1alpha1.ChartPresetQueryInterfa
 	return &FakeChartPresetQueries{c}
 }
 
+func (c *FakeMetaV1alpha1) ClusterStatuses() v1alpha1.ClusterStatusInterface {
+	return &FakeClusterStatuses{c}
+}
+
 func (c *FakeMetaV1alpha1) MenuOutlines(namespace string) v1alpha1.MenuOutlineInterface {
 	return &FakeMenuOutlines{c, namespace}
 }
