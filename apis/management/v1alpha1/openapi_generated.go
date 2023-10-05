@@ -14813,6 +14813,12 @@ func schema_resource_metadata_apis_management_v1alpha1_ResourceQuotaStatus(ref c
 							Format:  "",
 						},
 					},
+					"reason": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
 					"used": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Used is the current observed total usage of the resource in the namespace.",
