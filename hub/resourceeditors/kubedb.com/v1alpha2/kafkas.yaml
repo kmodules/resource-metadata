@@ -30,6 +30,7 @@ spec:
             kind: HelmRepository
             name: bytebuilders-ui
           version: v0.4.17
+        enforceQuota: false
         flow: standalone-edit
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/monitor.svg
@@ -44,6 +45,7 @@ spec:
         kind: HelmRepository
         name: bytebuilders-ui
       version: v0.4.18
+    enforceQuota: true
     options:
       name: kubedbcom-kafka-editor-options
       sourceRef:
