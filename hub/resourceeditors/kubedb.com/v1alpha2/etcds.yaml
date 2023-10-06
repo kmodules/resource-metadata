@@ -28,6 +28,7 @@ spec:
         kind: HelmRepository
         name: bytebuilders-ui
       version: v0.4.18
+    enforceQuota: false
     options:
       name: kubedbcom-etcd-editor-options
       sourceRef:

@@ -14789,8 +14789,15 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplate(ref common.
 							Ref: ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartSourceRef"),
 						},
 					},
+					"enforceQuota": {
+						SchemaProps: spec.SchemaProps{
+							Default: false,
+							Type:    []string{"boolean"},
+							Format:  "",
+						},
+					},
 				},
-				Required: []string{"operationId", "flow"},
+				Required: []string{"operationId", "flow", "enforceQuota"},
 			},
 		},
 		Dependencies: []string{
@@ -15080,6 +15087,13 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_UIParameterTemplate(ref co
 							Ref: ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartSourceRef"),
 						},
 					},
+					"enforceQuota": {
+						SchemaProps: spec.SchemaProps{
+							Default: false,
+							Type:    []string{"boolean"},
+							Format:  "",
+						},
+					},
 					"actions": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
@@ -15108,6 +15122,7 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_UIParameterTemplate(ref co
 						},
 					},
 				},
+				Required: []string{"enforceQuota"},
 			},
 		},
 		Dependencies: []string{
@@ -15222,8 +15237,15 @@ func schema_resource_metadata_apis_ui_v1alpha1_ActionTemplate(ref common.Referen
 							Ref: ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartSourceRef"),
 						},
 					},
+					"enforceQuota": {
+						SchemaProps: spec.SchemaProps{
+							Default: false,
+							Type:    []string{"boolean"},
+							Format:  "",
+						},
+					},
 				},
-				Required: []string{"operationId", "flow"},
+				Required: []string{"operationId", "flow", "enforceQuota"},
 			},
 		},
 		Dependencies: []string{
@@ -16304,6 +16326,13 @@ func schema_resource_metadata_apis_ui_v1alpha1_UIParameters(ref common.Reference
 							Ref: ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartSourceRef"),
 						},
 					},
+					"enforceQuota": {
+						SchemaProps: spec.SchemaProps{
+							Default: false,
+							Type:    []string{"boolean"},
+							Format:  "",
+						},
+					},
 					"instanceLabelPaths": {
 						SchemaProps: spec.SchemaProps{
 							Description: "app.kubernetes.io/instance label must be updated at these paths when refilling metadata",
@@ -16332,6 +16361,7 @@ func schema_resource_metadata_apis_ui_v1alpha1_UIParameters(ref common.Reference
 						},
 					},
 				},
+				Required: []string{"enforceQuota"},
 			},
 		},
 		Dependencies: []string{

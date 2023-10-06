@@ -199,9 +199,8 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 			}
 			{
 				result.Spec.UI.Editor = expand(ed.Spec.UI.Editor)
-			}
-			{
 				result.Spec.UI.Options = expand(ed.Spec.UI.Options)
+				result.Spec.UI.EnforceQuota = ed.Spec.UI.EnforceQuota
 			}
 			{
 				result.Spec.UI.Actions = make([]*shared.ActionTemplateGroup, 0, len(ed.Spec.UI.Actions))
@@ -217,8 +216,10 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 							OperationID:      a.OperationID,
 							Flow:             a.Flow,
 							DisabledTemplate: a.DisabledTemplate,
+							EnforceQuota:     a.EnforceQuota,
 						}
 						a2.Editor = expand(a.Editor)
+
 						ag2.Items = append(ag2.Items, a2)
 					}
 					result.Spec.UI.Actions = append(result.Spec.UI.Actions, &ag2)
