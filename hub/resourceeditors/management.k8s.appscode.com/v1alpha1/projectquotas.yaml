@@ -15,3 +15,12 @@ spec:
     name: projectquotas
     scope: Cluster
     version: v1alpha1
+  ui:
+    editor:
+      name: managementk8sappscodecom-projectquota-editor
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: bytebuilders-ui
+      version: v0.4.18
+    enforceQuota: false

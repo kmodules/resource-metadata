@@ -93,7 +93,6 @@ func (in *ChartPresetQuery) DeepCopyObject() runtime.Object {
 func (in *ClusterStatus) DeepCopyInto(out *ClusterStatus) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
-	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
 	if in.Response != nil {
 		in, out := &in.Response, &out.Response
 		*out = new(ClusterStatusResponse)

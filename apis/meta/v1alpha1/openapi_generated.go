@@ -14752,12 +14752,6 @@ func schema_resource_metadata_apis_meta_v1alpha1_ClusterStatus(ref common.Refere
 							Format:      "",
 						},
 					},
-					"metadata": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
-						},
-					},
 					"response": {
 						SchemaProps: spec.SchemaProps{
 							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ClusterStatusResponse"),
@@ -14767,7 +14761,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ClusterStatus(ref common.Refere
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ClusterStatusResponse"},
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ClusterStatusResponse"},
 	}
 }
 
