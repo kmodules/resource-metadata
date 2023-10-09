@@ -57,6 +57,7 @@ type ClusterStatusResponse struct {
 	ClusterAPI *kmapi.CAPIClusterInfo `json:"clusterAPI,omitempty"`
 }
 
+// +kubebuilder:validation:Enum=Active;Inactive;NotReady;NotConnected;Registered;NotImported
 type ClusterPhase string
 
 const (
@@ -68,11 +69,12 @@ const (
 	ClusterPhaseNotImported  ClusterPhase = "NotImported"
 )
 
+// +kubebuilder:validation:Enum=Unknown;ClusterNotFound;AuthIssue;MissingComponent
 type ClusterPhaseReason string
 
 const (
-	ClusterNotFound  ClusterPhaseReason = "ClusterNotFound"
-	AuthIssue        ClusterPhaseReason = "AuthIssue"
-	MissingComponent ClusterPhaseReason = "MissingComponent"
-	ReasonUnknown    ClusterPhaseReason = "Unknown"
+	ClusterPhaseReasonReasonUnknown    ClusterPhaseReason = "Unknown"
+	ClusterPhaseReasonClusterNotFound  ClusterPhaseReason = "ClusterNotFound"
+	ClusterPhaseReasonAuthIssue        ClusterPhaseReason = "AuthIssue"
+	ClusterPhaseReasonMissingComponent ClusterPhaseReason = "MissingComponent"
 )
