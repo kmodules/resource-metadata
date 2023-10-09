@@ -446,8 +446,15 @@ func (r *Registry) LoadByGVK(gvk schema.GroupVersionKind) (*v1alpha1.ResourceDes
 }
 
 func (r *Registry) LoadByName(name string) (*v1alpha1.ResourceDescriptor, error) {
-	filename := strings.Replace(name, "-", "/", 2) + ".yaml"
-	return r.LoadByFile(filename)
+	return r.LoadByFile(toFilename(name))
+}
+
+func toFilename(name string) string {
+	name = reverse(name)
+	name = strings.Replace(name, "-", "/", 2)
+	name = reverse(name)
+	filename := name + ".yaml"
+	return filename
 }
 
 func (r *Registry) LoadByFile(filename string) (*v1alpha1.ResourceDescriptor, error) {
@@ -472,4 +479,41 @@ func IsUnregisteredErr(err error) bool {
 	_, ok := err.(UnregisteredErr)
 	_, okp := err.(*UnregisteredErr)
 	return err != nil && (ok || okp)
+}
+
+func ParseGVR(name string) (*schema.GroupVersionResource, error) {
+	name = reverse(name)
+	parts := strings.SplitN(name, "-", 3)
+	if len(parts) != 3 {
+		return nil, fmt.Errorf("%s is not a valid gvr encoded name", name)
+	}
+	gvr := schema.GroupVersionResource{
+		Group:    reverse(parts[2]),
+		Version:  reverse(parts[1]),
+		Resource: reverse(parts[0]),
+	}
+	if gvr.Group == "core" {
+		gvr.Group = ""
+	}
+	return &gvr, nil
+}
+
+// ref: https://groups.google.com/g/golang-nuts/c/oPuBaYJ17t4/m/PCmhdAyrNVkJ
+func reverse(input string) string {
+	// Get Unicode code points.
+	n := 0
+	rune := make([]int32, len(input))
+	for _, r := range input {
+		rune[n] = r
+		n++
+	}
+	rune = rune[0:n]
+
+	// Reverse
+	for i := 0; i < n/2; i++ {
+		rune[i], rune[n-1-i] = rune[n-1-i], rune[i]
+	}
+
+	// Convert back to UTF-8.
+	return string(rune)
 }

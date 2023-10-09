@@ -18,7 +18,6 @@ package layouts
 
 import (
 	"fmt"
-	"strings"
 
 	kmapi "kmodules.xyz/client-go/api/v1"
 	meta_util "kmodules.xyz/client-go/meta"
@@ -151,19 +150,11 @@ func generateDefaultLayout(kc client.Client, rid kmapi.ResourceID) (*v1alpha1.Re
 func LoadResourceLayout(kc client.Client, name string) (*v1alpha1.ResourceLayout, error) {
 	outline, err := resourceoutlines.LoadByName(name)
 	if apierrors.IsNotFound(err) {
-		parts := strings.SplitN(name, "-", 3)
-		if len(parts) != 3 {
+		gvr, e2 := hub.ParseGVR(name)
+		if e2 != nil {
 			return nil, err
 		}
-		var group string
-		if parts[0] != "core" {
-			group = parts[0]
-		}
-		return LoadResourceLayoutForGVR(kc, schema.GroupVersionResource{
-			Group:    group,
-			Version:  parts[1],
-			Resource: parts[2],
-		})
+		return LoadResourceLayoutForGVR(kc, *gvr)
 	} else if err != nil {
 		return nil, err
 	}
