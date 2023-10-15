@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: datashare.azure.upbound.io
+    k8s.io/kind: DataSetBlobStorage
+    k8s.io/resource: datasetblobstorages
+    k8s.io/version: v1beta1
+  name: datashare.azure.upbound.io-v1beta1-datasetblobstorages
+spec:
+  resource:
+    group: datashare.azure.upbound.io
+    kind: DataSetBlobStorage
+    name: datasetblobstorages
+    scope: Cluster
+    version: v1beta1

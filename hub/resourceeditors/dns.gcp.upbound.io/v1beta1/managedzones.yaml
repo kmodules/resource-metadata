@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: dns.gcp.upbound.io
+    k8s.io/kind: ManagedZone
+    k8s.io/resource: managedzones
+    k8s.io/version: v1beta1
+  name: dns.gcp.upbound.io-v1beta1-managedzones
+spec:
+  resource:
+    group: dns.gcp.upbound.io
+    kind: ManagedZone
+    name: managedzones
+    scope: Cluster
+    version: v1beta1

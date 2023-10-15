@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: lambda.aws.upbound.io
+    k8s.io/kind: FunctionEventInvokeConfig
+    k8s.io/resource: functioneventinvokeconfigs
+    k8s.io/version: v1beta1
+  name: lambda.aws.upbound.io-v1beta1-functioneventinvokeconfigs
+spec:
+  resource:
+    group: lambda.aws.upbound.io
+    kind: FunctionEventInvokeConfig
+    name: functioneventinvokeconfigs
+    scope: Cluster
+    version: v1beta1

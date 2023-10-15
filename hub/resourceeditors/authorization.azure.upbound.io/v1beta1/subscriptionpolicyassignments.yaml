@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: authorization.azure.upbound.io
+    k8s.io/kind: SubscriptionPolicyAssignment
+    k8s.io/resource: subscriptionpolicyassignments
+    k8s.io/version: v1beta1
+  name: authorization.azure.upbound.io-v1beta1-subscriptionpolicyassignments
+spec:
+  resource:
+    group: authorization.azure.upbound.io
+    kind: SubscriptionPolicyAssignment
+    name: subscriptionpolicyassignments
+    scope: Cluster
+    version: v1beta1

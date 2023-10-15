@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: gkehub.gcp.upbound.io
+    k8s.io/kind: Membership
+    k8s.io/resource: memberships
+    k8s.io/version: v1beta1
+  name: gkehub.gcp.upbound.io-v1beta1-memberships
+spec:
+  resource:
+    group: gkehub.gcp.upbound.io
+    kind: Membership
+    name: memberships
+    scope: Cluster
+    version: v1beta1

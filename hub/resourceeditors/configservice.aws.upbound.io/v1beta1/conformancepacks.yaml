@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: configservice.aws.upbound.io
+    k8s.io/kind: ConformancePack
+    k8s.io/resource: conformancepacks
+    k8s.io/version: v1beta1
+  name: configservice.aws.upbound.io-v1beta1-conformancepacks
+spec:
+  resource:
+    group: configservice.aws.upbound.io
+    kind: ConformancePack
+    name: conformancepacks
+    scope: Cluster
+    version: v1beta1

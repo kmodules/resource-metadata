@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: servicequotas.aws.upbound.io
+    k8s.io/kind: ServiceQuota
+    k8s.io/resource: servicequotas
+    k8s.io/version: v1beta1
+  name: servicequotas.aws.upbound.io-v1beta1-servicequotas
+spec:
+  resource:
+    group: servicequotas.aws.upbound.io
+    kind: ServiceQuota
+    name: servicequotas
+    scope: Cluster
+    version: v1beta1

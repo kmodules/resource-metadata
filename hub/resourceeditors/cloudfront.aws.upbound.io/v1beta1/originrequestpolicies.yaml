@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cloudfront.aws.upbound.io
+    k8s.io/kind: OriginRequestPolicy
+    k8s.io/resource: originrequestpolicies
+    k8s.io/version: v1beta1
+  name: cloudfront.aws.upbound.io-v1beta1-originrequestpolicies
+spec:
+  resource:
+    group: cloudfront.aws.upbound.io
+    kind: OriginRequestPolicy
+    name: originrequestpolicies
+    scope: Cluster
+    version: v1beta1

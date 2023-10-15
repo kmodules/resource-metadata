@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: pubsub.gcp.upbound.io
+    k8s.io/kind: TopicIAMMember
+    k8s.io/resource: topiciammembers
+    k8s.io/version: v1beta1
+  name: pubsub.gcp.upbound.io-v1beta1-topiciammembers
+spec:
+  resource:
+    group: pubsub.gcp.upbound.io
+    kind: TopicIAMMember
+    name: topiciammembers
+    scope: Cluster
+    version: v1beta1

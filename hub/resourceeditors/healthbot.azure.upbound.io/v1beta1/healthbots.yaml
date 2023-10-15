@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: healthbot.azure.upbound.io
+    k8s.io/kind: HealthBot
+    k8s.io/resource: healthbots
+    k8s.io/version: v1beta1
+  name: healthbot.azure.upbound.io-v1beta1-healthbots
+spec:
+  resource:
+    group: healthbot.azure.upbound.io
+    kind: HealthBot
+    name: healthbots
+    scope: Cluster
+    version: v1beta1

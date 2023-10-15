@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cur.aws.upbound.io
+    k8s.io/kind: ReportDefinition
+    k8s.io/resource: reportdefinitions
+    k8s.io/version: v1beta1
+  name: cur.aws.upbound.io-v1beta1-reportdefinitions
+spec:
+  resource:
+    group: cur.aws.upbound.io
+    kind: ReportDefinition
+    name: reportdefinitions
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cloudplatform.gcp.upbound.io
+    k8s.io/kind: Folder
+    k8s.io/resource: folders
+    k8s.io/version: v1beta1
+  name: cloudplatform.gcp.upbound.io-v1beta1-folders
+spec:
+  resource:
+    group: cloudplatform.gcp.upbound.io
+    kind: Folder
+    name: folders
+    scope: Cluster
+    version: v1beta1

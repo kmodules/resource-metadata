@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: sagemaker.aws.upbound.io
+    k8s.io/kind: FeatureGroup
+    k8s.io/resource: featuregroups
+    k8s.io/version: v1beta1
+  name: sagemaker.aws.upbound.io-v1beta1-featuregroups
+spec:
+  resource:
+    group: sagemaker.aws.upbound.io
+    kind: FeatureGroup
+    name: featuregroups
+    scope: Cluster
+    version: v1beta1

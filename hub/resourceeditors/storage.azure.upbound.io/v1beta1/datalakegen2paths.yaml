@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: storage.azure.upbound.io
+    k8s.io/kind: DataLakeGen2Path
+    k8s.io/resource: datalakegen2paths
+    k8s.io/version: v1beta1
+  name: storage.azure.upbound.io-v1beta1-datalakegen2paths
+spec:
+  resource:
+    group: storage.azure.upbound.io
+    kind: DataLakeGen2Path
+    name: datalakegen2paths
+    scope: Cluster
+    version: v1beta1

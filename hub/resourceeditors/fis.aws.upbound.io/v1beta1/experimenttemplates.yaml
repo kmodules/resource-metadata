@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: fis.aws.upbound.io
+    k8s.io/kind: ExperimentTemplate
+    k8s.io/resource: experimenttemplates
+    k8s.io/version: v1beta1
+  name: fis.aws.upbound.io-v1beta1-experimenttemplates
+spec:
+  resource:
+    group: fis.aws.upbound.io
+    kind: ExperimentTemplate
+    name: experimenttemplates
+    scope: Cluster
+    version: v1beta1

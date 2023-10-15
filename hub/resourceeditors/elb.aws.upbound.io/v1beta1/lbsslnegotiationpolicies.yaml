@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: elb.aws.upbound.io
+    k8s.io/kind: LBSSLNegotiationPolicy
+    k8s.io/resource: lbsslnegotiationpolicies
+    k8s.io/version: v1beta1
+  name: elb.aws.upbound.io-v1beta1-lbsslnegotiationpolicies
+spec:
+  resource:
+    group: elb.aws.upbound.io
+    kind: LBSSLNegotiationPolicy
+    name: lbsslnegotiationpolicies
+    scope: Cluster
+    version: v1beta1

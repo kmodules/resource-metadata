@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: datasync.aws.upbound.io
+    k8s.io/kind: LocationS3
+    k8s.io/resource: locations3s
+    k8s.io/version: v1beta1
+  name: datasync.aws.upbound.io-v1beta1-locations3s
+spec:
+  resource:
+    group: datasync.aws.upbound.io
+    kind: LocationS3
+    name: locations3s
+    scope: Cluster
+    version: v1beta1

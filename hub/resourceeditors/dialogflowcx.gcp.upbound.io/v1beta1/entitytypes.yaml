@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: dialogflowcx.gcp.upbound.io
+    k8s.io/kind: EntityType
+    k8s.io/resource: entitytypes
+    k8s.io/version: v1beta1
+  name: dialogflowcx.gcp.upbound.io-v1beta1-entitytypes
+spec:
+  resource:
+    group: dialogflowcx.gcp.upbound.io
+    kind: EntityType
+    name: entitytypes
+    scope: Cluster
+    version: v1beta1

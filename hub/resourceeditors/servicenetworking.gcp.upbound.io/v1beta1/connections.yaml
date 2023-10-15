@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: servicenetworking.gcp.upbound.io
+    k8s.io/kind: Connection
+    k8s.io/resource: connections
+    k8s.io/version: v1beta1
+  name: servicenetworking.gcp.upbound.io-v1beta1-connections
+spec:
+  resource:
+    group: servicenetworking.gcp.upbound.io
+    kind: Connection
+    name: connections
+    scope: Cluster
+    version: v1beta1

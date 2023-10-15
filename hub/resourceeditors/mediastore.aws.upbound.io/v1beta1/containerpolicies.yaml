@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: mediastore.aws.upbound.io
+    k8s.io/kind: ContainerPolicy
+    k8s.io/resource: containerpolicies
+    k8s.io/version: v1beta1
+  name: mediastore.aws.upbound.io-v1beta1-containerpolicies
+spec:
+  resource:
+    group: mediastore.aws.upbound.io
+    kind: ContainerPolicy
+    name: containerpolicies
+    scope: Cluster
+    version: v1beta1

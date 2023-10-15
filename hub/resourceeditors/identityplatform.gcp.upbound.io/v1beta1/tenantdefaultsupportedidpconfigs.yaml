@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: identityplatform.gcp.upbound.io
+    k8s.io/kind: TenantDefaultSupportedIdPConfig
+    k8s.io/resource: tenantdefaultsupportedidpconfigs
+    k8s.io/version: v1beta1
+  name: identityplatform.gcp.upbound.io-v1beta1-tenantdefaultsupportedidpconfigs
+spec:
+  resource:
+    group: identityplatform.gcp.upbound.io
+    kind: TenantDefaultSupportedIdPConfig
+    name: tenantdefaultsupportedidpconfigs
+    scope: Cluster
+    version: v1beta1

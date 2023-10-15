@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: gamelift.aws.upbound.io
+    k8s.io/kind: Alias
+    k8s.io/resource: aliases
+    k8s.io/version: v1beta1
+  name: gamelift.aws.upbound.io-v1beta1-aliases
+spec:
+  resource:
+    group: gamelift.aws.upbound.io
+    kind: Alias
+    name: aliases
+    scope: Cluster
+    version: v1beta1

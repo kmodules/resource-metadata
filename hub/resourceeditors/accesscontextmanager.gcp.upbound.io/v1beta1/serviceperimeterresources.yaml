@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: accesscontextmanager.gcp.upbound.io
+    k8s.io/kind: ServicePerimeterResource
+    k8s.io/resource: serviceperimeterresources
+    k8s.io/version: v1beta1
+  name: accesscontextmanager.gcp.upbound.io-v1beta1-serviceperimeterresources
+spec:
+  resource:
+    group: accesscontextmanager.gcp.upbound.io
+    kind: ServicePerimeterResource
+    name: serviceperimeterresources
+    scope: Cluster
+    version: v1beta1

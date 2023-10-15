@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: servicecatalog.aws.upbound.io
+    k8s.io/kind: ServiceAction
+    k8s.io/resource: serviceactions
+    k8s.io/version: v1beta1
+  name: servicecatalog.aws.upbound.io-v1beta1-serviceactions
+spec:
+  resource:
+    group: servicecatalog.aws.upbound.io
+    kind: ServiceAction
+    name: serviceactions
+    scope: Cluster
+    version: v1beta1

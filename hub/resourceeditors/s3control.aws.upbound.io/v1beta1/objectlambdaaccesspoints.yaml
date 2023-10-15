@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: s3control.aws.upbound.io
+    k8s.io/kind: ObjectLambdaAccessPoint
+    k8s.io/resource: objectlambdaaccesspoints
+    k8s.io/version: v1beta1
+  name: s3control.aws.upbound.io-v1beta1-objectlambdaaccesspoints
+spec:
+  resource:
+    group: s3control.aws.upbound.io
+    kind: ObjectLambdaAccessPoint
+    name: objectlambdaaccesspoints
+    scope: Cluster
+    version: v1beta1

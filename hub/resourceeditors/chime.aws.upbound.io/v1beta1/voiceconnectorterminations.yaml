@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: chime.aws.upbound.io
+    k8s.io/kind: VoiceConnectorTermination
+    k8s.io/resource: voiceconnectorterminations
+    k8s.io/version: v1beta1
+  name: chime.aws.upbound.io-v1beta1-voiceconnectorterminations
+spec:
+  resource:
+    group: chime.aws.upbound.io
+    kind: VoiceConnectorTermination
+    name: voiceconnectorterminations
+    scope: Cluster
+    version: v1beta1

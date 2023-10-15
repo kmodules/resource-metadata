@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: compute.gcp.upbound.io
+    k8s.io/kind: Autoscaler
+    k8s.io/resource: autoscalers
+    k8s.io/version: v1beta1
+  name: compute.gcp.upbound.io-v1beta1-autoscalers
+spec:
+  resource:
+    group: compute.gcp.upbound.io
+    kind: Autoscaler
+    name: autoscalers
+    scope: Cluster
+    version: v1beta1

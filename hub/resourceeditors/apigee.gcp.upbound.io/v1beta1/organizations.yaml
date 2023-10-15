@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: apigee.gcp.upbound.io
+    k8s.io/kind: Organization
+    k8s.io/resource: organizations
+    k8s.io/version: v1beta1
+  name: apigee.gcp.upbound.io-v1beta1-organizations
+spec:
+  resource:
+    group: apigee.gcp.upbound.io
+    kind: Organization
+    name: organizations
+    scope: Cluster
+    version: v1beta1

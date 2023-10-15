@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: securityhub.aws.upbound.io
+    k8s.io/kind: ActionTarget
+    k8s.io/resource: actiontargets
+    k8s.io/version: v1beta1
+  name: securityhub.aws.upbound.io-v1beta1-actiontargets
+spec:
+  resource:
+    group: securityhub.aws.upbound.io
+    kind: ActionTarget
+    name: actiontargets
+    scope: Cluster
+    version: v1beta1

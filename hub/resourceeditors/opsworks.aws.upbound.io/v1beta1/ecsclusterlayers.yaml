@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: opsworks.aws.upbound.io
+    k8s.io/kind: EcsClusterLayer
+    k8s.io/resource: ecsclusterlayers
+    k8s.io/version: v1beta1
+  name: opsworks.aws.upbound.io-v1beta1-ecsclusterlayers
+spec:
+  resource:
+    group: opsworks.aws.upbound.io
+    kind: EcsClusterLayer
+    name: ecsclusterlayers
+    scope: Cluster
+    version: v1beta1

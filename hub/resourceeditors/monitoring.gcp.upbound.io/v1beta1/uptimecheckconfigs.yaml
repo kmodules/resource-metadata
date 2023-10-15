@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: monitoring.gcp.upbound.io
+    k8s.io/kind: UptimeCheckConfig
+    k8s.io/resource: uptimecheckconfigs
+    k8s.io/version: v1beta1
+  name: monitoring.gcp.upbound.io-v1beta1-uptimecheckconfigs
+spec:
+  resource:
+    group: monitoring.gcp.upbound.io
+    kind: UptimeCheckConfig
+    name: uptimecheckconfigs
+    scope: Cluster
+    version: v1beta1

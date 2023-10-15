@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ec2.aws.upbound.io
+    k8s.io/kind: NetworkInterfaceAttachment
+    k8s.io/resource: networkinterfaceattachments
+    k8s.io/version: v1beta1
+  name: ec2.aws.upbound.io-v1beta1-networkinterfaceattachments
+spec:
+  resource:
+    group: ec2.aws.upbound.io
+    kind: NetworkInterfaceAttachment
+    name: networkinterfaceattachments
+    scope: Cluster
+    version: v1beta1

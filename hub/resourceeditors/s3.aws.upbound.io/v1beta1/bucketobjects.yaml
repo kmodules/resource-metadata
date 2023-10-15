@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: s3.aws.upbound.io
+    k8s.io/kind: BucketObject
+    k8s.io/resource: bucketobjects
+    k8s.io/version: v1beta1
+  name: s3.aws.upbound.io-v1beta1-bucketobjects
+spec:
+  resource:
+    group: s3.aws.upbound.io
+    kind: BucketObject
+    name: bucketobjects
+    scope: Cluster
+    version: v1beta1

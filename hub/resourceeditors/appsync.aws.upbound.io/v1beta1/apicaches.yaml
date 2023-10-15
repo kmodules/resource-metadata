@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: appsync.aws.upbound.io
+    k8s.io/kind: APICache
+    k8s.io/resource: apicaches
+    k8s.io/version: v1beta1
+  name: appsync.aws.upbound.io-v1beta1-apicaches
+spec:
+  resource:
+    group: appsync.aws.upbound.io
+    kind: APICache
+    name: apicaches
+    scope: Cluster
+    version: v1beta1

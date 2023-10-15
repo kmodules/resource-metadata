@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: botservice.azure.upbound.io
+    k8s.io/kind: BotChannelDirectLine
+    k8s.io/resource: botchanneldirectlines
+    k8s.io/version: v1beta1
+  name: botservice.azure.upbound.io-v1beta1-botchanneldirectlines
+spec:
+  resource:
+    group: botservice.azure.upbound.io
+    kind: BotChannelDirectLine
+    name: botchanneldirectlines
+    scope: Cluster
+    version: v1beta1

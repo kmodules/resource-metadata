@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: spanner.gcp.upbound.io
+    k8s.io/kind: DatabaseIAMMember
+    k8s.io/resource: databaseiammembers
+    k8s.io/version: v1beta1
+  name: spanner.gcp.upbound.io-v1beta1-databaseiammembers
+spec:
+  resource:
+    group: spanner.gcp.upbound.io
+    kind: DatabaseIAMMember
+    name: databaseiammembers
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: wafregional.aws.upbound.io
+    k8s.io/kind: RegexMatchSet
+    k8s.io/resource: regexmatchsets
+    k8s.io/version: v1beta1
+  name: wafregional.aws.upbound.io-v1beta1-regexmatchsets
+spec:
+  resource:
+    group: wafregional.aws.upbound.io
+    kind: RegexMatchSet
+    name: regexmatchsets
+    scope: Cluster
+    version: v1beta1

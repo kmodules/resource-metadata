@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: servicediscovery.aws.upbound.io
+    k8s.io/kind: PublicDNSNamespace
+    k8s.io/resource: publicdnsnamespaces
+    k8s.io/version: v1beta1
+  name: servicediscovery.aws.upbound.io-v1beta1-publicdnsnamespaces
+spec:
+  resource:
+    group: servicediscovery.aws.upbound.io
+    kind: PublicDNSNamespace
+    name: publicdnsnamespaces
+    scope: Cluster
+    version: v1beta1

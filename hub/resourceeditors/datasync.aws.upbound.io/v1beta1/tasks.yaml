@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: datasync.aws.upbound.io
+    k8s.io/kind: Task
+    k8s.io/resource: tasks
+    k8s.io/version: v1beta1
+  name: datasync.aws.upbound.io-v1beta1-tasks
+spec:
+  resource:
+    group: datasync.aws.upbound.io
+    kind: Task
+    name: tasks
+    scope: Cluster
+    version: v1beta1

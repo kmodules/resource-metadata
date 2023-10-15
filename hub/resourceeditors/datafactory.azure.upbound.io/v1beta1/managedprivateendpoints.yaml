@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: datafactory.azure.upbound.io
+    k8s.io/kind: ManagedPrivateEndpoint
+    k8s.io/resource: managedprivateendpoints
+    k8s.io/version: v1beta1
+  name: datafactory.azure.upbound.io-v1beta1-managedprivateendpoints
+spec:
+  resource:
+    group: datafactory.azure.upbound.io
+    kind: ManagedPrivateEndpoint
+    name: managedprivateendpoints
+    scope: Cluster
+    version: v1beta1

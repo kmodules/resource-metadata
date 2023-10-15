@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: appautoscaling.aws.upbound.io
+    k8s.io/kind: ScheduledAction
+    k8s.io/resource: scheduledactions
+    k8s.io/version: v1beta1
+  name: appautoscaling.aws.upbound.io-v1beta1-scheduledactions
+spec:
+  resource:
+    group: appautoscaling.aws.upbound.io
+    kind: ScheduledAction
+    name: scheduledactions
+    scope: Cluster
+    version: v1beta1

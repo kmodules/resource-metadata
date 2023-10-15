@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: monitoring.gcp.upbound.io
+    k8s.io/kind: SLO
+    k8s.io/resource: sloes
+    k8s.io/version: v1beta1
+  name: monitoring.gcp.upbound.io-v1beta1-sloes
+spec:
+  resource:
+    group: monitoring.gcp.upbound.io
+    kind: SLO
+    name: sloes
+    scope: Cluster
+    version: v1beta1

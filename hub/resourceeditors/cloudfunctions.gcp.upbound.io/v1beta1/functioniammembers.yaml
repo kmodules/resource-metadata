@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cloudfunctions.gcp.upbound.io
+    k8s.io/kind: FunctionIAMMember
+    k8s.io/resource: functioniammembers
+    k8s.io/version: v1beta1
+  name: cloudfunctions.gcp.upbound.io-v1beta1-functioniammembers
+spec:
+  resource:
+    group: cloudfunctions.gcp.upbound.io
+    kind: FunctionIAMMember
+    name: functioniammembers
+    scope: Cluster
+    version: v1beta1

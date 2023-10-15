@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: networkmanager.aws.upbound.io
+    k8s.io/kind: VPCAttachment
+    k8s.io/resource: vpcattachments
+    k8s.io/version: v1beta1
+  name: networkmanager.aws.upbound.io-v1beta1-vpcattachments
+spec:
+  resource:
+    group: networkmanager.aws.upbound.io
+    kind: VPCAttachment
+    name: vpcattachments
+    scope: Cluster
+    version: v1beta1

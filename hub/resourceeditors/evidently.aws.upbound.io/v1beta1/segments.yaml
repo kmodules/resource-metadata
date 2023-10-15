@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: evidently.aws.upbound.io
+    k8s.io/kind: Segment
+    k8s.io/resource: segments
+    k8s.io/version: v1beta1
+  name: evidently.aws.upbound.io-v1beta1-segments
+spec:
+  resource:
+    group: evidently.aws.upbound.io
+    kind: Segment
+    name: segments
+    scope: Cluster
+    version: v1beta1

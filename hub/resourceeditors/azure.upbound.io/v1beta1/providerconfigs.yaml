@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: azure.upbound.io
+    k8s.io/kind: ProviderConfig
+    k8s.io/resource: providerconfigs
+    k8s.io/version: v1beta1
+  name: azure.upbound.io-v1beta1-providerconfigs
+spec:
+  resource:
+    group: azure.upbound.io
+    kind: ProviderConfig
+    name: providerconfigs
+    scope: Cluster
+    version: v1beta1

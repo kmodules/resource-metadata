@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: grafana.aws.upbound.io
+    k8s.io/kind: WorkspaceSAMLConfiguration
+    k8s.io/resource: workspacesamlconfigurations
+    k8s.io/version: v1beta1
+  name: grafana.aws.upbound.io-v1beta1-workspacesamlconfigurations
+spec:
+  defaultView: true
+  resource:
+    group: grafana.aws.upbound.io
+    kind: WorkspaceSAMLConfiguration
+    name: workspacesamlconfigurations
+    scope: Cluster
+    version: v1beta1

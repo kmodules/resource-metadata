@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: sql.gcp.upbound.io
+    k8s.io/kind: SourceRepresentationInstance
+    k8s.io/resource: sourcerepresentationinstances
+    k8s.io/version: v1beta1
+  name: sql.gcp.upbound.io-v1beta1-sourcerepresentationinstances
+spec:
+  resource:
+    group: sql.gcp.upbound.io
+    kind: SourceRepresentationInstance
+    name: sourcerepresentationinstances
+    scope: Cluster
+    version: v1beta1

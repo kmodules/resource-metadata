@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: insights.azure.upbound.io
+    k8s.io/kind: MonitorMetricAlert
+    k8s.io/resource: monitormetricalerts
+    k8s.io/version: v1beta1
+  name: insights.azure.upbound.io-v1beta1-monitormetricalerts
+spec:
+  resource:
+    group: insights.azure.upbound.io
+    kind: MonitorMetricAlert
+    name: monitormetricalerts
+    scope: Cluster
+    version: v1beta1

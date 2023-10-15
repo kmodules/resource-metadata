@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: devicefarm.aws.upbound.io
+    k8s.io/kind: TestGridProject
+    k8s.io/resource: testgridprojects
+    k8s.io/version: v1beta1
+  name: devicefarm.aws.upbound.io-v1beta1-testgridprojects
+spec:
+  resource:
+    group: devicefarm.aws.upbound.io
+    kind: TestGridProject
+    name: testgridprojects
+    scope: Cluster
+    version: v1beta1

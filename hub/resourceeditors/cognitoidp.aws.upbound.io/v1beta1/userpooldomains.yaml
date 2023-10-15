@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cognitoidp.aws.upbound.io
+    k8s.io/kind: UserPoolDomain
+    k8s.io/resource: userpooldomains
+    k8s.io/version: v1beta1
+  name: cognitoidp.aws.upbound.io-v1beta1-userpooldomains
+spec:
+  resource:
+    group: cognitoidp.aws.upbound.io
+    kind: UserPoolDomain
+    name: userpooldomains
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: evidently.aws.upbound.io
+    k8s.io/kind: Project
+    k8s.io/resource: projects
+    k8s.io/version: v1beta1
+  name: evidently.aws.upbound.io-v1beta1-projects
+spec:
+  resource:
+    group: evidently.aws.upbound.io
+    kind: Project
+    name: projects
+    scope: Cluster
+    version: v1beta1

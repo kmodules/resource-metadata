@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: portal.azure.upbound.io
+    k8s.io/kind: Dashboard
+    k8s.io/resource: dashboards
+    k8s.io/version: v1beta1
+  name: portal.azure.upbound.io-v1beta1-dashboards
+spec:
+  resource:
+    group: portal.azure.upbound.io
+    kind: Dashboard
+    name: dashboards
+    scope: Cluster
+    version: v1beta1

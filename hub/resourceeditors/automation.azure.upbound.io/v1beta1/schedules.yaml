@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: automation.azure.upbound.io
+    k8s.io/kind: Schedule
+    k8s.io/resource: schedules
+    k8s.io/version: v1beta1
+  name: automation.azure.upbound.io-v1beta1-schedules
+spec:
+  resource:
+    group: automation.azure.upbound.io
+    kind: Schedule
+    name: schedules
+    scope: Cluster
+    version: v1beta1

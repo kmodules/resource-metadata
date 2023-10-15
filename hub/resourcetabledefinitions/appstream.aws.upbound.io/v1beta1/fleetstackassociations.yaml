@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: appstream.aws.upbound.io
+    k8s.io/kind: FleetStackAssociation
+    k8s.io/resource: fleetstackassociations
+    k8s.io/version: v1beta1
+  name: appstream.aws.upbound.io-v1beta1-fleetstackassociations
+spec:
+  defaultView: true
+  resource:
+    group: appstream.aws.upbound.io
+    kind: FleetStackAssociation
+    name: fleetstackassociations
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: guardduty.aws.upbound.io
+    k8s.io/kind: Filter
+    k8s.io/resource: filters
+    k8s.io/version: v1beta1
+  name: guardduty.aws.upbound.io-v1beta1-filters
+spec:
+  resource:
+    group: guardduty.aws.upbound.io
+    kind: Filter
+    name: filters
+    scope: Cluster
+    version: v1beta1

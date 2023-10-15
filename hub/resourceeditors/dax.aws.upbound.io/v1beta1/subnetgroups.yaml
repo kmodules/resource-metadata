@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: dax.aws.upbound.io
+    k8s.io/kind: SubnetGroup
+    k8s.io/resource: subnetgroups
+    k8s.io/version: v1beta1
+  name: dax.aws.upbound.io-v1beta1-subnetgroups
+spec:
+  resource:
+    group: dax.aws.upbound.io
+    kind: SubnetGroup
+    name: subnetgroups
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: xray.aws.upbound.io
+    k8s.io/kind: Group
+    k8s.io/resource: groups
+    k8s.io/version: v1beta1
+  name: xray.aws.upbound.io-v1beta1-groups
+spec:
+  resource:
+    group: xray.aws.upbound.io
+    kind: Group
+    name: groups
+    scope: Cluster
+    version: v1beta1

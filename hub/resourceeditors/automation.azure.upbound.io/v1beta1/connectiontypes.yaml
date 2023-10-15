@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: automation.azure.upbound.io
+    k8s.io/kind: ConnectionType
+    k8s.io/resource: connectiontypes
+    k8s.io/version: v1beta1
+  name: automation.azure.upbound.io-v1beta1-connectiontypes
+spec:
+  resource:
+    group: automation.azure.upbound.io
+    kind: ConnectionType
+    name: connectiontypes
+    scope: Cluster
+    version: v1beta1

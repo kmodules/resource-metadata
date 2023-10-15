@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: securityhub.aws.upbound.io
+    k8s.io/kind: ProductSubscription
+    k8s.io/resource: productsubscriptions
+    k8s.io/version: v1beta1
+  name: securityhub.aws.upbound.io-v1beta1-productsubscriptions
+spec:
+  resource:
+    group: securityhub.aws.upbound.io
+    kind: ProductSubscription
+    name: productsubscriptions
+    scope: Cluster
+    version: v1beta1

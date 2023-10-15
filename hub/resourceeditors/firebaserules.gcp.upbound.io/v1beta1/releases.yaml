@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: firebaserules.gcp.upbound.io
+    k8s.io/kind: Release
+    k8s.io/resource: releases
+    k8s.io/version: v1beta1
+  name: firebaserules.gcp.upbound.io-v1beta1-releases
+spec:
+  resource:
+    group: firebaserules.gcp.upbound.io
+    kind: Release
+    name: releases
+    scope: Cluster
+    version: v1beta1

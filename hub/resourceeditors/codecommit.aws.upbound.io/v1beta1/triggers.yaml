@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: codecommit.aws.upbound.io
+    k8s.io/kind: Trigger
+    k8s.io/resource: triggers
+    k8s.io/version: v1beta1
+  name: codecommit.aws.upbound.io-v1beta1-triggers
+spec:
+  resource:
+    group: codecommit.aws.upbound.io
+    kind: Trigger
+    name: triggers
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ec2.aws.upbound.io
+    k8s.io/kind: InstanceState
+    k8s.io/resource: instancestates
+    k8s.io/version: v1beta1
+  name: ec2.aws.upbound.io-v1beta1-instancestates
+spec:
+  resource:
+    group: ec2.aws.upbound.io
+    kind: InstanceState
+    name: instancestates
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: dms.aws.upbound.io
+    k8s.io/kind: S3Endpoint
+    k8s.io/resource: s3endpoints
+    k8s.io/version: v1beta1
+  name: dms.aws.upbound.io-v1beta1-s3endpoints
+spec:
+  defaultView: true
+  resource:
+    group: dms.aws.upbound.io
+    kind: S3Endpoint
+    name: s3endpoints
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: databricks.azure.upbound.io
+    k8s.io/kind: AccessConnector
+    k8s.io/resource: accessconnectors
+    k8s.io/version: v1beta1
+  name: databricks.azure.upbound.io-v1beta1-accessconnectors
+spec:
+  resource:
+    group: databricks.azure.upbound.io
+    kind: AccessConnector
+    name: accessconnectors
+    scope: Cluster
+    version: v1beta1

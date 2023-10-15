@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: directconnect.aws.upbound.io
+    k8s.io/kind: GatewayAssociationProposal
+    k8s.io/resource: gatewayassociationproposals
+    k8s.io/version: v1beta1
+  name: directconnect.aws.upbound.io-v1beta1-gatewayassociationproposals
+spec:
+  resource:
+    group: directconnect.aws.upbound.io
+    kind: GatewayAssociationProposal
+    name: gatewayassociationproposals
+    scope: Cluster
+    version: v1beta1

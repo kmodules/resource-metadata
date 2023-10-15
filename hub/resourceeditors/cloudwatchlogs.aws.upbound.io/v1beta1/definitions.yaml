@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cloudwatchlogs.aws.upbound.io
+    k8s.io/kind: Definition
+    k8s.io/resource: definitions
+    k8s.io/version: v1beta1
+  name: cloudwatchlogs.aws.upbound.io-v1beta1-definitions
+spec:
+  resource:
+    group: cloudwatchlogs.aws.upbound.io
+    kind: Definition
+    name: definitions
+    scope: Cluster
+    version: v1beta1

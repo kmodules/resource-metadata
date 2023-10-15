@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: guestconfiguration.azure.upbound.io
+    k8s.io/kind: PolicyVirtualMachineConfigurationAssignment
+    k8s.io/resource: policyvirtualmachineconfigurationassignments
+    k8s.io/version: v1beta1
+  name: guestconfiguration.azure.upbound.io-v1beta1-policyvirtualmachineconfigurationassignments
+spec:
+  resource:
+    group: guestconfiguration.azure.upbound.io
+    kind: PolicyVirtualMachineConfigurationAssignment
+    name: policyvirtualmachineconfigurationassignments
+    scope: Cluster
+    version: v1beta1

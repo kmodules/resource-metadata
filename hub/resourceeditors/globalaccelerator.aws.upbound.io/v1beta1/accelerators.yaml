@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: globalaccelerator.aws.upbound.io
+    k8s.io/kind: Accelerator
+    k8s.io/resource: accelerators
+    k8s.io/version: v1beta1
+  name: globalaccelerator.aws.upbound.io-v1beta1-accelerators
+spec:
+  resource:
+    group: globalaccelerator.aws.upbound.io
+    kind: Accelerator
+    name: accelerators
+    scope: Cluster
+    version: v1beta1

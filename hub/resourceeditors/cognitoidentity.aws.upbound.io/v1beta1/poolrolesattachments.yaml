@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cognitoidentity.aws.upbound.io
+    k8s.io/kind: PoolRolesAttachment
+    k8s.io/resource: poolrolesattachments
+    k8s.io/version: v1beta1
+  name: cognitoidentity.aws.upbound.io-v1beta1-poolrolesattachments
+spec:
+  resource:
+    group: cognitoidentity.aws.upbound.io
+    kind: PoolRolesAttachment
+    name: poolrolesattachments
+    scope: Cluster
+    version: v1beta1

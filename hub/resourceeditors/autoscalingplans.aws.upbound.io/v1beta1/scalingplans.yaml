@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: autoscalingplans.aws.upbound.io
+    k8s.io/kind: ScalingPlan
+    k8s.io/resource: scalingplans
+    k8s.io/version: v1beta1
+  name: autoscalingplans.aws.upbound.io-v1beta1-scalingplans
+spec:
+  resource:
+    group: autoscalingplans.aws.upbound.io
+    kind: ScalingPlan
+    name: scalingplans
+    scope: Cluster
+    version: v1beta1

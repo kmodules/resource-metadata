@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: medialive.aws.upbound.io
+    k8s.io/kind: InputSecurityGroup
+    k8s.io/resource: inputsecuritygroups
+    k8s.io/version: v1beta1
+  name: medialive.aws.upbound.io-v1beta1-inputsecuritygroups
+spec:
+  resource:
+    group: medialive.aws.upbound.io
+    kind: InputSecurityGroup
+    name: inputsecuritygroups
+    scope: Cluster
+    version: v1beta1

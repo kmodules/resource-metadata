@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: logz.azure.upbound.io
+    k8s.io/kind: SubAccountTagRule
+    k8s.io/resource: subaccounttagrules
+    k8s.io/version: v1beta1
+  name: logz.azure.upbound.io-v1beta1-subaccounttagrules
+spec:
+  resource:
+    group: logz.azure.upbound.io
+    kind: SubAccountTagRule
+    name: subaccounttagrules
+    scope: Cluster
+    version: v1beta1

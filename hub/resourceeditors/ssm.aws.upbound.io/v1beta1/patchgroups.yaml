@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ssm.aws.upbound.io
+    k8s.io/kind: PatchGroup
+    k8s.io/resource: patchgroups
+    k8s.io/version: v1beta1
+  name: ssm.aws.upbound.io-v1beta1-patchgroups
+spec:
+  resource:
+    group: ssm.aws.upbound.io
+    kind: PatchGroup
+    name: patchgroups
+    scope: Cluster
+    version: v1beta1

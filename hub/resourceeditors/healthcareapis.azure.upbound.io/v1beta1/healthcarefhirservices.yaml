@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: healthcareapis.azure.upbound.io
+    k8s.io/kind: HealthcareFHIRService
+    k8s.io/resource: healthcarefhirservices
+    k8s.io/version: v1beta1
+  name: healthcareapis.azure.upbound.io-v1beta1-healthcarefhirservices
+spec:
+  resource:
+    group: healthcareapis.azure.upbound.io
+    kind: HealthcareFHIRService
+    name: healthcarefhirservices
+    scope: Cluster
+    version: v1beta1

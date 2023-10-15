@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: appstream.aws.upbound.io
+    k8s.io/kind: ImageBuilder
+    k8s.io/resource: imagebuilders
+    k8s.io/version: v1beta1
+  name: appstream.aws.upbound.io-v1beta1-imagebuilders
+spec:
+  resource:
+    group: appstream.aws.upbound.io
+    kind: ImageBuilder
+    name: imagebuilders
+    scope: Cluster
+    version: v1beta1

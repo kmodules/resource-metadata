@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: transcribe.aws.upbound.io
+    k8s.io/kind: LanguageModel
+    k8s.io/resource: languagemodels
+    k8s.io/version: v1beta1
+  name: transcribe.aws.upbound.io-v1beta1-languagemodels
+spec:
+  resource:
+    group: transcribe.aws.upbound.io
+    kind: LanguageModel
+    name: languagemodels
+    scope: Cluster
+    version: v1beta1

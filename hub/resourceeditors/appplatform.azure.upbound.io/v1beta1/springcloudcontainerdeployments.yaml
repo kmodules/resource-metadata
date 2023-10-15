@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: appplatform.azure.upbound.io
+    k8s.io/kind: SpringCloudContainerDeployment
+    k8s.io/resource: springcloudcontainerdeployments
+    k8s.io/version: v1beta1
+  name: appplatform.azure.upbound.io-v1beta1-springcloudcontainerdeployments
+spec:
+  resource:
+    group: appplatform.azure.upbound.io
+    kind: SpringCloudContainerDeployment
+    name: springcloudcontainerdeployments
+    scope: Cluster
+    version: v1beta1

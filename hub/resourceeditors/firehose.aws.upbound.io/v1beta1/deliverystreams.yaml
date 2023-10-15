@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: firehose.aws.upbound.io
+    k8s.io/kind: DeliveryStream
+    k8s.io/resource: deliverystreams
+    k8s.io/version: v1beta1
+  name: firehose.aws.upbound.io-v1beta1-deliverystreams
+spec:
+  resource:
+    group: firehose.aws.upbound.io
+    kind: DeliveryStream
+    name: deliverystreams
+    scope: Cluster
+    version: v1beta1

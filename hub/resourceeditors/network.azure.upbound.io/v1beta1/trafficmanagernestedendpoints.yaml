@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: network.azure.upbound.io
+    k8s.io/kind: TrafficManagerNestedEndpoint
+    k8s.io/resource: trafficmanagernestedendpoints
+    k8s.io/version: v1beta1
+  name: network.azure.upbound.io-v1beta1-trafficmanagernestedendpoints
+spec:
+  resource:
+    group: network.azure.upbound.io
+    kind: TrafficManagerNestedEndpoint
+    name: trafficmanagernestedendpoints
+    scope: Cluster
+    version: v1beta1

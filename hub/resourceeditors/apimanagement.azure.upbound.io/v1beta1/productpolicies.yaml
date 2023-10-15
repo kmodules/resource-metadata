@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: apimanagement.azure.upbound.io
+    k8s.io/kind: ProductPolicy
+    k8s.io/resource: productpolicies
+    k8s.io/version: v1beta1
+  name: apimanagement.azure.upbound.io-v1beta1-productpolicies
+spec:
+  resource:
+    group: apimanagement.azure.upbound.io
+    kind: ProductPolicy
+    name: productpolicies
+    scope: Cluster
+    version: v1beta1

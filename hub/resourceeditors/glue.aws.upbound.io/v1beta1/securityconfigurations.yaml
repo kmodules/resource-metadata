@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: glue.aws.upbound.io
+    k8s.io/kind: SecurityConfiguration
+    k8s.io/resource: securityconfigurations
+    k8s.io/version: v1beta1
+  name: glue.aws.upbound.io-v1beta1-securityconfigurations
+spec:
+  resource:
+    group: glue.aws.upbound.io
+    kind: SecurityConfiguration
+    name: securityconfigurations
+    scope: Cluster
+    version: v1beta1

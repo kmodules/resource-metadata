@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: glacier.aws.upbound.io
+    k8s.io/kind: VaultLock
+    k8s.io/resource: vaultlocks
+    k8s.io/version: v1beta1
+  name: glacier.aws.upbound.io-v1beta1-vaultlocks
+spec:
+  resource:
+    group: glacier.aws.upbound.io
+    kind: VaultLock
+    name: vaultlocks
+    scope: Cluster
+    version: v1beta1

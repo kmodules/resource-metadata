@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: codecommit.aws.upbound.io
+    k8s.io/kind: ApprovalRuleTemplateAssociation
+    k8s.io/resource: approvalruletemplateassociations
+    k8s.io/version: v1beta1
+  name: codecommit.aws.upbound.io-v1beta1-approvalruletemplateassociations
+spec:
+  resource:
+    group: codecommit.aws.upbound.io
+    kind: ApprovalRuleTemplateAssociation
+    name: approvalruletemplateassociations
+    scope: Cluster
+    version: v1beta1

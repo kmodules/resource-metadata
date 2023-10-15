@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: rolesanywhere.aws.upbound.io
+    k8s.io/kind: Profile
+    k8s.io/resource: profiles
+    k8s.io/version: v1beta1
+  name: rolesanywhere.aws.upbound.io-v1beta1-profiles
+spec:
+  resource:
+    group: rolesanywhere.aws.upbound.io
+    kind: Profile
+    name: profiles
+    scope: Cluster
+    version: v1beta1

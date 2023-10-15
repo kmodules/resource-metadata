@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: aws.upbound.io
+    k8s.io/kind: StoreConfig
+    k8s.io/resource: storeconfigs
+    k8s.io/version: v1alpha1
+  name: aws.upbound.io-v1alpha1-storeconfigs
+spec:
+  resource:
+    group: aws.upbound.io
+    kind: StoreConfig
+    name: storeconfigs
+    scope: Cluster
+    version: v1alpha1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: backup.aws.upbound.io
+    k8s.io/kind: Vault
+    k8s.io/resource: vaults
+    k8s.io/version: v1beta1
+  name: backup.aws.upbound.io-v1beta1-vaults
+spec:
+  resource:
+    group: backup.aws.upbound.io
+    kind: Vault
+    name: vaults
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cloudfront.aws.upbound.io
+    k8s.io/kind: FieldLevelEncryptionConfig
+    k8s.io/resource: fieldlevelencryptionconfigs
+    k8s.io/version: v1beta1
+  name: cloudfront.aws.upbound.io-v1beta1-fieldlevelencryptionconfigs
+spec:
+  resource:
+    group: cloudfront.aws.upbound.io
+    kind: FieldLevelEncryptionConfig
+    name: fieldlevelencryptionconfigs
+    scope: Cluster
+    version: v1beta1

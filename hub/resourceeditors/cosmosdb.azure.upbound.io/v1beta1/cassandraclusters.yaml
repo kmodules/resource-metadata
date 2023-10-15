@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cosmosdb.azure.upbound.io
+    k8s.io/kind: CassandraCluster
+    k8s.io/resource: cassandraclusters
+    k8s.io/version: v1beta1
+  name: cosmosdb.azure.upbound.io-v1beta1-cassandraclusters
+spec:
+  resource:
+    group: cosmosdb.azure.upbound.io
+    kind: CassandraCluster
+    name: cassandraclusters
+    scope: Cluster
+    version: v1beta1

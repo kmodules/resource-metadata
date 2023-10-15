@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: network.azure.upbound.io
+    k8s.io/kind: ExpressRoutePort
+    k8s.io/resource: expressrouteports
+    k8s.io/version: v1beta1
+  name: network.azure.upbound.io-v1beta1-expressrouteports
+spec:
+  defaultView: true
+  resource:
+    group: network.azure.upbound.io
+    kind: ExpressRoutePort
+    name: expressrouteports
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: servicebus.azure.upbound.io
+    k8s.io/kind: SubscriptionRule
+    k8s.io/resource: subscriptionrules
+    k8s.io/version: v1beta1
+  name: servicebus.azure.upbound.io-v1beta1-subscriptionrules
+spec:
+  resource:
+    group: servicebus.azure.upbound.io
+    kind: SubscriptionRule
+    name: subscriptionrules
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cloudwatch.aws.upbound.io
+    k8s.io/kind: MetricAlarm
+    k8s.io/resource: metricalarms
+    k8s.io/version: v1beta1
+  name: cloudwatch.aws.upbound.io-v1beta1-metricalarms
+spec:
+  resource:
+    group: cloudwatch.aws.upbound.io
+    kind: MetricAlarm
+    name: metricalarms
+    scope: Cluster
+    version: v1beta1

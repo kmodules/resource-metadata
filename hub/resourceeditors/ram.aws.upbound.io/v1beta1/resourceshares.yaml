@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ram.aws.upbound.io
+    k8s.io/kind: ResourceShare
+    k8s.io/resource: resourceshares
+    k8s.io/version: v1beta1
+  name: ram.aws.upbound.io-v1beta1-resourceshares
+spec:
+  resource:
+    group: ram.aws.upbound.io
+    kind: ResourceShare
+    name: resourceshares
+    scope: Cluster
+    version: v1beta1

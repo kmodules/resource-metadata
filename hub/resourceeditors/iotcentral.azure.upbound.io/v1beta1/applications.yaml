@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: iotcentral.azure.upbound.io
+    k8s.io/kind: Application
+    k8s.io/resource: applications
+    k8s.io/version: v1beta1
+  name: iotcentral.azure.upbound.io-v1beta1-applications
+spec:
+  resource:
+    group: iotcentral.azure.upbound.io
+    kind: Application
+    name: applications
+    scope: Cluster
+    version: v1beta1

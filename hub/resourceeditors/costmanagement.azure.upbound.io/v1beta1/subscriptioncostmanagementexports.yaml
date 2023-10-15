@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: costmanagement.azure.upbound.io
+    k8s.io/kind: SubscriptionCostManagementExport
+    k8s.io/resource: subscriptioncostmanagementexports
+    k8s.io/version: v1beta1
+  name: costmanagement.azure.upbound.io-v1beta1-subscriptioncostmanagementexports
+spec:
+  resource:
+    group: costmanagement.azure.upbound.io
+    kind: SubscriptionCostManagementExport
+    name: subscriptioncostmanagementexports
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: iam.aws.upbound.io
+    k8s.io/kind: GroupMembership
+    k8s.io/resource: groupmemberships
+    k8s.io/version: v1beta1
+  name: iam.aws.upbound.io-v1beta1-groupmemberships
+spec:
+  resource:
+    group: iam.aws.upbound.io
+    kind: GroupMembership
+    name: groupmemberships
+    scope: Cluster
+    version: v1beta1

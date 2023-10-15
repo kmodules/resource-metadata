@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: datashare.azure.upbound.io
+    k8s.io/kind: DataShare
+    k8s.io/resource: datashares
+    k8s.io/version: v1beta1
+  name: datashare.azure.upbound.io-v1beta1-datashares
+spec:
+  resource:
+    group: datashare.azure.upbound.io
+    kind: DataShare
+    name: datashares
+    scope: Cluster
+    version: v1beta1

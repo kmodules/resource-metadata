@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: streamanalytics.azure.upbound.io
+    k8s.io/kind: Job
+    k8s.io/resource: jobs
+    k8s.io/version: v1beta1
+  name: streamanalytics.azure.upbound.io-v1beta1-jobs
+spec:
+  resource:
+    group: streamanalytics.azure.upbound.io
+    kind: Job
+    name: jobs
+    scope: Cluster
+    version: v1beta1

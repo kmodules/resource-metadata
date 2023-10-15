@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: iot.aws.upbound.io
+    k8s.io/kind: PolicyAttachment
+    k8s.io/resource: policyattachments
+    k8s.io/version: v1beta1
+  name: iot.aws.upbound.io-v1beta1-policyattachments
+spec:
+  resource:
+    group: iot.aws.upbound.io
+    kind: PolicyAttachment
+    name: policyattachments
+    scope: Cluster
+    version: v1beta1

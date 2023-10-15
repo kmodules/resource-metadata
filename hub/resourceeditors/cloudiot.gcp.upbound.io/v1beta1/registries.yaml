@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cloudiot.gcp.upbound.io
+    k8s.io/kind: Registry
+    k8s.io/resource: registries
+    k8s.io/version: v1beta1
+  name: cloudiot.gcp.upbound.io-v1beta1-registries
+spec:
+  resource:
+    group: cloudiot.gcp.upbound.io
+    kind: Registry
+    name: registries
+    scope: Cluster
+    version: v1beta1

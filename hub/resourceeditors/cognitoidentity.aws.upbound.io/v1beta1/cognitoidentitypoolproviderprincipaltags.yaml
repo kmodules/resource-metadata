@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cognitoidentity.aws.upbound.io
+    k8s.io/kind: CognitoIdentityPoolProviderPrincipalTag
+    k8s.io/resource: cognitoidentitypoolproviderprincipaltags
+    k8s.io/version: v1beta1
+  name: cognitoidentity.aws.upbound.io-v1beta1-cognitoidentitypoolproviderprincipaltags
+spec:
+  resource:
+    group: cognitoidentity.aws.upbound.io
+    kind: CognitoIdentityPoolProviderPrincipalTag
+    name: cognitoidentitypoolproviderprincipaltags
+    scope: Cluster
+    version: v1beta1

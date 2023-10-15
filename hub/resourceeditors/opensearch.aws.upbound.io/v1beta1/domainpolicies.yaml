@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: opensearch.aws.upbound.io
+    k8s.io/kind: DomainPolicy
+    k8s.io/resource: domainpolicies
+    k8s.io/version: v1beta1
+  name: opensearch.aws.upbound.io-v1beta1-domainpolicies
+spec:
+  resource:
+    group: opensearch.aws.upbound.io
+    kind: DomainPolicy
+    name: domainpolicies
+    scope: Cluster
+    version: v1beta1

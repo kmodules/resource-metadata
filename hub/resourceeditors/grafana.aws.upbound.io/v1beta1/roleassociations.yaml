@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: grafana.aws.upbound.io
+    k8s.io/kind: RoleAssociation
+    k8s.io/resource: roleassociations
+    k8s.io/version: v1beta1
+  name: grafana.aws.upbound.io-v1beta1-roleassociations
+spec:
+  resource:
+    group: grafana.aws.upbound.io
+    kind: RoleAssociation
+    name: roleassociations
+    scope: Cluster
+    version: v1beta1

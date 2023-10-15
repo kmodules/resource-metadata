@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: budgets.aws.upbound.io
+    k8s.io/kind: BudgetAction
+    k8s.io/resource: budgetactions
+    k8s.io/version: v1beta1
+  name: budgets.aws.upbound.io-v1beta1-budgetactions
+spec:
+  resource:
+    group: budgets.aws.upbound.io
+    kind: BudgetAction
+    name: budgetactions
+    scope: Cluster
+    version: v1beta1

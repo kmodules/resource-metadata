@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: security.azure.upbound.io
+    k8s.io/kind: IOTSecuritySolution
+    k8s.io/resource: iotsecuritysolutions
+    k8s.io/version: v1beta1
+  name: security.azure.upbound.io-v1beta1-iotsecuritysolutions
+spec:
+  resource:
+    group: security.azure.upbound.io
+    kind: IOTSecuritySolution
+    name: iotsecuritysolutions
+    scope: Cluster
+    version: v1beta1

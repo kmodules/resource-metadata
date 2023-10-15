@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: eks.aws.upbound.io
+    k8s.io/kind: NodeGroup
+    k8s.io/resource: nodegroups
+    k8s.io/version: v1beta1
+  name: eks.aws.upbound.io-v1beta1-nodegroups
+spec:
+  resource:
+    group: eks.aws.upbound.io
+    kind: NodeGroup
+    name: nodegroups
+    scope: Cluster
+    version: v1beta1

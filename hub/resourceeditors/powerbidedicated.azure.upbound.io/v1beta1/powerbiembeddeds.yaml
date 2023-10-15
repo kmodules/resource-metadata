@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: powerbidedicated.azure.upbound.io
+    k8s.io/kind: PowerBIEmbedded
+    k8s.io/resource: powerbiembeddeds
+    k8s.io/version: v1beta1
+  name: powerbidedicated.azure.upbound.io-v1beta1-powerbiembeddeds
+spec:
+  resource:
+    group: powerbidedicated.azure.upbound.io
+    kind: PowerBIEmbedded
+    name: powerbiembeddeds
+    scope: Cluster
+    version: v1beta1

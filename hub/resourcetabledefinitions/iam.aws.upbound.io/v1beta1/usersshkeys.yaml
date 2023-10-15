@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: iam.aws.upbound.io
+    k8s.io/kind: UserSSHKey
+    k8s.io/resource: usersshkeys
+    k8s.io/version: v1beta1
+  name: iam.aws.upbound.io-v1beta1-usersshkeys
+spec:
+  defaultView: true
+  resource:
+    group: iam.aws.upbound.io
+    kind: UserSSHKey
+    name: usersshkeys
+    scope: Cluster
+    version: v1beta1

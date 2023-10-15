@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: batch.aws.upbound.io
+    k8s.io/kind: SchedulingPolicy
+    k8s.io/resource: schedulingpolicies
+    k8s.io/version: v1beta1
+  name: batch.aws.upbound.io-v1beta1-schedulingpolicies
+spec:
+  resource:
+    group: batch.aws.upbound.io
+    kind: SchedulingPolicy
+    name: schedulingpolicies
+    scope: Cluster
+    version: v1beta1

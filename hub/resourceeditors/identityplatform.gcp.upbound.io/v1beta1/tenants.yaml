@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: identityplatform.gcp.upbound.io
+    k8s.io/kind: Tenant
+    k8s.io/resource: tenants
+    k8s.io/version: v1beta1
+  name: identityplatform.gcp.upbound.io-v1beta1-tenants
+spec:
+  resource:
+    group: identityplatform.gcp.upbound.io
+    kind: Tenant
+    name: tenants
+    scope: Cluster
+    version: v1beta1

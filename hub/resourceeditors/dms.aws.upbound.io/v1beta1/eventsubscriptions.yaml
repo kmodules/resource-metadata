@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: dms.aws.upbound.io
+    k8s.io/kind: EventSubscription
+    k8s.io/resource: eventsubscriptions
+    k8s.io/version: v1beta1
+  name: dms.aws.upbound.io-v1beta1-eventsubscriptions
+spec:
+  resource:
+    group: dms.aws.upbound.io
+    kind: EventSubscription
+    name: eventsubscriptions
+    scope: Cluster
+    version: v1beta1

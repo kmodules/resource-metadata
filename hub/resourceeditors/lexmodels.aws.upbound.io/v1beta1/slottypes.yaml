@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: lexmodels.aws.upbound.io
+    k8s.io/kind: SlotType
+    k8s.io/resource: slottypes
+    k8s.io/version: v1beta1
+  name: lexmodels.aws.upbound.io-v1beta1-slottypes
+spec:
+  resource:
+    group: lexmodels.aws.upbound.io
+    kind: SlotType
+    name: slottypes
+    scope: Cluster
+    version: v1beta1

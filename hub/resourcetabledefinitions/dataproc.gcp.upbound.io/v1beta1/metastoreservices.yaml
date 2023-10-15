@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: dataproc.gcp.upbound.io
+    k8s.io/kind: MetastoreService
+    k8s.io/resource: metastoreservices
+    k8s.io/version: v1beta1
+  name: dataproc.gcp.upbound.io-v1beta1-metastoreservices
+spec:
+  defaultView: true
+  resource:
+    group: dataproc.gcp.upbound.io
+    kind: MetastoreService
+    name: metastoreservices
+    scope: Cluster
+    version: v1beta1

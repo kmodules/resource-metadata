@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: datamigration.azure.upbound.io
+    k8s.io/kind: DatabaseMigrationService
+    k8s.io/resource: databasemigrationservices
+    k8s.io/version: v1beta1
+  name: datamigration.azure.upbound.io-v1beta1-databasemigrationservices
+spec:
+  resource:
+    group: datamigration.azure.upbound.io
+    kind: DatabaseMigrationService
+    name: databasemigrationservices
+    scope: Cluster
+    version: v1beta1

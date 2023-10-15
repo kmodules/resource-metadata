@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: apimanagement.azure.upbound.io
+    k8s.io/kind: ProductTag
+    k8s.io/resource: producttags
+    k8s.io/version: v1beta1
+  name: apimanagement.azure.upbound.io-v1beta1-producttags
+spec:
+  resource:
+    group: apimanagement.azure.upbound.io
+    kind: ProductTag
+    name: producttags
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: autoscaling.aws.upbound.io
+    k8s.io/kind: GroupTag
+    k8s.io/resource: grouptags
+    k8s.io/version: v1beta1
+  name: autoscaling.aws.upbound.io-v1beta1-grouptags
+spec:
+  resource:
+    group: autoscaling.aws.upbound.io
+    kind: GroupTag
+    name: grouptags
+    scope: Cluster
+    version: v1beta1

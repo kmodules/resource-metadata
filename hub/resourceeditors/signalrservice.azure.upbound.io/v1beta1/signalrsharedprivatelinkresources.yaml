@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: signalrservice.azure.upbound.io
+    k8s.io/kind: SignalrSharedPrivateLinkResource
+    k8s.io/resource: signalrsharedprivatelinkresources
+    k8s.io/version: v1beta1
+  name: signalrservice.azure.upbound.io-v1beta1-signalrsharedprivatelinkresources
+spec:
+  resource:
+    group: signalrservice.azure.upbound.io
+    kind: SignalrSharedPrivateLinkResource
+    name: signalrsharedprivatelinkresources
+    scope: Cluster
+    version: v1beta1

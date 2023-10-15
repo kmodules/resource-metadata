@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cosmosdb.azure.upbound.io
+    k8s.io/kind: SQLRoleAssignment
+    k8s.io/resource: sqlroleassignments
+    k8s.io/version: v1beta1
+  name: cosmosdb.azure.upbound.io-v1beta1-sqlroleassignments
+spec:
+  resource:
+    group: cosmosdb.azure.upbound.io
+    kind: SQLRoleAssignment
+    name: sqlroleassignments
+    scope: Cluster
+    version: v1beta1

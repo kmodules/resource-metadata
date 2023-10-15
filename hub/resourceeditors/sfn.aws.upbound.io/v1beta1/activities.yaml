@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: sfn.aws.upbound.io
+    k8s.io/kind: Activity
+    k8s.io/resource: activities
+    k8s.io/version: v1beta1
+  name: sfn.aws.upbound.io-v1beta1-activities
+spec:
+  resource:
+    group: sfn.aws.upbound.io
+    kind: Activity
+    name: activities
+    scope: Cluster
+    version: v1beta1

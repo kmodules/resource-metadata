@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: sesv2.aws.upbound.io
+    k8s.io/kind: EmailIdentityFeedbackAttributes
+    k8s.io/resource: emailidentityfeedbackattributes
+    k8s.io/version: v1beta1
+  name: sesv2.aws.upbound.io-v1beta1-emailidentityfeedbackattributes
+spec:
+  resource:
+    group: sesv2.aws.upbound.io
+    kind: EmailIdentityFeedbackAttributes
+    name: emailidentityfeedbackattributes
+    scope: Cluster
+    version: v1beta1

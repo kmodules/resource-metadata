@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: transcribe.aws.upbound.io
+    k8s.io/kind: VocabularyFilter
+    k8s.io/resource: vocabularyfilters
+    k8s.io/version: v1beta1
+  name: transcribe.aws.upbound.io-v1beta1-vocabularyfilters
+spec:
+  resource:
+    group: transcribe.aws.upbound.io
+    kind: VocabularyFilter
+    name: vocabularyfilters
+    scope: Cluster
+    version: v1beta1

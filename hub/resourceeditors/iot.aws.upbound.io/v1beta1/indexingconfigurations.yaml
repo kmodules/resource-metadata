@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: iot.aws.upbound.io
+    k8s.io/kind: IndexingConfiguration
+    k8s.io/resource: indexingconfigurations
+    k8s.io/version: v1beta1
+  name: iot.aws.upbound.io-v1beta1-indexingconfigurations
+spec:
+  resource:
+    group: iot.aws.upbound.io
+    kind: IndexingConfiguration
+    name: indexingconfigurations
+    scope: Cluster
+    version: v1beta1

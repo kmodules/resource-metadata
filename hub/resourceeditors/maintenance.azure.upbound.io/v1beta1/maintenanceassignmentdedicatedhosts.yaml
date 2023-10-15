@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: maintenance.azure.upbound.io
+    k8s.io/kind: MaintenanceAssignmentDedicatedHost
+    k8s.io/resource: maintenanceassignmentdedicatedhosts
+    k8s.io/version: v1beta1
+  name: maintenance.azure.upbound.io-v1beta1-maintenanceassignmentdedicatedhosts
+spec:
+  resource:
+    group: maintenance.azure.upbound.io
+    kind: MaintenanceAssignmentDedicatedHost
+    name: maintenanceassignmentdedicatedhosts
+    scope: Cluster
+    version: v1beta1

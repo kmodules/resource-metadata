@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: opsworks.aws.upbound.io
+    k8s.io/kind: Application
+    k8s.io/resource: applications
+    k8s.io/version: v1beta1
+  name: opsworks.aws.upbound.io-v1beta1-applications
+spec:
+  defaultView: true
+  resource:
+    group: opsworks.aws.upbound.io
+    kind: Application
+    name: applications
+    scope: Cluster
+    version: v1beta1

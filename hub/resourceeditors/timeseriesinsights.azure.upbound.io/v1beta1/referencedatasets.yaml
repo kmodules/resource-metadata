@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: timeseriesinsights.azure.upbound.io
+    k8s.io/kind: ReferenceDataSet
+    k8s.io/resource: referencedatasets
+    k8s.io/version: v1beta1
+  name: timeseriesinsights.azure.upbound.io-v1beta1-referencedatasets
+spec:
+  resource:
+    group: timeseriesinsights.azure.upbound.io
+    kind: ReferenceDataSet
+    name: referencedatasets
+    scope: Cluster
+    version: v1beta1

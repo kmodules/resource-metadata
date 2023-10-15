@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: logging.gcp.upbound.io
+    k8s.io/kind: LogView
+    k8s.io/resource: logviews
+    k8s.io/version: v1beta1
+  name: logging.gcp.upbound.io-v1beta1-logviews
+spec:
+  resource:
+    group: logging.gcp.upbound.io
+    kind: LogView
+    name: logviews
+    scope: Cluster
+    version: v1beta1

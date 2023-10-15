@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: dataproc.gcp.upbound.io
+    k8s.io/kind: AutoscalingPolicy
+    k8s.io/resource: autoscalingpolicies
+    k8s.io/version: v1beta1
+  name: dataproc.gcp.upbound.io-v1beta1-autoscalingpolicies
+spec:
+  resource:
+    group: dataproc.gcp.upbound.io
+    kind: AutoscalingPolicy
+    name: autoscalingpolicies
+    scope: Cluster
+    version: v1beta1

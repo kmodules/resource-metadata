@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: confidentialledger.azure.upbound.io
+    k8s.io/kind: Ledger
+    k8s.io/resource: ledgers
+    k8s.io/version: v1beta1
+  name: confidentialledger.azure.upbound.io-v1beta1-ledgers
+spec:
+  defaultView: true
+  resource:
+    group: confidentialledger.azure.upbound.io
+    kind: Ledger
+    name: ledgers
+    scope: Cluster
+    version: v1beta1

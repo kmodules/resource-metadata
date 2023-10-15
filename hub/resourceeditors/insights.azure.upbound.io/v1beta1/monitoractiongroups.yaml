@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: insights.azure.upbound.io
+    k8s.io/kind: MonitorActionGroup
+    k8s.io/resource: monitoractiongroups
+    k8s.io/version: v1beta1
+  name: insights.azure.upbound.io-v1beta1-monitoractiongroups
+spec:
+  resource:
+    group: insights.azure.upbound.io
+    kind: MonitorActionGroup
+    name: monitoractiongroups
+    scope: Cluster
+    version: v1beta1

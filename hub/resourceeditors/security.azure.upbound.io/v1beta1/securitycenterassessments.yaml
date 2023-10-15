@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: security.azure.upbound.io
+    k8s.io/kind: SecurityCenterAssessment
+    k8s.io/resource: securitycenterassessments
+    k8s.io/version: v1beta1
+  name: security.azure.upbound.io-v1beta1-securitycenterassessments
+spec:
+  resource:
+    group: security.azure.upbound.io
+    kind: SecurityCenterAssessment
+    name: securitycenterassessments
+    scope: Cluster
+    version: v1beta1

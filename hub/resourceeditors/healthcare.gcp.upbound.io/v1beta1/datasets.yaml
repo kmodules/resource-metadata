@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: healthcare.gcp.upbound.io
+    k8s.io/kind: Dataset
+    k8s.io/resource: datasets
+    k8s.io/version: v1beta1
+  name: healthcare.gcp.upbound.io-v1beta1-datasets
+spec:
+  resource:
+    group: healthcare.gcp.upbound.io
+    kind: Dataset
+    name: datasets
+    scope: Cluster
+    version: v1beta1

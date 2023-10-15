@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: pinpoint.aws.upbound.io
+    k8s.io/kind: SMSChannel
+    k8s.io/resource: smschannels
+    k8s.io/version: v1beta1
+  name: pinpoint.aws.upbound.io-v1beta1-smschannels
+spec:
+  resource:
+    group: pinpoint.aws.upbound.io
+    kind: SMSChannel
+    name: smschannels
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: neptune.aws.upbound.io
+    k8s.io/kind: ClusterSnapshot
+    k8s.io/resource: clustersnapshots
+    k8s.io/version: v1beta1
+  name: neptune.aws.upbound.io-v1beta1-clustersnapshots
+spec:
+  resource:
+    group: neptune.aws.upbound.io
+    kind: ClusterSnapshot
+    name: clustersnapshots
+    scope: Cluster
+    version: v1beta1

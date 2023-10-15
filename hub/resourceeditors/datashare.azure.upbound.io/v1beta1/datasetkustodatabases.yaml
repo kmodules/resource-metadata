@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: datashare.azure.upbound.io
+    k8s.io/kind: DataSetKustoDatabase
+    k8s.io/resource: datasetkustodatabases
+    k8s.io/version: v1beta1
+  name: datashare.azure.upbound.io-v1beta1-datasetkustodatabases
+spec:
+  resource:
+    group: datashare.azure.upbound.io
+    kind: DataSetKustoDatabase
+    name: datasetkustodatabases
+    scope: Cluster
+    version: v1beta1

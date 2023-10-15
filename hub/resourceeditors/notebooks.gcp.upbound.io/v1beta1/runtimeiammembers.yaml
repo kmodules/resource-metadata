@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: notebooks.gcp.upbound.io
+    k8s.io/kind: RuntimeIAMMember
+    k8s.io/resource: runtimeiammembers
+    k8s.io/version: v1beta1
+  name: notebooks.gcp.upbound.io-v1beta1-runtimeiammembers
+spec:
+  resource:
+    group: notebooks.gcp.upbound.io
+    kind: RuntimeIAMMember
+    name: runtimeiammembers
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: logic.azure.upbound.io
+    k8s.io/kind: AppIntegrationAccountSession
+    k8s.io/resource: appintegrationaccountsessions
+    k8s.io/version: v1beta1
+  name: logic.azure.upbound.io-v1beta1-appintegrationaccountsessions
+spec:
+  resource:
+    group: logic.azure.upbound.io
+    kind: AppIntegrationAccountSession
+    name: appintegrationaccountsessions
+    scope: Cluster
+    version: v1beta1

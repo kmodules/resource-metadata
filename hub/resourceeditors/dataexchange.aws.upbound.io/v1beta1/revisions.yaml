@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: dataexchange.aws.upbound.io
+    k8s.io/kind: Revision
+    k8s.io/resource: revisions
+    k8s.io/version: v1beta1
+  name: dataexchange.aws.upbound.io-v1beta1-revisions
+spec:
+  resource:
+    group: dataexchange.aws.upbound.io
+    kind: Revision
+    name: revisions
+    scope: Cluster
+    version: v1beta1

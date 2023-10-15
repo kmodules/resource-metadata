@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: certificatemanager.gcp.upbound.io
+    k8s.io/kind: CertificateMap
+    k8s.io/resource: certificatemaps
+    k8s.io/version: v1beta1
+  name: certificatemanager.gcp.upbound.io-v1beta1-certificatemaps
+spec:
+  resource:
+    group: certificatemanager.gcp.upbound.io
+    kind: CertificateMap
+    name: certificatemaps
+    scope: Cluster
+    version: v1beta1

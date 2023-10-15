@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: appplatform.azure.upbound.io
+    k8s.io/kind: SpringCloudCustomizedAccelerator
+    k8s.io/resource: springcloudcustomizedaccelerators
+    k8s.io/version: v1beta1
+  name: appplatform.azure.upbound.io-v1beta1-springcloudcustomizedaccelerators
+spec:
+  resource:
+    group: appplatform.azure.upbound.io
+    kind: SpringCloudCustomizedAccelerator
+    name: springcloudcustomizedaccelerators
+    scope: Cluster
+    version: v1beta1

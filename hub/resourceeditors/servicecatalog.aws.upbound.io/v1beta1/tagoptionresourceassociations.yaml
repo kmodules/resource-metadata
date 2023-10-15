@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: servicecatalog.aws.upbound.io
+    k8s.io/kind: TagOptionResourceAssociation
+    k8s.io/resource: tagoptionresourceassociations
+    k8s.io/version: v1beta1
+  name: servicecatalog.aws.upbound.io-v1beta1-tagoptionresourceassociations
+spec:
+  resource:
+    group: servicecatalog.aws.upbound.io
+    kind: TagOptionResourceAssociation
+    name: tagoptionresourceassociations
+    scope: Cluster
+    version: v1beta1

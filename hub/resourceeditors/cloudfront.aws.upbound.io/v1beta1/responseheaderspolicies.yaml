@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cloudfront.aws.upbound.io
+    k8s.io/kind: ResponseHeadersPolicy
+    k8s.io/resource: responseheaderspolicies
+    k8s.io/version: v1beta1
+  name: cloudfront.aws.upbound.io-v1beta1-responseheaderspolicies
+spec:
+  resource:
+    group: cloudfront.aws.upbound.io
+    kind: ResponseHeadersPolicy
+    name: responseheaderspolicies
+    scope: Cluster
+    version: v1beta1

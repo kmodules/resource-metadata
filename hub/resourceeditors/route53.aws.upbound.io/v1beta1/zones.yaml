@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: route53.aws.upbound.io
+    k8s.io/kind: Zone
+    k8s.io/resource: zones
+    k8s.io/version: v1beta1
+  name: route53.aws.upbound.io-v1beta1-zones
+spec:
+  resource:
+    group: route53.aws.upbound.io
+    kind: Zone
+    name: zones
+    scope: Cluster
+    version: v1beta1

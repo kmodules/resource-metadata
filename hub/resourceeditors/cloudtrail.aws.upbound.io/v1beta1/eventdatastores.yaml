@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cloudtrail.aws.upbound.io
+    k8s.io/kind: EventDataStore
+    k8s.io/resource: eventdatastores
+    k8s.io/version: v1beta1
+  name: cloudtrail.aws.upbound.io-v1beta1-eventdatastores
+spec:
+  resource:
+    group: cloudtrail.aws.upbound.io
+    kind: EventDataStore
+    name: eventdatastores
+    scope: Cluster
+    version: v1beta1

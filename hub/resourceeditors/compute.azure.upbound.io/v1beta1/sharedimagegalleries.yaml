@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: compute.azure.upbound.io
+    k8s.io/kind: SharedImageGallery
+    k8s.io/resource: sharedimagegalleries
+    k8s.io/version: v1beta1
+  name: compute.azure.upbound.io-v1beta1-sharedimagegalleries
+spec:
+  resource:
+    group: compute.azure.upbound.io
+    kind: SharedImageGallery
+    name: sharedimagegalleries
+    scope: Cluster
+    version: v1beta1

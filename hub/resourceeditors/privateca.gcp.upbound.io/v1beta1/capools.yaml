@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: privateca.gcp.upbound.io
+    k8s.io/kind: CAPool
+    k8s.io/resource: capools
+    k8s.io/version: v1beta1
+  name: privateca.gcp.upbound.io-v1beta1-capools
+spec:
+  resource:
+    group: privateca.gcp.upbound.io
+    kind: CAPool
+    name: capools
+    scope: Cluster
+    version: v1beta1

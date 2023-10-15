@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: connect.aws.upbound.io
+    k8s.io/kind: SecurityProfile
+    k8s.io/resource: securityprofiles
+    k8s.io/version: v1beta1
+  name: connect.aws.upbound.io-v1beta1-securityprofiles
+spec:
+  resource:
+    group: connect.aws.upbound.io
+    kind: SecurityProfile
+    name: securityprofiles
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: servicebus.azure.upbound.io
+    k8s.io/kind: TopicAuthorizationRule
+    k8s.io/resource: topicauthorizationrules
+    k8s.io/version: v1beta1
+  name: servicebus.azure.upbound.io-v1beta1-topicauthorizationrules
+spec:
+  resource:
+    group: servicebus.azure.upbound.io
+    kind: TopicAuthorizationRule
+    name: topicauthorizationrules
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: containeranalysis.gcp.upbound.io
+    k8s.io/kind: Note
+    k8s.io/resource: notes
+    k8s.io/version: v1beta1
+  name: containeranalysis.gcp.upbound.io-v1beta1-notes
+spec:
+  resource:
+    group: containeranalysis.gcp.upbound.io
+    kind: Note
+    name: notes
+    scope: Cluster
+    version: v1beta1

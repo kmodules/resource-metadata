@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: networkfirewall.aws.upbound.io
+    k8s.io/kind: RuleGroup
+    k8s.io/resource: rulegroups
+    k8s.io/version: v1beta1
+  name: networkfirewall.aws.upbound.io-v1beta1-rulegroups
+spec:
+  resource:
+    group: networkfirewall.aws.upbound.io
+    kind: RuleGroup
+    name: rulegroups
+    scope: Cluster
+    version: v1beta1

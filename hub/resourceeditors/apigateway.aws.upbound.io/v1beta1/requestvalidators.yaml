@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: apigateway.aws.upbound.io
+    k8s.io/kind: RequestValidator
+    k8s.io/resource: requestvalidators
+    k8s.io/version: v1beta1
+  name: apigateway.aws.upbound.io-v1beta1-requestvalidators
+spec:
+  resource:
+    group: apigateway.aws.upbound.io
+    kind: RequestValidator
+    name: requestvalidators
+    scope: Cluster
+    version: v1beta1

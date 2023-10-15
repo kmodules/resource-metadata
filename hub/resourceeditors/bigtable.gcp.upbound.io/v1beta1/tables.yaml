@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: bigtable.gcp.upbound.io
+    k8s.io/kind: Table
+    k8s.io/resource: tables
+    k8s.io/version: v1beta1
+  name: bigtable.gcp.upbound.io-v1beta1-tables
+spec:
+  resource:
+    group: bigtable.gcp.upbound.io
+    kind: Table
+    name: tables
+    scope: Cluster
+    version: v1beta1

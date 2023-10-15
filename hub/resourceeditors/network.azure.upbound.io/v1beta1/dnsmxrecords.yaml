@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: network.azure.upbound.io
+    k8s.io/kind: DNSMXRecord
+    k8s.io/resource: dnsmxrecords
+    k8s.io/version: v1beta1
+  name: network.azure.upbound.io-v1beta1-dnsmxrecords
+spec:
+  resource:
+    group: network.azure.upbound.io
+    kind: DNSMXRecord
+    name: dnsmxrecords
+    scope: Cluster
+    version: v1beta1

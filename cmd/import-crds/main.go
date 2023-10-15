@@ -101,6 +101,11 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/kubeform.dev/provider-aws/pa
 go run cmd/import-crds/main.go --input=$HOME/go/src/kubeform.dev/provider-azure/package/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/kubeform.dev/provider-gcp/package/crds
 
+# upbound providers
+go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/upbound/provider-aws/package/crds
+go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/upbound/provider-azure/package/crds
+go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/upbound/provider-gcp/package/crds
+
 # ocm
 go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/api/cluster/v1
 go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/api/cluster/v1beta2

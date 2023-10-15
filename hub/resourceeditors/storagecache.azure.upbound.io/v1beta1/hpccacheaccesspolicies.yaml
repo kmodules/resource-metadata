@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: storagecache.azure.upbound.io
+    k8s.io/kind: HPCCacheAccessPolicy
+    k8s.io/resource: hpccacheaccesspolicies
+    k8s.io/version: v1beta1
+  name: storagecache.azure.upbound.io-v1beta1-hpccacheaccesspolicies
+spec:
+  resource:
+    group: storagecache.azure.upbound.io
+    kind: HPCCacheAccessPolicy
+    name: hpccacheaccesspolicies
+    scope: Cluster
+    version: v1beta1

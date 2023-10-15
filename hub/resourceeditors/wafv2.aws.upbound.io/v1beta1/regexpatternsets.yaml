@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: wafv2.aws.upbound.io
+    k8s.io/kind: RegexPatternSet
+    k8s.io/resource: regexpatternsets
+    k8s.io/version: v1beta1
+  name: wafv2.aws.upbound.io-v1beta1-regexpatternsets
+spec:
+  resource:
+    group: wafv2.aws.upbound.io
+    kind: RegexPatternSet
+    name: regexpatternsets
+    scope: Cluster
+    version: v1beta1

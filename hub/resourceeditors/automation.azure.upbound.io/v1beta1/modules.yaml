@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: automation.azure.upbound.io
+    k8s.io/kind: Module
+    k8s.io/resource: modules
+    k8s.io/version: v1beta1
+  name: automation.azure.upbound.io-v1beta1-modules
+spec:
+  resource:
+    group: automation.azure.upbound.io
+    kind: Module
+    name: modules
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: keyvault.azure.upbound.io
+    k8s.io/kind: Certificate
+    k8s.io/resource: certificates
+    k8s.io/version: v1beta1
+  name: keyvault.azure.upbound.io-v1beta1-certificates
+spec:
+  resource:
+    group: keyvault.azure.upbound.io
+    kind: Certificate
+    name: certificates
+    scope: Cluster
+    version: v1beta1

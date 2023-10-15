@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: osconfig.gcp.upbound.io
+    k8s.io/kind: OsPolicyAssignment
+    k8s.io/resource: ospolicyassignments
+    k8s.io/version: v1beta1
+  name: osconfig.gcp.upbound.io-v1beta1-ospolicyassignments
+spec:
+  resource:
+    group: osconfig.gcp.upbound.io
+    kind: OsPolicyAssignment
+    name: ospolicyassignments
+    scope: Cluster
+    version: v1beta1

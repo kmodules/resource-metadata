@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: lambda.aws.upbound.io
+    k8s.io/kind: LayerVersionPermission
+    k8s.io/resource: layerversionpermissions
+    k8s.io/version: v1beta1
+  name: lambda.aws.upbound.io-v1beta1-layerversionpermissions
+spec:
+  resource:
+    group: lambda.aws.upbound.io
+    kind: LayerVersionPermission
+    name: layerversionpermissions
+    scope: Cluster
+    version: v1beta1

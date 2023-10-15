@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: operationalinsights.azure.upbound.io
+    k8s.io/kind: LogAnalyticsQueryPackQuery
+    k8s.io/resource: loganalyticsquerypackqueries
+    k8s.io/version: v1beta1
+  name: operationalinsights.azure.upbound.io-v1beta1-loganalyticsquerypackqueries
+spec:
+  resource:
+    group: operationalinsights.azure.upbound.io
+    kind: LogAnalyticsQueryPackQuery
+    name: loganalyticsquerypackqueries
+    scope: Cluster
+    version: v1beta1

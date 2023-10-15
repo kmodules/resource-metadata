@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: fsx.aws.upbound.io
+    k8s.io/kind: OntapFileSystem
+    k8s.io/resource: ontapfilesystems
+    k8s.io/version: v1beta1
+  name: fsx.aws.upbound.io-v1beta1-ontapfilesystems
+spec:
+  resource:
+    group: fsx.aws.upbound.io
+    kind: OntapFileSystem
+    name: ontapfilesystems
+    scope: Cluster
+    version: v1beta1

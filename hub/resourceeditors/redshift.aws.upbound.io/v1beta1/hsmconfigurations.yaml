@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: redshift.aws.upbound.io
+    k8s.io/kind: HSMConfiguration
+    k8s.io/resource: hsmconfigurations
+    k8s.io/version: v1beta1
+  name: redshift.aws.upbound.io-v1beta1-hsmconfigurations
+spec:
+  resource:
+    group: redshift.aws.upbound.io
+    kind: HSMConfiguration
+    name: hsmconfigurations
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: networkconnectivity.gcp.upbound.io
+    k8s.io/kind: Spoke
+    k8s.io/resource: spokes
+    k8s.io/version: v1beta1
+  name: networkconnectivity.gcp.upbound.io-v1beta1-spokes
+spec:
+  resource:
+    group: networkconnectivity.gcp.upbound.io
+    kind: Spoke
+    name: spokes
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: xray.aws.upbound.io
+    k8s.io/kind: EncryptionConfig
+    k8s.io/resource: encryptionconfigs
+    k8s.io/version: v1beta1
+  name: xray.aws.upbound.io-v1beta1-encryptionconfigs
+spec:
+  resource:
+    group: xray.aws.upbound.io
+    kind: EncryptionConfig
+    name: encryptionconfigs
+    scope: Cluster
+    version: v1beta1

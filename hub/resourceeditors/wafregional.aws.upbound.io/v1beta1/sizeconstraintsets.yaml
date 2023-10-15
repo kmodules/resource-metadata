@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: wafregional.aws.upbound.io
+    k8s.io/kind: SizeConstraintSet
+    k8s.io/resource: sizeconstraintsets
+    k8s.io/version: v1beta1
+  name: wafregional.aws.upbound.io-v1beta1-sizeconstraintsets
+spec:
+  resource:
+    group: wafregional.aws.upbound.io
+    kind: SizeConstraintSet
+    name: sizeconstraintsets
+    scope: Cluster
+    version: v1beta1

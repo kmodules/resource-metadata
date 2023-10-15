@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: apigee.gcp.upbound.io
+    k8s.io/kind: EnvironmentIAMMember
+    k8s.io/resource: environmentiammembers
+    k8s.io/version: v1beta1
+  name: apigee.gcp.upbound.io-v1beta1-environmentiammembers
+spec:
+  resource:
+    group: apigee.gcp.upbound.io
+    kind: EnvironmentIAMMember
+    name: environmentiammembers
+    scope: Cluster
+    version: v1beta1

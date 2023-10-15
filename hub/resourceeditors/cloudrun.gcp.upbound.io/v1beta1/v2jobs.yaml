@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cloudrun.gcp.upbound.io
+    k8s.io/kind: V2Job
+    k8s.io/resource: v2jobs
+    k8s.io/version: v1beta1
+  name: cloudrun.gcp.upbound.io-v1beta1-v2jobs
+spec:
+  resource:
+    group: cloudrun.gcp.upbound.io
+    kind: V2Job
+    name: v2jobs
+    scope: Cluster
+    version: v1beta1

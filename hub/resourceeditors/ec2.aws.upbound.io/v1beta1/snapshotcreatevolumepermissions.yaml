@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ec2.aws.upbound.io
+    k8s.io/kind: SnapshotCreateVolumePermission
+    k8s.io/resource: snapshotcreatevolumepermissions
+    k8s.io/version: v1beta1
+  name: ec2.aws.upbound.io-v1beta1-snapshotcreatevolumepermissions
+spec:
+  resource:
+    group: ec2.aws.upbound.io
+    kind: SnapshotCreateVolumePermission
+    name: snapshotcreatevolumepermissions
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: relay.azure.upbound.io
+    k8s.io/kind: HybridConnection
+    k8s.io/resource: hybridconnections
+    k8s.io/version: v1beta1
+  name: relay.azure.upbound.io-v1beta1-hybridconnections
+spec:
+  resource:
+    group: relay.azure.upbound.io
+    kind: HybridConnection
+    name: hybridconnections
+    scope: Cluster
+    version: v1beta1

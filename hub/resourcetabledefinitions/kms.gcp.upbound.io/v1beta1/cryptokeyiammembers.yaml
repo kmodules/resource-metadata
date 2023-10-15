@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: kms.gcp.upbound.io
+    k8s.io/kind: CryptoKeyIAMMember
+    k8s.io/resource: cryptokeyiammembers
+    k8s.io/version: v1beta1
+  name: kms.gcp.upbound.io-v1beta1-cryptokeyiammembers
+spec:
+  defaultView: true
+  resource:
+    group: kms.gcp.upbound.io
+    kind: CryptoKeyIAMMember
+    name: cryptokeyiammembers
+    scope: Cluster
+    version: v1beta1

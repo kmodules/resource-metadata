@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: directconnect.aws.upbound.io
+    k8s.io/kind: PrivateVirtualInterface
+    k8s.io/resource: privatevirtualinterfaces
+    k8s.io/version: v1beta1
+  name: directconnect.aws.upbound.io-v1beta1-privatevirtualinterfaces
+spec:
+  resource:
+    group: directconnect.aws.upbound.io
+    kind: PrivateVirtualInterface
+    name: privatevirtualinterfaces
+    scope: Cluster
+    version: v1beta1

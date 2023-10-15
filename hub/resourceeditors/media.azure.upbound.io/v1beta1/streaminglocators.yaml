@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: media.azure.upbound.io
+    k8s.io/kind: StreamingLocator
+    k8s.io/resource: streaminglocators
+    k8s.io/version: v1beta1
+  name: media.azure.upbound.io-v1beta1-streaminglocators
+spec:
+  resource:
+    group: media.azure.upbound.io
+    kind: StreamingLocator
+    name: streaminglocators
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: elb.aws.upbound.io
+    k8s.io/kind: ELB
+    k8s.io/resource: elbs
+    k8s.io/version: v1beta1
+  name: elb.aws.upbound.io-v1beta1-elbs
+spec:
+  resource:
+    group: elb.aws.upbound.io
+    kind: ELB
+    name: elbs
+    scope: Cluster
+    version: v1beta1

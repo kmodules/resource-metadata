@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: web.azure.upbound.io
+    k8s.io/kind: FunctionAppHybridConnection
+    k8s.io/resource: functionapphybridconnections
+    k8s.io/version: v1beta1
+  name: web.azure.upbound.io-v1beta1-functionapphybridconnections
+spec:
+  resource:
+    group: web.azure.upbound.io
+    kind: FunctionAppHybridConnection
+    name: functionapphybridconnections
+    scope: Cluster
+    version: v1beta1

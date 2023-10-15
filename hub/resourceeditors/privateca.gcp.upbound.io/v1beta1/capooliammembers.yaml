@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: privateca.gcp.upbound.io
+    k8s.io/kind: CAPoolIAMMember
+    k8s.io/resource: capooliammembers
+    k8s.io/version: v1beta1
+  name: privateca.gcp.upbound.io-v1beta1-capooliammembers
+spec:
+  resource:
+    group: privateca.gcp.upbound.io
+    kind: CAPoolIAMMember
+    name: capooliammembers
+    scope: Cluster
+    version: v1beta1

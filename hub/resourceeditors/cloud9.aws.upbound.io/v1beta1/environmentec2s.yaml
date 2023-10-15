@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cloud9.aws.upbound.io
+    k8s.io/kind: EnvironmentEC2
+    k8s.io/resource: environmentec2s
+    k8s.io/version: v1beta1
+  name: cloud9.aws.upbound.io-v1beta1-environmentec2s
+spec:
+  resource:
+    group: cloud9.aws.upbound.io
+    kind: EnvironmentEC2
+    name: environmentec2s
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: signer.aws.upbound.io
+    k8s.io/kind: SigningJob
+    k8s.io/resource: signingjobs
+    k8s.io/version: v1beta1
+  name: signer.aws.upbound.io-v1beta1-signingjobs
+spec:
+  resource:
+    group: signer.aws.upbound.io
+    kind: SigningJob
+    name: signingjobs
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: search.azure.upbound.io
+    k8s.io/kind: SharedPrivateLinkService
+    k8s.io/resource: sharedprivatelinkservices
+    k8s.io/version: v1beta1
+  name: search.azure.upbound.io-v1beta1-sharedprivatelinkservices
+spec:
+  resource:
+    group: search.azure.upbound.io
+    kind: SharedPrivateLinkService
+    name: sharedprivatelinkservices
+    scope: Cluster
+    version: v1beta1

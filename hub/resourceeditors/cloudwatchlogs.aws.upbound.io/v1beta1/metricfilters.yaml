@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cloudwatchlogs.aws.upbound.io
+    k8s.io/kind: MetricFilter
+    k8s.io/resource: metricfilters
+    k8s.io/version: v1beta1
+  name: cloudwatchlogs.aws.upbound.io-v1beta1-metricfilters
+spec:
+  resource:
+    group: cloudwatchlogs.aws.upbound.io
+    kind: MetricFilter
+    name: metricfilters
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: pubsub.gcp.upbound.io
+    k8s.io/kind: SubscriptionIAMMember
+    k8s.io/resource: subscriptioniammembers
+    k8s.io/version: v1beta1
+  name: pubsub.gcp.upbound.io-v1beta1-subscriptioniammembers
+spec:
+  resource:
+    group: pubsub.gcp.upbound.io
+    kind: SubscriptionIAMMember
+    name: subscriptioniammembers
+    scope: Cluster
+    version: v1beta1

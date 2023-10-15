@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cloudsearch.aws.upbound.io
+    k8s.io/kind: DomainServiceAccessPolicy
+    k8s.io/resource: domainserviceaccesspolicies
+    k8s.io/version: v1beta1
+  name: cloudsearch.aws.upbound.io-v1beta1-domainserviceaccesspolicies
+spec:
+  resource:
+    group: cloudsearch.aws.upbound.io
+    kind: DomainServiceAccessPolicy
+    name: domainserviceaccesspolicies
+    scope: Cluster
+    version: v1beta1

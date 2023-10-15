@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: schemas.aws.upbound.io
+    k8s.io/kind: Schema
+    k8s.io/resource: schemas
+    k8s.io/version: v1beta1
+  name: schemas.aws.upbound.io-v1beta1-schemas
+spec:
+  resource:
+    group: schemas.aws.upbound.io
+    kind: Schema
+    name: schemas
+    scope: Cluster
+    version: v1beta1

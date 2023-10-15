@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cloudfront.aws.upbound.io
+    k8s.io/kind: OriginAccessControl
+    k8s.io/resource: originaccesscontrols
+    k8s.io/version: v1beta1
+  name: cloudfront.aws.upbound.io-v1beta1-originaccesscontrols
+spec:
+  resource:
+    group: cloudfront.aws.upbound.io
+    kind: OriginAccessControl
+    name: originaccesscontrols
+    scope: Cluster
+    version: v1beta1

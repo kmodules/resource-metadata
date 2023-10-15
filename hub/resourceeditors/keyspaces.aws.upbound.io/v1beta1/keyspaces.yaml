@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: keyspaces.aws.upbound.io
+    k8s.io/kind: Keyspace
+    k8s.io/resource: keyspaces
+    k8s.io/version: v1beta1
+  name: keyspaces.aws.upbound.io-v1beta1-keyspaces
+spec:
+  resource:
+    group: keyspaces.aws.upbound.io
+    kind: Keyspace
+    name: keyspaces
+    scope: Cluster
+    version: v1beta1

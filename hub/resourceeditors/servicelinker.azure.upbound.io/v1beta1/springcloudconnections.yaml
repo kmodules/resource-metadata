@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: servicelinker.azure.upbound.io
+    k8s.io/kind: SpringCloudConnection
+    k8s.io/resource: springcloudconnections
+    k8s.io/version: v1beta1
+  name: servicelinker.azure.upbound.io-v1beta1-springcloudconnections
+spec:
+  resource:
+    group: servicelinker.azure.upbound.io
+    kind: SpringCloudConnection
+    name: springcloudconnections
+    scope: Cluster
+    version: v1beta1

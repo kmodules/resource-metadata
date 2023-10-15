@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: efs.aws.upbound.io
+    k8s.io/kind: FileSystem
+    k8s.io/resource: filesystems
+    k8s.io/version: v1beta1
+  name: efs.aws.upbound.io-v1beta1-filesystems
+spec:
+  resource:
+    group: efs.aws.upbound.io
+    kind: FileSystem
+    name: filesystems
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: gke.gcp.upbound.io
+    k8s.io/kind: BackupBackupPlan
+    k8s.io/resource: backupbackupplans
+    k8s.io/version: v1beta1
+  name: gke.gcp.upbound.io-v1beta1-backupbackupplans
+spec:
+  resource:
+    group: gke.gcp.upbound.io
+    kind: BackupBackupPlan
+    name: backupbackupplans
+    scope: Cluster
+    version: v1beta1

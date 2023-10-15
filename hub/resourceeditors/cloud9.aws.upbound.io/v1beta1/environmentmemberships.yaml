@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cloud9.aws.upbound.io
+    k8s.io/kind: EnvironmentMembership
+    k8s.io/resource: environmentmemberships
+    k8s.io/version: v1beta1
+  name: cloud9.aws.upbound.io-v1beta1-environmentmemberships
+spec:
+  resource:
+    group: cloud9.aws.upbound.io
+    kind: EnvironmentMembership
+    name: environmentmemberships
+    scope: Cluster
+    version: v1beta1

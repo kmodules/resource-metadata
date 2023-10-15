@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: dms.aws.upbound.io
+    k8s.io/kind: Endpoint
+    k8s.io/resource: endpoints
+    k8s.io/version: v1beta1
+  name: dms.aws.upbound.io-v1beta1-endpoints
+spec:
+  resource:
+    group: dms.aws.upbound.io
+    kind: Endpoint
+    name: endpoints
+    scope: Cluster
+    version: v1beta1

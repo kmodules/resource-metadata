@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: botservice.azure.upbound.io
+    k8s.io/kind: BotChannelSlack
+    k8s.io/resource: botchannelslacks
+    k8s.io/version: v1beta1
+  name: botservice.azure.upbound.io-v1beta1-botchannelslacks
+spec:
+  resource:
+    group: botservice.azure.upbound.io
+    kind: BotChannelSlack
+    name: botchannelslacks
+    scope: Cluster
+    version: v1beta1

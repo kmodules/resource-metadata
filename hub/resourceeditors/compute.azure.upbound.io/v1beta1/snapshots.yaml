@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: compute.azure.upbound.io
+    k8s.io/kind: Snapshot
+    k8s.io/resource: snapshots
+    k8s.io/version: v1beta1
+  name: compute.azure.upbound.io-v1beta1-snapshots
+spec:
+  resource:
+    group: compute.azure.upbound.io
+    kind: Snapshot
+    name: snapshots
+    scope: Cluster
+    version: v1beta1

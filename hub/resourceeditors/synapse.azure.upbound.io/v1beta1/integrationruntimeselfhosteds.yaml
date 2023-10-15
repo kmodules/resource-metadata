@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: synapse.azure.upbound.io
+    k8s.io/kind: IntegrationRuntimeSelfHosted
+    k8s.io/resource: integrationruntimeselfhosteds
+    k8s.io/version: v1beta1
+  name: synapse.azure.upbound.io-v1beta1-integrationruntimeselfhosteds
+spec:
+  resource:
+    group: synapse.azure.upbound.io
+    kind: IntegrationRuntimeSelfHosted
+    name: integrationruntimeselfhosteds
+    scope: Cluster
+    version: v1beta1

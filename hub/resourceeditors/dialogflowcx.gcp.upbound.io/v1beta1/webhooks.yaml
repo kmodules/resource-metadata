@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: dialogflowcx.gcp.upbound.io
+    k8s.io/kind: Webhook
+    k8s.io/resource: webhooks
+    k8s.io/version: v1beta1
+  name: dialogflowcx.gcp.upbound.io-v1beta1-webhooks
+spec:
+  resource:
+    group: dialogflowcx.gcp.upbound.io
+    kind: Webhook
+    name: webhooks
+    scope: Cluster
+    version: v1beta1

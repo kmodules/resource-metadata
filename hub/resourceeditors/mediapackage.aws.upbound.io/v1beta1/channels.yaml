@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: mediapackage.aws.upbound.io
+    k8s.io/kind: Channel
+    k8s.io/resource: channels
+    k8s.io/version: v1beta1
+  name: mediapackage.aws.upbound.io-v1beta1-channels
+spec:
+  resource:
+    group: mediapackage.aws.upbound.io
+    kind: Channel
+    name: channels
+    scope: Cluster
+    version: v1beta1

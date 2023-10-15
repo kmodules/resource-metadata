@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ssm.aws.upbound.io
+    k8s.io/kind: Document
+    k8s.io/resource: documents
+    k8s.io/version: v1beta1
+  name: ssm.aws.upbound.io-v1beta1-documents
+spec:
+  resource:
+    group: ssm.aws.upbound.io
+    kind: Document
+    name: documents
+    scope: Cluster
+    version: v1beta1

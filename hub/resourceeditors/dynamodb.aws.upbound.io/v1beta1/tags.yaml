@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: dynamodb.aws.upbound.io
+    k8s.io/kind: Tag
+    k8s.io/resource: tags
+    k8s.io/version: v1beta1
+  name: dynamodb.aws.upbound.io-v1beta1-tags
+spec:
+  resource:
+    group: dynamodb.aws.upbound.io
+    kind: Tag
+    name: tags
+    scope: Cluster
+    version: v1beta1

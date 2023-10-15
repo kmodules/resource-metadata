@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: dns.gcp.upbound.io
+    k8s.io/kind: RecordSet
+    k8s.io/resource: recordsets
+    k8s.io/version: v1beta1
+  name: dns.gcp.upbound.io-v1beta1-recordsets
+spec:
+  defaultView: true
+  resource:
+    group: dns.gcp.upbound.io
+    kind: RecordSet
+    name: recordsets
+    scope: Cluster
+    version: v1beta1

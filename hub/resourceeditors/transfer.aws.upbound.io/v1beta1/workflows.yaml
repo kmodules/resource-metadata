@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: transfer.aws.upbound.io
+    k8s.io/kind: Workflow
+    k8s.io/resource: workflows
+    k8s.io/version: v1beta1
+  name: transfer.aws.upbound.io-v1beta1-workflows
+spec:
+  resource:
+    group: transfer.aws.upbound.io
+    kind: Workflow
+    name: workflows
+    scope: Cluster
+    version: v1beta1

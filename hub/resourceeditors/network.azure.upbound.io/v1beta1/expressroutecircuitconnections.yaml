@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: network.azure.upbound.io
+    k8s.io/kind: ExpressRouteCircuitConnection
+    k8s.io/resource: expressroutecircuitconnections
+    k8s.io/version: v1beta1
+  name: network.azure.upbound.io-v1beta1-expressroutecircuitconnections
+spec:
+  resource:
+    group: network.azure.upbound.io
+    kind: ExpressRouteCircuitConnection
+    name: expressroutecircuitconnections
+    scope: Cluster
+    version: v1beta1

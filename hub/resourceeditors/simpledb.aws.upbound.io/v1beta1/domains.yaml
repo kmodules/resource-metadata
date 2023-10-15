@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: simpledb.aws.upbound.io
+    k8s.io/kind: Domain
+    k8s.io/resource: domains
+    k8s.io/version: v1beta1
+  name: simpledb.aws.upbound.io-v1beta1-domains
+spec:
+  resource:
+    group: simpledb.aws.upbound.io
+    kind: Domain
+    name: domains
+    scope: Cluster
+    version: v1beta1

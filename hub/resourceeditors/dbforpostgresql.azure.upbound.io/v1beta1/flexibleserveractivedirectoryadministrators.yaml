@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: dbforpostgresql.azure.upbound.io
+    k8s.io/kind: FlexibleServerActiveDirectoryAdministrator
+    k8s.io/resource: flexibleserveractivedirectoryadministrators
+    k8s.io/version: v1beta1
+  name: dbforpostgresql.azure.upbound.io-v1beta1-flexibleserveractivedirectoryadministrators
+spec:
+  resource:
+    group: dbforpostgresql.azure.upbound.io
+    kind: FlexibleServerActiveDirectoryAdministrator
+    name: flexibleserveractivedirectoryadministrators
+    scope: Cluster
+    version: v1beta1

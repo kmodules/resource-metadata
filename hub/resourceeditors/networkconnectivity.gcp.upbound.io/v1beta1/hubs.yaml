@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: networkconnectivity.gcp.upbound.io
+    k8s.io/kind: Hub
+    k8s.io/resource: hubs
+    k8s.io/version: v1beta1
+  name: networkconnectivity.gcp.upbound.io-v1beta1-hubs
+spec:
+  resource:
+    group: networkconnectivity.gcp.upbound.io
+    kind: Hub
+    name: hubs
+    scope: Cluster
+    version: v1beta1

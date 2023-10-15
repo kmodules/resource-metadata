@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: appplatform.azure.upbound.io
+    k8s.io/kind: SpringCloudAppMySQLAssociation
+    k8s.io/resource: springcloudappmysqlassociations
+    k8s.io/version: v1beta1
+  name: appplatform.azure.upbound.io-v1beta1-springcloudappmysqlassociations
+spec:
+  resource:
+    group: appplatform.azure.upbound.io
+    kind: SpringCloudAppMySQLAssociation
+    name: springcloudappmysqlassociations
+    scope: Cluster
+    version: v1beta1

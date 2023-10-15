@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: bigtable.gcp.upbound.io
+    k8s.io/kind: InstanceIAMMember
+    k8s.io/resource: instanceiammembers
+    k8s.io/version: v1beta1
+  name: bigtable.gcp.upbound.io-v1beta1-instanceiammembers
+spec:
+  resource:
+    group: bigtable.gcp.upbound.io
+    kind: InstanceIAMMember
+    name: instanceiammembers
+    scope: Cluster
+    version: v1beta1

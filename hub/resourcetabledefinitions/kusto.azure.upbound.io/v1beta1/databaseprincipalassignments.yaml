@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: kusto.azure.upbound.io
+    k8s.io/kind: DatabasePrincipalAssignment
+    k8s.io/resource: databaseprincipalassignments
+    k8s.io/version: v1beta1
+  name: kusto.azure.upbound.io-v1beta1-databaseprincipalassignments
+spec:
+  defaultView: true
+  resource:
+    group: kusto.azure.upbound.io
+    kind: DatabasePrincipalAssignment
+    name: databaseprincipalassignments
+    scope: Cluster
+    version: v1beta1

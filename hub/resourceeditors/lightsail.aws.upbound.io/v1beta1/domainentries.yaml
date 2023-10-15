@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: lightsail.aws.upbound.io
+    k8s.io/kind: DomainEntry
+    k8s.io/resource: domainentries
+    k8s.io/version: v1beta1
+  name: lightsail.aws.upbound.io-v1beta1-domainentries
+spec:
+  resource:
+    group: lightsail.aws.upbound.io
+    kind: DomainEntry
+    name: domainentries
+    scope: Cluster
+    version: v1beta1

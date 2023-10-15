@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cloudtrail.aws.upbound.io
+    k8s.io/kind: Trail
+    k8s.io/resource: trails
+    k8s.io/version: v1beta1
+  name: cloudtrail.aws.upbound.io-v1beta1-trails
+spec:
+  resource:
+    group: cloudtrail.aws.upbound.io
+    kind: Trail
+    name: trails
+    scope: Cluster
+    version: v1beta1

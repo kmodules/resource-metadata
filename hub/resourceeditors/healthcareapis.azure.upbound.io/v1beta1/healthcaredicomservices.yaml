@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: healthcareapis.azure.upbound.io
+    k8s.io/kind: HealthcareDICOMService
+    k8s.io/resource: healthcaredicomservices
+    k8s.io/version: v1beta1
+  name: healthcareapis.azure.upbound.io-v1beta1-healthcaredicomservices
+spec:
+  resource:
+    group: healthcareapis.azure.upbound.io
+    kind: HealthcareDICOMService
+    name: healthcaredicomservices
+    scope: Cluster
+    version: v1beta1

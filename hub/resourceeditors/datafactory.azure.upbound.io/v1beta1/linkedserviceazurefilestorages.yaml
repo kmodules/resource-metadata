@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: datafactory.azure.upbound.io
+    k8s.io/kind: LinkedServiceAzureFileStorage
+    k8s.io/resource: linkedserviceazurefilestorages
+    k8s.io/version: v1beta1
+  name: datafactory.azure.upbound.io-v1beta1-linkedserviceazurefilestorages
+spec:
+  resource:
+    group: datafactory.azure.upbound.io
+    kind: LinkedServiceAzureFileStorage
+    name: linkedserviceazurefilestorages
+    scope: Cluster
+    version: v1beta1

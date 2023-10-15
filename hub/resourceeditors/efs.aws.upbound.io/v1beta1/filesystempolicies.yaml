@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: efs.aws.upbound.io
+    k8s.io/kind: FileSystemPolicy
+    k8s.io/resource: filesystempolicies
+    k8s.io/version: v1beta1
+  name: efs.aws.upbound.io-v1beta1-filesystempolicies
+spec:
+  resource:
+    group: efs.aws.upbound.io
+    kind: FileSystemPolicy
+    name: filesystempolicies
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: workspaces.aws.upbound.io
+    k8s.io/kind: IPGroup
+    k8s.io/resource: ipgroups
+    k8s.io/version: v1beta1
+  name: workspaces.aws.upbound.io-v1beta1-ipgroups
+spec:
+  resource:
+    group: workspaces.aws.upbound.io
+    kind: IPGroup
+    name: ipgroups
+    scope: Cluster
+    version: v1beta1

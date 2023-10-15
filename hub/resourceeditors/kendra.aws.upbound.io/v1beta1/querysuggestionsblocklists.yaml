@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: kendra.aws.upbound.io
+    k8s.io/kind: QuerySuggestionsBlockList
+    k8s.io/resource: querysuggestionsblocklists
+    k8s.io/version: v1beta1
+  name: kendra.aws.upbound.io-v1beta1-querysuggestionsblocklists
+spec:
+  resource:
+    group: kendra.aws.upbound.io
+    kind: QuerySuggestionsBlockList
+    name: querysuggestionsblocklists
+    scope: Cluster
+    version: v1beta1

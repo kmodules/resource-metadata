@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: dbformysql.azure.upbound.io
+    k8s.io/kind: ActiveDirectoryAdministrator
+    k8s.io/resource: activedirectoryadministrators
+    k8s.io/version: v1beta1
+  name: dbformysql.azure.upbound.io-v1beta1-activedirectoryadministrators
+spec:
+  resource:
+    group: dbformysql.azure.upbound.io
+    kind: ActiveDirectoryAdministrator
+    name: activedirectoryadministrators
+    scope: Cluster
+    version: v1beta1

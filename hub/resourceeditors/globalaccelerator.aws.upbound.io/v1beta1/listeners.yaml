@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: globalaccelerator.aws.upbound.io
+    k8s.io/kind: Listener
+    k8s.io/resource: listeners
+    k8s.io/version: v1beta1
+  name: globalaccelerator.aws.upbound.io-v1beta1-listeners
+spec:
+  resource:
+    group: globalaccelerator.aws.upbound.io
+    kind: Listener
+    name: listeners
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: elasticsearch.aws.upbound.io
+    k8s.io/kind: DomainSAMLOptions
+    k8s.io/resource: domainsamloptions
+    k8s.io/version: v1beta1
+  name: elasticsearch.aws.upbound.io-v1beta1-domainsamloptions
+spec:
+  resource:
+    group: elasticsearch.aws.upbound.io
+    kind: DomainSAMLOptions
+    name: domainsamloptions
+    scope: Cluster
+    version: v1beta1

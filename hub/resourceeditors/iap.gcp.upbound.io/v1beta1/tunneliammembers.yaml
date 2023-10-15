@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: iap.gcp.upbound.io
+    k8s.io/kind: TunnelIAMMember
+    k8s.io/resource: tunneliammembers
+    k8s.io/version: v1beta1
+  name: iap.gcp.upbound.io-v1beta1-tunneliammembers
+spec:
+  resource:
+    group: iap.gcp.upbound.io
+    kind: TunnelIAMMember
+    name: tunneliammembers
+    scope: Cluster
+    version: v1beta1

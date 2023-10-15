@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: apimanagement.azure.upbound.io
+    k8s.io/kind: APIRelease
+    k8s.io/resource: apireleases
+    k8s.io/version: v1beta1
+  name: apimanagement.azure.upbound.io-v1beta1-apireleases
+spec:
+  resource:
+    group: apimanagement.azure.upbound.io
+    kind: APIRelease
+    name: apireleases
+    scope: Cluster
+    version: v1beta1

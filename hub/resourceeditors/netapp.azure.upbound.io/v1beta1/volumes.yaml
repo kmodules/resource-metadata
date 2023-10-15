@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: netapp.azure.upbound.io
+    k8s.io/kind: Volume
+    k8s.io/resource: volumes
+    k8s.io/version: v1beta1
+  name: netapp.azure.upbound.io-v1beta1-volumes
+spec:
+  resource:
+    group: netapp.azure.upbound.io
+    kind: Volume
+    name: volumes
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: storagesync.azure.upbound.io
+    k8s.io/kind: StorageSync
+    k8s.io/resource: storagesyncs
+    k8s.io/version: v1beta1
+  name: storagesync.azure.upbound.io-v1beta1-storagesyncs
+spec:
+  resource:
+    group: storagesync.azure.upbound.io
+    kind: StorageSync
+    name: storagesyncs
+    scope: Cluster
+    version: v1beta1

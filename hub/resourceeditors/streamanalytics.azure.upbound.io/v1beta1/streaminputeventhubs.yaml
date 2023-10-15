@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: streamanalytics.azure.upbound.io
+    k8s.io/kind: StreamInputEventHub
+    k8s.io/resource: streaminputeventhubs
+    k8s.io/version: v1beta1
+  name: streamanalytics.azure.upbound.io-v1beta1-streaminputeventhubs
+spec:
+  resource:
+    group: streamanalytics.azure.upbound.io
+    kind: StreamInputEventHub
+    name: streaminputeventhubs
+    scope: Cluster
+    version: v1beta1

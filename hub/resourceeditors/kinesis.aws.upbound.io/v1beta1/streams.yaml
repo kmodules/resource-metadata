@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: kinesis.aws.upbound.io
+    k8s.io/kind: Stream
+    k8s.io/resource: streams
+    k8s.io/version: v1beta1
+  name: kinesis.aws.upbound.io-v1beta1-streams
+spec:
+  resource:
+    group: kinesis.aws.upbound.io
+    kind: Stream
+    name: streams
+    scope: Cluster
+    version: v1beta1

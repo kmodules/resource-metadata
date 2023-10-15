@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: glue.aws.upbound.io
+    k8s.io/kind: Classifier
+    k8s.io/resource: classifiers
+    k8s.io/version: v1beta1
+  name: glue.aws.upbound.io-v1beta1-classifiers
+spec:
+  resource:
+    group: glue.aws.upbound.io
+    kind: Classifier
+    name: classifiers
+    scope: Cluster
+    version: v1beta1

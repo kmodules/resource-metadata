@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: fsx.aws.upbound.io
+    k8s.io/kind: LustreFileSystem
+    k8s.io/resource: lustrefilesystems
+    k8s.io/version: v1beta1
+  name: fsx.aws.upbound.io-v1beta1-lustrefilesystems
+spec:
+  resource:
+    group: fsx.aws.upbound.io
+    kind: LustreFileSystem
+    name: lustrefilesystems
+    scope: Cluster
+    version: v1beta1

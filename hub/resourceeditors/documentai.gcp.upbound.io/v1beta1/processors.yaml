@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: documentai.gcp.upbound.io
+    k8s.io/kind: Processor
+    k8s.io/resource: processors
+    k8s.io/version: v1beta1
+  name: documentai.gcp.upbound.io-v1beta1-processors
+spec:
+  resource:
+    group: documentai.gcp.upbound.io
+    kind: Processor
+    name: processors
+    scope: Cluster
+    version: v1beta1

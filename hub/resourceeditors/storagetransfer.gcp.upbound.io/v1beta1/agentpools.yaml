@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: storagetransfer.gcp.upbound.io
+    k8s.io/kind: AgentPool
+    k8s.io/resource: agentpools
+    k8s.io/version: v1beta1
+  name: storagetransfer.gcp.upbound.io-v1beta1-agentpools
+spec:
+  resource:
+    group: storagetransfer.gcp.upbound.io
+    kind: AgentPool
+    name: agentpools
+    scope: Cluster
+    version: v1beta1

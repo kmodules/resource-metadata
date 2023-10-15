@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: compute.gcp.upbound.io
+    k8s.io/kind: InstanceGroupManager
+    k8s.io/resource: instancegroupmanagers
+    k8s.io/version: v1beta1
+  name: compute.gcp.upbound.io-v1beta1-instancegroupmanagers
+spec:
+  resource:
+    group: compute.gcp.upbound.io
+    kind: InstanceGroupManager
+    name: instancegroupmanagers
+    scope: Cluster
+    version: v1beta1

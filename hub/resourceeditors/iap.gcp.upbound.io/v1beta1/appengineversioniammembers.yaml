@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: iap.gcp.upbound.io
+    k8s.io/kind: AppEngineVersionIAMMember
+    k8s.io/resource: appengineversioniammembers
+    k8s.io/version: v1beta1
+  name: iap.gcp.upbound.io-v1beta1-appengineversioniammembers
+spec:
+  resource:
+    group: iap.gcp.upbound.io
+    kind: AppEngineVersionIAMMember
+    name: appengineversioniammembers
+    scope: Cluster
+    version: v1beta1

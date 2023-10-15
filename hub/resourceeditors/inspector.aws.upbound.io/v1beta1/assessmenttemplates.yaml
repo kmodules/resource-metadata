@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: inspector.aws.upbound.io
+    k8s.io/kind: AssessmentTemplate
+    k8s.io/resource: assessmenttemplates
+    k8s.io/version: v1beta1
+  name: inspector.aws.upbound.io-v1beta1-assessmenttemplates
+spec:
+  resource:
+    group: inspector.aws.upbound.io
+    kind: AssessmentTemplate
+    name: assessmenttemplates
+    scope: Cluster
+    version: v1beta1

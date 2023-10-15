@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: elasticbeanstalk.aws.upbound.io
+    k8s.io/kind: ApplicationVersion
+    k8s.io/resource: applicationversions
+    k8s.io/version: v1beta1
+  name: elasticbeanstalk.aws.upbound.io-v1beta1-applicationversions
+spec:
+  resource:
+    group: elasticbeanstalk.aws.upbound.io
+    kind: ApplicationVersion
+    name: applicationversions
+    scope: Cluster
+    version: v1beta1

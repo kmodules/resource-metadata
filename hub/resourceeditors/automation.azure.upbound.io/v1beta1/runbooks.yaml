@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: automation.azure.upbound.io
+    k8s.io/kind: RunBook
+    k8s.io/resource: runbooks
+    k8s.io/version: v1beta1
+  name: automation.azure.upbound.io-v1beta1-runbooks
+spec:
+  resource:
+    group: automation.azure.upbound.io
+    kind: RunBook
+    name: runbooks
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: wafregional.aws.upbound.io
+    k8s.io/kind: WebACL
+    k8s.io/resource: webacls
+    k8s.io/version: v1beta1
+  name: wafregional.aws.upbound.io-v1beta1-webacls
+spec:
+  resource:
+    group: wafregional.aws.upbound.io
+    kind: WebACL
+    name: webacls
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: appstream.aws.upbound.io
+    k8s.io/kind: UserStackAssociation
+    k8s.io/resource: userstackassociations
+    k8s.io/version: v1beta1
+  name: appstream.aws.upbound.io-v1beta1-userstackassociations
+spec:
+  resource:
+    group: appstream.aws.upbound.io
+    kind: UserStackAssociation
+    name: userstackassociations
+    scope: Cluster
+    version: v1beta1

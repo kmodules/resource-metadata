@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: sns.aws.upbound.io
+    k8s.io/kind: PlatformApplication
+    k8s.io/resource: platformapplications
+    k8s.io/version: v1beta1
+  name: sns.aws.upbound.io-v1beta1-platformapplications
+spec:
+  resource:
+    group: sns.aws.upbound.io
+    kind: PlatformApplication
+    name: platformapplications
+    scope: Cluster
+    version: v1beta1

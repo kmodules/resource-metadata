@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: datafactory.azure.upbound.io
+    k8s.io/kind: DataSetSnowflake
+    k8s.io/resource: datasetsnowflakes
+    k8s.io/version: v1beta1
+  name: datafactory.azure.upbound.io-v1beta1-datasetsnowflakes
+spec:
+  resource:
+    group: datafactory.azure.upbound.io
+    kind: DataSetSnowflake
+    name: datasetsnowflakes
+    scope: Cluster
+    version: v1beta1

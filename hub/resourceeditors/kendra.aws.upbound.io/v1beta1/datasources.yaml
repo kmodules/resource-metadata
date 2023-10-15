@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: kendra.aws.upbound.io
+    k8s.io/kind: DataSource
+    k8s.io/resource: datasources
+    k8s.io/version: v1beta1
+  name: kendra.aws.upbound.io-v1beta1-datasources
+spec:
+  resource:
+    group: kendra.aws.upbound.io
+    kind: DataSource
+    name: datasources
+    scope: Cluster
+    version: v1beta1

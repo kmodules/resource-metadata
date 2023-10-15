@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: location.aws.upbound.io
+    k8s.io/kind: Tracker
+    k8s.io/resource: trackers
+    k8s.io/version: v1beta1
+  name: location.aws.upbound.io-v1beta1-trackers
+spec:
+  resource:
+    group: location.aws.upbound.io
+    kind: Tracker
+    name: trackers
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: datacatalog.gcp.upbound.io
+    k8s.io/kind: TagTemplate
+    k8s.io/resource: tagtemplates
+    k8s.io/version: v1beta1
+  name: datacatalog.gcp.upbound.io-v1beta1-tagtemplates
+spec:
+  defaultView: true
+  resource:
+    group: datacatalog.gcp.upbound.io
+    kind: TagTemplate
+    name: tagtemplates
+    scope: Cluster
+    version: v1beta1

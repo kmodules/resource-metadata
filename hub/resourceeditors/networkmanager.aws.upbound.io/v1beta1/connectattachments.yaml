@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: networkmanager.aws.upbound.io
+    k8s.io/kind: ConnectAttachment
+    k8s.io/resource: connectattachments
+    k8s.io/version: v1beta1
+  name: networkmanager.aws.upbound.io-v1beta1-connectattachments
+spec:
+  resource:
+    group: networkmanager.aws.upbound.io
+    kind: ConnectAttachment
+    name: connectattachments
+    scope: Cluster
+    version: v1beta1

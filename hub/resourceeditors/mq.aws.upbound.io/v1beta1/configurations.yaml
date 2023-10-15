@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: mq.aws.upbound.io
+    k8s.io/kind: Configuration
+    k8s.io/resource: configurations
+    k8s.io/version: v1beta1
+  name: mq.aws.upbound.io-v1beta1-configurations
+spec:
+  resource:
+    group: mq.aws.upbound.io
+    kind: Configuration
+    name: configurations
+    scope: Cluster
+    version: v1beta1

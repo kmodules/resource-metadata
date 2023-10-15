@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: elasticache.aws.upbound.io
+    k8s.io/kind: ParameterGroup
+    k8s.io/resource: parametergroups
+    k8s.io/version: v1beta1
+  name: elasticache.aws.upbound.io-v1beta1-parametergroups
+spec:
+  resource:
+    group: elasticache.aws.upbound.io
+    kind: ParameterGroup
+    name: parametergroups
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: certificatemanager.gcp.upbound.io
+    k8s.io/kind: DNSAuthorization
+    k8s.io/resource: dnsauthorizations
+    k8s.io/version: v1beta1
+  name: certificatemanager.gcp.upbound.io-v1beta1-dnsauthorizations
+spec:
+  resource:
+    group: certificatemanager.gcp.upbound.io
+    kind: DNSAuthorization
+    name: dnsauthorizations
+    scope: Cluster
+    version: v1beta1

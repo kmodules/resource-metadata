@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: databricks.azure.upbound.io
+    k8s.io/kind: WorkspaceCustomerManagedKey
+    k8s.io/resource: workspacecustomermanagedkeys
+    k8s.io/version: v1beta1
+  name: databricks.azure.upbound.io-v1beta1-workspacecustomermanagedkeys
+spec:
+  resource:
+    group: databricks.azure.upbound.io
+    kind: WorkspaceCustomerManagedKey
+    name: workspacecustomermanagedkeys
+    scope: Cluster
+    version: v1beta1

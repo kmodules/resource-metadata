@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: storage.gcp.upbound.io
+    k8s.io/kind: Bucket
+    k8s.io/resource: buckets
+    k8s.io/version: v1beta1
+  name: storage.gcp.upbound.io-v1beta1-buckets
+spec:
+  resource:
+    group: storage.gcp.upbound.io
+    kind: Bucket
+    name: buckets
+    scope: Cluster
+    version: v1beta1

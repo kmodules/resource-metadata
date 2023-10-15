@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: securityinsights.azure.upbound.io
+    k8s.io/kind: SentinelDataConnectorIOT
+    k8s.io/resource: sentineldataconnectoriots
+    k8s.io/version: v1beta1
+  name: securityinsights.azure.upbound.io-v1beta1-sentineldataconnectoriots
+spec:
+  resource:
+    group: securityinsights.azure.upbound.io
+    kind: SentinelDataConnectorIOT
+    name: sentineldataconnectoriots
+    scope: Cluster
+    version: v1beta1

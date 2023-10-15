@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: apprunner.aws.upbound.io
+    k8s.io/kind: VPCConnector
+    k8s.io/resource: vpcconnectors
+    k8s.io/version: v1beta1
+  name: apprunner.aws.upbound.io-v1beta1-vpcconnectors
+spec:
+  resource:
+    group: apprunner.aws.upbound.io
+    kind: VPCConnector
+    name: vpcconnectors
+    scope: Cluster
+    version: v1beta1

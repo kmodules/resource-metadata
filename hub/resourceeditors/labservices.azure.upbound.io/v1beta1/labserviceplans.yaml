@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: labservices.azure.upbound.io
+    k8s.io/kind: LabServicePlan
+    k8s.io/resource: labserviceplans
+    k8s.io/version: v1beta1
+  name: labservices.azure.upbound.io-v1beta1-labserviceplans
+spec:
+  resource:
+    group: labservices.azure.upbound.io
+    kind: LabServicePlan
+    name: labserviceplans
+    scope: Cluster
+    version: v1beta1

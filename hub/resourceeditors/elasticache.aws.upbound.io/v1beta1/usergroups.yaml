@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: elasticache.aws.upbound.io
+    k8s.io/kind: UserGroup
+    k8s.io/resource: usergroups
+    k8s.io/version: v1beta1
+  name: elasticache.aws.upbound.io-v1beta1-usergroups
+spec:
+  resource:
+    group: elasticache.aws.upbound.io
+    kind: UserGroup
+    name: usergroups
+    scope: Cluster
+    version: v1beta1

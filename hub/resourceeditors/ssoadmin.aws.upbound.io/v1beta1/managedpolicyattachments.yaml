@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ssoadmin.aws.upbound.io
+    k8s.io/kind: ManagedPolicyAttachment
+    k8s.io/resource: managedpolicyattachments
+    k8s.io/version: v1beta1
+  name: ssoadmin.aws.upbound.io-v1beta1-managedpolicyattachments
+spec:
+  resource:
+    group: ssoadmin.aws.upbound.io
+    kind: ManagedPolicyAttachment
+    name: managedpolicyattachments
+    scope: Cluster
+    version: v1beta1

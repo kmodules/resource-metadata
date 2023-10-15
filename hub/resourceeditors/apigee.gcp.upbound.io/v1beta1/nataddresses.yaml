@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: apigee.gcp.upbound.io
+    k8s.io/kind: NATAddress
+    k8s.io/resource: nataddresses
+    k8s.io/version: v1beta1
+  name: apigee.gcp.upbound.io-v1beta1-nataddresses
+spec:
+  resource:
+    group: apigee.gcp.upbound.io
+    kind: NATAddress
+    name: nataddresses
+    scope: Cluster
+    version: v1beta1

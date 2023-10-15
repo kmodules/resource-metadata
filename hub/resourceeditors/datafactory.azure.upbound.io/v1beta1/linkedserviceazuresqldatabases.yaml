@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: datafactory.azure.upbound.io
+    k8s.io/kind: LinkedServiceAzureSQLDatabase
+    k8s.io/resource: linkedserviceazuresqldatabases
+    k8s.io/version: v1beta1
+  name: datafactory.azure.upbound.io-v1beta1-linkedserviceazuresqldatabases
+spec:
+  resource:
+    group: datafactory.azure.upbound.io
+    kind: LinkedServiceAzureSQLDatabase
+    name: linkedserviceazuresqldatabases
+    scope: Cluster
+    version: v1beta1

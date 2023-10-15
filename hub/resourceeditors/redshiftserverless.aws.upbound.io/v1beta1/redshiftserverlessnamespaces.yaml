@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: redshiftserverless.aws.upbound.io
+    k8s.io/kind: RedshiftServerlessNamespace
+    k8s.io/resource: redshiftserverlessnamespaces
+    k8s.io/version: v1beta1
+  name: redshiftserverless.aws.upbound.io-v1beta1-redshiftserverlessnamespaces
+spec:
+  resource:
+    group: redshiftserverless.aws.upbound.io
+    kind: RedshiftServerlessNamespace
+    name: redshiftserverlessnamespaces
+    scope: Cluster
+    version: v1beta1

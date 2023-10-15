@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: imagebuilder.aws.upbound.io
+    k8s.io/kind: InfrastructureConfiguration
+    k8s.io/resource: infrastructureconfigurations
+    k8s.io/version: v1beta1
+  name: imagebuilder.aws.upbound.io-v1beta1-infrastructureconfigurations
+spec:
+  resource:
+    group: imagebuilder.aws.upbound.io
+    kind: InfrastructureConfiguration
+    name: infrastructureconfigurations
+    scope: Cluster
+    version: v1beta1

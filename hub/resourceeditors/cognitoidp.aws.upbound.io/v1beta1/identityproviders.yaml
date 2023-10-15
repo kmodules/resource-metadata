@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cognitoidp.aws.upbound.io
+    k8s.io/kind: IdentityProvider
+    k8s.io/resource: identityproviders
+    k8s.io/version: v1beta1
+  name: cognitoidp.aws.upbound.io-v1beta1-identityproviders
+spec:
+  resource:
+    group: cognitoidp.aws.upbound.io
+    kind: IdentityProvider
+    name: identityproviders
+    scope: Cluster
+    version: v1beta1

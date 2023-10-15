@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ecr.aws.upbound.io
+    k8s.io/kind: RegistryScanningConfiguration
+    k8s.io/resource: registryscanningconfigurations
+    k8s.io/version: v1beta1
+  name: ecr.aws.upbound.io-v1beta1-registryscanningconfigurations
+spec:
+  resource:
+    group: ecr.aws.upbound.io
+    kind: RegistryScanningConfiguration
+    name: registryscanningconfigurations
+    scope: Cluster
+    version: v1beta1

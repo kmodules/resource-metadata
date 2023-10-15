@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cloudwatchlogs.aws.upbound.io
+    k8s.io/kind: Destination
+    k8s.io/resource: destinations
+    k8s.io/version: v1beta1
+  name: cloudwatchlogs.aws.upbound.io-v1beta1-destinations
+spec:
+  resource:
+    group: cloudwatchlogs.aws.upbound.io
+    kind: Destination
+    name: destinations
+    scope: Cluster
+    version: v1beta1

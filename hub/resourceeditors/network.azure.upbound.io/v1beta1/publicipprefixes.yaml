@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: network.azure.upbound.io
+    k8s.io/kind: PublicIPPrefix
+    k8s.io/resource: publicipprefixes
+    k8s.io/version: v1beta1
+  name: network.azure.upbound.io-v1beta1-publicipprefixes
+spec:
+  resource:
+    group: network.azure.upbound.io
+    kind: PublicIPPrefix
+    name: publicipprefixes
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: elastictranscoder.aws.upbound.io
+    k8s.io/kind: Preset
+    k8s.io/resource: presets
+    k8s.io/version: v1beta1
+  name: elastictranscoder.aws.upbound.io-v1beta1-presets
+spec:
+  resource:
+    group: elastictranscoder.aws.upbound.io
+    kind: Preset
+    name: presets
+    scope: Cluster
+    version: v1beta1

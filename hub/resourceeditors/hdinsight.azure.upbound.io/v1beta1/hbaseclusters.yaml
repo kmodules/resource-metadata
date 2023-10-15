@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: hdinsight.azure.upbound.io
+    k8s.io/kind: HBaseCluster
+    k8s.io/resource: hbaseclusters
+    k8s.io/version: v1beta1
+  name: hdinsight.azure.upbound.io-v1beta1-hbaseclusters
+spec:
+  resource:
+    group: hdinsight.azure.upbound.io
+    kind: HBaseCluster
+    name: hbaseclusters
+    scope: Cluster
+    version: v1beta1

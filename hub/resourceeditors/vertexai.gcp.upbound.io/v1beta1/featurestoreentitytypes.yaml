@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: vertexai.gcp.upbound.io
+    k8s.io/kind: FeaturestoreEntitytype
+    k8s.io/resource: featurestoreentitytypes
+    k8s.io/version: v1beta1
+  name: vertexai.gcp.upbound.io-v1beta1-featurestoreentitytypes
+spec:
+  resource:
+    group: vertexai.gcp.upbound.io
+    kind: FeaturestoreEntitytype
+    name: featurestoreentitytypes
+    scope: Cluster
+    version: v1beta1

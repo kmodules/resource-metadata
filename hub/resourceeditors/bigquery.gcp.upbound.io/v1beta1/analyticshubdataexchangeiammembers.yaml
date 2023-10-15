@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: bigquery.gcp.upbound.io
+    k8s.io/kind: AnalyticsHubDataExchangeIAMMember
+    k8s.io/resource: analyticshubdataexchangeiammembers
+    k8s.io/version: v1beta1
+  name: bigquery.gcp.upbound.io-v1beta1-analyticshubdataexchangeiammembers
+spec:
+  resource:
+    group: bigquery.gcp.upbound.io
+    kind: AnalyticsHubDataExchangeIAMMember
+    name: analyticshubdataexchangeiammembers
+    scope: Cluster
+    version: v1beta1

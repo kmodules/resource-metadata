@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ssm.aws.upbound.io
+    k8s.io/kind: ResourceDataSync
+    k8s.io/resource: resourcedatasyncs
+    k8s.io/version: v1beta1
+  name: ssm.aws.upbound.io-v1beta1-resourcedatasyncs
+spec:
+  resource:
+    group: ssm.aws.upbound.io
+    kind: ResourceDataSync
+    name: resourcedatasyncs
+    scope: Cluster
+    version: v1beta1

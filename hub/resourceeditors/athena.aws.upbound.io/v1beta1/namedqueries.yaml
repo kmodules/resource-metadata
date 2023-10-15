@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: athena.aws.upbound.io
+    k8s.io/kind: NamedQuery
+    k8s.io/resource: namedqueries
+    k8s.io/version: v1beta1
+  name: athena.aws.upbound.io-v1beta1-namedqueries
+spec:
+  resource:
+    group: athena.aws.upbound.io
+    kind: NamedQuery
+    name: namedqueries
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: network.azure.upbound.io
+    k8s.io/kind: PrivateDNSARecord
+    k8s.io/resource: privatednsarecords
+    k8s.io/version: v1beta1
+  name: network.azure.upbound.io-v1beta1-privatednsarecords
+spec:
+  resource:
+    group: network.azure.upbound.io
+    kind: PrivateDNSARecord
+    name: privatednsarecords
+    scope: Cluster
+    version: v1beta1

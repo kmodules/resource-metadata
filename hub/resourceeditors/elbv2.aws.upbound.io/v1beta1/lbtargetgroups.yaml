@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: elbv2.aws.upbound.io
+    k8s.io/kind: LBTargetGroup
+    k8s.io/resource: lbtargetgroups
+    k8s.io/version: v1beta1
+  name: elbv2.aws.upbound.io-v1beta1-lbtargetgroups
+spec:
+  resource:
+    group: elbv2.aws.upbound.io
+    kind: LBTargetGroup
+    name: lbtargetgroups
+    scope: Cluster
+    version: v1beta1

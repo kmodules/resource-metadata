@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: botservice.azure.upbound.io
+    k8s.io/kind: BotChannelLine
+    k8s.io/resource: botchannellines
+    k8s.io/version: v1beta1
+  name: botservice.azure.upbound.io-v1beta1-botchannellines
+spec:
+  resource:
+    group: botservice.azure.upbound.io
+    kind: BotChannelLine
+    name: botchannellines
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: essentialcontacts.gcp.upbound.io
+    k8s.io/kind: Contact
+    k8s.io/resource: contacts
+    k8s.io/version: v1beta1
+  name: essentialcontacts.gcp.upbound.io-v1beta1-contacts
+spec:
+  resource:
+    group: essentialcontacts.gcp.upbound.io
+    kind: Contact
+    name: contacts
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ecr.aws.upbound.io
+    k8s.io/kind: PullThroughCacheRule
+    k8s.io/resource: pullthroughcacherules
+    k8s.io/version: v1beta1
+  name: ecr.aws.upbound.io-v1beta1-pullthroughcacherules
+spec:
+  resource:
+    group: ecr.aws.upbound.io
+    kind: PullThroughCacheRule
+    name: pullthroughcacherules
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: orbital.azure.upbound.io
+    k8s.io/kind: ContactProfile
+    k8s.io/resource: contactprofiles
+    k8s.io/version: v1beta1
+  name: orbital.azure.upbound.io-v1beta1-contactprofiles
+spec:
+  resource:
+    group: orbital.azure.upbound.io
+    kind: ContactProfile
+    name: contactprofiles
+    scope: Cluster
+    version: v1beta1

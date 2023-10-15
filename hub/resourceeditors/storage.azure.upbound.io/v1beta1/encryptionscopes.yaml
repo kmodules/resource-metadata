@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: storage.azure.upbound.io
+    k8s.io/kind: EncryptionScope
+    k8s.io/resource: encryptionscopes
+    k8s.io/version: v1beta1
+  name: storage.azure.upbound.io-v1beta1-encryptionscopes
+spec:
+  resource:
+    group: storage.azure.upbound.io
+    kind: EncryptionScope
+    name: encryptionscopes
+    scope: Cluster
+    version: v1beta1

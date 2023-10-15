@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: mixedreality.azure.upbound.io
+    k8s.io/kind: SpatialAnchorsAccount
+    k8s.io/resource: spatialanchorsaccounts
+    k8s.io/version: v1beta1
+  name: mixedreality.azure.upbound.io-v1beta1-spatialanchorsaccounts
+spec:
+  resource:
+    group: mixedreality.azure.upbound.io
+    kind: SpatialAnchorsAccount
+    name: spatialanchorsaccounts
+    scope: Cluster
+    version: v1beta1

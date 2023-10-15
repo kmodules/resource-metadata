@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: apigateway.aws.upbound.io
+    k8s.io/kind: Model
+    k8s.io/resource: models
+    k8s.io/version: v1beta1
+  name: apigateway.aws.upbound.io-v1beta1-models
+spec:
+  resource:
+    group: apigateway.aws.upbound.io
+    kind: Model
+    name: models
+    scope: Cluster
+    version: v1beta1

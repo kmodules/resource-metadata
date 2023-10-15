@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: licensemanager.aws.upbound.io
+    k8s.io/kind: LicenseConfiguration
+    k8s.io/resource: licenseconfigurations
+    k8s.io/version: v1beta1
+  name: licensemanager.aws.upbound.io-v1beta1-licenseconfigurations
+spec:
+  resource:
+    group: licensemanager.aws.upbound.io
+    kind: LicenseConfiguration
+    name: licenseconfigurations
+    scope: Cluster
+    version: v1beta1

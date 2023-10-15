@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: glue.aws.upbound.io
+    k8s.io/kind: ResourcePolicy
+    k8s.io/resource: resourcepolicies
+    k8s.io/version: v1beta1
+  name: glue.aws.upbound.io-v1beta1-resourcepolicies
+spec:
+  resource:
+    group: glue.aws.upbound.io
+    kind: ResourcePolicy
+    name: resourcepolicies
+    scope: Cluster
+    version: v1beta1

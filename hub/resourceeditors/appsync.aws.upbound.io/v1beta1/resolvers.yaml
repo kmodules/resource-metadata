@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: appsync.aws.upbound.io
+    k8s.io/kind: Resolver
+    k8s.io/resource: resolvers
+    k8s.io/version: v1beta1
+  name: appsync.aws.upbound.io-v1beta1-resolvers
+spec:
+  resource:
+    group: appsync.aws.upbound.io
+    kind: Resolver
+    name: resolvers
+    scope: Cluster
+    version: v1beta1

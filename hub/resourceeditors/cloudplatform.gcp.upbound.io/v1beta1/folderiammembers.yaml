@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: cloudplatform.gcp.upbound.io
+    k8s.io/kind: FolderIAMMember
+    k8s.io/resource: folderiammembers
+    k8s.io/version: v1beta1
+  name: cloudplatform.gcp.upbound.io-v1beta1-folderiammembers
+spec:
+  resource:
+    group: cloudplatform.gcp.upbound.io
+    kind: FolderIAMMember
+    name: folderiammembers
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: acmpca.aws.upbound.io
+    k8s.io/kind: Policy
+    k8s.io/resource: policies
+    k8s.io/version: v1beta1
+  name: acmpca.aws.upbound.io-v1beta1-policies
+spec:
+  resource:
+    group: acmpca.aws.upbound.io
+    kind: Policy
+    name: policies
+    scope: Cluster
+    version: v1beta1

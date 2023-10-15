@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: apigateway.aws.upbound.io
+    k8s.io/kind: BasePathMapping
+    k8s.io/resource: basepathmappings
+    k8s.io/version: v1beta1
+  name: apigateway.aws.upbound.io-v1beta1-basepathmappings
+spec:
+  resource:
+    group: apigateway.aws.upbound.io
+    kind: BasePathMapping
+    name: basepathmappings
+    scope: Cluster
+    version: v1beta1

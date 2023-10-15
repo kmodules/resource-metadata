@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: account.aws.upbound.io
+    k8s.io/kind: AlternateContact
+    k8s.io/resource: alternatecontacts
+    k8s.io/version: v1beta1
+  name: account.aws.upbound.io-v1beta1-alternatecontacts
+spec:
+  resource:
+    group: account.aws.upbound.io
+    kind: AlternateContact
+    name: alternatecontacts
+    scope: Cluster
+    version: v1beta1

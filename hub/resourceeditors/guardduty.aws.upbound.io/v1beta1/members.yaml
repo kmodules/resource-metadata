@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: guardduty.aws.upbound.io
+    k8s.io/kind: Member
+    k8s.io/resource: members
+    k8s.io/version: v1beta1
+  name: guardduty.aws.upbound.io-v1beta1-members
+spec:
+  resource:
+    group: guardduty.aws.upbound.io
+    kind: Member
+    name: members
+    scope: Cluster
+    version: v1beta1

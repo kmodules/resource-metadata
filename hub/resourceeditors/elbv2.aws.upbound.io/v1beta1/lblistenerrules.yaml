@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: elbv2.aws.upbound.io
+    k8s.io/kind: LBListenerRule
+    k8s.io/resource: lblistenerrules
+    k8s.io/version: v1beta1
+  name: elbv2.aws.upbound.io-v1beta1-lblistenerrules
+spec:
+  resource:
+    group: elbv2.aws.upbound.io
+    kind: LBListenerRule
+    name: lblistenerrules
+    scope: Cluster
+    version: v1beta1

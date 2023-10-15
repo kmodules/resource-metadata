@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: appflow.aws.upbound.io
+    k8s.io/kind: Flow
+    k8s.io/resource: flows
+    k8s.io/version: v1beta1
+  name: appflow.aws.upbound.io-v1beta1-flows
+spec:
+  resource:
+    group: appflow.aws.upbound.io
+    kind: Flow
+    name: flows
+    scope: Cluster
+    version: v1beta1

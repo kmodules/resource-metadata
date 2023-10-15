@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: firebaserules.gcp.upbound.io
+    k8s.io/kind: Ruleset
+    k8s.io/resource: rulesets
+    k8s.io/version: v1beta1
+  name: firebaserules.gcp.upbound.io-v1beta1-rulesets
+spec:
+  resource:
+    group: firebaserules.gcp.upbound.io
+    kind: Ruleset
+    name: rulesets
+    scope: Cluster
+    version: v1beta1

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: vpc.aws.upbound.io
+    k8s.io/kind: NetworkPerformanceMetricSubscription
+    k8s.io/resource: networkperformancemetricsubscriptions
+    k8s.io/version: v1beta1
+  name: vpc.aws.upbound.io-v1beta1-networkperformancemetricsubscriptions
+spec:
+  resource:
+    group: vpc.aws.upbound.io
+    kind: NetworkPerformanceMetricSubscription
+    name: networkperformancemetricsubscriptions
+    scope: Cluster
+    version: v1beta1
