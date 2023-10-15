@@ -43,7 +43,7 @@ endif
 ### These variables should not need tweaking.
 ###
 
-SRC_PKGS := api apps batch core kubedb.com
+SRC_PKGS := api apps batch core kubedb.com kubevault.com ops.kubedb.com
 SRC_DIRS := $(SRC_PKGS) *.go # directories which hold app source (not vendored)
 
 DOCKER_PLATFORMS := linux/amd64 linux/arm linux/arm64

@@ -85,6 +85,33 @@ func AddResourceList(x, y core.ResourceList) core.ResourceList {
 	return result
 }
 
+func SubtractResourceList(x, y core.ResourceList) core.ResourceList {
+	names := sets.NewString()
+	for k := range x {
+		names.Insert(string(k))
+	}
+	for k := range y {
+		names.Insert(string(k))
+	}
+
+	result := core.ResourceList{}
+	for _, fullName := range names.UnsortedList() {
+		_, name, found := strings.Cut(fullName, ".")
+		var rf resource.Format
+		if found {
+			rf = resourceFormat(core.ResourceName(name))
+		} else {
+			rf = resourceFormat(core.ResourceName(fullName))
+		}
+
+		sum := resource.Quantity{Format: rf}
+		sum.Add(*x.Name(core.ResourceName(fullName), rf))
+		sum.Sub(*y.Name(core.ResourceName(fullName), rf))
+		result[core.ResourceName(fullName)] = sum
+	}
+	return result
+}
+
 func resourceFormat(name core.ResourceName) resource.Format {
 	switch name {
 	case core.ResourceCPU:

@@ -14,7 +14,7 @@ require (
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.8.1
 	github.com/yudai/gojsondiff v1.0.0
-	golang.org/x/net v0.15.0
+	golang.org/x/net v0.17.0
 	gomodules.xyz/encoding v0.0.7
 	gomodules.xyz/jsonpath v0.0.2
 	gomodules.xyz/x v0.0.14
@@ -28,7 +28,7 @@ require (
 	kmodules.xyz/apiversion v0.2.0
 	kmodules.xyz/client-go v0.25.37
 	kmodules.xyz/crd-schema-fuzz v0.25.0
-	kmodules.xyz/resource-metrics v0.25.3
+	kmodules.xyz/resource-metrics v0.25.5
 	kmodules.xyz/schema-checker v0.4.1
 	sigs.k8s.io/cli-utils v0.34.0
 	sigs.k8s.io/controller-runtime v0.13.1
@@ -99,11 +99,11 @@ require (
 	go.uber.org/atomic v1.10.0 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
 	go.uber.org/zap v1.23.0 // indirect
-	golang.org/x/crypto v0.13.0 // indirect
+	golang.org/x/crypto v0.14.0 // indirect
 	golang.org/x/oauth2 v0.7.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
-	golang.org/x/sys v0.12.0 // indirect
-	golang.org/x/term v0.12.0 // indirect
+	golang.org/x/sys v0.13.0 // indirect
+	golang.org/x/term v0.13.0 // indirect
 	golang.org/x/text v0.13.0 // indirect
 	golang.org/x/time v0.2.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
