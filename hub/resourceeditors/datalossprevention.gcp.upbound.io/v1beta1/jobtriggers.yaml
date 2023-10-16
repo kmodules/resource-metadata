@@ -15,3 +15,12 @@ spec:
     name: jobtriggers
     scope: Cluster
     version: v1beta1
+  ui:
+    editor:
+      name: datalosspreventiongcpupboundio-jobtrigger-editor
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: bytebuilders-ui
+      version: v0.4.18
+    enforceQuota: false
