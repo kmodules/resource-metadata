@@ -59,8 +59,6 @@ func GenDescriptor(dir string) error {
 		rdir := filepath.Join(dir, g, r)
 		os.MkdirAll(rdir, 0o755)
 
-		// os.WriteFile(filepath.Join(rdir, "crd.yaml"), []byte("crd.yaml"), 0644)
-
 		vdir := filepath.Join(rdir, rd.Spec.Resource.Version)
 		os.MkdirAll(vdir, 0o755)
 
@@ -71,7 +69,21 @@ func GenDescriptor(dir string) error {
 		os.WriteFile(filepath.Join(vdir, "resourcedescriptor.yaml"), data, 0o644)
 
 		if rd.Spec.Validation != nil && rd.Spec.Validation.OpenAPIV3Schema != nil {
-			data, err := yaml.Marshal(rd.Spec.Validation.OpenAPIV3Schema)
+			schema := rd.Spec.Validation.OpenAPIV3Schema
+			if prop, ok := schema.Properties["apiVersion"]; ok {
+				prop.Enum = []crdv1.JSON{
+					{[]byte(fmt.Sprintf("%q", rd.Spec.Resource.GroupVersion()))},
+				}
+				schema.Properties["apiVersion"] = prop
+			}
+			if prop, ok := schema.Properties["kind"]; ok {
+				prop.Enum = []crdv1.JSON{
+					{[]byte(fmt.Sprintf("%q", rd.Spec.Resource.Kind))},
+				}
+				schema.Properties["kind"] = prop
+			}
+
+			data, err := yaml.Marshal(schema)
 			if err != nil {
 				return err
 			}
