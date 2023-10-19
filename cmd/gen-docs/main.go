@@ -70,6 +70,7 @@ func GenDescriptor(dir string) error {
 
 		if rd.Spec.Validation != nil && rd.Spec.Validation.OpenAPIV3Schema != nil {
 			schema := rd.Spec.Validation.OpenAPIV3Schema
+			schema.Schema = "http://json-schema.org/schema#"
 			if prop, ok := schema.Properties["apiVersion"]; ok {
 				prop.Enum = []crdv1.JSON{
 					{[]byte(fmt.Sprintf("%q", rd.Spec.Resource.GroupVersion()))},
@@ -88,6 +89,12 @@ func GenDescriptor(dir string) error {
 				return err
 			}
 			os.WriteFile(filepath.Join(vdir, "openapiv3_schema.yaml"), data, 0o644)
+
+			data, err = json.MarshalIndent(schema, "", "  ")
+			if err != nil {
+				return err
+			}
+			os.WriteFile(filepath.Join(vdir, "openapiv3_schema.json"), data, 0o644)
 		}
 	}
 	return nil
@@ -114,6 +121,12 @@ func GenResourceEditor(dir string) error {
 			return err
 		}
 		os.WriteFile(filepath.Join(vdir, "resourceeditor.yaml"), data, 0o644)
+
+		data, err = json.MarshalIndent(rd, "", "  ")
+		if err != nil {
+			return err
+		}
+		os.WriteFile(filepath.Join(vdir, "resourceeditor.json"), data, 0o644)
 	}
 	return nil
 }
@@ -295,5 +308,11 @@ func WriteDescriptor(dir string, crd *crdv1.CustomResourceDefinition) error {
 		return err
 	}
 	os.WriteFile(filepath.Join(rdir, "crd.yaml"), data, 0o644)
+
+	data, err = json.MarshalIndent(crd, "", "  ")
+	if err != nil {
+		return err
+	}
+	os.WriteFile(filepath.Join(rdir, "crd.json"), data, 0o644)
 	return nil
 }
