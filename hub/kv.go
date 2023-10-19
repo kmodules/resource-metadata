@@ -37,6 +37,10 @@ type KVMap struct {
 
 var _ KV = &KVMap{}
 
+func NewKVMap(cache map[string]*v1alpha1.ResourceDescriptor) KV {
+	return &KVMap{cache: cache}
+}
+
 func (s *KVMap) Set(key string, val *v1alpha1.ResourceDescriptor) {
 	s.m.Lock()
 	s.cache[key] = val
