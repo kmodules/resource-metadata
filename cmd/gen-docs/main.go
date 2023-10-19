@@ -42,10 +42,22 @@ import (
 
 func main() {
 	dir := "/Users/tamal/go/src/go.crdhub.dev/crdhub/public"
-	os.MkdirAll(dir, 0o755)
-	GenDescriptor(dir)
-	GenResourceEditor(dir)
-	ImportCRD(dir)
+	err := os.MkdirAll(dir, 0o755)
+	if err != nil {
+		panic(err)
+	}
+	err = GenDescriptor(dir)
+	if err != nil {
+		panic(err)
+	}
+	err = GenResourceEditor(dir)
+	if err != nil {
+		panic(err)
+	}
+	err = ImportCRD(dir)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func GenDescriptor(dir string) error {
@@ -57,29 +69,38 @@ func GenDescriptor(dir string) error {
 		r := rd.Spec.Resource.Name
 
 		rdir := filepath.Join(dir, g, r)
-		os.MkdirAll(rdir, 0o755)
+		err := os.MkdirAll(rdir, 0o755)
+		if err != nil {
+			return err
+		}
 
 		vdir := filepath.Join(rdir, rd.Spec.Resource.Version)
-		os.MkdirAll(vdir, 0o755)
+		err = os.MkdirAll(vdir, 0o755)
+		if err != nil {
+			return err
+		}
 
 		data, err := yaml.Marshal(rd)
 		if err != nil {
 			return err
 		}
-		os.WriteFile(filepath.Join(vdir, "resourcedescriptor.yaml"), data, 0o644)
+		err = os.WriteFile(filepath.Join(vdir, "resourcedescriptor.yaml"), data, 0o644)
+		if err != nil {
+			return err
+		}
 
 		if rd.Spec.Validation != nil && rd.Spec.Validation.OpenAPIV3Schema != nil {
 			schema := rd.Spec.Validation.OpenAPIV3Schema
 			schema.Schema = "http://json-schema.org/schema#"
 			if prop, ok := schema.Properties["apiVersion"]; ok {
 				prop.Enum = []crdv1.JSON{
-					{[]byte(fmt.Sprintf("%q", rd.Spec.Resource.GroupVersion()))},
+					{Raw: []byte(fmt.Sprintf("%q", rd.Spec.Resource.GroupVersion()))},
 				}
 				schema.Properties["apiVersion"] = prop
 			}
 			if prop, ok := schema.Properties["kind"]; ok {
 				prop.Enum = []crdv1.JSON{
-					{[]byte(fmt.Sprintf("%q", rd.Spec.Resource.Kind))},
+					{Raw: []byte(fmt.Sprintf("%q", rd.Spec.Resource.Kind))},
 				}
 				schema.Properties["kind"] = prop
 			}
@@ -88,13 +109,19 @@ func GenDescriptor(dir string) error {
 			if err != nil {
 				return err
 			}
-			os.WriteFile(filepath.Join(vdir, "openapiv3_schema.yaml"), data, 0o644)
+			err = os.WriteFile(filepath.Join(vdir, "openapiv3_schema.yaml"), data, 0o644)
+			if err != nil {
+				return err
+			}
 
 			data, err = json.MarshalIndent(schema, "", "  ")
 			if err != nil {
 				return err
 			}
-			os.WriteFile(filepath.Join(vdir, "openapiv3_schema.json"), data, 0o644)
+			err = os.WriteFile(filepath.Join(vdir, "openapiv3_schema.json"), data, 0o644)
+			if err != nil {
+				return err
+			}
 		}
 	}
 	return nil
@@ -109,24 +136,34 @@ func GenResourceEditor(dir string) error {
 		r := rd.Spec.Resource.Name
 
 		rdir := filepath.Join(dir, g, r)
-		os.MkdirAll(rdir, 0o755)
-
-		// os.WriteFile(filepath.Join(rdir, "crd.yaml"), []byte("crd.yaml"), 0644)
+		err := os.MkdirAll(rdir, 0o755)
+		if err != nil {
+			return err
+		}
 
 		vdir := filepath.Join(rdir, rd.Spec.Resource.Version)
-		os.MkdirAll(vdir, 0o755)
+		err = os.MkdirAll(vdir, 0o755)
+		if err != nil {
+			return err
+		}
 
 		data, err := yaml.Marshal(rd)
 		if err != nil {
 			return err
 		}
-		os.WriteFile(filepath.Join(vdir, "resourceeditor.yaml"), data, 0o644)
+		err = os.WriteFile(filepath.Join(vdir, "resourceeditor.yaml"), data, 0o644)
+		if err != nil {
+			return err
+		}
 
 		data, err = json.MarshalIndent(rd, "", "  ")
 		if err != nil {
 			return err
 		}
-		os.WriteFile(filepath.Join(vdir, "resourceeditor.json"), data, 0o644)
+		err = os.WriteFile(filepath.Join(vdir, "resourceeditor.json"), data, 0o644)
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }
@@ -161,7 +198,10 @@ func ImportCRD(dir string) error {
 			continue
 		}
 		line = os.ExpandEnv(line)
-		processLocation(dir, line)
+		err = processLocation(dir, line)
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }
@@ -302,17 +342,27 @@ func crdFileExtension(dir string) string {
 
 func WriteDescriptor(dir string, crd *crdv1.CustomResourceDefinition) error {
 	rdir := filepath.Join(dir, crd.Spec.Group, crd.Spec.Names.Plural)
-	os.MkdirAll(rdir, 0o755)
+	err := os.MkdirAll(rdir, 0o755)
+	if err != nil {
+		return err
+	}
+
 	data, err := yaml.Marshal(crd)
 	if err != nil {
 		return err
 	}
-	os.WriteFile(filepath.Join(rdir, "crd.yaml"), data, 0o644)
+	err = os.WriteFile(filepath.Join(rdir, "crd.yaml"), data, 0o644)
+	if err != nil {
+		return err
+	}
 
 	data, err = json.MarshalIndent(crd, "", "  ")
 	if err != nil {
 		return err
 	}
-	os.WriteFile(filepath.Join(rdir, "crd.json"), data, 0o644)
+	err = os.WriteFile(filepath.Join(rdir, "crd.json"), data, 0o644)
+	if err != nil {
+		return err
+	}
 	return nil
 }
