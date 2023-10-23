@@ -85,6 +85,8 @@ spec:
                           - sourceRef
                           - version
                           type: object
+                        enforceQuota:
+                          type: boolean
                         flow:
                           type: string
                         icons:
@@ -109,6 +111,7 @@ spec:
                         operationId:
                           type: string
                       required:
+                      - enforceQuota
                       - flow
                       - operationId
                       type: object
