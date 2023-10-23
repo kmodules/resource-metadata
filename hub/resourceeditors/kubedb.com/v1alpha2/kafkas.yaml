@@ -29,7 +29,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: bytebuilders-ui
-          version: v0.4.17
+          version: v0.4.18
         enforceQuota: false
         flow: standalone-edit
         icons:
@@ -52,7 +52,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: bytebuilders-ui
-      version: v0.4.17
+      version: v0.4.18
   variants:
   - name: default
     selector:
