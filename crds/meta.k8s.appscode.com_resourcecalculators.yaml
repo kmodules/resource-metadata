@@ -31,6 +31,12 @@ spec:
           metadata:
             type: object
           request:
+            properties:
+              edit:
+                type: boolean
+              resource:
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
             type: object
             x-kubernetes-preserve-unknown-fields: true
           response:

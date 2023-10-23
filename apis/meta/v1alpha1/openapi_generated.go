@@ -349,6 +349,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceBlockDefinitionList": schema_resource_metadata_apis_meta_v1alpha1_ResourceBlockDefinitionList(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceBlockDefinitionSpec": schema_resource_metadata_apis_meta_v1alpha1_ResourceBlockDefinitionSpec(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceCalculator":          schema_resource_metadata_apis_meta_v1alpha1_ResourceCalculator(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceCalculatorRequest":   schema_resource_metadata_apis_meta_v1alpha1_ResourceCalculatorRequest(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceCalculatorResponse":  schema_resource_metadata_apis_meta_v1alpha1_ResourceCalculatorResponse(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumn":              schema_resource_metadata_apis_meta_v1alpha1_ResourceColumn(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceColumnDefinition":    schema_resource_metadata_apis_meta_v1alpha1_ResourceColumnDefinition(ref),
@@ -16825,7 +16826,7 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceCalculator(ref common.R
 					},
 					"request": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("k8s.io/apimachinery/pkg/runtime.RawExtension"),
+							Ref: ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceCalculatorRequest"),
 						},
 					},
 					"response": {
@@ -16837,7 +16838,32 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourceCalculator(ref common.R
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta", "k8s.io/apimachinery/pkg/runtime.RawExtension", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceCalculatorResponse"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceCalculatorRequest", "kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ResourceCalculatorResponse"},
+	}
+}
+
+func schema_resource_metadata_apis_meta_v1alpha1_ResourceCalculatorRequest(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"resource": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("k8s.io/apimachinery/pkg/runtime.RawExtension"),
+						},
+					},
+					"edit": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"boolean"},
+							Format: "",
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/runtime.RawExtension"},
 	}
 }
 

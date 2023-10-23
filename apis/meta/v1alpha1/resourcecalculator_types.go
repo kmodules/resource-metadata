@@ -42,9 +42,14 @@ type ResourceCalculator struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	// +kubebuilder:pruning:PreserveUnknownFields
-	Request *runtime.RawExtension `json:"request,omitempty"`
+	Request *ResourceCalculatorRequest `json:"request,omitempty"`
 	// +optional
 	Response *ResourceCalculatorResponse `json:"response,omitempty"`
+}
+
+type ResourceCalculatorRequest struct {
+	Resource *runtime.RawExtension `json:"resource,omitempty"`
+	Edit     bool                  `json:"edit,omitempty"`
 }
 
 type ResourceCalculatorResponse struct {
