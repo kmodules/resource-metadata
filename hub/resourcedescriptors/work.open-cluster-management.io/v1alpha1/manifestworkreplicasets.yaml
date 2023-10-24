@@ -19,6 +19,14 @@ spec:
       apiVersion: work.open-cluster-management.io/v1
       kind: ManifestWork
     type: MatchSelector
+  - labels:
+    - placed_into
+    references:
+    - '{range .spec.placementRefs[*]}{.name}{"\n"}{end}'
+    target:
+      apiVersion: cluster.open-cluster-management.io/v1beta1
+      kind: Placement
+    type: MatchRef
   resource:
     group: work.open-cluster-management.io
     kind: ManifestWorkReplicaSet
