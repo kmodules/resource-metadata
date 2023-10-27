@@ -21,7 +21,7 @@ import (
 )
 
 func init() {
-	RegisterToPathMapperPlugin(&MongoDBOpsRequest{})
+	RegisterOpsPathMapperToPlugins(&MongoDBOpsRequest{})
 }
 
 type MongoDBOpsRequest struct{}

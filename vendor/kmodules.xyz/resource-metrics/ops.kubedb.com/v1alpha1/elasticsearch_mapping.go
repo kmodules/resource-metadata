@@ -19,7 +19,7 @@ package v1alpha1
 import "k8s.io/apimachinery/pkg/runtime/schema"
 
 func init() {
-	RegisterToPathMapperPlugin(&ElasticsearchOpsRequest{})
+	RegisterOpsPathMapperToPlugins(&ElasticsearchOpsRequest{})
 }
 
 type ElasticsearchOpsRequest struct{}

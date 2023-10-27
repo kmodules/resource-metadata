@@ -28,7 +28,7 @@ require (
 	kmodules.xyz/apiversion v0.2.0
 	kmodules.xyz/client-go v0.25.39
 	kmodules.xyz/crd-schema-fuzz v0.25.0
-	kmodules.xyz/resource-metrics v0.25.5
+	kmodules.xyz/resource-metrics v0.25.7
 	kmodules.xyz/schema-checker v0.4.1
 	sigs.k8s.io/cli-utils v0.34.0
 	sigs.k8s.io/controller-runtime v0.13.1

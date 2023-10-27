@@ -42,13 +42,17 @@ type (
 
 var (
 	PathMapperPlugin = map[schema.GroupVersionKind]OpsPathMapper{}
+	OpsCalculator    = OpsResourceCalculator{}.ResourceCalculator()
 	lock             sync.RWMutex
 )
 
 func RegisterToPathMapperPlugin(opsObj OpsPathMapper) {
-	lock.Lock()
-	defer lock.Unlock()
 	PathMapperPlugin[opsObj.GroupVersionKind()] = opsObj
+}
+
+func RegisterOpsPathMapperToPlugins(opsObj OpsPathMapper) {
+	RegisterToPathMapperPlugin(opsObj)
+	api.Register(opsObj.GroupVersionKind(), OpsCalculator)
 }
 
 func LoadOpsPathMapper(opsObj OpsReqObject) (OpsPathMapper, error) {
@@ -62,12 +66,4 @@ func LoadOpsPathMapper(opsObj OpsReqObject) (OpsPathMapper, error) {
 	}
 
 	return opsMapperObj, nil
-}
-
-func RegisterPathMapperPluginMembersWithApiPlugin(rc api.ResourceCalculator) {
-	lock.RLock()
-	defer lock.RUnlock()
-	for gvk := range PathMapperPlugin {
-		api.Register(gvk, rc)
-	}
 }

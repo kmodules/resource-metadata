@@ -22,10 +22,6 @@ import (
 	core "k8s.io/api/core/v1"
 )
 
-func init() {
-	RegisterPathMapperPluginMembersWithApiPlugin(OpsResourceCalculator{}.ResourceCalculator())
-}
-
 type OpsResourceCalculator struct{}
 
 func (r OpsResourceCalculator) ResourceCalculator() api.ResourceCalculator {

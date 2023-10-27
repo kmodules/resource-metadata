@@ -19,7 +19,7 @@ package v1alpha1
 import "k8s.io/apimachinery/pkg/runtime/schema"
 
 func init() {
-	RegisterToPathMapperPlugin(&PgBouncerOpsRequest{})
+	RegisterOpsPathMapperToPlugins(&PgBouncerOpsRequest{})
 }
 
 type PgBouncerOpsRequest struct{}
