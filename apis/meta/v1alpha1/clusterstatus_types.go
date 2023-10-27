@@ -28,6 +28,10 @@ const (
 	ResourceClusterStatuses   = "clusterstatuses"
 )
 
+const (
+	KeyACEManaged = "ace.appscode.com/managed"
+)
+
 // ClusterStatus is the Schema for any resource supported by resource-metrics library
 
 // +genclient
