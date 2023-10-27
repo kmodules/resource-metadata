@@ -28,7 +28,7 @@ spec:
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
-            name: bytebuilders-ui
+            name: appscode-charts-oci
           version: v0.4.18
         enforceQuota: false
         flow: standalone-edit
@@ -42,7 +42,7 @@ spec:
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
-            name: bytebuilders-ui
+            name: appscode-charts-oci
           version: v0.4.18
         enforceQuota: false
         flow: standalone-create
@@ -58,7 +58,7 @@ spec:
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
-            name: bytebuilders-ui
+            name: appscode-charts-oci
           version: v0.4.18
         enforceQuota: false
         flow: standalone-create
@@ -72,7 +72,7 @@ spec:
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
-            name: bytebuilders-ui
+            name: appscode-charts-oci
           version: v0.4.18
         enforceQuota: false
         flow: standalone-create
@@ -88,7 +88,7 @@ spec:
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
-            name: bytebuilders-ui
+            name: appscode-charts-oci
           version: v0.4.18
         enforceQuota: true
         flow: standalone-create
@@ -102,7 +102,7 @@ spec:
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
-            name: bytebuilders-ui
+            name: appscode-charts-oci
           version: v0.4.18
         enforceQuota: true
         flow: standalone-create
@@ -116,7 +116,7 @@ spec:
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
-            name: bytebuilders-ui
+            name: appscode-charts-oci
           version: v0.4.18
         enforceQuota: true
         flow: standalone-create
@@ -134,7 +134,7 @@ spec:
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
-            name: bytebuilders-ui
+            name: appscode-charts-oci
           version: v0.4.18
         enforceQuota: false
         flow: standalone-create
@@ -148,7 +148,7 @@ spec:
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
-            name: bytebuilders-ui
+            name: appscode-charts-oci
           version: v0.4.18
         enforceQuota: false
         flow: standalone-edit
@@ -163,7 +163,7 @@ spec:
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: bytebuilders-ui
+        name: appscode-charts-oci
       version: v0.4.18
     enforceQuota: true
     options:
@@ -171,7 +171,7 @@ spec:
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: bytebuilders-ui
+        name: appscode-charts-oci
       version: v0.4.18
   variants:
   - name: default
