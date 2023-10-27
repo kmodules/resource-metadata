@@ -81,6 +81,10 @@ spec:
       type:
         group: helm.toolkit.fluxcd.io
         kind: HelmRelease
+    - name: HelmChart
+      type:
+        group: source.toolkit.fluxcd.io
+        kind: HelmChart
     name: Helm
   - autoDiscoverAPIGroup: kubedb.com
     icons:
@@ -225,6 +229,10 @@ spec:
       type:
         group: ""
         kind: Namespace
+    - name: ClusterChartPresets
+      type:
+        group: charts.x-helm.dev
+        kind: ClusterChartPreset
     - name: Limit Ranges
       type:
         group: ""
