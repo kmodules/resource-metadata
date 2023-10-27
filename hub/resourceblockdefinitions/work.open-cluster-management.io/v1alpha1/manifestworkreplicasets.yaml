@@ -21,6 +21,17 @@ spec:
     ref:
       group: work.open-cluster-management.io
       kind: ManifestWork
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Placements
+    query:
+      byLabel: placed_into
+      type: GraphQL
+    ref:
+      group: cluster.open-cluster-management.io
+      kind: Placement
   resource:
     group: work.open-cluster-management.io
     kind: ManifestWorkReplicaSet

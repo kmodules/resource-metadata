@@ -16,7 +16,7 @@ spec:
     kind: Connection
     name: ManagedClusterSets
     query:
-      byLabel: offshoot
+      byLabel: ocm_bind
       type: GraphQL
     ref:
       group: cluster.open-cluster-management.io
