@@ -13,10 +13,10 @@ spec:
   - labels:
     - offshoot
     references:
-    - '{.spec.chart.spec.sourceRef.name}'
+    - '{.metadata.namespace}-{.spec.chart.spec.chart}'
     target:
       apiVersion: source.toolkit.fluxcd.io/v1beta2
-      kind: HelmRepository
+      kind: HelmChart
     type: MatchRef
   resource:
     group: helm.toolkit.fluxcd.io
