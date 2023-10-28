@@ -33,7 +33,7 @@ require (
 	sigs.k8s.io/cli-utils v0.34.0
 	sigs.k8s.io/controller-runtime v0.13.1
 	sigs.k8s.io/yaml v1.3.0
-	x-helm.dev/apimachinery v0.0.12
+	x-helm.dev/apimachinery v0.0.15
 )
 
 require (
