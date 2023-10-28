@@ -308,10 +308,17 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/shared.ActionInfo":                       schema_kmodulesxyz_resource_metadata_apis_shared_ActionInfo(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.ActionTemplate":                   schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplate(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.ActionTemplateGroup":              schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplateGroup(ref),
+		"kmodules.xyz/resource-metadata/apis/shared.BootstrapPresets":                 schema_kmodulesxyz_resource_metadata_apis_shared_BootstrapPresets(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.Dashboard":                        schema_kmodulesxyz_resource_metadata_apis_shared_Dashboard(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.DashboardVar":                     schema_kmodulesxyz_resource_metadata_apis_shared_DashboardVar(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.DeploymentParameters":             schema_kmodulesxyz_resource_metadata_apis_shared_DeploymentParameters(ref),
+		"kmodules.xyz/resource-metadata/apis/shared.HelmInfo":                         schema_kmodulesxyz_resource_metadata_apis_shared_HelmInfo(ref),
+		"kmodules.xyz/resource-metadata/apis/shared.HelmRelease":                      schema_kmodulesxyz_resource_metadata_apis_shared_HelmRelease(ref),
+		"kmodules.xyz/resource-metadata/apis/shared.HelmRepository":                   schema_kmodulesxyz_resource_metadata_apis_shared_HelmRepository(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.If":                               schema_kmodulesxyz_resource_metadata_apis_shared_If(ref),
+		"kmodules.xyz/resource-metadata/apis/shared.ImageRegistrySpec":                schema_kmodulesxyz_resource_metadata_apis_shared_ImageRegistrySpec(ref),
+		"kmodules.xyz/resource-metadata/apis/shared.RegistryInfo":                     schema_kmodulesxyz_resource_metadata_apis_shared_RegistryInfo(ref),
+		"kmodules.xyz/resource-metadata/apis/shared.RegistryProxies":                  schema_kmodulesxyz_resource_metadata_apis_shared_RegistryProxies(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.ResourceLocator":                  schema_kmodulesxyz_resource_metadata_apis_shared_ResourceLocator(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.ResourceQuery":                    schema_kmodulesxyz_resource_metadata_apis_shared_ResourceQuery(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.SourceLocator":                    schema_kmodulesxyz_resource_metadata_apis_shared_SourceLocator(ref),
@@ -15085,6 +15092,39 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplateGroup(ref co
 	}
 }
 
+func schema_kmodulesxyz_resource_metadata_apis_shared_BootstrapPresets(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"image": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ImageRegistrySpec"),
+						},
+					},
+					"registry": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.RegistryInfo"),
+						},
+					},
+					"helm": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.HelmInfo"),
+						},
+					},
+				},
+				Required: []string{"image", "registry", "helm"},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/resource-metadata/apis/shared.HelmInfo", "kmodules.xyz/resource-metadata/apis/shared.ImageRegistrySpec", "kmodules.xyz/resource-metadata/apis/shared.RegistryInfo"},
+	}
+}
+
 func schema_kmodulesxyz_resource_metadata_apis_shared_Dashboard(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -15201,6 +15241,137 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_DeploymentParameters(ref c
 	}
 }
 
+func schema_kmodulesxyz_resource_metadata_apis_shared_HelmInfo(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"repositories": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("kmodules.xyz/resource-metadata/apis/shared.HelmRepository"),
+									},
+								},
+							},
+						},
+					},
+					"releases": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("kmodules.xyz/resource-metadata/apis/shared.HelmRelease"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"repositories", "releases"},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/resource-metadata/apis/shared.HelmRelease", "kmodules.xyz/resource-metadata/apis/shared.HelmRepository"},
+	}
+}
+
+func schema_kmodulesxyz_resource_metadata_apis_shared_HelmRelease(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"enabled": {
+						SchemaProps: spec.SchemaProps{
+							Default: false,
+							Type:    []string{"boolean"},
+							Format:  "",
+						},
+					},
+					"version": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"values": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("k8s.io/apimachinery/pkg/runtime.RawExtension"),
+						},
+					},
+				},
+				Required: []string{"enabled", "version"},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/runtime.RawExtension"},
+	}
+}
+
+func schema_kmodulesxyz_resource_metadata_apis_shared_HelmRepository(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"url": {
+						SchemaProps: spec.SchemaProps{
+							Description: "URL of the Helm repository, a valid URL contains at least a protocol and host.",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"secretName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "SecretRef specifies the Secret containing authentication credentials for the HelmRepository. For HTTP/S basic auth the secret must contain 'username' and 'password' fields. For TLS the secret must contain a 'certFile' and 'keyFile', and/or 'caFile' fields.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"interval": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Interval at which to check the URL for updates.",
+							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.Duration"),
+						},
+					},
+					"timeout": {
+						SchemaProps: spec.SchemaProps{
+							Description: "The timeout of index downloading, defaults to 60s.",
+							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.Duration"),
+						},
+					},
+					"type": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Type of the HelmRepository. When this field is set to  \"oci\", the URL field value must be prefixed with \"oci://\".",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"provider": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Provider used for authentication, can be 'aws', 'azure', 'gcp' or 'generic'. This field is optional, and only taken into account if the .spec.type field is set to 'oci'. When not specified, defaults to 'generic'.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+				},
+				Required: []string{"url"},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/apis/meta/v1.Duration"},
+	}
+}
+
 func schema_kmodulesxyz_resource_metadata_apis_shared_If(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -15223,6 +15394,122 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_If(ref common.ReferenceCal
 		},
 		Dependencies: []string{
 			"kmodules.xyz/resource-metadata/apis/shared.ResourceLocator"},
+	}
+}
+
+func schema_kmodulesxyz_resource_metadata_apis_shared_ImageRegistrySpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"registryFQDN": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"proxies": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.RegistryProxies"),
+						},
+					},
+				},
+				Required: []string{"registryFQDN", "proxies"},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/resource-metadata/apis/shared.RegistryProxies"},
+	}
+}
+
+func schema_kmodulesxyz_resource_metadata_apis_shared_RegistryInfo(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"credentials": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"credentials"},
+			},
+		},
+	}
+}
+
+func schema_kmodulesxyz_resource_metadata_apis_shared_RegistryProxies(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"dockerHub": {
+						SchemaProps: spec.SchemaProps{
+							Description: "company/bin:1.23",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"dockerLibrary": {
+						SchemaProps: spec.SchemaProps{
+							Description: "alpine, nginx etc.",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"ghcr": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ghcr.io",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"quay": {
+						SchemaProps: spec.SchemaProps{
+							Description: "quay.io",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"kubernetes": {
+						SchemaProps: spec.SchemaProps{
+							Description: "registry.k8s.io",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"appscode": {
+						SchemaProps: spec.SchemaProps{
+							Description: "r.appscode.com",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+				},
+			},
+		},
 	}
 }
 
