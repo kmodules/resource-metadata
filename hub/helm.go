@@ -123,7 +123,7 @@ func FluxCDHelmRepository(kc client.Client) kmapi.TypedObjectReference {
 	}
 }
 
-func FeatureVersion(kc client.Client, featureName string) string {
+func GetBootstrapPresets(kc client.Client) (*shared.BootstrapPresets, bool) {
 	if kc != nil {
 		var ccp chartsapi.ClusterChartPreset
 		err := kc.Get(context.TODO(), client.ObjectKey{Name: BootstrapPresetsName}, &ccp)
@@ -131,11 +131,19 @@ func FeatureVersion(kc client.Client, featureName string) string {
 			var preset shared.BootstrapPresets
 			err := json.Unmarshal(ccp.Spec.Values.Raw, &preset)
 			if err == nil {
-				hr := preset.Helm.Releases[featureName]
-				if hr != nil {
-					return hr.Version
-				}
+				return &preset, true
 			}
+		}
+	}
+	return nil, false
+}
+
+func FeatureVersion(kc client.Client, featureName string) string {
+	preset, found := GetBootstrapPresets(kc)
+	if found {
+		hr := preset.Helm.Releases[featureName]
+		if hr != nil {
+			return hr.Version
 		}
 	}
 	return ""
