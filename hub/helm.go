@@ -110,8 +110,8 @@ func FluxCDHelmRepository(kc client.Client) kmapi.TypedObjectReference {
 			return kmapi.TypedObjectReference{
 				APIGroup:  releasesapi.SourceGroupHelmRepository,
 				Kind:      releasesapi.SourceKindHelmRepository,
-				Namespace: FluxCDHelmRepositoryName(),
-				Name:      BootstrapHelmRepositoryName(),
+				Namespace: BootstrapHelmRepositoryNamespace(),
+				Name:      FluxCDHelmRepositoryName(),
 			}
 		}
 	}
