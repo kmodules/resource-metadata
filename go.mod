@@ -28,6 +28,7 @@ require (
 	kmodules.xyz/apiversion v0.2.0
 	kmodules.xyz/client-go v0.25.39
 	kmodules.xyz/crd-schema-fuzz v0.25.0
+	kmodules.xyz/go-containerregistry v0.0.11
 	kmodules.xyz/resource-metrics v0.25.7
 	kmodules.xyz/schema-checker v0.4.1
 	sigs.k8s.io/cli-utils v0.34.0
@@ -105,7 +106,7 @@ require (
 	golang.org/x/sys v0.13.0 // indirect
 	golang.org/x/term v0.13.0 // indirect
 	golang.org/x/text v0.13.0 // indirect
-	golang.org/x/time v0.2.0 // indirect
+	golang.org/x/time v0.3.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
 	gomodules.xyz/mergo v0.3.13 // indirect
 	gomodules.xyz/pointer v0.1.0 // indirect
