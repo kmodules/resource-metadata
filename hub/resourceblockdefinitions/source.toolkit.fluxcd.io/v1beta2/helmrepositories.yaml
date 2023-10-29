@@ -11,7 +11,7 @@ spec:
     kind: Connection
     name: HelmCharts
     query:
-      byLabel: offshoot
+      byLabel: source
       type: GraphQL
     ref:
       group: source.toolkit.fluxcd.io
@@ -22,7 +22,17 @@ spec:
     kind: Connection
     name: HelmReleases
     query:
-      byLabel: offshoot
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            source(group: "source.toolkit.fluxcd.io", kind: "HelmChart") {
+              refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+          }
+        }
       type: GraphQL
     ref:
       group: helm.toolkit.fluxcd.io
