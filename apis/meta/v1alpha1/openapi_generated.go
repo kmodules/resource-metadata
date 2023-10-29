@@ -19386,7 +19386,6 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ImageRegistrySpec(ref comm
 						},
 					},
 				},
-				Required: []string{"registryFQDN", "proxies"},
 			},
 		},
 		Dependencies: []string{
