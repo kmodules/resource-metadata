@@ -309,7 +309,6 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/shared.ActionTemplate":                   schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplate(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.ActionTemplateGroup":              schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplateGroup(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.BootstrapPresets":                 schema_kmodulesxyz_resource_metadata_apis_shared_BootstrapPresets(ref),
-		"kmodules.xyz/resource-metadata/apis/shared.Credentials":                      schema_kmodulesxyz_resource_metadata_apis_shared_Credentials(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.Dashboard":                        schema_kmodulesxyz_resource_metadata_apis_shared_Dashboard(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.DashboardVar":                     schema_kmodulesxyz_resource_metadata_apis_shared_DashboardVar(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.DeploymentParameters":             schema_kmodulesxyz_resource_metadata_apis_shared_DeploymentParameters(ref),
@@ -15126,33 +15125,6 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_BootstrapPresets(ref commo
 	}
 }
 
-func schema_kmodulesxyz_resource_metadata_apis_shared_Credentials(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Type: []string{"object"},
-				Properties: map[string]spec.Schema{
-					"username": {
-						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
-						},
-					},
-					"password": {
-						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
-						},
-					},
-				},
-				Required: []string{"username", "password"},
-			},
-		},
-	}
-}
-
 func schema_kmodulesxyz_resource_metadata_apis_shared_Dashboard(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -15460,15 +15432,22 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_RegistryInfo(ref common.Re
 				Properties: map[string]spec.Schema{
 					"credentials": {
 						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.Credentials"),
+							Type: []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
 						},
 					},
 				},
 			},
 		},
-		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/shared.Credentials"},
 	}
 }
 

@@ -57,12 +57,7 @@ type RegistryProxies struct {
 
 type RegistryInfo struct {
 	//+optional
-	Credentials Credentials `json:"credentials"`
-}
-
-type Credentials struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
+	Credentials map[string]string `json:"credentials"`
 }
 
 type HelmInfo struct {
