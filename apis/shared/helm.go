@@ -55,10 +55,14 @@ type RegistryProxies struct {
 	AppsCode string `json:"appscode"`
 }
 
-type RepositoryCredential map[string]string
-
 type RegistryInfo struct {
-	Credentials RepositoryCredential `json:"credentials"`
+	//+optional
+	Credentials map[string]Credentials `json:"credentials"`
+}
+
+type Credentials struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 type HelmInfo struct {
