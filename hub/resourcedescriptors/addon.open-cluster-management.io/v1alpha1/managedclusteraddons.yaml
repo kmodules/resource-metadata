@@ -9,6 +9,14 @@ metadata:
     k8s.io/version: v1alpha1
   name: addon.open-cluster-management.io-v1alpha1-managedclusteraddons
 spec:
+  connections:
+  - labels:
+    - source
+    level: Controller
+    target:
+      apiVersion: addon.open-cluster-management.io/v1alpha1
+      kind: ClusterManagementAddOn
+    type: OwnedBy
   resource:
     group: addon.open-cluster-management.io
     kind: ManagedClusterAddOn

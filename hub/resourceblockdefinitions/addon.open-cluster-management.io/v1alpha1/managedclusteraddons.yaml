@@ -9,7 +9,18 @@ metadata:
     k8s.io/version: v1alpha1
   name: addon.open-cluster-management.io-v1alpha1-managedclusteraddons
 spec:
-  blocks: null
+  blocks:
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: ClusterManagementAddOns
+    query:
+      byLabel: source
+      type: GraphQL
+    ref:
+      group: addon.open-cluster-management.io
+      kind: ClusterManagementAddOn
   resource:
     group: addon.open-cluster-management.io
     kind: ManagedClusterAddOn
