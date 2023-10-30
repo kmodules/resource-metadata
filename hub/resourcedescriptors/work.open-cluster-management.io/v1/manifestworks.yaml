@@ -9,6 +9,14 @@ metadata:
     k8s.io/version: v1
   name: work.open-cluster-management.io-v1-manifestworks
 spec:
+  connections:
+  - labels:
+    - source
+    level: Controller
+    target:
+      apiVersion: addon.open-cluster-management.io/v1alpha1
+      kind: ManagedClusterAddOn
+    type: OwnedBy
   resource:
     group: work.open-cluster-management.io
     kind: ManifestWork
