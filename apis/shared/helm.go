@@ -57,7 +57,7 @@ type RegistryProxies struct {
 
 type RegistryInfo struct {
 	//+optional
-	Credentials map[string]Credentials `json:"credentials"`
+	Credentials Credentials `json:"credentials"`
 }
 
 type Credentials struct {
