@@ -29,8 +29,6 @@ type BootstrapPresets struct {
 
 type ImageRegistrySpec struct {
 	//+optional
-	RegistryFQDN string `json:"registryFQDN"`
-	//+optional
 	Proxies RegistryProxies `json:"proxies"`
 }
 

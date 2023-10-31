@@ -95,9 +95,6 @@ func (r ResourceLocator) GraphQuery(oid kmapi.OID) (string, map[string]interface
 
 func (r ImageRegistrySpec) DockerHubProxy() string {
 	addr := r.Proxies.DockerHub
-	if addr == "" {
-		addr = r.RegistryFQDN
-	}
 	addr = strings.TrimSpace(addr)
 	addr = strings.TrimSuffix(addr, "/")
 	return addr
@@ -108,9 +105,6 @@ func (r ImageRegistrySpec) DockerLibraryProxy() string {
 	if addr == "" {
 		addr = r.Proxies.DockerHub
 	}
-	if addr == "" {
-		addr = r.RegistryFQDN
-	}
 	addr = strings.TrimSpace(addr)
 	addr = strings.TrimSuffix(addr, "/")
 	return addr
@@ -118,9 +112,6 @@ func (r ImageRegistrySpec) DockerLibraryProxy() string {
 
 func (r ImageRegistrySpec) GHCRProxy() string {
 	addr := r.Proxies.GHCR
-	if addr == "" {
-		addr = r.RegistryFQDN
-	}
 	addr = strings.TrimSpace(addr)
 	addr = strings.TrimSuffix(addr, "/")
 	return addr
@@ -128,9 +119,6 @@ func (r ImageRegistrySpec) GHCRProxy() string {
 
 func (r ImageRegistrySpec) QuayProxy() string {
 	addr := r.Proxies.Quay
-	if addr == "" {
-		addr = r.RegistryFQDN
-	}
 	addr = strings.TrimSpace(addr)
 	addr = strings.TrimSuffix(addr, "/")
 	return addr
@@ -138,9 +126,6 @@ func (r ImageRegistrySpec) QuayProxy() string {
 
 func (r ImageRegistrySpec) KubernetesRegistryProxy() string {
 	addr := r.Proxies.Kubernetes
-	if addr == "" {
-		addr = r.RegistryFQDN
-	}
 	addr = strings.TrimSpace(addr)
 	addr = strings.TrimSuffix(addr, "/")
 	return addr
@@ -148,9 +133,6 @@ func (r ImageRegistrySpec) KubernetesRegistryProxy() string {
 
 func (r ImageRegistrySpec) AppsCodeRegistryProxy() string {
 	addr := r.Proxies.AppsCode
-	if addr == "" {
-		addr = r.RegistryFQDN
-	}
 	addr = strings.TrimSpace(addr)
 	addr = strings.TrimSuffix(addr, "/")
 	return addr
@@ -159,10 +141,6 @@ func (r ImageRegistrySpec) AppsCodeRegistryProxy() string {
 const defaultTag = "latest"
 
 func NewRef(spec ImageRegistrySpec, img string) (string, error) {
-	if spec.RegistryFQDN == "" {
-		return img, nil
-	}
-
 	ref, err := name.ParseReference(img)
 	if err != nil {
 		return "", err
@@ -174,9 +152,19 @@ func NewRef(spec ImageRegistrySpec, img string) (string, error) {
 		var result string
 		_, bin, found := strings.Cut(ref.Repository, "library/")
 		if found {
-			result = spec.DockerLibraryProxy() + "/" + bin
+			addr := spec.DockerLibraryProxy()
+			if addr != "" {
+				result = addr + "/" + bin
+			} else {
+				result = bin
+			}
 		} else {
-			result = spec.DockerHubProxy() + "/" + ref.Repository
+			addr := spec.DockerHubProxy()
+			if addr != "" {
+				result = addr + "/" + ref.Repository
+			} else {
+				addr = ref.Repository
+			}
 		}
 		if ref.Tag != "" && ref.Tag != defaultTag {
 			result += ":" + ref.Tag
