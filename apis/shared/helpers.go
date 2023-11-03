@@ -163,7 +163,7 @@ func NewRef(spec ImageRegistrySpec, img string) (string, error) {
 			if addr != "" {
 				result = addr + "/" + ref.Repository
 			} else {
-				addr = ref.Repository
+				result = ref.Repository
 			}
 		}
 		if ref.Tag != "" && ref.Tag != defaultTag {
