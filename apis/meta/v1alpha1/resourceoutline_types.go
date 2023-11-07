@@ -88,6 +88,7 @@ type PageBlockOutline struct {
 	DisplayMode             ResourceDisplayMode         `json:"displayMode,omitempty"`
 	Actions                 *ResourceActions            `json:"actions,omitempty"`
 	View                    *ResourceTableDefinitionRef `json:"view,omitempty"`
+	RequiredFeatureSets     map[string]FeatureList      `json:"requiredFeatureSets,omitempty"`
 }
 
 type ResourceTableDefinitionRef struct {

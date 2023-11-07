@@ -78,7 +78,11 @@ type PageBlockLayout struct {
 	Actions                 *ResourceActions    `json:"actions,omitempty"`
 
 	View *PageBlockTableDefinition `json:"view,omitempty"`
+
+	RequiredFeatureSets map[string]FeatureList `json:"requiredFeatureSets,omitempty"`
 }
+
+type FeatureList []string
 
 type PageBlockTableDefinition struct {
 	Columns []ResourceColumnDefinition `json:"columns,omitempty"`

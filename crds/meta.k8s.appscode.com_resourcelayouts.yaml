@@ -134,6 +134,12 @@ spec:
                     - group
                     - kind
                     type: object
+                  requiredFeatureSets:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
+                    type: object
                   view:
                     properties:
                       columns:
@@ -372,6 +378,12 @@ spec:
                                   required:
                                   - group
                                   - kind
+                                  type: object
+                                requiredFeatureSets:
+                                  additionalProperties:
+                                    items:
+                                      type: string
+                                    type: array
                                   type: object
                                 view:
                                   properties:
@@ -637,6 +649,12 @@ spec:
                                 - group
                                 - kind
                                 type: object
+                              requiredFeatureSets:
+                                additionalProperties:
+                                  items:
+                                    type: string
+                                  type: array
+                                type: object
                               view:
                                 properties:
                                   columns:
@@ -873,6 +891,12 @@ spec:
                                 required:
                                 - group
                                 - kind
+                                type: object
+                              requiredFeatureSets:
+                                additionalProperties:
+                                  items:
+                                    type: string
+                                  type: array
                                 type: object
                               view:
                                 properties:
@@ -1139,6 +1163,12 @@ spec:
                     required:
                     - group
                     - kind
+                    type: object
+                  requiredFeatureSets:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
                     type: object
                   view:
                     properties:
