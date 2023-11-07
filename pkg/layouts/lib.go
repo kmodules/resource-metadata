@@ -408,14 +408,15 @@ func Convert_PageBlockOutline_To_PageBlockLayout(
 	}
 
 	result := v1alpha1.PageBlockLayout{
-		Kind:            in.Kind,
-		Name:            in.Name,
-		Width:           in.Width,
-		Icons:           in.Icons,
-		FieldPath:       in.FieldPath,
-		ResourceLocator: in.ResourceLocator,
-		DisplayMode:     in.DisplayMode,
-		Actions:         in.Actions,
+		Kind:                in.Kind,
+		Name:                in.Name,
+		Width:               in.Width,
+		Icons:               in.Icons,
+		FieldPath:           in.FieldPath,
+		ResourceLocator:     in.ResourceLocator,
+		DisplayMode:         in.DisplayMode,
+		Actions:             in.Actions,
+		RequiredFeatureSets: in.RequiredFeatureSets,
 	}
 	if len(columns) > 0 {
 		result.View = &v1alpha1.PageBlockTableDefinition{

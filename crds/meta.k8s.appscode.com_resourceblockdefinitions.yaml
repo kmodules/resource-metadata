@@ -133,6 +133,12 @@ spec:
                       - group
                       - kind
                       type: object
+                    requiredFeatureSets:
+                      additionalProperties:
+                        items:
+                          type: string
+                        type: array
+                      type: object
                     view:
                       properties:
                         columns:
