@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: aws.kubedb.com
+    k8s.io/kind: ProviderConfigUsage
+    k8s.io/resource: providerconfigusages
+    k8s.io/version: v1beta1
+  name: aws.kubedb.com-v1beta1-providerconfigusages
+spec:
+  resource:
+    group: aws.kubedb.com
+    kind: ProviderConfigUsage
+    name: providerconfigusages
+    scope: Cluster
+    version: v1beta1

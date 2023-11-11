@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: docdb.aws.kubedb.com
+    k8s.io/kind: SubnetGroup
+    k8s.io/resource: subnetgroups
+    k8s.io/version: v1alpha1
+  name: docdb.aws.kubedb.com-v1alpha1-subnetgroups
+spec:
+  resource:
+    group: docdb.aws.kubedb.com
+    kind: SubnetGroup
+    name: subnetgroups
+    scope: Cluster
+    version: v1alpha1

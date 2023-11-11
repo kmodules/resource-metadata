@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: dynamodb.aws.kubedb.com
+    k8s.io/kind: ContributorInsights
+    k8s.io/resource: contributorinsights
+    k8s.io/version: v1alpha1
+  name: dynamodb.aws.kubedb.com-v1alpha1-contributorinsights
+spec:
+  resource:
+    group: dynamodb.aws.kubedb.com
+    kind: ContributorInsights
+    name: contributorinsights
+    scope: Cluster
+    version: v1alpha1
