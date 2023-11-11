@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: dbformariadb.azure.kubedb.com
+    k8s.io/kind: Configuration
+    k8s.io/resource: configurations
+    k8s.io/version: v1alpha1
+  name: dbformariadb.azure.kubedb.com-v1alpha1-configurations
+spec:
+  defaultView: true
+  resource:
+    group: dbformariadb.azure.kubedb.com
+    kind: Configuration
+    name: configurations
+    scope: Cluster
+    version: v1alpha1
