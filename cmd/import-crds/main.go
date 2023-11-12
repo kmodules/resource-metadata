@@ -50,15 +50,13 @@ go run cmd/icon-namer/main.go
 
 go run cmd/import-crds/main.go --input=$HOME/go/src/kubeops.dev/supervisor/crds
 
-go run cmd/import-crds/main.go --input=$HOME/go/src/kubeops.dev/ui-server/crds
-go run cmd/import-crds/main.go --input=$HOME/go/src/stash.appscode.dev/ui-server/crds
-go run cmd/import-crds/main.go --input=$HOME/go/src/go.openviz.dev/grafana-tools/crds
+go run cmd/import-crds/main.go --input=$HOME/go/src/go.openviz.dev/apimachinery/crds
 
 go run cmd/import-crds/main.go --input=$HOME/go/src/k8s.io/api/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/k8s.io/kube-aggregator/crds
 
 go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/prometheus-operator/prometheus-operator/example/prometheus-operator-crd
-go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/jetstack/cert-manager/deploy/crds
+go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/cert-manager/cert-manager/deploy/manifests/00-crds.yaml
 go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/apimachinery/crds
 
 go run cmd/import-crds/main.go --input=$HOME/go/src/stash.appscode.dev/apimachinery/crds
@@ -113,9 +111,9 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/a
 go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/api/operator/v1
 
 # Gateway
-go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/charts/gateway-helm/crds
-go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/charts/gateway-helm/crds/generated
-go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/charts/gateway-helm/crds/voyager
+go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/charts/voyager-gateway/crds
+go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/charts/voyager-gateway/crds/generated
+go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/charts/voyager-gateway/crds
 
 # kubeware
 go run cmd/import-crds/main.go --input=$HOME/go/src/go.kubeware.dev/catalog/config/crd/bases
