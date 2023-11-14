@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: rds.aws.kubedb.com
+    k8s.io/kind: OptionGroup
+    k8s.io/resource: optiongroups
+    k8s.io/version: v1alpha1
+  name: rds.aws.kubedb.com-v1alpha1-optiongroups
+spec:
+  defaultView: true
+  resource:
+    group: rds.aws.kubedb.com
+    kind: OptionGroup
+    name: optiongroups
+    scope: Cluster
+    version: v1alpha1

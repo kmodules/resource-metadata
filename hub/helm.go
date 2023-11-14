@@ -32,8 +32,9 @@ import (
 
 const (
 	AppsCodeChartsLegacyURL = "https://charts.appscode.com/stable"
-	AppsCodeChartsOCIURL    = "oci://r.appscode.com/charts"
-	FluxCDChartsURL         = "https://fluxcd-community.github.io/helm-charts"
+	// AppsCodeChartsOCIURL    = "oci://r.appscode.com/charts"
+	AppsCodeChartsOCIURL = "oci://ghcr.io/appscode-charts"
+	FluxCDChartsURL      = "https://fluxcd-community.github.io/helm-charts"
 )
 
 const (

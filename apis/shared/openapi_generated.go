@@ -302,6 +302,13 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_BootstrapPresets(ref commo
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
+					"offlineInstaller": {
+						SchemaProps: spec.SchemaProps{
+							Default: false,
+							Type:    []string{"boolean"},
+							Format:  "",
+						},
+					},
 					"image": {
 						SchemaProps: spec.SchemaProps{
 							Default: map[string]interface{}{},
@@ -607,13 +614,6 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ImageRegistrySpec(ref comm
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
-					"registryFQDN": {
-						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
-						},
-					},
 					"proxies": {
 						SchemaProps: spec.SchemaProps{
 							Default: map[string]interface{}{},
