@@ -26,7 +26,7 @@ require (
 	k8s.io/klog/v2 v2.80.1
 	k8s.io/kube-openapi v0.0.0-20221012153701-172d655c2280
 	kmodules.xyz/apiversion v0.2.0
-	kmodules.xyz/client-go v0.25.40
+	kmodules.xyz/client-go v0.25.42
 	kmodules.xyz/crd-schema-fuzz v0.25.0
 	kmodules.xyz/go-containerregistry v0.0.11
 	kmodules.xyz/resource-metrics v0.25.7
@@ -41,7 +41,7 @@ require (
 	github.com/Masterminds/goutils v1.1.1 // indirect
 	github.com/Masterminds/semver/v3 v3.2.1 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/cespare/xxhash/v2 v2.1.2 // indirect
+	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/containerd/stargz-snapshotter/estargz v0.12.1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/docker/cli v20.10.22+incompatible // indirect

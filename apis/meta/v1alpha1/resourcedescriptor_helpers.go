@@ -17,8 +17,6 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"strings"
-
 	kmapi "kmodules.xyz/client-go/api/v1"
 	"kmodules.xyz/client-go/apiextensions"
 	"kmodules.xyz/resource-metadata/crds"
@@ -58,21 +56,4 @@ func (rd ResourceDescriptor) ToYAML() ([]byte, error) {
 	}
 
 	return FormatMetadata(data)
-}
-
-func IsOfficialType(group string) bool {
-	switch {
-	case group == "":
-		return true
-	case !strings.ContainsRune(group, '.'):
-		return true
-	case group == "k8s.io" || strings.HasSuffix(group, ".k8s.io"):
-		return true
-	case group == "kubernetes.io" || strings.HasSuffix(group, ".kubernetes.io"):
-		return true
-	case group == "x-k8s.io" || strings.HasSuffix(group, ".x-k8s.io"):
-		return true
-	default:
-		return false
-	}
 }

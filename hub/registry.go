@@ -27,6 +27,7 @@ import (
 	"kmodules.xyz/apiversion"
 	kmapi "kmodules.xyz/client-go/api/v1"
 	disco_util "kmodules.xyz/client-go/discovery"
+	meta_util "kmodules.xyz/client-go/meta"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"kmodules.xyz/resource-metadata/hub/resourcedescriptors"
 
@@ -217,7 +218,7 @@ func (r *Registry) createRegistry(cfg *rest.Config) (map[schema.GroupResource]sc
 					Resource: rid,
 				},
 			}
-			if !v1alpha1.IsOfficialType(rd.Spec.Resource.Group) {
+			if !meta_util.IsOfficialType(rd.Spec.Resource.Group) {
 				crd, err := apiext.CustomResourceDefinitions().Get(context.TODO(), fmt.Sprintf("%s.%s", rd.Spec.Resource.Name, rd.Spec.Resource.Group), metav1.GetOptions{})
 				if err == nil {
 					for _, v := range crd.Spec.Versions {
@@ -282,7 +283,7 @@ func (r *Registry) FindGVR(in *metav1.GroupKind, keepOfficialTypes bool) (schema
 	}
 
 	gk := schema.GroupKind{Group: in.Group, Kind: in.Kind}
-	if keepOfficialTypes || !v1alpha1.IsOfficialType(in.Group) {
+	if keepOfficialTypes || !meta_util.IsOfficialType(in.Group) {
 		gvr, ok := latestGVRs[gk]
 		return gvr, ok
 	}
