@@ -227,7 +227,7 @@ spec:
         view:
           name: appcatalog.appscode.com-v1alpha1-appbindings-kubedb
       - actions:
-          create: Never
+          create: Always
         displayMode: List
         kind: Connection
         name: VaultServers
@@ -250,7 +250,7 @@ spec:
         view:
           name: kubevault.com-v1alpha2-vaultservers
       - actions:
-          create: Never
+          create: Always
         displayMode: List
         kind: Connection
         name: SecretEngines
@@ -276,7 +276,7 @@ spec:
         view:
           name: engine.kubevault.com-v1alpha1-postgresroles
       - actions:
-          create: Never
+          create: Always
         displayMode: List
         kind: Connection
         name: SecretAccessRequests
