@@ -27,6 +27,7 @@ import (
 	corev1alpha1 "kmodules.xyz/resource-metadata/apis/core/v1alpha1"
 	managementv1alpha1 "kmodules.xyz/resource-metadata/apis/management/v1alpha1"
 	metav1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	nodev1alpha1 "kmodules.xyz/resource-metadata/apis/node/v1alpha1"
 	uiv1alpha1 "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
 )
 
@@ -37,6 +38,7 @@ var localSchemeBuilder = runtime.SchemeBuilder{
 	corev1alpha1.AddToScheme,
 	managementv1alpha1.AddToScheme,
 	metav1alpha1.AddToScheme,
+	nodev1alpha1.AddToScheme,
 	uiv1alpha1.AddToScheme,
 }
 

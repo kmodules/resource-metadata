@@ -31,6 +31,8 @@ import (
 	fakemanagementv1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/management/v1alpha1/fake"
 	metav1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/meta/v1alpha1"
 	fakemetav1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/meta/v1alpha1/fake"
+	nodev1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/node/v1alpha1"
+	fakenodev1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/node/v1alpha1/fake"
 	uiv1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/ui/v1alpha1"
 	fakeuiv1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/ui/v1alpha1/fake"
 )
@@ -98,6 +100,11 @@ func (c *Clientset) ManagementV1alpha1() managementv1alpha1.ManagementV1alpha1In
 // MetaV1alpha1 retrieves the MetaV1alpha1Client
 func (c *Clientset) MetaV1alpha1() metav1alpha1.MetaV1alpha1Interface {
 	return &fakemetav1alpha1.FakeMetaV1alpha1{Fake: &c.Fake}
+}
+
+// NodeV1alpha1 retrieves the NodeV1alpha1Client
+func (c *Clientset) NodeV1alpha1() nodev1alpha1.NodeV1alpha1Interface {
+	return &fakenodev1alpha1.FakeNodeV1alpha1{Fake: &c.Fake}
 }
 
 // UiV1alpha1 retrieves the UiV1alpha1Client
