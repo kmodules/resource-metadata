@@ -263,7 +263,7 @@ spec:
         view:
           name: engine.kubevault.com-v1alpha1-secretengines
       - actions:
-          create: Never
+          create: Always
         displayMode: List
         kind: Connection
         name: PostgresRoles
