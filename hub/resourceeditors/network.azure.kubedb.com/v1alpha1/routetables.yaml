@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: network.azure.kubedb.com
+    k8s.io/kind: RouteTable
+    k8s.io/resource: routetables
+    k8s.io/version: v1alpha1
+  name: network.azure.kubedb.com-v1alpha1-routetables
+spec:
+  resource:
+    group: network.azure.kubedb.com
+    kind: RouteTable
+    name: routetables
+    scope: Cluster
+    version: v1alpha1

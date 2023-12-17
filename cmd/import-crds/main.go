@@ -61,6 +61,7 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/cert-manager/cert
 go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/apimachinery/crds
 
 go run cmd/import-crds/main.go --input=$HOME/go/src/stash.appscode.dev/apimachinery/crds
+go run cmd/import-crds/main.go --input=$HOME/go/src/kubestash.dev/apimachinery/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/kmodules.xyz/custom-resources/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/kmodules.xyz/resource-metadata/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/kubedb.dev/apimachinery/crds

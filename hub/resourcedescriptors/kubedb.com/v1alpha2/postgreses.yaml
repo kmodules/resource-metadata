@@ -229,6 +229,44 @@ spec:
                   type: object
                   x-kubernetes-map-type: atomic
               type: object
+            arbiter:
+              properties:
+                resources:
+                  properties:
+                    limits:
+                      additionalProperties:
+                        anyOf:
+                        - type: integer
+                        - type: string
+                        pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                        x-kubernetes-int-or-string: true
+                      type: object
+                    requests:
+                      additionalProperties:
+                        anyOf:
+                        - type: integer
+                        - type: string
+                        pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                        x-kubernetes-int-or-string: true
+                      type: object
+                  type: object
+              type: object
+            archiver:
+              properties:
+                pause:
+                  type: boolean
+                ref:
+                  properties:
+                    name:
+                      type: string
+                    namespace:
+                      type: string
+                  required:
+                  - name
+                  type: object
+              required:
+              - ref
+              type: object
             authSecret:
               properties:
                 externallyManaged:
@@ -364,6 +402,41 @@ spec:
               type: object
             init:
               properties:
+                archiver:
+                  properties:
+                    encryptionSecret:
+                      properties:
+                        name:
+                          type: string
+                        namespace:
+                          type: string
+                      required:
+                      - name
+                      type: object
+                    fullDBRepository:
+                      properties:
+                        name:
+                          type: string
+                        namespace:
+                          type: string
+                      required:
+                      - name
+                      type: object
+                    manifestRepository:
+                      properties:
+                        name:
+                          type: string
+                        namespace:
+                          type: string
+                      required:
+                      - name
+                      type: object
+                    recoveryTimestamp:
+                      format: date-time
+                      type: string
+                  required:
+                  - recoveryTimestamp
+                  type: object
                 initialized:
                   type: boolean
                 script:
@@ -1272,9 +1345,15 @@ spec:
                   default: 60s
                   type: string
               type: object
+            mode:
+              type: string
             monitor:
               properties:
                 agent:
+                  enum:
+                  - prometheus.io/operator
+                  - prometheus.io
+                  - prometheus.io/builtin
                   type: string
                 prometheus:
                   properties:
@@ -3776,6 +3855,29 @@ spec:
                         type: object
                       type: array
                   type: object
+              type: object
+            remoteReplica:
+              properties:
+                sourceRef:
+                  properties:
+                    apiVersion:
+                      type: string
+                    fieldPath:
+                      type: string
+                    kind:
+                      type: string
+                    name:
+                      type: string
+                    namespace:
+                      type: string
+                    resourceVersion:
+                      type: string
+                    uid:
+                      type: string
+                  type: object
+                  x-kubernetes-map-type: atomic
+              required:
+              - sourceRef
               type: object
             replicas:
               format: int32

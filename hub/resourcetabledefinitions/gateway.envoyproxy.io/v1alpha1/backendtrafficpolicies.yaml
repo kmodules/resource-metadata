@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: gateway.envoyproxy.io
+    k8s.io/kind: BackendTrafficPolicy
+    k8s.io/resource: backendtrafficpolicies
+    k8s.io/version: v1alpha1
+  name: gateway.envoyproxy.io-v1alpha1-backendtrafficpolicies
+spec:
+  defaultView: true
+  resource:
+    group: gateway.envoyproxy.io
+    kind: BackendTrafficPolicy
+    name: backendtrafficpolicies
+    scope: Namespaced
+    version: v1alpha1
