@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: sql.azure.kubedb.com
+    k8s.io/kind: MSSQLFirewallRule
+    k8s.io/resource: mssqlfirewallrules
+    k8s.io/version: v1alpha1
+  name: sql.azure.kubedb.com-v1alpha1-mssqlfirewallrules
+spec:
+  resource:
+    group: sql.azure.kubedb.com
+    kind: MSSQLFirewallRule
+    name: mssqlfirewallrules
+    scope: Cluster
+    version: v1alpha1

@@ -178,6 +178,8 @@ spec:
                         description: Version of the API Group to select resources from. Together with Group and Kind it is capable of unambiguously identifying and/or selecting resources. https://github.com/kubernetes/community/blob/master/contributors/design-proposals/api-machinery/api-group.md
                         type: string
                     type: object
+                required:
+                - patch
                 type: object
               type: array
             patchesJson6902:

@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: storage.kubestash.com
+    k8s.io/kind: BackupStorage
+    k8s.io/resource: backupstorages
+    k8s.io/version: v1alpha1
+  name: storage.kubestash.com-v1alpha1-backupstorages
+spec:
+  resource:
+    group: storage.kubestash.com
+    kind: BackupStorage
+    name: backupstorages
+    scope: Namespaced
+    version: v1alpha1

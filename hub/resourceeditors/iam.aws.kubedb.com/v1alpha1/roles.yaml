@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: iam.aws.kubedb.com
+    k8s.io/kind: Role
+    k8s.io/resource: roles
+    k8s.io/version: v1alpha1
+  name: iam.aws.kubedb.com-v1alpha1-roles
+spec:
+  resource:
+    group: iam.aws.kubedb.com
+    kind: Role
+    name: roles
+    scope: Cluster
+    version: v1alpha1

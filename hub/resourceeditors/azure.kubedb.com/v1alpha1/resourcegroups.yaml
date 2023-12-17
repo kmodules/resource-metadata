@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: azure.kubedb.com
+    k8s.io/kind: ResourceGroup
+    k8s.io/resource: resourcegroups
+    k8s.io/version: v1alpha1
+  name: azure.kubedb.com-v1alpha1-resourcegroups
+spec:
+  resource:
+    group: azure.kubedb.com
+    kind: ResourceGroup
+    name: resourcegroups
+    scope: Cluster
+    version: v1alpha1
