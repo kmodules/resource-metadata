@@ -111,6 +111,7 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/a
 go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/api/crdsv1beta1
 go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/api/addon/v1alpha1
 go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/api/operator/v1
+go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/managed-serviceaccount/charts/managed-serviceaccount/crds
 
 # Gateway
 go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/charts/voyager-gateway/crds
