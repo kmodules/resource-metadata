@@ -17,5 +17,5 @@ limitations under the License.
 package ui
 
 const (
-	LabelFeatureSet = "ace.appscode.com/feature-set"
+	LabelFeatureSet = "app.kubernetes.io/part-of"
 )
