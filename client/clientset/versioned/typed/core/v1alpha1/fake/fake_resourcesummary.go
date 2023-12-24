@@ -23,7 +23,6 @@ import (
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/core/v1alpha1"
 )
@@ -34,9 +33,9 @@ type FakeResourceSummaries struct {
 	ns   string
 }
 
-var resourcesummariesResource = schema.GroupVersionResource{Group: "core.k8s.appscode.com", Version: "v1alpha1", Resource: "resourcesummaries"}
+var resourcesummariesResource = v1alpha1.SchemeGroupVersion.WithResource("resourcesummaries")
 
-var resourcesummariesKind = schema.GroupVersionKind{Group: "core.k8s.appscode.com", Version: "v1alpha1", Kind: "ResourceSummary"}
+var resourcesummariesKind = v1alpha1.SchemeGroupVersion.WithKind("ResourceSummary")
 
 // Get takes name of the resourceSummary, and returns the corresponding resourceSummary object, and an error if there is any.
 func (c *FakeResourceSummaries) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ResourceSummary, err error) {

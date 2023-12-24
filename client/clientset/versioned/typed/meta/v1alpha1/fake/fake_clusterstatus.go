@@ -22,7 +22,6 @@ import (
 	"context"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 )
@@ -32,9 +31,9 @@ type FakeClusterStatuses struct {
 	Fake *FakeMetaV1alpha1
 }
 
-var clusterstatusesResource = schema.GroupVersionResource{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Resource: "clusterstatuses"}
+var clusterstatusesResource = v1alpha1.SchemeGroupVersion.WithResource("clusterstatuses")
 
-var clusterstatusesKind = schema.GroupVersionKind{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Kind: "ClusterStatus"}
+var clusterstatusesKind = v1alpha1.SchemeGroupVersion.WithKind("ClusterStatus")
 
 // Create takes the representation of a clusterStatus and creates it.  Returns the server's representation of the clusterStatus, and an error, if there is any.
 func (c *FakeClusterStatuses) Create(ctx context.Context, clusterStatus *v1alpha1.ClusterStatus, opts v1.CreateOptions) (result *v1alpha1.ClusterStatus, err error) {

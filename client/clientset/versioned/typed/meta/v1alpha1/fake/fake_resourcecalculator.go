@@ -22,7 +22,6 @@ import (
 	"context"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 )
@@ -32,9 +31,9 @@ type FakeResourceCalculators struct {
 	Fake *FakeMetaV1alpha1
 }
 
-var resourcecalculatorsResource = schema.GroupVersionResource{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Resource: "resourcecalculators"}
+var resourcecalculatorsResource = v1alpha1.SchemeGroupVersion.WithResource("resourcecalculators")
 
-var resourcecalculatorsKind = schema.GroupVersionKind{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Kind: "ResourceCalculator"}
+var resourcecalculatorsKind = v1alpha1.SchemeGroupVersion.WithKind("ResourceCalculator")
 
 // Create takes the representation of a resourceCalculator and creates it.  Returns the server's representation of the resourceCalculator, and an error, if there is any.
 func (c *FakeResourceCalculators) Create(ctx context.Context, resourceCalculator *v1alpha1.ResourceCalculator, opts v1.CreateOptions) (result *v1alpha1.ResourceCalculator, err error) {

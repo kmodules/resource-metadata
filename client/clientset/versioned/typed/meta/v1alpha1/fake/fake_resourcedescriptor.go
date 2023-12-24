@@ -22,7 +22,6 @@ import (
 	"context"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 )
@@ -32,9 +31,9 @@ type FakeResourceDescriptors struct {
 	Fake *FakeMetaV1alpha1
 }
 
-var resourcedescriptorsResource = schema.GroupVersionResource{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Resource: "resourcedescriptors"}
+var resourcedescriptorsResource = v1alpha1.SchemeGroupVersion.WithResource("resourcedescriptors")
 
-var resourcedescriptorsKind = schema.GroupVersionKind{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Kind: "ResourceDescriptor"}
+var resourcedescriptorsKind = v1alpha1.SchemeGroupVersion.WithKind("ResourceDescriptor")
 
 // Get takes name of the resourceDescriptor, and returns the corresponding resourceDescriptor object, and an error if there is any.
 func (c *FakeResourceDescriptors) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ResourceDescriptor, err error) {

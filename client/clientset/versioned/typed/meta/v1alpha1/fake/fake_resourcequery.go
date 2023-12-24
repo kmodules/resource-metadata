@@ -22,7 +22,6 @@ import (
 	"context"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 )
@@ -32,9 +31,9 @@ type FakeResourceQueries struct {
 	Fake *FakeMetaV1alpha1
 }
 
-var resourcequeriesResource = schema.GroupVersionResource{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Resource: "resourcequeries"}
+var resourcequeriesResource = v1alpha1.SchemeGroupVersion.WithResource("resourcequeries")
 
-var resourcequeriesKind = schema.GroupVersionKind{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Kind: "ResourceQuery"}
+var resourcequeriesKind = v1alpha1.SchemeGroupVersion.WithKind("ResourceQuery")
 
 // Create takes the representation of a resourceQuery and creates it.  Returns the server's representation of the resourceQuery, and an error, if there is any.
 func (c *FakeResourceQueries) Create(ctx context.Context, resourceQuery *v1alpha1.ResourceQuery, opts v1.CreateOptions) (result *v1alpha1.ResourceQuery, err error) {

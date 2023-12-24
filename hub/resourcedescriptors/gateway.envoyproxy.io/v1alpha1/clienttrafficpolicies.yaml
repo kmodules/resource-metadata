@@ -17,38 +17,60 @@ spec:
     version: v1alpha1
   validation:
     openAPIV3Schema:
-      description: ClientTrafficPolicy allows the user to configure the behavior of the connection between the downstream client and Envoy Proxy listener.
+      description: ClientTrafficPolicy allows the user to configure the behavior of
+        the connection between the downstream client and Envoy Proxy listener.
       properties:
         apiVersion:
-          description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
           type: string
         kind:
-          description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
           type: string
         metadata:
           properties:
             name:
-              description: 'Name must be unique within a namespace. Is required when creating resources, although some resources may allow a client to request the generation of an appropriate name automatically. Name is primarily intended for creation idempotence and configuration definition. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
+              description: 'Name must be unique within a namespace. Is required when
+                creating resources, although some resources may allow a client to
+                request the generation of an appropriate name automatically. Name
+                is primarily intended for creation idempotence and configuration definition.
+                Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
               type: string
             namespace:
-              description: "Namespace defines the space within which each name must be unique. An empty namespace is equivalent to the \"default\" namespace, but \"default\" is the canonical representation. Not all objects are required to be scoped to a namespace - the value of this field for those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/namespaces"
+              description: "Namespace defines the space within which each name must
+                be unique. An empty namespace is equivalent to the \"default\" namespace,
+                but \"default\" is the canonical representation. Not all objects are
+                required to be scoped to a namespace - the value of this field for
+                those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated.
+                More info: http://kubernetes.io/docs/user-guide/namespaces"
               type: string
             labels:
               additionalProperties:
                 type: string
-              description: 'Map of string keys and values that can be used to organize and categorize (scope and select) objects. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels'
+              description: 'Map of string keys and values that can be used to organize
+                and categorize (scope and select) objects. May match selectors of
+                replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels'
               type: object
             annotations:
               additionalProperties:
                 type: string
-              description: 'Annotations is an unstructured key value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: http://kubernetes.io/docs/user-guide/annotations'
+              description: 'Annotations is an unstructured key value map stored with
+                a resource that may be set by external tools to store and retrieve
+                arbitrary metadata. They are not queryable and should be preserved
+                when modifying objects. More info: http://kubernetes.io/docs/user-guide/annotations'
               type: object
           type: object
         spec:
           description: Spec defines the desired state of ClientTrafficPolicy.
           properties:
             targetRef:
-              description: TargetRef is the name of the Gateway resource this policy is being attached to. This Policy and the TargetRef MUST be in the same namespace for this Policy to have effect and be applied to the Gateway. TargetRef
+              description: TargetRef is the name of the Gateway resource this policy
+                is being attached to. This Policy and the TargetRef MUST be in the
+                same namespace for this Policy to have effect and be applied to the
+                Gateway. TargetRef
               properties:
                 group:
                   description: Group is the group of the target resource.
@@ -67,13 +89,23 @@ spec:
                   minLength: 1
                   type: string
                 namespace:
-                  description: Namespace is the namespace of the referent. When unspecified, the local namespace is inferred. Even when policy targets a resource in a different namespace, it MUST only apply to traffic originating from the same namespace as the policy.
+                  description: Namespace is the namespace of the referent. When unspecified,
+                    the local namespace is inferred. Even when policy targets a resource
+                    in a different namespace, it MUST only apply to traffic originating
+                    from the same namespace as the policy.
                   maxLength: 63
                   minLength: 1
                   pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$
                   type: string
                 sectionName:
-                  description: "SectionName is the name of a section within the target resource. When unspecified, this targetRef targets the entire resource. In the following resources, SectionName is interpreted as the following: \n * Gateway: Listener Name * Service: Port Name \n If a SectionName is specified, but does not exist on the targeted object, the Policy must fail to attach, and the policy implementation should record a `ResolvedRefs` or similar Condition in the Policy's status."
+                  description: "SectionName is the name of a section within the target
+                    resource. When unspecified, this targetRef targets the entire
+                    resource. In the following resources, SectionName is interpreted
+                    as the following: \n * Gateway: Listener Name * Service: Port
+                    Name \n If a SectionName is specified, but does not exist on the
+                    targeted object, the Policy must fail to attach, and the policy
+                    implementation should record a `ResolvedRefs` or similar Condition
+                    in the Policy's status."
                   maxLength: 253
                   minLength: 1
                   pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
@@ -91,18 +123,23 @@ spec:
               - message: this policy does not yet support the sectionName field
                 rule: '!has(self.sectionName)'
             tcpKeepalive:
-              description: TcpKeepalive settings associated with the downstream client connection. If defined, sets SO_KEEPALIVE on the listener socket to enable TCP Keepalives. Disabled by default.
+              description: TcpKeepalive settings associated with the downstream client
+                connection. If defined, sets SO_KEEPALIVE on the listener socket to
+                enable TCP Keepalives. Disabled by default.
               properties:
                 idleTime:
-                  description: The duration a connection needs to be idle before keep-alive probes start being sent. The duration format is Defaults to `7200s`.
+                  description: The duration a connection needs to be idle before keep-alive
+                    probes start being sent. The duration format is Defaults to `7200s`.
                   pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                   type: string
                 interval:
-                  description: The duration between keep-alive probes. Defaults to `75s`.
+                  description: The duration between keep-alive probes. Defaults to
+                    `75s`.
                   pattern: ^([0-9]{1,5}(h|m|s|ms)){1,4}$
                   type: string
                 probes:
-                  description: The total number of unacknowledged probes to send before deciding the connection is dead. Defaults to 9.
+                  description: The total number of unacknowledged probes to send before
+                    deciding the connection is dead. Defaults to 9.
                   format: int32
                   type: integer
               type: object

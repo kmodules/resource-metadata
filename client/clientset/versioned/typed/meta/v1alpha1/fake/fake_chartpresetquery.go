@@ -22,7 +22,6 @@ import (
 	"context"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 )
@@ -32,9 +31,9 @@ type FakeChartPresetQueries struct {
 	Fake *FakeMetaV1alpha1
 }
 
-var chartpresetqueriesResource = schema.GroupVersionResource{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Resource: "chartpresetqueries"}
+var chartpresetqueriesResource = v1alpha1.SchemeGroupVersion.WithResource("chartpresetqueries")
 
-var chartpresetqueriesKind = schema.GroupVersionKind{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Kind: "ChartPresetQuery"}
+var chartpresetqueriesKind = v1alpha1.SchemeGroupVersion.WithKind("ChartPresetQuery")
 
 // Create takes the representation of a chartPresetQuery and creates it.  Returns the server's representation of the chartPresetQuery, and an error, if there is any.
 func (c *FakeChartPresetQueries) Create(ctx context.Context, chartPresetQuery *v1alpha1.ChartPresetQuery, opts v1.CreateOptions) (result *v1alpha1.ChartPresetQuery, err error) {

@@ -22,7 +22,6 @@ import (
 	"context"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 )
@@ -32,9 +31,9 @@ type FakeRenders struct {
 	Fake *FakeMetaV1alpha1
 }
 
-var rendersResource = schema.GroupVersionResource{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Resource: "renders"}
+var rendersResource = v1alpha1.SchemeGroupVersion.WithResource("renders")
 
-var rendersKind = schema.GroupVersionKind{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Kind: "Render"}
+var rendersKind = v1alpha1.SchemeGroupVersion.WithKind("Render")
 
 // Create takes the representation of a render and creates it.  Returns the server's representation of the render, and an error, if there is any.
 func (c *FakeRenders) Create(ctx context.Context, render *v1alpha1.Render, opts v1.CreateOptions) (result *v1alpha1.Render, err error) {

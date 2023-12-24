@@ -21,10 +21,11 @@ import (
 	"reflect"
 	"strings"
 
-	networking "k8s.io/api/networking/v1beta1"
+	networking "k8s.io/api/networking/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/apimachinery/pkg/util/sets"
 )
 
 func init() {
@@ -61,7 +62,7 @@ func (p IngressPrinter) Convert(o runtime.Object) (map[string]interface{}, error
 		className = *obj.Spec.IngressClassName
 	}
 	hosts := formatHosts(obj.Spec.Rules)
-	address := loadBalancerStatusStringer(obj.Status.LoadBalancer)
+	address := loadBalancerStatusStringer2(obj.Status.LoadBalancer)
 	ports := formatPorts(obj.Spec.TLS)
 	createTime := translateTimestampSince(obj.CreationTimestamp)
 
@@ -73,6 +74,22 @@ func (p IngressPrinter) Convert(o runtime.Object) (map[string]interface{}, error
 	row["_Age"] = createTime
 
 	return row, nil
+}
+
+// loadBalancerStatusStringer behaves mostly like a string interface and converts the given status to a string.
+// `wide` indicates whether the returned value is meant for --o=wide output. If not, it's clipped to 16 bytes.
+func loadBalancerStatusStringer2(s networking.IngressLoadBalancerStatus) string {
+	ingress := s.Ingress
+	result := sets.NewString()
+	for i := range ingress {
+		if ingress[i].IP != "" {
+			result.Insert(ingress[i].IP)
+		} else if ingress[i].Hostname != "" {
+			result.Insert(ingress[i].Hostname)
+		}
+	}
+
+	return strings.Join(result.List(), ",")
 }
 
 func formatHosts(rules []networking.IngressRule) string {

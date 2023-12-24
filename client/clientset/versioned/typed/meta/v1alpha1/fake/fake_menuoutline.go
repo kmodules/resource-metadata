@@ -23,7 +23,6 @@ import (
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
 	testing "k8s.io/client-go/testing"
@@ -36,9 +35,9 @@ type FakeMenuOutlines struct {
 	ns   string
 }
 
-var menuoutlinesResource = schema.GroupVersionResource{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Resource: "menuoutlines"}
+var menuoutlinesResource = v1alpha1.SchemeGroupVersion.WithResource("menuoutlines")
 
-var menuoutlinesKind = schema.GroupVersionKind{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Kind: "MenuOutline"}
+var menuoutlinesKind = v1alpha1.SchemeGroupVersion.WithKind("MenuOutline")
 
 // Get takes name of the menuOutline, and returns the corresponding menuOutline object, and an error if there is any.
 func (c *FakeMenuOutlines) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.MenuOutline, err error) {

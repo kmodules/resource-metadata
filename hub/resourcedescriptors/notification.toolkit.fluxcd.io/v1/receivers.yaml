@@ -20,47 +20,68 @@ spec:
       description: Receiver is the Schema for the receivers API.
       properties:
         apiVersion:
-          description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
           type: string
         kind:
-          description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
           type: string
         metadata:
           properties:
             name:
-              description: 'Name must be unique within a namespace. Is required when creating resources, although some resources may allow a client to request the generation of an appropriate name automatically. Name is primarily intended for creation idempotence and configuration definition. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
+              description: 'Name must be unique within a namespace. Is required when
+                creating resources, although some resources may allow a client to
+                request the generation of an appropriate name automatically. Name
+                is primarily intended for creation idempotence and configuration definition.
+                Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
               type: string
             namespace:
-              description: "Namespace defines the space within which each name must be unique. An empty namespace is equivalent to the \"default\" namespace, but \"default\" is the canonical representation. Not all objects are required to be scoped to a namespace - the value of this field for those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/namespaces"
+              description: "Namespace defines the space within which each name must
+                be unique. An empty namespace is equivalent to the \"default\" namespace,
+                but \"default\" is the canonical representation. Not all objects are
+                required to be scoped to a namespace - the value of this field for
+                those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated.
+                More info: http://kubernetes.io/docs/user-guide/namespaces"
               type: string
             labels:
               additionalProperties:
                 type: string
-              description: 'Map of string keys and values that can be used to organize and categorize (scope and select) objects. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels'
+              description: 'Map of string keys and values that can be used to organize
+                and categorize (scope and select) objects. May match selectors of
+                replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels'
               type: object
             annotations:
               additionalProperties:
                 type: string
-              description: 'Annotations is an unstructured key value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: http://kubernetes.io/docs/user-guide/annotations'
+              description: 'Annotations is an unstructured key value map stored with
+                a resource that may be set by external tools to store and retrieve
+                arbitrary metadata. They are not queryable and should be preserved
+                when modifying objects. More info: http://kubernetes.io/docs/user-guide/annotations'
               type: object
           type: object
         spec:
           description: ReceiverSpec defines the desired state of the Receiver.
           properties:
             events:
-              description: Events specifies the list of event types to handle, e.g. 'push' for GitHub or 'Push Hook' for GitLab.
+              description: Events specifies the list of event types to handle, e.g.
+                'push' for GitHub or 'Push Hook' for GitLab.
               items:
                 type: string
               type: array
             interval:
               default: 10m
-              description: Interval at which to reconcile the Receiver with its Secret references.
+              description: Interval at which to reconcile the Receiver with its Secret
+                references.
               pattern: ^([0-9]+(\.[0-9]+)?(ms|s|m|h))+$
               type: string
             resources:
               description: A list of resources to be notified about changes.
               items:
-                description: CrossNamespaceObjectReference contains enough information to let you locate the typed referenced object at cluster level
+                description: CrossNamespaceObjectReference contains enough information
+                  to let you locate the typed referenced object at cluster level
                 properties:
                   apiVersion:
                     description: API version of the referent
@@ -82,10 +103,15 @@ spec:
                   matchLabels:
                     additionalProperties:
                       type: string
-                    description: MatchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed. MatchLabels requires the name to be set to `*`.
+                    description: MatchLabels is a map of {key,value} pairs. A single
+                      {key,value} in the matchLabels map is equivalent to an element
+                      of matchExpressions, whose key field is "key", the operator
+                      is "In", and the values array contains only "value". The requirements
+                      are ANDed. MatchLabels requires the name to be set to `*`.
                     type: object
                   name:
-                    description: Name of the referent If multiple resources are targeted `*` may be set.
+                    description: Name of the referent If multiple resources are targeted
+                      `*` may be set.
                     maxLength: 53
                     minLength: 1
                     type: string
@@ -100,7 +126,8 @@ spec:
                 type: object
               type: array
             secretRef:
-              description: SecretRef specifies the Secret containing the token used to validate the payload authenticity.
+              description: SecretRef specifies the Secret containing the token used
+                to validate the payload authenticity.
               properties:
                 name:
                   description: Name of the referent.
@@ -109,10 +136,12 @@ spec:
               - name
               type: object
             suspend:
-              description: Suspend tells the controller to suspend subsequent events handling for this receiver.
+              description: Suspend tells the controller to suspend subsequent events
+                handling for this receiver.
               type: boolean
             type:
-              description: Type of webhook sender, used to determine the validation procedure and payload deserialization.
+              description: Type of webhook sender, used to determine the validation
+                procedure and payload deserialization.
               enum:
               - generic
               - generic-hmac
