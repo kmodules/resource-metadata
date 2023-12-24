@@ -22,7 +22,6 @@ import (
 	"context"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 )
@@ -32,9 +31,9 @@ type FakeRenderDashboards struct {
 	Fake *FakeMetaV1alpha1
 }
 
-var renderdashboardsResource = schema.GroupVersionResource{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Resource: "renderdashboards"}
+var renderdashboardsResource = v1alpha1.SchemeGroupVersion.WithResource("renderdashboards")
 
-var renderdashboardsKind = schema.GroupVersionKind{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Kind: "RenderDashboard"}
+var renderdashboardsKind = v1alpha1.SchemeGroupVersion.WithKind("RenderDashboard")
 
 // Create takes the representation of a renderDashboard and creates it.  Returns the server's representation of the renderDashboard, and an error, if there is any.
 func (c *FakeRenderDashboards) Create(ctx context.Context, renderDashboard *v1alpha1.RenderDashboard, opts v1.CreateOptions) (result *v1alpha1.RenderDashboard, err error) {

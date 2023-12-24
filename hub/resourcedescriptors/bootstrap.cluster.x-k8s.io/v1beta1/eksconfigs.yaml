@@ -17,58 +17,86 @@ spec:
     version: v1beta1
   validation:
     openAPIV3Schema:
-      description: EKSConfig is the schema for the Amazon EKS Machine Bootstrap Configuration API.
+      description: EKSConfig is the schema for the Amazon EKS Machine Bootstrap Configuration
+        API.
       properties:
         apiVersion:
-          description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
           type: string
         kind:
-          description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
           type: string
         metadata:
           properties:
             name:
-              description: 'Name must be unique within a namespace. Is required when creating resources, although some resources may allow a client to request the generation of an appropriate name automatically. Name is primarily intended for creation idempotence and configuration definition. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
+              description: 'Name must be unique within a namespace. Is required when
+                creating resources, although some resources may allow a client to
+                request the generation of an appropriate name automatically. Name
+                is primarily intended for creation idempotence and configuration definition.
+                Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
               type: string
             namespace:
-              description: "Namespace defines the space within which each name must be unique. An empty namespace is equivalent to the \"default\" namespace, but \"default\" is the canonical representation. Not all objects are required to be scoped to a namespace - the value of this field for those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/namespaces"
+              description: "Namespace defines the space within which each name must
+                be unique. An empty namespace is equivalent to the \"default\" namespace,
+                but \"default\" is the canonical representation. Not all objects are
+                required to be scoped to a namespace - the value of this field for
+                those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated.
+                More info: http://kubernetes.io/docs/user-guide/namespaces"
               type: string
             labels:
               additionalProperties:
                 type: string
-              description: 'Map of string keys and values that can be used to organize and categorize (scope and select) objects. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels'
+              description: 'Map of string keys and values that can be used to organize
+                and categorize (scope and select) objects. May match selectors of
+                replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels'
               type: object
             annotations:
               additionalProperties:
                 type: string
-              description: 'Annotations is an unstructured key value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: http://kubernetes.io/docs/user-guide/annotations'
+              description: 'Annotations is an unstructured key value map stored with
+                a resource that may be set by external tools to store and retrieve
+                arbitrary metadata. They are not queryable and should be preserved
+                when modifying objects. More info: http://kubernetes.io/docs/user-guide/annotations'
               type: object
           type: object
         spec:
-          description: EKSConfigSpec defines the desired state of Amazon EKS Bootstrap Configuration.
+          description: EKSConfigSpec defines the desired state of Amazon EKS Bootstrap
+            Configuration.
           properties:
             apiRetryAttempts:
-              description: APIRetryAttempts is the number of retry attempts for AWS API call.
+              description: APIRetryAttempts is the number of retry attempts for AWS
+                API call.
               type: integer
             containerRuntime:
-              description: ContainerRuntime specify the container runtime to use when bootstrapping EKS.
+              description: ContainerRuntime specify the container runtime to use when
+                bootstrapping EKS.
               type: string
             dnsClusterIP:
-              description: DNSClusterIP overrides the IP address to use for DNS queries within the cluster.
+              description: DNSClusterIP overrides the IP address to use for DNS queries
+                within the cluster.
               type: string
             dockerConfigJson:
-              description: DockerConfigJson is used for the contents of the /etc/docker/daemon.json file. Useful if you want a custom config differing from the default one in the AMI. This is expected to be a json string.
+              description: DockerConfigJson is used for the contents of the /etc/docker/daemon.json
+                file. Useful if you want a custom config differing from the default
+                one in the AMI. This is expected to be a json string.
               type: string
             kubeletExtraArgs:
               additionalProperties:
                 type: string
-              description: KubeletExtraArgs passes the specified kubelet args into the Amazon EKS machine bootstrap script
+              description: KubeletExtraArgs passes the specified kubelet args into
+                the Amazon EKS machine bootstrap script
               type: object
             pauseContainer:
-              description: PauseContainer allows customization of the pause container to use.
+              description: PauseContainer allows customization of the pause container
+                to use.
               properties:
                 accountNumber:
-                  description: AccountNumber is the AWS account number to pull the pause container from.
+                  description: AccountNumber is the AWS account number to pull the
+                    pause container from.
                   type: string
                 version:
                   description: Version is the tag of the pause container to use.
@@ -78,7 +106,8 @@ spec:
               - version
               type: object
             serviceIPV6Cidr:
-              description: ServiceIPV6Cidr is the ipv6 cidr range of the cluster. If this is specified then the ip family will be set to ipv6.
+              description: ServiceIPV6Cidr is the ipv6 cidr range of the cluster.
+                If this is specified then the ip family will be set to ipv6.
               type: string
             useMaxPods:
               description: UseMaxPods  sets --max-pods for the kubelet when true.

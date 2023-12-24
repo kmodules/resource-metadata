@@ -22,7 +22,6 @@ import (
 	"context"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 )
@@ -32,9 +31,9 @@ type FakeResourceBlockDefinitions struct {
 	Fake *FakeMetaV1alpha1
 }
 
-var resourceblockdefinitionsResource = schema.GroupVersionResource{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Resource: "resourceblockdefinitions"}
+var resourceblockdefinitionsResource = v1alpha1.SchemeGroupVersion.WithResource("resourceblockdefinitions")
 
-var resourceblockdefinitionsKind = schema.GroupVersionKind{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Kind: "ResourceBlockDefinition"}
+var resourceblockdefinitionsKind = v1alpha1.SchemeGroupVersion.WithKind("ResourceBlockDefinition")
 
 // Get takes name of the resourceBlockDefinition, and returns the corresponding resourceBlockDefinition object, and an error if there is any.
 func (c *FakeResourceBlockDefinitions) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ResourceBlockDefinition, err error) {

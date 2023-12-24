@@ -23,7 +23,6 @@ import (
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
 	testing "k8s.io/client-go/testing"
@@ -35,9 +34,9 @@ type FakeNodeTopologies struct {
 	Fake *FakeNodeV1alpha1
 }
 
-var nodetopologiesResource = schema.GroupVersionResource{Group: "node.k8s.appscode.com", Version: "v1alpha1", Resource: "nodetopologies"}
+var nodetopologiesResource = v1alpha1.SchemeGroupVersion.WithResource("nodetopologies")
 
-var nodetopologiesKind = schema.GroupVersionKind{Group: "node.k8s.appscode.com", Version: "v1alpha1", Kind: "NodeTopology"}
+var nodetopologiesKind = v1alpha1.SchemeGroupVersion.WithKind("NodeTopology")
 
 // Get takes name of the nodeTopology, and returns the corresponding nodeTopology object, and an error if there is any.
 func (c *FakeNodeTopologies) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.NodeTopology, err error) {

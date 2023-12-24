@@ -23,7 +23,6 @@ import (
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
 	testing "k8s.io/client-go/testing"
@@ -35,9 +34,9 @@ type FakeFeatures struct {
 	Fake *FakeUiV1alpha1
 }
 
-var featuresResource = schema.GroupVersionResource{Group: "ui.k8s.appscode.com", Version: "v1alpha1", Resource: "features"}
+var featuresResource = v1alpha1.SchemeGroupVersion.WithResource("features")
 
-var featuresKind = schema.GroupVersionKind{Group: "ui.k8s.appscode.com", Version: "v1alpha1", Kind: "Feature"}
+var featuresKind = v1alpha1.SchemeGroupVersion.WithKind("Feature")
 
 // Get takes name of the feature, and returns the corresponding feature object, and an error if there is any.
 func (c *FakeFeatures) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.Feature, err error) {

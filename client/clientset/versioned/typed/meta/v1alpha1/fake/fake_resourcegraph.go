@@ -22,7 +22,6 @@ import (
 	"context"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 )
@@ -32,9 +31,9 @@ type FakeResourceGraphs struct {
 	Fake *FakeMetaV1alpha1
 }
 
-var resourcegraphsResource = schema.GroupVersionResource{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Resource: "resourcegraphs"}
+var resourcegraphsResource = v1alpha1.SchemeGroupVersion.WithResource("resourcegraphs")
 
-var resourcegraphsKind = schema.GroupVersionKind{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Kind: "ResourceGraph"}
+var resourcegraphsKind = v1alpha1.SchemeGroupVersion.WithKind("ResourceGraph")
 
 // Create takes the representation of a resourceGraph and creates it.  Returns the server's representation of the resourceGraph, and an error, if there is any.
 func (c *FakeResourceGraphs) Create(ctx context.Context, resourceGraph *v1alpha1.ResourceGraph, opts v1.CreateOptions) (result *v1alpha1.ResourceGraph, err error) {

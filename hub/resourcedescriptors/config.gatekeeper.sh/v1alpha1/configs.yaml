@@ -20,28 +20,46 @@ spec:
       description: Config is the Schema for the configs API.
       properties:
         apiVersion:
-          description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
           type: string
         kind:
-          description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
           type: string
         metadata:
           properties:
             name:
-              description: 'Name must be unique within a namespace. Is required when creating resources, although some resources may allow a client to request the generation of an appropriate name automatically. Name is primarily intended for creation idempotence and configuration definition. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
+              description: 'Name must be unique within a namespace. Is required when
+                creating resources, although some resources may allow a client to
+                request the generation of an appropriate name automatically. Name
+                is primarily intended for creation idempotence and configuration definition.
+                Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
               type: string
             namespace:
-              description: "Namespace defines the space within which each name must be unique. An empty namespace is equivalent to the \"default\" namespace, but \"default\" is the canonical representation. Not all objects are required to be scoped to a namespace - the value of this field for those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/namespaces"
+              description: "Namespace defines the space within which each name must
+                be unique. An empty namespace is equivalent to the \"default\" namespace,
+                but \"default\" is the canonical representation. Not all objects are
+                required to be scoped to a namespace - the value of this field for
+                those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated.
+                More info: http://kubernetes.io/docs/user-guide/namespaces"
               type: string
             labels:
               additionalProperties:
                 type: string
-              description: 'Map of string keys and values that can be used to organize and categorize (scope and select) objects. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels'
+              description: 'Map of string keys and values that can be used to organize
+                and categorize (scope and select) objects. May match selectors of
+                replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels'
               type: object
             annotations:
               additionalProperties:
                 type: string
-              description: 'Annotations is an unstructured key value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: http://kubernetes.io/docs/user-guide/annotations'
+              description: 'Annotations is an unstructured key value map stored with
+                a resource that may be set by external tools to store and retrieve
+                arbitrary metadata. They are not queryable and should be preserved
+                when modifying objects. More info: http://kubernetes.io/docs/user-guide/annotations'
               type: object
           type: object
         spec:
@@ -53,7 +71,10 @@ spec:
                 properties:
                   excludedNamespaces:
                     items:
-                      description: 'A string that supports globbing at its front or end. Ex: "kube-*" will match "kube-system" or "kube-public", "*-system" will match "kube-system" or "gatekeeper-system".  The asterisk is required for wildcard matching.'
+                      description: 'A string that supports globbing at its front or
+                        end. Ex: "kube-*" will match "kube-system" or "kube-public",
+                        "*-system" will match "kube-system" or "gatekeeper-system".  The
+                        asterisk is required for wildcard matching.'
                       pattern: ^(\*|\*-)?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\*|-\*)?$
                       type: string
                     type: array
@@ -73,7 +94,8 @@ spec:
               description: Configuration for syncing k8s objects
               properties:
                 syncOnly:
-                  description: If non-empty, only entries on this list will be replicated into OPA
+                  description: If non-empty, only entries on this list will be replicated
+                    into OPA
                   items:
                     properties:
                       group:
@@ -89,11 +111,13 @@ spec:
               description: Configuration for validation
               properties:
                 traces:
-                  description: List of requests to trace. Both "user" and "kinds" must be specified
+                  description: List of requests to trace. Both "user" and "kinds"
+                    must be specified
                   items:
                     properties:
                       dump:
-                        description: Also dump the state of OPA with the trace. Set to `All` to dump everything.
+                        description: Also dump the state of OPA with the trace. Set
+                          to `All` to dump everything.
                         type: string
                       kind:
                         description: Only trace requests of the following GroupVersionKind

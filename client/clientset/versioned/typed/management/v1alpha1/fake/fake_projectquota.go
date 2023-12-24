@@ -23,7 +23,6 @@ import (
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
 	testing "k8s.io/client-go/testing"
@@ -35,9 +34,9 @@ type FakeProjectQuotas struct {
 	Fake *FakeManagementV1alpha1
 }
 
-var projectquotasResource = schema.GroupVersionResource{Group: "management.k8s.appscode.com", Version: "v1alpha1", Resource: "projectquotas"}
+var projectquotasResource = v1alpha1.SchemeGroupVersion.WithResource("projectquotas")
 
-var projectquotasKind = schema.GroupVersionKind{Group: "management.k8s.appscode.com", Version: "v1alpha1", Kind: "ProjectQuota"}
+var projectquotasKind = v1alpha1.SchemeGroupVersion.WithKind("ProjectQuota")
 
 // Get takes name of the projectQuota, and returns the corresponding projectQuota object, and an error if there is any.
 func (c *FakeProjectQuotas) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ProjectQuota, err error) {

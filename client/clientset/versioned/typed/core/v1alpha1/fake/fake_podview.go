@@ -23,7 +23,6 @@ import (
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/core/v1alpha1"
 )
@@ -34,9 +33,9 @@ type FakePodViews struct {
 	ns   string
 }
 
-var podviewsResource = schema.GroupVersionResource{Group: "core.k8s.appscode.com", Version: "v1alpha1", Resource: "podviews"}
+var podviewsResource = v1alpha1.SchemeGroupVersion.WithResource("podviews")
 
-var podviewsKind = schema.GroupVersionKind{Group: "core.k8s.appscode.com", Version: "v1alpha1", Kind: "PodView"}
+var podviewsKind = v1alpha1.SchemeGroupVersion.WithKind("PodView")
 
 // Get takes name of the podView, and returns the corresponding podView object, and an error if there is any.
 func (c *FakePodViews) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.PodView, err error) {

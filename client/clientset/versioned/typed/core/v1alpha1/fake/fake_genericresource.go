@@ -23,7 +23,6 @@ import (
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/core/v1alpha1"
 )
@@ -34,9 +33,9 @@ type FakeGenericResources struct {
 	ns   string
 }
 
-var genericresourcesResource = schema.GroupVersionResource{Group: "core.k8s.appscode.com", Version: "v1alpha1", Resource: "genericresources"}
+var genericresourcesResource = v1alpha1.SchemeGroupVersion.WithResource("genericresources")
 
-var genericresourcesKind = schema.GroupVersionKind{Group: "core.k8s.appscode.com", Version: "v1alpha1", Kind: "GenericResource"}
+var genericresourcesKind = v1alpha1.SchemeGroupVersion.WithKind("GenericResource")
 
 // Get takes name of the genericResource, and returns the corresponding genericResource object, and an error if there is any.
 func (c *FakeGenericResources) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.GenericResource, err error) {

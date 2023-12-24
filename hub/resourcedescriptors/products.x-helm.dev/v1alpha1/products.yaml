@@ -19,25 +19,38 @@ spec:
     openAPIV3Schema:
       properties:
         apiVersion:
-          description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
           type: string
         kind:
-          description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
           type: string
         metadata:
           properties:
             name:
-              description: 'Name must be unique within a namespace. Is required when creating resources, although some resources may allow a client to request the generation of an appropriate name automatically. Name is primarily intended for creation idempotence and configuration definition. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
+              description: 'Name must be unique within a namespace. Is required when
+                creating resources, although some resources may allow a client to
+                request the generation of an appropriate name automatically. Name
+                is primarily intended for creation idempotence and configuration definition.
+                Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
               type: string
             labels:
               additionalProperties:
                 type: string
-              description: 'Map of string keys and values that can be used to organize and categorize (scope and select) objects. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels'
+              description: 'Map of string keys and values that can be used to organize
+                and categorize (scope and select) objects. May match selectors of
+                replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels'
               type: object
             annotations:
               additionalProperties:
                 type: string
-              description: 'Annotations is an unstructured key value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: http://kubernetes.io/docs/user-guide/annotations'
+              description: 'Annotations is an unstructured key value map stored with
+                a resource that may be set by external tools to store and retrieve
+                arbitrary metadata. They are not queryable and should be preserved
+                when modifying objects. More info: http://kubernetes.io/docs/user-guide/annotations'
               type: object
           type: object
         spec:
@@ -64,13 +77,17 @@ spec:
                 description: MediaSpec contains information about an image/video.
                 properties:
                   description:
-                    description: Description is human readable content explaining the purpose of the link.
+                    description: Description is human readable content explaining
+                      the purpose of the link.
                     type: string
                   size:
-                    description: (optional) The size of the image in pixels (e.g., 25x25).
+                    description: (optional) The size of the image in pixels (e.g.,
+                      25x25).
                     type: string
                   src:
-                    description: The source for image represented as either an absolute URL to the image or a Data URL containing the image. Data URLs are defined in RFC 2397.
+                    description: The source for image represented as either an absolute
+                      URL to the image or a Data URL containing the image. Data URLs
+                      are defined in RFC 2397.
                     type: string
                   type:
                     description: (optional) The mine type of the image (e.g., "image/png").
@@ -91,10 +108,12 @@ spec:
               type: string
             links:
               items:
-                description: Link contains information about an URL to surface documentation, dashboards, etc.
+                description: Link contains information about an URL to surface documentation,
+                  dashboards, etc.
                 properties:
                   description:
-                    description: Description is human readable content explaining the purpose of the link.
+                    description: Description is human readable content explaining
+                      the purpose of the link.
                     type: string
                   url:
                     description: Url typically points at a website address.
@@ -103,7 +122,8 @@ spec:
               type: array
             maintainers:
               items:
-                description: ContactData contains information about an individual or organization.
+                description: ContactData contains information about an individual
+                  or organization.
                 properties:
                   email:
                     description: Email is the email address.

@@ -19,37 +19,52 @@ spec:
     openAPIV3Schema:
       properties:
         apiVersion:
-          description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
           type: string
         kind:
-          description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
           type: string
         metadata:
           properties:
             name:
-              description: 'Name must be unique within a namespace. Is required when creating resources, although some resources may allow a client to request the generation of an appropriate name automatically. Name is primarily intended for creation idempotence and configuration definition. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
+              description: 'Name must be unique within a namespace. Is required when
+                creating resources, although some resources may allow a client to
+                request the generation of an appropriate name automatically. Name
+                is primarily intended for creation idempotence and configuration definition.
+                Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
               type: string
             labels:
               additionalProperties:
                 type: string
-              description: 'Map of string keys and values that can be used to organize and categorize (scope and select) objects. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels'
+              description: 'Map of string keys and values that can be used to organize
+                and categorize (scope and select) objects. May match selectors of
+                replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels'
               type: object
             annotations:
               additionalProperties:
                 type: string
-              description: 'Annotations is an unstructured key value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: http://kubernetes.io/docs/user-guide/annotations'
+              description: 'Annotations is an unstructured key value map stored with
+                a resource that may be set by external tools to store and retrieve
+                arbitrary metadata. They are not queryable and should be preserved
+                when modifying objects. More info: http://kubernetes.io/docs/user-guide/annotations'
               type: object
           type: object
         spec:
           properties:
             chart:
-              description: Chart specifies the chart information that will be used by the FluxCD to install the respective feature
+              description: Chart specifies the chart information that will be used
+                by the FluxCD to install the respective feature
               properties:
                 name:
                   description: Name specifies the name of the chart
                   type: string
                 namespace:
-                  description: Namespace where the respective feature resources will be deployed.
+                  description: Namespace where the respective feature resources will
+                    be deployed.
                   type: string
                 sourceRef:
                   description: SourceRef specifies the source of the chart
@@ -75,24 +90,32 @@ spec:
               - sourceRef
               type: object
             description:
-              description: Description specifies a short description of the service this feature provides.
+              description: Description specifies a short description of the service
+                this feature provides.
               type: string
             featureBlock:
               description: FeatureBlock specifies the ui block name of this feature.
               type: string
             featureSet:
-              description: FeatureSet specifies the name of the FeatureSet where this feature belong to.
+              description: FeatureSet specifies the name of the FeatureSet where this
+                feature belong to.
               type: string
             icons:
-              description: Icons is an optional list of icons for an application. Icon information includes the source, size, and mime type. These icons will be used in UI.
+              description: Icons is an optional list of icons for an application.
+                Icon information includes the source, size, and mime type. These icons
+                will be used in UI.
               items:
-                description: ImageSpec contains information about an image used as an icon.
+                description: ImageSpec contains information about an image used as
+                  an icon.
                 properties:
                   size:
-                    description: (optional) The size of the image in pixels (e.g., 25x25).
+                    description: (optional) The size of the image in pixels (e.g.,
+                      25x25).
                     type: string
                   src:
-                    description: The source for image represented as either an absolute URL to the image or a Data URL containing the image. Data URLs are defined in RFC 2397.
+                    description: The source for image represented as either an absolute
+                      URL to the image or a Data URL containing the image. Data URLs
+                      are defined in RFC 2397.
                     type: string
                   type:
                     description: (optional) The mine type of the image (e.g., "image/png").
@@ -102,12 +125,16 @@ spec:
                 type: object
               type: array
             readinessChecks:
-              description: ReadinessChecks specifies the conditions for this feature to be considered enabled.
+              description: ReadinessChecks specifies the conditions for this feature
+                to be considered enabled.
               properties:
                 resources:
-                  description: Resources specifies the resources that should be registered to consider this feature as enabled.
+                  description: Resources specifies the resources that should be registered
+                    to consider this feature as enabled.
                   items:
-                    description: GroupVersionKind unambiguously identifies a kind.  It doesn't anonymously include GroupVersion to avoid automatic coercion.  It doesn't use a GroupVersion to avoid custom marshalling
+                    description: GroupVersionKind unambiguously identifies a kind.  It
+                      doesn't anonymously include GroupVersion to avoid automatic
+                      coercion.  It doesn't use a GroupVersion to avoid custom marshalling
                     properties:
                       group:
                         type: string
@@ -122,7 +149,8 @@ spec:
                     type: object
                   type: array
                 workloads:
-                  description: Workloads specifies the workloads that should exist to consider this feature as enabled.
+                  description: Workloads specifies the workloads that should exist
+                    to consider this feature as enabled.
                   items:
                     properties:
                       group:
@@ -132,7 +160,8 @@ spec:
                       selector:
                         additionalProperties:
                           type: string
-                        description: Selector specifies label selector that should be used to select this workload
+                        description: Selector specifies label selector that should
+                          be used to select this workload
                         type: object
                       version:
                         type: string
@@ -145,13 +174,16 @@ spec:
                   type: array
               type: object
             recommended:
-              description: Required specifies whether this feature is mandatory or not for enabling the respecting FeatureSet.
+              description: Required specifies whether this feature is mandatory or
+                not for enabling the respecting FeatureSet.
               type: boolean
             requirements:
-              description: Requirements specifies the requirements to enable this feature.
+              description: Requirements specifies the requirements to enable this
+                feature.
               properties:
                 features:
-                  description: Features specifies a list of Feature names that must be enabled for using this feature.
+                  description: Features specifies a list of Feature names that must
+                    be enabled for using this feature.
                   items:
                     type: string
                   type: array

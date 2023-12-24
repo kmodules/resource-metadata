@@ -22,7 +22,6 @@ import (
 	"context"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 )
@@ -32,9 +31,9 @@ type FakeResourceLayouts struct {
 	Fake *FakeMetaV1alpha1
 }
 
-var resourcelayoutsResource = schema.GroupVersionResource{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Resource: "resourcelayouts"}
+var resourcelayoutsResource = v1alpha1.SchemeGroupVersion.WithResource("resourcelayouts")
 
-var resourcelayoutsKind = schema.GroupVersionKind{Group: "meta.k8s.appscode.com", Version: "v1alpha1", Kind: "ResourceLayout"}
+var resourcelayoutsKind = v1alpha1.SchemeGroupVersion.WithKind("ResourceLayout")
 
 // Get takes name of the resourceLayout, and returns the corresponding resourceLayout object, and an error if there is any.
 func (c *FakeResourceLayouts) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ResourceLayout, err error) {

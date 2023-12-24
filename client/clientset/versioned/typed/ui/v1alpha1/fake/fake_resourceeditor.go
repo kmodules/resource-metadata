@@ -23,7 +23,6 @@ import (
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
 	testing "k8s.io/client-go/testing"
@@ -35,9 +34,9 @@ type FakeResourceEditors struct {
 	Fake *FakeUiV1alpha1
 }
 
-var resourceeditorsResource = schema.GroupVersionResource{Group: "ui.k8s.appscode.com", Version: "v1alpha1", Resource: "resourceeditors"}
+var resourceeditorsResource = v1alpha1.SchemeGroupVersion.WithResource("resourceeditors")
 
-var resourceeditorsKind = schema.GroupVersionKind{Group: "ui.k8s.appscode.com", Version: "v1alpha1", Kind: "ResourceEditor"}
+var resourceeditorsKind = v1alpha1.SchemeGroupVersion.WithKind("ResourceEditor")
 
 // Get takes name of the resourceEditor, and returns the corresponding resourceEditor object, and an error if there is any.
 func (c *FakeResourceEditors) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ResourceEditor, err error) {
