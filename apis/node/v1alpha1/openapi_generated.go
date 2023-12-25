@@ -24,6 +24,8 @@ limitations under the License.
 package v1alpha1
 
 import (
+
+
 	resource "k8s.io/apimachinery/pkg/api/resource"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	intstr "k8s.io/apimachinery/pkg/util/intstr"
@@ -15305,9 +15307,9 @@ func schema_resource_metadata_apis_node_v1alpha1_NodeGroup(ref common.ReferenceC
 							Format:  "",
 						},
 					},
-					"capacity": {
+					"allocatable": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Capacity represents the total resources of a node. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#capacity",
+							Description: "Allocatable represents the total resources of a node. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#capacity",
 							Type:        []string{"object"},
 							AdditionalProperties: &spec.SchemaOrBool{
 								Allows: true,
@@ -15320,7 +15322,7 @@ func schema_resource_metadata_apis_node_v1alpha1_NodeGroup(ref common.ReferenceC
 						},
 					},
 				},
-				Required: []string{"topologyValue", "capacity"},
+				Required: []string{"topologyValue", "allocatable"},
 			},
 		},
 		Dependencies: []string{

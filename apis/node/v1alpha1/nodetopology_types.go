@@ -17,6 +17,8 @@ limitations under the License.
 package v1alpha1
 
 import (
+
+
 	core "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -52,9 +54,9 @@ type NodeTopologySpec struct {
 
 type NodeGroup struct {
 	TopologyValue string `json:"topologyValue"`
-	// Capacity represents the total resources of a node.
+	// Allocatable represents the total resources of a node.
 	// More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#capacity
-	Capacity core.ResourceList `json:"capacity"`
+	Allocatable core.ResourceList `json:"allocatable"`
 }
 
 // +kubebuilder:validation:Enum=LabelSelector;Taint

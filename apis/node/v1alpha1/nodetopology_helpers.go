@@ -17,8 +17,10 @@ limitations under the License.
 package v1alpha1
 
 import (
+
 	"kmodules.xyz/client-go/apiextensions"
 	"kmodules.xyz/resource-metadata/crds"
+
 )
 
 func (v NodeTopology) CustomResourceDefinition() *apiextensions.CustomResourceDefinition {
