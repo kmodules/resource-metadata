@@ -21,5 +21,3 @@ limitations under the License.
 // +k8s:defaulter-gen=TypeMeta
 // +groupName=node.k8s.appscode.com
 package v1alpha1
-
-

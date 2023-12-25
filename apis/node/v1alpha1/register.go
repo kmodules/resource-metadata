@@ -17,7 +17,6 @@ limitations under the License.
 package v1alpha1
 
 import (
-
 	"kmodules.xyz/resource-metadata/apis/node"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
