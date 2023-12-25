@@ -43,7 +43,7 @@ var (
 func main() {
 	var missing []string
 	var img string
-	allIcons := sets.NewString()
+	allIcons := sets.New[string]()
 
 	err := filepath.Walk(dirResources, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
@@ -206,7 +206,7 @@ func groupDir(group string) string {
 	return group
 }
 
-func processIcons(icons []helmshared.ImageSpec, allIcons sets.String, missing []string) ([]helmshared.ImageSpec, []string) {
+func processIcons(icons []helmshared.ImageSpec, allIcons sets.Set[string], missing []string) ([]helmshared.ImageSpec, []string) {
 	m := map[string]string{} // mime -> url
 	for _, entry := range icons {
 		m[entry.Type] = entry.Source

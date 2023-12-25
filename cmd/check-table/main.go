@@ -41,7 +41,7 @@ func main() {
 	_ = clientgoscheme.AddToScheme(scheme)
 	crdinstall.Install(scheme)
 
-	ctrl.SetLogger(klogr.New())
+	ctrl.SetLogger(klogr.New()) // nolint:staticcheck
 	cfg := ctrl.GetConfigOrDie()
 
 	hc, err := rest.HTTPClientFor(cfg)
