@@ -134,6 +134,7 @@ version:
 .PHONY: clientset
 clientset:
 	@docker run --rm	                                 \
+		-u $$(id -u):$$(id -g)                           \
 		-v /tmp:/.cache                                  \
 		-v $$(pwd):$(DOCKER_REPO_ROOT)                   \
 		-w $(DOCKER_REPO_ROOT)                           \
@@ -145,6 +146,7 @@ clientset:
 			--input-dirs "$(GO_PKG)/$(REPO)/apis/shared"   \
 			--output-file-base zz_generated.deepcopy
 	@docker run --rm                                   \
+		-u $$(id -u):$$(id -g)                           \
 		-v /tmp:/.cache                                  \
 		-v $$(pwd):$(DOCKER_REPO_ROOT)                   \
 		-w $(DOCKER_REPO_ROOT)                           \
