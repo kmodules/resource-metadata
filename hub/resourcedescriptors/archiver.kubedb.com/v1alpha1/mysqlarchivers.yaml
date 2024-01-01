@@ -4,15 +4,15 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: archiver.kubedb.com
-    k8s.io/kind: MongoDBArchiver
-    k8s.io/resource: mongodbarchivers
+    k8s.io/kind: MySQLArchiver
+    k8s.io/resource: mysqlarchivers
     k8s.io/version: v1alpha1
-  name: archiver.kubedb.com-v1alpha1-mongodbarchivers
+  name: archiver.kubedb.com-v1alpha1-mysqlarchivers
 spec:
   resource:
     group: archiver.kubedb.com
-    kind: MongoDBArchiver
-    name: mongodbarchivers
+    kind: MySQLArchiver
+    name: mysqlarchivers
     scope: Namespaced
     version: v1alpha1
   validation:
