@@ -57,7 +57,7 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/k8s.io/api/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/k8s.io/kube-aggregator/crds
 
 go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/prometheus-operator/prometheus-operator/example/prometheus-operator-crd
-go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/cert-manager/cert-manager/deploy/manifests/00-crds.yaml
+go run cmd/import-crds/main.go --input=https://github.com/cert-manager/cert-manager/releases/download/v1.13.3/cert-manager.crds.yaml
 go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/apimachinery/crds
 
 go run cmd/import-crds/main.go --input=$HOME/go/src/stash.appscode.dev/apimachinery/crds
