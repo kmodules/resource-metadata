@@ -1,0 +1,133 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: MenuOutline
+metadata:
+  creationTimestamp: null
+  name: ocm-hub
+spec:
+  sections:
+  - icons:
+    - src: https://cdn.appscode.com/k8s/icons/menu/workloads.svg
+      type: image/svg+xml
+    - src: https://cdn.appscode.com/k8s/icons/menu/workloads.png
+      type: image/png
+    items:
+    - name: Managed Clusters
+      required: true
+      type:
+        group: cluster.open-cluster-management.io
+        kind: ManagedCluster
+    - name: Cluster Claims
+      required: true
+      type:
+        group: cluster.open-cluster-management.io
+        kind: ClusterClaim
+    - name: AddOn Placement Scores
+      required: true
+      type:
+        group: cluster.open-cluster-management.io
+        kind: AddOnPlacementScore
+    name: Clusters
+  - icons:
+    - src: https://cdn.appscode.com/k8s/icons/menu/helm.svg
+      type: image/svg+xml
+    - src: https://cdn.appscode.com/k8s/icons/menu/helm.png
+      type: image/png
+    items:
+    - name: Managed Cluster Sets
+      type:
+        group: cluster.open-cluster-management.io
+        kind: ManagedClusterSet
+    - name: Managed ClusterSet Bindings
+      type:
+        group: cluster.open-cluster-management.io
+        kind: ManagedClusterSetBinding
+    name: Cluster Sets
+  - icons:
+    - src: https://cdn.appscode.com/k8s/icons/menu/networking.svg
+      type: image/svg+xml
+    - src: https://cdn.appscode.com/k8s/icons/menu/networking.png
+      type: image/png
+    items:
+    - name: AddOn Deployment Config
+      required: true
+      type:
+        group: addon.open-cluster-management.io
+        kind: AddOnDeploymentConfig
+    - name: AddOn Templates
+      required: true
+      type:
+        group: addon.open-cluster-management.io
+        kind: AddOnTemplate
+    - name: Cluster Management AddOns
+      required: true
+      type:
+        group: addon.open-cluster-management.io
+        kind: ClusterManagementAddOn
+    - name: Managed Cluster Addons
+      required: true
+      type:
+        group: addon.open-cluster-management.io
+        kind: ManagedClusterAddOn
+    name: AddOns
+  - icons:
+    - src: https://cdn.appscode.com/k8s/icons/menu/config.svg
+      type: image/svg+xml
+    - src: https://cdn.appscode.com/k8s/icons/menu/config.png
+      type: image/png
+    items:
+    - name: Applied Manifest Works
+      required: true
+      type:
+        group: work.open-cluster-management.io
+        kind: AppliedManifestWork
+    - name: ManifestWorks
+      required: true
+      type:
+        group: work.open-cluster-management.io
+        kind: ManifestWork
+    - name: ManifestWork ReplicaSets
+      required: true
+      type:
+        group: work.open-cluster-management.io
+        kind: ManifestWorkReplicaSet
+    - name: Placements
+      required: true
+      type:
+        group: cluster.open-cluster-management.io
+        kind: Placement
+    - name: Placement Decisions
+      required: true
+      type:
+        group: cluster.open-cluster-management.io
+        kind: PlacementDecision
+    name: ManifestWork & Placements
+  - icons:
+    - src: https://cdn.appscode.com/k8s/icons/menu/admin.svg
+      type: image/svg+xml
+    - src: https://cdn.appscode.com/k8s/icons/menu/admin.png
+      type: image/png
+    items:
+    - name: Managed Service Accounts
+      required: true
+      type:
+        group: authentication.open-cluster-management.io
+        kind: ManagedServiceAccount
+    - name: Cluster Gateways
+      required: true
+      type:
+        group: cluster.core.oam.dev
+        kind: ClusterGateway
+    - name: Managed Proxy Service Resolvers
+      type:
+        group: proxy.open-cluster-management.io
+        kind: ManagedProxyServiceResolver
+    - name: Managed Proxy Configurations
+      type:
+        group: proxy.open-cluster-management.io
+        kind: ManagedProxyConfiguration
+    - name: Cluster Gateway Configurations
+      required: true
+      type:
+        group: proxy.open-cluster-management.io
+        kind: ClusterGatewayConfiguration
+    name: OCM Core AddOns Config
