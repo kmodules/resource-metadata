@@ -16,9 +16,34 @@ limitations under the License.
 
 package v1alpha1
 
-import uiapi "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
+import (
+	uiapi "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
 
-type (
-	ResourceEditor     = uiapi.ResourceEditor
-	ResourceEditorList = uiapi.ResourceEditorList
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
+
+// +genclient
+// +genclient:nonNamespaced
+// +k8s:openapi-gen=true
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// +kubebuilder:object:root=true
+// +kubebuilder:resource:path=resourceeditors,singular=resourceeditor,scope=Cluster
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="Status",type="string",JSONPath=".status.phase"
+// +kubebuilder:printcolumn:name="Age",type="date",JSONPath=".metadata.creationTimestamp"
+type ResourceEditor struct {
+	metav1.TypeMeta `json:",inline"`
+	// +optional
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              uiapi.ResourceEditorSpec `json:"spec,omitempty"`
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +kubebuilder:object:root=true
+
+type ResourceEditorList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []ResourceEditor `json:"items,omitempty"`
+}

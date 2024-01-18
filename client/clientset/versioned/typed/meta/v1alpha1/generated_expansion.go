@@ -38,6 +38,8 @@ type ResourceCalculatorExpansion interface{}
 
 type ResourceDescriptorExpansion interface{}
 
+type ResourceEditorExpansion interface{}
+
 type ResourceGraphExpansion interface{}
 
 type ResourceLayoutExpansion interface{}

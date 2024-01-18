@@ -38,6 +38,7 @@ type MetaV1alpha1Interface interface {
 	ResourceBlockDefinitionsGetter
 	ResourceCalculatorsGetter
 	ResourceDescriptorsGetter
+	ResourceEditorsGetter
 	ResourceGraphsGetter
 	ResourceLayoutsGetter
 	ResourceOutlinesGetter
@@ -88,6 +89,10 @@ func (c *MetaV1alpha1Client) ResourceCalculators() ResourceCalculatorInterface {
 
 func (c *MetaV1alpha1Client) ResourceDescriptors() ResourceDescriptorInterface {
 	return newResourceDescriptors(c)
+}
+
+func (c *MetaV1alpha1Client) ResourceEditors() ResourceEditorInterface {
+	return newResourceEditors(c)
 }
 
 func (c *MetaV1alpha1Client) ResourceGraphs() ResourceGraphInterface {

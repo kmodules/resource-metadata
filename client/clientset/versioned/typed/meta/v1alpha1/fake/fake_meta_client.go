@@ -68,6 +68,10 @@ func (c *FakeMetaV1alpha1) ResourceDescriptors() v1alpha1.ResourceDescriptorInte
 	return &FakeResourceDescriptors{c}
 }
 
+func (c *FakeMetaV1alpha1) ResourceEditors() v1alpha1.ResourceEditorInterface {
+	return &FakeResourceEditors{c}
+}
+
 func (c *FakeMetaV1alpha1) ResourceGraphs() v1alpha1.ResourceGraphInterface {
 	return &FakeResourceGraphs{c}
 }
