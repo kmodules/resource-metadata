@@ -227,7 +227,7 @@ spec:
         view:
           name: appcatalog.appscode.com-v1alpha1-appbindings-kubedb
       - actions:
-          create: Always
+          create: Never
         displayMode: List
         kind: Connection
         name: VaultServers
