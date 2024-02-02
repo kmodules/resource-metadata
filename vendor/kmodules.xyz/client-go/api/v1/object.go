@@ -222,5 +222,7 @@ type EdgeLabel string
 
 func (e EdgeLabel) Direct() bool {
 	return e == EdgeLabelOffshoot ||
-		e == EdgeLabelView
+		e == EdgeLabelView ||
+		e == EdgeLabelOps ||
+		e == EdgeLabelRecommendedFor
 }

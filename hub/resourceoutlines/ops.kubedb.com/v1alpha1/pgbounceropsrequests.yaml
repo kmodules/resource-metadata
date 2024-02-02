@@ -1,0 +1,33 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceOutline
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ops.kubedb.com
+    k8s.io/kind: PgBouncerOpsRequest
+    k8s.io/resource: pgbounceropsrequests
+    k8s.io/version: v1alpha1
+  name: ops.kubedb.com-v1alpha1-pgbounceropsrequests
+spec:
+  defaultLayout: true
+  pages:
+  - name: Overview
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Database
+        query:
+          byLabel: ops
+          type: GraphQL
+        ref:
+          group: kubedb.com
+          kind: PgBouncer
+  resource:
+    group: ops.kubedb.com
+    kind: PgBouncerOpsRequest
+    name: pgbounceropsrequests
+    scope: Namespaced
+    version: v1alpha1
