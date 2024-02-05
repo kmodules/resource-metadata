@@ -29,7 +29,7 @@ spec:
         {{ if list "Pending" | has $status }}
           {{ $color = "gray" }}
         {{ else if list "Progressing" | has $status }}
-          {{ $color = "primary" }}
+          {{ $color = "info" }}
         {{ else if list "Successful" | has $status }}
           {{ $color = "success" }}
         {{ else if list "WaitingForApproval" | has $status }}
