@@ -25,6 +25,20 @@ spec:
       kind: StatefulSet
     type: MatchSelector
   - labels:
+    - exposed_by
+    level: Controller
+    namespace:
+      path: metadata.namespace
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: '{.metadata.name}'
+        app.kubernetes.io/managed-by: kubedb.com
+        app.kubernetes.io/name: perconaxtradbs.kubedb.com
+    target:
+      apiVersion: v1
+      kind: Service
+    type: MatchSelector
+  - labels:
     - connect_via
     level: Controller
     nameTemplate: '{.metadata.name}'
