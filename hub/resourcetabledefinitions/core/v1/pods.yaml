@@ -14,6 +14,10 @@ spec:
     name: Name
     pathTemplate: '{{ .metadata.name }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .metadata.name }}'
+      type: string
     type: string
   - name: Namespace
     pathTemplate: '{{ .metadata.namespace }}'
