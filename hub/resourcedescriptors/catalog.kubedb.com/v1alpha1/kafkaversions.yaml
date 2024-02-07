@@ -49,6 +49,13 @@ spec:
           type: object
         spec:
           properties:
+            connectCluster:
+              properties:
+                image:
+                  type: string
+              required:
+              - image
+              type: object
             cruiseControl:
               properties:
                 image:
@@ -139,6 +146,7 @@ spec:
             version:
               type: string
           required:
+          - connectCluster
           - cruiseControl
           - db
           - version
