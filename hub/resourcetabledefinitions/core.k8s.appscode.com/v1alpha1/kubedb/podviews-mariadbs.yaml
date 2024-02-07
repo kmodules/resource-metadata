@@ -19,6 +19,10 @@ spec:
     name: Name
     pathTemplate: '{{ .metadata.name }}'
     priority: 3
+    sort:
+      enable: true
+      template: '{{ .metadata.name }}'
+      type: string
     type: string
   - name: Role
     pathTemplate: '{{ index .metadata.labels `kubedb.com/role` | default `-` | upper}}'
