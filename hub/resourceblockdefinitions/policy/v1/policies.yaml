@@ -7,14 +7,3 @@ spec:
   blocks:
   - kind: Custom
     name: Policy Report
-  - actions:
-      create: Never
-    displayMode: List
-    kind: Connection
-    name: Pod Security Policies
-    query:
-      byLabel: policy
-      type: GraphQL
-    ref:
-      group: policy
-      kind: PodSecurityPolicy
