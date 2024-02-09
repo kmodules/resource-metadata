@@ -71,16 +71,6 @@ spec:
       apiVersion: core.k8s.appscode.com/v1alpha1
       kind: PodView
     type: MatchName
-  - labels:
-    - event
-    selector:
-      matchLabels:
-        k8s.ns.name: '{.metadata.namespace}'
-        k8s.pod.name: '{.metadata.name}'
-    target:
-      apiVersion: falco.appscode.com/v1alpha1
-      kind: FalcoEvent
-    type: MatchSelector
   resource:
     group: ""
     kind: Pod
