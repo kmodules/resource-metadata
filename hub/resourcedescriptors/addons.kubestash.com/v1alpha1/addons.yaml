@@ -9,6 +9,16 @@ metadata:
     k8s.io/version: v1alpha1
   name: addons.kubestash.com-v1alpha1-addons
 spec:
+  connections:
+  - labels:
+    - source
+    references:
+    - '{range .spec.backupTasks[*]}{.function}{"\n"}{end}'
+    - '{range .spec.restoreTasks[*]}{.function}{"\n"}{end}'
+    target:
+      apiVersion: addons.kubestash.com/v1alpha1
+      kind: Function
+    type: MatchRef
   resource:
     group: addons.kubestash.com
     kind: Addon

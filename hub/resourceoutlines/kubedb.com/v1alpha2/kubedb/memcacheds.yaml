@@ -58,6 +58,16 @@ spec:
     - blocks:
       - kind: Block
         name: stash.appscode.com-v1-kubedb-backup
+  - name: Backups 2.0
+    sections:
+    - blocks:
+      - kind: Block
+        name: core.kubestash.com-v1alpha1-kubedb-backup
+  - name: Monitoring
+    sections:
+    - blocks:
+      - kind: Block
+        name: monitoring.coreos.com-v1-kubedb-monitoring
   - name: Security
     sections:
     - blocks:

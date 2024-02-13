@@ -1,0 +1,44 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceOutline
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: storage.kubestash.com
+    k8s.io/kind: BackupStorage
+    k8s.io/resource: backupstorages
+    k8s.io/version: v1alpha1
+  name: storage.kubestash.com-v1alpha1-backupstorages
+spec:
+  defaultLayout: true
+  pages:
+  - name: Overview
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Repositories
+        query:
+          byLabel: storage
+          type: GraphQL
+        ref:
+          group: storage.kubestash.com
+          kind: Repository
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Secrets
+        query:
+          byLabel: auth_secret
+          type: GraphQL
+        ref:
+          group: ""
+          kind: Secret
+  resource:
+    group: storage.kubestash.com
+    kind: BackupStorage
+    name: backupstorages
+    scope: Namespaced
+    version: v1alpha1
