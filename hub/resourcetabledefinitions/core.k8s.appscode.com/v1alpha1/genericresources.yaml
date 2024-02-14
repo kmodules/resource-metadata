@@ -36,7 +36,7 @@ spec:
         {{- printf "https://cdn.appscode.com/k8s/icons/kubedb.com/%s.svg" $apiTypeName -}}
     name: Type
     pathTemplate: '{{ .spec.apiType.kind }}'
-    priority: 3
+    priority: 0
     type: string
   - name: Mode
     pathTemplate: '{{ .spec.mode }}'
