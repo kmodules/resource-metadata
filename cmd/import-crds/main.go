@@ -115,10 +115,11 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/a
 # Gateway
 go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/charts/voyager-gateway/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/charts/voyager-gateway/crds/generated
-go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/charts/voyager-gateway/crds
+go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/charts/voyager/crds
 
-# kubeware
-go run cmd/import-crds/main.go --input=$HOME/go/src/go.kubeware.dev/catalog/config/crd/bases
+# kube-bind
+go run cmd/import-crds/main.go --input=$HOME/go/src/go.bytebuilders.dev/kube-bind/deploy/crd
+go run cmd/import-crds/main.go --input=$HOME/go/src/go.bytebuilders.dev/catalog/crds
 
 # falco
 go run cmd/import-crds/main.go --input=$HOME/go/src/kubeops.dev/falco-ui-server/crds

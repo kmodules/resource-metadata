@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: catalog.appscode.com
+    k8s.io/kind: PerconaXtraDBBinding
+    k8s.io/resource: perconaxtradbbindings
+    k8s.io/version: v1alpha1
+  name: catalog.appscode.com-v1alpha1-perconaxtradbbindings
+spec:
+  resource:
+    group: catalog.appscode.com
+    kind: PerconaXtraDBBinding
+    name: perconaxtradbbindings
+    scope: Namespaced
+    version: v1alpha1

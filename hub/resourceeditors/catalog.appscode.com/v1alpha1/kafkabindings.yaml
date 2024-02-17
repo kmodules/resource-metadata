@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: catalog.appscode.com
+    k8s.io/kind: KafkaBinding
+    k8s.io/resource: kafkabindings
+    k8s.io/version: v1alpha1
+  name: catalog.appscode.com-v1alpha1-kafkabindings
+spec:
+  resource:
+    group: catalog.appscode.com
+    kind: KafkaBinding
+    name: kafkabindings
+    scope: Namespaced
+    version: v1alpha1

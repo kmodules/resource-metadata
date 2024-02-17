@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: catalog.appscode.com
+    k8s.io/kind: MemcachedBinding
+    k8s.io/resource: memcachedbindings
+    k8s.io/version: v1alpha1
+  name: catalog.appscode.com-v1alpha1-memcachedbindings
+spec:
+  resource:
+    group: catalog.appscode.com
+    kind: MemcachedBinding
+    name: memcachedbindings
+    scope: Namespaced
+    version: v1alpha1
