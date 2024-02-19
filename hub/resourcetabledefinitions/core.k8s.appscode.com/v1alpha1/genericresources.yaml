@@ -30,11 +30,7 @@ spec:
     pathTemplate: '{{ .metadata.namespace }}'
     priority: 3
     type: string
-  - icon:
-      template: |
-        {{ $apiTypeName := .spec.apiType.name}}
-        {{- printf "https://cdn.appscode.com/k8s/icons/kubedb.com/%s.svg" $apiTypeName -}}
-    name: Type
+  - name: Type
     pathTemplate: '{{ .spec.apiType.kind }}'
     priority: 3
     type: string
