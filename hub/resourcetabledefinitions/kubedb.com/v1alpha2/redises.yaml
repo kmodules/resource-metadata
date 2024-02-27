@@ -35,7 +35,7 @@ spec:
     priority: 3
     type: string
   - name: Replicas
-    pathTemplate: '{{ k8s_resource_replicas_by_roles . | toRawJson }}'
+    pathTemplate: '{{ k8s_resource_replicas_by_roles . }}'
     priority: 3
     type: string
   - color:
