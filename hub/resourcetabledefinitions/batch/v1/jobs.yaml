@@ -35,7 +35,7 @@ spec:
     priority: 1
     type: string
   - name: Completion
-    pathTemplate: '{{ .status.succeeded }}//{{ .spec.completions }}'
+    pathTemplate: '{{ .status.succeeded }}/{{ .spec.completions }}'
     priority: 3
     type: string
   - name: Duration
