@@ -118,7 +118,7 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/ch
 go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/charts/voyager/crds
 
 # kube-bind
-go run cmd/import-crds/main.go --input=$HOME/go/src/go.bytebuilders.dev/kube-bind/deploy/crd
+go run cmd/import-crds/main.go --input=$HOME/go/src/go.bytebuilders.dev/kube-bind/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/go.bytebuilders.dev/catalog/crds
 
 # falco
