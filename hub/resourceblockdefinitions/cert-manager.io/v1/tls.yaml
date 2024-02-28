@@ -16,6 +16,9 @@ spec:
     ref:
       group: cert-manager.io
       kind: Certificate
+    requiredFeatureSets:
+      opscenter-security:
+      - cert-manager
   - actions:
       create: Never
     displayMode: List
@@ -27,6 +30,9 @@ spec:
     ref:
       group: cert-manager.io
       kind: Issuer
+    requiredFeatureSets:
+      opscenter-security:
+      - cert-manager
   - actions:
       create: Never
     displayMode: List
@@ -38,6 +44,9 @@ spec:
     ref:
       group: cert-manager.io
       kind: ClusterIssuer
+    requiredFeatureSets:
+      opscenter-security:
+      - cert-manager
   - actions:
       create: Never
     displayMode: List

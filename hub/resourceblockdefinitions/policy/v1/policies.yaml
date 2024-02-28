@@ -7,3 +7,9 @@ spec:
   blocks:
   - kind: Custom
     name: Policy Report
+    requiredFeatureSets:
+      opscenter-security:
+      - gatekeeper
+      - gatekeeper-constraints
+      - gatekeeper-grafana-dashboards
+      - gatekeeper-templates

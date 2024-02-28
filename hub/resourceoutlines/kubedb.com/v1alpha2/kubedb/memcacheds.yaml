@@ -30,6 +30,9 @@ spec:
         ref:
           group: ops.kubedb.com
           kind: MemcachedOpsRequest
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
       - actions:
           create: Never
         displayMode: List
@@ -41,6 +44,9 @@ spec:
         ref:
           group: supervisor.appscode.com
           kind: Recommendation
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
         view:
           name: supervisor.appscode.com-v1alpha1-recommendations-kubedb
   - name: Backups

@@ -21,6 +21,9 @@ spec:
     ref:
       group: core.k8s.appscode.com
       kind: GenericResource
+    requiredFeatureSets:
+      opscenter-datastore:
+      - kubedb
     view:
       name: core.k8s.appscode.com-v1alpha1-genericresources-kubedb
   pages:
@@ -56,6 +59,12 @@ spec:
         ref:
           group: ui.openviz.dev
           kind: DashboardGroup
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
+          opscenter-monitoring:
+          - monitoring-operator
         view:
           name: ui.openviz.dev-v1alpha1-dashboardgroups-panels
       - actions:
@@ -79,6 +88,9 @@ spec:
         ref:
           group: core.k8s.appscode.com
           kind: PodView
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
         view:
           name: core.k8s.appscode.com-v1alpha1-podviews-kubedb-mongodbs
       info:
@@ -92,6 +104,9 @@ spec:
         ref:
           group: appcatalog.appscode.com
           kind: AppBinding
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
       insight:
         actions:
           create: Never
@@ -103,6 +118,10 @@ spec:
         ref:
           group: ui.kubedb.com
           kind: MongoDBInsight
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
   - name: Insights
     sections:
     - blocks:
@@ -128,6 +147,12 @@ spec:
         ref:
           group: meta.k8s.appscode.com
           kind: RenderDashboard
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
+          opscenter-monitoring:
+          - monitoring-operator
         view:
           name: ui.k8s.appscode.com-v1alpha1-resourcedashboards-urls
       - actions:
@@ -142,6 +167,10 @@ spec:
         ref:
           group: ui.kubedb.com
           kind: MongoDBQueries
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
         view:
           name: ui.kubedb.com-v1alpha1-mongodbqueries-queries
       - actions:
@@ -156,6 +185,10 @@ spec:
         ref:
           group: ui.kubedb.com
           kind: MongoDBSchemaOverview
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
         view:
           name: ui.kubedb.com-v1alpha1-mongodbschemaoverviews-collections
       insight:
@@ -169,6 +202,10 @@ spec:
         ref:
           group: ui.kubedb.com
           kind: MongoDBInsight
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
   - name: Users
     sections:
     - blocks:
@@ -196,6 +233,9 @@ spec:
         ref:
           group: appcatalog.appscode.com
           kind: AppBinding
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
         view:
           name: appcatalog.appscode.com-v1alpha1-appbindings-kubedb
       - actions:
@@ -219,6 +259,9 @@ spec:
         ref:
           group: kubevault.com
           kind: VaultServer
+        requiredFeatureSets:
+          opscenter-security:
+          - kubevault
         view:
           name: kubevault.com-v1alpha2-vaultservers
       - actions:
@@ -232,6 +275,9 @@ spec:
         ref:
           group: engine.kubevault.com
           kind: SecretEngine
+        requiredFeatureSets:
+          opscenter-security:
+          - kubevault
         view:
           name: engine.kubevault.com-v1alpha1-secretengines
       - actions:
@@ -245,6 +291,9 @@ spec:
         ref:
           group: engine.kubevault.com
           kind: MongoDBRole
+        requiredFeatureSets:
+          opscenter-security:
+          - kubevault
         view:
           name: engine.kubevault.com-v1alpha1-mongodbroles
       - actions:
@@ -258,6 +307,9 @@ spec:
         ref:
           group: engine.kubevault.com
           kind: SecretAccessRequest
+        requiredFeatureSets:
+          opscenter-security:
+          - kubevault
         view:
           name: engine.kubevault.com-v1alpha1-secretaccessrequests
   - name: Operations
@@ -274,6 +326,9 @@ spec:
         ref:
           group: ops.kubedb.com
           kind: MongoDBOpsRequest
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
         view:
           name: ops.kubedb.com-v1alpha1-mongodbopsrequests-kubedb
       - actions:
@@ -287,6 +342,11 @@ spec:
         ref:
           group: supervisor.appscode.com
           kind: Recommendation
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          opscenter-tools:
+          - supervisor
         view:
           name: supervisor.appscode.com-v1alpha1-recommendations-kubedb
   - name: Backups
@@ -313,6 +373,9 @@ spec:
         ref:
           group: stash.appscode.com
           kind: BackupSession
+        requiredFeatureSets:
+          opscenter-backup:
+          - stash
         view:
           name: stash.appscode.com-v1beta1-backupsessions-kubedb
       - actions:
@@ -326,6 +389,9 @@ spec:
         ref:
           group: stash.appscode.com
           kind: RestoreSession
+        requiredFeatureSets:
+          opscenter-backup:
+          - stash
         view:
           name: stash.appscode.com-v1beta1-restoresessions-kubedb
       info:
@@ -349,6 +415,10 @@ spec:
         ref:
           group: ui.stash.appscode.com
           kind: BackupOverview
+        requiredFeatureSets:
+          opscenter-backup:
+          - stash
+          - stash-opscenter
   - name: Security
     sections:
     - blocks:

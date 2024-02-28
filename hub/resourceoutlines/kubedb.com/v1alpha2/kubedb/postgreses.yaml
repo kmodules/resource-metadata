@@ -56,6 +56,12 @@ spec:
         ref:
           group: ui.openviz.dev
           kind: DashboardGroup
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
+          opscenter-monitoring:
+          - monitoring-operator
         view:
           name: ui.openviz.dev-v1alpha1-dashboardgroups-panels
       - actions:
@@ -79,6 +85,9 @@ spec:
         ref:
           group: core.k8s.appscode.com
           kind: PodView
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
         view:
           name: core.k8s.appscode.com-v1alpha1-podviews-kubedb-postgreses
       info:
@@ -92,6 +101,9 @@ spec:
         ref:
           group: appcatalog.appscode.com
           kind: AppBinding
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
       insight:
         actions:
           create: Never
@@ -103,6 +115,10 @@ spec:
         ref:
           group: ui.kubedb.com
           kind: PostgresInsight
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
   - name: Insights
     sections:
     - blocks:
@@ -118,6 +134,10 @@ spec:
         ref:
           group: ui.kubedb.com
           kind: PostgresInsight
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
         view:
           name: ui.kubedb.com-v1alpha1-postgresinsights-replicationstatus
       - actions:
@@ -142,6 +162,12 @@ spec:
         ref:
           group: meta.k8s.appscode.com
           kind: RenderDashboard
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
+          opscenter-monitoring:
+          - monitoring-operator
         view:
           name: ui.k8s.appscode.com-v1alpha1-resourcedashboards-urls
       - actions:
@@ -156,6 +182,10 @@ spec:
         ref:
           group: ui.kubedb.com
           kind: PostgresQueries
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
         view:
           name: ui.kubedb.com-v1alpha1-postgresqueries-queries
       - actions:
@@ -170,6 +200,10 @@ spec:
         ref:
           group: ui.kubedb.com
           kind: PostgresSchemaOverview
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
         view:
           name: ui.kubedb.com-v1alpha1-postgresschemaoverviews-databases
       info:
@@ -184,6 +218,10 @@ spec:
         ref:
           group: ui.kubedb.com
           kind: PostgresSettings
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
         view:
           name: ui.kubedb.com-v1alpha1-postgressettings-settings
       insight:
@@ -197,6 +235,10 @@ spec:
         ref:
           group: ui.kubedb.com
           kind: PostgresInsight
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
   - name: Users
     sections:
     - blocks:
@@ -224,6 +266,9 @@ spec:
         ref:
           group: appcatalog.appscode.com
           kind: AppBinding
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
         view:
           name: appcatalog.appscode.com-v1alpha1-appbindings-kubedb
       - actions:
@@ -314,6 +359,9 @@ spec:
         ref:
           group: ops.kubedb.com
           kind: PostgresOpsRequest
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
         view:
           name: ops.kubedb.com-v1alpha1-postgresopsrequests-kubedb
       - actions:
@@ -327,6 +375,11 @@ spec:
         ref:
           group: supervisor.appscode.com
           kind: Recommendation
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          opscenter-tools:
+          - supervisor
         view:
           name: supervisor.appscode.com-v1alpha1-recommendations-kubedb
   - name: Backups
@@ -353,6 +406,9 @@ spec:
         ref:
           group: stash.appscode.com
           kind: BackupSession
+        requiredFeatureSets:
+          opscenter-backup:
+          - stash
         view:
           name: stash.appscode.com-v1beta1-backupsessions-kubedb
       - actions:
@@ -366,6 +422,9 @@ spec:
         ref:
           group: stash.appscode.com
           kind: RestoreSession
+        requiredFeatureSets:
+          opscenter-backup:
+          - stash
         view:
           name: stash.appscode.com-v1beta1-restoresessions-kubedb
       info:
@@ -389,6 +448,10 @@ spec:
         ref:
           group: ui.stash.appscode.com
           kind: BackupOverview
+        requiredFeatureSets:
+          opscenter-backup:
+          - stash
+          - stash-opscenter
   - name: Security
     sections:
     - blocks:

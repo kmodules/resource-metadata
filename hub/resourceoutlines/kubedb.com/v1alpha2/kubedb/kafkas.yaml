@@ -48,6 +48,9 @@ spec:
         ref:
           group: core.k8s.appscode.com
           kind: PodView
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
         view:
           name: core.k8s.appscode.com-v1alpha1-podviews-kubedb-kafkas
       info:
@@ -61,6 +64,9 @@ spec:
         ref:
           group: appcatalog.appscode.com
           kind: AppBinding
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
   - name: Insights
     sections:
     - blocks:
@@ -86,6 +92,12 @@ spec:
         ref:
           group: meta.k8s.appscode.com
           kind: RenderDashboard
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
+          opscenter-monitoring:
+          - monitoring-operator
         view:
           name: ui.k8s.appscode.com-v1alpha1-resourcedashboards-urls
   - name: Security

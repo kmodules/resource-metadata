@@ -56,6 +56,12 @@ spec:
         ref:
           group: ui.openviz.dev
           kind: DashboardGroup
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
+          opscenter-monitoring:
+          - monitoring-operator
         view:
           name: ui.openviz.dev-v1alpha1-dashboardgroups-panels
       - actions:
@@ -79,6 +85,9 @@ spec:
         ref:
           group: core.k8s.appscode.com
           kind: PodView
+        requiredFeatureSets:
+          opscenter-backup:
+          - kubedb
         view:
           name: core.k8s.appscode.com-v1alpha1-podviews-kubedb-elasticsearches
       info:
@@ -92,6 +101,9 @@ spec:
         ref:
           group: appcatalog.appscode.com
           kind: AppBinding
+        requiredFeatureSets:
+          opscenter-backup:
+          - kubedb
       insight:
         actions:
           create: Never
@@ -103,6 +115,10 @@ spec:
         ref:
           group: ui.kubedb.com
           kind: ElasticsearchInsight
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
   - name: Insights
     sections:
     - blocks:
@@ -128,6 +144,12 @@ spec:
         ref:
           group: meta.k8s.appscode.com
           kind: RenderDashboard
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
+          opscenter-monitoring:
+          - monitoring-operator
         view:
           name: ui.k8s.appscode.com-v1alpha1-resourcedashboards-urls
       - actions:
@@ -142,6 +164,10 @@ spec:
         ref:
           group: ui.kubedb.com
           kind: ElasticsearchNodesStats
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
         view:
           name: ui.kubedb.com-v1alpha1-elasticsearchnodesstats-nodes
       - actions:
@@ -156,6 +182,10 @@ spec:
         ref:
           group: ui.kubedb.com
           kind: ElasticsearchSchemaOverview
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
         view:
           name: ui.kubedb.com-v1alpha1-elasticsearchschemaoverviews-indices
       insight:
@@ -169,6 +199,10 @@ spec:
         ref:
           group: ui.kubedb.com
           kind: ElasticsearchInsight
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
   - name: Users
     sections:
     - blocks:
@@ -196,6 +230,9 @@ spec:
         ref:
           group: appcatalog.appscode.com
           kind: AppBinding
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
         view:
           name: appcatalog.appscode.com-v1alpha1-appbindings-kubedb
       - actions:
@@ -219,6 +256,9 @@ spec:
         ref:
           group: kubevault.com
           kind: VaultServer
+        requiredFeatureSets:
+          opscenter-security:
+          - kubevault
         view:
           name: kubevault.com-v1alpha2-vaultservers
       - actions:
@@ -232,6 +272,9 @@ spec:
         ref:
           group: engine.kubevault.com
           kind: SecretEngine
+        requiredFeatureSets:
+          opscenter-security:
+          - kubevault
         view:
           name: engine.kubevault.com-v1alpha1-secretengines
       - actions:
@@ -245,6 +288,9 @@ spec:
         ref:
           group: engine.kubevault.com
           kind: ElasticSearchRole
+        requiredFeatureSets:
+          opscenter-security:
+          - kubevault
         view:
           name: engine.kubevault.com-v1alpha1-elasticsearchroles
       - actions:
@@ -258,6 +304,9 @@ spec:
         ref:
           group: engine.kubevault.com
           kind: SecretAccessRequest
+        requiredFeatureSets:
+          opscenter-security:
+          - kubevault
         view:
           name: engine.kubevault.com-v1alpha1-secretaccessrequests
   - name: Operations
@@ -287,6 +336,11 @@ spec:
         ref:
           group: supervisor.appscode.com
           kind: Recommendation
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          opscenter-tools:
+          - supervisor
         view:
           name: supervisor.appscode.com-v1alpha1-recommendations-kubedb
   - name: Backups
@@ -313,6 +367,9 @@ spec:
         ref:
           group: stash.appscode.com
           kind: BackupSession
+        requiredFeatureSets:
+          opscenter-backup:
+          - stash
         view:
           name: stash.appscode.com-v1beta1-backupsessions-kubedb
       - actions:
@@ -326,6 +383,9 @@ spec:
         ref:
           group: stash.appscode.com
           kind: RestoreSession
+        requiredFeatureSets:
+          opscenter-backup:
+          - stash
         view:
           name: stash.appscode.com-v1beta1-restoresessions-kubedb
       info:
@@ -349,6 +409,10 @@ spec:
         ref:
           group: ui.stash.appscode.com
           kind: BackupOverview
+        requiredFeatureSets:
+          opscenter-backup:
+          - stash
+          - stash-opscenter
   - name: Security
     sections:
     - blocks:

@@ -16,5 +16,9 @@ spec:
     ref:
       group: falco.appscode.com
       kind: FalcoEvent
+    requiredFeatureSets:
+      opscenter-security:
+      - falco
+      - falco-ui-server
     view:
       name: falco.appscode.com-v1alpha1-falcoevents-app
