@@ -257,7 +257,7 @@ spec:
           group: kubevault.com
           kind: VaultServer
         requiredFeatureSets:
-          opscenter-security:
+          opscenter-secret-management:
           - kubevault
         view:
           name: kubevault.com-v1alpha2-vaultservers
@@ -273,7 +273,7 @@ spec:
           group: engine.kubevault.com
           kind: SecretEngine
         requiredFeatureSets:
-          opscenter-security:
+          opscenter-secret-management:
           - kubevault
         view:
           name: engine.kubevault.com-v1alpha1-secretengines
@@ -289,7 +289,7 @@ spec:
           group: engine.kubevault.com
           kind: ElasticSearchRole
         requiredFeatureSets:
-          opscenter-security:
+          opscenter-secret-management:
           - kubevault
         view:
           name: engine.kubevault.com-v1alpha1-elasticsearchroles
@@ -305,7 +305,7 @@ spec:
           group: engine.kubevault.com
           kind: SecretAccessRequest
         requiredFeatureSets:
-          opscenter-security:
+          opscenter-secret-management:
           - kubevault
         view:
           name: engine.kubevault.com-v1alpha1-secretaccessrequests
