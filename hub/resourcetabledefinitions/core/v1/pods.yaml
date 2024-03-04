@@ -51,10 +51,11 @@ spec:
     pathTemplate: '{{ .spec.nodeName }}'
     priority: 3
     type: string
-  - name: Images
-    pathTemplate: '{{ .spec.containers | k8s_container_images }}'
-    priority: 2
-    type: string
+#  - name: Images
+##    pathTemplate: '{{ .spec.containers | k8s_container_images }}'
+#    pathTemplate: '{{ .spec.containers[0].image }}'
+#    priority: 2
+#    type: string
   - name: Restart Policy
     pathTemplate: '{{ .spec.restartPolicy }}'
     priority: 1

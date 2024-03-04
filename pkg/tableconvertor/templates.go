@@ -329,16 +329,28 @@ func promNamespaceSelectorFn(data interface{}) (string, error) {
 
 func containerImagesFn(data interface{}) (string, error) {
 	var containers []core.Container
-	if s, ok := data.(string); ok && s != "" {
-		err := json.Unmarshal([]byte(s), &containers)
+	switch data := data.(type) {
+	case string:
+		err := json.Unmarshal([]byte(data), &containers)
 		if err != nil {
 			return "", err
 		}
-	} else if _, ok := data.(map[string]interface{}); ok {
-		err := meta_util.DecodeObject(data, &containers)
-		if err != nil {
-			return "", err
+	case []interface{}:
+		// Convert each interface{} element to JSON and unmarshal to Container struct
+		for _, item := range data {
+			jsonData, err := json.Marshal(item)
+			if err != nil {
+				return "", err
+			}
+			var container core.Container
+			err = json.Unmarshal(jsonData, &container)
+			if err != nil {
+				return "", err
+			}
+			containers = append(containers, container)
 		}
+	default:
+		return "", fmt.Errorf("unexpected type for data: %T", data)
 	}
 
 	var imagesBuffer bytes.Buffer
