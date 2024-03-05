@@ -27,6 +27,9 @@ spec:
       - kind: Custom
         name: CVE Report
       name: CVE Report
+      requiredFeatureSets:
+        opscenter-security:
+        - scanner
     - blocks:
       - kind: Block
         name: rbac.authorization.k8s.io-v1-accesscontrols
@@ -35,14 +38,27 @@ spec:
       - kind: Block
         name: cert-manager.io-v1-tls
       name: TLS
+      requiredFeatureSets:
+        opscenter-security:
+        - cert-manager
     - blocks:
       - kind: Block
         name: policy-v1-policies
       name: Policies
+      requiredFeatureSets:
+        opscenter-security:
+        - gatekeeper
+        - gatekeeper-templates
+        - gatekeeper-constraints
+        - gatekeeper-grafana-dashboards
     - blocks:
       - kind: Block
         name: falco.appscode.com-v1alpha1-falcoevents-app
       name: Runtime Security
+      requiredFeatureSets:
+        opscenter-security:
+        - falco
+        - falco-ui-server
   resource:
     group: kubedb.com
     kind: Kafka
