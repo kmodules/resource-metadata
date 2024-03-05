@@ -86,7 +86,7 @@ spec:
           group: core.k8s.appscode.com
           kind: PodView
         requiredFeatureSets:
-          opscenter-backup:
+          opscenter-datastore:
           - kubedb
         view:
           name: core.k8s.appscode.com-v1alpha1-podviews-kubedb-elasticsearches
@@ -102,7 +102,7 @@ spec:
           group: appcatalog.appscode.com
           kind: AppBinding
         requiredFeatureSets:
-          opscenter-backup:
+          opscenter-datastore:
           - kubedb
       insight:
         actions:
