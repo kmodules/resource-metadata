@@ -273,16 +273,18 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 
 	for _, pageOutline := range pages {
 		page := v1alpha1.ResourcePageLayout{
-			Name:     pageOutline.Name,
-			Sections: make([]v1alpha1.SectionLayout, 0, len(pageOutline.Sections)),
+			Name:                pageOutline.Name,
+			RequiredFeatureSets: pageOutline.RequiredFeatureSets,
+			Sections:            make([]v1alpha1.SectionLayout, 0, len(pageOutline.Sections)),
 		}
 		for _, sectionOutline := range pageOutline.Sections {
 
 			section := v1alpha1.SectionLayout{
-				Name:    sectionOutline.Name,
-				Icons:   sectionOutline.Icons,
-				Info:    nil,
-				Insight: nil,
+				Name:                sectionOutline.Name,
+				Icons:               sectionOutline.Icons,
+				Info:                nil,
+				Insight:             nil,
+				RequiredFeatureSets: sectionOutline.RequiredFeatureSets,
 			}
 			if sectionOutline.Info != nil {
 				tables, err := FlattenPageBlockOutline(kc, src, *sectionOutline.Info, v1alpha1.Field)

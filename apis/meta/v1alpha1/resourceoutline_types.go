@@ -55,8 +55,10 @@ type ResourceOutlineSpec struct {
 }
 
 type ResourcePageOutline struct {
-	Name     string           `json:"name"`
-	Sections []SectionOutline `json:"sections,omitempty"`
+	Name string `json:"name"`
+	// +optional
+	RequiredFeatureSets map[string]FeatureList `json:"requiredFeatureSets,omitempty"`
+	Sections            []SectionOutline       `json:"sections,omitempty"`
 }
 
 type SectionOutline struct {
@@ -65,6 +67,8 @@ type SectionOutline struct {
 	Info    *PageBlockOutline      `json:"info,omitempty"`
 	Insight *PageBlockOutline      `json:"insight,omitempty"`
 	Blocks  []PageBlockOutline     `json:"blocks,omitempty"`
+	// +optional
+	RequiredFeatureSets map[string]FeatureList `json:"requiredFeatureSets,omitempty"`
 }
 
 // +kubebuilder:validation:Enum=Block;Self;SubTable;Connection;Custom

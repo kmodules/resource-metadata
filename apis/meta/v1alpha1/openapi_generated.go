@@ -18823,6 +18823,28 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourcePageLayout(ref common.R
 							Format:  "",
 						},
 					},
+					"requiredFeatureSets": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Type: []string{"array"},
+										Items: &spec.SchemaOrArray{
+											Schema: &spec.Schema{
+												SchemaProps: spec.SchemaProps{
+													Default: "",
+													Type:    []string{"string"},
+													Format:  "",
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
 					"sections": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
@@ -18856,6 +18878,28 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourcePageOutline(ref common.
 							Default: "",
 							Type:    []string{"string"},
 							Format:  "",
+						},
+					},
+					"requiredFeatureSets": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Type: []string{"array"},
+										Items: &spec.SchemaOrArray{
+											Schema: &spec.Schema{
+												SchemaProps: spec.SchemaProps{
+													Default: "",
+													Type:    []string{"string"},
+													Format:  "",
+												},
+											},
+										},
+									},
+								},
+							},
 						},
 					},
 					"sections": {
@@ -19297,6 +19341,28 @@ func schema_resource_metadata_apis_meta_v1alpha1_SectionLayout(ref common.Refere
 							},
 						},
 					},
+					"requiredFeatureSets": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Type: []string{"array"},
+										Items: &spec.SchemaOrArray{
+											Schema: &spec.Schema{
+												SchemaProps: spec.SchemaProps{
+													Default: "",
+													Type:    []string{"string"},
+													Format:  "",
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
 				},
 			},
 		},
@@ -19348,6 +19414,28 @@ func schema_resource_metadata_apis_meta_v1alpha1_SectionOutline(ref common.Refer
 									SchemaProps: spec.SchemaProps{
 										Default: map[string]interface{}{},
 										Ref:     ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.PageBlockOutline"),
+									},
+								},
+							},
+						},
+					},
+					"requiredFeatureSets": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Type: []string{"array"},
+										Items: &spec.SchemaOrArray{
+											Schema: &spec.Schema{
+												SchemaProps: spec.SchemaProps{
+													Default: "",
+													Type:    []string{"string"},
+													Format:  "",
+												},
+											},
+										},
 									},
 								},
 							},
