@@ -41,6 +41,9 @@ spec:
         ref:
           group: appcatalog.appscode.com
           kind: AppBinding
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
       - actions:
           create: Never
         displayMode: List
@@ -62,6 +65,9 @@ spec:
         ref:
           group: kubevault.com
           kind: VaultServer
+        requiredFeatureSets:
+          opscenter-secret-management:
+          - kubevault
       - actions:
           create: Never
         displayMode: List
@@ -73,6 +79,9 @@ spec:
         ref:
           group: engine.kubevault.com
           kind: SecretEngine
+        requiredFeatureSets:
+          opscenter-secret-management:
+          - kubevault
       - actions:
           create: Never
         displayMode: List
@@ -84,6 +93,9 @@ spec:
         ref:
           group: engine.kubevault.com
           kind: MySQLRole
+        requiredFeatureSets:
+          opscenter-secret-management:
+          - kubevault
       - actions:
           create: Never
         displayMode: List
@@ -95,6 +107,9 @@ spec:
         ref:
           group: engine.kubevault.com
           kind: SecretAccessRequest
+        requiredFeatureSets:
+          opscenter-secret-management:
+          - kubevault
   - name: Operations
     sections:
     - blocks:
@@ -120,9 +135,18 @@ spec:
         ref:
           group: supervisor.appscode.com
           kind: Recommendation
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          opscenter-tools:
+          - supervisor
         view:
           name: supervisor.appscode.com-v1alpha1-recommendations
   - name: Backups
+    requiredFeatureSets:
+      opscenter-backup:
+      - stash
+      - stash-opscenter
     sections:
     - blocks:
       - kind: Block
@@ -138,6 +162,9 @@ spec:
       - kind: Custom
         name: CVE Report
       name: CVE Report
+      requiredFeatureSets:
+        opscenter-security:
+        - scanner
     - blocks:
       - kind: Block
         name: rbac.authorization.k8s.io-v1-accesscontrols
@@ -146,14 +173,27 @@ spec:
       - kind: Block
         name: cert-manager.io-v1-tls
       name: TLS
+      requiredFeatureSets:
+        opscenter-security:
+        - cert-manager
     - blocks:
       - kind: Block
         name: policy-v1-policies
       name: Policies
+      requiredFeatureSets:
+        opscenter-security:
+        - gatekeeper
+        - gatekeeper-templates
+        - gatekeeper-constraints
+        - gatekeeper-grafana-dashboards
     - blocks:
       - kind: Block
         name: falco.appscode.com-v1alpha1-falcoevents-app
       name: Runtime Security
+      requiredFeatureSets:
+        opscenter-security:
+        - falco
+        - falco-ui-server
   resource:
     group: kubedb.com
     kind: MySQL
