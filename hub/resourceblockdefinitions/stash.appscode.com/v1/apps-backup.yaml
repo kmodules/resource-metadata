@@ -26,6 +26,9 @@ spec:
     ref:
       group: stash.appscode.com
       kind: Repository
+    requiredFeatureSets:
+      opscenter-backup:
+      - stash
   - actions:
       create: IfEmpty
     displayMode: List
@@ -37,6 +40,9 @@ spec:
     ref:
       group: stash.appscode.com
       kind: BackupConfiguration
+    requiredFeatureSets:
+      opscenter-backup:
+      - stash
   - actions:
       create: Always
     displayMode: List
@@ -58,6 +64,9 @@ spec:
     ref:
       group: stash.appscode.com
       kind: BackupSession
+    requiredFeatureSets:
+      opscenter-backup:
+      - stash
   - actions:
       create: Always
     displayMode: List
@@ -79,6 +88,9 @@ spec:
     ref:
       group: stash.appscode.com
       kind: RestoreSession
+    requiredFeatureSets:
+      opscenter-backup:
+      - stash
   - actions:
       create: Never
     displayMode: List
@@ -100,3 +112,6 @@ spec:
     ref:
       group: batch
       kind: CronJob
+    requiredFeatureSets:
+      opscenter-backup:
+      - stash
