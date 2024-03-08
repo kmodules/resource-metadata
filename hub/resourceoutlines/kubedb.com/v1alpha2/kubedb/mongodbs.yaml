@@ -430,6 +430,10 @@ spec:
           - stash
           - stash-opscenter
   - name: Backups 2.0
+    requiredFeatureSets:
+      opscenter-backup:
+      - kubestash
+      - stash-opscenter
     sections:
     - blocks:
       - kind: Block
