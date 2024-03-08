@@ -1,0 +1,74 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceBlockDefinition
+metadata:
+  creationTimestamp: null
+  name: monitoring.coreos.com-v1-apps-monitoring-kubedb
+spec:
+  blocks:
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Service Monitors
+    query:
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            exposed_by(group: "", kind: "Service") {
+              refs: monitored_by(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+          }
+        }
+      type: GraphQL
+    ref:
+      group: monitoring.coreos.com
+      kind: ServiceMonitor
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Pod Monitors
+    query:
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            exposed_by(group: "", kind: "Service") {
+              refs: monitored_by(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+          }
+        }
+      type: GraphQL
+    ref:
+      group: monitoring.coreos.com
+      kind: PodMonitor
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Prometheus
+    query:
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            services: exposed_by(group: "", kind: "Service") {
+              refs: monitored_by(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+            refs: monitored_by(group: $targetGroup, kind: $targetKind) {
+              namespace
+              name
+            }
+          }
+        }
+      type: GraphQL
+    ref:
+      group: monitoring.coreos.com
+      kind: Prometheus

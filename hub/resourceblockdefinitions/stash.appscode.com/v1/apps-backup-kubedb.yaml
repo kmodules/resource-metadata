@@ -1,0 +1,117 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceBlockDefinition
+metadata:
+  creationTimestamp: null
+  name: stash.appscode.com-v1-apps-backup-kubedb
+spec:
+  blocks:
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Repository
+    query:
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+              refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+          }
+        }
+      type: GraphQL
+    ref:
+      group: stash.appscode.com
+      kind: Repository
+    requiredFeatureSets:
+      opscenter-backup:
+      - stash
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Backup Configuration
+    query:
+      byLabel: backup_via
+      type: GraphQL
+    ref:
+      group: stash.appscode.com
+      kind: BackupConfiguration
+    requiredFeatureSets:
+      opscenter-backup:
+      - stash
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Recent Backups
+    query:
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+              refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+          }
+        }
+      type: GraphQL
+    ref:
+      group: stash.appscode.com
+      kind: BackupSession
+    requiredFeatureSets:
+      opscenter-backup:
+      - stash
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Recent Restores
+    query:
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+              refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+          }
+        }
+      type: GraphQL
+    ref:
+      group: stash.appscode.com
+      kind: RestoreSession
+    requiredFeatureSets:
+      opscenter-backup:
+      - stash
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: CronJobs
+    query:
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            backup_via(group: "stash.appscode.com", kind: "BackupConfiguration") {
+              refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+          }
+        }
+      type: GraphQL
+    ref:
+      group: batch
+      kind: CronJob
+    requiredFeatureSets:
+      opscenter-backup:
+      - stash
