@@ -53,6 +53,9 @@ type FeatureSetSpec struct {
 	Title string `json:"title"`
 	// Description specifies a short description of the services this feature set provides.
 	Description string `json:"description"`
+	// Hidden allows a featureset to be hidden from users in a UI
+	// +optional
+	Hidden bool `json:"hidden,omitempty"`
 	// Icons is an optional list of icons for an application. Icon information includes the source, size,
 	// and mime type. These icons will be used in UI.
 	Icons []helmshared.ImageSpec `json:"icons,omitempty"`

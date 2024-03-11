@@ -90,6 +90,10 @@ spec:
                 description: FeatureSet specifies the name of the FeatureSet where
                   this feature belong to.
                 type: string
+              hidden:
+                description: Hidden allows a feature to be hidden from users in a
+                  UI
+                type: boolean
               icons:
                 description: Icons is an optional list of icons for an application.
                   Icon information includes the source, size, and mime type. These

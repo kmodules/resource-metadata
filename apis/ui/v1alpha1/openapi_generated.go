@@ -16690,6 +16690,13 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSetSpec(ref common.Referen
 							Format:      "",
 						},
 					},
+					"hidden": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Hidden allows a featureset to be hidden from users in a UI",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
 					"icons": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Icons is an optional list of icons for an application. Icon information includes the source, size, and mime type. These icons will be used in UI.",
@@ -16817,6 +16824,13 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSpec(ref common.ReferenceC
 							Description: "Description specifies a short description of the service this feature provides.",
 							Default:     "",
 							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"hidden": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Hidden allows a feature to be hidden from users in a UI",
+							Type:        []string{"boolean"},
 							Format:      "",
 						},
 					},
