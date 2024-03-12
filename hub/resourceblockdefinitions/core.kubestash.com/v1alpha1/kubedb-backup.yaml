@@ -68,7 +68,7 @@ spec:
       raw: |-
         query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
           find(oid: $src) {
-            app(group: "core.kubestash.com", kind: "BackupConfiguration") {
+            backup_via(group: "core.kubestash.com", kind: "BackupConfiguration") {
               refs: offshoot(group: $targetGroup, kind: $targetKind) {
                 namespace
                 name
