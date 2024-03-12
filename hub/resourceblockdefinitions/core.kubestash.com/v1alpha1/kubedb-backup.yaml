@@ -6,28 +6,6 @@ metadata:
 spec:
   blocks:
   - actions:
-      create: IfEmpty
-    displayMode: List
-    kind: Connection
-    name: Repository
-    query:
-      byLabel: app
-      type: GraphQL
-    ref:
-      group: storage.kubestash.com
-      kind: Repository
-  - actions:
-      create: IfEmpty
-    displayMode: List
-    kind: Connection
-    name: Backup Configuration
-    query:
-      byLabel: app
-      type: GraphQL
-    ref:
-      group: core.kubestash.com
-      kind: BackupConfiguration
-  - actions:
       create: Always
     displayMode: List
     kind: Connection
@@ -59,6 +37,28 @@ spec:
     ref:
       group: core.kubestash.com
       kind: RestoreSession
+  - actions:
+      create: IfEmpty
+    displayMode: List
+    kind: Connection
+    name: Backup Configuration
+    query:
+      byLabel: app
+      type: GraphQL
+    ref:
+      group: core.kubestash.com
+      kind: BackupConfiguration
+  - actions:
+      create: IfEmpty
+    displayMode: List
+    kind: Connection
+    name: Repository
+    query:
+      byLabel: app
+      type: GraphQL
+    ref:
+      group: storage.kubestash.com
+      kind: Repository
   - actions:
       create: Never
     displayMode: List
