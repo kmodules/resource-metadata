@@ -14,7 +14,7 @@ spec:
       raw: |-
         query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
           find(oid: $src) {
-            app(group: "core.kubestash.com", kind: "BackupConfiguration") {
+            backup_via(group: "core.kubestash.com", kind: "BackupConfiguration") {
               refs: source(group: $targetGroup, kind: $targetKind) {
                 namespace
                 name
@@ -43,7 +43,7 @@ spec:
     kind: Connection
     name: Backup Configuration
     query:
-      byLabel: app
+      byLabel: backup_via
       type: GraphQL
     ref:
       group: core.kubestash.com
@@ -54,7 +54,7 @@ spec:
     kind: Connection
     name: Repository
     query:
-      byLabel: app
+      byLabel: backup_via
       type: GraphQL
     ref:
       group: storage.kubestash.com

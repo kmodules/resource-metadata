@@ -12,8 +12,6 @@ import (
 )
 
 const (
-	// EdgeLabelApp is a EdgeLabel of type app.
-	EdgeLabelApp EdgeLabel = "app"
 	// EdgeLabelAuthn is a EdgeLabel of type authn.
 	EdgeLabelAuthn EdgeLabel = "authn"
 	// EdgeLabelAuthz is a EdgeLabel of type authz.
@@ -30,8 +28,6 @@ const (
 	EdgeLabelConfig EdgeLabel = "config"
 	// EdgeLabelConnectVia is a EdgeLabel of type connect_via.
 	EdgeLabelConnectVia EdgeLabel = "connect_via"
-	// EdgeLabelEncryptionSecret is a EdgeLabel of type encryption_secret.
-	EdgeLabelEncryptionSecret EdgeLabel = "encryption_secret"
 	// EdgeLabelExposedBy is a EdgeLabel of type exposed_by.
 	EdgeLabelExposedBy EdgeLabel = "exposed_by"
 	// EdgeLabelEvent is a EdgeLabel of type event.
@@ -58,8 +54,6 @@ const (
 	EdgeLabelScaledBy EdgeLabel = "scaled_by"
 	// EdgeLabelSource is a EdgeLabel of type source.
 	EdgeLabelSource EdgeLabel = "source"
-	// EdgeLabelStashAddon is a EdgeLabel of type stash_addon.
-	EdgeLabelStashAddon EdgeLabel = "stash_addon"
 	// EdgeLabelStorage is a EdgeLabel of type storage.
 	EdgeLabelStorage EdgeLabel = "storage"
 	// EdgeLabelView is a EdgeLabel of type view.
@@ -69,7 +63,6 @@ const (
 var ErrInvalidEdgeLabel = fmt.Errorf("not a valid EdgeLabel, try [%s]", strings.Join(_EdgeLabelNames, ", "))
 
 var _EdgeLabelNames = []string{
-	string(EdgeLabelApp),
 	string(EdgeLabelAuthn),
 	string(EdgeLabelAuthz),
 	string(EdgeLabelAuthSecret),
@@ -78,7 +71,6 @@ var _EdgeLabelNames = []string{
 	string(EdgeLabelCertIssuer),
 	string(EdgeLabelConfig),
 	string(EdgeLabelConnectVia),
-	string(EdgeLabelEncryptionSecret),
 	string(EdgeLabelExposedBy),
 	string(EdgeLabelEvent),
 	string(EdgeLabelLocatedOn),
@@ -92,7 +84,6 @@ var _EdgeLabelNames = []string{
 	string(EdgeLabelRestoreInto),
 	string(EdgeLabelScaledBy),
 	string(EdgeLabelSource),
-	string(EdgeLabelStashAddon),
 	string(EdgeLabelStorage),
 	string(EdgeLabelView),
 }
@@ -107,7 +98,6 @@ func EdgeLabelNames() []string {
 // EdgeLabelValues returns a list of the values for EdgeLabel
 func EdgeLabelValues() []EdgeLabel {
 	return []EdgeLabel{
-		EdgeLabelApp,
 		EdgeLabelAuthn,
 		EdgeLabelAuthz,
 		EdgeLabelAuthSecret,
@@ -116,7 +106,6 @@ func EdgeLabelValues() []EdgeLabel {
 		EdgeLabelCertIssuer,
 		EdgeLabelConfig,
 		EdgeLabelConnectVia,
-		EdgeLabelEncryptionSecret,
 		EdgeLabelExposedBy,
 		EdgeLabelEvent,
 		EdgeLabelLocatedOn,
@@ -130,7 +119,6 @@ func EdgeLabelValues() []EdgeLabel {
 		EdgeLabelRestoreInto,
 		EdgeLabelScaledBy,
 		EdgeLabelSource,
-		EdgeLabelStashAddon,
 		EdgeLabelStorage,
 		EdgeLabelView,
 	}
@@ -149,32 +137,29 @@ func (x EdgeLabel) IsValid() bool {
 }
 
 var _EdgeLabelValue = map[string]EdgeLabel{
-	"app":               EdgeLabelApp,
-	"authn":             EdgeLabelAuthn,
-	"authz":             EdgeLabelAuthz,
-	"auth_secret":       EdgeLabelAuthSecret,
-	"backup_via":        EdgeLabelBackupVia,
-	"catalog":           EdgeLabelCatalog,
-	"cert_issuer":       EdgeLabelCertIssuer,
-	"config":            EdgeLabelConfig,
-	"connect_via":       EdgeLabelConnectVia,
-	"encryption_secret": EdgeLabelEncryptionSecret,
-	"exposed_by":        EdgeLabelExposedBy,
-	"event":             EdgeLabelEvent,
-	"located_on":        EdgeLabelLocatedOn,
-	"monitored_by":      EdgeLabelMonitoredBy,
-	"ocm_bind":          EdgeLabelOcmBind,
-	"offshoot":          EdgeLabelOffshoot,
-	"ops":               EdgeLabelOps,
-	"placed_into":       EdgeLabelPlacedInto,
-	"policy":            EdgeLabelPolicy,
-	"recommended_for":   EdgeLabelRecommendedFor,
-	"restore_into":      EdgeLabelRestoreInto,
-	"scaled_by":         EdgeLabelScaledBy,
-	"source":            EdgeLabelSource,
-	"stash_addon":       EdgeLabelStashAddon,
-	"storage":           EdgeLabelStorage,
-	"view":              EdgeLabelView,
+	"authn":           EdgeLabelAuthn,
+	"authz":           EdgeLabelAuthz,
+	"auth_secret":     EdgeLabelAuthSecret,
+	"backup_via":      EdgeLabelBackupVia,
+	"catalog":         EdgeLabelCatalog,
+	"cert_issuer":     EdgeLabelCertIssuer,
+	"config":          EdgeLabelConfig,
+	"connect_via":     EdgeLabelConnectVia,
+	"exposed_by":      EdgeLabelExposedBy,
+	"event":           EdgeLabelEvent,
+	"located_on":      EdgeLabelLocatedOn,
+	"monitored_by":    EdgeLabelMonitoredBy,
+	"ocm_bind":        EdgeLabelOcmBind,
+	"offshoot":        EdgeLabelOffshoot,
+	"ops":             EdgeLabelOps,
+	"placed_into":     EdgeLabelPlacedInto,
+	"policy":          EdgeLabelPolicy,
+	"recommended_for": EdgeLabelRecommendedFor,
+	"restore_into":    EdgeLabelRestoreInto,
+	"scaled_by":       EdgeLabelScaledBy,
+	"source":          EdgeLabelSource,
+	"storage":         EdgeLabelStorage,
+	"view":            EdgeLabelView,
 }
 
 // ParseEdgeLabel attempts to convert a string to a EdgeLabel.

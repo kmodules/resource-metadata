@@ -19,7 +19,7 @@ spec:
       kind: BackupStorage
     type: MatchRef
   - labels:
-    - encryption_secret
+    - auth_secret
     references:
     - '{.spec.encryptionSecret.name},{.spec.encryptionSecret.namespace}'
     target:
@@ -27,7 +27,7 @@ spec:
       kind: Secret
     type: MatchRef
   - labels:
-    - app
+    - backup_via
     references:
     - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
     target:
@@ -35,7 +35,7 @@ spec:
       kind: Postgres
     type: MatchRef
   - labels:
-    - app
+    - backup_via
     references:
     - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
     target:
@@ -43,7 +43,7 @@ spec:
       kind: Redis
     type: MatchRef
   - labels:
-    - app
+    - backup_via
     references:
     - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
     target:
@@ -51,7 +51,7 @@ spec:
       kind: Elasticsearch
     type: MatchRef
   - labels:
-    - app
+    - backup_via
     references:
     - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
     target:
@@ -59,7 +59,7 @@ spec:
       kind: Kafka
     type: MatchRef
   - labels:
-    - app
+    - backup_via
     references:
     - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
     target:
@@ -67,7 +67,7 @@ spec:
       kind: MariaDB
     type: MatchRef
   - labels:
-    - app
+    - backup_via
     references:
     - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
     target:
@@ -75,7 +75,7 @@ spec:
       kind: MongoDB
     type: MatchRef
   - labels:
-    - app
+    - backup_via
     references:
     - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
     target:
@@ -83,7 +83,7 @@ spec:
       kind: MySQL
     type: MatchRef
   - labels:
-    - app
+    - backup_via
     references:
     - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
     target:
@@ -91,7 +91,7 @@ spec:
       kind: PerconaXtraDB
     type: MatchRef
   - labels:
-    - app
+    - backup_via
     references:
     - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
     target:

@@ -30,14 +30,6 @@ spec:
       apiVersion: storage.kubestash.com/v1alpha1
       kind: RetentionPolicy
     type: MatchRef
-  - labels:
-    - stash_addon
-    references:
-    - '{range .spec.backupConfigurationTemplate.sessions[*]}{.addon.name}{"\n"}{end}'
-    target:
-      apiVersion: addons.kubestash.com/v1alpha1
-      kind: Addon
-    type: MatchRef
   resource:
     group: core.kubestash.com
     kind: BackupBlueprint
