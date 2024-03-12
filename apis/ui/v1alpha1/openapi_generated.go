@@ -355,6 +355,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ResourceEditorList":    schema_resource_metadata_apis_ui_v1alpha1_ResourceEditorList(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ResourceEditorSpec":    schema_resource_metadata_apis_ui_v1alpha1_ResourceEditorSpec(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.UIParameters":          schema_resource_metadata_apis_ui_v1alpha1_UIParameters(ref),
+		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ValuesReference":       schema_resource_metadata_apis_ui_v1alpha1_ValuesReference(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.VariantRef":            schema_resource_metadata_apis_ui_v1alpha1_VariantRef(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.WorkloadInfo":          schema_resource_metadata_apis_ui_v1alpha1_WorkloadInfo(ref),
 	}
@@ -16877,6 +16878,20 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSpec(ref common.ReferenceC
 							Ref:         ref("kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ChartInfo"),
 						},
 					},
+					"valuesFrom": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ValuesFrom holds references to resources containing Helm values for this HelmRelease, and information about how they should be merged.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ValuesReference"),
+									},
+								},
+							},
+						},
+					},
 					"values": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Values holds the values for this Helm release.",
@@ -16888,7 +16903,7 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSpec(ref common.ReferenceC
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ChartInfo", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ReadinessChecks", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Requirements", "x-helm.dev/apimachinery/apis/shared.ImageSpec"},
+			"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ChartInfo", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ReadinessChecks", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Requirements", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ValuesReference", "x-helm.dev/apimachinery/apis/shared.ImageSpec"},
 	}
 }
 
@@ -17356,6 +17371,57 @@ func schema_resource_metadata_apis_ui_v1alpha1_UIParameters(ref common.Reference
 		},
 		Dependencies: []string{
 			"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ActionTemplateGroup", "x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartSourceRef"},
+	}
+}
+
+func schema_resource_metadata_apis_ui_v1alpha1_ValuesReference(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "copied from: https://github.com/fluxcd/helm-controller/blob/v0.37.4/api/v2beta2/reference_types.go#L45-L80 ValuesReference contains a reference to a resource containing Helm values, and optionally the key they can be found at.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind of the values referent, valid values are ('Secret', 'ConfigMap').",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Name of the values referent. Should reside in the same namespace as the referring resource.",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"valuesKey": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ValuesKey is the data key where the values.yaml or a specific value can be found at. Defaults to 'values.yaml'.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"targetPath": {
+						SchemaProps: spec.SchemaProps{
+							Description: "TargetPath is the YAML dot notation path the value should be merged at. When set, the ValuesKey is expected to be a single flat value. Defaults to 'None', which results in the values getting merged at the root.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"optional": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Optional marks this ValuesReference as optional. When set, a not found error for the values reference is ignored, but any ValuesKey, TargetPath or transient error will still result in a reconciliation failure.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
+				},
+				Required: []string{"kind", "name"},
+			},
+		},
 	}
 }
 
