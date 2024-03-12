@@ -9,6 +9,15 @@ metadata:
     k8s.io/version: v1alpha1
   name: storage.kubestash.com-v1alpha1-backupstorages
 spec:
+  connections:
+  - labels:
+    - auth_secret
+    references:
+    - '{.spec.storage.*.secretName},{.metadata.namespace}'
+    target:
+      apiVersion: v1
+      kind: Secret
+    type: MatchRef
   resource:
     group: storage.kubestash.com
     kind: BackupStorage

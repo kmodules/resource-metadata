@@ -9,6 +9,24 @@ metadata:
     k8s.io/version: v1alpha1
   name: storage.kubestash.com-v1alpha1-snapshots
 spec:
+  connections:
+  - labels:
+    - storage
+    level: Controller
+    target:
+      apiVersion: storage.kubestash.com/v1alpha1
+      kind: Repository
+    type: OwnedBy
+  - labels:
+    - offshoot
+    namespace:
+      path: metadata.namespace
+    references:
+    - '{.spec.backupSession}'
+    target:
+      apiVersion: core.kubestash.com/v1alpha1
+      kind: BackupSession
+    type: MatchRef
   resource:
     group: storage.kubestash.com
     kind: Snapshot

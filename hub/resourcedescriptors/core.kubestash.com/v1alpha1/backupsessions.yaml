@@ -9,6 +9,14 @@ metadata:
     k8s.io/version: v1alpha1
   name: core.kubestash.com-v1alpha1-backupsessions
 spec:
+  connections:
+  - labels:
+    - source
+    level: Controller
+    target:
+      apiVersion: core.kubestash.com/v1alpha1
+      kind: BackupConfiguration
+    type: OwnedBy
   resource:
     group: core.kubestash.com
     kind: BackupSession

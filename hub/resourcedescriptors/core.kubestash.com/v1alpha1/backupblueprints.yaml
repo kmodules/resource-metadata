@@ -9,6 +9,27 @@ metadata:
     k8s.io/version: v1alpha1
   name: core.kubestash.com-v1alpha1-backupblueprints
 spec:
+  connections:
+  - labels:
+    - policy
+    namespace:
+      path: metadata.namespace
+    references:
+    - '{range .spec.backupConfigurationTemplate.backends[*]}{.retentionPolicy.name}{"\n"}{end}'
+    target:
+      apiVersion: storage.kubestash.com/v1alpha1
+      kind: RetentionPolicy
+    type: MatchRef
+  - labels:
+    - storage
+    namespace:
+      path: metadata.namespace
+    references:
+    - '{range .spec.backupConfigurationTemplate.backends[*]}{.storageRef.name}{"\n"}{end}'
+    target:
+      apiVersion: storage.kubestash.com/v1alpha1
+      kind: RetentionPolicy
+    type: MatchRef
   resource:
     group: core.kubestash.com
     kind: BackupBlueprint

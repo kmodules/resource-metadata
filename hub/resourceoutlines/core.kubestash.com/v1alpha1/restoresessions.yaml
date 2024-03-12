@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceOutline
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: core.kubestash.com
+    k8s.io/kind: RestoreSession
+    k8s.io/resource: restoresessions
+    k8s.io/version: v1alpha1
+  name: core.kubestash.com-v1alpha1-restoresessions
+spec:
+  defaultLayout: true
+  resource:
+    group: core.kubestash.com
+    kind: RestoreSession
+    name: restoresessions
+    scope: Namespaced
+    version: v1alpha1

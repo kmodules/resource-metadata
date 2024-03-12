@@ -9,6 +9,95 @@ metadata:
     k8s.io/version: v1alpha1
   name: storage.kubestash.com-v1alpha1-repositories
 spec:
+  connections:
+  - labels:
+    - storage
+    references:
+    - '{.spec.storageRef.name},{.spec.storageRef.namespace}'
+    target:
+      apiVersion: storage.kubestash.com/v1alpha1
+      kind: BackupStorage
+    type: MatchRef
+  - labels:
+    - auth_secret
+    references:
+    - '{.spec.encryptionSecret.name},{.spec.encryptionSecret.namespace}'
+    target:
+      apiVersion: v1
+      kind: Secret
+    type: MatchRef
+  - labels:
+    - backup_via
+    references:
+    - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: Postgres
+    type: MatchRef
+  - labels:
+    - backup_via
+    references:
+    - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: Redis
+    type: MatchRef
+  - labels:
+    - backup_via
+    references:
+    - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: Elasticsearch
+    type: MatchRef
+  - labels:
+    - backup_via
+    references:
+    - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: Kafka
+    type: MatchRef
+  - labels:
+    - backup_via
+    references:
+    - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: MariaDB
+    type: MatchRef
+  - labels:
+    - backup_via
+    references:
+    - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: MongoDB
+    type: MatchRef
+  - labels:
+    - backup_via
+    references:
+    - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: MySQL
+    type: MatchRef
+  - labels:
+    - backup_via
+    references:
+    - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: PerconaXtraDB
+    type: MatchRef
+  - labels:
+    - backup_via
+    references:
+    - '{.spec.appRef.name},{.spec.appRef.namespace},{.spec.appRef.kind},{.spec.appRef.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: RedisSentinel
+    type: MatchRef
   resource:
     group: storage.kubestash.com
     kind: Repository

@@ -1,0 +1,51 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceBlockDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: core.kubestash.com
+    k8s.io/kind: BackupConfiguration
+    k8s.io/resource: backupconfigurations
+    k8s.io/version: v1alpha1
+  name: core.kubestash.com-v1alpha1-backupconfigurations
+spec:
+  blocks:
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Backup Sessions
+    query:
+      byLabel: source
+      type: GraphQL
+    ref:
+      group: core.kubestash.com
+      kind: BackupSession
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Retention Policies
+    query:
+      byLabel: policy
+      type: GraphQL
+    ref:
+      group: storage.kubestash.com
+      kind: RetentionPolicy
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: CronJobs
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: batch
+      kind: CronJob
+  resource:
+    group: core.kubestash.com
+    kind: BackupConfiguration
+    name: backupconfigurations
+    scope: Namespaced
+    version: v1alpha1

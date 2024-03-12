@@ -9,6 +9,21 @@ metadata:
     k8s.io/version: v1
   name: batch-v1-cronjobs
 spec:
+  connections:
+  - labels:
+    - offshoot
+    level: Controller
+    target:
+      apiVersion: core.kubestash.com/v1alpha1
+      kind: BackupConfiguration
+    type: OwnedBy
+  - labels:
+    - offshoot
+    level: Controller
+    target:
+      apiVersion: stash.appscode.com/v1beta1
+      kind: BackupConfiguration
+    type: OwnedBy
   resource:
     group: batch
     kind: CronJob

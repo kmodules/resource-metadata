@@ -9,6 +9,79 @@ metadata:
     k8s.io/version: v1alpha1
   name: core.kubestash.com-v1alpha1-restoresessions
 spec:
+  connections:
+  - labels:
+    - restore_into
+    references:
+    - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: Postgres
+    type: MatchRef
+  - labels:
+    - restore_into
+    references:
+    - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: Redis
+    type: MatchRef
+  - labels:
+    - restore_into
+    references:
+    - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: Elasticsearch
+    type: MatchRef
+  - labels:
+    - restore_into
+    references:
+    - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: Kafka
+    type: MatchRef
+  - labels:
+    - restore_into
+    references:
+    - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: MariaDB
+    type: MatchRef
+  - labels:
+    - restore_into
+    references:
+    - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: MongoDB
+    type: MatchRef
+  - labels:
+    - restore_into
+    references:
+    - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: MySQL
+    type: MatchRef
+  - labels:
+    - restore_into
+    references:
+    - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: PerconaXtraDB
+    type: MatchRef
+  - labels:
+    - restore_into
+    references:
+    - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: RedisSentinel
+    type: MatchRef
   resource:
     group: core.kubestash.com
     kind: RestoreSession
