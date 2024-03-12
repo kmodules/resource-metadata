@@ -31,7 +31,7 @@ spec:
         kind: Connection
         name: Backup Session
         query:
-          byLabel: backup_via
+          byLabel: offshoot
           type: GraphQL
         ref:
           group: core.kubestash.com
