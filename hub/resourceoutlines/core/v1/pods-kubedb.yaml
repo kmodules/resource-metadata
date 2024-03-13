@@ -7,9 +7,9 @@ metadata:
     k8s.io/kind: Pod
     k8s.io/resource: pods
     k8s.io/version: v1
-  name: core-v1-pods
+  name: core-v1-pods-kubedb
 spec:
-  defaultLayout: true
+  defaultLayout: false
   pages:
   - name: Overview
     sections:
@@ -24,7 +24,7 @@ spec:
     sections:
     - blocks:
       - kind: Block
-        name: stash.appscode.com-v1-apps-backup
+        name: stash.appscode.com-v1-apps-backup-kubedb
   - name: Backups 2.0
     requiredFeatureSets:
       opscenter-backup:
@@ -37,7 +37,7 @@ spec:
     sections:
     - blocks:
       - kind: Block
-        name: monitoring.coreos.com-v1-apps-monitoring
+        name: monitoring.coreos.com-v1-apps-monitoring-kubedb
   - name: Security
     sections:
     - blocks:
