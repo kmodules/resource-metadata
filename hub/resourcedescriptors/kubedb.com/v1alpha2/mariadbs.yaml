@@ -108,25 +108,10 @@ spec:
     command:
     - bash
     - -c
-    - mysql -u"$MYSQL_ROOT_USERNAME" -p"$MYSQL_ROOT_PASSWORD"
-    container: mariadb
-    help: |
-      show databases;
-    if:
-      condition: |
-        {{- if (hasPrefix "10." .spec.version) }}true{{ else }}false{{ end -}}
-    serviceNameTemplate: '{{- .metadata.name -}}'
-  - alias: Primary
-    command:
-    - bash
-    - -c
     - mariadb -u"$MYSQL_ROOT_USERNAME" -p"$MYSQL_ROOT_PASSWORD"
     container: mariadb
     help: |
       show databases;
-    if:
-      condition: |
-        {{- if (hasPrefix "10." .spec.version) }}false{{ else }}true{{ end -}}
     serviceNameTemplate: '{{- .metadata.name -}}'
   resource:
     group: kubedb.com
