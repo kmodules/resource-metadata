@@ -108,12 +108,13 @@ spec:
     command:
     - bash
     - -c
-    - mongosh admin -u "$MONGO_INITDB_ROOT_USERNAME" -p "$MONGO_INITDB_ROOT_PASSWORD"
+    - mongo admin -u "$MONGO_INITDB_ROOT_USERNAME" -p "$MONGO_INITDB_ROOT_PASSWORD"
     container: mongodb
     help: |
       show dbs;
     if:
-      condition: '{{- if or (hasPrefix "percona-" .spec.version) (hasPrefix "3." .spec.version)
+      condition: '{{- if or (hasPrefix "percona-3" .spec.version) (hasPrefix "percona-4"
+        .spec.version) (hasPrefix "percona-5" .spec.version) (hasPrefix "3." .spec.version)
         (hasPrefix "4." .spec.version) (hasPrefix "5." .spec.version) }}true{{ else
         }}false{{ end -}}'
     serviceNameTemplate: '{{- .metadata.name -}}'
@@ -126,7 +127,8 @@ spec:
     help: |
       show dbs;
     if:
-      condition: '{{- if or (hasPrefix "percona-" .spec.version) (hasPrefix "3." .spec.version)
+      condition: '{{- if or (hasPrefix "percona-3" .spec.version) (hasPrefix "percona-4"
+        .spec.version) (hasPrefix "percona-5" .spec.version) (hasPrefix "3." .spec.version)
         (hasPrefix "4." .spec.version) (hasPrefix "5." .spec.version) }}false{{ else
         }}true{{ end -}}'
     serviceNameTemplate: '{{- .metadata.name -}}'
