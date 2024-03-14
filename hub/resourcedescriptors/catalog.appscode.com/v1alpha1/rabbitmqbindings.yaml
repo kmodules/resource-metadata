@@ -3,23 +3,21 @@ kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
   labels:
-    k8s.io/group: kube-bind.appscode.com
-    k8s.io/kind: APIServiceBinding
-    k8s.io/resource: apiservicebindings
+    k8s.io/group: catalog.appscode.com
+    k8s.io/kind: RabbitMQBinding
+    k8s.io/resource: rabbitmqbindings
     k8s.io/version: v1alpha1
-  name: kube-bind.appscode.com-v1alpha1-apiservicebindings
+  name: catalog.appscode.com-v1alpha1-rabbitmqbindings
 spec:
   resource:
-    group: kube-bind.appscode.com
-    kind: APIServiceBinding
-    name: apiservicebindings
-    scope: Cluster
+    group: catalog.appscode.com
+    kind: RabbitMQBinding
+    name: rabbitmqbindings
+    scope: Namespaced
     version: v1alpha1
   validation:
     openAPIV3Schema:
-      description: APIServiceBinding binds an API service represented by a APIServiceExport
-        in a service provider cluster into a consumer cluster. This object lives in
-        the consumer cluster.
+      description: RabbitMQBinding is the Schema for the rabbitmqbindings API
       properties:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
@@ -40,6 +38,14 @@ spec:
                 is primarily intended for creation idempotence and configuration definition.
                 Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
               type: string
+            namespace:
+              description: "Namespace defines the space within which each name must
+                be unique. An empty namespace is equivalent to the \"default\" namespace,
+                but \"default\" is the canonical representation. Not all objects are
+                required to be scoped to a namespace - the value of this field for
+                those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated.
+                More info: http://kubernetes.io/docs/user-guide/namespaces"
+              type: string
             labels:
               additionalProperties:
                 type: string
@@ -57,44 +63,21 @@ spec:
               type: object
           type: object
         spec:
-          description: spec specifies how an API service from a service provider should
-            be bound in the local consumer cluster.
+          description: RabbitMQBindingSpec defines the desired state of RabbitMQBinding
           properties:
-            providers:
-              description: Providers contains the provider ClusterIdentity and KubeconfigSecretRef
-                of the provider cluster
-              items:
-                properties:
-                  clusterName:
-                    type: string
-                  clusterUID:
-                    type: string
-                  kubeconfig:
-                    properties:
-                      key:
-                        description: The key of the secret to select from.  Must be
-                          "kubeconfig".
-                        enum:
-                        - kubeconfig
-                        type: string
-                      name:
-                        description: Name of the referent.
-                        minLength: 1
-                        type: string
-                      namespace:
-                        description: Namespace of the referent.
-                        minLength: 1
-                        type: string
-                    required:
-                    - key
-                    - name
-                    - namespace
-                    type: object
-                  remoteNamespace:
-                    type: string
-                type: object
-              type: array
+            sourceRef:
+              description: SourceRef refers to the source app instance.
+              properties:
+                name:
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                  type: string
+                namespace:
+                  description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                  type: string
+              required:
+              - name
+              type: object
           required:
-          - providers
+          - sourceRef
           type: object
       type: object

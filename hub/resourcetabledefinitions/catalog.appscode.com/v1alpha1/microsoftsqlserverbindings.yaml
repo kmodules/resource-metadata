@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: catalog.appscode.com
+    k8s.io/kind: MicrosoftSQLServerBinding
+    k8s.io/resource: microsoftsqlserverbindings
+    k8s.io/version: v1alpha1
+  name: catalog.appscode.com-v1alpha1-microsoftsqlserverbindings
+spec:
+  defaultView: true
+  resource:
+    group: catalog.appscode.com
+    kind: MicrosoftSQLServerBinding
+    name: microsoftsqlserverbindings
+    scope: Namespaced
+    version: v1alpha1

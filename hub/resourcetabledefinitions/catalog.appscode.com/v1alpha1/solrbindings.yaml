@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: catalog.appscode.com
+    k8s.io/kind: SolrBinding
+    k8s.io/resource: solrbindings
+    k8s.io/version: v1alpha1
+  name: catalog.appscode.com-v1alpha1-solrbindings
+spec:
+  defaultView: true
+  resource:
+    group: catalog.appscode.com
+    kind: SolrBinding
+    name: solrbindings
+    scope: Namespaced
+    version: v1alpha1
