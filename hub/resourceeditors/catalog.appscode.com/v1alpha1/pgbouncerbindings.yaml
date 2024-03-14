@@ -9,6 +9,11 @@ metadata:
     k8s.io/version: v1alpha1
   name: catalog.appscode.com-v1alpha1-pgbouncerbindings
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/catalog.appscode.com/pgbouncerbindings.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/catalog.appscode.com/pgbouncerbindings.png
+    type: image/png
   resource:
     group: catalog.appscode.com
     kind: PgBouncerBinding
