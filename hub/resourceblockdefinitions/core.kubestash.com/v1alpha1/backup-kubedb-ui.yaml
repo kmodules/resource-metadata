@@ -1,0 +1,82 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceBlockDefinition
+metadata:
+  creationTimestamp: null
+  name: core.kubestash.com-v1alpha1-kubedb-backup-kubedb-ui
+spec:
+  blocks:
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Recent Backups
+    query:
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            backup_via(group: "core.kubestash.com", kind: "BackupConfiguration") {
+              refs: source(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+          }
+        }
+      type: GraphQL
+    ref:
+      group: core.kubestash.com
+      kind: BackupSession
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Recent Restores
+    query:
+      byLabel: restore_into
+      type: GraphQL
+    ref:
+      group: core.kubestash.com
+      kind: RestoreSession
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Backup Configuration
+    query:
+      byLabel: backup_via
+      type: GraphQL
+    ref:
+      group: core.kubestash.com
+      kind: BackupConfiguration
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Repository
+    query:
+      byLabel: backup_via
+      type: GraphQL
+    ref:
+      group: storage.kubestash.com
+      kind: Repository
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: CronJobs
+    query:
+      raw: |-
+        query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+          find(oid: $src) {
+            backup_via(group: "core.kubestash.com", kind: "BackupConfiguration") {
+              refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                namespace
+                name
+              }
+            }
+          }
+        }
+      type: GraphQL
+    ref:
+      group: batch
+      kind: CronJob
