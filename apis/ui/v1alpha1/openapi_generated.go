@@ -16319,6 +16319,21 @@ func schema_resource_metadata_apis_ui_v1alpha1_ChartInfo(ref common.ReferenceCal
 							Ref:         ref("kmodules.xyz/client-go/api/v1.TypedObjectReference"),
 						},
 					},
+					"valuesFiles": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Alternative list of values files to use as the chart values (values.yaml is not included by default), expected to be a relative path in the SourceRef. Values files are merged in the order of this list with the last file overriding the first. Ignored when omitted.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
 				},
 				Required: []string{"name", "sourceRef"},
 			},

@@ -86,6 +86,11 @@ func (in *ActionTemplateGroup) DeepCopy() *ActionTemplateGroup {
 func (in *ChartInfo) DeepCopyInto(out *ChartInfo) {
 	*out = *in
 	out.SourceRef = in.SourceRef
+	if in.ValuesFiles != nil {
+		in, out := &in.ValuesFiles, &out.ValuesFiles
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
 	return
 }
 
@@ -398,7 +403,7 @@ func (in *FeatureSpec) DeepCopyInto(out *FeatureSpec) {
 	}
 	in.Requirements.DeepCopyInto(&out.Requirements)
 	in.ReadinessChecks.DeepCopyInto(&out.ReadinessChecks)
-	out.Chart = in.Chart
+	in.Chart.DeepCopyInto(&out.Chart)
 	if in.ValuesFrom != nil {
 		in, out := &in.ValuesFrom, &out.ValuesFrom
 		*out = make([]ValuesReference, len(*in))

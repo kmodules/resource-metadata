@@ -115,6 +115,12 @@ type ChartInfo struct {
 	Version string `json:"version,omitempty"`
 	// SourceRef specifies the source of the chart
 	SourceRef v1.TypedObjectReference `json:"sourceRef"`
+	// Alternative list of values files to use as the chart values (values.yaml
+	// is not included by default), expected to be a relative path in the SourceRef.
+	// Values files are merged in the order of this list with the last file overriding
+	// the first. Ignored when omitted.
+	// +optional
+	ValuesFiles []string `json:"valuesFiles,omitempty"`
 }
 
 // copied from: https://github.com/fluxcd/helm-controller/blob/v0.37.4/api/v2beta2/reference_types.go#L45-L80
