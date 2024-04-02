@@ -1,9 +1,10 @@
-$HOME/go/src/github.com/cert-manager/cert-manager/deploy/manifests/00-crds.yaml
+https://github.com/cert-manager/cert-manager/releases/download/v1.14.4/cert-manager.crds.yaml
 $HOME/go/src/github.com/crossplane/crossplane/cluster/crds
 $HOME/go/src/github.com/kubernetes-csi/external-snapshotter/client/config/crd
 $HOME/go/src/github.com/open-policy-agent/gatekeeper/config/crd/bases
 $HOME/go/src/github.com/prometheus-operator/prometheus-operator/example/prometheus-operator-crd
-$HOME/go/src/go.kubeware.dev/catalog/config/crd/bases
+$HOME/go/src/go.bytebuilders.dev/kube-bind/crds
+$HOME/go/src/go.bytebuilders.dev/catalog/crds
 $HOME/go/src/go.openviz.dev/apimachinery/crds
 $HOME/go/src/k8s.io/api/crds
 $HOME/go/src/k8s.io/autoscaler/vertical-pod-autoscaler/deploy/vpa-v1-crd-gen.yaml
