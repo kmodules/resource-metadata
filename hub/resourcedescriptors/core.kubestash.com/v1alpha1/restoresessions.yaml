@@ -12353,8 +12353,8 @@ spec:
                   description: EncryptionSecret refers to the Secret containing the
                     encryption key which will be used to encode/decode the backed
                     up data. You can refer to a Secret of a different namespace. If
-                    you don't provide the namespace field, Stash will look for the
-                    Secret in the same namespace as the RestoreSession.
+                    you don't provide the namespace field, KubeStash will look for
+                    the Secret in the same namespace as the RestoreSession.
                   properties:
                     name:
                       description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
@@ -12365,17 +12365,21 @@ spec:
                   required:
                   - name
                   type: object
+                namespace:
+                  description: Namespace specifies the namespace of the DataSource
+                    (i.e. Repository, Snapshot).
+                  type: string
                 pitr:
                   description: PITR stands for Point-In-Time Recovery. You can provide
-                    a target time instead of specifying a particular Snapshot. Stash
+                    a target time instead of specifying a particular Snapshot. KubeStash
                     will automatically find the latest Snapshot that satisfies the
                     targeted time and restore it.
                   properties:
                     exclusive:
                       description: Exclusive specifies whether to exclude the Snapshot
                         that falls in the exact time specified in the `targetTime`
-                        field. By default, Stash will select the Snapshot that fall
-                        in the exact time.
+                        field. By default, KubeStash will select the Snapshot that
+                        fall in the exact time.
                       type: boolean
                     targetTime:
                       description: TargetTime specifies the desired date and time
@@ -12407,12 +12411,12 @@ spec:
                       executionPolicy:
                         default: Always
                         description: 'ExecutionPolicy specifies when to execute the
-                          hook. Valid values are: - "Always": Stash will execute this
-                          hook no matter the backup/restore failed. This is the default
-                          execution policy. - "OnSuccess": Stash will execute this
-                          hook only if the backup/restore has succeeded. - "OnFailure":
-                          Stash will execute this hook only if the backup/restore
-                          has failed.'
+                          hook. Valid values are: - "Always": KubeStash will execute
+                          this hook no matter the backup/restore failed. This is the
+                          default execution policy. - "OnSuccess": KubeStash will
+                          execute this hook only if the backup/restore has succeeded.
+                          - "OnFailure": KubeStash will execute this hook only if
+                          the backup/restore has failed.'
                         enum:
                         - Always
                         - OnSuccess
@@ -12434,7 +12438,7 @@ spec:
                         - name
                         type: object
                       maxRetry:
-                        description: MaxRetry specifies how many times Stash should
+                        description: MaxRetry specifies how many times KubeStash should
                           retry the hook execution in case of failure. The default
                           value of this field is 0 which means no retry.
                         format: int32
@@ -17387,12 +17391,12 @@ spec:
                       executionPolicy:
                         default: Always
                         description: 'ExecutionPolicy specifies when to execute the
-                          hook. Valid values are: - "Always": Stash will execute this
-                          hook no matter the backup/restore failed. This is the default
-                          execution policy. - "OnSuccess": Stash will execute this
-                          hook only if the backup/restore has succeeded. - "OnFailure":
-                          Stash will execute this hook only if the backup/restore
-                          has failed.'
+                          hook. Valid values are: - "Always": KubeStash will execute
+                          this hook no matter the backup/restore failed. This is the
+                          default execution policy. - "OnSuccess": KubeStash will
+                          execute this hook only if the backup/restore has succeeded.
+                          - "OnFailure": KubeStash will execute this hook only if
+                          the backup/restore has failed.'
                         enum:
                         - Always
                         - OnSuccess
@@ -17414,7 +17418,7 @@ spec:
                         - name
                         type: object
                       maxRetry:
-                        description: MaxRetry specifies how many times Stash should
+                        description: MaxRetry specifies how many times KubeStash should
                           retry the hook execution in case of failure. The default
                           value of this field is 0 which means no retry.
                         format: int32

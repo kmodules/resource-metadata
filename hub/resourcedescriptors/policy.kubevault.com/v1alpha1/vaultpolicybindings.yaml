@@ -303,6 +303,9 @@ spec:
                   description: 'Kubernetes refers to Vault users who are authenticated
                     via Kubernetes auth method More info: https://www.vaultproject.io/docs/auth/kubernetes.html#configuration'
                   properties:
+                    audience:
+                      description: Optional Audience claim to verify in the JWT.
+                      type: string
                     maxTTL:
                       description: Specifies the maximum allowed lifetime of tokens
                         issued in seconds using this role.

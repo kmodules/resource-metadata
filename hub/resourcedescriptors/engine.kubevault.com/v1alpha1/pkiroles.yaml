@@ -3,30 +3,20 @@ kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
   labels:
-    k8s.io/group: core.kubestash.com
-    k8s.io/kind: BackupSession
-    k8s.io/resource: backupsessions
+    k8s.io/group: engine.kubevault.com
+    k8s.io/kind: PKIRole
+    k8s.io/resource: pkiroles
     k8s.io/version: v1alpha1
-  name: core.kubestash.com-v1alpha1-backupsessions
+  name: engine.kubevault.com-v1alpha1-pkiroles
 spec:
-  connections:
-  - labels:
-    - source
-    level: Controller
-    target:
-      apiVersion: core.kubestash.com/v1alpha1
-      kind: BackupConfiguration
-    type: OwnedBy
   resource:
-    group: core.kubestash.com
-    kind: BackupSession
-    name: backupsessions
+    group: engine.kubevault.com
+    kind: PKIRole
+    name: pkiroles
     scope: Namespaced
     version: v1alpha1
   validation:
     openAPIV3Schema:
-      description: BackupSession represent one backup run for the target(s) pointed
-        by the respective BackupConfiguration or BackupBatch
       properties:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
@@ -72,38 +62,41 @@ spec:
               type: object
           type: object
         spec:
-          description: BackupSessionSpec specifies the information related to the
-            respective backup invoker and session.
+          description: 'PKIRoleSpec contains connection information, PKI role info,
+            etc More info: https://developer.hashicorp.com/vault/api-docs/secret/pki#create-update-role'
           properties:
-            invoker:
-              description: Invoker points to the respective BackupConfiguration or
-                BackupBatch which is responsible for triggering this backup.
+            additionalPayload:
+              additionalProperties:
+                type: string
+              type: object
+            allowSubdomains:
+              type: boolean
+            allowedDomains:
+              items:
+                type: string
+              type: array
+            country:
+              type: string
+            issuerRef:
+              type: string
+            maxTTL:
+              type: string
+            organization:
+              type: string
+            ou:
+              type: string
+            secretEngineRef:
+              description: SecretEngineRef is the name of a Secret Engine
               properties:
-                apiGroup:
-                  description: APIGroup is the group for the resource being referenced.
-                    If APIGroup is not specified, the specified Kind must be in the
-                    core API group. For any other third-party types, APIGroup is required.
-                  type: string
-                kind:
-                  description: Kind is the type of resource being referenced
-                  type: string
                 name:
-                  description: Name is the name of resource being referenced
+                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                    TODO: Add other useful fields. apiVersion, kind, uid?'
                   type: string
-              required:
-              - kind
-              - name
               type: object
               x-kubernetes-map-type: atomic
-            retryLeft:
-              description: RetryLeft specifies number of retry attempts left for the
-                session. If this set to non-zero, KubeStash will create a new BackupSession
-                if the current one fails.
-              format: int32
-              type: integer
-            session:
-              description: Session specifies the name of the session that triggered
-                this backup
+            ttl:
               type: string
+          required:
+          - secretEngineRef
           type: object
       type: object
