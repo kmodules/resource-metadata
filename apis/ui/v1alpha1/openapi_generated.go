@@ -16305,6 +16305,12 @@ func schema_resource_metadata_apis_ui_v1alpha1_ChartInfo(ref common.ReferenceCal
 							Format:      "",
 						},
 					},
+					"createNamespace": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"boolean"},
+							Format: "",
+						},
+					},
 					"version": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Version specifies the version of the chart.",

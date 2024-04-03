@@ -110,6 +110,8 @@ type ChartInfo struct {
 	// Namespace where the respective feature resources will be deployed.
 	// +optional
 	Namespace string `json:"namespace,omitempty"`
+	// +optional
+	CreateNamespace bool `json:"createNamespace,omitempty"`
 	// Version specifies the version of the chart.
 	// +optional
 	Version string `json:"version,omitempty"`
