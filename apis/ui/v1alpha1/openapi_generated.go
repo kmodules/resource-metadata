@@ -15720,6 +15720,13 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_HelmInfo(ref common.Refere
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
+					"createNamespace": {
+						SchemaProps: spec.SchemaProps{
+							Default: false,
+							Type:    []string{"boolean"},
+							Format:  "",
+						},
+					},
 					"repositories": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"object"},
@@ -15747,7 +15754,7 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_HelmInfo(ref common.Refere
 						},
 					},
 				},
-				Required: []string{"repositories", "releases"},
+				Required: []string{"createNamespace", "repositories", "releases"},
 			},
 		},
 		Dependencies: []string{

@@ -61,8 +61,9 @@ type RegistryInfo struct {
 }
 
 type HelmInfo struct {
-	Repositories map[string]*HelmRepository `json:"repositories"`
-	Releases     map[string]*HelmRelease    `json:"releases"`
+	CreateNamespace bool                       `json:"createNamespace"`
+	Repositories    map[string]*HelmRepository `json:"repositories"`
+	Releases        map[string]*HelmRelease    `json:"releases"`
 }
 
 type HelmRepository struct {
