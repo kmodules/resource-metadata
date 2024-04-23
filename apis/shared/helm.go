@@ -60,6 +60,8 @@ type RegistryInfo struct {
 	Credentials map[string]string `json:"credentials"`
 	//+optional
 	Certs map[string]string `json:"certs"`
+	//+optional
+	ImagePullSecrets []string `json:"imagePullSecrets"`
 }
 
 type HelmInfo struct {
