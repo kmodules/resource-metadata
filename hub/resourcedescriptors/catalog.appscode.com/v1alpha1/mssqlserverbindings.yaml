@@ -4,21 +4,20 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: catalog.appscode.com
-    k8s.io/kind: MicrosoftSQLServerBinding
-    k8s.io/resource: microsoftsqlserverbindings
+    k8s.io/kind: MSSQLServerBinding
+    k8s.io/resource: mssqlserverbindings
     k8s.io/version: v1alpha1
-  name: catalog.appscode.com-v1alpha1-microsoftsqlserverbindings
+  name: catalog.appscode.com-v1alpha1-mssqlserverbindings
 spec:
   resource:
     group: catalog.appscode.com
-    kind: MicrosoftSQLServerBinding
-    name: microsoftsqlserverbindings
+    kind: MSSQLServerBinding
+    name: mssqlserverbindings
     scope: Namespaced
     version: v1alpha1
   validation:
     openAPIV3Schema:
-      description: MicrosoftSQLServerBinding is the Schema for the microsoftsqlserverbindings
-        API
+      description: MSSQLServerBinding is the Schema for the mssqlserverbindings API
       properties:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
@@ -64,8 +63,7 @@ spec:
               type: object
           type: object
         spec:
-          description: MicrosoftSQLServerBindingSpec defines the desired state of
-            MicrosoftSQLServerBinding
+          description: MSSQLServerBindingSpec defines the desired state of MSSQLServerBinding
           properties:
             sourceRef:
               description: SourceRef refers to the source app instance.
