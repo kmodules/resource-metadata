@@ -352,7 +352,15 @@ spec:
           - supervisor
         view:
           name: supervisor.appscode.com-v1alpha1-recommendations-kubedb
-  - name: Backups
+  - name: Backup
+    requiredFeatureSets:
+      opscenter-backup:
+      - kubestash
+    sections:
+    - blocks:
+      - kind: Block
+        name: core.kubestash.com-v1alpha1-kubedb-backup
+  - name: Backup (Legacy)
     requiredFeatureSets:
       opscenter-backup:
       - stash
@@ -426,14 +434,6 @@ spec:
           opscenter-backup:
           - stash
           - stash-opscenter
-  - name: Backups 2.0
-    requiredFeatureSets:
-      opscenter-backup:
-      - kubestash
-    sections:
-    - blocks:
-      - kind: Block
-        name: core.kubestash.com-v1alpha1-kubedb-backup
   - name: Security
     sections:
     - blocks:
