@@ -138,3 +138,11 @@ func FeatureVersion(kc client.Client, featureName string) string {
 	}
 	return ""
 }
+
+func HelmCreateNamespace(kc client.Client) bool {
+	preset, found := GetBootstrapPresets(kc)
+	if found {
+		return preset.Helm.CreateNamespace
+	}
+	return true
+}
