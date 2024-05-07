@@ -23,4 +23,16 @@ spec:
         kind: HelmRepository
         name: appscode-charts-oci
       version: v0.4.18
-    enforceQuota: false
+    enforceQuota: true
+    options:
+      name: kubedbcom-druid-editor-options
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: appscode-charts-oci
+      version: v0.4.18
+  variants:
+  - name: default
+    selector:
+      matchLabels:
+        charts.x-helm.dev/is-default-preset: "true"
