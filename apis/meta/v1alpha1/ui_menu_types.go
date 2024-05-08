@@ -54,6 +54,15 @@ type MenuSection struct {
 	Items           []MenuItem `json:"items"`
 }
 
+// +kubebuilder:validation:Enum=ALPHA;BETA;GA
+type FeatureMode string
+
+const (
+	FeatureModeAlpha FeatureMode = "ALPHA"
+	FeatureModeBeta  FeatureMode = "BETA"
+	FeatureModeGA    FeatureMode = "GA"
+)
+
 type MenuSectionInfo struct {
 	Name string `json:"name,omitempty"`
 
@@ -80,6 +89,8 @@ type MenuItem struct {
 	Required bool `json:"required,omitempty"`
 	// +optional
 	LayoutName string `json:"layoutName,omitempty"`
+	// +optional
+	FeatureMode FeatureMode `json:"featureMode,omitempty"`
 	// +optional
 	Icons     []helmshared.ImageSpec       `json:"icons,omitempty"`
 	Installer *shared.DeploymentParameters `json:"installer,omitempty"`

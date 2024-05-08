@@ -14,54 +14,109 @@ spec:
     - src: https://cdn.appscode.com/k8s/icons/menu/datastore.png
       type: image/png
     items:
-    - layoutName: kubedb.com-v1alpha2-elasticsearches-kubedb
+    - featureMode: GA
+      layoutName: kubedb.com-v1alpha2-elasticsearches-kubedb
       name: Elasticsearch
       required: true
       type:
         group: kubedb.com
         kind: Elasticsearch
-    - layoutName: kubedb.com-v1alpha2-kafkas-kubedb
+    - featureMode: GA
+      layoutName: kubedb.com-v1alpha2-kafkas-kubedb
       name: Kafka
       required: true
       type:
         group: kubedb.com
         kind: Kafka
-    - layoutName: kubedb.com-v1alpha2-mariadbs-kubedb
+    - featureMode: GA
+      layoutName: kubedb.com-v1alpha2-mariadbs-kubedb
       name: MariaDB
       required: true
       type:
         group: kubedb.com
         kind: MariaDB
-    - layoutName: kubedb.com-v1alpha2-mongodbs-kubedb
+    - featureMode: GA
+      layoutName: kubedb.com-v1alpha2-mongodbs-kubedb
       name: MongoDB
       required: true
       type:
         group: kubedb.com
         kind: MongoDB
-    - layoutName: kubedb.com-v1alpha2-mysqls-kubedb
+    - featureMode: GA
+      layoutName: kubedb.com-v1alpha2-mysqls-kubedb
       name: MySQL
       required: true
       type:
         group: kubedb.com
         kind: MySQL
-    - layoutName: kubedb.com-v1alpha2-postgreses-kubedb
+    - featureMode: GA
+      layoutName: kubedb.com-v1alpha2-postgreses-kubedb
       name: PostgreSQL
       required: true
       type:
         group: kubedb.com
         kind: Postgres
-    - layoutName: kubedb.com-v1alpha2-proxysqles-kubedb
+    - featureMode: GA
+      layoutName: kubedb.com-v1alpha2-proxysqles-kubedb
       name: ProxySQL
-      required: true
       type:
         group: kubedb.com
         kind: ProxySQL
-    - layoutName: kubedb.com-v1alpha2-redises-kubedb
+    - featureMode: GA
+      layoutName: kubedb.com-v1alpha2-redises-kubedb
       name: Redis
       required: true
       type:
         group: kubedb.com
         kind: Redis
+    - featureMode: ALPHA
+      layoutName: kubedb.com-v1alpha2-druids-kubedb
+      name: Druid
+      type:
+        group: kubedb.com
+        kind: Druid
+    - featureMode: ALPHA
+      layoutName: kubedb.com-v1alpha2-ferretdbs-kubedb
+      name: FerretDB
+      type:
+        group: kubedb.com
+        kind: FerretDB
+    - featureMode: ALPHA
+      layoutName: kubedb.com-v1alpha2-mssqlservers-kubedb
+      name: MSSQLServer
+      type:
+        group: kubedb.com
+        kind: MSSQLServer
+    - featureMode: ALPHA
+      layoutName: kubedb.com-v1alpha2-pgpools-kubedb
+      name: Pgpool
+      type:
+        group: kubedb.com
+        kind: Pgpool
+    - featureMode: ALPHA
+      layoutName: kubedb.com-v1alpha2-rabbitmqs-kubedb
+      name: RabbitMQ
+      type:
+        group: kubedb.com
+        kind: RabbitMQ
+    - featureMode: ALPHA
+      layoutName: kubedb.com-v1alpha2-singlestores-kubedb
+      name: Singlestore
+      type:
+        group: kubedb.com
+        kind: Singlestore
+    - featureMode: ALPHA
+      layoutName: kubedb.com-v1alpha2-solrs-kubedb
+      name: Solr
+      type:
+        group: kubedb.com
+        kind: Solr
+    - featureMode: ALPHA
+      layoutName: kubedb.com-v1alpha2-zookeepers-kubedb
+      name: Zookeeper
+      type:
+        group: kubedb.com
+        kind: Zookeeper
     name: Datastore
     path: /ui.appscode.com/v1alpha1/sections/datastore
   - icons:
