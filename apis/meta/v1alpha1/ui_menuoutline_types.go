@@ -80,6 +80,8 @@ type MenuEntry struct {
 	// +optional
 	Required bool `json:"required,omitempty"`
 	// +optional
+	FeatureMode FeatureMode `json:"featureMode,omitempty"`
+	// +optional
 	Icons []helmshared.ImageSpec `json:"icons,omitempty"`
 }
 

@@ -15886,6 +15886,12 @@ func schema_resource_metadata_apis_meta_v1alpha1_MenuEntry(ref common.ReferenceC
 							Format: "",
 						},
 					},
+					"featureMode": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
 					"icons": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
@@ -15945,6 +15951,12 @@ func schema_resource_metadata_apis_meta_v1alpha1_MenuItem(ref common.ReferenceCa
 						},
 					},
 					"layoutName": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"featureMode": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
 							Format: "",
