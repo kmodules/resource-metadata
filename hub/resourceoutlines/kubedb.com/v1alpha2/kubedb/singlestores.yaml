@@ -1,0 +1,165 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceOutline
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: kubedb.com
+    k8s.io/kind: Singlestore
+    k8s.io/resource: singlestores
+    k8s.io/version: v1alpha2
+  name: kubedb.com-v1alpha2-singlestores-kubedb
+spec:
+  defaultLayout: false
+  header:
+    actions:
+      create: Never
+    displayMode: Field
+    kind: Connection
+    query:
+      byLabel: view
+      type: GraphQL
+    ref:
+      group: core.k8s.appscode.com
+      kind: GenericResource
+    view:
+      name: core.k8s.appscode.com-v1alpha1-genericresources-kubedb
+  pages:
+  - name: Overview
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Nodes
+        query:
+          raw: |-
+            query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+              find(oid: $src) {
+                offshoot(group: "", kind: "Pod") {
+                  refs: view(group: $targetGroup, kind: $targetKind) {
+                    namespace
+                    name
+                  }
+                }
+              }
+            }
+          type: GraphQL
+        ref:
+          group: core.k8s.appscode.com
+          kind: PodView
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+        view:
+          name: core.k8s.appscode.com-v1alpha1-podviews-kubedb-singlestores
+      info:
+        actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        query:
+          byLabel: connect_via
+          type: GraphQL
+        ref:
+          group: appcatalog.appscode.com
+          kind: AppBinding
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+  - name: Insights
+    requiredFeatureSets:
+      opscenter-datastore:
+      - kubedb
+      - kubedb-opscenter
+      opscenter-monitoring:
+      - monitoring-operator
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        fieldPath: .response.dashboards
+        kind: Connection
+        name: Grafana Dashboards
+        query:
+          raw: |
+            request:
+              sourceLocator:
+                resource:
+                  group: kubedb.com
+                  name: singlestores
+                  version: v1alpha2
+                ref:
+                  name: {{ .name }}
+                  namespace: {{ .namespace }}
+              name: kubedb.com-v1alpha2-singlestores
+          type: REST
+        ref:
+          group: meta.k8s.appscode.com
+          kind: RenderDashboard
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
+          opscenter-monitoring:
+          - monitoring-operator
+        view:
+          name: ui.k8s.appscode.com-v1alpha1-resourcedashboards-urls
+  - name: Security
+    sections:
+    - blocks:
+      - kind: Custom
+        name: CVE Report
+      name: CVE Report
+      requiredFeatureSets:
+        opscenter-security:
+        - scanner
+    - blocks:
+      - kind: Block
+        name: rbac.authorization.k8s.io-v1-accesscontrols
+      name: Access Control
+    - blocks:
+      - kind: Block
+        name: cert-manager.io-v1-tls
+      name: TLS
+      requiredFeatureSets:
+        opscenter-security:
+        - cert-manager
+    - blocks:
+      - kind: Block
+        name: policy-v1-policies
+      name: Policies
+      requiredFeatureSets:
+        opscenter-security:
+        - gatekeeper
+        - gatekeeper-templates
+        - gatekeeper-constraints
+        - gatekeeper-grafana-dashboards
+    - blocks:
+      - kind: Block
+        name: falco.appscode.com-v1alpha1-falcoevents-app
+      name: Runtime Security
+      requiredFeatureSets:
+        opscenter-security:
+        - falco
+        - falco-ui-server
+  resource:
+    group: kubedb.com
+    kind: Singlestore
+    name: singlestores
+    scope: Namespaced
+    version: v1alpha2
+  tabBar:
+    actions:
+      create: Never
+    displayMode: Field
+    kind: Connection
+    query:
+      byLabel: view
+      type: GraphQL
+    ref:
+      group: core.k8s.appscode.com
+      kind: GenericResourceService
+    view:
+      name: core.k8s.appscode.com-v1alpha1-genericresourceservices-kubedb
