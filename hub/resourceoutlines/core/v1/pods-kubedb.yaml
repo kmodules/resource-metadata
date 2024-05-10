@@ -16,7 +16,15 @@ spec:
     - blocks:
       - kind: Block
         name: core-v1-pods
-  - name: Backups
+  - name: Backup
+    requiredFeatureSets:
+      opscenter-backup:
+      - kubestash
+    sections:
+    - blocks:
+      - kind: Block
+        name: core.kubestash.com-v1alpha1-apps-backup
+  - name: Backup (Legacy)
     requiredFeatureSets:
       opscenter-backup:
       - stash
@@ -25,14 +33,6 @@ spec:
     - blocks:
       - kind: Block
         name: stash.appscode.com-v1-apps-backup-kubedb
-  - name: Backups 2.0
-    requiredFeatureSets:
-      opscenter-backup:
-      - kubestash
-    sections:
-    - blocks:
-      - kind: Block
-        name: core.kubestash.com-v1alpha1-apps-backup
   - name: Monitoring
     sections:
     - blocks:
