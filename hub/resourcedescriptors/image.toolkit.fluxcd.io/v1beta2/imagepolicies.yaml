@@ -20,14 +20,19 @@ spec:
       description: ImagePolicy is the Schema for the imagepolicies API
       properties:
         apiVersion:
-          description: 'APIVersion defines the versioned schema of this representation
-            of an object. Servers should convert recognized schemas to the latest
-            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          description: |-
+            APIVersion defines the versioned schema of this representation of an object.
+            Servers should convert recognized schemas to the latest internal value, and
+            may reject unrecognized values.
+            More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
           type: string
         kind:
-          description: 'Kind is a string value representing the REST resource this
-            object represents. Servers may infer this from the endpoint the client
-            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          description: |-
+            Kind is a string value representing the REST resource this object represents.
+            Servers may infer this from the endpoint the client submits requests to.
+            Cannot be updated.
+            In CamelCase.
+            More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
           type: string
         metadata:
           properties:
@@ -63,26 +68,31 @@ spec:
               type: object
           type: object
         spec:
-          description: ImagePolicySpec defines the parameters for calculating the
+          description: |-
+            ImagePolicySpec defines the parameters for calculating the
             ImagePolicy.
           properties:
             filterTags:
-              description: FilterTags enables filtering for only a subset of tags
-                based on a set of rules. If no rules are provided, all the tags from
-                the repository will be ordered and compared.
+              description: |-
+                FilterTags enables filtering for only a subset of tags based on a set of
+                rules. If no rules are provided, all the tags from the repository will be
+                ordered and compared.
               properties:
                 extract:
-                  description: Extract allows a capture group to be extracted from
-                    the specified regular expression pattern, useful before tag evaluation.
+                  description: |-
+                    Extract allows a capture group to be extracted from the specified regular
+                    expression pattern, useful before tag evaluation.
                   type: string
                 pattern:
-                  description: Pattern specifies a regular expression pattern used
-                    to filter for image tags.
+                  description: |-
+                    Pattern specifies a regular expression pattern used to filter for image
+                    tags.
                   type: string
               type: object
             imageRepositoryRef:
-              description: ImageRepositoryRef points at the object specifying the
-                image being scanned
+              description: |-
+                ImageRepositoryRef points at the object specifying the image
+                being scanned
               properties:
                 name:
                   description: Name of the referent.
@@ -95,8 +105,9 @@ spec:
               - name
               type: object
             policy:
-              description: Policy gives the particulars of the policy to be followed
-                in selecting the most recent image
+              description: |-
+                Policy gives the particulars of the policy to be followed in
+                selecting the most recent image
               properties:
                 alphabetical:
                   description: Alphabetical set of rules to use for alphabetical ordering
@@ -104,9 +115,10 @@ spec:
                   properties:
                     order:
                       default: asc
-                      description: Order specifies the sorting order of the tags.
-                        Given the letters of the alphabet as tags, ascending order
-                        would select Z, and descending order would select A.
+                      description: |-
+                        Order specifies the sorting order of the tags. Given the letters of the
+                        alphabet as tags, ascending order would select Z, and descending order
+                        would select A.
                       enum:
                       - asc
                       - desc
@@ -118,22 +130,24 @@ spec:
                   properties:
                     order:
                       default: asc
-                      description: Order specifies the sorting order of the tags.
-                        Given the integer values from 0 to 9 as tags, ascending order
-                        would select 9, and descending order would select 0.
+                      description: |-
+                        Order specifies the sorting order of the tags. Given the integer values
+                        from 0 to 9 as tags, ascending order would select 9, and descending order
+                        would select 0.
                       enum:
                       - asc
                       - desc
                       type: string
                   type: object
                 semver:
-                  description: SemVer gives a semantic version range to check against
-                    the tags available.
+                  description: |-
+                    SemVer gives a semantic version range to check against the tags
+                    available.
                   properties:
                     range:
-                      description: Range gives a semver range for the image tag; the
-                        highest version within the range that's a tag yields the latest
-                        image.
+                      description: |-
+                        Range gives a semver range for the image tag; the highest
+                        version within the range that's a tag yields the latest image.
                       type: string
                   required:
                   - range

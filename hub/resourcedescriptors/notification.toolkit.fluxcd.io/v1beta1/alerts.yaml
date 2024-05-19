@@ -20,14 +20,19 @@ spec:
       description: Alert is the Schema for the alerts API
       properties:
         apiVersion:
-          description: 'APIVersion defines the versioned schema of this representation
-            of an object. Servers should convert recognized schemas to the latest
-            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          description: |-
+            APIVersion defines the versioned schema of this representation of an object.
+            Servers should convert recognized schemas to the latest internal value, and
+            may reject unrecognized values.
+            More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
           type: string
         kind:
-          description: 'Kind is a string value representing the REST resource this
-            object represents. Servers may infer this from the endpoint the client
-            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          description: |-
+            Kind is a string value representing the REST resource this object represents.
+            Servers may infer this from the endpoint the client submits requests to.
+            Cannot be updated.
+            In CamelCase.
+            More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
           type: string
         metadata:
           properties:
@@ -68,7 +73,8 @@ spec:
           properties:
             eventSeverity:
               default: info
-              description: Filter events based on severity, defaults to ('info').
+              description: |-
+                Filter events based on severity, defaults to ('info').
                 If set to 'info' no events will be filtered.
               enum:
               - info
@@ -77,8 +83,9 @@ spec:
             eventSources:
               description: Filter events based on the involved objects.
               items:
-                description: CrossNamespaceObjectReference contains enough information
-                  to let you locate the typed referenced object at cluster level
+                description: |-
+                  CrossNamespaceObjectReference contains enough information to let you locate the
+                  typed referenced object at cluster level
                 properties:
                   apiVersion:
                     description: API version of the referent
@@ -100,11 +107,10 @@ spec:
                   matchLabels:
                     additionalProperties:
                       type: string
-                    description: MatchLabels is a map of {key,value} pairs. A single
-                      {key,value} in the matchLabels map is equivalent to an element
-                      of matchExpressions, whose key field is "key", the operator
-                      is "In", and the values array contains only "value". The requirements
-                      are ANDed.
+                    description: |-
+                      MatchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+                      map is equivalent to an element of matchExpressions, whose key field is "key", the
+                      operator is "In", and the values array contains only "value". The requirements are ANDed.
                     type: object
                   name:
                     description: Name of the referent
@@ -139,8 +145,9 @@ spec:
               description: Short description of the impact and affected cluster.
               type: string
             suspend:
-              description: This flag tells the controller to suspend subsequent events
-                dispatching. Defaults to false.
+              description: |-
+                This flag tells the controller to suspend subsequent events dispatching.
+                Defaults to false.
               type: boolean
           required:
           - eventSources

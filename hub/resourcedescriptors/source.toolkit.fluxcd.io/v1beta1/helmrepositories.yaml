@@ -20,14 +20,19 @@ spec:
       description: HelmRepository is the Schema for the helmrepositories API
       properties:
         apiVersion:
-          description: 'APIVersion defines the versioned schema of this representation
-            of an object. Servers should convert recognized schemas to the latest
-            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          description: |-
+            APIVersion defines the versioned schema of this representation of an object.
+            Servers should convert recognized schemas to the latest internal value, and
+            may reject unrecognized values.
+            More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
           type: string
         kind:
-          description: 'Kind is a string value representing the REST resource this
-            object represents. Servers may infer this from the endpoint the client
-            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          description: |-
+            Kind is a string value representing the REST resource this object represents.
+            Servers may infer this from the endpoint the client submits requests to.
+            Cannot be updated.
+            In CamelCase.
+            More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
           type: string
         metadata:
           properties:
@@ -70,22 +75,21 @@ spec:
                 cross-namespace references to this object.
               properties:
                 namespaceSelectors:
-                  description: NamespaceSelectors is the list of namespace selectors
-                    to which this ACL applies. Items in this list are evaluated using
-                    a logical OR operation.
+                  description: |-
+                    NamespaceSelectors is the list of namespace selectors to which this ACL applies.
+                    Items in this list are evaluated using a logical OR operation.
                   items:
-                    description: NamespaceSelector selects the namespaces to which
-                      this ACL applies. An empty map of MatchLabels matches all namespaces
-                      in a cluster.
+                    description: |-
+                      NamespaceSelector selects the namespaces to which this ACL applies.
+                      An empty map of MatchLabels matches all namespaces in a cluster.
                     properties:
                       matchLabels:
                         additionalProperties:
                           type: string
-                        description: MatchLabels is a map of {key,value} pairs. A
-                          single {key,value} in the matchLabels map is equivalent
-                          to an element of matchExpressions, whose key field is "key",
-                          the operator is "In", and the values array contains only
-                          "value". The requirements are ANDed.
+                        description: |-
+                          MatchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+                          map is equivalent to an element of matchExpressions, whose key field is "key", the
+                          operator is "In", and the values array contains only "value". The requirements are ANDed.
                         type: object
                     type: object
                   type: array
@@ -96,18 +100,22 @@ spec:
               description: The interval at which to check the upstream for updates.
               type: string
             passCredentials:
-              description: PassCredentials allows the credentials from the SecretRef
-                to be passed on to a host that does not match the host as defined
-                in URL. This may be required if the host of the advertised chart URLs
-                in the index differ from the defined URL. Enabling this should be
-                done with caution, as it can potentially result in credentials getting
-                stolen in a MITM-attack.
+              description: |-
+                PassCredentials allows the credentials from the SecretRef to be passed on to
+                a host that does not match the host as defined in URL.
+                This may be required if the host of the advertised chart URLs in the index
+                differ from the defined URL.
+                Enabling this should be done with caution, as it can potentially result in
+                credentials getting stolen in a MITM-attack.
               type: boolean
             secretRef:
-              description: The name of the secret containing authentication credentials
-                for the Helm repository. For HTTP/S basic auth the secret must contain
-                username and password fields. For TLS the secret must contain a certFile
-                and keyFile, and/or caFile fields.
+              description: |-
+                The name of the secret containing authentication credentials for the Helm
+                repository.
+                For HTTP/S basic auth the secret must contain username and
+                password fields.
+                For TLS the secret must contain a certFile and keyFile, and/or
+                caFile fields.
               properties:
                 name:
                   description: Name of the referent.

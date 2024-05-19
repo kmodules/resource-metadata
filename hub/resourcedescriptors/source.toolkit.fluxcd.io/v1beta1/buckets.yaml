@@ -20,14 +20,19 @@ spec:
       description: Bucket is the Schema for the buckets API
       properties:
         apiVersion:
-          description: 'APIVersion defines the versioned schema of this representation
-            of an object. Servers should convert recognized schemas to the latest
-            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          description: |-
+            APIVersion defines the versioned schema of this representation of an object.
+            Servers should convert recognized schemas to the latest internal value, and
+            may reject unrecognized values.
+            More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
           type: string
         kind:
-          description: 'Kind is a string value representing the REST resource this
-            object represents. Servers may infer this from the endpoint the client
-            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          description: |-
+            Kind is a string value representing the REST resource this object represents.
+            Servers may infer this from the endpoint the client submits requests to.
+            Cannot be updated.
+            In CamelCase.
+            More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
           type: string
         metadata:
           properties:
@@ -70,22 +75,21 @@ spec:
                 cross-namespace references to this object.
               properties:
                 namespaceSelectors:
-                  description: NamespaceSelectors is the list of namespace selectors
-                    to which this ACL applies. Items in this list are evaluated using
-                    a logical OR operation.
+                  description: |-
+                    NamespaceSelectors is the list of namespace selectors to which this ACL applies.
+                    Items in this list are evaluated using a logical OR operation.
                   items:
-                    description: NamespaceSelector selects the namespaces to which
-                      this ACL applies. An empty map of MatchLabels matches all namespaces
-                      in a cluster.
+                    description: |-
+                      NamespaceSelector selects the namespaces to which this ACL applies.
+                      An empty map of MatchLabels matches all namespaces in a cluster.
                     properties:
                       matchLabels:
                         additionalProperties:
                           type: string
-                        description: MatchLabels is a map of {key,value} pairs. A
-                          single {key,value} in the matchLabels map is equivalent
-                          to an element of matchExpressions, whose key field is "key",
-                          the operator is "In", and the values array contains only
-                          "value". The requirements are ANDed.
+                        description: |-
+                          MatchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+                          map is equivalent to an element of matchExpressions, whose key field is "key", the
+                          operator is "In", and the values array contains only "value". The requirements are ANDed.
                         type: object
                     type: object
                   type: array
@@ -99,10 +103,10 @@ spec:
               description: The bucket endpoint address.
               type: string
             ignore:
-              description: Ignore overrides the set of excluded patterns in the .sourceignore
-                format (which is the same as .gitignore). If not provided, a default
-                will be used, consult the documentation for your version to find out
-                what those are.
+              description: |-
+                Ignore overrides the set of excluded patterns in the .sourceignore format
+                (which is the same as .gitignore). If not provided, a default will be used,
+                consult the documentation for your version to find out what those are.
               type: string
             insecure:
               description: Insecure allows connecting to a non-TLS S3 HTTP endpoint.
@@ -122,7 +126,8 @@ spec:
               description: The bucket region.
               type: string
             secretRef:
-              description: The name of the secret containing authentication credentials
+              description: |-
+                The name of the secret containing authentication credentials
                 for the Bucket.
               properties:
                 name:

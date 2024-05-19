@@ -20,14 +20,19 @@ spec:
       description: Provider is the Schema for the providers API
       properties:
         apiVersion:
-          description: 'APIVersion defines the versioned schema of this representation
-            of an object. Servers should convert recognized schemas to the latest
-            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          description: |-
+            APIVersion defines the versioned schema of this representation of an object.
+            Servers should convert recognized schemas to the latest internal value, and
+            may reject unrecognized values.
+            More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
           type: string
         kind:
-          description: 'Kind is a string value representing the REST resource this
-            object represents. Servers may infer this from the endpoint the client
-            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          description: |-
+            Kind is a string value representing the REST resource this object represents.
+            Servers may infer this from the endpoint the client submits requests to.
+            Cannot be updated.
+            In CamelCase.
+            More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
           type: string
         metadata:
           properties:
@@ -70,7 +75,8 @@ spec:
               pattern: ^(http|https)://
               type: string
             certSecretRef:
-              description: CertSecretRef can be given the name of a secret containing
+              description: |-
+                CertSecretRef can be given the name of a secret containing
                 a PEM-encoded CA certificate (`caFile`)
               properties:
                 name:
@@ -87,8 +93,9 @@ spec:
               pattern: ^(http|https)://
               type: string
             secretRef:
-              description: Secret reference containing the provider webhook URL using
-                "address" as data key
+              description: |-
+                Secret reference containing the provider webhook URL
+                using "address" as data key
               properties:
                 name:
                   description: Name of the referent.
@@ -97,8 +104,9 @@ spec:
               - name
               type: object
             suspend:
-              description: This flag tells the controller to suspend subsequent events
-                handling. Defaults to false.
+              description: |-
+                This flag tells the controller to suspend subsequent events handling.
+                Defaults to false.
               type: boolean
             timeout:
               description: Timeout for sending alerts to the provider.

@@ -6,24 +6,15 @@ metadata:
     k8s.io/group: helm.toolkit.fluxcd.io
     k8s.io/kind: HelmRelease
     k8s.io/resource: helmreleases
-    k8s.io/version: v2beta1
-  name: helm.toolkit.fluxcd.io-v2beta1-helmreleases
+    k8s.io/version: v2
+  name: helm.toolkit.fluxcd.io-v2-helmreleases
 spec:
-  connections:
-  - labels:
-    - offshoot
-    references:
-    - '{.metadata.namespace}-{.spec.chart.spec.chart}'
-    target:
-      apiVersion: source.toolkit.fluxcd.io/v1beta2
-      kind: HelmChart
-    type: MatchRef
   resource:
     group: helm.toolkit.fluxcd.io
     kind: HelmRelease
     name: helmreleases
     scope: Namespaced
-    version: v2beta1
+    version: v2
   validation:
     openAPIV3Schema:
       description: HelmRelease is the Schema for the helmreleases API
@@ -81,7 +72,7 @@ spec:
           properties:
             chart:
               description: |-
-                Chart defines the template of the v1beta2.HelmChart that should be created
+                Chart defines the template of the v1.HelmChart that should be created
                 for this HelmRelease.
               properties:
                 metadata:
@@ -107,16 +98,22 @@ spec:
                       type: object
                   type: object
                 spec:
-                  description: Spec holds the template for the v1beta2.HelmChartSpec
-                    for this HelmRelease.
+                  description: Spec holds the template for the v1.HelmChartSpec for
+                    this HelmRelease.
                   properties:
                     chart:
                       description: The name or path the Helm chart is available at
                         in the SourceRef.
+                      maxLength: 2048
+                      minLength: 1
                       type: string
+                    ignoreMissingValuesFiles:
+                      description: IgnoreMissingValuesFiles controls whether to silently
+                        ignore missing values files rather than failing.
+                      type: boolean
                     interval:
                       description: |-
-                        Interval at which to check the v1beta2.Source for updates. Defaults to
+                        Interval at which to check the v1.Source for updates. Defaults to
                         'HelmReleaseSpec.Interval'.
                       pattern: ^([0-9]+(\.[0-9]+)?(ms|s|m|h))+$
                       type: string
@@ -132,8 +129,8 @@ spec:
                       - Revision
                       type: string
                     sourceRef:
-                      description: The name and namespace of the v1beta2.Source the
-                        chart is available at.
+                      description: The name and namespace of the v1.Source the chart
+                        is available at.
                       properties:
                         apiVersion:
                           description: APIVersion of the referent.
@@ -158,13 +155,6 @@ spec:
                       required:
                       - name
                       type: object
-                    valuesFile:
-                      description: |-
-                        Alternative values file to use as the default chart values, expected to
-                        be a relative path in the SourceRef. Deprecated in favor of ValuesFiles,
-                        for backwards compatibility the file defined here is merged before the
-                        ValuesFiles items. Ignored when omitted.
-                      type: string
                     valuesFiles:
                       description: |-
                         Alternative list of values files to use as the chart values (values.yaml
@@ -180,7 +170,8 @@ spec:
                         used to verify the signature and specifies which provider to use to check
                         whether OCI image is authentic.
                         This field is only supported for OCI sources.
-                        Chart dependencies, which are not bundled in the umbrella chart artifact, are not verified.
+                        Chart dependencies, which are not bundled in the umbrella chart artifact,
+                        are not verified.
                       properties:
                         provider:
                           default: cosign
@@ -188,6 +179,7 @@ spec:
                             the OCI Helm chart.
                           enum:
                           - cosign
+                          - notation
                           type: string
                         secretRef:
                           description: |-
@@ -206,7 +198,7 @@ spec:
                     version:
                       default: '*'
                       description: |-
-                        Version semver expression, ignored for charts from v1beta2.GitRepository and
+                        Version semver expression, ignored for charts from v1.GitRepository and
                         v1beta2.Bucket sources. Defaults to latest when omitted.
                       type: string
                   required:
@@ -220,10 +212,6 @@ spec:
               description: |-
                 ChartRef holds a reference to a source controller resource containing the
                 Helm chart artifact.
-
-
-                Note: this field is provisional to the v2 API, and not actively used
-                by v2beta1 HelmReleases.
               properties:
                 apiVersion:
                   description: APIVersion of the referent.
@@ -276,10 +264,6 @@ spec:
                 DriftDetection holds the configuration for detecting and handling
                 differences between the manifest in the Helm storage and the resources
                 currently existing in the cluster.
-
-
-                Note: this field is provisional to the v2beta2 API, and not actively used
-                by v2beta1 HelmReleases.
               properties:
                 ignore:
                   description: |-
@@ -380,7 +364,7 @@ spec:
 
 
                     By default, CRDs are applied (installed) during Helm install action.
-                    With this option users can opt-in to CRD replace existing CRDs on Helm
+                    With this option users can opt in to CRD replace existing CRDs on Helm
                     install actions, which is not (yet) natively supported by Helm.
                     https://helm.sh/docs/chart_best_practices/custom_resource_definitions.
                   enum:
@@ -458,10 +442,7 @@ spec:
                   type: string
               type: object
             interval:
-              description: |-
-                Interval at which to reconcile the Helm release.
-                This interval is approximate and may be subject to jitter to ensure
-                efficient use of resources.
+              description: Interval at which to reconcile the Helm release.
               pattern: ^([0-9]+(\.[0-9]+)?(ms|s|m|h))+$
               type: string
             kubeConfig:
@@ -501,7 +482,7 @@ spec:
             maxHistory:
               description: |-
                 MaxHistory is the number of revisions saved by Helm for this HelmRelease.
-                Use '0' for an unlimited number of revisions; defaults to '10'.
+                Use '0' for an unlimited number of revisions; defaults to '5'.
               type: integer
             persistentClient:
               description: |-
@@ -619,106 +600,6 @@ spec:
                           - patch
                           type: object
                         type: array
-                      patchesJson6902:
-                        description: JSON 6902 patches, defined as inline YAML objects.
-                        items:
-                          description: JSON6902Patch contains a JSON6902 patch and
-                            the target the patch should be applied to.
-                          properties:
-                            patch:
-                              description: Patch contains the JSON6902 patch document
-                                with an array of operation objects.
-                              items:
-                                description: |-
-                                  JSON6902 is a JSON6902 operation object.
-                                  https://datatracker.ietf.org/doc/html/rfc6902#section-4
-                                properties:
-                                  from:
-                                    description: |-
-                                      From contains a JSON-pointer value that references a location within the target document where the operation is
-                                      performed. The meaning of the value depends on the value of Op, and is NOT taken into account by all operations.
-                                    type: string
-                                  op:
-                                    description: |-
-                                      Op indicates the operation to perform. Its value MUST be one of "add", "remove", "replace", "move", "copy", or
-                                      "test".
-                                      https://datatracker.ietf.org/doc/html/rfc6902#section-4
-                                    enum:
-                                    - test
-                                    - remove
-                                    - add
-                                    - replace
-                                    - move
-                                    - copy
-                                    type: string
-                                  path:
-                                    description: |-
-                                      Path contains the JSON-pointer value that references a location within the target document where the operation
-                                      is performed. The meaning of the value depends on the value of Op.
-                                    type: string
-                                  value:
-                                    description: |-
-                                      Value contains a valid JSON structure. The meaning of the value depends on the value of Op, and is NOT taken into
-                                      account by all operations.
-                                    x-kubernetes-preserve-unknown-fields: true
-                                required:
-                                - op
-                                - path
-                                type: object
-                              type: array
-                            target:
-                              description: Target points to the resources that the
-                                patch document should be applied to.
-                              properties:
-                                annotationSelector:
-                                  description: |-
-                                    AnnotationSelector is a string that follows the label selection expression
-                                    https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#api
-                                    It matches with the resource annotations.
-                                  type: string
-                                group:
-                                  description: |-
-                                    Group is the API group to select resources from.
-                                    Together with Version and Kind it is capable of unambiguously identifying and/or selecting resources.
-                                    https://github.com/kubernetes/community/blob/master/contributors/design-proposals/api-machinery/api-group.md
-                                  type: string
-                                kind:
-                                  description: |-
-                                    Kind of the API Group to select resources from.
-                                    Together with Group and Version it is capable of unambiguously
-                                    identifying and/or selecting resources.
-                                    https://github.com/kubernetes/community/blob/master/contributors/design-proposals/api-machinery/api-group.md
-                                  type: string
-                                labelSelector:
-                                  description: |-
-                                    LabelSelector is a string that follows the label selection expression
-                                    https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#api
-                                    It matches with the resource labels.
-                                  type: string
-                                name:
-                                  description: Name to match resources with.
-                                  type: string
-                                namespace:
-                                  description: Namespace to select resources from.
-                                  type: string
-                                version:
-                                  description: |-
-                                    Version of the API Group to select resources from.
-                                    Together with Group and Kind it is capable of unambiguously identifying and/or selecting resources.
-                                    https://github.com/kubernetes/community/blob/master/contributors/design-proposals/api-machinery/api-group.md
-                                  type: string
-                              type: object
-                          required:
-                          - patch
-                          - target
-                          type: object
-                        type: array
-                      patchesStrategicMerge:
-                        description: Strategic merge patches, defined as inline YAML
-                          objects.
-                        items:
-                          x-kubernetes-preserve-unknown-fields: true
-                        type: array
                     type: object
                 type: object
               type: array
@@ -772,6 +653,8 @@ spec:
               description: |-
                 The name of the Kubernetes service account to impersonate
                 when reconciling this HelmRelease.
+              maxLength: 253
+              minLength: 1
               type: string
             storageNamespace:
               description: |-
@@ -801,6 +684,25 @@ spec:
                     Enable enables Helm test actions for this HelmRelease after an Helm install
                     or upgrade action has been performed.
                   type: boolean
+                filters:
+                  description: Filters is a list of tests to run or exclude from running.
+                  items:
+                    description: Filter holds the configuration for individual Helm
+                      test filters.
+                    properties:
+                      exclude:
+                        description: Exclude specifies whether the named test should
+                          be excluded.
+                        type: boolean
+                      name:
+                        description: Name is the name of the test.
+                        maxLength: 253
+                        minLength: 1
+                        type: string
+                    required:
+                    - name
+                    type: object
+                  type: array
                 ignoreFailures:
                   description: |-
                     IgnoreFailures tells the controller to skip remediation when the Helm tests
@@ -1002,8 +904,6 @@ spec:
                     description: |-
                       ValuesKey is the data key where the values.yaml or a specific value can be
                       found at. Defaults to 'values.yaml'.
-                      When set, must be a valid Data Key, consisting of alphanumeric characters,
-                      '-', '_' or '.'.
                     maxLength: 253
                     pattern: ^[\-._a-zA-Z0-9]+$
                     type: string
@@ -1015,4 +915,8 @@ spec:
           required:
           - interval
           type: object
+          x-kubernetes-validations:
+          - message: either chart or chartRef must be set
+            rule: (has(self.chart) && !has(self.chartRef)) || (!has(self.chart) &&
+              has(self.chartRef))
       type: object

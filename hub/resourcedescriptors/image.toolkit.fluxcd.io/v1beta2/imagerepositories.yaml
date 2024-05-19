@@ -20,14 +20,19 @@ spec:
       description: ImageRepository is the Schema for the imagerepositories API
       properties:
         apiVersion:
-          description: 'APIVersion defines the versioned schema of this representation
-            of an object. Servers should convert recognized schemas to the latest
-            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          description: |-
+            APIVersion defines the versioned schema of this representation of an object.
+            Servers should convert recognized schemas to the latest internal value, and
+            may reject unrecognized values.
+            More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
           type: string
         kind:
-          description: 'Kind is a string value representing the REST resource this
-            object represents. Servers may infer this from the endpoint the client
-            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          description: |-
+            Kind is a string value representing the REST resource this object represents.
+            Servers may infer this from the endpoint the client submits requests to.
+            Cannot be updated.
+            In CamelCase.
+            More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
           type: string
         metadata:
           properties:
@@ -63,31 +68,31 @@ spec:
               type: object
           type: object
         spec:
-          description: ImageRepositorySpec defines the parameters for scanning an
-            image repository, e.g., `fluxcd/flux`.
+          description: |-
+            ImageRepositorySpec defines the parameters for scanning an image
+            repository, e.g., `fluxcd/flux`.
           properties:
             accessFrom:
-              description: AccessFrom defines an ACL for allowing cross-namespace
-                references to the ImageRepository object based on the caller's namespace
-                labels.
+              description: |-
+                AccessFrom defines an ACL for allowing cross-namespace references
+                to the ImageRepository object based on the caller's namespace labels.
               properties:
                 namespaceSelectors:
-                  description: NamespaceSelectors is the list of namespace selectors
-                    to which this ACL applies. Items in this list are evaluated using
-                    a logical OR operation.
+                  description: |-
+                    NamespaceSelectors is the list of namespace selectors to which this ACL applies.
+                    Items in this list are evaluated using a logical OR operation.
                   items:
-                    description: NamespaceSelector selects the namespaces to which
-                      this ACL applies. An empty map of MatchLabels matches all namespaces
-                      in a cluster.
+                    description: |-
+                      NamespaceSelector selects the namespaces to which this ACL applies.
+                      An empty map of MatchLabels matches all namespaces in a cluster.
                     properties:
                       matchLabels:
                         additionalProperties:
                           type: string
-                        description: MatchLabels is a map of {key,value} pairs. A
-                          single {key,value} in the matchLabels map is equivalent
-                          to an element of matchExpressions, whose key field is "key",
-                          the operator is "In", and the values array contains only
-                          "value". The requirements are ANDed.
+                        description: |-
+                          MatchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+                          map is equivalent to an element of matchExpressions, whose key field is "key", the
+                          operator is "In", and the values array contains only "value". The requirements are ANDed.
                         type: object
                     type: object
                   type: array
@@ -95,15 +100,25 @@ spec:
               - namespaceSelectors
               type: object
             certSecretRef:
-              description: "CertSecretRef can be given the name of a Secret containing
-                either or both of \n - a PEM-encoded client certificate (`tls.crt`)
-                and private key (`tls.key`); - a PEM-encoded CA certificate (`ca.crt`)
-                \n and whichever are supplied, will be used for connecting to the
-                registry. The client cert and key are useful if you are authenticating
-                with a certificate; the CA cert is useful if you are using a self-signed
-                server certificate. The Secret must be of type `Opaque` or `kubernetes.io/tls`.
-                \n Note: Support for the `caFile`, `certFile` and `keyFile` keys has
-                been deprecated."
+              description: |-
+                CertSecretRef can be given the name of a Secret containing
+                either or both of
+
+
+                - a PEM-encoded client certificate (`tls.crt`) and private
+                key (`tls.key`);
+                - a PEM-encoded CA certificate (`ca.crt`)
+
+
+                and whichever are supplied, will be used for connecting to the
+                registry. The client cert and key are useful if you are
+                authenticating with a certificate; the CA cert is useful if
+                you are using a self-signed server certificate. The Secret must
+                be of type `Opaque` or `kubernetes.io/tls`.
+
+
+                Note: Support for the `caFile`, `certFile` and `keyFile` keys has
+                been deprecated.
               properties:
                 name:
                   description: Name of the referent.
@@ -114,8 +129,9 @@ spec:
             exclusionList:
               default:
               - ^.*\.sig$
-              description: ExclusionList is a list of regex strings used to exclude
-                certain tags from being stored in the database.
+              description: |-
+                ExclusionList is a list of regex strings used to exclude certain tags
+                from being stored in the database.
               items:
                 type: string
               maxItems: 25
@@ -128,14 +144,16 @@ spec:
                 registry.
               type: boolean
             interval:
-              description: Interval is the length of time to wait between scans of
-                the image repository.
+              description: |-
+                Interval is the length of time to wait between
+                scans of the image repository.
               pattern: ^([0-9]+(\.[0-9]+)?(ms|s|m|h))+$
               type: string
             provider:
               default: generic
-              description: The provider used for authentication, can be 'aws', 'azure',
-                'gcp' or 'generic'. When not specified, defaults to 'generic'.
+              description: |-
+                The provider used for authentication, can be 'aws', 'azure', 'gcp' or 'generic'.
+                When not specified, defaults to 'generic'.
               enum:
               - generic
               - aws
@@ -143,9 +161,11 @@ spec:
               - gcp
               type: string
             secretRef:
-              description: SecretRef can be given the name of a secret containing
-                credentials to use for the image registry. The secret should be created
-                with `kubectl create secret docker-registry`, or the equivalent.
+              description: |-
+                SecretRef can be given the name of a secret containing
+                credentials to use for the image registry. The secret should be
+                created with `kubectl create secret docker-registry`, or the
+                equivalent.
               properties:
                 name:
                   description: Name of the referent.
@@ -154,17 +174,20 @@ spec:
               - name
               type: object
             serviceAccountName:
-              description: ServiceAccountName is the name of the Kubernetes ServiceAccount
-                used to authenticate the image pull if the service account has attached
-                pull secrets.
+              description: |-
+                ServiceAccountName is the name of the Kubernetes ServiceAccount used to authenticate
+                the image pull if the service account has attached pull secrets.
               maxLength: 253
               type: string
             suspend:
-              description: This flag tells the controller to suspend subsequent image
-                scans. It does not apply to already started scans. Defaults to false.
+              description: |-
+                This flag tells the controller to suspend subsequent image scans.
+                It does not apply to already started scans. Defaults to false.
               type: boolean
             timeout:
-              description: Timeout for image scanning. Defaults to 'Interval' duration.
+              description: |-
+                Timeout for image scanning.
+                Defaults to 'Interval' duration.
               pattern: ^([0-9]+(\.[0-9]+)?(ms|s|m))+$
               type: string
           type: object

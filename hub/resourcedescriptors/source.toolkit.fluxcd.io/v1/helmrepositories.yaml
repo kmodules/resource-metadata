@@ -4,20 +4,20 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: source.toolkit.fluxcd.io
-    k8s.io/kind: GitRepository
-    k8s.io/resource: gitrepositories
-    k8s.io/version: v1beta1
-  name: source.toolkit.fluxcd.io-v1beta1-gitrepositories
+    k8s.io/kind: HelmRepository
+    k8s.io/resource: helmrepositories
+    k8s.io/version: v1
+  name: source.toolkit.fluxcd.io-v1-helmrepositories
 spec:
   resource:
     group: source.toolkit.fluxcd.io
-    kind: GitRepository
-    name: gitrepositories
+    kind: HelmRepository
+    name: helmrepositories
     scope: Namespaced
-    version: v1beta1
+    version: v1
   validation:
     openAPIV3Schema:
-      description: GitRepository is the Schema for the gitrepositories API
+      description: HelmRepository is the Schema for the helmrepositories API.
       properties:
         apiVersion:
           description: |-
@@ -68,11 +68,15 @@ spec:
               type: object
           type: object
         spec:
-          description: GitRepositorySpec defines the desired state of a Git repository.
+          description: |-
+            HelmRepositorySpec specifies the required configuration to produce an
+            Artifact for a Helm repository index YAML.
           properties:
             accessFrom:
-              description: AccessFrom defines an Access Control List for allowing
-                cross-namespace references to this object.
+              description: |-
+                AccessFrom specifies an Access Control List for allowing cross-namespace
+                references to this object.
+                NOTE: Not implemented, provisional as of https://github.com/fluxcd/flux2/pull/2092
               properties:
                 namespaceSelectors:
                   description: |-
@@ -96,84 +100,74 @@ spec:
               required:
               - namespaceSelectors
               type: object
-            gitImplementation:
-              default: go-git
+            certSecretRef:
               description: |-
-                Determines which git client library to use.
-                Defaults to go-git, valid values are ('go-git', 'libgit2').
-              enum:
-              - go-git
-              - libgit2
-              type: string
-            ignore:
-              description: |-
-                Ignore overrides the set of excluded patterns in the .sourceignore format
-                (which is the same as .gitignore). If not provided, a default will be used,
-                consult the documentation for your version to find out what those are.
-              type: string
-            include:
-              description: Extra git repositories to map into the repository
-              items:
-                description: GitRepositoryInclude defines a source with a from and
-                  to path.
-                properties:
-                  fromPath:
-                    description: The path to copy contents from, defaults to the root
-                      directory.
-                    type: string
-                  repository:
-                    description: Reference to a GitRepository to include.
-                    properties:
-                      name:
-                        description: Name of the referent.
-                        type: string
-                    required:
-                    - name
-                    type: object
-                  toPath:
-                    description: The path to copy contents to, defaults to the name
-                      of the source ref.
-                    type: string
-                required:
-                - repository
-                type: object
-              type: array
-            interval:
-              description: The interval at which to check for repository updates.
-              type: string
-            recurseSubmodules:
-              description: |-
-                When enabled, after the clone is created, initializes all submodules within,
-                using their default settings.
-                This option is available only when using the 'go-git' GitImplementation.
-              type: boolean
-            ref:
-              description: |-
-                The Git reference to checkout and monitor for changes, defaults to
-                master branch.
+                CertSecretRef can be given the name of a Secret containing
+                either or both of
+
+
+                - a PEM-encoded client certificate (`tls.crt`) and private
+                key (`tls.key`);
+                - a PEM-encoded CA certificate (`ca.crt`)
+
+
+                and whichever are supplied, will be used for connecting to the
+                registry. The client cert and key are useful if you are
+                authenticating with a certificate; the CA cert is useful if
+                you are using a self-signed server certificate. The Secret must
+                be of type `Opaque` or `kubernetes.io/tls`.
+
+
+                It takes precedence over the values specified in the Secret referred
+                to by `.spec.secretRef`.
               properties:
-                branch:
-                  description: The Git branch to checkout, defaults to master.
+                name:
+                  description: Name of the referent.
                   type: string
-                commit:
-                  description: The Git commit SHA to checkout, if specified Tag filters
-                    will be ignored.
-                  type: string
-                semver:
-                  description: The Git tag semver expression, takes precedence over
-                    Tag.
-                  type: string
-                tag:
-                  description: The Git tag to checkout, takes precedence over Branch.
-                  type: string
+              required:
+              - name
               type: object
+            insecure:
+              description: |-
+                Insecure allows connecting to a non-TLS HTTP container registry.
+                This field is only taken into account if the .spec.type field is set to 'oci'.
+              type: boolean
+            interval:
+              description: |-
+                Interval at which the HelmRepository URL is checked for updates.
+                This interval is approximate and may be subject to jitter to ensure
+                efficient use of resources.
+              pattern: ^([0-9]+(\.[0-9]+)?(ms|s|m|h))+$
+              type: string
+            passCredentials:
+              description: |-
+                PassCredentials allows the credentials from the SecretRef to be passed
+                on to a host that does not match the host as defined in URL.
+                This may be required if the host of the advertised chart URLs in the
+                index differ from the defined URL.
+                Enabling this should be done with caution, as it can potentially result
+                in credentials getting stolen in a MITM-attack.
+              type: boolean
+            provider:
+              default: generic
+              description: |-
+                Provider used for authentication, can be 'aws', 'azure', 'gcp' or 'generic'.
+                This field is optional, and only taken into account if the .spec.type field is set to 'oci'.
+                When not specified, defaults to 'generic'.
+              enum:
+              - generic
+              - aws
+              - azure
+              - gcp
+              type: string
             secretRef:
               description: |-
-                The secret name containing the Git credentials.
-                For HTTPS repositories the secret must contain username and password
+                SecretRef specifies the Secret containing authentication credentials
+                for the HelmRepository.
+                For HTTP/S basic auth the secret must contain 'username' and 'password'
                 fields.
-                For SSH repositories the secret must contain identity and known_hosts
-                fields.
+                Support for TLS auth using the 'certFile' and 'keyFile', and/or 'caFile'
+                keys is deprecated. Please use `.spec.certSecretRef` instead.
               properties:
                 name:
                   description: Name of the referent.
@@ -182,43 +176,33 @@ spec:
               - name
               type: object
             suspend:
-              description: This flag tells the controller to suspend the reconciliation
-                of this source.
+              description: |-
+                Suspend tells the controller to suspend the reconciliation of this
+                HelmRepository.
               type: boolean
             timeout:
-              default: 60s
-              description: The timeout for remote Git operations like cloning, defaults
-                to 60s.
+              description: |-
+                Timeout is used for the index fetch operation for an HTTPS helm repository,
+                and for remote OCI Repository operations like pulling for an OCI helm
+                chart by the associated HelmChart.
+                Its default value is 60s.
+              pattern: ^([0-9]+(\.[0-9]+)?(ms|s|m))+$
+              type: string
+            type:
+              description: |-
+                Type of the HelmRepository.
+                When this field is set to  "oci", the URL field value must be prefixed with "oci://".
+              enum:
+              - default
+              - oci
               type: string
             url:
-              description: The repository URL, can be a HTTP/S or SSH address.
-              pattern: ^(http|https|ssh)://.*$
+              description: |-
+                URL of the Helm repository, a valid URL contains at least a protocol and
+                host.
+              pattern: ^(http|https|oci)://.*$
               type: string
-            verify:
-              description: Verify OpenPGP signature for the Git commit HEAD points
-                to.
-              properties:
-                mode:
-                  description: Mode describes what git object should be verified,
-                    currently ('head').
-                  enum:
-                  - head
-                  type: string
-                secretRef:
-                  description: The secret name containing the public keys of all trusted
-                    Git authors.
-                  properties:
-                    name:
-                      description: Name of the referent.
-                      type: string
-                  required:
-                  - name
-                  type: object
-              required:
-              - mode
-              type: object
           required:
-          - interval
           - url
           type: object
       type: object

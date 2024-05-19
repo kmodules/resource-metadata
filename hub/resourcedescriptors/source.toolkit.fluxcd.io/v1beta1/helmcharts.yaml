@@ -20,14 +20,19 @@ spec:
       description: HelmChart is the Schema for the helmcharts API
       properties:
         apiVersion:
-          description: 'APIVersion defines the versioned schema of this representation
-            of an object. Servers should convert recognized schemas to the latest
-            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          description: |-
+            APIVersion defines the versioned schema of this representation of an object.
+            Servers should convert recognized schemas to the latest internal value, and
+            may reject unrecognized values.
+            More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
           type: string
         kind:
-          description: 'Kind is a string value representing the REST resource this
-            object represents. Servers may infer this from the endpoint the client
-            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          description: |-
+            Kind is a string value representing the REST resource this object represents.
+            Servers may infer this from the endpoint the client submits requests to.
+            Cannot be updated.
+            In CamelCase.
+            More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
           type: string
         metadata:
           properties:
@@ -70,22 +75,21 @@ spec:
                 cross-namespace references to this object.
               properties:
                 namespaceSelectors:
-                  description: NamespaceSelectors is the list of namespace selectors
-                    to which this ACL applies. Items in this list are evaluated using
-                    a logical OR operation.
+                  description: |-
+                    NamespaceSelectors is the list of namespace selectors to which this ACL applies.
+                    Items in this list are evaluated using a logical OR operation.
                   items:
-                    description: NamespaceSelector selects the namespaces to which
-                      this ACL applies. An empty map of MatchLabels matches all namespaces
-                      in a cluster.
+                    description: |-
+                      NamespaceSelector selects the namespaces to which this ACL applies.
+                      An empty map of MatchLabels matches all namespaces in a cluster.
                     properties:
                       matchLabels:
                         additionalProperties:
                           type: string
-                        description: MatchLabels is a map of {key,value} pairs. A
-                          single {key,value} in the matchLabels map is equivalent
-                          to an element of matchExpressions, whose key field is "key",
-                          the operator is "In", and the values array contains only
-                          "value". The requirements are ANDed.
+                        description: |-
+                          MatchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+                          map is equivalent to an element of matchExpressions, whose key field is "key", the
+                          operator is "In", and the values array contains only "value". The requirements are ANDed.
                         type: object
                     type: object
                   type: array
@@ -101,10 +105,11 @@ spec:
               type: string
             reconcileStrategy:
               default: ChartVersion
-              description: Determines what enables the creation of a new artifact.
-                Valid values are ('ChartVersion', 'Revision'). See the documentation
-                of the values for an explanation on their behavior. Defaults to ChartVersion
-                when omitted.
+              description: |-
+                Determines what enables the creation of a new artifact. Valid values are
+                ('ChartVersion', 'Revision').
+                See the documentation of the values for an explanation on their behavior.
+                Defaults to ChartVersion when omitted.
               enum:
               - ChartVersion
               - Revision
@@ -116,8 +121,9 @@ spec:
                   description: APIVersion of the referent.
                   type: string
                 kind:
-                  description: Kind of the referent, valid values are ('HelmRepository',
-                    'GitRepository', 'Bucket').
+                  description: |-
+                    Kind of the referent, valid values are ('HelmRepository', 'GitRepository',
+                    'Bucket').
                   enum:
                   - HelmRepository
                   - GitRepository
@@ -135,23 +141,26 @@ spec:
                 of this source.
               type: boolean
             valuesFile:
-              description: Alternative values file to use as the default chart values,
-                expected to be a relative path in the SourceRef. Deprecated in favor
-                of ValuesFiles, for backwards compatibility the file defined here
-                is merged before the ValuesFiles items. Ignored when omitted.
+              description: |-
+                Alternative values file to use as the default chart values, expected to
+                be a relative path in the SourceRef. Deprecated in favor of ValuesFiles,
+                for backwards compatibility the file defined here is merged before the
+                ValuesFiles items. Ignored when omitted.
               type: string
             valuesFiles:
-              description: Alternative list of values files to use as the chart values
-                (values.yaml is not included by default), expected to be a relative
-                path in the SourceRef. Values files are merged in the order of this
-                list with the last file overriding the first. Ignored when omitted.
+              description: |-
+                Alternative list of values files to use as the chart values (values.yaml
+                is not included by default), expected to be a relative path in the SourceRef.
+                Values files are merged in the order of this list with the last file overriding
+                the first. Ignored when omitted.
               items:
                 type: string
               type: array
             version:
               default: '*'
-              description: The chart version semver expression, ignored for charts
-                from GitRepository and Bucket sources. Defaults to latest when omitted.
+              description: |-
+                The chart version semver expression, ignored for charts from GitRepository
+                and Bucket sources. Defaults to latest when omitted.
               type: string
           required:
           - chart
