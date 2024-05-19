@@ -1,5 +1,5 @@
 /*
-Copyright 2022 The Flux authors
+Copyright 2024 The Flux authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,14 +14,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1beta2
+package v1
 
 import (
 	"time"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/fluxcd/pkg/apis/acl"
 	"github.com/fluxcd/pkg/apis/meta"
 )
 
@@ -45,7 +44,9 @@ type HelmChartSpec struct {
 	// +required
 	SourceRef LocalHelmChartSourceReference `json:"sourceRef"`
 
-	// Interval is the interval at which to check the Source for updates.
+	// Interval at which the HelmChart SourceRef is checked for updates.
+	// This interval is approximate and may be subject to jitter to ensure
+	// efficient use of resources.
 	// +kubebuilder:validation:Type=string
 	// +kubebuilder:validation:Pattern="^([0-9]+(\\.[0-9]+)?(ms|s|m|h))+$"
 	// +required
@@ -68,24 +69,15 @@ type HelmChartSpec struct {
 	// +optional
 	ValuesFiles []string `json:"valuesFiles,omitempty"`
 
-	// ValuesFile is an alternative values file to use as the default chart
-	// values, expected to be a relative path in the SourceRef. Deprecated in
-	// favor of ValuesFiles, for backwards compatibility the file specified here
-	// is merged before the ValuesFiles items. Ignored when omitted.
+	// IgnoreMissingValuesFiles controls whether to silently ignore missing values
+	// files rather than failing.
 	// +optional
-	// +deprecated
-	ValuesFile string `json:"valuesFile,omitempty"`
+	IgnoreMissingValuesFiles bool `json:"ignoreMissingValuesFiles,omitempty"`
 
 	// Suspend tells the controller to suspend the reconciliation of this
 	// source.
 	// +optional
 	Suspend bool `json:"suspend,omitempty"`
-
-	// AccessFrom specifies an Access Control List for allowing cross-namespace
-	// references to this object.
-	// NOTE: Not implemented, provisional as of https://github.com/fluxcd/flux2/pull/2092
-	// +optional
-	AccessFrom *acl.AccessFrom `json:"accessFrom,omitempty"`
 
 	// Verify contains the secret name containing the trusted public keys
 	// used to verify the signature and specifies which provider to use to check
@@ -139,6 +131,12 @@ type HelmChartStatus struct {
 	// +optional
 	ObservedChartName string `json:"observedChartName,omitempty"`
 
+	// ObservedValuesFiles are the observed value files of the last successful
+	// reconciliation.
+	// It matches the chart in the last successfully reconciled artifact.
+	// +optional
+	ObservedValuesFiles []string `json:"observedValuesFiles,omitempty"`
+
 	// Conditions holds the conditions for the HelmChart.
 	// +optional
 	Conditions []metav1.Condition `json:"conditions,omitempty"`
@@ -190,17 +188,10 @@ func (in *HelmChart) GetArtifact() *Artifact {
 
 // GetValuesFiles returns a merged list of HelmChartSpec.ValuesFiles.
 func (in *HelmChart) GetValuesFiles() []string {
-	valuesFiles := in.Spec.ValuesFiles
-
-	// Prepend the deprecated ValuesFile to the list
-	if in.Spec.ValuesFile != "" {
-		valuesFiles = append([]string{in.Spec.ValuesFile}, valuesFiles...)
-	}
-	return valuesFiles
+	return in.Spec.ValuesFiles
 }
 
 // +genclient
-// +genclient:Namespaced
 // +kubebuilder:storageversion
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:shortName=hc

@@ -1,5 +1,5 @@
 /*
-Copyright 2022 The Flux authors
+Copyright 2023 The Flux authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,25 +14,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1beta2
+package v1
 
 import (
 	"time"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/fluxcd/pkg/apis/acl"
 	"github.com/fluxcd/pkg/apis/meta"
 )
 
 const (
 	// GitRepositoryKind is the string representation of a GitRepository.
 	GitRepositoryKind = "GitRepository"
-
-	// GoGitImplementation for performing Git operations using go-git.
-	GoGitImplementation = "go-git"
-	// LibGit2Implementation for performing Git operations using libgit2.
-	LibGit2Implementation = "libgit2"
 )
 
 const (
@@ -42,6 +36,31 @@ const (
 	// This is a "negative polarity" or "abnormal-true" type, and is only
 	// present on the resource if it is True.
 	IncludeUnavailableCondition string = "IncludeUnavailable"
+)
+
+// GitVerificationMode specifies the verification mode for a Git repository.
+type GitVerificationMode string
+
+// Valid checks the validity of the Git verification mode.
+func (m GitVerificationMode) Valid() bool {
+	switch m {
+	case ModeGitHEAD, ModeGitTag, ModeGitTagAndHEAD:
+		return true
+	default:
+		return false
+	}
+}
+
+const (
+	// ModeGitHEAD implies that the HEAD of the Git repository (after it has been
+	// checked out to the required commit) should be verified.
+	ModeGitHEAD GitVerificationMode = "HEAD"
+	// ModeGitTag implies that the tag object specified in the checkout configuration
+	// should be verified.
+	ModeGitTag GitVerificationMode = "Tag"
+	// ModeGitTagAndHEAD implies that both the tag object and the commit it points
+	// to should be verified.
+	ModeGitTagAndHEAD GitVerificationMode = "TagAndHEAD"
 )
 
 // GitRepositorySpec specifies the required configuration to produce an
@@ -55,13 +74,15 @@ type GitRepositorySpec struct {
 	// SecretRef specifies the Secret containing authentication credentials for
 	// the GitRepository.
 	// For HTTPS repositories the Secret must contain 'username' and 'password'
-	// fields.
+	// fields for basic auth or 'bearerToken' field for token auth.
 	// For SSH repositories the Secret must contain 'identity'
 	// and 'known_hosts' fields.
 	// +optional
 	SecretRef *meta.LocalObjectReference `json:"secretRef,omitempty"`
 
-	// Interval at which to check the GitRepository for updates.
+	// Interval at which the GitRepository URL is checked for updates.
+	// This interval is approximate and may be subject to jitter to ensure
+	// efficient use of resources.
 	// +kubebuilder:validation:Type=string
 	// +kubebuilder:validation:Pattern="^([0-9]+(\\.[0-9]+)?(ms|s|m|h))+$"
 	// +required
@@ -84,6 +105,11 @@ type GitRepositorySpec struct {
 	// +optional
 	Verification *GitRepositoryVerification `json:"verify,omitempty"`
 
+	// ProxySecretRef specifies the Secret containing the proxy configuration
+	// to use while communicating with the Git server.
+	// +optional
+	ProxySecretRef *meta.LocalObjectReference `json:"proxySecretRef,omitempty"`
+
 	// Ignore overrides the set of excluded patterns in the .sourceignore format
 	// (which is the same as .gitignore). If not provided, a default will be used,
 	// consult the documentation for your version to find out what those are.
@@ -95,30 +121,15 @@ type GitRepositorySpec struct {
 	// +optional
 	Suspend bool `json:"suspend,omitempty"`
 
-	// GitImplementation specifies which Git client library implementation to
-	// use. Defaults to 'go-git', valid values are ('go-git', 'libgit2').
-	// Deprecated: gitImplementation is deprecated now that 'go-git' is the
-	// only supported implementation.
-	// +kubebuilder:validation:Enum=go-git;libgit2
-	// +kubebuilder:default:=go-git
-	// +optional
-	GitImplementation string `json:"gitImplementation,omitempty"`
-
 	// RecurseSubmodules enables the initialization of all submodules within
 	// the GitRepository as cloned from the URL, using their default settings.
-	// This option is available only when using the 'go-git' GitImplementation.
 	// +optional
 	RecurseSubmodules bool `json:"recurseSubmodules,omitempty"`
 
 	// Include specifies a list of GitRepository resources which Artifacts
 	// should be included in the Artifact produced for this GitRepository.
-	Include []GitRepositoryInclude `json:"include,omitempty"`
-
-	// AccessFrom specifies an Access Control List for allowing cross-namespace
-	// references to this object.
-	// NOTE: Not implemented, provisional as of https://github.com/fluxcd/flux2/pull/2092
 	// +optional
-	AccessFrom *acl.AccessFrom `json:"accessFrom,omitempty"`
+	Include []GitRepositoryInclude `json:"include,omitempty"`
 }
 
 // GitRepositoryInclude specifies a local reference to a GitRepository which
@@ -126,17 +137,18 @@ type GitRepositorySpec struct {
 type GitRepositoryInclude struct {
 	// GitRepositoryRef specifies the GitRepository which Artifact contents
 	// must be included.
+	// +required
 	GitRepositoryRef meta.LocalObjectReference `json:"repository"`
 
 	// FromPath specifies the path to copy contents from, defaults to the root
 	// of the Artifact.
 	// +optional
-	FromPath string `json:"fromPath"`
+	FromPath string `json:"fromPath,omitempty"`
 
 	// ToPath specifies the path to copy contents to, defaults to the name of
 	// the GitRepositoryRef.
 	// +optional
-	ToPath string `json:"toPath"`
+	ToPath string `json:"toPath,omitempty"`
 }
 
 // GetFromPath returns the specified FromPath.
@@ -156,9 +168,6 @@ func (in *GitRepositoryInclude) GetToPath() string {
 // GitRepositoryRef specifies the Git reference to resolve and checkout.
 type GitRepositoryRef struct {
 	// Branch to check out, defaults to 'master' if no other field is defined.
-	//
-	// When GitRepositorySpec.GitImplementation is set to 'go-git', a shallow
-	// clone of the specified branch is performed.
 	// +optional
 	Branch string `json:"branch,omitempty"`
 
@@ -170,11 +179,17 @@ type GitRepositoryRef struct {
 	// +optional
 	SemVer string `json:"semver,omitempty"`
 
+	// Name of the reference to check out; takes precedence over Branch, Tag and SemVer.
+	//
+	// It must be a valid Git reference: https://git-scm.com/docs/git-check-ref-format#_description
+	// Examples: "refs/heads/main", "refs/tags/v0.1.0", "refs/pull/420/head", "refs/merge-requests/1/head"
+	// +optional
+	Name string `json:"name,omitempty"`
+
 	// Commit SHA to check out, takes precedence over all reference fields.
 	//
-	// When GitRepositorySpec.GitImplementation is set to 'go-git', this can be
-	// combined with Branch to shallow clone the branch, in which the commit is
-	// expected to exist.
+	// This can be combined with Branch to shallow clone the branch, in which
+	// the commit is expected to exist.
 	// +optional
 	Commit string `json:"commit,omitempty"`
 }
@@ -182,13 +197,20 @@ type GitRepositoryRef struct {
 // GitRepositoryVerification specifies the Git commit signature verification
 // strategy.
 type GitRepositoryVerification struct {
-	// Mode specifies what Git object should be verified, currently ('head').
-	// +kubebuilder:validation:Enum=head
-	Mode string `json:"mode"`
+	// Mode specifies which Git object(s) should be verified.
+	//
+	// The variants "head" and "HEAD" both imply the same thing, i.e. verify
+	// the commit that the HEAD of the Git repository points to. The variant
+	// "head" solely exists to ensure backwards compatibility.
+	// +kubebuilder:validation:Enum=head;HEAD;Tag;TagAndHEAD
+	// +optional
+	// +kubebuilder:default:=HEAD
+	Mode GitVerificationMode `json:"mode,omitempty"`
 
 	// SecretRef specifies the Secret containing the public keys of trusted Git
 	// authors.
-	SecretRef meta.LocalObjectReference `json:"secretRef,omitempty"`
+	// +required
+	SecretRef meta.LocalObjectReference `json:"secretRef"`
 }
 
 // GitRepositoryStatus records the observed state of a Git repository.
@@ -202,12 +224,6 @@ type GitRepositoryStatus struct {
 	// +optional
 	Conditions []metav1.Condition `json:"conditions,omitempty"`
 
-	// URL is the dynamic fetch link for the latest Artifact.
-	// It is provided on a "best effort" basis, and using the precise
-	// GitRepositoryStatus.Artifact data is recommended.
-	// +optional
-	URL string `json:"url,omitempty"`
-
 	// Artifact represents the last successful GitRepository reconciliation.
 	// +optional
 	Artifact *Artifact `json:"artifact,omitempty"`
@@ -216,21 +232,6 @@ type GitRepositoryStatus struct {
 	// Artifacts as instructed by GitRepositorySpec.Include.
 	// +optional
 	IncludedArtifacts []*Artifact `json:"includedArtifacts,omitempty"`
-
-	// ContentConfigChecksum is a checksum of all the configurations related to
-	// the content of the source artifact:
-	//  - .spec.ignore
-	//  - .spec.recurseSubmodules
-	//  - .spec.included and the checksum of the included artifacts
-	// observed in .status.observedGeneration version of the object. This can
-	// be used to determine if the content of the included repository has
-	// changed.
-	// It has the format of `<algo>:<checksum>`, for example: `sha256:<checksum>`.
-	//
-	// Deprecated: Replaced with explicit fields for observed artifact content
-	// config in the status.
-	// +optional
-	ContentConfigChecksum string `json:"contentConfigChecksum,omitempty"`
 
 	// ObservedIgnore is the observed exclusion patterns used for constructing
 	// the source artifact.
@@ -243,9 +244,14 @@ type GitRepositoryStatus struct {
 	ObservedRecurseSubmodules bool `json:"observedRecurseSubmodules,omitempty"`
 
 	// ObservedInclude is the observed list of GitRepository resources used to
-	// to produce the current Artifact.
+	// produce the current Artifact.
 	// +optional
 	ObservedInclude []GitRepositoryInclude `json:"observedInclude,omitempty"`
+
+	// SourceVerificationMode is the last used verification mode indicating
+	// which Git object(s) have been verified.
+	// +optional
+	SourceVerificationMode *GitVerificationMode `json:"sourceVerificationMode,omitempty"`
 
 	meta.ReconcileRequestStatus `json:",inline"`
 }
@@ -282,8 +288,27 @@ func (in *GitRepository) GetArtifact() *Artifact {
 	return in.Status.Artifact
 }
 
+// GetMode returns the declared GitVerificationMode, or a ModeGitHEAD default.
+func (v *GitRepositoryVerification) GetMode() GitVerificationMode {
+	if v.Mode.Valid() {
+		return v.Mode
+	}
+	return ModeGitHEAD
+}
+
+// VerifyHEAD returns if the configured mode instructs verification of the
+// Git HEAD.
+func (v *GitRepositoryVerification) VerifyHEAD() bool {
+	return v.GetMode() == ModeGitHEAD || v.GetMode() == ModeGitTagAndHEAD
+}
+
+// VerifyTag returns if the configured mode instructs verification of the
+// Git tag.
+func (v *GitRepositoryVerification) VerifyTag() bool {
+	return v.GetMode() == ModeGitTag || v.GetMode() == ModeGitTagAndHEAD
+}
+
 // +genclient
-// +genclient:Namespaced
 // +kubebuilder:storageversion
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:shortName=gitrepo

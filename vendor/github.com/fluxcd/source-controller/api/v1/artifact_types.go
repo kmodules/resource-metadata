@@ -1,5 +1,5 @@
 /*
-Copyright 2022 The Flux authors
+Copyright 2023 The Flux authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1beta2
+package v1
 
 import (
 	"path"
@@ -39,17 +39,18 @@ type Artifact struct {
 
 	// Revision is a human-readable identifier traceable in the origin source
 	// system. It can be a Git commit SHA, Git tag, a Helm chart version, etc.
-	// +optional
+	// +required
 	Revision string `json:"revision"`
 
-	// Checksum is the SHA256 checksum of the Artifact file.
+	// Digest is the digest of the file in the form of '<algorithm>:<checksum>'.
 	// +optional
-	Checksum string `json:"checksum"`
+	// +kubebuilder:validation:Pattern="^[a-z0-9]+(?:[.+_-][a-z0-9]+)*:[a-zA-Z0-9=_-]+$"
+	Digest string `json:"digest,omitempty"`
 
 	// LastUpdateTime is the timestamp corresponding to the last update of the
 	// Artifact.
 	// +required
-	LastUpdateTime metav1.Time `json:"lastUpdateTime,omitempty"`
+	LastUpdateTime metav1.Time `json:"lastUpdateTime"`
 
 	// Size is the number of bytes in the file.
 	// +optional
@@ -69,13 +70,13 @@ func (in *Artifact) HasRevision(revision string) bool {
 	return in.Revision == revision
 }
 
-// HasChecksum returns if the given checksum matches the current Checksum of
-// the Artifact.
-func (in *Artifact) HasChecksum(checksum string) bool {
+// HasDigest returns if the given digest matches the current Digest of the
+// Artifact.
+func (in *Artifact) HasDigest(digest string) bool {
 	if in == nil {
 		return false
 	}
-	return in.Checksum == checksum
+	return in.Digest == digest
 }
 
 // ArtifactDir returns the artifact dir path in the form of

@@ -30,7 +30,6 @@ import (
 	tabledefs "kmodules.xyz/resource-metadata/hub/resourcetabledefinitions"
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor"
 
-	_ "github.com/fluxcd/source-controller/api/v1beta2"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

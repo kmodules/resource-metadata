@@ -6,7 +6,7 @@ toolchain go1.22.1
 
 require (
 	github.com/Masterminds/sprig/v3 v3.2.3
-	github.com/fluxcd/source-controller/api v0.33.0
+	github.com/fluxcd/source-controller/api v1.3.0
 	github.com/gobuffalo/flect v0.3.0
 	github.com/google/go-containerregistry v0.19.1
 	github.com/google/gofuzz v1.2.0
@@ -55,8 +55,8 @@ require (
 	github.com/evanphx/json-patch v5.7.0+incompatible // indirect
 	github.com/evanphx/json-patch/v5 v5.9.0 // indirect
 	github.com/fatih/structs v1.1.0 // indirect
-	github.com/fluxcd/pkg/apis/acl v0.1.0 // indirect
-	github.com/fluxcd/pkg/apis/meta v0.18.0 // indirect
+	github.com/fluxcd/pkg/apis/acl v0.3.0 // indirect
+	github.com/fluxcd/pkg/apis/meta v1.5.0 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/go-logr/logr v1.4.1 // indirect
 	github.com/go-openapi/jsonpointer v0.20.0 // indirect

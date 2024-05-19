@@ -24,7 +24,7 @@ import (
 	kmapi "kmodules.xyz/client-go/api/v1"
 	"kmodules.xyz/resource-metadata/apis/shared"
 
-	fluxsrc "github.com/fluxcd/source-controller/api/v1beta2"
+	fluxsrc "github.com/fluxcd/source-controller/api/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	chartsapi "x-helm.dev/apimachinery/apis/charts/v1alpha1"
