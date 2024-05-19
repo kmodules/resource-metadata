@@ -145,6 +145,7 @@ func main() {
 	fix := flag.Bool("fix", true, "Fix formatting")
 	flag.Parse()
 
+	MustCheckType(metaapi.ClusterProfile{}, "clusterprofiles", *fix)
 	MustCheckType(metaapi.MenuOutline{}, "menuoutlines", *fix)
 	MustCheckType(metaapi.ResourceBlockDefinition{}, "resourceblockdefinitions", *fix)
 	MustCheckType(metaapi.ResourceDescriptor{}, "resourcedescriptors", *fix)
