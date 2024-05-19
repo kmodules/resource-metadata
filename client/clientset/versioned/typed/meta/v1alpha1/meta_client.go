@@ -29,6 +29,7 @@ import (
 type MetaV1alpha1Interface interface {
 	RESTClient() rest.Interface
 	ChartPresetQueriesGetter
+	ClusterProfilesGetter
 	ClusterStatusesGetter
 	MenuOutlinesGetter
 	RendersGetter
@@ -53,6 +54,10 @@ type MetaV1alpha1Client struct {
 
 func (c *MetaV1alpha1Client) ChartPresetQueries() ChartPresetQueryInterface {
 	return newChartPresetQueries(c)
+}
+
+func (c *MetaV1alpha1Client) ClusterProfiles() ClusterProfileInterface {
+	return newClusterProfiles(c)
 }
 
 func (c *MetaV1alpha1Client) ClusterStatuses() ClusterStatusInterface {

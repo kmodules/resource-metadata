@@ -1,0 +1,12 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ClusterProfile
+metadata:
+  creationTimestamp: null
+  name: dbaas-gke
+spec:
+  description: This profile is suitable for GKE clusters used as KubeDB managed DBaaS
+  requiredFeatureSets:
+    opscenter-datastore:
+    - kubedb
+    - kubedb-opscenter
+  title: Google Cloud DBaaS
