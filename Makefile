@@ -245,7 +245,13 @@ gen-crds:
 			output:crd:artifacts:config=crds
 
 .PHONY: manifests
-manifests: gen-crds
+manifests: gen-crds patch-schema
+
+.PHONY: patch-schema
+patch-schema: $(BUILD_DIRS)
+	@echo "patching crds/core.k8s.appscode.com_podviews.yaml"
+	@kubectl patch -f crds/core.k8s.appscode.com_podviews.yaml -p "$$(cat hack/podview-schema-patch.json)" --type=json --local=true -o yaml > bin/core.k8s.appscode.com_podviews.yaml
+	@mv bin/core.k8s.appscode.com_podviews.yaml crds/core.k8s.appscode.com_podviews.yaml
 
 .PHONY: gen
 gen: clientset manifests openapi
