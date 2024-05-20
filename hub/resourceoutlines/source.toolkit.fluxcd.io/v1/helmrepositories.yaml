@@ -1,0 +1,54 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceOutline
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: source.toolkit.fluxcd.io
+    k8s.io/kind: HelmRepository
+    k8s.io/resource: helmrepositories
+    k8s.io/version: v1
+  name: source.toolkit.fluxcd.io-v1-helmrepositories
+spec:
+  defaultLayout: true
+  pages:
+  - name: Overview
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: HelmCharts
+        query:
+          byLabel: source
+          type: GraphQL
+        ref:
+          group: source.toolkit.fluxcd.io
+          kind: HelmChart
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: HelmReleases
+        query:
+          raw: |-
+            query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+              find(oid: $src) {
+                source(group: "source.toolkit.fluxcd.io", kind: "HelmChart") {
+                  refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                    namespace
+                    name
+                  }
+                }
+              }
+            }
+          type: GraphQL
+        ref:
+          group: helm.toolkit.fluxcd.io
+          kind: HelmRelease
+  resource:
+    group: source.toolkit.fluxcd.io
+    kind: HelmRepository
+    name: helmrepositories
+    scope: Namespaced
+    version: v1
