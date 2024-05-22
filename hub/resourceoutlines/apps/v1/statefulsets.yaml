@@ -16,7 +16,15 @@ spec:
     - blocks:
       - kind: Block
         name: apps-v1-statefulsets
-  - name: Backups
+  - name: Backup
+    requiredFeatureSets:
+      opscenter-backup:
+      - kubestash
+    sections:
+    - blocks:
+      - kind: Block
+        name: core.kubestash.com-v1alpha1-apps-backup
+  - name: Backup (Legacy)
     requiredFeatureSets:
       opscenter-backup:
       - stash
