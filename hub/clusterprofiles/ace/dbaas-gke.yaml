@@ -6,6 +6,13 @@ metadata:
 spec:
   description: This profile is suitable for GKE clusters used as KubeDB managed DBaaS
   requiredFeatureSets:
+    crossplane:
+    - crossplane
+    - kubedb-provider-gcp
+    dbaas-capg:
+    - capi-cluster-presets
+    opscenter-core:
+    - license-proxyserver
     opscenter-datastore:
     - kubedb
     - kubedb-opscenter

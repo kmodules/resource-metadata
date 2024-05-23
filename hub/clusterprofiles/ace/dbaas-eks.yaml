@@ -6,6 +6,16 @@ metadata:
 spec:
   description: This profile is suitable for EKS clusters used as KubeDB managed DBaaS
   requiredFeatureSets:
+    crossplane:
+    - crossplane
+    - kubedb-provider-aws
+    dbaas-capa:
+    - capi-cluster-presets
+    - aws-ebs-csi-driver
+    - capa-vpc-peering-operator
+    - cluster-autoscaler
+    opscenter-core:
+    - license-proxyserver
     opscenter-datastore:
     - kubedb
     - kubedb-opscenter
