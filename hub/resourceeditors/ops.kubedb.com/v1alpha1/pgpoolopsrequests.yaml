@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ops.kubedb.com
+    k8s.io/kind: PgpoolOpsRequest
+    k8s.io/resource: pgpoolopsrequests
+    k8s.io/version: v1alpha1
+  name: ops.kubedb.com-v1alpha1-pgpoolopsrequests
+spec:
+  resource:
+    group: ops.kubedb.com
+    kind: PgpoolOpsRequest
+    name: pgpoolopsrequests
+    scope: Namespaced
+    version: v1alpha1
