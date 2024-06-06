@@ -6,11 +6,11 @@ metadata:
 spec:
   description: This profile is suitable for AKS clusters used as KubeDB managed DBaaS
   requiredFeatureSets:
+    capi-core:
+    - cluster-presets
     crossplane:
     - crossplane
     - kubedb-provider-azure
-    dbaas-capz:
-    - capi-cluster-presets
     opscenter-core:
     - license-proxyserver
     opscenter-datastore:
