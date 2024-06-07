@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: karpenter.sh
+    k8s.io/kind: NodePool
+    k8s.io/resource: nodepools
+    k8s.io/version: v1beta1
+  name: karpenter.sh-v1beta1-nodepools
+spec:
+  resource:
+    group: karpenter.sh
+    kind: NodePool
+    name: nodepools
+    scope: Cluster
+    version: v1beta1

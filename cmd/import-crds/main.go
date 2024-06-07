@@ -93,6 +93,10 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/sigs.k8s.io/cluster-api-prov
 go run cmd/import-crds/main.go --input=$HOME/go/src/sigs.k8s.io/cluster-api-provider-azure/config/crd/bases
 go run cmd/import-crds/main.go --input=$HOME/go/src/sigs.k8s.io/cluster-api-provider-gcp/config/crd/bases
 
+# karpenter
+go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/aws/karpenter-provider-aws/pkg/apis/crds
+go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/Azure/karpenter-provider-azure/pkg/apis/crds
+
 # crossplane
 go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/crossplane/crossplane/cluster/crds
 
