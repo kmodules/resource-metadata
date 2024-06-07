@@ -113,10 +113,10 @@ spec:
         kind: Solr
     - featureMode: ALPHA
       layoutName: kubedb.com-v1alpha2-zookeepers-kubedb
-      name: Zookeeper
+      name: ZooKeeper
       type:
         group: kubedb.com
-        kind: Zookeeper
+        kind: ZooKeeper
     name: Datastore
     path: /ui.appscode.com/v1alpha1/sections/datastore
   - icons:
