@@ -16232,12 +16232,26 @@ func schema_resource_metadata_apis_node_v1alpha1_NodeTopologySpec(ref common.Ref
 							},
 						},
 					},
+					"requirements": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Requirements are layered with GetLabels and applied to every node.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("k8s.io/api/core/v1.NodeSelectorRequirement"),
+									},
+								},
+							},
+						},
+					},
 				},
-				Required: []string{"nodeSelectionPolicy", "topologyKey"},
+				Required: []string{"nodeSelectionPolicy", "topologyKey", "requirements"},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/node/v1alpha1.NodeGroup"},
+			"k8s.io/api/core/v1.NodeSelectorRequirement", "kmodules.xyz/resource-metadata/apis/node/v1alpha1.NodeGroup"},
 	}
 }
 

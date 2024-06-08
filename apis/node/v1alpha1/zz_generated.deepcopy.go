@@ -119,6 +119,13 @@ func (in *NodeTopologySpec) DeepCopyInto(out *NodeTopologySpec) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.Requirements != nil {
+		in, out := &in.Requirements, &out.Requirements
+		*out = make([]v1.NodeSelectorRequirement, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	return
 }
 
