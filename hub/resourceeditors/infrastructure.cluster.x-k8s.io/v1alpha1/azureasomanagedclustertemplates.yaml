@@ -15,3 +15,12 @@ spec:
     name: azureasomanagedclustertemplates
     scope: Namespaced
     version: v1alpha1
+  ui:
+    editor:
+      name: infrastructureclusterxk8sio-azureasomanagedclustertemplate-editor
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: appscode-charts-oci
+      version: v0.4.20
+    enforceQuota: false

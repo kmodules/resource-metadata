@@ -15,3 +15,12 @@ spec:
     name: ec2nodeclasses
     scope: Cluster
     version: v1beta1
+  ui:
+    editor:
+      name: karpenterk8saws-ec2nodeclass-editor
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: appscode-charts-oci
+      version: v0.4.20
+    enforceQuota: false

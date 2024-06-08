@@ -15,3 +15,12 @@ spec:
     name: nodepools
     scope: Cluster
     version: v1beta1
+  ui:
+    editor:
+      name: karpentersh-nodepool-editor
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: appscode-charts-oci
+      version: v0.4.20
+    enforceQuota: false
