@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: authorization.k8s.appscode.com
+    k8s.io/kind: ManagedClusterSetRoleBinding
+    k8s.io/resource: managedclustersetrolebindings
+    k8s.io/version: v1alpha1
+  name: authorization.k8s.appscode.com-v1alpha1-managedclustersetrolebindings
+spec:
+  resource:
+    group: authorization.k8s.appscode.com
+    kind: ManagedClusterSetRoleBinding
+    name: managedclustersetrolebindings
+    scope: Cluster
+    version: v1alpha1

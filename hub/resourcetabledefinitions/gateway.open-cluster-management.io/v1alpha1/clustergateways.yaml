@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: gateway.open-cluster-management.io
+    k8s.io/kind: ClusterGateway
+    k8s.io/resource: clustergateways
+    k8s.io/version: v1alpha1
+  name: gateway.open-cluster-management.io-v1alpha1-clustergateways
+spec:
+  defaultView: true
+  resource:
+    group: gateway.open-cluster-management.io
+    kind: ClusterGateway
+    name: clustergateways
+    scope: Namespaced
+    version: v1alpha1

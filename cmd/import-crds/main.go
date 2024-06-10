@@ -116,6 +116,13 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/a
 go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/api/addon/v1alpha1
 go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/api/operator/v1
 
+# ocm addons
+go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/cluster-auth/crds
+go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/cluster-gateway/hack/crd/bases
+go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/cluster-proxy/hack/crd/bases
+go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/fluxcd-addon/crds
+go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/managed-serviceaccount/charts/managed-serviceaccount/crds
+
 # Gateway
 go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/charts/voyager-gateway/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/charts/voyager-gateway/crds/generated
