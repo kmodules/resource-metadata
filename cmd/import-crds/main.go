@@ -132,6 +132,9 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/ch
 go run cmd/import-crds/main.go --input=$HOME/go/src/go.bytebuilders.dev/kube-bind/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/go.bytebuilders.dev/catalog/crds
 
+# kube-ui-server
+go run cmd/import-crds/main.go --input=$HOME/go/src/kubeops.dev/ui-server/crds
+
 # falco
 go run cmd/import-crds/main.go --input=$HOME/go/src/kubeops.dev/falco-ui-server/crds
 */
