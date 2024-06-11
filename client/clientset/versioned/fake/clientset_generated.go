@@ -27,6 +27,8 @@ import (
 	clientset "kmodules.xyz/resource-metadata/client/clientset/versioned"
 	corev1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/core/v1alpha1"
 	fakecorev1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/core/v1alpha1/fake"
+	identityv1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/identity/v1alpha1"
+	fakeidentityv1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/identity/v1alpha1/fake"
 	managementv1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/management/v1alpha1"
 	fakemanagementv1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/management/v1alpha1/fake"
 	metav1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/meta/v1alpha1"
@@ -90,6 +92,11 @@ var (
 // CoreV1alpha1 retrieves the CoreV1alpha1Client
 func (c *Clientset) CoreV1alpha1() corev1alpha1.CoreV1alpha1Interface {
 	return &fakecorev1alpha1.FakeCoreV1alpha1{Fake: &c.Fake}
+}
+
+// IdentityV1alpha1 retrieves the IdentityV1alpha1Client
+func (c *Clientset) IdentityV1alpha1() identityv1alpha1.IdentityV1alpha1Interface {
+	return &fakeidentityv1alpha1.FakeIdentityV1alpha1{Fake: &c.Fake}
 }
 
 // ManagementV1alpha1 retrieves the ManagementV1alpha1Client

@@ -23,7 +23,7 @@ COMPRESS ?= no
 # CRD_OPTIONS          ?= "crd:trivialVersions=true"
 CRD_OPTIONS          ?= "crd:allowDangerousTypes=true,crdVersions={v1}"
 CODE_GENERATOR_IMAGE ?= ghcr.io/appscode/gengo:release-1.29
-API_GROUPS           ?= core:v1alpha1 management:v1alpha1 meta:v1alpha1 node:v1alpha1 ui:v1alpha1
+API_GROUPS           ?= core:v1alpha1 identity:v1alpha1 management:v1alpha1 meta:v1alpha1 node:v1alpha1 ui:v1alpha1
 
 # Where to push the docker image.
 REGISTRY ?= appscode
