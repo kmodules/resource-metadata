@@ -223,7 +223,7 @@ openapi-%:
 		openapi-gen                                      \
 			--v 1 --logtostderr                            \
 			--go-header-file "./hack/license/go.txt"       \
-			--input-dirs "$(GO_PKG)/$(REPO)/apis/$(subst _,/,$*),$(GO_PKG)/$(REPO)/apis/shared,k8s.io/apimachinery/pkg/apis/meta/v1,k8s.io/apimachinery/pkg/api/resource,k8s.io/apimachinery/pkg/runtime,k8s.io/apimachinery/pkg/version,k8s.io/api/core/v1,k8s.io/apimachinery/pkg/util/intstr" \
+			--input-dirs "$(GO_PKG)/$(REPO)/apis/$(subst _,/,$*),$(GO_PKG)/$(REPO)/apis/shared,k8s.io/apimachinery/pkg/apis/meta/v1,k8s.io/apimachinery/pkg/api/resource,k8s.io/apimachinery/pkg/runtime,k8s.io/apimachinery/pkg/version,k8s.io/api/core/v1,k8s.io/apimachinery/pkg/util/intstr,kmodules.xyz/client-go/api/v1" \
 			--output-package "$(GO_PKG)/$(REPO)/apis/$(subst _,/,$*)" \
 			--report-filename .config/api-rules/violation_exceptions.list
 
