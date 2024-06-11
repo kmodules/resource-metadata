@@ -38,8 +38,11 @@ spec:
           metadata:
             type: object
           status:
-            description: ClusterIdentityStatus defines the observed state of ClusterIdentity
             properties:
+              apiEndpoint:
+                type: string
+              caBundle:
+                type: string
               displayName:
                 type: string
               name:

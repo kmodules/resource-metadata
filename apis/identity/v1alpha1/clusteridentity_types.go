@@ -41,14 +41,7 @@ type ClusterIdentity struct {
 	metav1.TypeMeta `json:",inline"`
 	// +optional
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Status            ClusterIdentityStatus `json:"status,omitempty"`
-}
-
-// ClusterIdentityStatus defines the observed state of ClusterIdentity
-type ClusterIdentityStatus struct {
-	kmapi.ClusterMetadata `json:",inline"`
-	OwnerID               string `json:"ownerID,omitempty"`
-	OwnerType             string `json:"ownerType,omitempty"`
+	Status            kmapi.ClusterMetadata `json:"status,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
