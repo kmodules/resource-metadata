@@ -1,8 +1,8 @@
 module kmodules.xyz/resource-metadata
 
-go 1.22.0
+go 1.22.1
 
-toolchain go1.22.1
+toolchain go1.22.4
 
 require (
 	github.com/Masterminds/sprig/v3 v3.2.3
@@ -17,7 +17,7 @@ require (
 	github.com/stretchr/testify v1.9.0
 	github.com/yudai/gojsondiff v1.0.0
 	golang.org/x/net v0.24.0
-	gomodules.xyz/encoding v0.0.7
+	gomodules.xyz/encoding v0.0.8
 	gomodules.xyz/jsonpath v0.0.2
 	gomodules.xyz/x v0.0.17
 	gopkg.in/yaml.v2 v2.4.0
@@ -31,7 +31,7 @@ require (
 	kmodules.xyz/client-go v0.30.3
 	kmodules.xyz/crd-schema-fuzz v0.29.1
 	kmodules.xyz/go-containerregistry v0.0.12
-	kmodules.xyz/resource-metrics v0.29.5
+	kmodules.xyz/resource-metrics v0.30.1
 	kmodules.xyz/schema-checker v0.4.1
 	sigs.k8s.io/cli-utils v0.34.0
 	sigs.k8s.io/controller-runtime v0.18.2
@@ -91,7 +91,6 @@ require (
 	github.com/prometheus/client_model v0.5.0 // indirect
 	github.com/prometheus/common v0.45.0 // indirect
 	github.com/prometheus/procfs v0.12.0 // indirect
-	github.com/rogpeppe/go-internal v1.11.0 // indirect
 	github.com/sergi/go-diff v1.2.0 // indirect
 	github.com/shopspring/decimal v1.3.1 // indirect
 	github.com/sirupsen/logrus v1.9.1 // indirect
@@ -117,7 +116,7 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gotest.tools/v3 v3.1.0 // indirect
 	k8s.io/utils v0.0.0-20240102154912-e7106e64919e // indirect
-	kmodules.xyz/offshoot-api v0.29.0 // indirect
+	kmodules.xyz/offshoot-api v0.29.4 // indirect
 	sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.4.1 // indirect
 )

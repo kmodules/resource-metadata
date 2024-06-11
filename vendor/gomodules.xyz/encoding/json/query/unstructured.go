@@ -18,6 +18,7 @@ package query
 
 import (
 	"fmt"
+	"reflect"
 	"strings"
 
 	"gomodules.xyz/encoding/json"
@@ -206,7 +207,7 @@ func setNestedFieldNoCopy(obj map[string]interface{}, value interface{}, fields 
 	m := obj
 
 	for i, field := range fields[:len(fields)-1] {
-		if val, ok := m[field]; ok {
+		if val, ok := m[field]; ok && !reflect.ValueOf(val).IsNil() {
 			if valMap, ok := val.(map[string]interface{}); ok {
 				m = valMap
 			} else {
