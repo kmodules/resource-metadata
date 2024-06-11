@@ -335,7 +335,6 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/client-go/api/v1.stringSetMerger":                                              schema_kmodulesxyz_client_go_api_v1_stringSetMerger(ref),
 		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.ClusterIdentity":                      schema_resource_metadata_apis_identity_v1alpha1_ClusterIdentity(ref),
 		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.ClusterIdentityList":                  schema_resource_metadata_apis_identity_v1alpha1_ClusterIdentityList(ref),
-		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.ClusterIdentityStatus":                schema_resource_metadata_apis_identity_v1alpha1_ClusterIdentityStatus(ref),
 		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.InboxTokenRequest":                    schema_resource_metadata_apis_identity_v1alpha1_InboxTokenRequest(ref),
 		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.InboxTokenRequestRequest":             schema_resource_metadata_apis_identity_v1alpha1_InboxTokenRequestRequest(ref),
 		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.InboxTokenRequestResponse":            schema_resource_metadata_apis_identity_v1alpha1_InboxTokenRequestResponse(ref),
@@ -16304,6 +16303,30 @@ func schema_kmodulesxyz_client_go_api_v1_ClusterMetadata(ref common.ReferenceCal
 							Format: "",
 						},
 					},
+					"ownerID": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"ownerType": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"apiEndpoint": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"caBundle": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
 				},
 				Required: []string{"uid"},
 			},
@@ -16964,14 +16987,14 @@ func schema_resource_metadata_apis_identity_v1alpha1_ClusterIdentity(ref common.
 					"status": {
 						SchemaProps: spec.SchemaProps{
 							Default: map[string]interface{}{},
-							Ref:     ref("kmodules.xyz/resource-metadata/apis/identity/v1alpha1.ClusterIdentityStatus"),
+							Ref:     ref("kmodules.xyz/client-go/api/v1.ClusterMetadata"),
 						},
 					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta", "kmodules.xyz/resource-metadata/apis/identity/v1alpha1.ClusterIdentityStatus"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta", "kmodules.xyz/client-go/api/v1.ClusterMetadata"},
 	}
 }
 
@@ -17019,57 +17042,6 @@ func schema_resource_metadata_apis_identity_v1alpha1_ClusterIdentityList(ref com
 		},
 		Dependencies: []string{
 			"k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta", "kmodules.xyz/resource-metadata/apis/identity/v1alpha1.ClusterIdentity"},
-	}
-}
-
-func schema_resource_metadata_apis_identity_v1alpha1_ClusterIdentityStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Description: "ClusterIdentityStatus defines the observed state of ClusterIdentity",
-				Type:        []string{"object"},
-				Properties: map[string]spec.Schema{
-					"uid": {
-						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
-						},
-					},
-					"name": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
-					"displayName": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
-					"provider": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
-					"ownerID": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
-					"ownerType": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
-				},
-				Required: []string{"uid"},
-			},
-		},
 	}
 }
 
