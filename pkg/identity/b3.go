@@ -24,15 +24,16 @@ import (
 	"path"
 
 	kmapi "kmodules.xyz/client-go/api/v1"
+	clustermeta "kmodules.xyz/client-go/cluster"
 	identityapi "kmodules.xyz/resource-metadata/apis/identity/v1alpha1"
 
 	"go.bytebuilders.dev/license-verifier/info"
-	"gomodules.xyz/sync"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/apimachinery/pkg/util/json"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 type Client struct {
@@ -41,14 +42,15 @@ type Client struct {
 	caCert  []byte
 	client  *http.Client
 
-	clusterUID string
+	kc client.Reader
 }
 
-func NewClient(baseURL, token string, caCert []byte, clusterUID string) (*Client, error) {
+func NewClient(baseURL, token string, caCert []byte, kc client.Reader) (*Client, error) {
 	c := &Client{
 		baseURL: baseURL,
 		token:   token,
 		caCert:  caCert,
+		kc:      kc,
 	}
 	if len(caCert) == 0 {
 		c.client = http.DefaultClient
@@ -152,31 +154,17 @@ func (c *Client) GetToken() (string, error) {
 
 const SelfName = "self"
 
-var (
-	identity          *identityapi.ClusterIdentity
-	once              sync.Once
-	idError           error
-	creationTimestamp = metav1.Now()
-)
-
 func (c *Client) GetIdentity() (*identityapi.ClusterIdentity, error) {
-	once.Do(func() error {
-		var md *kmapi.ClusterMetadata
-		md, idError = c.Identify(c.clusterUID)
-		if idError != nil {
-			return idError
-		}
-		identity = &identityapi.ClusterIdentity{
-			ObjectMeta: metav1.ObjectMeta{
-				UID:               types.UID("cid-" + c.clusterUID),
-				Name:              SelfName,
-				CreationTimestamp: creationTimestamp,
-				Generation:        1,
-			},
-			Status: *md,
-		}
-		idError = nil
-		return idError
-	})
-	return identity, idError
+	md, err := clustermeta.ClusterMetadata(c.kc)
+	if err != nil {
+		return nil, err
+	}
+	return &identityapi.ClusterIdentity{
+		ObjectMeta: metav1.ObjectMeta{
+			UID:        types.UID("cid-" + md.UID),
+			Name:       SelfName,
+			Generation: 1,
+		},
+		Status: *md,
+	}, nil
 }
