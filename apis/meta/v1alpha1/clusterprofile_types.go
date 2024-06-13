@@ -46,6 +46,7 @@ type ClusterProfile struct {
 type ClusterProfileSpec struct {
 	Title               string                 `json:"title"`
 	Description         string                 `json:"description"`
+	Provider            string                 `json:"provider,omitempty"`
 	RequiredFeatureSets map[string]FeatureList `json:"requiredFeatureSets,omitempty"`
 }
 
