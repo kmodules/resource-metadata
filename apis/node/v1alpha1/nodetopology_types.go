@@ -45,6 +45,9 @@ type NodeTopology struct {
 }
 
 type NodeTopologySpec struct {
+	// +optional
+	Description string `json:"description"`
+	// +optional
 	NodeSelectionPolicy NodeSelectionPolicy `json:"nodeSelectionPolicy"`
 	TopologyKey         string              `json:"topologyKey"`
 	NodeGroups          []NodeGroup         `json:"nodeGroups,omitempty"`
@@ -61,7 +64,20 @@ type NodeGroup struct {
 	TopologyValue string `json:"topologyValue"`
 	// Allocatable represents the total resources of a node.
 	// More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#capacity
-	Allocatable core.ResourceList `json:"allocatable"`
+	// Deprecated: Use resources instead.
+	// +optional
+	Allocatable core.ResourceList `json:"allocatable,omitempty"`
+	// Resources represents the requested and limited resources of a machine type.
+	// +optional
+	Resources core.ResourceRequirements `json:"resources,omitempty"`
+	// Cost is the cost of the running an ondeamd machine for a month
+	// +optional
+	Cost *ResourceCost `json:"cost,omitempty"`
+}
+
+type ResourceCost struct {
+	Unit  string `json:"unit"`
+	Price string `json:"price"`
 }
 
 // +kubebuilder:validation:Enum=LabelSelector;Taint

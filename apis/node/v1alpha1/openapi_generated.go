@@ -337,6 +337,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/node/v1alpha1.NodeTopology":     schema_resource_metadata_apis_node_v1alpha1_NodeTopology(ref),
 		"kmodules.xyz/resource-metadata/apis/node/v1alpha1.NodeTopologyList": schema_resource_metadata_apis_node_v1alpha1_NodeTopologyList(ref),
 		"kmodules.xyz/resource-metadata/apis/node/v1alpha1.NodeTopologySpec": schema_resource_metadata_apis_node_v1alpha1_NodeTopologySpec(ref),
+		"kmodules.xyz/resource-metadata/apis/node/v1alpha1.ResourceCost":     schema_resource_metadata_apis_node_v1alpha1_ResourceCost(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.Action":                  schema_kmodulesxyz_resource_metadata_apis_shared_Action(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.ActionGroup":             schema_kmodulesxyz_resource_metadata_apis_shared_ActionGroup(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.ActionInfo":              schema_kmodulesxyz_resource_metadata_apis_shared_ActionInfo(ref),
@@ -16968,7 +16969,7 @@ func schema_resource_metadata_apis_node_v1alpha1_NodeGroup(ref common.ReferenceC
 					},
 					"allocatable": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Allocatable represents the total resources of a node. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#capacity",
+							Description: "Allocatable represents the total resources of a node. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#capacity Deprecated: Use resources instead.",
 							Type:        []string{"object"},
 							AdditionalProperties: &spec.SchemaOrBool{
 								Allows: true,
@@ -16980,12 +16981,25 @@ func schema_resource_metadata_apis_node_v1alpha1_NodeGroup(ref common.ReferenceC
 							},
 						},
 					},
+					"resources": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Resources represents the requested and limited resources of a machine type.",
+							Default:     map[string]interface{}{},
+							Ref:         ref("k8s.io/api/core/v1.ResourceRequirements"),
+						},
+					},
+					"cost": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Cost is the cost of the running an ondeamd machine for a month",
+							Ref:         ref("kmodules.xyz/resource-metadata/apis/node/v1alpha1.ResourceCost"),
+						},
+					},
 				},
-				Required: []string{"topologyValue", "allocatable"},
+				Required: []string{"topologyValue"},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/api/resource.Quantity"},
+			"k8s.io/api/core/v1.ResourceRequirements", "k8s.io/apimachinery/pkg/api/resource.Quantity", "kmodules.xyz/resource-metadata/apis/node/v1alpha1.ResourceCost"},
 	}
 }
 
@@ -17082,6 +17096,13 @@ func schema_resource_metadata_apis_node_v1alpha1_NodeTopologySpec(ref common.Ref
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
+					"description": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
 					"nodeSelectionPolicy": {
 						SchemaProps: spec.SchemaProps{
 							Default: "",
@@ -17124,11 +17145,38 @@ func schema_resource_metadata_apis_node_v1alpha1_NodeTopologySpec(ref common.Ref
 						},
 					},
 				},
-				Required: []string{"nodeSelectionPolicy", "topologyKey"},
+				Required: []string{"topologyKey"},
 			},
 		},
 		Dependencies: []string{
 			"k8s.io/api/core/v1.NodeSelectorRequirement", "kmodules.xyz/resource-metadata/apis/node/v1alpha1.NodeGroup"},
+	}
+}
+
+func schema_resource_metadata_apis_node_v1alpha1_ResourceCost(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"unit": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"price": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+				},
+				Required: []string{"unit", "price"},
+			},
+		},
 	}
 }
 
