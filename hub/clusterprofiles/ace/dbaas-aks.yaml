@@ -5,6 +5,7 @@ metadata:
   name: dbaas-aks
 spec:
   description: This profile is suitable for AKS clusters used as KubeDB managed DBaaS
+  provider: aks
   requiredFeatureSets:
     capi-core:
     - cluster-presets

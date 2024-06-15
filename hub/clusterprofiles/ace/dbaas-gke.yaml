@@ -5,6 +5,7 @@ metadata:
   name: dbaas-gke
 spec:
   description: This profile is suitable for GKE clusters used as KubeDB managed DBaaS
+  provider: gke
   requiredFeatureSets:
     capi-core:
     - cluster-presets
