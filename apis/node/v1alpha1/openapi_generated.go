@@ -17105,9 +17105,8 @@ func schema_resource_metadata_apis_node_v1alpha1_NodeTopologySpec(ref common.Ref
 					},
 					"nodeSelectionPolicy": {
 						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
+							Type:   []string{"string"},
+							Format: "",
 						},
 					},
 					"topologyKey": {
