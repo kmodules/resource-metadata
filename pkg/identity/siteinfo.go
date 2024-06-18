@@ -21,7 +21,7 @@ import (
 	"net"
 	"strings"
 
-	meta_util "kmodules.xyz/client-go/meta"
+	clustermeta "kmodules.xyz/client-go/cluster"
 	"kmodules.xyz/client-go/tools/clusterid"
 	auditorapi "kmodules.xyz/resource-metadata/apis/identity/v1alpha1"
 	"kmodules.xyz/resource-metrics/api"
@@ -77,7 +77,7 @@ func GetSiteInfo(cfg *rest.Config, kc kubernetes.Interface, nodes []*core.Node, 
 		return nil, err
 	}
 
-	cert, err := meta_util.APIServerCertificate(cfg)
+	cert, err := clustermeta.APIServerCertificate(cfg)
 	if err != nil {
 		return nil, err
 	} else {
