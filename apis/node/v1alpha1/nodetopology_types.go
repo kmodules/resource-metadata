@@ -48,7 +48,7 @@ type NodeTopologySpec struct {
 	// +optional
 	Description string `json:"description"`
 	// +optional
-	NodeSelectionPolicy NodeSelectionPolicy `json:"nodeSelectionPolicy"`
+	NodeSelectionPolicy NodeSelectionPolicy `json:"nodeSelectionPolicy,omitempty"`
 	TopologyKey         string              `json:"topologyKey"`
 	NodeGroups          []NodeGroup         `json:"nodeGroups,omitempty"`
 
@@ -80,7 +80,6 @@ type ResourceCost struct {
 	Price string `json:"price"`
 }
 
-// +kubebuilder:validation:Enum=LabelSelector;Taint
 type NodeSelectionPolicy string
 
 const (
