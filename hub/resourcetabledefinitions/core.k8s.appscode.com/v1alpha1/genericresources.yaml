@@ -18,7 +18,7 @@ spec:
         {{ $resource := .spec.apiType.name }}
         {{ $name := .spec.name }}
         {{ $namespace := .metadata.namespace }}
-        {{- printf "/${username}/%s/%s/%s/%s/%s?namespace=%s" $cluster $group $version $resource $name $namespace -}}
+        {{- printf "/db/${username}/%s/%s/%s/%s/%s?namespace=%s" $cluster $group $version $resource $name $namespace -}}
     name: Name
     pathTemplate: '{{ .spec.name }}'
     priority: 3
