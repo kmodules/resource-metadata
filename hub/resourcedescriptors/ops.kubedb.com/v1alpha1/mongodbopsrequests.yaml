@@ -392,9 +392,6 @@ spec:
                 arbiter:
                   properties:
                     nodeSelectionPolicy:
-                      enum:
-                      - LabelSelector
-                      - Taint
                       type: string
                     resources:
                       properties:
@@ -441,9 +438,6 @@ spec:
                 configServer:
                   properties:
                     nodeSelectionPolicy:
-                      enum:
-                      - LabelSelector
-                      - Taint
                       type: string
                     resources:
                       properties:
@@ -558,9 +552,6 @@ spec:
                 hidden:
                   properties:
                     nodeSelectionPolicy:
-                      enum:
-                      - LabelSelector
-                      - Taint
                       type: string
                     resources:
                       properties:
@@ -607,9 +598,6 @@ spec:
                 mongos:
                   properties:
                     nodeSelectionPolicy:
-                      enum:
-                      - LabelSelector
-                      - Taint
                       type: string
                     resources:
                       properties:
@@ -656,9 +644,6 @@ spec:
                 replicaSet:
                   properties:
                     nodeSelectionPolicy:
-                      enum:
-                      - LabelSelector
-                      - Taint
                       type: string
                     resources:
                       properties:
@@ -705,9 +690,6 @@ spec:
                 shard:
                   properties:
                     nodeSelectionPolicy:
-                      enum:
-                      - LabelSelector
-                      - Taint
                       type: string
                     resources:
                       properties:
@@ -754,9 +736,6 @@ spec:
                 standalone:
                   properties:
                     nodeSelectionPolicy:
-                      enum:
-                      - LabelSelector
-                      - Taint
                       type: string
                     resources:
                       properties:

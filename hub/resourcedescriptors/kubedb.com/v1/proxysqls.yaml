@@ -4,113 +4,17 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: kubedb.com
-    k8s.io/kind: FerretDB
-    k8s.io/resource: ferretdbs
-    k8s.io/version: v1alpha2
-  name: kubedb.com-v1alpha2-ferretdbs
+    k8s.io/kind: ProxySQL
+    k8s.io/resource: proxysqls
+    k8s.io/version: v1
+  name: kubedb.com-v1-proxysqls
 spec:
-  connections:
-  - labels:
-    - offshoot
-    level: Controller
-    namespace:
-      path: metadata.namespace
-    selector:
-      matchLabels:
-        app.kubernetes.io/instance: '{.metadata.name}'
-        app.kubernetes.io/managed-by: kubedb.com
-        app.kubernetes.io/name: ferretdbs.kubedb.com
-    target:
-      apiVersion: apps/v1
-      kind: StatefulSet
-    type: MatchSelector
-  - labels:
-    - connect_via
-    level: Controller
-    nameTemplate: '{.metadata.name}'
-    namespace:
-      path: metadata.namespace
-    target:
-      apiVersion: appcatalog.appscode.com/v1alpha1
-      kind: AppBinding
-    type: MatchName
-  - labels:
-    - catalog
-    references:
-    - '{.spec.version}'
-    target:
-      apiVersion: catalog.kubedb.com/v1alpha1
-      kind: FerretDBVersion
-    type: MatchRef
-  - labels:
-    - cert_issuer
-    namespace:
-      path: metadata.namespace
-    references:
-    - '{.spec.tls.issuerRef.name},{.metadata.namespace}'
-    target:
-      apiVersion: cert-manager.io/v1
-      kind: Issuer
-    type: MatchRef
-  - labels:
-    - cert_issuer
-    references:
-    - '{.spec.tls.issuerRef.name}'
-    target:
-      apiVersion: cert-manager.io/v1
-      kind: ClusterIssuer
-    type: MatchRef
-  - labels:
-    - view
-    nameTemplate: '{.metadata.name}~Kafka.kubedb.com'
-    namespace:
-      path: metadata.namespace
-    target:
-      apiVersion: core.k8s.appscode.com/v1alpha1
-      kind: GenericResource
-    type: MatchName
-  - labels:
-    - view
-    nameTemplate: '{.metadata.name}~Kafka.kubedb.com'
-    namespace:
-      path: metadata.namespace
-    target:
-      apiVersion: core.k8s.appscode.com/v1alpha1
-      kind: GenericResourceService
-    type: MatchName
-  - labels:
-    - view
-    nameTemplate: '{.metadata.name}'
-    namespace:
-      path: metadata.namespace
-    target:
-      apiVersion: ui.kubedb.com/v1alpha1
-      kind: FerretDBInsight
-    type: MatchName
-  - labels:
-    - view
-    nameTemplate: '{.metadata.name}'
-    namespace:
-      path: metadata.namespace
-    target:
-      apiVersion: ui.kubedb.com/v1alpha1
-      kind: FerretDBNodesStats
-    type: MatchName
-  - labels:
-    - view
-    nameTemplate: '{.metadata.name}'
-    namespace:
-      path: metadata.namespace
-    target:
-      apiVersion: ui.kubedb.com/v1alpha1
-      kind: FerretDBSchemaOverview
-    type: MatchName
   resource:
     group: kubedb.com
-    kind: FerretDB
-    name: ferretdbs
+    kind: ProxySQL
+    name: proxysqls
     scope: Namespaced
-    version: v1alpha2
+    version: v1
   validation:
     openAPIV3Schema:
       properties:
@@ -162,26 +66,25 @@ spec:
                   type: string
               type: object
               x-kubernetes-map-type: atomic
+            autoOps:
+              properties:
+                disabled:
+                  type: boolean
+              type: object
             backend:
               properties:
-                externallyManaged:
-                  type: boolean
-                linkedDB:
+                name:
+                  default: ""
                   type: string
-                postgresRef:
-                  properties:
-                    name:
-                      type: string
-                    namespace:
-                      type: string
-                  required:
-                  - name
-                  type: object
-                version:
-                  type: string
-              required:
-              - externallyManaged
               type: object
+              x-kubernetes-map-type: atomic
+            configSecret:
+              properties:
+                name:
+                  default: ""
+                  type: string
+              type: object
+              x-kubernetes-map-type: atomic
             deletionPolicy:
               enum:
               - Halt
@@ -189,8 +92,6 @@ spec:
               - WipeOut
               - DoNotTerminate
               type: string
-            halted:
-              type: boolean
             healthChecker:
               default:
                 failureThreshold: 1
@@ -211,6 +112,55 @@ spec:
                   default: 10
                   format: int32
                   type: integer
+              type: object
+            initConfig:
+              properties:
+                adminVariables:
+                  type: object
+                  x-kubernetes-preserve-unknown-fields: true
+                mysqlQueryRules:
+                  items:
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  type: array
+                  x-kubernetes-preserve-unknown-fields: true
+                mysqlUsers:
+                  items:
+                    properties:
+                      active:
+                        type: integer
+                      attributes:
+                        type: string
+                      backend:
+                        type: integer
+                      comment:
+                        type: string
+                      default_hostgroup:
+                        type: integer
+                      default_schema:
+                        type: string
+                      fast_forward:
+                        type: integer
+                      frontend:
+                        type: integer
+                      max_connections:
+                        format: int32
+                        type: integer
+                      schema_locked:
+                        type: integer
+                      transaction_persistent:
+                        type: integer
+                      use_ssl:
+                        type: integer
+                      username:
+                        type: string
+                    required:
+                    - username
+                    type: object
+                  type: array
+                mysqlVariables:
+                  type: object
+                  x-kubernetes-preserve-unknown-fields: true
               type: object
             monitor:
               properties:
@@ -3550,106 +3500,8 @@ spec:
                 - alias
                 type: object
               type: array
-            sslMode:
-              enum:
-              - disabled
-              - allowSSL
-              - preferSSL
-              - requireSSL
-              type: string
-            storage:
-              properties:
-                accessModes:
-                  items:
-                    type: string
-                  type: array
-                  x-kubernetes-list-type: atomic
-                dataSource:
-                  properties:
-                    apiGroup:
-                      type: string
-                    kind:
-                      type: string
-                    name:
-                      type: string
-                  required:
-                  - kind
-                  - name
-                  type: object
-                  x-kubernetes-map-type: atomic
-                dataSourceRef:
-                  properties:
-                    apiGroup:
-                      type: string
-                    kind:
-                      type: string
-                    name:
-                      type: string
-                    namespace:
-                      type: string
-                  required:
-                  - kind
-                  - name
-                  type: object
-                resources:
-                  properties:
-                    limits:
-                      additionalProperties:
-                        anyOf:
-                        - type: integer
-                        - type: string
-                        pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                        x-kubernetes-int-or-string: true
-                      type: object
-                    requests:
-                      additionalProperties:
-                        anyOf:
-                        - type: integer
-                        - type: string
-                        pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                        x-kubernetes-int-or-string: true
-                      type: object
-                  type: object
-                selector:
-                  properties:
-                    matchExpressions:
-                      items:
-                        properties:
-                          key:
-                            type: string
-                          operator:
-                            type: string
-                          values:
-                            items:
-                              type: string
-                            type: array
-                            x-kubernetes-list-type: atomic
-                        required:
-                        - key
-                        - operator
-                        type: object
-                      type: array
-                      x-kubernetes-list-type: atomic
-                    matchLabels:
-                      additionalProperties:
-                        type: string
-                      type: object
-                  type: object
-                  x-kubernetes-map-type: atomic
-                storageClassName:
-                  type: string
-                volumeAttributesClassName:
-                  type: string
-                volumeMode:
-                  type: string
-                volumeName:
-                  type: string
-              type: object
-            storageType:
-              enum:
-              - Durable
-              - Ephemeral
-              type: string
+            syncUsers:
+              type: boolean
             tls:
               properties:
                 certificates:
@@ -3754,7 +3606,6 @@ spec:
             version:
               type: string
           required:
-          - backend
           - version
           type: object
       type: object

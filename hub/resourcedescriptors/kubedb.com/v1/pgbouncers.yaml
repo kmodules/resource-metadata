@@ -4,113 +4,17 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: kubedb.com
-    k8s.io/kind: FerretDB
-    k8s.io/resource: ferretdbs
-    k8s.io/version: v1alpha2
-  name: kubedb.com-v1alpha2-ferretdbs
+    k8s.io/kind: PgBouncer
+    k8s.io/resource: pgbouncers
+    k8s.io/version: v1
+  name: kubedb.com-v1-pgbouncers
 spec:
-  connections:
-  - labels:
-    - offshoot
-    level: Controller
-    namespace:
-      path: metadata.namespace
-    selector:
-      matchLabels:
-        app.kubernetes.io/instance: '{.metadata.name}'
-        app.kubernetes.io/managed-by: kubedb.com
-        app.kubernetes.io/name: ferretdbs.kubedb.com
-    target:
-      apiVersion: apps/v1
-      kind: StatefulSet
-    type: MatchSelector
-  - labels:
-    - connect_via
-    level: Controller
-    nameTemplate: '{.metadata.name}'
-    namespace:
-      path: metadata.namespace
-    target:
-      apiVersion: appcatalog.appscode.com/v1alpha1
-      kind: AppBinding
-    type: MatchName
-  - labels:
-    - catalog
-    references:
-    - '{.spec.version}'
-    target:
-      apiVersion: catalog.kubedb.com/v1alpha1
-      kind: FerretDBVersion
-    type: MatchRef
-  - labels:
-    - cert_issuer
-    namespace:
-      path: metadata.namespace
-    references:
-    - '{.spec.tls.issuerRef.name},{.metadata.namespace}'
-    target:
-      apiVersion: cert-manager.io/v1
-      kind: Issuer
-    type: MatchRef
-  - labels:
-    - cert_issuer
-    references:
-    - '{.spec.tls.issuerRef.name}'
-    target:
-      apiVersion: cert-manager.io/v1
-      kind: ClusterIssuer
-    type: MatchRef
-  - labels:
-    - view
-    nameTemplate: '{.metadata.name}~Kafka.kubedb.com'
-    namespace:
-      path: metadata.namespace
-    target:
-      apiVersion: core.k8s.appscode.com/v1alpha1
-      kind: GenericResource
-    type: MatchName
-  - labels:
-    - view
-    nameTemplate: '{.metadata.name}~Kafka.kubedb.com'
-    namespace:
-      path: metadata.namespace
-    target:
-      apiVersion: core.k8s.appscode.com/v1alpha1
-      kind: GenericResourceService
-    type: MatchName
-  - labels:
-    - view
-    nameTemplate: '{.metadata.name}'
-    namespace:
-      path: metadata.namespace
-    target:
-      apiVersion: ui.kubedb.com/v1alpha1
-      kind: FerretDBInsight
-    type: MatchName
-  - labels:
-    - view
-    nameTemplate: '{.metadata.name}'
-    namespace:
-      path: metadata.namespace
-    target:
-      apiVersion: ui.kubedb.com/v1alpha1
-      kind: FerretDBNodesStats
-    type: MatchName
-  - labels:
-    - view
-    nameTemplate: '{.metadata.name}'
-    namespace:
-      path: metadata.namespace
-    target:
-      apiVersion: ui.kubedb.com/v1alpha1
-      kind: FerretDBSchemaOverview
-    type: MatchName
   resource:
     group: kubedb.com
-    kind: FerretDB
-    name: ferretdbs
+    kind: PgBouncer
+    name: pgbouncers
     scope: Namespaced
-    version: v1alpha2
+    version: v1
   validation:
     openAPIV3Schema:
       properties:
@@ -162,35 +66,100 @@ spec:
                   type: string
               type: object
               x-kubernetes-map-type: atomic
-            backend:
+            autoOps:
               properties:
-                externallyManaged:
+                disabled:
                   type: boolean
-                linkedDB:
+              type: object
+            configSecret:
+              properties:
+                name:
+                  default: ""
                   type: string
-                postgresRef:
+              type: object
+              x-kubernetes-map-type: atomic
+            connectionPool:
+              properties:
+                authType:
+                  default: md5
+                  enum:
+                  - md5
+                  - scram-sha-256
+                  - cert
+                  type: string
+                defaultPoolSize:
+                  default: 20
+                  format: int64
+                  type: integer
+                ignoreStartupParameters:
+                  default: empty
+                  type: string
+                maxClientConnections:
+                  default: 100
+                  format: int64
+                  type: integer
+                maxDBConnections:
+                  default: 0
+                  format: int64
+                  type: integer
+                maxUserConnections:
+                  default: 0
+                  format: int64
+                  type: integer
+                minPoolSize:
+                  default: 0
+                  format: int64
+                  type: integer
+                poolMode:
+                  default: session
+                  type: string
+                port:
+                  default: 5432
+                  format: int32
+                  type: integer
+                reservePoolSize:
+                  default: 0
+                  format: int64
+                  type: integer
+                reservePoolTimeoutSeconds:
+                  default: 5
+                  format: int64
+                  type: integer
+                statsPeriodSeconds:
+                  default: 60
+                  format: int64
+                  type: integer
+              type: object
+            database:
+              properties:
+                databaseName:
+                  type: string
+                databaseRef:
                   properties:
                     name:
                       type: string
                     namespace:
                       type: string
+                    parameters:
+                      type: object
+                      x-kubernetes-embedded-resource: true
+                      x-kubernetes-preserve-unknown-fields: true
                   required:
                   - name
+                  - namespace
                   type: object
-                version:
-                  type: string
+                syncUsers:
+                  type: boolean
               required:
-              - externallyManaged
+              - databaseName
+              - databaseRef
               type: object
             deletionPolicy:
               enum:
-              - Halt
               - Delete
               - WipeOut
               - DoNotTerminate
               type: string
-            halted:
-              type: boolean
             healthChecker:
               default:
                 failureThreshold: 1
@@ -3552,103 +3521,12 @@ spec:
               type: array
             sslMode:
               enum:
-              - disabled
-              - allowSSL
-              - preferSSL
-              - requireSSL
-              type: string
-            storage:
-              properties:
-                accessModes:
-                  items:
-                    type: string
-                  type: array
-                  x-kubernetes-list-type: atomic
-                dataSource:
-                  properties:
-                    apiGroup:
-                      type: string
-                    kind:
-                      type: string
-                    name:
-                      type: string
-                  required:
-                  - kind
-                  - name
-                  type: object
-                  x-kubernetes-map-type: atomic
-                dataSourceRef:
-                  properties:
-                    apiGroup:
-                      type: string
-                    kind:
-                      type: string
-                    name:
-                      type: string
-                    namespace:
-                      type: string
-                  required:
-                  - kind
-                  - name
-                  type: object
-                resources:
-                  properties:
-                    limits:
-                      additionalProperties:
-                        anyOf:
-                        - type: integer
-                        - type: string
-                        pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                        x-kubernetes-int-or-string: true
-                      type: object
-                    requests:
-                      additionalProperties:
-                        anyOf:
-                        - type: integer
-                        - type: string
-                        pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                        x-kubernetes-int-or-string: true
-                      type: object
-                  type: object
-                selector:
-                  properties:
-                    matchExpressions:
-                      items:
-                        properties:
-                          key:
-                            type: string
-                          operator:
-                            type: string
-                          values:
-                            items:
-                              type: string
-                            type: array
-                            x-kubernetes-list-type: atomic
-                        required:
-                        - key
-                        - operator
-                        type: object
-                      type: array
-                      x-kubernetes-list-type: atomic
-                    matchLabels:
-                      additionalProperties:
-                        type: string
-                      type: object
-                  type: object
-                  x-kubernetes-map-type: atomic
-                storageClassName:
-                  type: string
-                volumeAttributesClassName:
-                  type: string
-                volumeMode:
-                  type: string
-                volumeName:
-                  type: string
-              type: object
-            storageType:
-              enum:
-              - Durable
-              - Ephemeral
+              - disable
+              - allow
+              - prefer
+              - require
+              - verify-ca
+              - verify-full
               type: string
             tls:
               properties:
@@ -3754,7 +3632,6 @@ spec:
             version:
               type: string
           required:
-          - backend
           - version
           type: object
       type: object

@@ -137,9 +137,6 @@ spec:
                 aggregator:
                   properties:
                     nodeSelectionPolicy:
-                      enum:
-                      - LabelSelector
-                      - Taint
                       type: string
                     resources:
                       properties:
@@ -220,9 +217,6 @@ spec:
                 leaf:
                   properties:
                     nodeSelectionPolicy:
-                      enum:
-                      - LabelSelector
-                      - Taint
                       type: string
                     resources:
                       properties:
@@ -269,9 +263,6 @@ spec:
                 node:
                   properties:
                     nodeSelectionPolicy:
-                      enum:
-                      - LabelSelector
-                      - Taint
                       type: string
                     resources:
                       properties:
