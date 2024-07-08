@@ -9,6 +9,129 @@ metadata:
     k8s.io/version: v1
   name: kubedb.com-v1-mongodbs
 spec:
+  connections:
+  - labels:
+    - offshoot
+    level: Controller
+    namespace:
+      path: metadata.namespace
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: '{.metadata.name}'
+        app.kubernetes.io/managed-by: kubedb.com
+        app.kubernetes.io/name: mongodbs.kubedb.com
+    target:
+      apiVersion: apps/v1
+      kind: StatefulSet
+    type: MatchSelector
+  - labels:
+    - auth_secret
+    references:
+    - '{.spec.authSecret.name}'
+    target:
+      apiVersion: v1
+      kind: Secret
+    type: MatchRef
+  - labels:
+    - catalog
+    references:
+    - '{.spec.version}'
+    target:
+      apiVersion: catalog.kubedb.com/v1alpha1
+      kind: MongoDBVersion
+    type: MatchRef
+  - labels:
+    - cert_issuer
+    namespace:
+      path: metadata.namespace
+    references:
+    - '{.spec.tls.issuerRef.name},{.metadata.namespace}'
+    target:
+      apiVersion: cert-manager.io/v1
+      kind: Issuer
+    type: MatchRef
+  - labels:
+    - cert_issuer
+    references:
+    - '{.spec.tls.issuerRef.name}'
+    target:
+      apiVersion: cert-manager.io/v1
+      kind: ClusterIssuer
+    type: MatchRef
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}~MongoDB.kubedb.com'
+    namespace:
+      path: metadata.namespace
+    target:
+      apiVersion: core.k8s.appscode.com/v1alpha1
+      kind: GenericResource
+    type: MatchName
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}~MongoDB.kubedb.com'
+    namespace:
+      path: metadata.namespace
+    target:
+      apiVersion: core.k8s.appscode.com/v1alpha1
+      kind: GenericResourceService
+    type: MatchName
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}'
+    namespace:
+      path: metadata.namespace
+    target:
+      apiVersion: ui.kubedb.com/v1alpha1
+      kind: MongoDBInsight
+    type: MatchName
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}'
+    namespace:
+      path: metadata.namespace
+    target:
+      apiVersion: ui.kubedb.com/v1alpha1
+      kind: MongoDBQueries
+    type: MatchName
+  - labels:
+    - view
+    nameTemplate: '{.metadata.name}'
+    namespace:
+      path: metadata.namespace
+    target:
+      apiVersion: ui.kubedb.com/v1alpha1
+      kind: MongoDBSchemaOverview
+    type: MatchName
+  exec:
+  - alias: Primary
+    command:
+    - bash
+    - -c
+    - mongo admin -u "$MONGO_INITDB_ROOT_USERNAME" -p "$MONGO_INITDB_ROOT_PASSWORD"
+    container: mongodb
+    help: |
+      show dbs;
+    if:
+      condition: '{{- if or (hasPrefix "percona-3" .spec.version) (hasPrefix "percona-4"
+        .spec.version) (hasPrefix "percona-5" .spec.version) (hasPrefix "3." .spec.version)
+        (hasPrefix "4." .spec.version) (hasPrefix "5." .spec.version) }}true{{ else
+        }}false{{ end -}}'
+    serviceNameTemplate: '{{- .metadata.name -}}'
+  - alias: Primary
+    command:
+    - bash
+    - -c
+    - mongosh admin -u "$MONGO_INITDB_ROOT_USERNAME" -p "$MONGO_INITDB_ROOT_PASSWORD"
+    container: mongodb
+    help: |
+      show dbs;
+    if:
+      condition: '{{- if or (hasPrefix "percona-3" .spec.version) (hasPrefix "percona-4"
+        .spec.version) (hasPrefix "percona-5" .spec.version) (hasPrefix "3." .spec.version)
+        (hasPrefix "4." .spec.version) (hasPrefix "5." .spec.version) }}false{{ else
+        }}true{{ end -}}'
+    serviceNameTemplate: '{{- .metadata.name -}}'
   resource:
     group: kubedb.com
     kind: MongoDB

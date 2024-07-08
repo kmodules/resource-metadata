@@ -9,9 +9,28 @@ metadata:
     k8s.io/version: v1
   name: kubedb.com-v1-redissentinels
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/kubedb.com/redissentinels.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/kubedb.com/redissentinels.png
+    type: image/png
   resource:
     group: kubedb.com
     kind: RedisSentinel
     name: redissentinels
     scope: Namespaced
     version: v1
+  ui:
+    editor:
+      name: kubedbcom-redissentinel-editor
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: appscode-charts-oci
+      version: v0.4.21
+    enforceQuota: false
+  variants:
+  - name: default
+    selector:
+      matchLabels:
+        charts.x-helm.dev/is-default-preset: "true"
