@@ -16,11 +16,6 @@ spec:
       type:
         group: cluster.open-cluster-management.io
         kind: ManagedCluster
-    - name: Cluster Claims
-      required: true
-      type:
-        group: cluster.open-cluster-management.io
-        kind: ClusterClaim
     - name: AddOn Placement Scores
       required: true
       type:
@@ -115,7 +110,7 @@ spec:
     - name: Cluster Gateways
       required: true
       type:
-        group: cluster.core.oam.dev
+        group: gateway.open-cluster-management.io
         kind: ClusterGateway
     - name: Managed Proxy Service Resolvers
       type:
@@ -128,6 +123,6 @@ spec:
     - name: Cluster Gateway Configurations
       required: true
       type:
-        group: proxy.open-cluster-management.io
+        group: config.gateway.open-cluster-management.io
         kind: ClusterGatewayConfiguration
     name: OCM Core AddOns Config
