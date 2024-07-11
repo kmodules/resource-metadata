@@ -60,7 +60,7 @@ func NewClient(baseURL, token string, caCert []byte, kc client.Reader) (*Client,
 			return nil, err
 		}
 		// use InsecureSkipVerify, if IP address is used for baseURL host
-		if ip := net.ParseIP(u.Hostname()); ip != nil {
+		if ip := net.ParseIP(u.Hostname()); ip != nil && u.Scheme == "https" {
 			customTransport := http.DefaultTransport.(*http.Transport).Clone()
 			customTransport.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 			c.client = &http.Client{Transport: customTransport}
