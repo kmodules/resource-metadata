@@ -3,17 +3,17 @@ kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
   labels:
-    k8s.io/group: catalog.kubedb.com
-    k8s.io/kind: PgpoolVersion
-    k8s.io/resource: pgpoolversions
+    k8s.io/group: ops.kubedb.com
+    k8s.io/kind: SolrOpsRequest
+    k8s.io/resource: solropsrequests
     k8s.io/version: v1alpha1
-  name: catalog.kubedb.com-v1alpha1-pgpoolversions
+  name: ops.kubedb.com-v1alpha1-solropsrequests
 spec:
   resource:
-    group: catalog.kubedb.com
-    kind: PgpoolVersion
-    name: pgpoolversions
-    scope: Cluster
+    group: ops.kubedb.com
+    kind: SolrOpsRequest
+    name: solropsrequests
+    scope: Namespaced
     version: v1alpha1
   validation:
     openAPIV3Schema:
@@ -30,6 +30,14 @@ spec:
                 request the generation of an appropriate name automatically. Name
                 is primarily intended for creation idempotence and configuration definition.
                 Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
+              type: string
+            namespace:
+              description: "Namespace defines the space within which each name must
+                be unique. An empty namespace is equivalent to the \"default\" namespace,
+                but \"default\" is the canonical representation. Not all objects are
+                required to be scoped to a namespace - the value of this field for
+                those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated.
+                More info: http://kubernetes.io/docs/user-guide/namespaces"
               type: string
             labels:
               additionalProperties:
@@ -49,49 +57,29 @@ spec:
           type: object
         spec:
           properties:
-            deprecated:
-              type: boolean
-            exporter:
+            apply:
+              default: IfReady
+              enum:
+              - IfReady
+              - Always
+              type: string
+            databaseRef:
               properties:
-                image:
+                name:
+                  default: ""
                   type: string
-              required:
-              - image
               type: object
-            pgpool:
-              properties:
-                image:
-                  type: string
-              required:
-              - image
+              x-kubernetes-map-type: atomic
+            restart:
               type: object
-            securityContext:
-              properties:
-                runAsAnyNonRoot:
-                  type: boolean
-                runAsUser:
-                  format: int64
-                  type: integer
-              type: object
-            ui:
-              items:
-                properties:
-                  disable:
-                    type: boolean
-                  name:
-                    type: string
-                  values:
-                    x-kubernetes-preserve-unknown-fields: true
-                  version:
-                    type: string
-                required:
-                - name
-                type: object
-              type: array
-            version:
+            timeout:
+              type: string
+            type:
+              enum:
+              - Restart
               type: string
           required:
-          - pgpool
-          - version
+          - databaseRef
+          - type
           type: object
       type: object
