@@ -9,9 +9,52 @@ metadata:
     k8s.io/version: v1
   name: kubedb.com-v1-kafkas
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/kubedb.com/kafkas.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/kubedb.com/kafkas.png
+    type: image/png
   resource:
     group: kubedb.com
     kind: Kafka
     name: kafkas
     scope: Namespaced
     version: v1
+  ui:
+    actions:
+    - items:
+      - editor:
+          name: kubedbcom-kafka-editor
+          sourceRef:
+            apiGroup: source.toolkit.fluxcd.io
+            kind: HelmRepository
+            name: appscode-charts-oci
+          version: v0.4.20
+        enforceQuota: false
+        flow: standalone-edit
+        icons:
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/monitor.svg
+          type: image/svg+xml
+        name: Monitoring
+        operationId: edit-self-monitoring
+      name: Security & Monitoring
+    editor:
+      name: kubedbcom-kafka-editor
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: appscode-charts-oci
+      version: v0.4.21
+    enforceQuota: true
+    options:
+      name: kubedbcom-kafka-editor-options
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: appscode-charts-oci
+      version: v0.4.20
+  variants:
+  - name: default
+    selector:
+      matchLabels:
+        charts.x-helm.dev/is-default-preset: "true"

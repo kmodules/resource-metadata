@@ -9,9 +9,35 @@ metadata:
     k8s.io/version: v1
   name: kubedb.com-v1-perconaxtradbs
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/kubedb.com/perconaxtradbs.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/kubedb.com/perconaxtradbs.png
+    type: image/png
   resource:
     group: kubedb.com
     kind: PerconaXtraDB
     name: perconaxtradbs
     scope: Namespaced
     version: v1
+  ui:
+    editor:
+      name: kubedbcom-perconaxtradb-editor
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: appscode-charts-oci
+      version: v0.4.21
+    enforceQuota: true
+    options:
+      name: kubedbcom-perconaxtradb-editor-options
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: appscode-charts-oci
+      version: v0.4.20
+  variants:
+  - name: default
+    selector:
+      matchLabels:
+        charts.x-helm.dev/is-default-preset: "true"

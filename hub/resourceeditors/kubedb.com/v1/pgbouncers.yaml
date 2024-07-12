@@ -9,9 +9,35 @@ metadata:
     k8s.io/version: v1
   name: kubedb.com-v1-pgbouncers
 spec:
+  icons:
+  - src: https://cdn.appscode.com/k8s/icons/kubedb.com/pgbouncers.svg
+    type: image/svg+xml
+  - src: https://cdn.appscode.com/k8s/icons/kubedb.com/pgbouncers.png
+    type: image/png
   resource:
     group: kubedb.com
     kind: PgBouncer
     name: pgbouncers
     scope: Namespaced
     version: v1
+  ui:
+    editor:
+      name: kubedbcom-pgbouncer-editor
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: appscode-charts-oci
+      version: v0.4.21
+    enforceQuota: false
+    options:
+      name: kubedbcom-pgbouncer-editor-options
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: appscode-charts-oci
+      version: v0.4.20
+  variants:
+  - name: default
+    selector:
+      matchLabels:
+        charts.x-helm.dev/is-default-preset: "true"
