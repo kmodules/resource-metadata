@@ -87,6 +87,9 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/open-policy-agent
 # External DNS
 go run cmd/import-crds/main.go --input=$HOME/go/src/kubeops.dev/external-dns-operator/crds
 
+# PetSet
+go run cmd/import-crds/main.go --input=$HOME/go/src/kubeops.dev/petset/crds
+
 # CAPI / Managed DB
 go run cmd/import-crds/main.go --input=$HOME/go/src/sigs.k8s.io/cluster-api/config/crd/bases
 go run cmd/import-crds/main.go --input=$HOME/go/src/sigs.k8s.io/cluster-api-provider-aws/config/crd/bases

@@ -36,13 +36,13 @@ spec:
       create: Never
     displayMode: List
     kind: Connection
-    name: StatefulSets
+    name: PetSets
     query:
       byLabel: offshoot
       type: GraphQL
     ref:
-      group: apps
-      kind: StatefulSet
+      group: apps.k8s.appscode.com
+      kind: PetSet
   - actions:
       create: Never
     displayMode: List
