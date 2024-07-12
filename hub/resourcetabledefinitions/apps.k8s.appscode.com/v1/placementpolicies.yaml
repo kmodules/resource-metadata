@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: apps.k8s.appscode.com
+    k8s.io/kind: PlacementPolicy
+    k8s.io/resource: placementpolicies
+    k8s.io/version: v1
+  name: apps.k8s.appscode.com-v1-placementpolicies
+spec:
+  defaultView: true
+  resource:
+    group: apps.k8s.appscode.com
+    kind: PlacementPolicy
+    name: placementpolicies
+    scope: Cluster
+    version: v1
