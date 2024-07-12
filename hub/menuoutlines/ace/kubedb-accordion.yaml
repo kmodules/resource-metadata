@@ -15,55 +15,55 @@ spec:
       type: image/png
     items:
     - featureMode: GA
-      layoutName: kubedb.com-v1alpha2-elasticsearches-kubedb
+      layoutName: kubedb.com-v1-elasticsearches-kubedb
       name: Elasticsearch
       required: true
       type:
         group: kubedb.com
         kind: Elasticsearch
     - featureMode: GA
-      layoutName: kubedb.com-v1alpha2-kafkas-kubedb
+      layoutName: kubedb.com-v1-kafkas-kubedb
       name: Kafka
       required: true
       type:
         group: kubedb.com
         kind: Kafka
     - featureMode: GA
-      layoutName: kubedb.com-v1alpha2-mariadbs-kubedb
+      layoutName: kubedb.com-v1-mariadbs-kubedb
       name: MariaDB
       required: true
       type:
         group: kubedb.com
         kind: MariaDB
     - featureMode: GA
-      layoutName: kubedb.com-v1alpha2-mongodbs-kubedb
+      layoutName: kubedb.com-v1-mongodbs-kubedb
       name: MongoDB
       required: true
       type:
         group: kubedb.com
         kind: MongoDB
     - featureMode: GA
-      layoutName: kubedb.com-v1alpha2-mysqls-kubedb
+      layoutName: kubedb.com-v1-mysqls-kubedb
       name: MySQL
       required: true
       type:
         group: kubedb.com
         kind: MySQL
     - featureMode: GA
-      layoutName: kubedb.com-v1alpha2-postgreses-kubedb
+      layoutName: kubedb.com-v1-postgreses-kubedb
       name: PostgreSQL
       required: true
       type:
         group: kubedb.com
         kind: Postgres
     - featureMode: GA
-      layoutName: kubedb.com-v1alpha2-proxysqls-kubedb
+      layoutName: kubedb.com-v1-proxysqls-kubedb
       name: ProxySQL
       type:
         group: kubedb.com
         kind: ProxySQL
     - featureMode: GA
-      layoutName: kubedb.com-v1alpha2-redises-kubedb
+      layoutName: kubedb.com-v1-redises-kubedb
       name: Redis
       required: true
       type:
