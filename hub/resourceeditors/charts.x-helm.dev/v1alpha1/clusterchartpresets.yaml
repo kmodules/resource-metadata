@@ -24,3 +24,10 @@ spec:
         name: appscode-charts-oci
       version: v0.4.21
     enforceQuota: false
+    options:
+      name: chartsxhelmdev-clusterchartpreset-editor-options
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: appscode-charts-oci
+      version: v0.4.21
