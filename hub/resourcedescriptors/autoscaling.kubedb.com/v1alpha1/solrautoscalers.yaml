@@ -4,15 +4,15 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: autoscaling.kubedb.com
-    k8s.io/kind: PgBouncerAutoscaler
-    k8s.io/resource: pgbouncerautoscalers
+    k8s.io/kind: SolrAutoscaler
+    k8s.io/resource: solrautoscalers
     k8s.io/version: v1alpha1
-  name: autoscaling.kubedb.com-v1alpha1-pgbouncerautoscalers
+  name: autoscaling.kubedb.com-v1alpha1-solrautoscalers
 spec:
   resource:
     group: autoscaling.kubedb.com
-    kind: PgBouncerAutoscaler
-    name: pgbouncerautoscalers
+    kind: SolrAutoscaler
+    name: solrautoscalers
     scope: Namespaced
     version: v1alpha1
   validation:
@@ -72,7 +72,7 @@ spec:
                       format: int32
                       type: integer
                   type: object
-                pgbouncer:
+                solr:
                   properties:
                     containerControlledValues:
                       enum:
@@ -132,14 +132,12 @@ spec:
                   - IfReady
                   - Always
                   type: string
-                readinessCriteria:
-                  type: object
                 timeout:
                   type: string
               type: object
             storage:
               properties:
-                pgbouncer:
+                solr:
                   properties:
                     expansionMode:
                       enum:

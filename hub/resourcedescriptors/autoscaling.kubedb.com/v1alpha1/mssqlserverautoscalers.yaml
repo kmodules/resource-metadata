@@ -4,15 +4,15 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: autoscaling.kubedb.com
-    k8s.io/kind: PgBouncerAutoscaler
-    k8s.io/resource: pgbouncerautoscalers
+    k8s.io/kind: MSSQLServerAutoscaler
+    k8s.io/resource: mssqlserverautoscalers
     k8s.io/version: v1alpha1
-  name: autoscaling.kubedb.com-v1alpha1-pgbouncerautoscalers
+  name: autoscaling.kubedb.com-v1alpha1-mssqlserverautoscalers
 spec:
   resource:
     group: autoscaling.kubedb.com
-    kind: PgBouncerAutoscaler
-    name: pgbouncerautoscalers
+    kind: MSSQLServerAutoscaler
+    name: mssqlserverautoscalers
     scope: Namespaced
     version: v1alpha1
   validation:
@@ -59,20 +59,7 @@ spec:
           properties:
             compute:
               properties:
-                nodeTopology:
-                  properties:
-                    name:
-                      type: string
-                    scaleDownDiffPercentage:
-                      default: 25
-                      format: int32
-                      type: integer
-                    scaleUpDiffPercentage:
-                      default: 15
-                      format: int32
-                      type: integer
-                  type: object
-                pgbouncer:
+                mssqlserver:
                   properties:
                     containerControlledValues:
                       enum:
@@ -116,6 +103,19 @@ spec:
                     trigger:
                       type: string
                   type: object
+                nodeTopology:
+                  properties:
+                    name:
+                      type: string
+                    scaleDownDiffPercentage:
+                      default: 25
+                      format: int32
+                      type: integer
+                    scaleUpDiffPercentage:
+                      default: 15
+                      format: int32
+                      type: integer
+                  type: object
               type: object
             databaseRef:
               properties:
@@ -132,14 +132,12 @@ spec:
                   - IfReady
                   - Always
                   type: string
-                readinessCriteria:
-                  type: object
                 timeout:
                   type: string
               type: object
             storage:
               properties:
-                pgbouncer:
+                mssqlserver:
                   properties:
                     expansionMode:
                       enum:
