@@ -1,0 +1,106 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceBlockDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: kubedb.com
+    k8s.io/kind: MariaDB
+    k8s.io/resource: mariadbs
+    k8s.io/version: v1
+  name: kubedb.com-v1-mariadbs
+spec:
+  blocks:
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Client Connections
+    query:
+      byLabel: connect_via
+      type: GraphQL
+    ref:
+      group: appcatalog.appscode.com
+      kind: AppBinding
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: MariaDB Version
+    query:
+      byLabel: catalog
+      type: GraphQL
+    ref:
+      group: catalog.kubedb.com
+      kind: MariaDBVersion
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: PetSets
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: apps.k8s.appscode.com
+      kind: PetSet
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Pods
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: ""
+      kind: Pod
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Services
+    query:
+      byLabel: exposed_by
+      type: GraphQL
+    ref:
+      group: ""
+      kind: Service
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Secrets
+    query:
+      byLabel: config
+      type: GraphQL
+    ref:
+      group: ""
+      kind: Secret
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: PersistentVolumeClaims
+    query:
+      byLabel: storage
+      type: GraphQL
+    ref:
+      group: ""
+      kind: PersistentVolumeClaim
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Pod Disruption Budgets
+    query:
+      byLabel: policy
+      type: GraphQL
+    ref:
+      group: policy
+      kind: PodDisruptionBudget
+  resource:
+    group: kubedb.com
+    kind: MariaDB
+    name: mariadbs
+    scope: Namespaced
+    version: v1
