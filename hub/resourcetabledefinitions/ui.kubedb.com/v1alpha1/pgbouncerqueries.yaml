@@ -1,0 +1,18 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ui.kubedb.com
+    k8s.io/kind: PgBouncerQueries
+    k8s.io/resource: pgbouncerqueries
+    k8s.io/version: v1alpha1
+  name: ui.kubedb.com-v1alpha1-pgbouncerqueries
+spec:
+  defaultView: true
+  resource:
+    group: ui.kubedb.com
+    kind: PgBouncerQueries
+    name: pgbouncerqueries
+    scope: Namespaced
+    version: v1alpha1
