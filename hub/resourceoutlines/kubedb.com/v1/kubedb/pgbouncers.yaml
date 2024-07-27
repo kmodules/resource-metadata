@@ -301,37 +301,37 @@ spec:
           name: engine.kubevault.com-v1alpha1-secretaccessrequests
   - name: Operations
     sections:
-      - blocks:
-          - actions:
-              create: Never
-            displayMode: List
-            kind: Connection
-            name: Recent Operations
-            query:
-              byLabel: ops
-              type: GraphQL
-            ref:
-              group: ops.kubedb.com
-              kind: PgBouncerOpsRequest
-            requiredFeatureSets:
-              opscenter-datastore:
-                - kubedb
-          - actions:
-              create: Never
-            displayMode: List
-            kind: Connection
-            name: Recommendations
-            query:
-              byLabel: recommended_for
-              type: GraphQL
-            ref:
-              group: supervisor.appscode.com
-              kind: Recommendation
-            requiredFeatureSets:
-              opscenter-datastore:
-                - kubedb
-            view:
-              name: supervisor.appscode.com-v1alpha1-recommendations-kubedb
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Recent Operations
+        query:
+          byLabel: ops
+          type: GraphQL
+        ref:
+          group: ops.kubedb.com
+          kind: PgBouncerOpsRequest
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Recommendations
+        query:
+          byLabel: recommended_for
+          type: GraphQL
+        ref:
+          group: supervisor.appscode.com
+          kind: Recommendation
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+        view:
+          name: supervisor.appscode.com-v1alpha1-recommendations-kubedb
   - name: Backup
     requiredFeatureSets:
       opscenter-backup:
