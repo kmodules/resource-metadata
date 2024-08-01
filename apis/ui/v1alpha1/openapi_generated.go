@@ -19239,6 +19239,12 @@ func schema_resource_metadata_apis_ui_v1alpha1_WorkloadInfo(ref common.Reference
 							},
 						},
 					},
+					"optional": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
 				},
 				Required: []string{"group", "version", "kind", "selector"},
 			},

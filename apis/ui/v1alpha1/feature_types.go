@@ -102,6 +102,7 @@ type WorkloadInfo struct {
 	metav1.GroupVersionKind `json:",inline"`
 	// Selector specifies label selector that should be used to select this workload
 	Selector map[string]string `json:"selector"`
+	Optional string            `json:"optional,omitempty"`
 }
 
 type ChartInfo struct {
