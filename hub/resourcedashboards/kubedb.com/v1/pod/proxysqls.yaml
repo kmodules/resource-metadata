@@ -1,0 +1,19 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceDashboard
+metadata:
+  creationTimestamp: null
+  name: kubedb.com-v1-proxysqls-pod
+spec:
+  dashboards:
+  - title: KubeDB / ProxySQL / Pod
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+    - name: pod
+      type: Target
+      value: '{{ .metadata.name }}'
+  provider: Grafana
+  resource:
+    group: ""
