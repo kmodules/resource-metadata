@@ -1,0 +1,37 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceDashboard
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: kubedb.com
+    k8s.io/kind: Elasticsearch
+    k8s.io/resource: elasticsearches
+    k8s.io/version: v1
+  name: kubedb.com-v1-elasticsearches
+spec:
+  dashboards:
+  - title: KubeDB / Elasticsearch / Summary
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+  - title: KubeDB / Elasticsearch / Database
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+  - title: KubeDB / Elasticsearch / Pod
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+  provider: Grafana
+  resource:
+    group: kubedb.com
+    kind: Elasticsearch
+    name: elasticsearches
+    scope: Namespaced
+    version: v1

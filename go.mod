@@ -32,7 +32,7 @@ require (
 	kmodules.xyz/client-go v0.30.9
 	kmodules.xyz/crd-schema-fuzz v0.29.1
 	kmodules.xyz/go-containerregistry v0.0.12
-	kmodules.xyz/resource-metrics v0.30.2-0.20240711131537-5e9d22977a2c
+	kmodules.xyz/resource-metrics v0.30.2-0.20240809125122-4c04e13dfc80
 	kmodules.xyz/schema-checker v0.4.1
 	sigs.k8s.io/cli-utils v0.34.0
 	sigs.k8s.io/controller-runtime v0.18.4

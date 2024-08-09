@@ -98,7 +98,7 @@ spec:
       name: Operations
     - items:
       - disabledTemplate: |
-          {{ or (not (hasKey .spec "mode")) (eq .spec.mode "Standalone") }}
+          {{ if ne .spec.replicas 1 }}
         editor:
           name: opskubedbcom-redisopsrequest-editor
           sourceRef:
@@ -142,6 +142,36 @@ spec:
         name: Expand Volume
         operationId: create-opsrequest-volumeexpansion
       name: Scaling
+    - items:
+      - editor:
+          name: autoscalingkubedbcom-redisautoscaler-editor
+          sourceRef:
+            apiGroup: source.toolkit.fluxcd.io
+            kind: HelmRepository
+            name: appscode-charts-oci
+          version: v0.4.20
+        enforceQuota: true
+        flow: standalone-create
+        icons:
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/compute.svg
+          type: image/svg+xml
+        name: Compute
+        operationId: create-opsrequest-compute
+      - editor:
+          name: autoscalingkubedbcom-redisautoscaler-editor
+          sourceRef:
+            apiGroup: source.toolkit.fluxcd.io
+            kind: HelmRepository
+            name: appscode-charts-oci
+          version: v0.4.20
+        enforceQuota: true
+        flow: standalone-create
+        icons:
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/storage.svg
+          type: image/svg+xml
+        name: Storage
+        operationId: create-opsrequest-storage
+      name: Autoscaling
     - items:
       - editor:
           name: opskubedbcom-redisopsrequest-editor

@@ -1,0 +1,39 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceDashboard
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: kubedb.com
+    k8s.io/kind: Redis
+    k8s.io/resource: redises
+    k8s.io/version: v1
+  name: kubedb.com-v1-redises
+spec:
+  dashboards:
+  - title: KubeDB / Redis / Summary
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+  - if:
+      condition: '{{- if eq .spec.mode "Cluster" }}true{{ else }}false{{ end -}}'
+    title: KubeDB / Redis / Shard
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+  - title: KubeDB / Redis / Pod
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+  provider: Grafana
+  resource:
+    group: kubedb.com
+    kind: Redis
+    name: redises
+    scope: Namespaced
+    version: v1
