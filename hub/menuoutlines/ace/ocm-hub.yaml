@@ -16,11 +16,6 @@ spec:
       type:
         group: cluster.open-cluster-management.io
         kind: ManagedCluster
-    - name: AddOn Placement Scores
-      required: true
-      type:
-        group: cluster.open-cluster-management.io
-        kind: AddOnPlacementScore
     name: Clusters
   - icons:
     - src: https://cdn.appscode.com/k8s/icons/menu/helm.svg
@@ -43,6 +38,16 @@ spec:
     - src: https://cdn.appscode.com/k8s/icons/menu/networking.png
       type: image/png
     items:
+    - name: Managed Cluster Addons
+      required: true
+      type:
+        group: addon.open-cluster-management.io
+        kind: ManagedClusterAddOn
+    - name: Cluster Management AddOns
+      required: true
+      type:
+        group: addon.open-cluster-management.io
+        kind: ClusterManagementAddOn
     - name: AddOn Deployment Config
       required: true
       type:
@@ -53,16 +58,6 @@ spec:
       type:
         group: addon.open-cluster-management.io
         kind: AddOnTemplate
-    - name: Cluster Management AddOns
-      required: true
-      type:
-        group: addon.open-cluster-management.io
-        kind: ClusterManagementAddOn
-    - name: Managed Cluster Addons
-      required: true
-      type:
-        group: addon.open-cluster-management.io
-        kind: ManagedClusterAddOn
     name: AddOns
   - icons:
     - src: https://cdn.appscode.com/k8s/icons/menu/config.svg
@@ -70,21 +65,16 @@ spec:
     - src: https://cdn.appscode.com/k8s/icons/menu/config.png
       type: image/png
     items:
-    - name: Applied Manifest Works
-      required: true
-      type:
-        group: work.open-cluster-management.io
-        kind: AppliedManifestWork
-    - name: ManifestWorks
-      required: true
-      type:
-        group: work.open-cluster-management.io
-        kind: ManifestWork
     - name: ManifestWork ReplicaSets
       required: true
       type:
         group: work.open-cluster-management.io
         kind: ManifestWorkReplicaSet
+    - name: ManifestWorks
+      required: true
+      type:
+        group: work.open-cluster-management.io
+        kind: ManifestWork
     - name: Placements
       required: true
       type:
@@ -126,3 +116,21 @@ spec:
         group: config.gateway.open-cluster-management.io
         kind: ClusterGatewayConfiguration
     name: OCM Core AddOns Config
+  - icons:
+    - src: https://cdn.appscode.com/k8s/icons/menu/helm.svg
+      type: image/svg+xml
+    - src: https://cdn.appscode.com/k8s/icons/menu/helm.png
+      type: image/png
+    items:
+    - name: User Access Settings
+      path: /settings/access
+    name: Access
+  - icons:
+    - src: https://cdn.appscode.com/k8s/icons/menu/helm.svg
+      type: image/svg+xml
+    - src: https://cdn.appscode.com/k8s/icons/menu/helm.png
+      type: image/png
+    items:
+    - name: License Settings
+      path: /settings/license
+    name: License
