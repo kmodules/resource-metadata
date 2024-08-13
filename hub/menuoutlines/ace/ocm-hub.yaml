@@ -48,16 +48,6 @@ spec:
       type:
         group: addon.open-cluster-management.io
         kind: ClusterManagementAddOn
-    - name: AddOn Deployment Config
-      required: true
-      type:
-        group: addon.open-cluster-management.io
-        kind: AddOnDeploymentConfig
-    - name: AddOn Templates
-      required: true
-      type:
-        group: addon.open-cluster-management.io
-        kind: AddOnTemplate
     name: AddOns
   - icons:
     - src: https://cdn.appscode.com/k8s/icons/menu/config.svg
@@ -87,43 +77,13 @@ spec:
         kind: PlacementDecision
     name: ManifestWork & Placements
   - icons:
-    - src: https://cdn.appscode.com/k8s/icons/menu/admin.svg
-      type: image/svg+xml
-    - src: https://cdn.appscode.com/k8s/icons/menu/admin.png
-      type: image/png
-    items:
-    - name: Managed Service Accounts
-      required: true
-      type:
-        group: authentication.open-cluster-management.io
-        kind: ManagedServiceAccount
-    - name: Cluster Gateways
-      required: true
-      type:
-        group: gateway.open-cluster-management.io
-        kind: ClusterGateway
-    - name: Managed Proxy Service Resolvers
-      type:
-        group: proxy.open-cluster-management.io
-        kind: ManagedProxyServiceResolver
-    - name: Managed Proxy Configurations
-      type:
-        group: proxy.open-cluster-management.io
-        kind: ManagedProxyConfiguration
-    - name: Cluster Gateway Configurations
-      required: true
-      type:
-        group: config.gateway.open-cluster-management.io
-        kind: ClusterGatewayConfiguration
-    name: OCM Core AddOns Config
-  - icons:
     - src: https://cdn.appscode.com/k8s/icons/menu/helm.svg
       type: image/svg+xml
     - src: https://cdn.appscode.com/k8s/icons/menu/helm.png
       type: image/png
     items:
-    - name: User Access Settings
-      path: /settings/access
+    - name: User Permissions
+      path: /access
     name: Access
   - icons:
     - src: https://cdn.appscode.com/k8s/icons/menu/helm.svg
@@ -131,6 +91,6 @@ spec:
     - src: https://cdn.appscode.com/k8s/icons/menu/helm.png
       type: image/png
     items:
-    - name: License Settings
-      path: /settings/license
+    - name: Issue License
+      path: /license
     name: License
