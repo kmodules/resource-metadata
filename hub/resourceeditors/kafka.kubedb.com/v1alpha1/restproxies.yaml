@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: kafka.kubedb.com
+    k8s.io/kind: RestProxy
+    k8s.io/resource: restproxies
+    k8s.io/version: v1alpha1
+  name: kafka.kubedb.com-v1alpha1-restproxies
+spec:
+  resource:
+    group: kafka.kubedb.com
+    kind: RestProxy
+    name: restproxies
+    scope: Namespaced
+    version: v1alpha1
