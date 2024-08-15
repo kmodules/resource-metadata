@@ -12,13 +12,12 @@ spec:
   columns:
   - link:
       template: |
-        {{ $cluster := .spec.cluster.name }}
         {{ $group := .spec.apiType.group }}
         {{ $version := .spec.apiType.version }}
         {{ $resource := .spec.apiType.name }}
         {{ $name := .spec.name }}
         {{ $namespace := .metadata.namespace }}
-        {{- printf "/${username}/%s/%s/%s/%s/%s?namespace=%s" $cluster $group $version $resource $name $namespace -}}
+        {{- printf "/${username}/${clustername}/%s/%s/%s/%s?namespace=%s" $group $version $resource $name $namespace -}}
     name: Name
     pathTemplate: '{{ .spec.name }}'
     priority: 3
