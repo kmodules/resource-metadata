@@ -207,10 +207,13 @@ spec:
               type: object
             deletionPolicy:
               enum:
+              - Halt
               - Delete
               - WipeOut
               - DoNotTerminate
               type: string
+            halted:
+              type: boolean
             healthChecker:
               default:
                 failureThreshold: 1
