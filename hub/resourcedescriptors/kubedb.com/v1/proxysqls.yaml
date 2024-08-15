@@ -171,6 +171,8 @@ spec:
               - WipeOut
               - DoNotTerminate
               type: string
+            halted:
+              type: boolean
             healthChecker:
               default:
                 failureThreshold: 1
