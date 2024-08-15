@@ -152,22 +152,22 @@ spec:
     - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/backupconfigurations.png
       type: image/png
     items:
-    - layoutName: stash.appscode.com-v1beta1-backupsessions-kubedb
+    - layoutName: core.kubestash.com-v1alpha1-backupsessions
       name: Recent Backups
       required: true
       type:
-        group: stash.appscode.com
+        group: core.kubestash.com
         kind: BackupSession
-    - layoutName: stash.appscode.com-v1alpha1-repositories-kubedb
-      name: Repository
+    - layoutName: core.kubestash.com-v1alpha1-backupconfigurations
+      name: Backup Configuration
       required: true
       type:
-        group: stash.appscode.com
-        kind: Repository
-    - layoutName: stash.appscode.com-v1beta1-restoresessions-kubedb
+        group: core.kubestash.com
+        kind: BackupConfiguration
+    - layoutName: core.kubestash.com-v1alpha1-restoresessions
       name: Recent Restores
       required: true
       type:
-        group: stash.appscode.com
+        group: core.kubestash.com
         kind: RestoreSession
     name: Backups
