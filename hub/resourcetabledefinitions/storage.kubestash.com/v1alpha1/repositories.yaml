@@ -9,6 +9,62 @@ metadata:
     k8s.io/version: v1alpha1
   name: storage.kubestash.com-v1alpha1-repositories
 spec:
+  columns:
+    - link:
+        template: |
+          {{ $apiVersion := .apiVersion }}
+          {{ $name := .metadata.name }}
+          {{ $namespace := .metadata.namespace }}
+          {{- printf "/${username}/${clustername}/%s/repositories/%s?namespace=%s" $apiVersion $name $namespace -}}
+      name: Name
+      pathTemplate: '{{ .metadata.name }}'
+      priority: 3
+      sort:
+        enable: true
+        type: ""
+      type: string
+    - name: Namespace
+      pathTemplate: '{{ .metadata.namespace }}'
+      priority: 3
+      type: string
+    - name: Size
+      pathTemplate: '{{ .status.size }}'
+      priority: 3
+      type: string
+    - name: Snapshot Count
+      pathTemplate: '{{ .status.snapshotCount }}'
+      priority: 3
+      type: string
+    - name: Target
+      pathTemplate: '{{ .spec.appRef.kind }} {{ .spec.appRef.namespace }}/{{ .spec.appRef.name }}'
+      priority: 3
+      type: string
+    - name: Last-Successful-Backup
+      pathTemplate: '{{ .status.lastBackupTime | k8s_duration }}'
+      priority: 3
+      type: string
+    - color:
+        template: |
+          {{ $integrity := .status.integrity }}
+          {{ $color := "gray" }}
+          {{ if $integrity }}
+            {{ $color = "success" }}
+          {{ else }}
+            {{ $color = "danger" }}
+          {{ end }}
+          {{- printf "%s" $color -}}
+      name: Integrity
+      pathTemplate: '{{ .status.integrity | quote | upper }}'
+      priority: 3
+      type: string
+    - name: Age
+      pathTemplate: '{{ .metadata.creationTimestamp }}'
+      priority: 3
+      sort:
+        enable: true
+        template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+        type: integer
+      type: date
   defaultView: true
   resource:
     group: storage.kubestash.com

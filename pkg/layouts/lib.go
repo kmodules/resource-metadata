@@ -250,7 +250,7 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 		}, outline.Spec.Pages...)
 	}
 
-	if pages[0].Name == HomePage {
+	if len(pages) > 0 && pages[0].Name == HomePage {
 		if len(pages[0].Sections) == 0 {
 			pages[0].Sections = []v1alpha1.SectionOutline{
 				{
