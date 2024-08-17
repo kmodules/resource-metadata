@@ -223,6 +223,11 @@ func (in *ClusterStatusResponse) DeepCopyInto(out *ClusterStatusResponse) {
 		*out = new(v1.CAPIClusterInfo)
 		**out = **in
 	}
+	if in.ClusterMetadata != nil {
+		in, out := &in.ClusterMetadata, &out.ClusterMetadata
+		*out = new(v1.ClusterMetadata)
+		**out = **in
+	}
 	return
 }
 
