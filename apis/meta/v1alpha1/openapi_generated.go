@@ -17333,11 +17333,16 @@ func schema_resource_metadata_apis_meta_v1alpha1_ClusterStatusResponse(ref commo
 							Ref:         ref("kmodules.xyz/client-go/api/v1.CAPIClusterInfo"),
 						},
 					},
+					"clusterMetadata": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/client-go/api/v1.ClusterMetadata"),
+						},
+					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/client-go/api/v1.CAPIClusterInfo"},
+			"kmodules.xyz/client-go/api/v1.CAPIClusterInfo", "kmodules.xyz/client-go/api/v1.ClusterMetadata"},
 	}
 }
 
