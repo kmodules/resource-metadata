@@ -17,7 +17,7 @@ concurrency:
 jobs:
   k8s:
     name: k8s
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         k8s: [v1.26.15, v1.27.16, v1.28.9, v1.29.7, v1.30.3, v1.31.0]
@@ -57,7 +57,7 @@ jobs:
   # Stub Build check to keep branch protection rules happy
   build:
     name: Build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     needs: k8s
     steps:
       - name: Build
