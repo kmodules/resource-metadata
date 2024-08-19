@@ -14,6 +14,16 @@ spec:
   - name: Overview
     sections:
     - blocks:
+      - kind: Block
+        name: core.kubestash.com-v1alpha1-backupsessions
+      info:
+        actions:
+          create: Never
+        displayMode: Field
+        kind: Self
+        view:
+          name: core.kubestash.com-v1alpha1-backupsessions
+    - blocks:
       - actions:
           create: Never
         displayMode: List

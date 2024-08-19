@@ -34,6 +34,32 @@ spec:
       kind: RetentionPolicy
   - actions:
       create: Never
+    displayMode: Field
+    kind: Connection
+    name: Target
+    query:
+      byLabel: backup_via
+      type: GraphQL
+    ref:
+      group: appcatalog.appscode.com
+      kind: AppBinding
+    view:
+      name: appcatalog.appscode.com-v1alpha1-appbindings-kubedb
+  - actions:
+      create: Never
+    displayMode: Field
+    kind: Connection
+    name: Repository
+    query:
+      byLabel: offshoot
+      type: GraphQL
+    ref:
+      group: storage.kubestash.com
+      kind: Repository
+    view:
+      name: storage.kubestash.com-v1alpha1-repositories
+  - actions:
+      create: Never
     displayMode: List
     kind: Connection
     name: CronJobs

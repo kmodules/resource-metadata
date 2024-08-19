@@ -9,6 +9,75 @@ metadata:
     k8s.io/version: v1alpha1
   name: core.kubestash.com-v1alpha1-backupconfigurations
 spec:
+  columns:
+    - name: Name
+      pathTemplate: '{{ .metadata.name }}'
+      priority: 3
+      type: string
+    - name: Namespace
+      pathTemplate: '{{ .metadata.namespace }}'
+      priority: 3
+      type: string
+    - name: Labels
+      pathTemplate: '{{ .metadata.labels | toRawJson }}'
+      priority: 3
+      type: object
+    - name: Annotations
+      pathTemplate: '{{ .metadata.annotations | toRawJson }}'
+      priority: 1
+      type: object
+    - name: Schedule
+      pathTemplate: '{{ (index .spec.sessions 0).scheduler.schedule }}'
+      priority: 3
+      type: string
+    - name: Paused
+      pathTemplate: '{{ .spec.paused }}'
+      priority: 3
+      type: string
+    - name: Repository
+      pathTemplate: '{{ (index (index .spec.sessions 0).repositories 0).name }}'
+      priority: 3
+      type: string
+    - name: BackupStorage
+      pathTemplate: '{{ (index .spec.backends 0).storageRef.namespace }}/{{ (index .spec.backends 0).storageRef.name }}'
+      priority: 3
+      type: string
+    - name: Target
+      pathTemplate: '{{ .spec.target.kind }} {{ .spec.target.namespace }}/{{ .spec.target.name }}'
+      priority: 3
+      type: string
+    - name: Task
+      pathTemplate: '{{ (index (index .spec.sessions 0).addon.tasks 0).name }}'
+      priority: 3
+      type: string
+    - name: RetentionPolicy
+      pathTemplate: '{{ (index .spec.backends 0).retentionPolicy.namespace }}/{{ (index .spec.backends 0).retentionPolicy.name }}'
+      priority: 3
+      type: string
+    - color:
+        template: |
+          {{ $status := .status.phase }}
+          {{ $color := "gray" }}
+          {{ if list "Ready" | has $status }}
+            {{ $color = "success" }}
+          {{ else if list "Invalid" | has $status }}
+            {{ $color = "warning" }}
+          {{ else if list "NotReady" | has $status }}
+            {{ $color = "danger" }}
+          {{ end }}
+          {{- printf "%s" $color -}}
+      name: Phase
+      pathTemplate: '{{ .status.phase }}'
+      priority: 3
+      type: string
+    - name: Age
+      pathTemplate: '{{ .metadata.creationTimestamp }}'
+      priority: 3
+      sort:
+        enable: true
+        template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+        type: integer
+      type: date
   defaultView: true
   resource:
     group: core.kubestash.com

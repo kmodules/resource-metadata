@@ -170,4 +170,22 @@ spec:
       type:
         group: core.kubestash.com
         kind: RestoreSession
+    - layoutName: storage.kubestash.com-v1alpha1-snapshots
+      name: Snapshot
+      required: true
+      type:
+        group: storage.kubestash.com
+        kind: Snapshot
+    - layoutName: storage.kubestash.com-v1alpha1-repositories
+      name: Repository
+      required: true
+      type:
+        group: storage.kubestash.com
+        kind: Repository
+    - layoutName: storage.kubestash.com-v1alpha1-backupstorages
+      name: BackupStorage
+      required: true
+      type:
+        group: storage.kubestash.com
+        kind: BackupStorage
     name: Backups

@@ -9,7 +9,33 @@ metadata:
     k8s.io/version: v1alpha1
   name: core.kubestash.com-v1alpha1-restoresessions
 spec:
-  blocks: null
+  blocks:
+    - actions:
+        create: Never
+      displayMode: Field
+      kind: Connection
+      name: Target
+      query:
+        byLabel: restore_into
+        type: GraphQL
+      ref:
+        group: appcatalog.appscode.com
+        kind: AppBinding
+      view:
+        name: appcatalog.appscode.com-v1alpha1-appbindings-kubedb
+    - actions:
+        create: Never
+      displayMode: Field
+      kind: Connection
+      name: Repository
+      query:
+        byLabel: offshoot
+        type: GraphQL
+      ref:
+        group: storage.kubestash.com
+        kind: Repository
+      view:
+        name: storage.kubestash.com-v1alpha1-repositories
   resource:
     group: core.kubestash.com
     kind: RestoreSession

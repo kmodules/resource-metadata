@@ -9,6 +9,58 @@ metadata:
     k8s.io/version: v1alpha1
   name: storage.kubestash.com-v1alpha1-backupstorages
 spec:
+  columns:
+    - link:
+        template: |
+          {{ $apiVersion := .apiVersion }}
+          {{ $name := .metadata.name }}
+          {{ $namespace := .metadata.namespace }}
+          {{- printf "/${username}/${clustername}/%s/backupstorages/%s?namespace=%s" $apiVersion $name $namespace -}}
+      name: Name
+      pathTemplate: '{{ .metadata.name }}'
+      priority: 3
+      sort:
+        enable: true
+        type: ""
+      type: string
+    - name: Namespace
+      pathTemplate: '{{ .metadata.namespace }}'
+      priority: 3
+      type: string
+    - name: Provider
+      pathTemplate: '{{ .spec.storage.provider }}'
+      priority: 3
+      type: string
+    - name: Size
+      pathTemplate: '{{ .status.totalSize }}'
+      priority: 3
+      type: string
+    - name: No. of Connected Repositories
+      pathTemplate: '{{ len .status.repositories }}'
+      priority: 3
+      type: string
+    - color:
+        template: |
+          {{ $phase := .status.phase }}
+          {{ $color := "gray" }}
+          {{ if $phase }}
+            {{ $color = "success" }}
+          {{ else }}
+            {{ $color = "danger" }}
+          {{ end }}
+          {{- printf "%s" $color -}}
+      name: Status
+      pathTemplate: '{{ .status.phase}}'
+      priority: 3
+      type: string
+    - name: Age
+      pathTemplate: '{{ .metadata.creationTimestamp }}'
+      priority: 3
+      sort:
+        enable: true
+        template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+        type: integer
+      type: date
   defaultView: true
   resource:
     group: storage.kubestash.com
