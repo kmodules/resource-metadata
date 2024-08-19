@@ -12,10 +12,8 @@ spec:
   connections:
   - labels:
     - storage
-    namespace:
-      path: metadata.namespace
     references:
-    - '{range .spec.backends[*]}{.storageRef.name},{.storageRef.name}{"\n"}{end}'
+    - '{range .spec.backends[*]}{.storageRef.name},{.storageRef.namespace}{"\n"}{end}'
     target:
       apiVersion: storage.kubestash.com/v1alpha1
       kind: BackupStorage
@@ -33,7 +31,7 @@ spec:
     references:
     - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
-      apiVersion: kubedb.com/v1alpha2
+      apiVersion: kubedb.com/v1
       kind: Postgres
     type: MatchRef
   - labels:
@@ -41,7 +39,7 @@ spec:
     references:
     - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
-      apiVersion: kubedb.com/v1alpha2
+      apiVersion: kubedb.com/v1
       kind: Redis
     type: MatchRef
   - labels:
@@ -49,7 +47,7 @@ spec:
     references:
     - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
-      apiVersion: kubedb.com/v1alpha2
+      apiVersion: kubedb.com/v1
       kind: Elasticsearch
     type: MatchRef
   - labels:
@@ -57,15 +55,7 @@ spec:
     references:
     - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
-      apiVersion: kubedb.com/v1alpha2
-      kind: Kafka
-    type: MatchRef
-  - labels:
-    - backup_via
-    references:
-    - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
-    target:
-      apiVersion: kubedb.com/v1alpha2
+      apiVersion: kubedb.com/v1
       kind: MariaDB
     type: MatchRef
   - labels:
@@ -73,7 +63,7 @@ spec:
     references:
     - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
-      apiVersion: kubedb.com/v1alpha2
+      apiVersion: kubedb.com/v1
       kind: MongoDB
     type: MatchRef
   - labels:
@@ -81,7 +71,7 @@ spec:
     references:
     - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
-      apiVersion: kubedb.com/v1alpha2
+      apiVersion: kubedb.com/v1
       kind: MySQL
     type: MatchRef
   - labels:
@@ -89,7 +79,7 @@ spec:
     references:
     - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
-      apiVersion: kubedb.com/v1alpha2
+      apiVersion: kubedb.com/v1
       kind: PerconaXtraDB
     type: MatchRef
   - labels:
@@ -98,7 +88,15 @@ spec:
     - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
       apiVersion: kubedb.com/v1alpha2
-      kind: RedisSentinel
+      kind: MSSQLServer
+    type: MatchRef
+  - labels:
+    - backup_via
+    references:
+    - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: Singlestore
     type: MatchRef
   resource:
     group: core.kubestash.com
