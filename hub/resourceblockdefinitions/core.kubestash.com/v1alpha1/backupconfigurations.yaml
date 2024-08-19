@@ -43,21 +43,17 @@ spec:
     ref:
       group: appcatalog.appscode.com
       kind: AppBinding
-    view:
-      name: appcatalog.appscode.com-v1alpha1-appbindings-kubedb
   - actions:
       create: Never
     displayMode: Field
     kind: Connection
-    name: Repository
+    name: BackupStorage
     query:
-      byLabel: offshoot
+      byLabel: storage
       type: GraphQL
     ref:
       group: storage.kubestash.com
-      kind: Repository
-    view:
-      name: storage.kubestash.com-v1alpha1-repositories
+      kind: BackupStorage
   - actions:
       create: Never
     displayMode: List
