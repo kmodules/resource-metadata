@@ -36,11 +36,6 @@ spec:
       kind: BackupConfiguration
     view:
       name: core.kubestash.com-v1alpha1-backupconfigurations
-#  - fieldPath: '{range .status.targets[*]}{range .stats[*]}{.snapshots}{end}{end}'
-#    kind: SubTable
-#    name: Snapshots
-#    view:
-#      name: core.kubestash.com-v1alpha1-snapshots-kubedb
   resource:
     group: core.kubestash.com
     kind: BackupSession

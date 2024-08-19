@@ -9,75 +9,75 @@ metadata:
     k8s.io/version: v1alpha1
   name: core.kubestash.com-v1alpha1-backupsessions
 spec:
-  defaultView: true
   columns:
-    - link:
-        template: |
-          {{ $apiVersion := .apiVersion }}
-          {{ $name := .metadata.name }}
-          {{ $namespace := .metadata.namespace }}
-          {{- printf "/${username}/${clustername}/%s/backupsessions/%s?namespace=%s" $apiVersion $name $namespace -}}
-      name: Name
-      pathTemplate: '{{ .metadata.name }}'
-      priority: 3
-      sort:
-        enable: true
-        type: ""
-      type: string
-    - name: Namespace
-      pathTemplate: '{{ .metadata.namespace }}'
-      priority: 3
-      type: string
-    - name: Invoker Kind
-      pathTemplate: '{{ .spec.invoker.kind }}'
-      priority: 3
-      type: string
-    - name: Invoker Name
-      pathTemplate: '{{ .spec.invoker.name }}'
-      priority: 3
-      type: string
-    - name: Session
-      pathTemplate: '{{ .spec.session }}'
-      priority: 3
-      type: string
-    - name: Total snapshots
-      pathTemplate: '{{ .status.totalSnapshots }}'
-      priority: 3
-      type: string
-    - color:
-        template: |
-          {{ $status := .status.phase }}
-          {{ $color := "gray" }}
-          {{ if list "Succeeded" | has $status }}
-            {{ $color = "success" }}
-          {{ else if list "Unknown" | has $status }}
-            {{ $color = "warning" }}
-          {{ else if list "Failed" | has $status }}
-            {{ $color = "danger" }}
-          {{ else if list "Pending" | has $status }}
-            {{ $color = "dark" }}
-          {{ else if list "Skipped" | has $status }}
-            {{ $color = "link" }}
-          {{ else if list "Running" | has $status }}
-            {{ $color = "info" }}
-          {{ end }}
-          {{- printf "%s" $color -}}
-      name: Phase
-      pathTemplate: '{{ .status.phase }}'
-      priority: 3
-      type: string
-    - name: Duration
-      pathTemplate: '{{ .status.duration }}'
-      priority: 3
-      type: string
-    - name: Age
-      pathTemplate: '{{ .metadata.creationTimestamp }}'
-      priority: 3
-      sort:
-        enable: true
-        template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
-        type: integer
-      type: date
+  - link:
+      template: |
+        {{ $apiVersion := .apiVersion }}
+        {{ $name := .metadata.name }}
+        {{ $namespace := .metadata.namespace }}
+        {{- printf "/${username}/${clustername}/%s/backupsessions/%s?namespace=%s" $apiVersion $name $namespace -}}
+    name: Name
+    pathTemplate: '{{ .metadata.name }}'
+    priority: 3
+    sort:
+      enable: true
+      type: ""
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ .metadata.namespace }}'
+    priority: 3
+    type: string
+  - name: Invoker Kind
+    pathTemplate: '{{ .spec.invoker.kind }}'
+    priority: 3
+    type: string
+  - name: Invoker Name
+    pathTemplate: '{{ .spec.invoker.name }}'
+    priority: 3
+    type: string
+  - name: Session
+    pathTemplate: '{{ .spec.session }}'
+    priority: 3
+    type: string
+  - name: Total snapshots
+    pathTemplate: '{{ .status.totalSnapshots }}'
+    priority: 3
+    type: string
+  - color:
+      template: |
+        {{ $status := .status.phase }}
+        {{ $color := "gray" }}
+        {{ if list "Succeeded" | has $status }}
+          {{ $color = "success" }}
+        {{ else if list "Unknown" | has $status }}
+          {{ $color = "warning" }}
+        {{ else if list "Failed" | has $status }}
+          {{ $color = "danger" }}
+        {{ else if list "Pending" | has $status }}
+          {{ $color = "dark" }}
+        {{ else if list "Skipped" | has $status }}
+          {{ $color = "link" }}
+        {{ else if list "Running" | has $status }}
+          {{ $color = "info" }}
+        {{ end }}
+        {{- printf "%s" $color -}}
+    name: Phase
+    pathTemplate: '{{ .status.phase }}'
+    priority: 3
+    type: string
+  - name: Duration
+    pathTemplate: '{{ .status.duration }}'
+    priority: 3
+    type: string
+  - name: Age
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
+    priority: 3
+    sort:
+      enable: true
+      template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+      type: integer
+    type: date
+  defaultView: true
   resource:
     group: core.kubestash.com
     kind: BackupSession
