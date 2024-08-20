@@ -30,11 +30,22 @@ spec:
         kind: Connection
         name: Backup Configurations
         query:
-          byLabel: source
+          byLabel: offshoot
           type: GraphQL
         ref:
           group: core.kubestash.com
           kind: BackupConfiguration
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Snapshots
+        query:
+          byLabel: storage
+          type: GraphQL
+        ref:
+          group: storage.kubestash.com
+          kind: Snapshot
   resource:
     group: core.kubestash.com
     kind: BackupSession

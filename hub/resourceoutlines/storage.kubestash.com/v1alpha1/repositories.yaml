@@ -36,6 +36,28 @@ spec:
         ref:
           group: ""
           kind: Secret
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Backup Configuration
+        query:
+          byLabel: located_on
+          type: GraphQL
+        ref:
+          group: core.kubestash.com
+          kind: BackupConfiguration
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Snapshot
+        query:
+          byLabel: offshoot
+          type: GraphQL
+        ref:
+          group: storage.kubestash.com
+          kind: Snapshot
   resource:
     group: storage.kubestash.com
     kind: Repository
