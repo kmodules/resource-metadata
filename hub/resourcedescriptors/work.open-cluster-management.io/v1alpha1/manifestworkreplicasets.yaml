@@ -20,7 +20,7 @@ spec:
       kind: ManifestWork
     type: MatchSelector
   - labels:
-    - placed_into
+    - located_on
     references:
     - '{range .spec.placementRefs[*]}{.name}{"\n"}{end}'
     target:

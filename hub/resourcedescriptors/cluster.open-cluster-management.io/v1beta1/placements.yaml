@@ -20,7 +20,7 @@ spec:
       kind: PlacementDecision
     type: MatchSelector
   - labels:
-    - placed_into
+    - located_on
     references:
     - '{range .spec.clusterSets[*]}{}{"\n"}{end}'
     target:
