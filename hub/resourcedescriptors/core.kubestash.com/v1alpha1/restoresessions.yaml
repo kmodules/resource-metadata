@@ -11,27 +11,35 @@ metadata:
 spec:
   connections:
   - labels:
-    - restore_into
+    - located_on
     references:
-    - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    - '{.spec.dataSource.repository}{"\n"}{end}'
     target:
-      apiVersion: kubedb.com/v1alpha2
-      kind: Postgres
+      apiVersion: storage.kubestash.com/v1alpha1
+      kind: Repository
+    type: MatchRef
+  - labels:
+    - storage
+    references:
+    - '{.spec.dataSource.snapshot}{"\n"}{end}'
+    target:
+      apiVersion: storage.kubestash.com/v1alpha1
+      kind: Snapshot
+    type: MatchRef
+  - labels:
+    - auth_secret
+    references:
+    - '{.spec.dataSource.encryptionSecret.name},{ .spec.dataSource.encryptionSecret.namespace}{"\n"}{end}'
+    target:
+      apiVersion: v1
+      kind: Secret
     type: MatchRef
   - labels:
     - restore_into
     references:
     - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
-      apiVersion: kubedb.com/v1alpha2
-      kind: Redis
-    type: MatchRef
-  - labels:
-    - restore_into
-    references:
-    - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
-    target:
-      apiVersion: kubedb.com/v1alpha2
+      apiVersion: kubedb.com/v1
       kind: Elasticsearch
     type: MatchRef
   - labels:
@@ -39,15 +47,7 @@ spec:
     references:
     - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
-      apiVersion: kubedb.com/v1alpha2
-      kind: Kafka
-    type: MatchRef
-  - labels:
-    - restore_into
-    references:
-    - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
-    target:
-      apiVersion: kubedb.com/v1alpha2
+      apiVersion: kubedb.com/v1
       kind: MariaDB
     type: MatchRef
   - labels:
@@ -55,7 +55,7 @@ spec:
     references:
     - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
-      apiVersion: kubedb.com/v1alpha2
+      apiVersion: kubedb.com/v1
       kind: MongoDB
     type: MatchRef
   - labels:
@@ -64,6 +64,14 @@ spec:
     - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
       apiVersion: kubedb.com/v1alpha2
+      kind: MSSQLServer
+    type: MatchRef
+  - labels:
+    - restore_into
+    references:
+    - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1
       kind: MySQL
     type: MatchRef
   - labels:
@@ -71,7 +79,7 @@ spec:
     references:
     - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
-      apiVersion: kubedb.com/v1alpha2
+      apiVersion: kubedb.com/v1
       kind: PerconaXtraDB
     type: MatchRef
   - labels:
@@ -79,8 +87,24 @@ spec:
     references:
     - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
+      apiVersion: kubedb.com/v1
+      kind: Postgres
+    type: MatchRef
+  - labels:
+    - restore_into
+    references:
+    - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1
+      kind: Redis
+    type: MatchRef
+  - labels:
+    - restore_into
+    references:
+    - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
       apiVersion: kubedb.com/v1alpha2
-      kind: RedisSentinel
+      kind: Singlestore
     type: MatchRef
   resource:
     group: core.kubestash.com

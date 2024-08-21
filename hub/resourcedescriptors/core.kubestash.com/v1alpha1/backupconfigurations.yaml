@@ -27,20 +27,20 @@ spec:
       kind: RetentionPolicy
     type: MatchRef
   - labels:
-    - backup_via
+    - located_on
     references:
-    - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    - '{range .spec.sessions[*].repositories[*]}{.name}{"\n"}{end}'
     target:
-      apiVersion: kubedb.com/v1
-      kind: Postgres
+      apiVersion: storage.kubestash.com/v1alpha1
+      kind: Repository
     type: MatchRef
   - labels:
-    - backup_via
+    - storage
     references:
-    - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    - '{range .spec.sessions[*].repositories[*]}{.encryptionSecret.name},{.encryptionSecret.namespace}{"\n"}{end}'
     target:
-      apiVersion: kubedb.com/v1
-      kind: Redis
+      apiVersion: v1
+      kind: Secret
     type: MatchRef
   - labels:
     - backup_via
@@ -71,6 +71,14 @@ spec:
     references:
     - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: MSSQLServer
+    type: MatchRef
+  - labels:
+    - backup_via
+    references:
+    - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
       apiVersion: kubedb.com/v1
       kind: MySQL
     type: MatchRef
@@ -87,8 +95,16 @@ spec:
     references:
     - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
-      apiVersion: kubedb.com/v1alpha2
-      kind: MSSQLServer
+      apiVersion: kubedb.com/v1
+      kind: Postgres
+    type: MatchRef
+  - labels:
+    - backup_via
+    references:
+    - '{.spec.target.name},{.spec.target.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1
+      kind: Redis
     type: MatchRef
   - labels:
     - backup_via

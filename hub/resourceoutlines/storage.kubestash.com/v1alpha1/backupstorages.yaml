@@ -29,6 +29,17 @@ spec:
           create: Never
         displayMode: List
         kind: Connection
+        name: BackupConfigurations
+        query:
+          byLabel: storage
+          type: GraphQL
+        ref:
+          group: core.kubestash.com
+          kind: BackupConfiguration
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
         name: Secrets
         query:
           byLabel: auth_secret
