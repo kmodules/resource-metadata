@@ -98,7 +98,7 @@ spec:
       name: Operations
     - items:
       - disabledTemplate: |
-          {{ if ne .spec.replicas 1 }}
+          {{ not (gt .spec.replicas 1) }}
         editor:
           name: opskubedbcom-redisopsrequest-editor
           sourceRef:
