@@ -10,6 +10,53 @@ metadata:
   name: core.kubestash.com-v1alpha1-restoresessions
 spec:
   defaultLayout: true
+  pages:
+  - name: Overview
+    sections:
+    - blocks:
+      - kind: Block
+        name: core.kubestash.com-v1alpha1-restoresessions
+      info:
+        actions:
+          create: Never
+        displayMode: Field
+        kind: Self
+        view:
+          name: core.kubestash.com-v1alpha1-restoresessions
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Repository
+        query:
+          byLabel: located_on
+          type: GraphQL
+        ref:
+          group: storage.kubestash.com
+          kind: Repository
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Snapshot
+        query:
+          byLabel: storage
+          type: GraphQL
+        ref:
+          group: storage.kubestash.com
+          kind: Snapshot
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Encryption Secret
+        query:
+          byLabel: auth_secret
+          type: GraphQL
+        ref:
+          group: ""
+          kind: Secret
   resource:
     group: core.kubestash.com
     kind: RestoreSession

@@ -49,8 +49,6 @@ spec:
         {{ $color := "gray" }}
         {{ if $integrity }}
           {{ $color = "success" }}
-        {{ else }}
-          {{ $color = "danger" }}
         {{ end }}
         {{- printf "%s" $color -}}
     name: Integrity
