@@ -13,7 +13,7 @@ spec:
   - labels:
     - located_on
     references:
-    - '{.spec.dataSource.repository}{"\n"}{end}'
+    - '{.spec.dataSource.repository}'
     target:
       apiVersion: storage.kubestash.com/v1alpha1
       kind: Repository
@@ -21,7 +21,7 @@ spec:
   - labels:
     - storage
     references:
-    - '{.spec.dataSource.snapshot}{"\n"}{end}'
+    - '{.spec.dataSource.snapshot}'
     target:
       apiVersion: storage.kubestash.com/v1alpha1
       kind: Snapshot
@@ -29,7 +29,7 @@ spec:
   - labels:
     - auth_secret
     references:
-    - '{.spec.dataSource.encryptionSecret.name},{ .spec.dataSource.encryptionSecret.namespace}{"\n"}{end}'
+    - '{.spec.dataSource.encryptionSecret.name},{ .spec.dataSource.encryptionSecret.namespace}'
     target:
       apiVersion: v1
       kind: Secret
