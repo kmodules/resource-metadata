@@ -129,36 +129,6 @@ spec:
         operationId: create-opsrequest-volumeexpansion
       name: Scaling
     - items:
-      - editor:
-          name: autoscalingkubedbcom-elasticsearchautoscaler-editor
-          sourceRef:
-            apiGroup: source.toolkit.fluxcd.io
-            kind: HelmRepository
-            name: appscode-charts-oci
-          version: v0.5.0
-        enforceQuota: true
-        flow: standalone-create
-        icons:
-        - src: https://cdn.appscode.com/k8s/icons/action-icons/compute.svg
-          type: image/svg+xml
-        name: Compute
-        operationId: create-opsrequest-compute
-      - editor:
-          name: autoscalingkubedbcom-elasticsearchautoscaler-editor
-          sourceRef:
-            apiGroup: source.toolkit.fluxcd.io
-            kind: HelmRepository
-            name: appscode-charts-oci
-          version: v0.5.0
-        enforceQuota: true
-        flow: standalone-create
-        icons:
-        - src: https://cdn.appscode.com/k8s/icons/action-icons/storage.svg
-          type: image/svg+xml
-        name: Storage
-        operationId: create-opsrequest-storage
-      name: Autoscaling
-    - items:
       - disabledTemplate: |
           {{ not (and (hasKey .spec "tls") ( hasKey .spec.tls "issuerRef"))}}
         editor:
