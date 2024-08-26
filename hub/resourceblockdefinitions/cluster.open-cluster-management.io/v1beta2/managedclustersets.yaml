@@ -14,24 +14,35 @@ spec:
       create: Never
     displayMode: List
     kind: Connection
-    name: ManagedClusterSetBinding
-    query:
-      byLabel: ocm_bind
-      type: GraphQL
-    ref:
-      group: cluster.open-cluster-management.io
-      kind: ManagedClusterSetBinding
-  - actions:
-      create: Never
-    displayMode: List
-    kind: Connection
-    name: ManagedClusters
+    name: Managed Clusters
     query:
       byLabel: offshoot
       type: GraphQL
     ref:
       group: cluster.open-cluster-management.io
       kind: ManagedCluster
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Manifest Work ReplicaSets
+    query:
+      byLabel: located_on
+      type: GraphQL
+    ref:
+      group: work.open-cluster-management.io
+      kind: ManifestWorkReplicaSet
+  - actions:
+      create: Never
+    displayMode: List
+    kind: Connection
+    name: Managed ClusterSet Bindings
+    query:
+      byLabel: ocm_bind
+      type: GraphQL
+    ref:
+      group: cluster.open-cluster-management.io
+      kind: ManagedClusterSetBinding
   - actions:
       create: Never
     displayMode: List
