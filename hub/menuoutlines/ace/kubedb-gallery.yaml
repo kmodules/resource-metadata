@@ -22,26 +22,12 @@ spec:
         group: kubedb.com
         kind: Elasticsearch
     - featureMode: GA
-      layoutName: kubedb.com-v1-kafkas-kubedb
-      name: Kafka
-      required: true
-      type:
-        group: kubedb.com
-        kind: Kafka
-    - featureMode: GA
       layoutName: kubedb.com-v1-mariadbs-kubedb
       name: MariaDB
       required: true
       type:
         group: kubedb.com
         kind: MariaDB
-    - featureMode: GA
-      layoutName: kubedb.com-v1-memcacheds-kubedb
-      name: Memcached
-      required: true
-      type:
-        group: kubedb.com
-        kind: Memcached
     - featureMode: GA
       layoutName: kubedb.com-v1-mongodbs-kubedb
       name: MongoDB
@@ -57,20 +43,6 @@ spec:
         group: kubedb.com
         kind: MySQL
     - featureMode: GA
-      layoutName: kubedb.com-v1-perconaxtradbs-kubedb
-      name: PerconaXtraDB
-      required: true
-      type:
-        group: kubedb.com
-        kind: PerconaXtraDB
-    - featureMode: GA
-      layoutName: kubedb.com-v1-pgbouncers-kubedb
-      name: PgBouncer
-      required: true
-      type:
-        group: kubedb.com
-        kind: PgBouncer
-    - featureMode: GA
       layoutName: kubedb.com-v1-postgreses-kubedb
       name: PostgreSQL
       required: true
@@ -78,72 +50,12 @@ spec:
         group: kubedb.com
         kind: Postgres
     - featureMode: GA
-      layoutName: kubedb.com-v1-proxysqles-kubedb
-      name: ProxySQL
-      type:
-        group: kubedb.com
-        kind: ProxySQL
-    - featureMode: GA
       layoutName: kubedb.com-v1-redises-kubedb
       name: Redis
       required: true
       type:
         group: kubedb.com
         kind: Redis
-    - featureMode: ALPHA
-      layoutName: kubedb.com-v1alpha2-clickhouses-kubedb
-      name: ClickHouse
-      type:
-        group: kubedb.com
-        kind: ClickHouse
-    - featureMode: ALPHA
-      layoutName: kubedb.com-v1alpha2-druids-kubedb
-      name: Druid
-      type:
-        group: kubedb.com
-        kind: Druid
-    - featureMode: ALPHA
-      layoutName: kubedb.com-v1alpha2-ferretdbs-kubedb
-      name: FerretDB
-      type:
-        group: kubedb.com
-        kind: FerretDB
-    - featureMode: ALPHA
-      layoutName: kubedb.com-v1alpha2-mssqlservers-kubedb
-      name: MSSQLServer
-      type:
-        group: kubedb.com
-        kind: MSSQLServer
-    - featureMode: ALPHA
-      layoutName: kubedb.com-v1alpha2-pgpools-kubedb
-      name: Pgpool
-      type:
-        group: kubedb.com
-        kind: Pgpool
-    - featureMode: ALPHA
-      layoutName: kubedb.com-v1alpha2-rabbitmqs-kubedb
-      name: RabbitMQ
-      type:
-        group: kubedb.com
-        kind: RabbitMQ
-    - featureMode: ALPHA
-      layoutName: kubedb.com-v1alpha2-singlestores-kubedb
-      name: Singlestore
-      type:
-        group: kubedb.com
-        kind: Singlestore
-    - featureMode: ALPHA
-      layoutName: kubedb.com-v1alpha2-solrs-kubedb
-      name: Solr
-      type:
-        group: kubedb.com
-        kind: Solr
-    - featureMode: ALPHA
-      layoutName: kubedb.com-v1alpha2-zookeepers-kubedb
-      name: ZooKeeper
-      type:
-        group: kubedb.com
-        kind: ZooKeeper
     name: Datastore
     path: /ui.appscode.com/v1alpha1/sections/datastore
   - icons:
