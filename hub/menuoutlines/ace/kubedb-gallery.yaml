@@ -17,63 +17,54 @@ spec:
     - featureMode: GA
       layoutName: kubedb.com-v1-elasticsearches-kubedb
       name: Elasticsearch
-      required: true
       type:
         group: kubedb.com
         kind: Elasticsearch
     - featureMode: GA
       layoutName: kubedb.com-v1-kafkas-kubedb
       name: Kafka
-      required: true
       type:
         group: kubedb.com
         kind: Kafka
     - featureMode: GA
       layoutName: kubedb.com-v1-mariadbs-kubedb
       name: MariaDB
-      required: true
       type:
         group: kubedb.com
         kind: MariaDB
     - featureMode: GA
       layoutName: kubedb.com-v1-memcacheds-kubedb
       name: Memcached
-      required: true
       type:
         group: kubedb.com
         kind: Memcached
     - featureMode: GA
       layoutName: kubedb.com-v1-mongodbs-kubedb
       name: MongoDB
-      required: true
       type:
         group: kubedb.com
         kind: MongoDB
     - featureMode: GA
       layoutName: kubedb.com-v1-mysqls-kubedb
       name: MySQL
-      required: true
       type:
         group: kubedb.com
         kind: MySQL
     - featureMode: GA
       layoutName: kubedb.com-v1-perconaxtradbs-kubedb
       name: PerconaXtraDB
-      required: true
       type:
         group: kubedb.com
         kind: PerconaXtraDB
     - featureMode: GA
       layoutName: kubedb.com-v1-pgbouncers-kubedb
       name: PgBouncer
-      required: true
       type:
         group: kubedb.com
         kind: PgBouncer
     - featureMode: GA
       layoutName: kubedb.com-v1-postgreses-kubedb
       name: PostgreSQL
-      required: true
       type:
         group: kubedb.com
         kind: Postgres
@@ -86,7 +77,6 @@ spec:
     - featureMode: GA
       layoutName: kubedb.com-v1-redises-kubedb
       name: Redis
-      required: true
       type:
         group: kubedb.com
         kind: Redis
@@ -154,37 +144,31 @@ spec:
     items:
     - layoutName: core.kubestash.com-v1alpha1-backupsessions
       name: Recent Backups
-      required: true
       type:
         group: core.kubestash.com
         kind: BackupSession
     - layoutName: core.kubestash.com-v1alpha1-backupconfigurations
       name: Backup Configuration
-      required: true
       type:
         group: core.kubestash.com
         kind: BackupConfiguration
     - layoutName: core.kubestash.com-v1alpha1-restoresessions
       name: Restores
-      required: true
       type:
         group: core.kubestash.com
         kind: RestoreSession
     - layoutName: storage.kubestash.com-v1alpha1-snapshots
       name: Snapshot
-      required: true
       type:
         group: storage.kubestash.com
         kind: Snapshot
     - layoutName: storage.kubestash.com-v1alpha1-repositories
       name: Repository
-      required: true
       type:
         group: storage.kubestash.com
         kind: Repository
     - layoutName: storage.kubestash.com-v1alpha1-backupstorages
       name: BackupStorage
-      required: true
       type:
         group: storage.kubestash.com
         kind: BackupStorage
