@@ -94,7 +94,6 @@ spec:
       type: image/png
     items:
     - name: Elasticsearch
-      required: true
       type:
         group: kubedb.com
         kind: Elasticsearch
@@ -116,7 +115,6 @@ spec:
         group: networking.k8s.io
         kind: Ingress
     - name: Voyager Ingresses
-      required: true
       type:
         group: voyager.appscode.com
         kind: Ingress
