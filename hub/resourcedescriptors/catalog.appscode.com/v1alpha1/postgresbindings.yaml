@@ -9,6 +9,15 @@ metadata:
     k8s.io/version: v1alpha1
   name: catalog.appscode.com-v1alpha1-postgresbindings
 spec:
+  connections:
+  - labels:
+    - exposed_by
+    references:
+    - '{.spec.sourceRef.name},{.spec.sourceRef.namespace}'
+    target:
+      apiVersion: kubedb.com/v1
+      kind: Postgres
+    type: MatchRef
   resource:
     group: catalog.appscode.com
     kind: PostgresBinding
