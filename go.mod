@@ -27,12 +27,12 @@ require (
 	k8s.io/apimachinery v0.30.2
 	k8s.io/client-go v0.30.2
 	k8s.io/klog/v2 v2.130.1
-	k8s.io/kube-openapi v0.0.0-20240430033511-f0e62f92d13f
+	k8s.io/kube-openapi v0.0.0-20240703190633-0aa61b46e8c2
 	kmodules.xyz/apiversion v0.2.0
 	kmodules.xyz/client-go v0.30.13-0.20240820121523-30dbfd82b4c6
 	kmodules.xyz/crd-schema-fuzz v0.29.1
 	kmodules.xyz/go-containerregistry v0.0.12
-	kmodules.xyz/resource-metrics v0.30.2
+	kmodules.xyz/resource-metrics v0.30.4
 	kmodules.xyz/schema-checker v0.4.1
 	sigs.k8s.io/cli-utils v0.34.0
 	sigs.k8s.io/controller-runtime v0.18.4
@@ -120,7 +120,7 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gotest.tools/v3 v3.1.0 // indirect
 	k8s.io/utils v0.0.0-20240502163921-fe8a2dddb1d0 // indirect
-	kmodules.xyz/offshoot-api v0.29.4 // indirect
+	kmodules.xyz/offshoot-api v0.30.0 // indirect
 	sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.4.1 // indirect
 )
