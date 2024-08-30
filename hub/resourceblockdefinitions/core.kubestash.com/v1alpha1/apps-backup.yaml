@@ -15,7 +15,7 @@ spec:
         query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
           find(oid: $src) {
             backup_via(group: "core.kubestash.com", kind: "BackupConfiguration") {
-              refs: source(group: $targetGroup, kind: $targetKind) {
+              refs: offshoot(group: $targetGroup, kind: $targetKind) {
                 namespace
                 name
               }
