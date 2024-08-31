@@ -17594,11 +17594,16 @@ func schema_resource_metadata_apis_core_v1alpha1_GenericResourceServiceFacilitie
 							},
 						},
 					},
+					"gateway": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("go.bytebuilders.dev/catalog/api/v1alpha1.Gateway"),
+						},
+					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ExecServiceFacilitator", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.GenericResourceServiceFacilitator"},
+			"go.bytebuilders.dev/catalog/api/v1alpha1.Gateway", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.ExecServiceFacilitator", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.GenericResourceServiceFacilitator"},
 	}
 }
 
