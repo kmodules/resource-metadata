@@ -22,13 +22,13 @@ import (
 )
 
 const (
-	ResourceKindMSSQLServerBinding = "MSSQLServerBinding"
-	ResourceMSSQLServerBinding     = "mssqlserverbinding"
-	ResourceMSSQLServerBindings    = "mssqlserverbindings"
+	ResourceKindClickHouseBinding = "ClickHouseBinding"
+	ResourceClickHouseBinding     = "clickhousebinding"
+	ResourceClickHouseBindings    = "clickhousebindings"
 )
 
-// MSSQLServerBindingSpec defines the desired state of MSSQLServerBinding
-type MSSQLServerBindingSpec struct {
+// ClickHouseBindingSpec defines the desired state of ClickHouseBinding
+type ClickHouseBindingSpec struct {
 	// SourceRef refers to the source app instance.
 	SourceRef kmapi.ObjectReference `json:"sourceRef"`
 }
@@ -36,30 +36,30 @@ type MSSQLServerBindingSpec struct {
 // +kubebuilder:object:root=true
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +kubebuilder:subresource:status
-// +kubebuilder:resource:shortName=msbinding,categories={binding,kubedb,appscode}
+// +kubebuilder:resource:shortName=chbinding,categories={binding,kubedb,appscode}
 // +kubebuilder:printcolumn:name="Src_NS",type="string",JSONPath=".spec.sourceRef.namespace"
 // +kubebuilder:printcolumn:name="Src_Name",type="string",JSONPath=".spec.sourceRef.name"
 // +kubebuilder:printcolumn:name="Status",type="string",JSONPath=".status.phase"
 // +kubebuilder:printcolumn:name="Age",type="date",JSONPath=".metadata.creationTimestamp"
 
-// MSSQLServerBinding is the Schema for the mssqlserverbindings API
-type MSSQLServerBinding struct {
+// ClickHouseBinding is the Schema for the clickhousebindings API
+type ClickHouseBinding struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   MSSQLServerBindingSpec `json:"spec,omitempty"`
-	Status BindingStatus          `json:"status,omitempty"`
+	Spec   ClickHouseBindingSpec `json:"spec,omitempty"`
+	Status BindingStatus         `json:"status,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
-// MSSQLServerBindingList contains a list of MSSQLServerBinding
-type MSSQLServerBindingList struct {
+// ClickHouseBindingList contains a list of ClickHouseBinding
+type ClickHouseBindingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []MSSQLServerBinding `json:"items"`
+	Items           []ClickHouseBinding `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&MSSQLServerBinding{}, &MSSQLServerBindingList{})
+	SchemeBuilder.Register(&ClickHouseBinding{}, &ClickHouseBindingList{})
 }

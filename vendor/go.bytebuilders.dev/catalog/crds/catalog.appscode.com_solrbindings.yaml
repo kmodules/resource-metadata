@@ -10,11 +10,14 @@ spec:
   group: catalog.appscode.com
   names:
     categories:
+    - binding
     - kubedb
     - appscode
     kind: SolrBinding
     listKind: SolrBindingList
     plural: solrbindings
+    shortNames:
+    - slbinding
     singular: solrbinding
   scope: Namespaced
   versions:

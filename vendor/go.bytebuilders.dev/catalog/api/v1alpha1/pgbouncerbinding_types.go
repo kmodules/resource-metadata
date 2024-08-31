@@ -36,7 +36,7 @@ type PgBouncerBindingSpec struct {
 // +kubebuilder:object:root=true
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +kubebuilder:subresource:status
-// +kubebuilder:resource:categories={kubedb,appscode}
+// +kubebuilder:resource:shortName=pbbinding,categories={binding,kubedb,appscode}
 // +kubebuilder:printcolumn:name="Src_NS",type="string",JSONPath=".spec.sourceRef.namespace"
 // +kubebuilder:printcolumn:name="Src_Name",type="string",JSONPath=".spec.sourceRef.name"
 // +kubebuilder:printcolumn:name="Status",type="string",JSONPath=".status.phase"

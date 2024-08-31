@@ -10,11 +10,14 @@ spec:
   group: catalog.appscode.com
   names:
     categories:
+    - binding
     - kubedb
     - appscode
     kind: ZooKeeperBinding
     listKind: ZooKeeperBindingList
     plural: zookeeperbindings
+    shortNames:
+    - zkbinding
     singular: zookeeperbinding
   scope: Namespaced
   versions:

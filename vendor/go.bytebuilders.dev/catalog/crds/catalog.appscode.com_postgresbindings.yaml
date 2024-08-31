@@ -10,11 +10,14 @@ spec:
   group: catalog.appscode.com
   names:
     categories:
+    - binding
     - kubedb
     - appscode
     kind: PostgresBinding
     listKind: PostgresBindingList
     plural: postgresbindings
+    shortNames:
+    - pgbinding
     singular: postgresbinding
   scope: Namespaced
   versions:

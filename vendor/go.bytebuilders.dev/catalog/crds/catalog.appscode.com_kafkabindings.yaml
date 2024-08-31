@@ -10,11 +10,14 @@ spec:
   group: catalog.appscode.com
   names:
     categories:
+    - binding
     - kubedb
     - appscode
     kind: KafkaBinding
     listKind: KafkaBindingList
     plural: kafkabindings
+    shortNames:
+    - kfbinding
     singular: kafkabinding
   scope: Namespaced
   versions:

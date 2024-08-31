@@ -10,11 +10,14 @@ spec:
   group: catalog.appscode.com
   names:
     categories:
+    - binding
     - kubedb
     - appscode
     kind: DruidBinding
     listKind: DruidBindingList
     plural: druidbindings
+    shortNames:
+    - drbinding
     singular: druidbinding
   scope: Namespaced
   versions:

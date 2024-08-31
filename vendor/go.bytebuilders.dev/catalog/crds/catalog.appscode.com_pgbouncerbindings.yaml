@@ -10,11 +10,14 @@ spec:
   group: catalog.appscode.com
   names:
     categories:
+    - binding
     - kubedb
     - appscode
     kind: PgBouncerBinding
     listKind: PgBouncerBindingList
     plural: pgbouncerbindings
+    shortNames:
+    - pbbinding
     singular: pgbouncerbinding
   scope: Namespaced
   versions:

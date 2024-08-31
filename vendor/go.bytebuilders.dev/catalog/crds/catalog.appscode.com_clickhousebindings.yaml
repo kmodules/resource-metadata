@@ -5,7 +5,7 @@ metadata:
   labels:
     app.kubernetes.io/name: ace
     kube-bind.appscode.com/exported: "true"
-  name: rabbitmqbindings.catalog.appscode.com
+  name: clickhousebindings.catalog.appscode.com
 spec:
   group: catalog.appscode.com
   names:
@@ -13,12 +13,12 @@ spec:
     - binding
     - kubedb
     - appscode
-    kind: RabbitMQBinding
-    listKind: RabbitMQBindingList
-    plural: rabbitmqbindings
+    kind: ClickHouseBinding
+    listKind: ClickHouseBindingList
+    plural: clickhousebindings
     shortNames:
-    - rmbinding
-    singular: rabbitmqbinding
+    - chbinding
+    singular: clickhousebinding
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -37,7 +37,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: RabbitMQBinding is the Schema for the rabbitmqbindings API
+        description: ClickHouseBinding is the Schema for the clickhousebindings API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -52,7 +52,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: RabbitMQBindingSpec defines the desired state of RabbitMQBinding
+            description: ClickHouseBindingSpec defines the desired state of ClickHouseBinding
             properties:
               sourceRef:
                 description: SourceRef refers to the source app instance.

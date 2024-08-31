@@ -10,11 +10,14 @@ spec:
   group: catalog.appscode.com
   names:
     categories:
+    - binding
     - kubedb
     - appscode
     kind: ProxySQLBinding
     listKind: ProxySQLBindingList
     plural: proxysqlbindings
+    shortNames:
+    - prxbinding
     singular: proxysqlbinding
   scope: Namespaced
   versions:

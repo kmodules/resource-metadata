@@ -10,11 +10,14 @@ spec:
   group: catalog.appscode.com
   names:
     categories:
+    - binding
     - kubedb
     - appscode
     kind: MariaDBBinding
     listKind: MariaDBBindingList
     plural: mariadbbindings
+    shortNames:
+    - mdbinding
     singular: mariadbbinding
   scope: Namespaced
   versions:

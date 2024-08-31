@@ -10,11 +10,14 @@ spec:
   group: catalog.appscode.com
   names:
     categories:
+    - binding
     - kubedb
     - appscode
     kind: SinglestoreBinding
     listKind: SinglestoreBindingList
     plural: singlestorebindings
+    shortNames:
+    - sdbbinding
     singular: singlestorebinding
   scope: Namespaced
   versions:

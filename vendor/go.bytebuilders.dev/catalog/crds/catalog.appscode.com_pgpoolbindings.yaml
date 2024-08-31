@@ -10,11 +10,14 @@ spec:
   group: catalog.appscode.com
   names:
     categories:
+    - binding
     - kubedb
     - appscode
     kind: PgpoolBinding
     listKind: PgpoolBindingList
     plural: pgpoolbindings
+    shortNames:
+    - ppbinding
     singular: pgpoolbinding
   scope: Namespaced
   versions:

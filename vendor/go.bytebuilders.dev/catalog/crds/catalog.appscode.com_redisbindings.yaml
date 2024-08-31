@@ -10,11 +10,14 @@ spec:
   group: catalog.appscode.com
   names:
     categories:
+    - binding
     - kubedb
     - appscode
     kind: RedisBinding
     listKind: RedisBindingList
     plural: redisbindings
+    shortNames:
+    - rdbinding
     singular: redisbinding
   scope: Namespaced
   versions:

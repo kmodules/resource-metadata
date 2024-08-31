@@ -10,11 +10,14 @@ spec:
   group: catalog.appscode.com
   names:
     categories:
+    - binding
     - kubedb
     - appscode
     kind: FerretDBBinding
     listKind: FerretDBBindingList
     plural: ferretdbbindings
+    shortNames:
+    - frbinding
     singular: ferretdbbinding
   scope: Namespaced
   versions:

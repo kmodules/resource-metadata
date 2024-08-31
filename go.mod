@@ -16,7 +16,7 @@ require (
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.9.0
 	github.com/yudai/gojsondiff v1.0.0
-	go.bytebuilders.dev/catalog v0.0.7
+	go.bytebuilders.dev/catalog v0.0.8-0.20240831022339-c58880360336
 	go.bytebuilders.dev/license-verifier v0.14.1
 	golang.org/x/net v0.26.0
 	gomodules.xyz/encoding v0.0.8
