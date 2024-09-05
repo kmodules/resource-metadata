@@ -42,8 +42,9 @@ spec:
     priority: 2
     type: string
   - name: Selector
+    pathTemplate: '{{ .spec.selector | toRawJson }}'
     priority: 3
-    type: string
+    type: object
   - name: Age
     pathTemplate: '{{ .metadata.creationTimestamp | k8s_age }}'
     priority: 3
