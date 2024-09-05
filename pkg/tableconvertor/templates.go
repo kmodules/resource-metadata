@@ -17,7 +17,6 @@ limitations under the License.
 package tableconvertor
 
 import (
-	"bytes"
 	"fmt"
 	"strconv"
 	"strings"
@@ -328,27 +327,56 @@ func promNamespaceSelectorFn(data interface{}) (string, error) {
 }
 
 func containerImagesFn(data interface{}) (string, error) {
-	var containers []core.Container
+	var images []map[string]string
+	appendImage := func(name, image string) {
+		images = append(images, map[string]string{
+			"container": name,
+			"image":     image,
+		})
+	}
+
 	if s, ok := data.(string); ok && s != "" {
-		err := json.Unmarshal([]byte(s), &containers)
-		if err != nil {
-			return "", err
+		var containers []map[string]interface{}
+		if err := json.Unmarshal([]byte(s), &containers); err != nil {
+			return "", fmt.Errorf("failed to unmarshal containers JSON: %w", err)
 		}
-	} else if _, ok := data.(map[string]interface{}); ok {
-		err := meta_util.DecodeObject(data, &containers)
-		if err != nil {
-			return "", err
+		for _, container := range containers {
+			if name, ok := container["name"].(string); ok {
+				if image, ok := container["image"].(string); ok {
+					appendImage(name, image)
+				}
+			}
+		}
+	} else if m, ok := data.(map[string]interface{}); ok {
+		if containerList, ok := m["containers"].([]interface{}); ok {
+			for _, c := range containerList {
+				if container, ok := c.(map[string]interface{}); ok {
+					if name, ok := container["name"].(string); ok {
+						if image, ok := container["image"].(string); ok {
+							appendImage(name, image)
+						}
+					}
+				}
+			}
+		}
+	} else if slice, ok := data.([]interface{}); ok {
+		for _, item := range slice {
+			if container, ok := item.(map[string]interface{}); ok {
+				if name, ok := container["name"].(string); ok {
+					if image, ok := container["image"].(string); ok {
+						appendImage(name, image)
+					}
+				}
+			}
 		}
 	}
 
-	var imagesBuffer bytes.Buffer
-	for i, container := range containers {
-		imagesBuffer.WriteString(container.Image)
-		if i != len(containers)-1 {
-			imagesBuffer.WriteString(",")
-		}
+	imagesJSON, err := json.Marshal(images)
+	if err != nil {
+		return "", err
 	}
-	return imagesBuffer.String(), nil
+
+	return string(imagesJSON), nil
 }
 
 func durationFn(start interface{}, end ...interface{}) (string, error) {

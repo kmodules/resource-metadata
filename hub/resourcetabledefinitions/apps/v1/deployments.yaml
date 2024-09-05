@@ -61,7 +61,7 @@ spec:
   - name: Images
     pathTemplate: '{{ .spec.template.spec.containers | k8s_container_images }}'
     priority: 2
-    type: string
+    type: object
   - name: Security Context
     pathTemplate: '{ "runAsUser": "{{ jp "{.spec.template.spec.securityContext.runAsUser}" . }}", "runAsGroup": "{{ jp "{.spec.template.spec.securityContext.runAsGroup}" . }}","fsGroup": "{{ jp "{.spec.template.spec.securityContext.fsGroup}" . }}" }'
     priority: 1
