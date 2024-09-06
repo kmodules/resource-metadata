@@ -54,7 +54,7 @@ spec:
   - name: Images
     pathTemplate: '{{ .spec.containers | k8s_container_images }}'
     priority: 2
-    type: string
+    type: object
   - name: Restart Policy
     pathTemplate: '{{ .spec.restartPolicy }}'
     priority: 1
