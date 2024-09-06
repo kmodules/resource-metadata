@@ -84,6 +84,7 @@ spec:
     items:
     - name: User Permissions
       path: /access
+      required: true
     name: Access
   - icons:
     - src: https://cdn.appscode.com/k8s/icons/menu/helm.svg
@@ -93,4 +94,5 @@ spec:
     items:
     - name: Issue License
       path: /license
+      required: true
     name: License
