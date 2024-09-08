@@ -4,9 +4,28 @@ import (
 	"bytes"
 	"fmt"
 
+	"github.com/jmespath/go-jmespath"
 	"gomodules.xyz/encoding/json"
 	"gomodules.xyz/jsonpath"
 )
+
+func jmespathFn(expr string, data interface{}, jsonoutput ...bool) (interface{}, error) {
+	enableJSONoutput := len(jsonoutput) > 0 && jsonoutput[0]
+
+	result, err := jmespath.Search(expr, data)
+	if err != nil {
+		return nil, err
+	}
+	if enableJSONoutput {
+		return result, nil
+	}
+
+	jb, err := json.Marshal(result)
+	if err != nil {
+		return nil, err
+	}
+	return string(jb), nil
+}
 
 func jsonpathFn(expr string, data interface{}, jsonoutput ...bool) (interface{}, error) {
 	enableJSONoutput := len(jsonoutput) > 0 && jsonoutput[0]
