@@ -22004,6 +22004,13 @@ func schema_resource_metadata_apis_identity_v1alpha1_SubjectAccessNamespaceRevie
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
+					"allNamespaces": {
+						SchemaProps: spec.SchemaProps{
+							Default: false,
+							Type:    []string{"boolean"},
+							Format:  "",
+						},
+					},
 					"namespaces": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
@@ -22041,6 +22048,7 @@ func schema_resource_metadata_apis_identity_v1alpha1_SubjectAccessNamespaceRevie
 						},
 					},
 				},
+				Required: []string{"allNamespaces"},
 			},
 		},
 	}
