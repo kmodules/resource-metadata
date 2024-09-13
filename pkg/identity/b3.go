@@ -19,6 +19,8 @@ package identity
 import (
 	"crypto/tls"
 	"crypto/x509"
+	"encoding/pem"
+	"errors"
 	"io"
 	"net"
 	"net/http"
@@ -35,6 +37,8 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/apimachinery/pkg/util/json"
+	"k8s.io/klog/v2"
+	"moul.io/http2curl/v2"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -97,8 +101,20 @@ func (c *Client) Identify(clusterUID string) (*kmapi.ClusterMetadata, error) {
 	if c.token != "" {
 		req.Header.Add("Authorization", "Bearer "+c.token)
 	}
+	if klog.V(8).Enabled() {
+		command, _ := http2curl.GetCurlCommand(req)
+		klog.V(8).Infoln(command.String())
+	}
+
 	resp, err := c.client.Do(req)
 	if err != nil {
+		var ce *tls.CertificateVerificationError
+		if errors.As(err, &ce) {
+			klog.ErrorS(err, "UnverifiedCertificates")
+			for _, cert := range ce.UnverifiedCertificates {
+				klog.Errorln(string(encodeCertPEM(cert)))
+			}
+		}
 		return nil, err
 	}
 	defer resp.Body.Close()
@@ -153,8 +169,20 @@ func (c *Client) GetToken() (string, error) {
 	if c.token != "" {
 		req.Header.Add("Authorization", "Bearer "+c.token)
 	}
+	if klog.V(8).Enabled() {
+		command, _ := http2curl.GetCurlCommand(req)
+		klog.V(8).Infoln(command.String())
+	}
+
 	resp, err := c.client.Do(req)
 	if err != nil {
+		var ce *tls.CertificateVerificationError
+		if errors.As(err, &ce) {
+			klog.ErrorS(err, "UnverifiedCertificates")
+			for _, cert := range ce.UnverifiedCertificates {
+				klog.Errorln(string(encodeCertPEM(cert)))
+			}
+		}
 		return "", err
 	}
 	defer resp.Body.Close()
@@ -180,4 +208,12 @@ func (c *Client) GetIdentity() (*identityapi.ClusterIdentity, error) {
 		},
 		Status: *md,
 	}, nil
+}
+
+func encodeCertPEM(cert *x509.Certificate) []byte {
+	block := pem.Block{
+		Type:  "CERTIFICATE",
+		Bytes: cert.Raw,
+	}
+	return pem.EncodeToMemory(&block)
 }

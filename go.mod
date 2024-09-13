@@ -35,6 +35,7 @@ require (
 	kmodules.xyz/go-containerregistry v0.0.12
 	kmodules.xyz/resource-metrics v0.30.4
 	kmodules.xyz/schema-checker v0.4.1
+	moul.io/http2curl/v2 v2.3.1-0.20221024080105-10c404f653f7
 	sigs.k8s.io/cli-utils v0.34.0
 	sigs.k8s.io/controller-runtime v0.18.4
 	sigs.k8s.io/yaml v1.4.0
