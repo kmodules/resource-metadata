@@ -23,10 +23,10 @@ package v1alpha1
 
 import (
 	apiv1 "kmodules.xyz/client-go/api/v1"
+	offshootapiapiv1 "kmodules.xyz/offshoot-api/api/v1"
 	shared "kmodules.xyz/resource-metadata/apis/shared"
 	api "kmodules.xyz/resource-metrics/api"
 
-	apiv1alpha1 "go.bytebuilders.dev/catalog/api/v1alpha1"
 	v1 "k8s.io/api/core/v1"
 	resource "k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -316,7 +316,7 @@ func (in *GenericResourceServiceFacilities) DeepCopyInto(out *GenericResourceSer
 	}
 	if in.Gateway != nil {
 		in, out := &in.Gateway, &out.Gateway
-		*out = new(apiv1alpha1.Gateway)
+		*out = new(offshootapiapiv1.Gateway)
 		(*in).DeepCopyInto(*out)
 	}
 	return

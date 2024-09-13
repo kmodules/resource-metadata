@@ -48,7 +48,6 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"go.bytebuilders.dev/catalog/api/v1alpha1.FerretDBBinding":           schema_gobytebuildersdev_catalog_api_v1alpha1_FerretDBBinding(ref),
 		"go.bytebuilders.dev/catalog/api/v1alpha1.FerretDBBindingList":       schema_gobytebuildersdev_catalog_api_v1alpha1_FerretDBBindingList(ref),
 		"go.bytebuilders.dev/catalog/api/v1alpha1.FerretDBBindingSpec":       schema_gobytebuildersdev_catalog_api_v1alpha1_FerretDBBindingSpec(ref),
-		"go.bytebuilders.dev/catalog/api/v1alpha1.Gateway":                   schema_gobytebuildersdev_catalog_api_v1alpha1_Gateway(ref),
 		"go.bytebuilders.dev/catalog/api/v1alpha1.GenericBinding":            schema_gobytebuildersdev_catalog_api_v1alpha1_GenericBinding(ref),
 		"go.bytebuilders.dev/catalog/api/v1alpha1.GenericBindingList":        schema_gobytebuildersdev_catalog_api_v1alpha1_GenericBindingList(ref),
 		"go.bytebuilders.dev/catalog/api/v1alpha1.GenericBindingSpec":        schema_gobytebuildersdev_catalog_api_v1alpha1_GenericBindingSpec(ref),
@@ -70,8 +69,6 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"go.bytebuilders.dev/catalog/api/v1alpha1.MySQLBinding":              schema_gobytebuildersdev_catalog_api_v1alpha1_MySQLBinding(ref),
 		"go.bytebuilders.dev/catalog/api/v1alpha1.MySQLBindingList":          schema_gobytebuildersdev_catalog_api_v1alpha1_MySQLBindingList(ref),
 		"go.bytebuilders.dev/catalog/api/v1alpha1.MySQLBindingSpec":          schema_gobytebuildersdev_catalog_api_v1alpha1_MySQLBindingSpec(ref),
-		"go.bytebuilders.dev/catalog/api/v1alpha1.NamedServiceStatus":        schema_gobytebuildersdev_catalog_api_v1alpha1_NamedServiceStatus(ref),
-		"go.bytebuilders.dev/catalog/api/v1alpha1.NamedURL":                  schema_gobytebuildersdev_catalog_api_v1alpha1_NamedURL(ref),
 		"go.bytebuilders.dev/catalog/api/v1alpha1.PerconaXtraDBBinding":      schema_gobytebuildersdev_catalog_api_v1alpha1_PerconaXtraDBBinding(ref),
 		"go.bytebuilders.dev/catalog/api/v1alpha1.PerconaXtraDBBindingList":  schema_gobytebuildersdev_catalog_api_v1alpha1_PerconaXtraDBBindingList(ref),
 		"go.bytebuilders.dev/catalog/api/v1alpha1.PerconaXtraDBBindingSpec":  schema_gobytebuildersdev_catalog_api_v1alpha1_PerconaXtraDBBindingSpec(ref),
@@ -402,8 +399,11 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/client-go/api/v1.stringSetMerger":                      schema_kmodulesxyz_client_go_api_v1_stringSetMerger(ref),
 		"kmodules.xyz/offshoot-api/api/v1.ContainerRuntimeSettings":          schema_kmodulesxyz_offshoot_api_api_v1_ContainerRuntimeSettings(ref),
 		"kmodules.xyz/offshoot-api/api/v1.EphemeralVolumeSource":             schema_kmodulesxyz_offshoot_api_api_v1_EphemeralVolumeSource(ref),
+		"kmodules.xyz/offshoot-api/api/v1.Gateway":                           schema_kmodulesxyz_offshoot_api_api_v1_Gateway(ref),
 		"kmodules.xyz/offshoot-api/api/v1.GatewayPort":                       schema_kmodulesxyz_offshoot_api_api_v1_GatewayPort(ref),
 		"kmodules.xyz/offshoot-api/api/v1.IONiceSettings":                    schema_kmodulesxyz_offshoot_api_api_v1_IONiceSettings(ref),
+		"kmodules.xyz/offshoot-api/api/v1.NamedServiceStatus":                schema_kmodulesxyz_offshoot_api_api_v1_NamedServiceStatus(ref),
+		"kmodules.xyz/offshoot-api/api/v1.NamedURL":                          schema_kmodulesxyz_offshoot_api_api_v1_NamedURL(ref),
 		"kmodules.xyz/offshoot-api/api/v1.NiceSettings":                      schema_kmodulesxyz_offshoot_api_api_v1_NiceSettings(ref),
 		"kmodules.xyz/offshoot-api/api/v1.ObjectMeta":                        schema_kmodulesxyz_offshoot_api_api_v1_ObjectMeta(ref),
 		"kmodules.xyz/offshoot-api/api/v1.PartialObjectMeta":                 schema_kmodulesxyz_offshoot_api_api_v1_PartialObjectMeta(ref),
@@ -494,14 +494,14 @@ func schema_gobytebuildersdev_catalog_api_v1alpha1_BindingStatus(ref common.Refe
 					},
 					"gateway": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("go.bytebuilders.dev/catalog/api/v1alpha1.Gateway"),
+							Ref: ref("kmodules.xyz/offshoot-api/api/v1.Gateway"),
 						},
 					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"go.bytebuilders.dev/catalog/api/v1alpha1.Gateway", "k8s.io/api/core/v1.LocalObjectReference", "k8s.io/apimachinery/pkg/runtime.RawExtension", "kmodules.xyz/client-go/api/v1.Condition"},
+			"k8s.io/api/core/v1.LocalObjectReference", "k8s.io/apimachinery/pkg/runtime.RawExtension", "kmodules.xyz/client-go/api/v1.Condition", "kmodules.xyz/offshoot-api/api/v1.Gateway"},
 	}
 }
 
@@ -978,75 +978,6 @@ func schema_gobytebuildersdev_catalog_api_v1alpha1_FerretDBBindingSpec(ref commo
 		},
 		Dependencies: []string{
 			"kmodules.xyz/client-go/api/v1.ObjectReference"},
-	}
-}
-
-func schema_gobytebuildersdev_catalog_api_v1alpha1_Gateway(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Type: []string{"object"},
-				Properties: map[string]spec.Schema{
-					"name": {
-						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
-						},
-					},
-					"namespace": {
-						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
-						},
-					},
-					"ip": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
-					"hostname": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
-					"services": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Services is an optional configuration for services used to expose database",
-							Type:        []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: map[string]interface{}{},
-										Ref:     ref("go.bytebuilders.dev/catalog/api/v1alpha1.NamedServiceStatus"),
-									},
-								},
-							},
-						},
-					},
-					"ui": {
-						SchemaProps: spec.SchemaProps{
-							Description: "UI is an optional list of database web uis",
-							Type:        []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: map[string]interface{}{},
-										Ref:     ref("go.bytebuilders.dev/catalog/api/v1alpha1.NamedURL"),
-									},
-								},
-							},
-						},
-					},
-				},
-				Required: []string{"name", "namespace"},
-			},
-		},
-		Dependencies: []string{
-			"go.bytebuilders.dev/catalog/api/v1alpha1.NamedServiceStatus", "go.bytebuilders.dev/catalog/api/v1alpha1.NamedURL"},
 	}
 }
 
@@ -1880,85 +1811,6 @@ func schema_gobytebuildersdev_catalog_api_v1alpha1_MySQLBindingSpec(ref common.R
 		},
 		Dependencies: []string{
 			"kmodules.xyz/client-go/api/v1.ObjectReference"},
-	}
-}
-
-func schema_gobytebuildersdev_catalog_api_v1alpha1_NamedServiceStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Type: []string{"object"},
-				Properties: map[string]spec.Schema{
-					"alias": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Alias represents the identifier of the service.",
-							Default:     "",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"ports": {
-						SchemaProps: spec.SchemaProps{
-							Type: []string{"array"},
-							Items: &spec.SchemaOrArray{
-								Schema: &spec.Schema{
-									SchemaProps: spec.SchemaProps{
-										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/offshoot-api/api/v1.GatewayPort"),
-									},
-								},
-							},
-						},
-					},
-				},
-				Required: []string{"alias", "ports"},
-			},
-		},
-		Dependencies: []string{
-			"kmodules.xyz/offshoot-api/api/v1.GatewayPort"},
-	}
-}
-
-func schema_gobytebuildersdev_catalog_api_v1alpha1_NamedURL(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Type: []string{"object"},
-				Properties: map[string]spec.Schema{
-					"alias": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Alias represents the identifier of the service. This should match the db ui chart name",
-							Default:     "",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"url": {
-						SchemaProps: spec.SchemaProps{
-							Description: "URL of the database ui",
-							Default:     "",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"port": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("kmodules.xyz/offshoot-api/api/v1.GatewayPort"),
-						},
-					},
-					"helmRelease": {
-						SchemaProps: spec.SchemaProps{
-							Description: "HelmRelease is the name of the helm release used to deploy this ui The name format is typically <alias>-<db-name>",
-							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
-						},
-					},
-				},
-				Required: []string{"alias", "url", "port"},
-			},
-		},
-		Dependencies: []string{
-			"k8s.io/api/core/v1.LocalObjectReference", "kmodules.xyz/offshoot-api/api/v1.GatewayPort"},
 	}
 }
 
@@ -19856,6 +19708,75 @@ func schema_kmodulesxyz_offshoot_api_api_v1_EphemeralVolumeSource(ref common.Ref
 	}
 }
 
+func schema_kmodulesxyz_offshoot_api_api_v1_Gateway(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"namespace": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"ip": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"hostname": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"services": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Services is an optional configuration for services used to expose database",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/offshoot-api/api/v1.NamedServiceStatus"),
+									},
+								},
+							},
+						},
+					},
+					"ui": {
+						SchemaProps: spec.SchemaProps{
+							Description: "UI is an optional list of database web uis",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/offshoot-api/api/v1.NamedURL"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"name", "namespace"},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/offshoot-api/api/v1.NamedServiceStatus", "kmodules.xyz/offshoot-api/api/v1.NamedURL"},
+	}
+}
+
 func schema_kmodulesxyz_offshoot_api_api_v1_GatewayPort(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -19921,6 +19842,85 @@ func schema_kmodulesxyz_offshoot_api_api_v1_IONiceSettings(ref common.ReferenceC
 				},
 			},
 		},
+	}
+}
+
+func schema_kmodulesxyz_offshoot_api_api_v1_NamedServiceStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"alias": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Alias represents the identifier of the service.",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"ports": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/offshoot-api/api/v1.GatewayPort"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"alias", "ports"},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/offshoot-api/api/v1.GatewayPort"},
+	}
+}
+
+func schema_kmodulesxyz_offshoot_api_api_v1_NamedURL(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"alias": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Alias represents the identifier of the service. This should match the db ui chart name",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"url": {
+						SchemaProps: spec.SchemaProps{
+							Description: "URL of the database ui",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"port": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("kmodules.xyz/offshoot-api/api/v1.GatewayPort"),
+						},
+					},
+					"helmRelease": {
+						SchemaProps: spec.SchemaProps{
+							Description: "HelmRelease is the name of the helm release used to deploy this ui The name format is typically <alias>-<db-name>",
+							Ref:         ref("k8s.io/api/core/v1.LocalObjectReference"),
+						},
+					},
+				},
+				Required: []string{"alias", "url", "port"},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.LocalObjectReference", "kmodules.xyz/offshoot-api/api/v1.GatewayPort"},
 	}
 }
 

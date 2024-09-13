@@ -92,45 +92,7 @@ type BindingStatus struct {
 	Source *runtime.RawExtension `json:"source,omitempty"`
 
 	// +optional
-	Gateway *Gateway `json:"gateway,omitempty"`
-}
-
-type Gateway struct {
-	Name      string `json:"name"`
-	Namespace string `json:"namespace"`
-	// +optional
-	IP string `json:"ip,omitempty"`
-	// +optional
-	Hostname string `json:"hostname,omitempty"`
-	// Services is an optional configuration for services used to expose database
-	// +optional
-	Services []NamedServiceStatus `json:"services,omitempty"`
-	// UI is an optional list of database web uis
-	// +optional
-	UI []NamedURL `json:"ui,omitempty"`
-}
-
-type NamedServiceStatus struct {
-	// Alias represents the identifier of the service.
-	Alias string `json:"alias"`
-
-	Ports []ofst.GatewayPort `json:"ports"`
-}
-
-type NamedURL struct {
-	// Alias represents the identifier of the service.
-	// This should match the db ui chart name
-	Alias string `json:"alias"`
-
-	// URL of the database ui
-	URL string `json:"url"`
-
-	Port ofst.GatewayPort `json:"port"`
-
-	// HelmRelease is the name of the helm release used to deploy this ui
-	// The name format is typically <alias>-<db-name>
-	// +optional
-	HelmRelease *core.LocalObjectReference `json:"helmRelease,omitempty"`
+	Gateway *ofst.Gateway `json:"gateway,omitempty"`
 }
 
 // +k8s:deepcopy-gen=false
