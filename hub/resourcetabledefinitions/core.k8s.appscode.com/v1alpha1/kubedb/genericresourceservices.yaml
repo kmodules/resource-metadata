@@ -15,7 +15,7 @@ spec:
         {{ $status := .spec.facilities.exposed.usage }}
         {{ $color := "info" }}
         {{ if eq $status "Used" }}
-          {{ $color = "danger" }}
+          {{ $color = "warning" }}
         {{ else if eq $status "Unused" }}
           {{ $color = "success" }}
         {{ else if eq $status "Unknown" }}
