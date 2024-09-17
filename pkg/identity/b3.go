@@ -147,22 +147,22 @@ func (c *Client) Identify(clusterUID string) (*kmapi.ClusterMetadata, error) {
 	return &md, nil
 }
 
-func (c *Client) GetToken() (string, error) {
+func (c *Client) GetToken() (*identityapi.InboxTokenRequestResponse, error) {
 	u, err := info.APIServerAddress(c.baseURL)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	id, err := c.GetIdentity()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	u.Path = path.Join(u.Path, "api/v1/agent", id.Status.Name, id.Status.UID, "token")
 
 	req, err := http.NewRequest(http.MethodGet, u.String(), nil)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	req.Header.Set("Content-Type", "application/json")
 	// add authorization header to the req
@@ -183,14 +183,20 @@ func (c *Client) GetToken() (string, error) {
 				klog.Errorln(string(encodeCertPEM(cert)))
 			}
 		}
-		return "", err
+		return nil, err
 	}
 	defer resp.Body.Close()
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	return string(body), nil
+
+	tokenResponse := &identityapi.InboxTokenRequestResponse{}
+	if err = json.Unmarshal(body, tokenResponse); err != nil {
+		return nil, err
+	}
+
+	return tokenResponse, nil
 }
 
 const SelfName = "self"
