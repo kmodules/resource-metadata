@@ -20155,6 +20155,13 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSetSpec(ref common.Referen
 							Format:      "",
 						},
 					},
+					"disabled": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Disabled specify whether this feature set is disabled.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
 					"requiredFeatures": {
 						SchemaProps: spec.SchemaProps{
 							Description: "RequiredFeatures specifies list of features that are necessary to consider this feature set as ready.",
@@ -20296,6 +20303,13 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSpec(ref common.ReferenceC
 					"recommended": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Required specifies whether this feature is mandatory or not for enabling the respecting FeatureSet.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
+					"disabled": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Disabled specify whether this feature set is disabled.",
 							Type:        []string{"boolean"},
 							Format:      "",
 						},
