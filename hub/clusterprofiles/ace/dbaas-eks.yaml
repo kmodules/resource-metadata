@@ -8,7 +8,6 @@ spec:
   provider: eks
   requiredFeatureSets:
     capi-capa:
-    - aws-ebs-csi-driver
     - capa-vpc-peering-operator
     - cluster-autoscaler
     capi-core:
