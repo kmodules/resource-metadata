@@ -36,7 +36,7 @@ spec:
     priority: 3
     type: string
   - name: No. of Connected Repositories
-    pathTemplate: '{{ len .status.repositories }}'
+    pathTemplate: '{{ if .status.repositories }}{{ len .status.repositories }}{{ else }}0{{ end }}'
     priority: 3
     type: string
   - color:
@@ -50,7 +50,7 @@ spec:
         {{ end }}
         {{- printf "%s" $color -}}
     name: Status
-    pathTemplate: '{{ .status.phase}}'
+    pathTemplate: '{{ .status.phase }}'
     priority: 3
     type: string
   - name: Age
