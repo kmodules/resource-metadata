@@ -32,33 +32,9 @@ const (
 // ManagedClusterProfileBindingSpec defines the desired state of ManagedClusterProfileBinding
 type ManagedClusterProfileBindingSpec struct {
 	ProfileRef      core.LocalObjectReference `json:"profileRef"`
-	ClusterMetadata ClusterMetadata           `json:"clusterMetadata"`
+	ClusterMetadata kmapi.ClusterInfo         `json:"clusterMetadata"`
 	Features        map[string]FeatureSpec    `json:"features,omitempty"`
 }
-
-type ClusterMetadata struct {
-	Uid             string   `json:"uid"`
-	Name            string   `json:"name"`
-	ClusterManagers []string `json:"clusterManagers"`
-	// +optional
-	CAPI CapiMetadata `json:"capi"`
-}
-
-type CapiMetadata struct {
-	// +optional
-	Provider  CAPIProvider `json:"provider"`
-	Namespace string       `json:"namespace"`
-}
-
-// +kubebuilder:validation:Enum=capa;capg;capz
-type CAPIProvider string
-
-const (
-	CAPIProviderDisabled CAPIProvider = ""
-	CAPIProviderCAPA     CAPIProvider = "capa"
-	CAPIProviderCAPG     CAPIProvider = "capg"
-	CAPIProviderCAPZ     CAPIProvider = "capz"
-)
 
 type BindingStatusPhase string
 

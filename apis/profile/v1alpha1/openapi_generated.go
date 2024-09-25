@@ -317,6 +317,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/client-go/api/v1.CAPIClusterInfo":                                           schema_kmodulesxyz_client_go_api_v1_CAPIClusterInfo(ref),
 		"kmodules.xyz/client-go/api/v1.CertificatePrivateKey":                                     schema_kmodulesxyz_client_go_api_v1_CertificatePrivateKey(ref),
 		"kmodules.xyz/client-go/api/v1.CertificateSpec":                                           schema_kmodulesxyz_client_go_api_v1_CertificateSpec(ref),
+		"kmodules.xyz/client-go/api/v1.ClusterInfo":                                               schema_kmodulesxyz_client_go_api_v1_ClusterInfo(ref),
 		"kmodules.xyz/client-go/api/v1.ClusterMetadata":                                           schema_kmodulesxyz_client_go_api_v1_ClusterMetadata(ref),
 		"kmodules.xyz/client-go/api/v1.Condition":                                                 schema_kmodulesxyz_client_go_api_v1_Condition(ref),
 		"kmodules.xyz/client-go/api/v1.HealthCheckSpec":                                           schema_kmodulesxyz_client_go_api_v1_HealthCheckSpec(ref),
@@ -357,6 +358,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/profile/v1alpha1.ClusterProfile":                     schema_resource_metadata_apis_profile_v1alpha1_ClusterProfile(ref),
 		"kmodules.xyz/resource-metadata/apis/profile/v1alpha1.ClusterProfileList":                 schema_resource_metadata_apis_profile_v1alpha1_ClusterProfileList(ref),
 		"kmodules.xyz/resource-metadata/apis/profile/v1alpha1.ClusterProfileSpec":                 schema_resource_metadata_apis_profile_v1alpha1_ClusterProfileSpec(ref),
+		"kmodules.xyz/resource-metadata/apis/profile/v1alpha1.FeatureSpec":                        schema_resource_metadata_apis_profile_v1alpha1_FeatureSpec(ref),
 		"kmodules.xyz/resource-metadata/apis/profile/v1alpha1.ManagedClusterProfileBinding":       schema_resource_metadata_apis_profile_v1alpha1_ManagedClusterProfileBinding(ref),
 		"kmodules.xyz/resource-metadata/apis/profile/v1alpha1.ManagedClusterProfileBindingList":   schema_resource_metadata_apis_profile_v1alpha1_ManagedClusterProfileBindingList(ref),
 		"kmodules.xyz/resource-metadata/apis/profile/v1alpha1.ManagedClusterProfileBindingSpec":   schema_resource_metadata_apis_profile_v1alpha1_ManagedClusterProfileBindingSpec(ref),
@@ -364,7 +366,6 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/profile/v1alpha1.ManagedClusterSetProfile":           schema_resource_metadata_apis_profile_v1alpha1_ManagedClusterSetProfile(ref),
 		"kmodules.xyz/resource-metadata/apis/profile/v1alpha1.ManagedClusterSetProfileList":       schema_resource_metadata_apis_profile_v1alpha1_ManagedClusterSetProfileList(ref),
 		"kmodules.xyz/resource-metadata/apis/profile/v1alpha1.ManagedClusterSetProfileSpec":       schema_resource_metadata_apis_profile_v1alpha1_ManagedClusterSetProfileSpec(ref),
-		"kmodules.xyz/resource-metadata/apis/profile/v1alpha1.ManagedClusterSetProfileStatus":     schema_resource_metadata_apis_profile_v1alpha1_ManagedClusterSetProfileStatus(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.Action":                                       schema_kmodulesxyz_resource_metadata_apis_shared_Action(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.ActionGroup":                                  schema_kmodulesxyz_resource_metadata_apis_shared_ActionGroup(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.ActionInfo":                                   schema_kmodulesxyz_resource_metadata_apis_shared_ActionInfo(ref),
@@ -16295,6 +16296,56 @@ func schema_kmodulesxyz_client_go_api_v1_CertificateSpec(ref common.ReferenceCal
 	}
 }
 
+func schema_kmodulesxyz_client_go_api_v1_ClusterInfo(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ClusterInfo used in ace-installer",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"uid": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"clusterManagers": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+					"capi": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("kmodules.xyz/client-go/api/v1.CAPIClusterInfo"),
+						},
+					},
+				},
+				Required: []string{"uid", "name", "clusterManagers"},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/client-go/api/v1.CAPIClusterInfo"},
+	}
+}
+
 func schema_kmodulesxyz_client_go_api_v1_ClusterMetadata(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -18830,6 +18881,47 @@ func schema_resource_metadata_apis_profile_v1alpha1_ClusterProfileSpec(ref commo
 	}
 }
 
+func schema_resource_metadata_apis_profile_v1alpha1_FeatureSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"chart": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Chart specifies the chart information that will be used by the FluxCD to install the respective feature",
+							Default:     map[string]interface{}{},
+							Ref:         ref("kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ChartInfo"),
+						},
+					},
+					"valuesFrom": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ValuesFrom holds references to resources containing Helm values for this HelmRelease, and information about how they should be merged.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ValuesReference"),
+									},
+								},
+							},
+						},
+					},
+					"values": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Values holds the values for this Helm release.",
+							Ref:         ref("k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON"),
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ChartInfo", "kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ValuesReference"},
+	}
+}
+
 func schema_resource_metadata_apis_profile_v1alpha1_ManagedClusterProfileBinding(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -18933,16 +19025,38 @@ func schema_resource_metadata_apis_profile_v1alpha1_ManagedClusterProfileBinding
 				Description: "ManagedClusterProfileBindingSpec defines the desired state of ManagedClusterProfileBinding",
 				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
-					"foo": {
+					"profileRef": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Foo is an example field of ManagedClusterProfileBinding. Edit managedclusterprofilebinding_types.go to remove/update",
-							Type:        []string{"string"},
-							Format:      "",
+							Default: map[string]interface{}{},
+							Ref:     ref("k8s.io/api/core/v1.LocalObjectReference"),
+						},
+					},
+					"clusterMetadata": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("kmodules.xyz/client-go/api/v1.ClusterInfo"),
+						},
+					},
+					"features": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/profile/v1alpha1.FeatureSpec"),
+									},
+								},
+							},
 						},
 					},
 				},
+				Required: []string{"profileRef", "clusterMetadata"},
 			},
 		},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.LocalObjectReference", "kmodules.xyz/client-go/api/v1.ClusterInfo", "kmodules.xyz/resource-metadata/apis/profile/v1alpha1.FeatureSpec"},
 	}
 }
 
@@ -18952,8 +19066,55 @@ func schema_resource_metadata_apis_profile_v1alpha1_ManagedClusterProfileBinding
 			SchemaProps: spec.SchemaProps{
 				Description: "ManagedClusterProfileBindingStatus defines the observed state of ManagedClusterProfileBinding",
 				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"phase": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Phase indicates the state this Vault cluster jumps in.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"conditions": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Represents the latest available observations of a GrafanaDashboard current state.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/client-go/api/v1.Condition"),
+									},
+								},
+							},
+						},
+					},
+					"observedGeneration": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ObservedGeneration is the most recent generation observed for this resource. It corresponds to the resource's generation, which is updated on mutation by the API Server.",
+							Type:        []string{"integer"},
+							Format:      "int64",
+						},
+					},
+					"manifestWorks": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 		},
+		Dependencies: []string{
+			"kmodules.xyz/client-go/api/v1.Condition"},
 	}
 }
 
@@ -18990,17 +19151,11 @@ func schema_resource_metadata_apis_profile_v1alpha1_ManagedClusterSetProfile(ref
 							Ref:     ref("kmodules.xyz/resource-metadata/apis/profile/v1alpha1.ManagedClusterSetProfileSpec"),
 						},
 					},
-					"status": {
-						SchemaProps: spec.SchemaProps{
-							Default: map[string]interface{}{},
-							Ref:     ref("kmodules.xyz/resource-metadata/apis/profile/v1alpha1.ManagedClusterSetProfileStatus"),
-						},
-					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta", "kmodules.xyz/resource-metadata/apis/profile/v1alpha1.ManagedClusterSetProfileSpec", "kmodules.xyz/resource-metadata/apis/profile/v1alpha1.ManagedClusterSetProfileStatus"},
+			"k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta", "kmodules.xyz/resource-metadata/apis/profile/v1alpha1.ManagedClusterSetProfileSpec"},
 	}
 }
 
@@ -19060,27 +19215,39 @@ func schema_resource_metadata_apis_profile_v1alpha1_ManagedClusterSetProfileSpec
 				Description: "ManagedClusterSetProfileSpec defines the desired state of ManagedClusterSetProfile",
 				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
-					"foo": {
+					"namespaces": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Foo is an example field of ManagedClusterSetProfile. Edit managedclustersetprofile_types.go to remove/update",
-							Type:        []string{"string"},
-							Format:      "",
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+					"features": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: map[string]interface{}{},
+										Ref:     ref("kmodules.xyz/resource-metadata/apis/profile/v1alpha1.FeatureSpec"),
+									},
+								},
+							},
 						},
 					},
 				},
 			},
 		},
-	}
-}
-
-func schema_resource_metadata_apis_profile_v1alpha1_ManagedClusterSetProfileStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Description: "ManagedClusterSetProfileStatus defines the observed state of ManagedClusterSetProfile",
-				Type:        []string{"object"},
-			},
-		},
+		Dependencies: []string{
+			"kmodules.xyz/resource-metadata/apis/profile/v1alpha1.FeatureSpec"},
 	}
 }
 
