@@ -26,7 +26,7 @@ import (
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
 	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	v1alpha1 "kmodules.xyz/resource-metadata/apis/profile/v1alpha1"
 	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 )
 
@@ -55,7 +55,7 @@ type clusterProfiles struct {
 }
 
 // newClusterProfiles returns a ClusterProfiles
-func newClusterProfiles(c *MetaV1alpha1Client) *clusterProfiles {
+func newClusterProfiles(c *ProfileV1alpha1Client) *clusterProfiles {
 	return &clusterProfiles{
 		client: c.RESTClient(),
 	}

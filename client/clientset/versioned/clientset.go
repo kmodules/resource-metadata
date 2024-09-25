@@ -30,6 +30,7 @@ import (
 	managementv1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/management/v1alpha1"
 	metav1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/meta/v1alpha1"
 	nodev1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/node/v1alpha1"
+	profilev1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/profile/v1alpha1"
 	uiv1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/ui/v1alpha1"
 )
 
@@ -40,6 +41,7 @@ type Interface interface {
 	ManagementV1alpha1() managementv1alpha1.ManagementV1alpha1Interface
 	MetaV1alpha1() metav1alpha1.MetaV1alpha1Interface
 	NodeV1alpha1() nodev1alpha1.NodeV1alpha1Interface
+	ProfileV1alpha1() profilev1alpha1.ProfileV1alpha1Interface
 	UiV1alpha1() uiv1alpha1.UiV1alpha1Interface
 }
 
@@ -51,6 +53,7 @@ type Clientset struct {
 	managementV1alpha1 *managementv1alpha1.ManagementV1alpha1Client
 	metaV1alpha1       *metav1alpha1.MetaV1alpha1Client
 	nodeV1alpha1       *nodev1alpha1.NodeV1alpha1Client
+	profileV1alpha1    *profilev1alpha1.ProfileV1alpha1Client
 	uiV1alpha1         *uiv1alpha1.UiV1alpha1Client
 }
 
@@ -77,6 +80,11 @@ func (c *Clientset) MetaV1alpha1() metav1alpha1.MetaV1alpha1Interface {
 // NodeV1alpha1 retrieves the NodeV1alpha1Client
 func (c *Clientset) NodeV1alpha1() nodev1alpha1.NodeV1alpha1Interface {
 	return c.nodeV1alpha1
+}
+
+// ProfileV1alpha1 retrieves the ProfileV1alpha1Client
+func (c *Clientset) ProfileV1alpha1() profilev1alpha1.ProfileV1alpha1Interface {
+	return c.profileV1alpha1
 }
 
 // UiV1alpha1 retrieves the UiV1alpha1Client
@@ -148,6 +156,10 @@ func NewForConfigAndClient(c *rest.Config, httpClient *http.Client) (*Clientset,
 	if err != nil {
 		return nil, err
 	}
+	cs.profileV1alpha1, err = profilev1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
+	if err != nil {
+		return nil, err
+	}
 	cs.uiV1alpha1, err = uiv1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
 		return nil, err
@@ -178,6 +190,7 @@ func New(c rest.Interface) *Clientset {
 	cs.managementV1alpha1 = managementv1alpha1.New(c)
 	cs.metaV1alpha1 = metav1alpha1.New(c)
 	cs.nodeV1alpha1 = nodev1alpha1.New(c)
+	cs.profileV1alpha1 = profilev1alpha1.New(c)
 	cs.uiV1alpha1 = uiv1alpha1.New(c)
 
 	cs.DiscoveryClient = discovery.NewDiscoveryClient(c)

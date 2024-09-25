@@ -35,6 +35,8 @@ import (
 	fakemetav1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/meta/v1alpha1/fake"
 	nodev1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/node/v1alpha1"
 	fakenodev1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/node/v1alpha1/fake"
+	profilev1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/profile/v1alpha1"
+	fakeprofilev1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/profile/v1alpha1/fake"
 	uiv1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/ui/v1alpha1"
 	fakeuiv1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/ui/v1alpha1/fake"
 )
@@ -112,6 +114,11 @@ func (c *Clientset) MetaV1alpha1() metav1alpha1.MetaV1alpha1Interface {
 // NodeV1alpha1 retrieves the NodeV1alpha1Client
 func (c *Clientset) NodeV1alpha1() nodev1alpha1.NodeV1alpha1Interface {
 	return &fakenodev1alpha1.FakeNodeV1alpha1{Fake: &c.Fake}
+}
+
+// ProfileV1alpha1 retrieves the ProfileV1alpha1Client
+func (c *Clientset) ProfileV1alpha1() profilev1alpha1.ProfileV1alpha1Interface {
+	return &fakeprofilev1alpha1.FakeProfileV1alpha1{Fake: &c.Fake}
 }
 
 // UiV1alpha1 retrieves the UiV1alpha1Client

@@ -24,7 +24,7 @@ import (
 	"sort"
 	"sync"
 
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	"kmodules.xyz/resource-metadata/apis/profile/v1alpha1"
 
 	"github.com/pkg/errors"
 	ioutilx "gomodules.xyz/x/ioutil"
