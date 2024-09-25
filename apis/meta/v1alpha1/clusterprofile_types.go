@@ -26,23 +26,7 @@ const (
 	ResourceClusterProfiles    = "clusterprofiles"
 )
 
-// +genclient
-// +genclient:nonNamespaced
-// +k8s:openapi-gen=true
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-
-// +kubebuilder:object:root=true
-// +kubebuilder:resource:path=resourceeditors,singular=resourceeditor,scope=Cluster
-// +kubebuilder:subresource:status
-// +kubebuilder:printcolumn:name="Status",type="string",JSONPath=".status.phase"
-// +kubebuilder:printcolumn:name="Age",type="date",JSONPath=".metadata.creationTimestamp"
-type ClusterProfile struct {
-	metav1.TypeMeta `json:",inline"`
-	// +optional
-	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ClusterProfileSpec `json:"spec,omitempty"`
-}
-
+// ClusterProfileSpec defines the desired state of ClusterProfile
 type ClusterProfileSpec struct {
 	Title               string                 `json:"title"`
 	Description         string                 `json:"description"`
@@ -50,11 +34,31 @@ type ClusterProfileSpec struct {
 	RequiredFeatureSets map[string]FeatureList `json:"requiredFeatureSets,omitempty"`
 }
 
+// ClusterProfile is the Schema for the clusterprofiles API
+
+// +genclient
+// +genclient:nonNamespaced
+// +genclient:skipVerbs=updateStatus
+// +k8s:openapi-gen=true
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:resource:scope=Cluster
+// +kubebuilder:printcolumn:name="Status",type="string",JSONPath=".status.phase"
+// +kubebuilder:printcolumn:name="Age",type="date",JSONPath=".metadata.creationTimestamp"
+type ClusterProfile struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Spec ClusterProfileSpec `json:"spec,omitempty"`
+}
+
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +kubebuilder:object:root=true
 
+// ClusterProfileList contains a list of ClusterProfile
 type ClusterProfileList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []ClusterProfile `json:"items,omitempty"`
+	Items           []ClusterProfile `json:"items"`
 }
