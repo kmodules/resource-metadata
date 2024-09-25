@@ -50,7 +50,7 @@ spec:
         {{ end }}
         {{- printf "%s" $color -}}
     name: Integrity
-    pathTemplate: '{{ .status.integrity | upper }}'
+    pathTemplate: '{{ .status.integrity | toString | upper }}'
     priority: 3
     type: string
   - name: Age
