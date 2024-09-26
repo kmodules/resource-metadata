@@ -17,7 +17,7 @@ require (
 	github.com/stretchr/testify v1.9.0
 	github.com/yudai/gojsondiff v1.0.0
 	go.bytebuilders.dev/license-verifier v0.14.2
-	golang.org/x/net v0.27.0
+	golang.org/x/net v0.29.0
 	gomodules.xyz/encoding v0.0.8
 	gomodules.xyz/jsonpath v0.0.2
 	gomodules.xyz/x v0.0.17
@@ -29,7 +29,7 @@ require (
 	k8s.io/klog/v2 v2.130.1
 	k8s.io/kube-openapi v0.0.0-20240703190633-0aa61b46e8c2
 	kmodules.xyz/apiversion v0.2.0
-	kmodules.xyz/client-go v0.30.16
+	kmodules.xyz/client-go v0.30.17
 	kmodules.xyz/crd-schema-fuzz v0.29.1
 	kmodules.xyz/go-containerregistry v0.0.12
 	kmodules.xyz/offshoot-api v0.30.1
@@ -113,7 +113,7 @@ require (
 	go.uber.org/zap v1.27.0 // indirect
 	golang.org/x/crypto v0.27.0 // indirect
 	golang.org/x/exp v0.0.0-20240506185415-9bf2ced13842 // indirect
-	golang.org/x/oauth2 v0.21.0 // indirect
+	golang.org/x/oauth2 v0.22.0 // indirect
 	golang.org/x/sync v0.8.0 // indirect
 	golang.org/x/sys v0.25.0 // indirect
 	golang.org/x/term v0.24.0 // indirect
