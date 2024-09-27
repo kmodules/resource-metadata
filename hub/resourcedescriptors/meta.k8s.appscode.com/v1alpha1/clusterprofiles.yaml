@@ -3,17 +3,17 @@ kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
   labels:
-    k8s.io/group: policy.kubevault.com
-    k8s.io/kind: VaultPolicy
-    k8s.io/resource: vaultpolicies
+    k8s.io/group: meta.k8s.appscode.com
+    k8s.io/kind: ClusterProfile
+    k8s.io/resource: clusterprofiles
     k8s.io/version: v1alpha1
-  name: policy.kubevault.com-v1alpha1-vaultpolicies
+  name: meta.k8s.appscode.com-v1alpha1-clusterprofiles
 spec:
   resource:
-    group: policy.kubevault.com
-    kind: VaultPolicy
-    name: vaultpolicies
-    scope: Namespaced
+    group: meta.k8s.appscode.com
+    kind: ClusterProfile
+    name: clusterprofiles
+    scope: Cluster
     version: v1alpha1
   validation:
     openAPIV3Schema:
@@ -37,14 +37,6 @@ spec:
                 is primarily intended for creation idempotence and configuration definition.
                 Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
               type: string
-            namespace:
-              description: "Namespace defines the space within which each name must
-                be unique. An empty namespace is equivalent to the \"default\" namespace,
-                but \"default\" is the canonical representation. Not all objects are
-                required to be scoped to a namespace - the value of this field for
-                those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated.
-                More info: http://kubernetes.io/docs/user-guide/namespaces"
-              type: string
             labels:
               additionalProperties:
                 type: string
@@ -62,39 +54,22 @@ spec:
               type: object
           type: object
         spec:
-          description: 'More info: https://www.vaultproject.io/docs/concepts/policies.html'
+          description: ClusterProfileSpec defines the desired state of ClusterProfile
           properties:
-            policy:
-              description: Policy specifies a vault policy in json format.
-              type: object
-              x-kubernetes-embedded-resource: true
-              x-kubernetes-preserve-unknown-fields: true
-            policyDocument:
-              description: 'PolicyDocument specifies a vault policy in hcl format.
-                For example: path "secret/*" { capabilities = ["create", "read", "update",
-                "delete", "list"] }'
+            description:
               type: string
-            vaultPolicyName:
-              description: 'VaultPolicyName is the policy name set inside Vault. This
-                defaults to following format: k8s.${cluster}.${metadata.namespace}.${metadata.name}'
+            provider:
               type: string
-            vaultRef:
-              description: VaultRef is the name of a AppBinding referencing to a Vault
-                Server
-              properties:
-                name:
-                  default: ""
-                  description: 'Name of the referent. This field is effectively required,
-                    but due to backwards compatibility is allowed to be empty. Instances
-                    of this type with an empty value here are almost certainly wrong.
-                    TODO: Add other useful fields. apiVersion, kind, uid? More info:
-                    https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                    TODO: Drop `kubebuilder:default` when controller-gen doesn''t
-                    need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.'
+            requiredFeatureSets:
+              additionalProperties:
+                items:
                   type: string
+                type: array
               type: object
-              x-kubernetes-map-type: atomic
+            title:
+              type: string
           required:
-          - vaultRef
+          - description
+          - title
           type: object
       type: object

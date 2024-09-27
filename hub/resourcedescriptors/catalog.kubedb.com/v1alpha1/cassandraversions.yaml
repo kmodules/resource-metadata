@@ -3,16 +3,16 @@ kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
   labels:
-    k8s.io/group: authentication.k8s.appscode.com
-    k8s.io/kind: User
-    k8s.io/resource: users
+    k8s.io/group: catalog.kubedb.com
+    k8s.io/kind: CassandraVersion
+    k8s.io/resource: cassandraversions
     k8s.io/version: v1alpha1
-  name: authentication.k8s.appscode.com-v1alpha1-users
+  name: catalog.kubedb.com-v1alpha1-cassandraversions
 spec:
   resource:
-    group: authentication.k8s.appscode.com
-    kind: User
-    name: users
+    group: catalog.kubedb.com
+    kind: CassandraVersion
+    name: cassandraversions
     scope: Cluster
     version: v1alpha1
   validation:
@@ -49,19 +49,46 @@ spec:
           type: object
         spec:
           properties:
-            extra:
-              additionalProperties:
-                items:
+            db:
+              properties:
+                image:
                   type: string
-                type: array
+              required:
+              - image
               type: object
-            groups:
+            initContainer:
+              properties:
+                image:
+                  type: string
+              required:
+              - image
+              type: object
+            securityContext:
+              properties:
+                runAsUser:
+                  format: int64
+                  type: integer
+              type: object
+            ui:
               items:
-                type: string
+                properties:
+                  disable:
+                    type: boolean
+                  name:
+                    type: string
+                  values:
+                    x-kubernetes-preserve-unknown-fields: true
+                  version:
+                    type: string
+                required:
+                - name
+                type: object
               type: array
-            uid:
+            version:
               type: string
-            username:
-              type: string
+          required:
+          - db
+          - initContainer
+          - version
           type: object
       type: object

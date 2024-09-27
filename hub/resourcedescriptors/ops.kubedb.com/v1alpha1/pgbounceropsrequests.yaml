@@ -66,13 +66,6 @@ spec:
           type: object
         spec:
           properties:
-            UpdateVersion:
-              properties:
-                readinessCriteria:
-                  type: object
-                targetVersion:
-                  type: string
-              type: object
             apply:
               default: IfReady
               enum:
@@ -80,6 +73,25 @@ spec:
               - Always
               type: string
             configuration:
+              properties:
+                pgbouncer:
+                  properties:
+                    applyConfig:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    configSecret:
+                      properties:
+                        name:
+                          default: ""
+                          type: string
+                      type: object
+                      x-kubernetes-map-type: atomic
+                    removeCustomConfig:
+                      type: boolean
+                  type: object
+              required:
+              - pgbouncer
               type: object
             horizontalScaling:
               properties:
@@ -207,7 +219,14 @@ spec:
               enum:
               - HorizontalScaling
               - VerticalScaling
+              - UpdateVersion
+              - Reconfigure
               type: string
+            updateVersion:
+              properties:
+                targetVersion:
+                  type: string
+              type: object
             verticalScaling:
               properties:
                 exporter:

@@ -3,16 +3,16 @@ kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
   labels:
-    k8s.io/group: catalog.kubedb.com
-    k8s.io/kind: ClickHouseVersion
-    k8s.io/resource: clickhouseversions
+    k8s.io/group: authentication.k8s.appscode.com
+    k8s.io/kind: Account
+    k8s.io/resource: accounts
     k8s.io/version: v1alpha1
-  name: catalog.kubedb.com-v1alpha1-clickhouseversions
+  name: authentication.k8s.appscode.com-v1alpha1-accounts
 spec:
   resource:
-    group: catalog.kubedb.com
-    kind: ClickHouseVersion
-    name: clickhouseversions
+    group: authentication.k8s.appscode.com
+    kind: Account
+    name: accounts
     scope: Cluster
     version: v1alpha1
   validation:
@@ -49,54 +49,22 @@ spec:
           type: object
         spec:
           properties:
-            clickHouseKeeper:
-              properties:
-                image:
+            extra:
+              additionalProperties:
+                items:
                   type: string
-              required:
-              - image
+                type: array
               type: object
-            db:
-              properties:
-                image:
-                  type: string
-              required:
-              - image
-              type: object
-            initContainer:
-              properties:
-                image:
-                  type: string
-              required:
-              - image
-              type: object
-            securityContext:
-              properties:
-                runAsUser:
-                  format: int64
-                  type: integer
-              type: object
-            ui:
+            groups:
               items:
-                properties:
-                  disable:
-                    type: boolean
-                  name:
-                    type: string
-                  values:
-                    x-kubernetes-preserve-unknown-fields: true
-                  version:
-                    type: string
-                required:
-                - name
-                type: object
+                type: string
               type: array
-            version:
+            tokenGeneration:
+              format: int64
+              type: integer
+            uid:
               type: string
-          required:
-          - clickHouseKeeper
-          - db
-          - initContainer
-          - version
+            username:
+              type: string
           type: object
       type: object

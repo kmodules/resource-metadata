@@ -75,6 +75,11 @@ spec:
           description: BackupSessionSpec specifies the information related to the
             respective backup invoker and session.
           properties:
+            backupTimeout:
+              description: BackupTimeout specifies the maximum duration of backup.
+                Backup will be considered Failed if backup tasks do not complete within
+                this time limit. By default, KubeStash don't set any timeout for backup.
+              type: string
             invoker:
               description: Invoker points to the respective BackupConfiguration or
                 BackupBatch which is responsible for triggering this backup.

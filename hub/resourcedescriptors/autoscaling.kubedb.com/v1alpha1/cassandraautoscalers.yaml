@@ -4,15 +4,15 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: autoscaling.kubedb.com
-    k8s.io/kind: MSSQLServerAutoscaler
-    k8s.io/resource: mssqlserverautoscalers
+    k8s.io/kind: CassandraAutoscaler
+    k8s.io/resource: cassandraautoscalers
     k8s.io/version: v1alpha1
-  name: autoscaling.kubedb.com-v1alpha1-mssqlserverautoscalers
+  name: autoscaling.kubedb.com-v1alpha1-cassandraautoscalers
 spec:
   resource:
     group: autoscaling.kubedb.com
-    kind: MSSQLServerAutoscaler
-    name: mssqlserverautoscalers
+    kind: CassandraAutoscaler
+    name: cassandraautoscalers
     scope: Namespaced
     version: v1alpha1
   validation:
@@ -59,7 +59,7 @@ spec:
           properties:
             compute:
               properties:
-                mssqlserver:
+                cassandra:
                   properties:
                     containerControlledValues:
                       enum:
@@ -132,14 +132,12 @@ spec:
                   - IfReady
                   - Always
                   type: string
-                readinessCriteria:
-                  type: object
                 timeout:
                   type: string
               type: object
             storage:
               properties:
-                mssqlserver:
+                cassandra:
                   properties:
                     expansionMode:
                       enum:
