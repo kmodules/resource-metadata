@@ -15,3 +15,12 @@ spec:
     name: cassandras
     scope: Namespaced
     version: v1alpha2
+  ui:
+    editor:
+      name: kubedbcom-cassandra-editor
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: appscode-charts-oci
+      version: v0.6.0
+    enforceQuota: false
