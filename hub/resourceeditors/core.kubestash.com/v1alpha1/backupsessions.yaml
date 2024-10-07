@@ -29,3 +29,10 @@ spec:
         name: appscode-charts-oci
       version: v0.6.0
     enforceQuota: false
+    options:
+      name: corekubestashcom-backupsession-editor-options
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: appscode-charts-oci
+      version: v0.6.0
