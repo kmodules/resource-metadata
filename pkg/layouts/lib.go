@@ -172,7 +172,7 @@ func GetResourceLayout(kc client.Client, outline *v1alpha1.ResourceOutline) (*v1
 	result.ObjectMeta = outline.ObjectMeta
 	result.Spec.DefaultLayout = outline.Spec.DefaultLayout
 	result.Spec.Resource = outline.Spec.Resource
-	if ed, ok := resourceeditors.LoadByGVR(kc, outline.Spec.Resource.GroupVersionResource()); ok {
+	if ed, err := resourceeditors.LoadByGVR(kc, outline.Spec.Resource.GroupVersionResource()); err == nil {
 		if ed.Spec.UI != nil {
 			result.Spec.UI = &shared.UIParameterTemplate{
 				InstanceLabelPaths: ed.Spec.UI.InstanceLabelPaths,
