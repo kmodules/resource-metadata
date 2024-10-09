@@ -17,6 +17,10 @@ spec:
       - kind: Block
         name: falco.appscode.com-v1alpha1-falcoevents-node
       name: Runtime Security
+      requiredFeatureSets:
+        opscenter-security:
+        - falco
+        - falco-ui-server
   resource:
     group: ""
     kind: Node

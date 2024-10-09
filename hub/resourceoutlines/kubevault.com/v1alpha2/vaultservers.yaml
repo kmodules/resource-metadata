@@ -57,6 +57,10 @@ spec:
       - kind: Block
         name: falco.appscode.com-v1alpha1-falcoevents-app
       name: Runtime Security
+      requiredFeatureSets:
+        opscenter-security:
+        - falco
+        - falco-ui-server
   resource:
     group: kubevault.com
     kind: VaultServer
