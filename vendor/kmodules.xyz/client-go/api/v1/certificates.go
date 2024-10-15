@@ -58,6 +58,14 @@ type CertificateSpec struct {
 	// +optional
 	Duration *metav1.Duration `json:"duration,omitempty" protobuf:"bytes,5,opt,name=duration"`
 
+	// Certificate renew before expiration duration
+	//
+	// Deprecated use `ReconfigureTLS` type OpsRequest instead.
+	//
+	// +deprecated
+	// +optional
+	RenewBefore *metav1.Duration `json:"renewBefore,omitempty" protobuf:"bytes,6,opt,name=renewBefore"`
+
 	// DNSNames is a list of subject alt names to be used on the Certificate.
 	// +optional
 	DNSNames []string `json:"dnsNames,omitempty" protobuf:"bytes,7,rep,name=dnsNames"`

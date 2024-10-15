@@ -28,6 +28,10 @@ type FakeUiV1alpha1 struct {
 	*testing.Fake
 }
 
+func (c *FakeUiV1alpha1) ClusterProfiles() v1alpha1.ClusterProfileInterface {
+	return &FakeClusterProfiles{c}
+}
+
 func (c *FakeUiV1alpha1) Features() v1alpha1.FeatureInterface {
 	return &FakeFeatures{c}
 }

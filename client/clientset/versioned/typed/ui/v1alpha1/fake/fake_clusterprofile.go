@@ -26,12 +26,12 @@ import (
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
 	testing "k8s.io/client-go/testing"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	v1alpha1 "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
 )
 
 // FakeClusterProfiles implements ClusterProfileInterface
 type FakeClusterProfiles struct {
-	Fake *FakeMetaV1alpha1
+	Fake *FakeUiV1alpha1
 }
 
 var clusterprofilesResource = v1alpha1.SchemeGroupVersion.WithResource("clusterprofiles")

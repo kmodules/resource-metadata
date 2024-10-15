@@ -70,6 +70,14 @@ message CertificateSpec {
   // +optional
   optional k8s.io.apimachinery.pkg.apis.meta.v1.Duration duration = 5;
 
+  // Certificate renew before expiration duration
+  //
+  // Deprecated use `ReconfigureTLS` type OpsRequest instead.
+  //
+  // +deprecated
+  // +optional
+  optional k8s.io.apimachinery.pkg.apis.meta.v1.Duration renewBefore = 6;
+
   // DNSNames is a list of subject alt names to be used on the Certificate.
   // +optional
   repeated string dnsNames = 7;
