@@ -8,7 +8,6 @@ spec:
   provider: eks
   requiredFeatureSets:
     capi-capa:
-    - capa-vpc-peering-operator
     - cluster-autoscaler
     capi-core:
     - cluster-presets
