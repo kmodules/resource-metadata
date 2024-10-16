@@ -28,6 +28,7 @@ import (
 
 type UiV1alpha1Interface interface {
 	RESTClient() rest.Interface
+	ClusterProfilesGetter
 	FeaturesGetter
 	FeatureSetsGetter
 	ResourceDashboardsGetter
@@ -37,6 +38,10 @@ type UiV1alpha1Interface interface {
 // UiV1alpha1Client is used to interact with features provided by the ui.k8s.appscode.com group.
 type UiV1alpha1Client struct {
 	restClient rest.Interface
+}
+
+func (c *UiV1alpha1Client) ClusterProfiles() ClusterProfileInterface {
+	return newClusterProfiles(c)
 }
 
 func (c *UiV1alpha1Client) Features() FeatureInterface {

@@ -18,6 +18,8 @@ limitations under the License.
 
 package v1alpha1
 
+type ClusterProfileExpansion interface{}
+
 type FeatureExpansion interface{}
 
 type FeatureSetExpansion interface{}

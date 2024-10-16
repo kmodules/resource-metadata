@@ -5,14 +5,14 @@ metadata:
   labels:
     k8s.io/group: meta.k8s.appscode.com
     k8s.io/kind: ClusterProfile
-    k8s.io/resource: clusterprofiles
+    k8s.io/resource: ClusterProfiles
     k8s.io/version: v1alpha1
-  name: meta.k8s.appscode.com-v1alpha1-clusterprofiles
+  name: meta.k8s.appscode.com-v1alpha1-ClusterProfiles
 spec:
   resource:
     group: meta.k8s.appscode.com
     kind: ClusterProfile
-    name: clusterprofiles
+    name: ClusterProfiles
     scope: Cluster
     version: v1alpha1
   validation:
