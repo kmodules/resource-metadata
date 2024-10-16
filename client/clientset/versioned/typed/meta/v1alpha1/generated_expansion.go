@@ -20,8 +20,6 @@ package v1alpha1
 
 type ChartPresetQueryExpansion interface{}
 
-type ClusterProfileExpansion interface{}
-
 type ClusterStatusExpansion interface{}
 
 type MenuOutlineExpansion interface{}

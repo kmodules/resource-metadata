@@ -28,11 +28,13 @@ const (
 
 // ClusterProfileSpec defines the desired state of ClusterProfile
 type ClusterProfileSpec struct {
-	Title               string                 `json:"title"`
-	Description         string                 `json:"description"`
-	Provider            string                 `json:"provider,omitempty"`
-	RequiredFeatureSets map[string]FeatureList `json:"requiredFeatureSets,omitempty"`
+	Title               string              `json:"title"`
+	Description         string              `json:"description"`
+	Provider            string              `json:"provider,omitempty"`
+	RequiredFeatureSets map[string]Features `json:"requiredFeatureSets,omitempty"`
 }
+
+type Features []string
 
 // ClusterProfile is the Schema for the clusterprofiles API
 
