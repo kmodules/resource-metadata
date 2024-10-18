@@ -83,7 +83,10 @@ spec:
       type: image/png
     items:
     - name: User Permissions
-      path: /access
+      path: /access/users
+      required: true
+    - name: Team Permissions
+      path: /access/teams
       required: true
     name: Access
   - icons:
