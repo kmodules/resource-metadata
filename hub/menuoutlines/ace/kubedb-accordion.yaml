@@ -86,49 +86,49 @@ spec:
       type:
         group: kubedb.com
         kind: ClickHouse
-    - featureMode: ALPHA
+    - featureMode: GA
       layoutName: kubedb.com-v1alpha2-druids-kubedb
       name: Druid
       type:
         group: kubedb.com
         kind: Druid
-    - featureMode: ALPHA
+    - featureMode: GA
       layoutName: kubedb.com-v1alpha2-ferretdbs-kubedb
       name: FerretDB
       type:
         group: kubedb.com
         kind: FerretDB
-    - featureMode: ALPHA
+    - featureMode: GA
       layoutName: kubedb.com-v1alpha2-mssqlservers-kubedb
       name: MSSQLServer
       type:
         group: kubedb.com
         kind: MSSQLServer
-    - featureMode: ALPHA
+    - featureMode: GA
       layoutName: kubedb.com-v1alpha2-pgpools-kubedb
       name: Pgpool
       type:
         group: kubedb.com
         kind: Pgpool
-    - featureMode: ALPHA
+    - featureMode: GA
       layoutName: kubedb.com-v1alpha2-rabbitmqs-kubedb
       name: RabbitMQ
       type:
         group: kubedb.com
         kind: RabbitMQ
-    - featureMode: ALPHA
+    - featureMode: GA
       layoutName: kubedb.com-v1alpha2-singlestores-kubedb
       name: Singlestore
       type:
         group: kubedb.com
         kind: Singlestore
-    - featureMode: ALPHA
+    - featureMode: GA
       layoutName: kubedb.com-v1alpha2-solrs-kubedb
       name: Solr
       type:
         group: kubedb.com
         kind: Solr
-    - featureMode: ALPHA
+    - featureMode: GA
       layoutName: kubedb.com-v1alpha2-zookeepers-kubedb
       name: ZooKeeper
       type:
