@@ -62,7 +62,7 @@ spec:
     type: MatchRef
   - labels:
     - view
-    nameTemplate: '{.metadata.name}~Kafka.kubedb.com'
+    nameTemplate: '{.metadata.name}~MSSQLServer.kubedb.com'
     namespace:
       path: metadata.namespace
     target:
@@ -71,7 +71,7 @@ spec:
     type: MatchName
   - labels:
     - view
-    nameTemplate: '{.metadata.name}~Kafka.kubedb.com'
+    nameTemplate: '{.metadata.name}~MSSQLServer.kubedb.com'
     namespace:
       path: metadata.namespace
     target:

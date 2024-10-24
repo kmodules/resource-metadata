@@ -98,7 +98,7 @@ spec:
       name: Operations
     - items:
       - disabledTemplate: |
-          {{ not (gt .spec.replicas 1) }}
+          {{ not (hasKey .spec "topology")}}
         editor:
           name: opskubedbcom-singlestoreopsrequest-editor
           sourceRef:

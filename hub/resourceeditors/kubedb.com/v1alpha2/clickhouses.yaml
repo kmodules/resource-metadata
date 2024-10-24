@@ -24,7 +24,7 @@ spec:
     actions:
     - items:
       - editor:
-          name: opskubedbcom-mysqlopsrequest-editor
+          name: opskubedbcom-clickhouseopsrequest-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
@@ -38,7 +38,7 @@ spec:
         name: Restart
         operationId: create-opsrequest-restart
       - editor:
-          name: opskubedbcom-mysqlopsrequest-editor
+          name: opskubedbcom-clickhouseopsrequest-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
@@ -56,7 +56,7 @@ spec:
       - disabledTemplate: |
           {{ not (gt .spec.replicas 1) }}
         editor:
-          name: opskubedbcom-mysqlopsrequest-editor
+          name: opskubedbcom-clickhouseopsrequest-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
@@ -70,7 +70,7 @@ spec:
         name: Horizontal Scale
         operationId: create-opsrequest-horizontalscaling
       - editor:
-          name: opskubedbcom-mysqlopsrequest-editor
+          name: opskubedbcom-clickhouseopsrequest-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
@@ -84,7 +84,7 @@ spec:
         name: Vertical Scale
         operationId: create-opsrequest-verticalscaling
       - editor:
-          name: opskubedbcom-mysqlopsrequest-editor
+          name: opskubedbcom-clickhouseopsrequest-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
