@@ -33,6 +33,20 @@ spec:
         enforceQuota: false
         flow: standalone-create
         icons:
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/version.svg
+          type: image/svg+xml
+        name: Update Version
+        operationId: create-opsrequest-upgrade
+      - editor:
+          name: opskubedbcom-memcachedopsrequest-editor
+          sourceRef:
+            apiGroup: source.toolkit.fluxcd.io
+            kind: HelmRepository
+            name: appscode-charts-oci
+          version: v0.8.0
+        enforceQuota: false
+        flow: standalone-create
+        icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/restart.svg
           type: image/svg+xml
         name: Restart
@@ -84,6 +98,52 @@ spec:
         name: Vertical Scale
         operationId: create-opsrequest-verticalscaling
       name: Scaling
+    - items:
+      - editor:
+          name: autoscalingkubedbcom-memcachedautoscaler-editor
+          sourceRef:
+            apiGroup: source.toolkit.fluxcd.io
+            kind: HelmRepository
+            name: appscode-charts-oci
+          version: v0.8.0
+        enforceQuota: true
+        flow: standalone-create
+        icons:
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/compute.svg
+          type: image/svg+xml
+        name: Compute
+        operationId: create-opsrequest-compute
+      name: Autoscaling
+    - items:
+      - editor:
+          name: opskubedbcom-memcachedopsrequest-editor
+          sourceRef:
+            apiGroup: source.toolkit.fluxcd.io
+            kind: HelmRepository
+            name: appscode-charts-oci
+          version: v0.8.0
+        enforceQuota: false
+        flow: standalone-create
+        icons:
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/configure.svg
+          type: image/svg+xml
+        name: TLS Configure
+        operationId: create-opsrequest-reconfiguretls
+      - editor:
+          name: kubedbcom-memcached-editor
+          sourceRef:
+            apiGroup: source.toolkit.fluxcd.io
+            kind: HelmRepository
+            name: appscode-charts-oci
+          version: v0.8.0
+        enforceQuota: false
+        flow: standalone-edit
+        icons:
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/monitor.svg
+          type: image/svg+xml
+        name: Monitoring
+        operationId: edit-self-monitoring
+      name: Security & Monitoring
     editor:
       name: kubedbcom-memcached-editor
       sourceRef:

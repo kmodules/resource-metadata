@@ -333,7 +333,7 @@ spec:
           opscenter-datastore:
           - kubedb
         view:
-          name: ops.kubedb.com-v1alpha1-mongodbopsrequests-kubedb
+          name: ops.kubedb.com-v1alpha1-redisopsrequests-kubedb
       - actions:
           create: Never
         displayMode: List

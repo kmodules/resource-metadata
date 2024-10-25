@@ -83,20 +83,6 @@ spec:
           type: image/svg+xml
         name: Vertical Scale
         operationId: create-opsrequest-verticalscaling
-      - editor:
-          name: opskubedbcom-pgpoolopsrequest-editor
-          sourceRef:
-            apiGroup: source.toolkit.fluxcd.io
-            kind: HelmRepository
-            name: appscode-charts-oci
-          version: v0.8.0
-        enforceQuota: true
-        flow: standalone-create
-        icons:
-        - src: https://cdn.appscode.com/k8s/icons/action-icons/expand.svg
-          type: image/svg+xml
-        name: Expand Volume
-        operationId: create-opsrequest-volumeexpansion
       name: Scaling
     - items:
       - editor:
@@ -113,20 +99,6 @@ spec:
           type: image/svg+xml
         name: Compute
         operationId: create-opsrequest-compute
-      - editor:
-          name: autoscalingkubedbcom-pgpoolautoscaler-editor
-          sourceRef:
-            apiGroup: source.toolkit.fluxcd.io
-            kind: HelmRepository
-            name: appscode-charts-oci
-          version: v0.8.0
-        enforceQuota: true
-        flow: standalone-create
-        icons:
-        - src: https://cdn.appscode.com/k8s/icons/action-icons/storage.svg
-          type: image/svg+xml
-        name: Storage
-        operationId: create-opsrequest-storage
       name: Autoscaling
     - items:
       - editor:

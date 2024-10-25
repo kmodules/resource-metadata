@@ -114,7 +114,7 @@ spec:
       name: Autoscaling
     - items:
       - editor:
-          name: kubedbcom-mysql-editor
+          name: kubedbcom-druid-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
