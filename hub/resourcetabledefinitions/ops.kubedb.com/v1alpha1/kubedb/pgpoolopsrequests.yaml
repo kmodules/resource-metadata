@@ -1,0 +1,65 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: ops.kubedb.com
+    k8s.io/kind: PgpoolOpsRequest
+    k8s.io/resource: pgpoolopsrequests
+    k8s.io/version: v1alpha1
+  name: ops.kubedb.com-v1alpha1-pgpoolopsrequests-kubedb
+spec:
+  columns:
+  - name: Name
+    pathTemplate: '{{ .metadata.name }}'
+    priority: 3
+    type: string
+  - name: Namespace
+    pathTemplate: '{{ .metadata.namespace }}'
+    priority: 3
+    type: string
+  - name: Type
+    pathTemplate: '{{ .spec.type }}'
+    priority: 3
+    type: string
+  - color:
+      template: |
+        {{ $status := .status.phase }}
+        {{ $color := "gray" }}
+        {{ if list "Pending" | has $status }}
+          {{ $color = "gray" }}
+        {{ else if list "Progressing" | has $status }}
+          {{ $color = "info" }}
+        {{ else if list "Successful" | has $status }}
+          {{ $color = "success" }}
+        {{ else if list "WaitingForApproval" | has $status }}
+          {{ $color = "warning" }}
+        {{ else if list "Failed"| has $status }}
+          {{ $color = "danger" }}
+        {{ else if list "Approved" | has $status }}
+          {{ $color = "link" }}
+        {{ else if list "Denied"| has $status }}
+          {{ $color = "dark" }}
+        {{ end }}
+        {{- printf "%s" $color -}}
+    name: Status
+    pathTemplate: '{{ .status.phase }}'
+    priority: 3
+    type: string
+  - name: Age
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
+    priority: 3
+    sort:
+      enable: true
+      template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+      type: integer
+    tooltip:
+      template: '{{ .metadata.creationTimestamp }}'
+    type: date
+  defaultView: false
+  resource:
+    group: ops.kubedb.com
+    kind: PgpoolOpsRequest
+    name: pgpoolopsrequests
+    scope: Namespaced
+    version: v1alpha1

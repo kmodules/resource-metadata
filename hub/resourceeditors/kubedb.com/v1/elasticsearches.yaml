@@ -81,6 +81,20 @@ spec:
           type: image/svg+xml
         name: Restart
         operationId: create-opsrequest-restart
+      - editor:
+          name: opskubedbcom-elasticsearchopsrequest-editor
+          sourceRef:
+            apiGroup: source.toolkit.fluxcd.io
+            kind: HelmRepository
+            name: appscode-charts-oci
+          version: v0.8.0
+        enforceQuota: false
+        flow: standalone-create
+        icons:
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/reconfigure.svg
+          type: image/svg+xml
+        name: Reconfigure
+        operationId: create-opsrequest-reconfigure
       name: Operations
     - items:
       - disabledTemplate: |

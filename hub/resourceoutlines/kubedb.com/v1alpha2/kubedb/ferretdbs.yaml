@@ -106,6 +106,43 @@ spec:
           - monitoring-operator
         view:
           name: ui.k8s.appscode.com-v1alpha1-resourcedashboards-urls
+  - name: Operations
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Recent Operations
+        query:
+          byLabel: ops
+          type: GraphQL
+        ref:
+          group: ops.kubedb.com
+          kind: FerretDBOpsRequest
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+        view:
+          name: ops.kubedb.com-v1alpha1-ferretdbopsrequests-kubedb
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Recommendations
+        query:
+          byLabel: recommended_for
+          type: GraphQL
+        ref:
+          group: supervisor.appscode.com
+          kind: Recommendation
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          opscenter-tools:
+          - supervisor
+        view:
+          name: supervisor.appscode.com-v1alpha1-recommendations-kubedb
   - name: Security
     sections:
     - blocks:

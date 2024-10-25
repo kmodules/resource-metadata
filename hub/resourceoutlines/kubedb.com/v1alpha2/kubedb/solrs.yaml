@@ -106,6 +106,133 @@ spec:
           - monitoring-operator
         view:
           name: ui.k8s.appscode.com-v1alpha1-resourcedashboards-urls
+  - name: Users
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Root User
+        query:
+          byLabel: auth_secret
+          type: GraphQL
+        ref:
+          group: ""
+          kind: Secret
+        view:
+          name: core-v1-secrets
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: AppBinding
+        query:
+          byLabel: connect_via
+          type: GraphQL
+        ref:
+          group: appcatalog.appscode.com
+          kind: AppBinding
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+        view:
+          name: appcatalog.appscode.com-v1alpha1-appbindings
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: VaultServers
+        query:
+          raw: |-
+            query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+              find(oid: $src) {
+                authz(group: "engine.kubevault.com", kind: "SecretEngine") {
+                  refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                    namespace
+                    name
+                  }
+                }
+             }
+            }
+          type: GraphQL
+        ref:
+          group: kubevault.com
+          kind: VaultServer
+        requiredFeatureSets:
+          opscenter-secret-management:
+          - kubevault
+        view:
+          name: kubevault.com-v1alpha2-vaultservers
+      - actions:
+          create: Always
+        displayMode: List
+        kind: Connection
+        name: SecretEngines
+        query:
+          byLabel: authz
+          type: GraphQL
+        ref:
+          group: engine.kubevault.com
+          kind: SecretEngine
+        requiredFeatureSets:
+          opscenter-secret-management:
+          - kubevault
+        view:
+          name: engine.kubevault.com-v1alpha1-secretengines
+      - actions:
+          create: Always
+        displayMode: List
+        kind: Connection
+        name: SecretAccessRequests
+        query:
+          byLabel: authz
+          type: GraphQL
+        ref:
+          group: engine.kubevault.com
+          kind: SecretAccessRequest
+        requiredFeatureSets:
+          opscenter-secret-management:
+          - kubevault
+        view:
+          name: engine.kubevault.com-v1alpha1-secretaccessrequests
+  - name: Operations
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Recent Operations
+        query:
+          byLabel: ops
+          type: GraphQL
+        ref:
+          group: ops.kubedb.com
+          kind: SolrOpsRequest
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+        view:
+          name: ops.kubedb.com-v1alpha1-solropsrequests-kubedb
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Recommendations
+        query:
+          byLabel: recommended_for
+          type: GraphQL
+        ref:
+          group: supervisor.appscode.com
+          kind: Recommendation
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          opscenter-tools:
+          - supervisor
+        view:
+          name: supervisor.appscode.com-v1alpha1-recommendations-kubedb
   - name: Security
     sections:
     - blocks:
