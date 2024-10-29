@@ -14,12 +14,30 @@ spec:
     - src: https://cdn.appscode.com/k8s/icons/menu/datastore.png
       type: image/png
     items:
+    - featureMode: ALPHA
+      layoutName: kubedb.com-v1alpha2-clickhouses-kubedb
+      name: ClickHouse
+      type:
+        group: kubedb.com
+        kind: ClickHouse
+    - featureMode: GA
+      layoutName: kubedb.com-v1alpha2-druids-kubedb
+      name: Druid
+      type:
+        group: kubedb.com
+        kind: Druid
     - featureMode: GA
       layoutName: kubedb.com-v1-elasticsearches-kubedb
       name: Elasticsearch
       type:
         group: kubedb.com
         kind: Elasticsearch
+    - featureMode: GA
+      layoutName: kubedb.com-v1alpha2-ferretdbs-kubedb
+      name: FerretDB
+      type:
+        group: kubedb.com
+        kind: FerretDB
     - featureMode: GA
       layoutName: kubedb.com-v1-kafkas-kubedb
       name: Kafka
@@ -45,6 +63,12 @@ spec:
         group: kubedb.com
         kind: MongoDB
     - featureMode: GA
+      layoutName: kubedb.com-v1alpha2-mssqlservers-kubedb
+      name: MSSQLServer
+      type:
+        group: kubedb.com
+        kind: MSSQLServer
+    - featureMode: GA
       layoutName: kubedb.com-v1-mysqls-kubedb
       name: MySQL
       type:
@@ -63,6 +87,12 @@ spec:
         group: kubedb.com
         kind: PgBouncer
     - featureMode: GA
+      layoutName: kubedb.com-v1alpha2-pgpools-kubedb
+      name: Pgpool
+      type:
+        group: kubedb.com
+        kind: Pgpool
+    - featureMode: GA
       layoutName: kubedb.com-v1-postgreses-kubedb
       name: PostgreSQL
       type:
@@ -75,47 +105,17 @@ spec:
         group: kubedb.com
         kind: ProxySQL
     - featureMode: GA
-      layoutName: kubedb.com-v1-redises-kubedb
-      name: Redis
-      type:
-        group: kubedb.com
-        kind: Redis
-    - featureMode: ALPHA
-      layoutName: kubedb.com-v1alpha2-clickhouses-kubedb
-      name: ClickHouse
-      type:
-        group: kubedb.com
-        kind: ClickHouse
-    - featureMode: GA
-      layoutName: kubedb.com-v1alpha2-druids-kubedb
-      name: Druid
-      type:
-        group: kubedb.com
-        kind: Druid
-    - featureMode: GA
-      layoutName: kubedb.com-v1alpha2-ferretdbs-kubedb
-      name: FerretDB
-      type:
-        group: kubedb.com
-        kind: FerretDB
-    - featureMode: GA
-      layoutName: kubedb.com-v1alpha2-mssqlservers-kubedb
-      name: MSSQLServer
-      type:
-        group: kubedb.com
-        kind: MSSQLServer
-    - featureMode: GA
-      layoutName: kubedb.com-v1alpha2-pgpools-kubedb
-      name: Pgpool
-      type:
-        group: kubedb.com
-        kind: Pgpool
-    - featureMode: GA
       layoutName: kubedb.com-v1alpha2-rabbitmqs-kubedb
       name: RabbitMQ
       type:
         group: kubedb.com
         kind: RabbitMQ
+    - featureMode: GA
+      layoutName: kubedb.com-v1-redises-kubedb
+      name: Redis
+      type:
+        group: kubedb.com
+        kind: Redis
     - featureMode: GA
       layoutName: kubedb.com-v1alpha2-singlestores-kubedb
       name: Singlestore
@@ -142,16 +142,26 @@ spec:
     - src: https://cdn.appscode.com/k8s/icons/stash.appscode.com/backupconfigurations.png
       type: image/png
     items:
-    - layoutName: core.kubestash.com-v1alpha1-backupsessions
-      name: Recent Backups
-      type:
-        group: core.kubestash.com
-        kind: BackupSession
     - layoutName: core.kubestash.com-v1alpha1-backupconfigurations
       name: Backup Configuration
       type:
         group: core.kubestash.com
         kind: BackupConfiguration
+    - layoutName: core.kubestash.com-v1alpha1-backupsessions
+      name: Recent Backups
+      type:
+        group: core.kubestash.com
+        kind: BackupSession
+    - layoutName: storage.kubestash.com-v1alpha1-backupstorages
+      name: BackupStorage
+      type:
+        group: storage.kubestash.com
+        kind: BackupStorage
+    - layoutName: storage.kubestash.com-v1alpha1-repositories
+      name: Repository
+      type:
+        group: storage.kubestash.com
+        kind: Repository
     - layoutName: core.kubestash.com-v1alpha1-restoresessions
       name: Recent Restores
       type:
@@ -162,14 +172,4 @@ spec:
       type:
         group: storage.kubestash.com
         kind: Snapshot
-    - layoutName: storage.kubestash.com-v1alpha1-repositories
-      name: Repository
-      type:
-        group: storage.kubestash.com
-        kind: Repository
-    - layoutName: storage.kubestash.com-v1alpha1-backupstorages
-      name: BackupStorage
-      type:
-        group: storage.kubestash.com
-        kind: BackupStorage
     name: Backups
