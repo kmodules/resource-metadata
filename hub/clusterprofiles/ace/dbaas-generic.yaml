@@ -6,13 +6,31 @@ metadata:
 spec:
   description: This profile is suitable for any Kubernetes clusters used as KubeDB managed DBaaS
   requiredFeatureSets:
+    opscenter-backup:
+    - kubestash
+    - stash-presets
     opscenter-core:
     - license-proxyserver
+    opscenter-cost:
+    - keda
+    - keda-add-ons-http
     opscenter-datastore:
     - kubedb
     - kubedb-opscenter
     - kubedb-ui-presets
+    opscenter-observability:
+    - grafana-operator
+    - kube-prometheus-stack
+    - monitoring-operator
+    - panopticon
+    opscenter-security:
+    - cert-manager
+    - cert-manager-csi-driver-cacerts
     opscenter-tools:
     - sidekick
     - supervisor
+    saas-core:
+    - catalog-manager
+    - service-gateway-presets
+    - service-gateway
   title: Generic DBaaS
