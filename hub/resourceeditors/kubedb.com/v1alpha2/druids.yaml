@@ -63,10 +63,10 @@ spec:
         enforceQuota: true
         flow: standalone-create
         icons:
-        - src: https://cdn.appscode.com/k8s/icons/action-icons/horizontal_scale.svg
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/vertical_scale.svg
           type: image/svg+xml
-        name: Horizontal Scale
-        operationId: create-opsrequest-horizontalscaling
+        name: Vertical Scale
+        operationId: create-opsrequest-verticalscaling
       - editor:
           name: opskubedbcom-druidopsrequest-editor
           sourceRef:
@@ -77,10 +77,10 @@ spec:
         enforceQuota: true
         flow: standalone-create
         icons:
-        - src: https://cdn.appscode.com/k8s/icons/action-icons/vertical_scale.svg
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/expand.svg
           type: image/svg+xml
-        name: Vertical Scale
-        operationId: create-opsrequest-verticalscaling
+        name: Expand Volume
+        operationId: create-opsrequest-volumeexpansion
       name: Scaling
     - items:
       - editor:
