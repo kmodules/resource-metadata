@@ -3,21 +3,21 @@ kind: ResourceEditor
 metadata:
   creationTimestamp: null
   labels:
-    k8s.io/group: ui.k8s.appscode.com
-    k8s.io/kind: ClusterProfile
-    k8s.io/resource: clusterprofiles
+    k8s.io/group: catalog.kubedb.com
+    k8s.io/kind: EtcdVersion
+    k8s.io/resource: etcdversions
     k8s.io/version: v1alpha1
-  name: ui.k8s.appscode.com-v1alpha1-clusterprofiles
+  name: catalog.kubedb.com-v1alpha1-etcdversions
 spec:
   resource:
-    group: ui.k8s.appscode.com
-    kind: ClusterProfile
-    name: clusterprofiles
+    group: catalog.kubedb.com
+    kind: EtcdVersion
+    name: etcdversions
     scope: Cluster
     version: v1alpha1
   ui:
     editor:
-      name: uik8sappscodecom-clusterprofile-editor
+      name: catalogkubedbcom-etcdversion-editor
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository

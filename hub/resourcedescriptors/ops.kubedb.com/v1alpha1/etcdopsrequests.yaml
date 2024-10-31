@@ -4,24 +4,15 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: ops.kubedb.com
-    k8s.io/kind: MSSQLServerOpsRequest
-    k8s.io/resource: mssqlserveropsrequests
+    k8s.io/kind: EtcdOpsRequest
+    k8s.io/resource: etcdopsrequests
     k8s.io/version: v1alpha1
-  name: ops.kubedb.com-v1alpha1-mssqlserveropsrequests
+  name: ops.kubedb.com-v1alpha1-etcdopsrequests
 spec:
-  connections:
-  - labels:
-    - ops
-    references:
-    - '{.spec.databaseRef.name}'
-    target:
-      apiVersion: kubedb.com/v1alpha2
-      kind: MSSQLServer
-    type: MatchRef
   resource:
     group: ops.kubedb.com
-    kind: MSSQLServerOpsRequest
-    name: mssqlserveropsrequests
+    kind: EtcdOpsRequest
+    name: etcdopsrequests
     scope: Namespaced
     version: v1alpha1
   validation:
@@ -83,20 +74,6 @@ spec:
                   x-kubernetes-map-type: atomic
               type: object
             configuration:
-              properties:
-                applyConfig:
-                  additionalProperties:
-                    type: string
-                  type: object
-                configSecret:
-                  properties:
-                    name:
-                      default: ""
-                      type: string
-                  type: object
-                  x-kubernetes-map-type: atomic
-                removeCustomConfig:
-                  type: boolean
               type: object
             databaseRef:
               properties:
@@ -106,15 +83,9 @@ spec:
               type: object
               x-kubernetes-map-type: atomic
             horizontalScaling:
-              properties:
-                replicas:
-                  format: int32
-                  type: integer
               type: object
             restart:
               type: object
-            timeout:
-              type: string
             tls:
               properties:
                 certificates:
@@ -233,141 +204,17 @@ spec:
               type: string
             updateVersion:
               properties:
+                readinessCriteria:
+                  type: object
                 targetVersion:
                   type: string
               type: object
             verticalScaling:
               properties:
-                coordinator:
-                  properties:
-                    resources:
-                      properties:
-                        claims:
-                          items:
-                            properties:
-                              name:
-                                type: string
-                            required:
-                            - name
-                            type: object
-                          type: array
-                          x-kubernetes-list-map-keys:
-                          - name
-                          x-kubernetes-list-type: map
-                        limits:
-                          additionalProperties:
-                            anyOf:
-                            - type: integer
-                            - type: string
-                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                            x-kubernetes-int-or-string: true
-                          type: object
-                        requests:
-                          additionalProperties:
-                            anyOf:
-                            - type: integer
-                            - type: string
-                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                            x-kubernetes-int-or-string: true
-                          type: object
-                      type: object
-                  type: object
-                exporter:
-                  properties:
-                    resources:
-                      properties:
-                        claims:
-                          items:
-                            properties:
-                              name:
-                                type: string
-                            required:
-                            - name
-                            type: object
-                          type: array
-                          x-kubernetes-list-map-keys:
-                          - name
-                          x-kubernetes-list-type: map
-                        limits:
-                          additionalProperties:
-                            anyOf:
-                            - type: integer
-                            - type: string
-                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                            x-kubernetes-int-or-string: true
-                          type: object
-                        requests:
-                          additionalProperties:
-                            anyOf:
-                            - type: integer
-                            - type: string
-                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                            x-kubernetes-int-or-string: true
-                          type: object
-                      type: object
-                  type: object
-                mssqlserver:
-                  properties:
-                    nodeSelectionPolicy:
-                      type: string
-                    resources:
-                      properties:
-                        claims:
-                          items:
-                            properties:
-                              name:
-                                type: string
-                            required:
-                            - name
-                            type: object
-                          type: array
-                          x-kubernetes-list-map-keys:
-                          - name
-                          x-kubernetes-list-type: map
-                        limits:
-                          additionalProperties:
-                            anyOf:
-                            - type: integer
-                            - type: string
-                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                            x-kubernetes-int-or-string: true
-                          type: object
-                        requests:
-                          additionalProperties:
-                            anyOf:
-                            - type: integer
-                            - type: string
-                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                            x-kubernetes-int-or-string: true
-                          type: object
-                      type: object
-                    topology:
-                      properties:
-                        key:
-                          type: string
-                        value:
-                          type: string
-                      required:
-                      - key
-                      - value
-                      type: object
+                readinessCriteria:
                   type: object
               type: object
             volumeExpansion:
-              properties:
-                mode:
-                  enum:
-                  - Offline
-                  - Online
-                  type: string
-                mssqlserver:
-                  anyOf:
-                  - type: integer
-                  - type: string
-                  pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                  x-kubernetes-int-or-string: true
-              required:
-              - mode
               type: object
           required:
           - databaseRef
