@@ -35,6 +35,7 @@ spec:
     priority: 3
     type: string
   - name: External-IP
+    pathTemplate: '{{if and .status.loadBalancer .status.loadBalancer.ingress}}{{ (index .status.loadBalancer.ingress 0).ip }}{{end}}'
     priority: 3
     type: string
   - name: Port(s)
