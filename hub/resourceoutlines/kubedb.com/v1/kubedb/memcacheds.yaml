@@ -11,11 +11,49 @@ metadata:
 spec:
   defaultLayout: false
   pages:
-  - name: Basic
+  - name: Overview
     sections:
     - blocks:
-      - kind: Block
-        name: kubedb.com-v1-memcacheds
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Nodes
+        query:
+          raw: |-
+            query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+              find(oid: $src) {
+                offshoot(group: "", kind: "Pod") {
+                  refs: view(group: $targetGroup, kind: $targetKind) {
+                    namespace
+                    name
+                  }
+                }
+              }
+            }
+          type: GraphQL
+        ref:
+          group: core.k8s.appscode.com
+          kind: PodView
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+        view:
+          name: core.k8s.appscode.com-v1alpha1-podviews-kubedb-memcacheds
+      info:
+        actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        query:
+          byLabel: connect_via
+          type: GraphQL
+        ref:
+          group: appcatalog.appscode.com
+          kind: AppBinding
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
   - name: Operations
     sections:
     - blocks:
