@@ -33,20 +33,6 @@ spec:
         enforceQuota: false
         flow: standalone-create
         icons:
-        - src: https://cdn.appscode.com/k8s/icons/action-icons/version.svg
-          type: image/svg+xml
-        name: Update Version
-        operationId: create-opsrequest-upgrade
-      - editor:
-          name: opskubedbcom-perconaxtradbopsrequest-editor
-          sourceRef:
-            apiGroup: source.toolkit.fluxcd.io
-            kind: HelmRepository
-            name: appscode-charts-oci
-          version: v0.8.0
-        enforceQuota: false
-        flow: standalone-create
-        icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/restart.svg
           type: image/svg+xml
         name: Restart
