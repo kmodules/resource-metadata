@@ -20522,6 +20522,13 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureSpec(ref common.ReferenceC
 							Format:      "",
 						},
 					},
+					"featureExclusionGroup": {
+						SchemaProps: spec.SchemaProps{
+							Description: "FeatureExclusionGroup specifies the name of the exclusion group for features Only one feature in a feature exclusion group can be installed",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
 					"recommended": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Required specifies whether this feature is mandatory or not for enabling the respecting FeatureSet.",
