@@ -15,3 +15,12 @@ spec:
     name: ClusterProfiles
     scope: Cluster
     version: v1alpha1
+  ui:
+    editor:
+      name: metak8sappscodecom-clusterprofile-editor
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: appscode-charts-oci
+      version: v0.9.0
+    enforceQuota: false

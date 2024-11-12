@@ -72,6 +72,16 @@ spec:
               - IfReady
               - Always
               type: string
+            authentication:
+              properties:
+                secretRef:
+                  properties:
+                    name:
+                      default: ""
+                      type: string
+                  type: object
+                  x-kubernetes-map-type: atomic
+              type: object
             configuration:
               properties:
                 pgbouncer:
@@ -93,6 +103,13 @@ spec:
               required:
               - pgbouncer
               type: object
+            databaseRef:
+              properties:
+                name:
+                  default: ""
+                  type: string
+              type: object
+              x-kubernetes-map-type: atomic
             horizontalScaling:
               properties:
                 replicas:
@@ -101,13 +118,6 @@ spec:
               type: object
             restart:
               type: object
-            serverRef:
-              properties:
-                name:
-                  default: ""
-                  type: string
-              type: object
-              x-kubernetes-map-type: atomic
             timeout:
               type: string
             tls:
@@ -221,6 +231,7 @@ spec:
               - VerticalScaling
               - UpdateVersion
               - Reconfigure
+              - RotateAuth
               type: string
             updateVersion:
               properties:
@@ -311,7 +322,7 @@ spec:
                   type: object
               type: object
           required:
-          - serverRef
+          - databaseRef
           - type
           type: object
       type: object

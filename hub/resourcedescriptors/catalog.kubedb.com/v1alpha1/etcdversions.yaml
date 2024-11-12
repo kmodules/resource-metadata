@@ -4,15 +4,15 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: catalog.kubedb.com
-    k8s.io/kind: CassandraVersion
-    k8s.io/resource: cassandraversions
+    k8s.io/kind: EtcdVersion
+    k8s.io/resource: etcdversions
     k8s.io/version: v1alpha1
-  name: catalog.kubedb.com-v1alpha1-cassandraversions
+  name: catalog.kubedb.com-v1alpha1-etcdversions
 spec:
   resource:
     group: catalog.kubedb.com
-    kind: CassandraVersion
-    name: cassandraversions
+    kind: EtcdVersion
+    name: etcdversions
     scope: Cluster
     version: v1alpha1
   validation:
@@ -56,6 +56,8 @@ spec:
               required:
               - image
               type: object
+            deprecated:
+              type: boolean
             exporter:
               properties:
                 image:
@@ -63,7 +65,7 @@ spec:
               required:
               - image
               type: object
-            initContainer:
+            gitSyncer:
               properties:
                 image:
                   type: string
@@ -76,27 +78,58 @@ spec:
                   format: int64
                   type: integer
               type: object
-            ui:
-              items:
-                properties:
-                  disable:
-                    type: boolean
-                  name:
-                    type: string
-                  values:
-                    x-kubernetes-preserve-unknown-fields: true
-                  version:
-                    type: string
-                required:
-                - name
-                type: object
-              type: array
+            stash:
+              properties:
+                addon:
+                  properties:
+                    backupTask:
+                      properties:
+                        name:
+                          type: string
+                        params:
+                          items:
+                            properties:
+                              name:
+                                type: string
+                              value:
+                                type: string
+                            required:
+                            - name
+                            - value
+                            type: object
+                          type: array
+                      required:
+                      - name
+                      type: object
+                    restoreTask:
+                      properties:
+                        name:
+                          type: string
+                        params:
+                          items:
+                            properties:
+                              name:
+                                type: string
+                              value:
+                                type: string
+                            required:
+                            - name
+                            - value
+                            type: object
+                          type: array
+                      required:
+                      - name
+                      type: object
+                  required:
+                  - backupTask
+                  - restoreTask
+                  type: object
+              type: object
             version:
               type: string
           required:
           - db
           - exporter
-          - initContainer
           - version
           type: object
       type: object
