@@ -57,6 +57,9 @@ spec:
           type: object
         spec:
           properties:
+            caCert:
+              format: byte
+              type: string
             connectOptions:
               additionalProperties:
                 type: string
