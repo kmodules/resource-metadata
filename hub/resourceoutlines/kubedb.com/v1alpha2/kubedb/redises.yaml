@@ -32,6 +32,7 @@ spec:
         displayMode: List
         fieldPath: '{.response.dashboards[0].panels}'
         kind: Connection
+        name: Dashboards
         query:
           raw: |
             request:
@@ -95,6 +96,7 @@ spec:
           create: Never
         displayMode: List
         kind: Connection
+        name: Insight
         query:
           byLabel: connect_via
           type: GraphQL
