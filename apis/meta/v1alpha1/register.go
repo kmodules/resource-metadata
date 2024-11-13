@@ -53,6 +53,7 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&ClusterProfile{},
 		&ClusterProfileList{},
 		&ClusterStatus{},
+		&GatewayInfo{},
 		&ResourceCalculator{},
 		&ResourceDescriptor{},
 		&ResourceDescriptorList{},
