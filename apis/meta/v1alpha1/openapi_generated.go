@@ -19461,22 +19461,27 @@ func schema_resource_metadata_apis_meta_v1alpha1_GatewayInfoSpec(ref common.Refe
 							Format:  "",
 						},
 					},
-					"hostName": {
+					"serviceType": {
 						SchemaProps: spec.SchemaProps{
 							Default: "",
 							Type:    []string{"string"},
 							Format:  "",
+						},
+					},
+					"hostName": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
 						},
 					},
 					"ip": {
 						SchemaProps: spec.SchemaProps{
-							Default: "",
-							Type:    []string{"string"},
-							Format:  "",
+							Type:   []string{"string"},
+							Format: "",
 						},
 					},
 				},
-				Required: []string{"gatewayClassName", "hostName", "ip"},
+				Required: []string{"gatewayClassName", "serviceType"},
 			},
 		},
 	}

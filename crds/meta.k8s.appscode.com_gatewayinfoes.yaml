@@ -38,10 +38,11 @@ spec:
                 type: string
               ip:
                 type: string
+              serviceType:
+                type: string
             required:
             - gatewayClassName
-            - hostName
-            - ip
+            - serviceType
             type: object
         type: object
     served: true

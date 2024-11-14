@@ -36,6 +36,7 @@ type GatewayInfo struct {
 
 type GatewayInfoSpec struct {
 	GatewayClassName string `json:"gatewayClassName"`
-	HostName         string `json:"hostName"`
-	IP               string `json:"ip"`
+	ServiceType      string `json:"serviceType"`
+	HostName         string `json:"hostName,omitempty"`
+	IP               string `json:"ip,omitempty"`
 }
