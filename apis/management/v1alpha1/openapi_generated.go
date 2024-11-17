@@ -19804,6 +19804,12 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ResourceLocator(ref common
 							Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ResourceQuery"),
 						},
 					},
+					"impersonate": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"boolean"},
+							Format: "",
+						},
+					},
 				},
 				Required: []string{"ref", "query"},
 			},

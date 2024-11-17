@@ -80,6 +80,7 @@ spec:
           create: Never
         displayMode: List
         fieldPath: .response.dashboards
+        impersonate: true
         kind: Connection
         name: Grafana Dashboards
         query:
