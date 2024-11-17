@@ -20324,6 +20324,12 @@ func schema_resource_metadata_apis_core_v1alpha1_Service(ref common.ReferenceCal
 							Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ResourceQuery"),
 						},
 					},
+					"impersonate": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"boolean"},
+							Format: "",
+						},
+					},
 				},
 				Required: []string{"name", "ref", "query"},
 			},
@@ -21054,6 +21060,12 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ResourceLocator(ref common
 						SchemaProps: spec.SchemaProps{
 							Default: map[string]interface{}{},
 							Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ResourceQuery"),
+						},
+					},
+					"impersonate": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"boolean"},
+							Format: "",
 						},
 					},
 				},

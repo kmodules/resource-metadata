@@ -34,6 +34,7 @@ spec:
           create: Never
         displayMode: List
         fieldPath: '{.response.dashboards[0].panels}'
+        impersonate: true
         kind: Connection
         name: Dashboards
         query:
@@ -137,6 +138,7 @@ spec:
           create: Never
         displayMode: List
         fieldPath: .response.dashboards
+        impersonate: true
         kind: Connection
         name: Grafana Dashboards
         query:

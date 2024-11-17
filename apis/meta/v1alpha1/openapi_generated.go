@@ -20434,6 +20434,12 @@ func schema_resource_metadata_apis_meta_v1alpha1_PageBlockLayout(ref common.Refe
 							Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ResourceQuery"),
 						},
 					},
+					"impersonate": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"boolean"},
+							Format: "",
+						},
+					},
 					"displayMode": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
@@ -20536,6 +20542,12 @@ func schema_resource_metadata_apis_meta_v1alpha1_PageBlockOutline(ref common.Ref
 						SchemaProps: spec.SchemaProps{
 							Default: map[string]interface{}{},
 							Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ResourceQuery"),
+						},
+					},
+					"impersonate": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"boolean"},
+							Format: "",
 						},
 					},
 					"displayMode": {
@@ -24179,6 +24191,12 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ResourceLocator(ref common
 						SchemaProps: spec.SchemaProps{
 							Default: map[string]interface{}{},
 							Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ResourceQuery"),
+						},
+					},
+					"impersonate": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"boolean"},
+							Format: "",
 						},
 					},
 				},
