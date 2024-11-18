@@ -24,10 +24,3 @@ spec:
         name: appscode-charts-oci
       version: v0.10.0
     enforceQuota: false
-    options:
-      name: storagekubestashcom-snapshot-editor-options
-      sourceRef:
-        apiGroup: source.toolkit.fluxcd.io
-        kind: HelmRepository
-        name: appscode-charts-oci
-      version: v0.10.0
