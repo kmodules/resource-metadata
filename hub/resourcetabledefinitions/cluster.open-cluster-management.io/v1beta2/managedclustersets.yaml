@@ -19,20 +19,12 @@ spec:
     pathTemplate: '{{ .metadata.labels | toRawJson }}'
     priority: 3
     type: object
-  - name: Hub Accepted
-    pathTemplate: '{{ jp `{.spec.hubAcceptsClient}` . }}'
-    priority: 3
-    type: boolean
-  - name: Managed Cluster URLs
-    pathTemplate: '{{ jp `{.spec.managedClusterClientConfigs[*].url}` . }}'
+  - name: Managed Clusters
+    pathTemplate: '{{ jp `{.status.conditions[?(@.type=="ClusterSetEmpty")]}` . | count_managed_clusters }}'
     priority: 3
     type: string
-  - name: Joined
-    pathTemplate: '{{ jp `{.status.conditions[?(@.type=="ManagedClusterJoined")].status}` . }}'
-    priority: 3
-    type: string
-  - name: Available
-    pathTemplate: '{{ jp `{.status.conditions[?(@.type=="ManagedClusterConditionAvailable")].status}` . }}'
+  - name: Profile
+    pathTemplate: '{{ .metadata.labels | get_cluster_profile }}'
     priority: 3
     type: string
   - name: Age
