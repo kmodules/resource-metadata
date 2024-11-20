@@ -23,6 +23,7 @@ import (
 	"text/template"
 	"time"
 
+	kmapi "kmodules.xyz/client-go/api/v1"
 	meta_util "kmodules.xyz/client-go/meta"
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor/lib"
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor/printers"
@@ -63,6 +64,8 @@ func init() {
 	templateFns["cert_validity"] = certificateValidity
 	templateFns["k8s_fmt_resource_cpu"] = formatResourceCPUFn
 	templateFns["k8s_fmt_resource_memory"] = formatResourceMemoryFn
+	templateFns["count_managed_clusters"] = managedClusterSetFn
+	templateFns["get_cluster_profile"] = getClusterProfile
 	// ref: https://github.com/kmodules/resource-metrics/blob/bf6b257f8922a5572ccd20bf1cbab6bbedf4fcb4/template.go#L26-L36
 	for name, fn := range resourcemetrics.TxtFuncMap() {
 		templateFns[name] = fn
@@ -508,4 +511,46 @@ func formatResourceMemoryFn(data interface{}) (string, error) {
 		return "", err
 	}
 	return fmt.Sprintf("%.1fGi", mem/1024.0/1024.0/1024.0), nil
+}
+
+func managedClusterSetFn(data interface{}) (string, error) {
+	conditionStr, ok := data.(string)
+	if !ok {
+		return "", fmt.Errorf("expected string input, got %T", data)
+	}
+
+	var condition map[string]interface{}
+	if err := json.Unmarshal([]byte(conditionStr), &condition); err != nil {
+		return "", fmt.Errorf("failed to unmarshal condition data: %v", err)
+	}
+
+	status, _ := condition["status"].(string)
+	message, _ := condition["message"].(string)
+
+	// Return "0" if status is "True"
+	if status == "True" {
+		return "0", nil
+	}
+
+	// Split the message and return the first word
+	words := strings.Split(message, " ")
+	if len(words) > 0 {
+		return words[0], nil
+	}
+
+	return "", fmt.Errorf("message is empty or invalid")
+}
+
+func getClusterProfile(data interface{}) (string, error) {
+	labels, ok := data.(map[string]interface{})
+	if !ok {
+		return "", nil
+	}
+
+	if profile, exists := labels[kmapi.ClusterProfileLabel]; exists {
+		if profileStr, ok := profile.(string); ok {
+			return profileStr, nil
+		}
+	}
+	return "", nil
 }
