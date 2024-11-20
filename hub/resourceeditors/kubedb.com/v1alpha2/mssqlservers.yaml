@@ -130,6 +130,36 @@ spec:
       name: Scaling
     - items:
       - editor:
+          name: kubedbcom-mssqlserver-editor
+          sourceRef:
+            apiGroup: source.toolkit.fluxcd.io
+            kind: HelmRepository
+            name: appscode-charts-oci
+          version: v0.10.0
+        enforceQuota: true
+        flow: standalone-edit
+        icons:
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/compute.svg
+          type: image/svg+xml
+        name: Compute
+        operationId: edit-self-compute-autoscaler
+      - editor:
+          name: kubedbcom-mssqlserver-editor
+          sourceRef:
+            apiGroup: source.toolkit.fluxcd.io
+            kind: HelmRepository
+            name: appscode-charts-oci
+          version: v0.10.0
+        enforceQuota: true
+        flow: standalone-edit
+        icons:
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/storage.svg
+          type: image/svg+xml
+        name: Storage
+        operationId: edit-self-storage-autoscaler
+      name: Autoscaling
+    - items:
+      - editor:
           name: opskubedbcom-mssqlserveropsrequest-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
