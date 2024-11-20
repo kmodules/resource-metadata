@@ -98,19 +98,19 @@ spec:
       name: Scaling
     - items:
       - editor:
-          name: autoscalingkubedbcom-proxysqlautoscaler-editor
+          name: kubedbcom-proxysql-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
           version: v0.10.0
         enforceQuota: true
-        flow: standalone-create
+        flow: standalone-edit
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/compute.svg
           type: image/svg+xml
         name: Compute
-        operationId: create-opsrequest-compute
+        operationId: edit-self-compute-autoscaler
       name: Autoscaling
     - items:
       - editor:
