@@ -1,0 +1,17 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: gateway.catalog.appscode.com
+    k8s.io/kind: GatewayPreset
+    k8s.io/resource: gatewaypresets
+    k8s.io/version: v1alpha1
+  name: gateway.catalog.appscode.com-v1alpha1-gatewaypresets
+spec:
+  resource:
+    group: gateway.catalog.appscode.com
+    kind: GatewayPreset
+    name: gatewaypresets
+    scope: Namespaced
+    version: v1alpha1

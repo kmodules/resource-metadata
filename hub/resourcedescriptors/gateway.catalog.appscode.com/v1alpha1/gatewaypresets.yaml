@@ -3,30 +3,21 @@ kind: ResourceDescriptor
 metadata:
   creationTimestamp: null
   labels:
-    k8s.io/group: catalog.appscode.com
-    k8s.io/kind: MSSQLServerBinding
-    k8s.io/resource: mssqlserverbindings
+    k8s.io/group: gateway.catalog.appscode.com
+    k8s.io/kind: GatewayPreset
+    k8s.io/resource: gatewaypresets
     k8s.io/version: v1alpha1
-  name: catalog.appscode.com-v1alpha1-mssqlserverbindings
+  name: gateway.catalog.appscode.com-v1alpha1-gatewaypresets
 spec:
-  connections:
-  - labels:
-    - exposed_by
-    references:
-    - '{.spec.sourceRef.name},{.spec.sourceRef.namespace}'
-    target:
-      apiVersion: kubedb.com/v1alpha2
-      kind: MSSQLServer
-    type: MatchRef
   resource:
-    group: catalog.appscode.com
-    kind: MSSQLServerBinding
-    name: mssqlserverbindings
+    group: gateway.catalog.appscode.com
+    kind: GatewayPreset
+    name: gatewaypresets
     scope: Namespaced
     version: v1alpha1
   validation:
     openAPIV3Schema:
-      description: MSSQLServerBinding is the Schema for the mssqlserverbindings API
+      description: GatewayPreset is the Schema for the gatewaypresets API.
       properties:
         apiVersion:
           description: |-
@@ -77,25 +68,42 @@ spec:
               type: object
           type: object
         spec:
-          description: MSSQLServerBindingSpec defines the desired state of MSSQLServerBinding
+          description: GatewayPresetSpec defines the desired state of GatewayPreset.
           properties:
-            sourceRef:
-              description: SourceRef refers to the source app instance.
+            parametersRef:
+              description: |-
+                ParametersReference identifies an API object containing controller-specific
+                configuration resource within the cluster.
               properties:
+                group:
+                  description: Group is the group of the referent.
+                  maxLength: 253
+                  pattern: ^$|^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
+                  type: string
+                kind:
+                  description: Kind is kind of the referent.
+                  maxLength: 63
+                  minLength: 1
+                  pattern: ^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$
+                  type: string
                 name:
-                  description: |-
-                    Name of the referent.
-                    More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                  description: Name is the name of the referent.
+                  maxLength: 253
+                  minLength: 1
                   type: string
                 namespace:
                   description: |-
-                    Namespace of the referent.
-                    More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
+                    Namespace is the namespace of the referent.
+                    This field is required when referring to a Namespace-scoped resource and
+                    MUST be unset when referring to a Cluster-scoped resource.
+                  maxLength: 63
+                  minLength: 1
+                  pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$
                   type: string
               required:
+              - group
+              - kind
               - name
               type: object
-          required:
-          - sourceRef
           type: object
       type: object
