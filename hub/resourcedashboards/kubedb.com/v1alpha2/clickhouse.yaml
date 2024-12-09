@@ -1,0 +1,37 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceDashboard
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: kubedb.com
+    k8s.io/kind: ClickHouse
+    k8s.io/resource: cliickhouses
+    k8s.io/version: v1alpha2
+  name: kubedb.com-v1alpha2-cliickhouses
+spec:
+  dashboards:
+  - title: KubeDB / ClickHouse / Summary
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+  - title: KubeDB / ClickHouse / Database
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+  - title: KubeDB / ClickHouse / Pod
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+  provider: Grafana
+  resource:
+    group: kubedb.com
+    kind: ClickHouse
+    name: cliickhouses
+    scope: Namespaced
+    version: v1alpha2

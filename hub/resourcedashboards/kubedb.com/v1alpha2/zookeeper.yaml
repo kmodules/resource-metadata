@@ -1,0 +1,37 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceDashboard
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: kubedb.com
+    k8s.io/kind: ZooKeeeper
+    k8s.io/resource: zookeeepers
+    k8s.io/version: v1alpha2
+  name: kubedb.com-v1alpha2-zookeeepers
+spec:
+  dashboards:
+  - title: KubeDB / ZooKeeeper / Summary
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+  - title: KubeDB / ZooKeeeper / Database
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+  - title: KubeDB / ZooKeeeper / Pod
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+  provider: Grafana
+  resource:
+    group: kubedb.com
+    kind: ZooKeeeper
+    name: zookeeepers
+    scope: Namespaced
+    version: v1alpha2
