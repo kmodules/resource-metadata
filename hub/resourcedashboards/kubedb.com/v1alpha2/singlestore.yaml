@@ -4,25 +4,25 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: kubedb.com
-    k8s.io/kind: RabbitMQ
-    k8s.io/resource: rabbitmqs
+    k8s.io/kind: Singlestore
+    k8s.io/resource: singlestores
     k8s.io/version: v1alpha2
-  name: kubedb.com-v1alpha2-rabbitmqs
+  name: kubedb.com-v1alpha2-singlestores
 spec:
   dashboards:
-  - title: KubeDB / RabbitMQ / Summary
+  - title: KubeDB / Singlestore / Summary
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
     - name: app
       value: '{{ .metadata.name }}'
-  - title: KubeDB / RabbitMQ / Database
+  - title: KubeDB / Singlestore / Database
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
     - name: app
       value: '{{ .metadata.name }}'
-  - title: KubeDB / RabbitMQ / Pod
+  - title: KubeDB / Singlestore / Pod
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
@@ -31,7 +31,7 @@ spec:
   provider: Grafana
   resource:
     group: kubedb.com
-    kind: RabbitMQ
-    name: rabbitmqs
+    kind: Singlestore
+    name: singlestores
     scope: Namespaced
     version: v1alpha2

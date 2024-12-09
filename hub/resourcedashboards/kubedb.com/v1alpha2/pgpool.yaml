@@ -4,25 +4,25 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: kubedb.com
-    k8s.io/kind: RabbitMQ
-    k8s.io/resource: rabbitmqs
+    k8s.io/kind: Pgpool
+    k8s.io/resource: pgpools
     k8s.io/version: v1alpha2
-  name: kubedb.com-v1alpha2-rabbitmqs
+  name: kubedb.com-v1alpha2-pgpools
 spec:
   dashboards:
-  - title: KubeDB / RabbitMQ / Summary
+  - title: KubeDB / Pgpool / Summary
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
     - name: app
       value: '{{ .metadata.name }}'
-  - title: KubeDB / RabbitMQ / Database
+  - title: KubeDB / Pgpool / Database
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
     - name: app
       value: '{{ .metadata.name }}'
-  - title: KubeDB / RabbitMQ / Pod
+  - title: KubeDB / Pgpool / Pod
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
@@ -31,7 +31,7 @@ spec:
   provider: Grafana
   resource:
     group: kubedb.com
-    kind: RabbitMQ
-    name: rabbitmqs
+    kind: Pgpool
+    name: pgpools
     scope: Namespaced
     version: v1alpha2

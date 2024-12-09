@@ -4,25 +4,25 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: kubedb.com
-    k8s.io/kind: RabbitMQ
-    k8s.io/resource: rabbitmqs
+    k8s.io/kind: ClickHouse
+    k8s.io/resource: cliickhouses
     k8s.io/version: v1alpha2
-  name: kubedb.com-v1alpha2-rabbitmqs
+  name: kubedb.com-v1alpha2-cliickhouses
 spec:
   dashboards:
-  - title: KubeDB / RabbitMQ / Summary
+  - title: KubeDB / ClickHouse / Summary
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
     - name: app
       value: '{{ .metadata.name }}'
-  - title: KubeDB / RabbitMQ / Database
+  - title: KubeDB / ClickHouse / Database
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
     - name: app
       value: '{{ .metadata.name }}'
-  - title: KubeDB / RabbitMQ / Pod
+  - title: KubeDB / ClickHouse / Pod
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
@@ -31,7 +31,7 @@ spec:
   provider: Grafana
   resource:
     group: kubedb.com
-    kind: RabbitMQ
-    name: rabbitmqs
+    kind: ClickHouse
+    name: cliickhouses
     scope: Namespaced
     version: v1alpha2
