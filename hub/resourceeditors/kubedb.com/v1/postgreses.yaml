@@ -35,8 +35,22 @@ spec:
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/backup.svg
           type: image/svg+xml
-        name: Backup
+        name: Configure Backup
         operationId: edit-self-backupconfiguration
+      - editor:
+          name: corekubestashcom-backupsession-editor
+          sourceRef:
+            apiGroup: source.toolkit.fluxcd.io
+            kind: HelmRepository
+            name: appscode-charts-oci
+          version: v0.11.0
+        enforceQuota: false
+        flow: standalone-create
+        icons:
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/backup.svg
+          type: image/svg+xml
+        name: Instant Backup
+        operationId: create-instant-backup
       - editor:
           name: corekubestashcom-restoresession-editor-options
           sourceRef:
