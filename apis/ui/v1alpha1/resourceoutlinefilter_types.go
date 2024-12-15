@@ -57,20 +57,15 @@ type ResourcePageOutlineFilter struct {
 }
 
 type ActionTemplateGroupFilter struct {
-	Name  string       `json:"name,omitempty"`
-	Items []ItemFilter `json:"items"`
+	Name  string          `json:"name,omitempty"`
+	Items map[string]bool `json:"items"`
 }
 
 type SectionOutlineFilter struct {
-	Name    string       `json:"name,omitempty"`
-	Info    bool         `json:"info"`
-	Insight bool         `json:"insight"`
-	Blocks  []ItemFilter `json:"blocks,omitempty"`
-}
-
-type ItemFilter struct {
-	Name string `json:"name,omitempty"`
-	Show bool   `json:"show"`
+	Name    string          `json:"name,omitempty"`
+	Info    bool            `json:"info"`
+	Insight bool            `json:"insight"`
+	Blocks  map[string]bool `json:"blocks,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

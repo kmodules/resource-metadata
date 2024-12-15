@@ -162,6 +162,11 @@ func LoadResourceLayout(kc client.Client, name string) (*rsapi.ResourceLayout, e
 }
 
 func GetResourceLayout(kc client.Client, outline *rsapi.ResourceOutline) (*rsapi.ResourceLayout, error) {
+	filter, err := GetResourceOutlineFilter(kc, outline)
+	if err != nil {
+		return nil, err
+	}
+
 	src := outline.Spec.Resource
 
 	var result rsapi.ResourceLayout
@@ -195,29 +200,32 @@ func GetResourceLayout(kc client.Client, outline *rsapi.ResourceOutline) (*rsapi
 			{
 				result.Spec.UI.Actions = make([]*shared.ActionTemplateGroup, 0, len(ed.Spec.UI.Actions))
 				for _, ag := range ed.Spec.UI.Actions {
+					agFilter := filter.Spec.GetAction(ag.Name)
 					ag2 := shared.ActionTemplateGroup{
 						ActionInfo: ag.ActionInfo,
 						Items:      make([]shared.ActionTemplate, 0, len(ag.Items)),
 					}
 					for _, a := range ag.Items {
-						a2 := shared.ActionTemplate{
-							ActionInfo:       a.ActionInfo,
-							Icons:            a.Icons,
-							OperationID:      a.OperationID,
-							Flow:             a.Flow,
-							DisabledTemplate: a.DisabledTemplate,
-							EnforceQuota:     a.EnforceQuota,
-						}
-						a2.Editor = expand(a.Editor)
+						if agFilter.Items[a.Name] {
+							a2 := shared.ActionTemplate{
+								ActionInfo:       a.ActionInfo,
+								Icons:            a.Icons,
+								OperationID:      a.OperationID,
+								Flow:             a.Flow,
+								DisabledTemplate: a.DisabledTemplate,
+								EnforceQuota:     a.EnforceQuota,
+							}
+							a2.Editor = expand(a.Editor)
 
-						ag2.Items = append(ag2.Items, a2)
+							ag2.Items = append(ag2.Items, a2)
+						}
 					}
 					result.Spec.UI.Actions = append(result.Spec.UI.Actions, &ag2)
 				}
 			}
 		}
 	}
-	if outline.Spec.Header != nil {
+	if outline.Spec.Header != nil && filter.Spec.Header {
 		tables, err := FlattenPageBlockOutline(kc, src, *outline.Spec.Header, rsapi.Field)
 		if err != nil {
 			return nil, err
@@ -227,7 +235,7 @@ func GetResourceLayout(kc client.Client, outline *rsapi.ResourceOutline) (*rsapi
 		}
 		result.Spec.Header = &tables[0]
 	}
-	if outline.Spec.TabBar != nil {
+	if outline.Spec.TabBar != nil && filter.Spec.TabBar {
 		tables, err := FlattenPageBlockOutline(kc, src, *outline.Spec.TabBar, rsapi.Field)
 		if err != nil {
 			return nil, err
@@ -271,12 +279,14 @@ func GetResourceLayout(kc client.Client, outline *rsapi.ResourceOutline) (*rsapi
 	}
 
 	for _, pageOutline := range pages {
+		pageFilter := filter.Spec.GetPage(pageOutline.Name)
 		page := rsapi.ResourcePageLayout{
 			Name:                pageOutline.Name,
 			RequiredFeatureSets: pageOutline.RequiredFeatureSets,
 			Sections:            make([]rsapi.SectionLayout, 0, len(pageOutline.Sections)),
 		}
 		for _, sectionOutline := range pageOutline.Sections {
+			sectionFilter := pageFilter.GetSection(sectionOutline.Name)
 
 			section := rsapi.SectionLayout{
 				Name:                sectionOutline.Name,
@@ -285,7 +295,7 @@ func GetResourceLayout(kc client.Client, outline *rsapi.ResourceOutline) (*rsapi
 				Insight:             nil,
 				RequiredFeatureSets: sectionOutline.RequiredFeatureSets,
 			}
-			if sectionOutline.Info != nil {
+			if sectionOutline.Info != nil && sectionFilter.Info {
 				tables, err := FlattenPageBlockOutline(kc, src, *sectionOutline.Info, rsapi.Field)
 				if err != nil {
 					return nil, err
@@ -295,7 +305,7 @@ func GetResourceLayout(kc client.Client, outline *rsapi.ResourceOutline) (*rsapi
 				}
 				section.Info = &tables[0]
 			}
-			if sectionOutline.Insight != nil {
+			if sectionOutline.Insight != nil && sectionFilter.Insight {
 				tables, err := FlattenPageBlockOutline(kc, src, *sectionOutline.Insight, rsapi.Field)
 				if err != nil {
 					return nil, err
@@ -314,7 +324,15 @@ func GetResourceLayout(kc client.Client, outline *rsapi.ResourceOutline) (*rsapi
 				}
 				tables = append(tables, blocks...)
 			}
-			section.Blocks = tables
+
+			// https://go.dev/wiki/SliceTricks#filtering-without-allocating
+			b := tables[:0]
+			for _, x := range tables {
+				if sectionFilter.Blocks[x.Name] {
+					b = append(b, x)
+				}
+			}
+			section.Blocks = b
 
 			page.Sections = append(page.Sections, section)
 		}

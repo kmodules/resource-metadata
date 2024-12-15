@@ -36,16 +36,9 @@ spec:
                 items:
                   properties:
                     items:
-                      items:
-                        properties:
-                          name:
-                            type: string
-                          show:
-                            type: boolean
-                        required:
-                        - show
-                        type: object
-                      type: array
+                      additionalProperties:
+                        type: boolean
+                      type: object
                     name:
                       type: string
                   required:
@@ -63,16 +56,9 @@ spec:
                       items:
                         properties:
                           blocks:
-                            items:
-                              properties:
-                                name:
-                                  type: string
-                                show:
-                                  type: boolean
-                              required:
-                              - show
-                              type: object
-                            type: array
+                            additionalProperties:
+                              type: boolean
+                            type: object
                           info:
                             type: boolean
                           insight:

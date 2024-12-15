@@ -49,14 +49,10 @@ func GetDefaultResourceOutlineFilter(kc client.Client, outline *rsapi.ResourceOu
 				for _, ag := range ed.Spec.UI.Actions {
 					ag2 := uiapi.ActionTemplateGroupFilter{
 						Name:  ag.Name,
-						Items: make([]uiapi.ItemFilter, 0, len(ag.Items)),
+						Items: make(map[string]bool, len(ag.Items)),
 					}
 					for _, a := range ag.Items {
-						a2 := uiapi.ItemFilter{
-							Name: a.Name,
-							Show: true,
-						}
-						ag2.Items = append(ag2.Items, a2)
+						ag2.Items[a.Name] = true
 					}
 					result.Spec.Actions = append(result.Spec.Actions, ag2)
 				}
@@ -109,13 +105,11 @@ func GetDefaultResourceOutlineFilter(kc client.Client, outline *rsapi.ResourceOu
 				Insight: sectionOutline.Insight != nil,
 			}
 
-			var tables []uiapi.ItemFilter
+			tables := map[string]bool{}
 			for _, block := range sectionOutline.Blocks {
-				blocks, err := FlattenPageBlockOutlineFilter(kc, src, block, rsapi.List)
-				if err != nil {
+				if err := FlattenPageBlockOutlineFilter(kc, src, block, rsapi.List, tables); err != nil {
 					return nil, err
 				}
-				tables = append(tables, blocks...)
 			}
 			section.Blocks = tables
 
@@ -132,34 +126,28 @@ func FlattenPageBlockOutlineFilter(
 	src kmapi.ResourceID,
 	in rsapi.PageBlockOutline,
 	priority rsapi.Priority,
-) ([]uiapi.ItemFilter, error) {
+	out map[string]bool,
+) error {
 	if in.Kind == rsapi.TableKindSubTable ||
 		in.Kind == rsapi.TableKindConnection ||
 		in.Kind == rsapi.TableKindCustom ||
 		in.Kind == rsapi.TableKindSelf {
-		return []uiapi.ItemFilter{
-			{
-				Name: in.Name,
-				Show: true,
-			},
-		}, nil
+		out[in.Name] = true
+		return nil
 	} else if in.Kind != rsapi.TableKindBlock {
-		return nil, fmt.Errorf("unknown block kind %+v", in)
+		return fmt.Errorf("unknown block kind %+v", in)
 	}
 
 	obj, err := blockdefs.LoadByName(in.Name)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	var result []uiapi.ItemFilter
 	for _, block := range obj.Spec.Blocks {
-		out, err := FlattenPageBlockOutlineFilter(kc, src, block, priority)
-		if err != nil {
-			return nil, err
+		if err := FlattenPageBlockOutlineFilter(kc, src, block, priority, out); err != nil {
+			return err
 		}
-		result = append(result, out...)
 	}
-	return result, nil
+	return nil
 }
 
 func GetResourceOutlineFilter(kc client.Client, outline *rsapi.ResourceOutline) (*uiapi.ResourceOutlineFilter, error) {
