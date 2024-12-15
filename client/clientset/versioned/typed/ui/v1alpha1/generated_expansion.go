@@ -27,3 +27,5 @@ type FeatureSetExpansion interface{}
 type ResourceDashboardExpansion interface{}
 
 type ResourceEditorExpansion interface{}
+
+type ResourceOutlineFilterExpansion interface{}

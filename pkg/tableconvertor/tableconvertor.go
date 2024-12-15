@@ -27,7 +27,7 @@ import (
 	"text/template"
 
 	meta_util "kmodules.xyz/client-go/meta"
-	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	rsapi "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"kmodules.xyz/resource-metadata/apis/shared"
 	uiapi "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
 	"kmodules.xyz/resource-metadata/pkg/tableconvertor/lib"
@@ -52,12 +52,12 @@ var pool = sync.Pool{
 }
 
 type TableConvertor interface {
-	ConvertToTable(ctx context.Context, object runtime.Object) (*v1alpha1.Table, error)
+	ConvertToTable(ctx context.Context, object runtime.Object) (*rsapi.Table, error)
 }
 
 // New creates a new table convertor for the provided CRD column definition. If the printer definition cannot be parsed,
 // error will be returned along with a default table convertor.
-func New(fieldPath string, columns []v1alpha1.ResourceColumnDefinition, fnDashboard DashboardRendererFunc, fnExec ResourceExecFunc) (TableConvertor, error) {
+func New(fieldPath string, columns []rsapi.ResourceColumnDefinition, fnDashboard DashboardRendererFunc, fnExec ResourceExecFunc) (TableConvertor, error) {
 	c := &convertor{
 		fieldPath: fieldPath,
 	}
@@ -65,25 +65,25 @@ func New(fieldPath string, columns []v1alpha1.ResourceColumnDefinition, fnDashbo
 	return c, err
 }
 
-func NewForList(fieldPath string, columns []v1alpha1.ResourceColumnDefinition, fnDashboard DashboardRendererFunc, fnExec ResourceExecFunc) (TableConvertor, error) {
+func NewForList(fieldPath string, columns []rsapi.ResourceColumnDefinition, fnDashboard DashboardRendererFunc, fnExec ResourceExecFunc) (TableConvertor, error) {
 	c := &convertor{
 		fieldPath: fieldPath,
 	}
-	err := c.init(filterColumns(columns, v1alpha1.List), fnDashboard, fnExec)
+	err := c.init(filterColumns(columns, rsapi.List), fnDashboard, fnExec)
 	return c, err
 }
 
 type convertor struct {
 	fieldPath string
-	headers   []v1alpha1.ResourceColumnDefinition
+	headers   []rsapi.ResourceColumnDefinition
 }
 
-func filterColumns(columns []v1alpha1.ResourceColumnDefinition, priority v1alpha1.Priority) []v1alpha1.ResourceColumnDefinition {
-	out := make([]v1alpha1.ResourceColumnDefinition, 0, len(columns))
+func filterColumns(columns []rsapi.ResourceColumnDefinition, priority rsapi.Priority) []rsapi.ResourceColumnDefinition {
+	out := make([]rsapi.ResourceColumnDefinition, 0, len(columns))
 	for _, col := range columns {
-		if (col.Priority&int32(v1alpha1.Metadata)) == int32(v1alpha1.Metadata) ||
+		if (col.Priority&int32(rsapi.Metadata)) == int32(rsapi.Metadata) ||
 			(col.Priority&int32(priority)) == int32(priority) ||
-			(priority == v1alpha1.List && col.Priority == 0) {
+			(priority == rsapi.List && col.Priority == 0) {
 			out = append(out, col)
 		}
 	}
@@ -93,9 +93,9 @@ func filterColumns(columns []v1alpha1.ResourceColumnDefinition, priority v1alpha
 func FilterColumnsWithDefaults(
 	kc client.Client,
 	gvr schema.GroupVersionResource,
-	columns []v1alpha1.ResourceColumnDefinition,
-	priority v1alpha1.Priority,
-) []v1alpha1.ResourceColumnDefinition {
+	columns []rsapi.ResourceColumnDefinition,
+	priority rsapi.Priority,
+) []rsapi.ResourceColumnDefinition {
 	// columns are specified in resource description, so use those.
 	out := filterColumns(columns, priority)
 	if len(out) > 0 {
@@ -103,8 +103,8 @@ func FilterColumnsWithDefaults(
 	}
 
 	// generate column list by merging default columns + crd additional columns
-	var defaultColumns []v1alpha1.ResourceColumnDefinition
-	if priority == v1alpha1.List {
+	var defaultColumns []rsapi.ResourceColumnDefinition
+	if priority == rsapi.List {
 		defaultColumns = DefaultListColumns()
 	} else {
 		defaultColumns = DefaultDetailsColumns()
@@ -114,17 +114,17 @@ func FilterColumnsWithDefaults(
 		defaultJsonPaths.Insert(col.Name)
 	}
 
-	var additionalColumns []v1alpha1.ResourceColumnDefinition
+	var additionalColumns []rsapi.ResourceColumnDefinition
 	if kc != nil {
 		var crd crd_api.CustomResourceDefinition
 		err := kc.Get(context.TODO(), client.ObjectKey{Name: fmt.Sprintf("%s.%s", gvr.Resource, gvr.Group)}, &crd)
 		if err == nil {
 			for _, version := range crd.Spec.Versions {
 				if version.Name == gvr.Version && len(version.AdditionalPrinterColumns) > 0 {
-					additionalColumns = make([]v1alpha1.ResourceColumnDefinition, 0, len(version.AdditionalPrinterColumns))
+					additionalColumns = make([]rsapi.ResourceColumnDefinition, 0, len(version.AdditionalPrinterColumns))
 					for _, col := range version.AdditionalPrinterColumns {
 						if !defaultJsonPaths.Has(col.Name) {
-							def := v1alpha1.ResourceColumnDefinition{
+							def := rsapi.ResourceColumnDefinition{
 								Name:        col.Name,
 								Type:        col.Type,
 								Format:      col.Format,
@@ -146,14 +146,14 @@ func FilterColumnsWithDefaults(
 	return append(defaultColumns, additionalColumns...)
 }
 
-func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition, fnDashboard DashboardRendererFunc, fnExec ResourceExecFunc) error {
+func (c *convertor) init(columns []rsapi.ResourceColumnDefinition, fnDashboard DashboardRendererFunc, fnExec ResourceExecFunc) error {
 	for i, c := range columns {
 		if c.Dashboard != nil && c.Dashboard.Name != "" {
 			if fnDashboard == nil {
 				return errors.New("missing dashboard renderer")
 			}
 			if obj, url, err := fnDashboard(c.Dashboard.Name); err != nil {
-				c.Dashboard.Status = v1alpha1.RenderError
+				c.Dashboard.Status = rsapi.RenderError
 				c.Dashboard.Message = err.Error()
 			} else {
 				c.Dashboard.Dashboard = func(in *uiapi.Dashboard) *shared.Dashboard {
@@ -169,7 +169,7 @@ func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition, fnDashboar
 					return &out
 				}(&obj.Spec.Dashboards[0])
 				c.Dashboard.URL = url
-				c.Dashboard.Status = v1alpha1.RenderSuccess
+				c.Dashboard.Status = rsapi.RenderSuccess
 			}
 		} else if c.Exec != nil {
 			if len(c.Exec.Command) == 0 {
@@ -196,7 +196,7 @@ func (c *convertor) init(columns []v1alpha1.ResourceColumnDefinition, fnDashboar
 	return nil
 }
 
-func addTargetVars(in *v1alpha1.DashboardDefinition, data interface{}, buf *bytes.Buffer) (string, error) {
+func addTargetVars(in *rsapi.DashboardDefinition, data interface{}, buf *bytes.Buffer) (string, error) {
 	varname := func(s string) string {
 		if strings.HasPrefix(s, "var-") {
 			return s
@@ -238,7 +238,7 @@ func addTargetVars(in *v1alpha1.DashboardDefinition, data interface{}, buf *byte
 	return u.String(), nil
 }
 
-func (c *convertor) rowFn(obj interface{}) ([]v1alpha1.TableCell, error) {
+func (c *convertor) rowFn(obj interface{}) ([]rsapi.TableCell, error) {
 	data := obj
 	if o, ok := obj.(runtime.Unstructured); ok {
 		data = o.UnstructuredContent()
@@ -247,13 +247,13 @@ func (c *convertor) rowFn(obj interface{}) ([]v1alpha1.TableCell, error) {
 	buf := pool.Get().(*bytes.Buffer)
 	defer pool.Put(buf)
 
-	cells := make([]v1alpha1.TableCell, 0, len(c.headers))
+	cells := make([]rsapi.TableCell, 0, len(c.headers))
 	for _, col := range c.headers {
-		var cell v1alpha1.TableCell
+		var cell rsapi.TableCell
 
 		if col.Dashboard != nil {
 			// if dashboard type column, set dashboard url as data for cell
-			if col.Dashboard.Status == v1alpha1.RenderSuccess {
+			if col.Dashboard.Status == rsapi.RenderSuccess {
 				if u, err := addTargetVars(col.Dashboard, data, buf); err != nil {
 					return nil, err
 				} else {
@@ -292,12 +292,12 @@ func (c *convertor) rowFn(obj interface{}) ([]v1alpha1.TableCell, error) {
 					return nil, err
 				} else {
 					if col.Exec.Alias != "" {
-						var execs []v1alpha1.ResourceExec
+						var execs []rsapi.ResourceExec
 						err = meta_util.DecodeObject(v, &execs)
 						if err != nil {
 							return nil, errors.Wrapf(err, "failed to decode cell value for col %s", col.Name)
 						}
-						result := make([]v1alpha1.ResourceExec, 0, len(execs))
+						result := make([]rsapi.ResourceExec, 0, len(execs))
 						for _, exec := range execs {
 							if exec.Alias == col.Exec.Alias {
 								result = append(result, exec)
@@ -411,14 +411,14 @@ func renderTemplate(data interface{}, col columnOptions, buf *bytes.Buffer) (int
 	return cellForJSONValue(col, strings.ReplaceAll(buf.String(), "<no value>", ""))
 }
 
-func (c *convertor) ConvertToTable(_ context.Context, obj runtime.Object) (*v1alpha1.Table, error) {
-	table := &v1alpha1.Table{
-		Columns: make([]v1alpha1.ResourceColumn, 0, len(c.headers)),
-		Rows:    make([]v1alpha1.TableRow, 0),
+func (c *convertor) ConvertToTable(_ context.Context, obj runtime.Object) (*rsapi.Table, error) {
+	table := &rsapi.Table{
+		Columns: make([]rsapi.ResourceColumn, 0, len(c.headers)),
+		Rows:    make([]rsapi.TableRow, 0),
 	}
 
 	for _, def := range c.headers {
-		table.Columns = append(table.Columns, v1alpha1.Convert_ResourceColumnDefinition_To_ResourceColumn(def))
+		table.Columns = append(table.Columns, rsapi.Convert_ResourceColumnDefinition_To_ResourceColumn(def))
 	}
 
 	if m, err := meta.ListAccessor(obj); err == nil {
@@ -490,9 +490,9 @@ func cellForJSONValue(col columnOptions, value string) (interface{}, error) {
 
 // metaToTableRow converts a list or object into one or more table rows. The provided rowFn is invoked for
 // each accessed item, with name and age being passed to each.
-func metaToTableRow(obj runtime.Object, fieldPath string, rowFn func(obj interface{}) ([]v1alpha1.TableCell, error)) ([]v1alpha1.TableRow, error) {
+func metaToTableRow(obj runtime.Object, fieldPath string, rowFn func(obj interface{}) ([]rsapi.TableCell, error)) ([]rsapi.TableRow, error) {
 	if meta.IsListType(obj) {
-		rows := make([]v1alpha1.TableRow, 0, 16)
+		rows := make([]rsapi.TableRow, 0, 16)
 		err := meta.EachListItem(obj, func(obj runtime.Object) error {
 			nestedRows, err := metaToTableRow(obj, fieldPath, rowFn)
 			if err != nil {
@@ -517,7 +517,7 @@ func metaToTableRow(obj runtime.Object, fieldPath string, rowFn func(obj interfa
 		if a, err := meta.Accessor(obj); err == nil {
 			ns = a.GetNamespace()
 		}
-		return []v1alpha1.TableRow{
+		return []rsapi.TableRow{
 			{
 				Cells:     cells,
 				Namespace: ns,
@@ -537,9 +537,9 @@ func metaToTableRow(obj runtime.Object, fieldPath string, rowFn func(obj interfa
 	if !ok {
 		return nil, nil
 	}
-	rows := make([]v1alpha1.TableRow, 0, len(arr))
+	rows := make([]rsapi.TableRow, 0, len(arr))
 	for _, item := range arr {
-		var row v1alpha1.TableRow
+		var row rsapi.TableRow
 		row.Namespace = ns
 		row.Cells, err = rowFn(item)
 		if err != nil {
@@ -550,19 +550,19 @@ func metaToTableRow(obj runtime.Object, fieldPath string, rowFn func(obj interfa
 	return rows, nil
 }
 
-func DefaultListColumns() []v1alpha1.ResourceColumnDefinition {
-	return []v1alpha1.ResourceColumnDefinition{
+func DefaultListColumns() []rsapi.ResourceColumnDefinition {
+	return []rsapi.ResourceColumnDefinition{
 		{
 			Name:         "Name",
 			Type:         "string",
 			Format:       "",
-			Priority:     int32(v1alpha1.List),
+			Priority:     int32(rsapi.List),
 			PathTemplate: `{{ .metadata.name }}`,
-			Sort: &v1alpha1.SortDefinition{
+			Sort: &rsapi.SortDefinition{
 				Enable: true,
 				// Template: "",
 			},
-			Link: &v1alpha1.AttributeDefinition{
+			Link: &rsapi.AttributeDefinition{
 				// Template: "",
 			},
 			// Shape ShapeProperty `json:"shape,omitempty"`
@@ -573,30 +573,30 @@ func DefaultListColumns() []v1alpha1.ResourceColumnDefinition {
 			Name:         "Namespace",
 			Type:         "string",
 			Format:       "",
-			Priority:     int32(v1alpha1.List),
+			Priority:     int32(rsapi.List),
 			PathTemplate: `{{ .metadata.namespace }}`,
 		},
 		{
 			Name:         "Labels",
 			Type:         "object",
 			Format:       "",
-			Priority:     int32(v1alpha1.List),
+			Priority:     int32(rsapi.List),
 			PathTemplate: `{{ .metadata.labels | toRawJson }}`,
 		},
 		{
 			Name:         "Annotations",
 			Type:         "object",
 			Format:       "",
-			Priority:     int32(v1alpha1.List),
+			Priority:     int32(rsapi.List),
 			PathTemplate: `{{ .metadata.annotations | toRawJson }}`,
 		},
 		{
 			Name:         "Age",
 			Type:         "date",
 			Format:       "",
-			Priority:     int32(v1alpha1.List),
+			Priority:     int32(rsapi.List),
 			PathTemplate: `{{ .metadata.creationTimestamp }}`,
-			Sort: &v1alpha1.SortDefinition{
+			Sort: &rsapi.SortDefinition{
 				Enable:   true,
 				Template: `{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}`,
 				Type:     "integer",
@@ -605,19 +605,19 @@ func DefaultListColumns() []v1alpha1.ResourceColumnDefinition {
 	}
 }
 
-func DefaultDetailsColumns() []v1alpha1.ResourceColumnDefinition {
-	return []v1alpha1.ResourceColumnDefinition{
+func DefaultDetailsColumns() []rsapi.ResourceColumnDefinition {
+	return []rsapi.ResourceColumnDefinition{
 		{
 			Name:         "Name",
 			Type:         "string",
 			Format:       "",
-			Priority:     int32(v1alpha1.Field | v1alpha1.List),
+			Priority:     int32(rsapi.Field | rsapi.List),
 			PathTemplate: `{{ .metadata.name }}`,
-			Sort: &v1alpha1.SortDefinition{
+			Sort: &rsapi.SortDefinition{
 				Enable: true,
 				// Template: "",
 			},
-			Link: &v1alpha1.AttributeDefinition{
+			Link: &rsapi.AttributeDefinition{
 				// Template: "",
 			},
 			// Shape ShapeProperty `json:"shape,omitempty"`
@@ -628,30 +628,30 @@ func DefaultDetailsColumns() []v1alpha1.ResourceColumnDefinition {
 			Name:         "Namespace",
 			Type:         "string",
 			Format:       "",
-			Priority:     int32(v1alpha1.Field | v1alpha1.List),
+			Priority:     int32(rsapi.Field | rsapi.List),
 			PathTemplate: `{{ .metadata.namespace }}`,
 		},
 		{
 			Name:         "Labels",
 			Type:         "object",
 			Format:       "",
-			Priority:     int32(v1alpha1.Field | v1alpha1.List),
+			Priority:     int32(rsapi.Field | rsapi.List),
 			PathTemplate: `{{ .metadata.labels | toRawJson }}`,
 		},
 		{
 			Name:         "Annotations",
 			Type:         "object",
 			Format:       "",
-			Priority:     int32(v1alpha1.Field | v1alpha1.List),
+			Priority:     int32(rsapi.Field | rsapi.List),
 			PathTemplate: `{{ .metadata.annotations | toRawJson }}`,
 		},
 		{
 			Name:         "Age",
 			Type:         "date",
 			Format:       "",
-			Priority:     int32(v1alpha1.Field | v1alpha1.List),
+			Priority:     int32(rsapi.Field | rsapi.List),
 			PathTemplate: `{{ .metadata.creationTimestamp }}`,
-			Sort: &v1alpha1.SortDefinition{
+			Sort: &rsapi.SortDefinition{
 				Enable:   true,
 				Template: `{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}`,
 				Type:     "integer",

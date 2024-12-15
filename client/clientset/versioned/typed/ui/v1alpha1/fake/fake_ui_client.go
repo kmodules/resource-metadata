@@ -48,6 +48,10 @@ func (c *FakeUiV1alpha1) ResourceEditors() v1alpha1.ResourceEditorInterface {
 	return &FakeResourceEditors{c}
 }
 
+func (c *FakeUiV1alpha1) ResourceOutlineFilters() v1alpha1.ResourceOutlineFilterInterface {
+	return &FakeResourceOutlineFilters{c}
+}
+
 // RESTClient returns a RESTClient that is used to communicate
 // with API server by this client implementation.
 func (c *FakeUiV1alpha1) RESTClient() rest.Interface {

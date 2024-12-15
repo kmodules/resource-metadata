@@ -65,6 +65,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&ResourceEditorList{},
 		&ResourceOutline{},
 		&ResourceOutlineList{},
+		&ResourceOutlineFilter{},
+		&ResourceOutlineFilterList{},
 		&ResourceLayout{},
 		&ResourceLayoutList{},
 		&Menu{},

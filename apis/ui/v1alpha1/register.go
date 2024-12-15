@@ -59,6 +59,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&ResourceDashboardList{},
 		&ResourceEditor{},
 		&ResourceEditorList{},
+		&ResourceOutlineFilter{},
+		&ResourceOutlineFilterList{},
 	)
 
 	scheme.AddKnownTypes(SchemeGroupVersion,

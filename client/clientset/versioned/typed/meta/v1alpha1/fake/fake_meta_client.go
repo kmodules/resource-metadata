@@ -88,6 +88,10 @@ func (c *FakeMetaV1alpha1) ResourceOutlines() v1alpha1.ResourceOutlineInterface 
 	return &FakeResourceOutlines{c}
 }
 
+func (c *FakeMetaV1alpha1) ResourceOutlineFilters() v1alpha1.ResourceOutlineFilterInterface {
+	return &FakeResourceOutlineFilters{c}
+}
+
 func (c *FakeMetaV1alpha1) ResourceQueries() v1alpha1.ResourceQueryInterface {
 	return &FakeResourceQueries{c}
 }
