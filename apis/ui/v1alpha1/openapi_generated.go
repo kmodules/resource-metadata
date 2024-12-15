@@ -397,7 +397,6 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.FeatureSetStatus":          schema_resource_metadata_apis_ui_v1alpha1_FeatureSetStatus(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.FeatureSpec":               schema_resource_metadata_apis_ui_v1alpha1_FeatureSpec(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.FeatureStatus":             schema_resource_metadata_apis_ui_v1alpha1_FeatureStatus(ref),
-		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ItemFilter":                schema_resource_metadata_apis_ui_v1alpha1_ItemFilter(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.PanelLinkRequest":          schema_resource_metadata_apis_ui_v1alpha1_PanelLinkRequest(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ReadinessChecks":           schema_resource_metadata_apis_ui_v1alpha1_ReadinessChecks(ref),
 		"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.Requirements":              schema_resource_metadata_apis_ui_v1alpha1_Requirements(ref),
@@ -19887,12 +19886,14 @@ func schema_resource_metadata_apis_ui_v1alpha1_ActionTemplateGroupFilter(ref com
 					},
 					"items": {
 						SchemaProps: spec.SchemaProps{
-							Type: []string{"array"},
-							Items: &spec.SchemaOrArray{
+							Type: []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
-										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ItemFilter"),
+										Default: false,
+										Type:    []string{"boolean"},
+										Format:  "",
 									},
 								},
 							},
@@ -19902,8 +19903,6 @@ func schema_resource_metadata_apis_ui_v1alpha1_ActionTemplateGroupFilter(ref com
 				Required: []string{"items"},
 			},
 		},
-		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ItemFilter"},
 	}
 }
 
@@ -20757,32 +20756,6 @@ func schema_resource_metadata_apis_ui_v1alpha1_FeatureStatus(ref common.Referenc
 	}
 }
 
-func schema_resource_metadata_apis_ui_v1alpha1_ItemFilter(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Type: []string{"object"},
-				Properties: map[string]spec.Schema{
-					"name": {
-						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
-						},
-					},
-					"show": {
-						SchemaProps: spec.SchemaProps{
-							Default: false,
-							Type:    []string{"boolean"},
-							Format:  "",
-						},
-					},
-				},
-				Required: []string{"show"},
-			},
-		},
-	}
-}
-
 func schema_resource_metadata_apis_ui_v1alpha1_PanelLinkRequest(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -21362,12 +21335,14 @@ func schema_resource_metadata_apis_ui_v1alpha1_SectionOutlineFilter(ref common.R
 					},
 					"blocks": {
 						SchemaProps: spec.SchemaProps{
-							Type: []string{"array"},
-							Items: &spec.SchemaOrArray{
+							Type: []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
-										Default: map[string]interface{}{},
-										Ref:     ref("kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ItemFilter"),
+										Default: false,
+										Type:    []string{"boolean"},
+										Format:  "",
 									},
 								},
 							},
@@ -21377,8 +21352,6 @@ func schema_resource_metadata_apis_ui_v1alpha1_SectionOutlineFilter(ref common.R
 				Required: []string{"info", "insight"},
 			},
 		},
-		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/ui/v1alpha1.ItemFilter"},
 	}
 }
 
