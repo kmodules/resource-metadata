@@ -48,6 +48,8 @@ type ResourceLayoutExpansion interface{}
 
 type ResourceOutlineExpansion interface{}
 
+type ResourceOutlineFilterExpansion interface{}
+
 type ResourceQueryExpansion interface{}
 
 type ResourceTableDefinitionExpansion interface{}

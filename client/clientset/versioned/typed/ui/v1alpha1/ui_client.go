@@ -33,6 +33,7 @@ type UiV1alpha1Interface interface {
 	FeatureSetsGetter
 	ResourceDashboardsGetter
 	ResourceEditorsGetter
+	ResourceOutlineFiltersGetter
 }
 
 // UiV1alpha1Client is used to interact with features provided by the ui.k8s.appscode.com group.
@@ -58,6 +59,10 @@ func (c *UiV1alpha1Client) ResourceDashboards() ResourceDashboardInterface {
 
 func (c *UiV1alpha1Client) ResourceEditors() ResourceEditorInterface {
 	return newResourceEditors(c)
+}
+
+func (c *UiV1alpha1Client) ResourceOutlineFilters() ResourceOutlineFilterInterface {
+	return newResourceOutlineFilters(c)
 }
 
 // NewForConfig creates a new UiV1alpha1Client for the given config.
