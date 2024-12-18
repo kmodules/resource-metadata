@@ -6,6 +6,8 @@ metadata:
 spec:
   description: This profile is suitable for client organizations using KubeDB to manage DBaaS.
   requiredFeatureSets:
+    capi-core:
+    - cluster-presets
     opscenter-backup:
     - kubestash
     - stash-presets
@@ -27,6 +29,8 @@ spec:
     opscenter-security:
     - cert-manager
     - cert-manager-csi-driver-cacerts
+    opscenter-storage:
+    - snapshot-controller
     opscenter-tools:
     - sidekick
     - supervisor
