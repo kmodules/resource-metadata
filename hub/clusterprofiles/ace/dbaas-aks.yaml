@@ -9,6 +9,7 @@ spec:
   requiredFeatureSets:
     capi-core:
     - cluster-presets
+    - capi-ops-manager
     crossplane:
     - crossplane
     - kubedb-provider-azure
