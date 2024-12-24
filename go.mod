@@ -17,7 +17,7 @@ require (
 	github.com/stretchr/testify v1.9.0
 	github.com/yudai/gojsondiff v1.0.0
 	go.bytebuilders.dev/license-verifier v0.14.2
-	golang.org/x/net v0.29.0
+	golang.org/x/net v0.33.0
 	gomodules.xyz/encoding v0.0.8
 	gomodules.xyz/jsonpath v0.0.2
 	gomodules.xyz/x v0.0.17
