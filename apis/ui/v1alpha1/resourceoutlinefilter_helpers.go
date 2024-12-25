@@ -24,6 +24,7 @@ func (a ResourceOutlineFilterSpec) GetPage(name string) ResourcePageOutlineFilte
 	}
 	return ResourcePageOutlineFilter{
 		Name:     name,
+		Show:     false,
 		Sections: nil,
 	}
 }
@@ -36,6 +37,7 @@ func (a ResourceOutlineFilterSpec) GetAction(name string) ActionTemplateGroupFil
 	}
 	return ActionTemplateGroupFilter{
 		Name:  name,
+		Show:  false,
 		Items: nil,
 	}
 }
@@ -48,6 +50,7 @@ func (a ResourcePageOutlineFilter) GetSection(name string) SectionOutlineFilter 
 	}
 	return SectionOutlineFilter{
 		Name:   name,
+		Show:   false,
 		Blocks: nil,
 	}
 }

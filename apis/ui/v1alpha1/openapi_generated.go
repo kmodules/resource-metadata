@@ -19880,8 +19880,9 @@ func schema_resource_metadata_apis_ui_v1alpha1_ActionTemplateGroupFilter(ref com
 				Properties: map[string]spec.Schema{
 					"name": {
 						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
 						},
 					},
 					"items": {
@@ -19899,8 +19900,15 @@ func schema_resource_metadata_apis_ui_v1alpha1_ActionTemplateGroupFilter(ref com
 							},
 						},
 					},
+					"show": {
+						SchemaProps: spec.SchemaProps{
+							Default: false,
+							Type:    []string{"boolean"},
+							Format:  "",
+						},
+					},
 				},
-				Required: []string{"items"},
+				Required: []string{"name", "show"},
 			},
 		},
 	}
@@ -21298,8 +21306,15 @@ func schema_resource_metadata_apis_ui_v1alpha1_ResourcePageOutlineFilter(ref com
 							},
 						},
 					},
+					"show": {
+						SchemaProps: spec.SchemaProps{
+							Default: false,
+							Type:    []string{"boolean"},
+							Format:  "",
+						},
+					},
 				},
-				Required: []string{"name"},
+				Required: []string{"name", "show"},
 			},
 		},
 		Dependencies: []string{
@@ -21317,6 +21332,13 @@ func schema_resource_metadata_apis_ui_v1alpha1_SectionOutlineFilter(ref common.R
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
 							Format: "",
+						},
+					},
+					"show": {
+						SchemaProps: spec.SchemaProps{
+							Default: false,
+							Type:    []string{"boolean"},
+							Format:  "",
 						},
 					},
 					"info": {
@@ -21349,7 +21371,7 @@ func schema_resource_metadata_apis_ui_v1alpha1_SectionOutlineFilter(ref common.R
 						},
 					},
 				},
-				Required: []string{"info", "insight"},
+				Required: []string{"show", "info", "insight"},
 			},
 		},
 	}
