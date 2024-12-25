@@ -49,6 +49,7 @@ func GetDefaultResourceOutlineFilter(kc client.Client, outline *rsapi.ResourceOu
 				for _, ag := range ed.Spec.UI.Actions {
 					ag2 := uiapi.ActionTemplateGroupFilter{
 						Name:  ag.Name,
+						Show:  true,
 						Items: make(map[string]bool, len(ag.Items)),
 					}
 					for _, a := range ag.Items {
@@ -95,12 +96,14 @@ func GetDefaultResourceOutlineFilter(kc client.Client, outline *rsapi.ResourceOu
 	for _, pageOutline := range pages {
 		page := uiapi.ResourcePageOutlineFilter{
 			Name:     pageOutline.Name,
+			Show:     true,
 			Sections: make([]uiapi.SectionOutlineFilter, 0, len(pageOutline.Sections)),
 		}
 		for _, sectionOutline := range pageOutline.Sections {
 
 			section := uiapi.SectionOutlineFilter{
 				Name:    sectionOutline.Name,
+				Show:    true,
 				Info:    sectionOutline.Info != nil,
 				Insight: sectionOutline.Insight != nil,
 			}

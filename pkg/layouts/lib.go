@@ -201,6 +201,9 @@ func GetResourceLayout(kc client.Client, outline *rsapi.ResourceOutline) (*rsapi
 				result.Spec.UI.Actions = make([]*shared.ActionTemplateGroup, 0, len(ed.Spec.UI.Actions))
 				for _, ag := range ed.Spec.UI.Actions {
 					agFilter := filter.Spec.GetAction(ag.Name)
+					if !agFilter.Show {
+						continue
+					}
 					ag2 := shared.ActionTemplateGroup{
 						ActionInfo: ag.ActionInfo,
 						Items:      make([]shared.ActionTemplate, 0, len(ag.Items)),
@@ -280,6 +283,9 @@ func GetResourceLayout(kc client.Client, outline *rsapi.ResourceOutline) (*rsapi
 
 	for _, pageOutline := range pages {
 		pageFilter := filter.Spec.GetPage(pageOutline.Name)
+		if !pageFilter.Show {
+			continue
+		}
 		page := rsapi.ResourcePageLayout{
 			Name:                pageOutline.Name,
 			RequiredFeatureSets: pageOutline.RequiredFeatureSets,
@@ -287,6 +293,9 @@ func GetResourceLayout(kc client.Client, outline *rsapi.ResourceOutline) (*rsapi
 		}
 		for _, sectionOutline := range pageOutline.Sections {
 			sectionFilter := pageFilter.GetSection(sectionOutline.Name)
+			if !sectionFilter.Show {
+				continue
+			}
 
 			section := rsapi.SectionLayout{
 				Name:                sectionOutline.Name,
