@@ -45,12 +45,18 @@ spec:
     type: string
   - color:
       template: |
-        {{ $phase := .status.phase }}
+        {{ $status := .status.phase }}
         {{ $color := "gray" }}
-        {{ if $phase }}
+        {{ if list "Running" | has $status }}
+          {{ $color = "info" }}
+        {{ else if list "Succeeded" | has $status }}
           {{ $color = "success" }}
-        {{ else }}
+        {{ else if list "Unknown" | has $status }}
+          {{ $color = "warning" }}
+        {{ else if list "Failed" "Invalid" | has $status }}
           {{ $color = "danger" }}
+        {{ else if list "Pending" | has $status }}
+          {{ $color = "gray" }}
         {{ end }}
         {{- printf "%s" $color -}}
     name: Status
