@@ -66,7 +66,7 @@ type ActionTemplateGroupFilter struct {
 type SectionOutlineFilter struct {
 	Name    string          `json:"name,omitempty"`
 	Show    bool            `json:"show"`
-	Info    bool            `json:"info"`
+	Info    map[string]bool `json:"info"`
 	Insight bool            `json:"insight"`
 	Blocks  map[string]bool `json:"blocks,omitempty"`
 }

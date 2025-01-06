@@ -63,7 +63,9 @@ spec:
                               type: boolean
                             type: object
                           info:
-                            type: boolean
+                            additionalProperties:
+                              type: boolean
+                            type: object
                           insight:
                             type: boolean
                           name:

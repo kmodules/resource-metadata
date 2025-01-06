@@ -304,7 +304,7 @@ func GetResourceLayout(kc client.Client, outline *rsapi.ResourceOutline) (*rsapi
 				Insight:             nil,
 				RequiredFeatureSets: sectionOutline.RequiredFeatureSets,
 			}
-			if sectionOutline.Info != nil && sectionFilter.Info {
+			if sectionOutline.Info != nil && sectionFilter.Info["basic"] {
 				tables, err := FlattenPageBlockOutline(kc, src, *sectionOutline.Info, rsapi.Field)
 				if err != nil {
 					return nil, err
