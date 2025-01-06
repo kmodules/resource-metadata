@@ -102,9 +102,11 @@ func GetDefaultResourceOutlineFilter(kc client.Client, outline *rsapi.ResourceOu
 		for _, sectionOutline := range pageOutline.Sections {
 
 			section := uiapi.SectionOutlineFilter{
-				Name:    sectionOutline.Name,
-				Show:    true,
-				Info:    sectionOutline.Info != nil,
+				Name: sectionOutline.Name,
+				Show: true,
+				Info: map[string]bool{
+					"basic": sectionOutline.Info != nil,
+				},
 				Insight: sectionOutline.Insight != nil,
 			}
 
