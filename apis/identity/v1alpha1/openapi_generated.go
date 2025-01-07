@@ -19092,6 +19092,12 @@ func schema_resource_metadata_apis_identity_v1alpha1_InboxTokenRequestResponse(r
 							Format:  "",
 						},
 					},
+					"caBundle": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
 				},
 				Required: []string{"agentJwtToken"},
 			},
