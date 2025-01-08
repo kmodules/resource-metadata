@@ -313,17 +313,13 @@ func GetResourceLayout(kc client.Client, outline *rsapi.ResourceOutline) (*rsapi
 					return nil, fmt.Errorf("ResourceOutline %s page %s uses multiple basic blocks", outline.Name, section.Name)
 				}
 				section.Info = &tables[0]
-			}
-			if page.Name == HomePage && sectionFilter.Info != nil {
-				if section.Info == nil {
-					section.Info = &rsapi.PageBlockLayout{}
-				}
-				section.Info.Filter = make(map[string]bool, len(sectionFilter.Info)-1)
+
+				section.Info.Filters = make(map[string]bool)
 				for typ, show := range sectionFilter.Info {
 					if typ == "basic" {
 						continue
 					}
-					section.Info.Filter[typ] = show
+					section.Info.Filters[typ] = show
 				}
 			}
 			if sectionOutline.Insight != nil && sectionFilter.Insight {

@@ -50,7 +50,7 @@ spec:
                     type: string
                   fieldPath:
                     type: string
-                  filter:
+                  filters:
                     additionalProperties:
                       type: boolean
                     type: object
@@ -304,7 +304,7 @@ spec:
                                   type: string
                                 fieldPath:
                                   type: string
-                                filter:
+                                filters:
                                   additionalProperties:
                                     type: boolean
                                   type: object
@@ -579,7 +579,7 @@ spec:
                                 type: string
                               fieldPath:
                                 type: string
-                              filter:
+                              filters:
                                 additionalProperties:
                                   type: boolean
                                 type: object
@@ -827,7 +827,7 @@ spec:
                                 type: string
                               fieldPath:
                                 type: string
-                              filter:
+                              filters:
                                 additionalProperties:
                                   type: boolean
                                 type: object
@@ -1112,7 +1112,7 @@ spec:
                     type: string
                   fieldPath:
                     type: string
-                  filter:
+                  filters:
                     additionalProperties:
                       type: boolean
                     type: object

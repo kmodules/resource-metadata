@@ -73,6 +73,10 @@ spec:
                   type: string
                 fieldPath:
                   type: string
+                filters:
+                  additionalProperties:
+                    type: boolean
+                  type: object
                 icons:
                   items:
                     description: ImageSpec contains information about an image used
@@ -322,6 +326,10 @@ spec:
                                 type: string
                               fieldPath:
                                 type: string
+                              filters:
+                                additionalProperties:
+                                  type: boolean
+                                type: object
                               icons:
                                 items:
                                   description: ImageSpec contains information about
@@ -589,6 +597,10 @@ spec:
                               type: string
                             fieldPath:
                               type: string
+                            filters:
+                              additionalProperties:
+                                type: boolean
+                              type: object
                             icons:
                               items:
                                 description: ImageSpec contains information about
@@ -833,6 +845,10 @@ spec:
                               type: string
                             fieldPath:
                               type: string
+                            filters:
+                              additionalProperties:
+                                type: boolean
+                              type: object
                             icons:
                               items:
                                 description: ImageSpec contains information about
@@ -1114,6 +1130,10 @@ spec:
                   type: string
                 fieldPath:
                   type: string
+                filters:
+                  additionalProperties:
+                    type: boolean
+                  type: object
                 icons:
                   items:
                     description: ImageSpec contains information about an image used
