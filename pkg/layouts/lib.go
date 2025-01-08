@@ -313,6 +313,14 @@ func GetResourceLayout(kc client.Client, outline *rsapi.ResourceOutline) (*rsapi
 					return nil, fmt.Errorf("ResourceOutline %s page %s uses multiple basic blocks", outline.Name, section.Name)
 				}
 				section.Info = &tables[0]
+
+				section.Info.Filters = make(map[string]bool)
+				for typ, show := range sectionFilter.Info {
+					if typ == "basic" {
+						continue
+					}
+					section.Info.Filters[typ] = show
+				}
 			}
 			if sectionOutline.Insight != nil && sectionFilter.Insight {
 				tables, err := FlattenPageBlockOutline(kc, src, *sectionOutline.Insight, rsapi.Field)

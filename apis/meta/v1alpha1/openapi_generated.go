@@ -20506,6 +20506,21 @@ func schema_resource_metadata_apis_meta_v1alpha1_PageBlockLayout(ref common.Refe
 							},
 						},
 					},
+					"filters": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: false,
+										Type:    []string{"boolean"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
 				},
 				Required: []string{"kind", "ref", "query"},
 			},

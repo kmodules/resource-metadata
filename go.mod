@@ -16,7 +16,7 @@ require (
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.9.0
 	github.com/yudai/gojsondiff v1.0.0
-	go.bytebuilders.dev/license-verifier v0.14.2
+	go.bytebuilders.dev/license-verifier v0.14.4
 	golang.org/x/net v0.33.0
 	gomodules.xyz/encoding v0.0.8
 	gomodules.xyz/jsonpath v0.0.2
@@ -29,7 +29,7 @@ require (
 	k8s.io/klog/v2 v2.130.1
 	k8s.io/kube-openapi v0.0.0-20240703190633-0aa61b46e8c2
 	kmodules.xyz/apiversion v0.2.0
-	kmodules.xyz/client-go v0.30.43
+	kmodules.xyz/client-go v0.30.44
 	kmodules.xyz/crd-schema-fuzz v0.29.1
 	kmodules.xyz/go-containerregistry v0.0.12
 	kmodules.xyz/offshoot-api v0.30.1
