@@ -314,6 +314,18 @@ func GetResourceLayout(kc client.Client, outline *rsapi.ResourceOutline) (*rsapi
 				}
 				section.Info = &tables[0]
 			}
+			if page.Name == HomePage && sectionFilter.Info != nil {
+				if section.Info == nil {
+					section.Info = &rsapi.PageBlockLayout{}
+				}
+				section.Info.Filter = make(map[string]bool, len(sectionFilter.Info)-1)
+				for typ, show := range sectionFilter.Info {
+					if typ == "basic" {
+						continue
+					}
+					section.Info.Filter[typ] = show
+				}
+			}
 			if sectionOutline.Insight != nil && sectionFilter.Insight {
 				tables, err := FlattenPageBlockOutline(kc, src, *sectionOutline.Insight, rsapi.Field)
 				if err != nil {

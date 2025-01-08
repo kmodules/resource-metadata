@@ -911,6 +911,13 @@ func (in *PageBlockLayout) DeepCopyInto(out *PageBlockLayout) {
 			(*out)[key] = outVal
 		}
 	}
+	if in.Filter != nil {
+		in, out := &in.Filter, &out.Filter
+		*out = make(map[string]bool, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
 	return
 }
 
