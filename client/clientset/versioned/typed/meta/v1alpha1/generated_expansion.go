@@ -46,6 +46,8 @@ type ResourceGraphExpansion interface{}
 
 type ResourceLayoutExpansion interface{}
 
+type ResourceManifestsExpansion interface{}
+
 type ResourceOutlineExpansion interface{}
 
 type ResourceOutlineFilterExpansion interface{}

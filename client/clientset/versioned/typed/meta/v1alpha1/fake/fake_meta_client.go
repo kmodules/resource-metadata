@@ -84,6 +84,10 @@ func (c *FakeMetaV1alpha1) ResourceLayouts() v1alpha1.ResourceLayoutInterface {
 	return &FakeResourceLayouts{c}
 }
 
+func (c *FakeMetaV1alpha1) ResourceManifestses() v1alpha1.ResourceManifestsInterface {
+	return &FakeResourceManifestses{c}
+}
+
 func (c *FakeMetaV1alpha1) ResourceOutlines() v1alpha1.ResourceOutlineInterface {
 	return &FakeResourceOutlines{c}
 }
