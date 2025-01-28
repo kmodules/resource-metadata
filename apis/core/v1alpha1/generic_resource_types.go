@@ -76,7 +76,9 @@ type GenericResourceSpec struct {
 }
 
 type ComputeResource struct {
-	Name string `json:"name"`
+	// +optional
+	UID  types.UID `json:"uid,omitempty"`
+	Name string    `json:"name"`
 	// +optional
 	CreationTimestamp metav1.Time         `json:"creationTimestamp,omitempty"`
 	Containers        []ContainerResource `json:"containers,omitempty"`
@@ -91,7 +93,9 @@ type ContainerResource struct {
 }
 
 type StorageResource struct {
-	Name string `json:"name"`
+	// +optional
+	UID  types.UID `json:"uid,omitempty"`
+	Name string    `json:"name"`
 	// +optional
 	CreationTimestamp metav1.Time `json:"creationTimestamp,omitempty"`
 	// +optional
