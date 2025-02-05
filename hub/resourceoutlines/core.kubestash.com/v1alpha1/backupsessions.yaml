@@ -14,16 +14,19 @@ spec:
   - name: Overview
     sections:
     - blocks:
-      - kind: Block
-        name: core.kubestash.com-v1alpha1-backupsessions
-      info:
-        actions:
+      - actions:
           create: Never
         displayMode: Field
-        kind: Self
+        kind: Connection
+        name: Target
+        query:
+          byLabel: backup_via
+          type: GraphQL
+        ref:
+          group: appcatalog.appscode.com
+          kind: AppBinding
         view:
-          name: core.kubestash.com-v1alpha1-backupsessions
-    - blocks:
+          name: appcatalog.appscode.com-v1alpha1-appbindings-kubedb
       - actions:
           create: Never
         displayMode: List
