@@ -51,13 +51,12 @@ helm repo update
 */
 
 const (
-	ociURL = "oci://r.appscode.com/charts"
-	devURL = "https://raw.githubusercontent.com/bytebuilders/ui-wizards/master/stable"
+	ociURL = "oci://ghcr.io/appscode-charts"
 )
 
 var (
 	chartRegistryURL = flag.String("chart.registry-url", ociURL, "Chart registry url (prod/dev)")
-	chartVersion     = flag.String("chart.version", "v0.4.18", "Chart version")
+	chartVersion     = flag.String("chart.version", "v0.12.0", "Chart version")
 	useDigest        = flag.Bool("use-digest", true, "Use digest instead of tag")
 )
 
@@ -158,12 +157,6 @@ func check(filename string) (string, error) {
 
 func main() {
 	flag.Parse()
-	switch *chartRegistryURL {
-	case "prod":
-		*chartRegistryURL = ociURL
-	case "dev", "qa":
-		*chartRegistryURL = devURL
-	}
 
 	err := filepath.Walk("./hub/resourceeditors/", func(path string, info fs.FileInfo, err error) error {
 		if err != nil {
@@ -198,7 +191,7 @@ func getDigestOrVersion(repo, bin, ver string) string {
 	if repo != "appscode-charts-oci" {
 		return ver
 	}
-	digest, err := crane.Digest(fmt.Sprintf("r.appscode.com/charts/%s:%s", bin, ver), crane.WithAuthFromKeychain(authn.DefaultKeychain))
+	digest, err := crane.Digest(fmt.Sprintf("ghcr.io/appscode-charts/%s:%s", bin, ver), crane.WithAuthFromKeychain(authn.DefaultKeychain))
 	if err == nil {
 		return digest
 	}
