@@ -56,7 +56,7 @@ const (
 
 var (
 	chartRegistryURL = flag.String("chart.registry-url", ociURL, "Chart registry url (prod/dev)")
-	chartVersion     = flag.String("chart.version", "v0.12.0", "Chart version")
+	chartVersion     = flag.String("chart.version", "v0.13.0", "Chart version")
 	useDigest        = flag.Bool("use-digest", true, "Use digest instead of tag")
 )
 
