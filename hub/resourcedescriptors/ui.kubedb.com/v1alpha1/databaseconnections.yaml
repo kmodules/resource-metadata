@@ -57,9 +57,6 @@ spec:
           type: object
         spec:
           properties:
-            caCert:
-              format: byte
-              type: string
             connectOptions:
               additionalProperties:
                 type: string
@@ -71,6 +68,9 @@ spec:
             gateway:
               items:
                 properties:
+                  caCert:
+                    format: byte
+                    type: string
                   hostname:
                     type: string
                   ip:
@@ -159,6 +159,9 @@ spec:
               type: array
             inCluster:
               properties:
+                caCert:
+                  format: byte
+                  type: string
                 exec:
                   type: string
                 host:

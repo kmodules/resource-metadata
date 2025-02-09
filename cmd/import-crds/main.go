@@ -60,11 +60,13 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/prometheus-operat
 go run cmd/import-crds/main.go --input=https://github.com/cert-manager/cert-manager/releases/download/v1.15.0/cert-manager.crds.yaml
 go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/apimachinery/crds
 
-go run cmd/import-crds/main.go --input=$HOME/go/src/stash.appscode.dev/apimachinery/crds
-go run cmd/import-crds/main.go --input=$HOME/go/src/kubestash.dev/apimachinery/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/kmodules.xyz/custom-resources/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/kmodules.xyz/resource-metadata/crds
+
 go run cmd/import-crds/main.go --input=$HOME/go/src/kubedb.dev/apimachinery/crds
+
+go run cmd/import-crds/main.go --input=$HOME/go/src/stash.appscode.dev/apimachinery/crds
+go run cmd/import-crds/main.go --input=$HOME/go/src/kubestash.dev/apimachinery/crds
 
 go run cmd/import-crds/main.go --input=$HOME/go/src/kubevault.dev/apimachinery/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/sigs.k8s.io/secrets-store-csi-driver/charts/secrets-store-csi-driver/crds
