@@ -41,5 +41,10 @@ type ChartPresetQuery struct {
 	Request *chartsapi.ChartPresetFlatRef `json:"request,omitempty"`
 	// Response describes the attributes for the preset response.
 	// +optional
-	Response []chartsapi.ChartPresetValues `json:"response,omitempty"`
+	Response *ChartPresetQueryResponse `json:"response,omitempty"`
+}
+
+type ChartPresetQueryResponse struct {
+	Values []chartsapi.ChartPresetValues `json:"values,omitempty"`
+	Hash string `json:""`
 }
