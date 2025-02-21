@@ -360,6 +360,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/offshoot-api/api/v1.VolumeSource":                                 schema_kmodulesxyz_offshoot_api_api_v1_VolumeSource(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.AttributeDefinition":         schema_resource_metadata_apis_meta_v1alpha1_AttributeDefinition(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ChartPresetQuery":            schema_resource_metadata_apis_meta_v1alpha1_ChartPresetQuery(ref),
+		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ChartPresetQueryResponse":    schema_resource_metadata_apis_meta_v1alpha1_ChartPresetQueryResponse(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ClusterProfile":              schema_resource_metadata_apis_meta_v1alpha1_ClusterProfile(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ClusterProfileList":          schema_resource_metadata_apis_meta_v1alpha1_ClusterProfileList(ref),
 		"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ClusterStatus":               schema_resource_metadata_apis_meta_v1alpha1_ClusterStatus(ref),
@@ -18992,7 +18993,26 @@ func schema_resource_metadata_apis_meta_v1alpha1_ChartPresetQuery(ref common.Ref
 					"response": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Response describes the attributes for the preset response.",
-							Type:        []string{"array"},
+							Ref:         ref("kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ChartPresetQueryResponse"),
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/resource-metadata/apis/meta/v1alpha1.ChartPresetQueryResponse", "x-helm.dev/apimachinery/apis/charts/v1alpha1.ChartPresetFlatRef"},
+	}
+}
+
+func schema_resource_metadata_apis_meta_v1alpha1_ChartPresetQueryResponse(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"presets": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
@@ -19003,11 +19023,17 @@ func schema_resource_metadata_apis_meta_v1alpha1_ChartPresetQuery(ref common.Ref
 							},
 						},
 					},
+					"state": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"x-helm.dev/apimachinery/apis/charts/v1alpha1.ChartPresetFlatRef", "x-helm.dev/apimachinery/apis/charts/v1alpha1.ChartPresetValues"},
+			"x-helm.dev/apimachinery/apis/charts/v1alpha1.ChartPresetValues"},
 	}
 }
 
