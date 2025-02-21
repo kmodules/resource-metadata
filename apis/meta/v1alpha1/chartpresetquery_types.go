@@ -51,9 +51,9 @@ type ChartPresetQueryResponse struct {
 }
 
 func (q *ChartPresetQuery) UnmarshalJSON(data []byte) error {
-	var nq ChartPresetQuery
-	if err := json.Unmarshal(data, &nq); err == nil {
-		*q = nq
+	// https://stackoverflow.com/a/43178272/244009
+	type nq ChartPresetQuery
+	if err := json.Unmarshal(data, (*nq)(q)); err == nil {
 		return nil
 	}
 
