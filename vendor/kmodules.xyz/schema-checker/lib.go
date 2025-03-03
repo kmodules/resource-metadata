@@ -46,11 +46,11 @@ type DefaultTypeMapper struct{}
 var _ TypeMapper = &DefaultTypeMapper{}
 
 func (d DefaultTypeMapper) ChartNameToSchemaKind(chartName string) string {
-	return stringy.New(chartName).CamelCase() + "Spec"
+	return stringy.New(chartName).CamelCase().Get() + "Spec"
 }
 
 func (d DefaultTypeMapper) KindToSchemaKind(kind string) string {
-	return stringy.New(kind + "Spec").CamelCase()
+	return stringy.New(kind + "Spec").CamelCase().Get()
 }
 
 func (d DefaultTypeMapper) ToKind(schemaKind string) string {
