@@ -111,9 +111,7 @@ spec:
         operationId: create-opsrequest-reconfigure
       name: Operations
     - items:
-      - disabledTemplate: |
-          {{ not (hasKey .spec "topology")}}
-        editor:
+      - editor:
           name: opskubedbcom-singlestoreopsrequest-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
