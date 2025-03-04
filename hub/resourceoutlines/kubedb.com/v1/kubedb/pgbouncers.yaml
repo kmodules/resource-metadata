@@ -320,6 +320,8 @@ spec:
         requiredFeatureSets:
           opscenter-datastore:
           - kubedb
+        view:
+          name: ops.kubedb.com-v1alpha1-pgbounceropsrequests-kubedb
       - actions:
           create: Never
         displayMode: List
