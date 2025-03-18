@@ -70,6 +70,7 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/kubestash.dev/apimachinery/c
 
 go run cmd/import-crds/main.go --input=$HOME/go/src/kubevault.dev/apimachinery/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/sigs.k8s.io/secrets-store-csi-driver/charts/secrets-store-csi-driver/crds
+go run cmd/import-crds/main.go --input=$HOME/go/src/go.virtual-secrets.dev/apimachinery/crds
 
 go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/kubernetes-csi/external-snapshotter/client/config/crd
 
