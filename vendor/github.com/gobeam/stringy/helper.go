@@ -7,11 +7,10 @@ import (
 	"unicode"
 )
 
-var selectCapitalRegexp = regexp.MustCompile(SelectCapital)
-
 func caseHelper(input string, isCamel bool, rule ...string) []string {
 	if !isCamel {
-		input = selectCapitalRegexp.ReplaceAllString(input, ReplaceCapital)
+		re := regexp.MustCompile(SelectCapital)
+		input = re.ReplaceAllString(input, ReplaceCapital)
 	}
 	input = strings.Join(strings.Fields(strings.TrimSpace(input)), " ")
 	if len(rule) > 0 && len(rule)%2 != 0 {

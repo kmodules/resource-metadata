@@ -1,5 +1,5 @@
 # Golang String manipulation helper package
-![Workflow](https://github.com/gobeam/stringy/actions/workflows/ci.yml/badge.svg) [![Build][Build-Status-Image]][Build-Status-Url] [![Go Report Card](https://goreportcard.com/badge/github.com/gobeam/stringy?branch=master&kill_cache=1)](https://goreportcard.com/report/github.com/gobeam/Stringy) [![GoDoc][godoc-image]][godoc-url]
+[![Build][Build-Status-Image]][Build-Status-Url] [![Go Report Card](https://goreportcard.com/badge/github.com/gobeam/stringy?branch=master&kill_cache=1)](https://goreportcard.com/report/github.com/gobeam/Stringy) [![GoDoc][godoc-image]][godoc-url]
 [![Coverage Status](https://coveralls.io/repos/github/gobeam/stringy/badge.svg)](https://coveralls.io/github/gobeam/stringy)
 
 Convert string to camel case, snake case, kebab case / slugify, custom delimiter, pad string, tease string and many other functionality with help of by Stringy package. You can convert camelcase to snakecase or kebabcase, or snakecase to camelcase and kebabcase and vice versa. This package was inspired from PHP [danielstjules/Stringy](https://github.com/danielstjules/Stringy).
@@ -54,13 +54,8 @@ Convert string to camel case, snake case, kebab case / slugify, custom delimiter
      </tr>
      <tr>
          <td><a href="#suffixstring-string">Suffix</a></td>
-         <td><a href="#acronym-string">Acronym</a></td>
-        <td><a href="#title-string">Title</a></td>
-     </tr>
-     <tr>
-         <td><a href="#pascalcaserule-string-string">PascalCase</a></td>
          <td></td>
-        <td></td>
+         <td></td>
      </tr>
 </table>
 
@@ -129,13 +124,13 @@ CamelCase is variadic function which takes one Param rule i.e slice of strings a
 
 ```go
   camelCase := stringy.New("ThisIsOne___messed up string. Can we Really camel-case It ?##")
-  fmt.Println(camelCase.CamelCase("?", "", "#", "")) // thisIsOneMessedUpStringCanWeReallyCamelCaseIt
+  fmt.Println(camelCase.CamelCase("?", "", "#", "")) // ThisIsOneMessedUpStringCanWeReallyCamelCaseIt
 ```
 look how it omitted ?## from string. If you dont want to omit anything and since it returns plain strings and you cant actually cap all or lower case all camelcase string its not required.
 
 ```go
   camelCase := stringy.New("ThisIsOne___messed up string. Can we Really camel-case It ?##")
-  fmt.Println(camelCase.CamelCase()) // thisIsOneMessedUpStringCanWeReallyCamelCaseIt?##
+  fmt.Println(camelCase.CamelCase()) // ThisIsOneMessedUpStringCanWeReallyCamelCaseIt?##
 ```
 
 #### ContainsAll(check ...string) bool
@@ -311,15 +306,6 @@ Tease takes two params length and indicator and it shortens given string on pass
   fmt.Println(teaseString.Tease(20, "...")) // Hello My name is Ros...
 ```
 
-#### Title() string
-
-Title returns string with first letter of each word in uppercase it can be chained on function which return StringManipulation interface.
-
-```go
-  title := stringy.New("hello roshan")
-  fmt.Println(title.Title()) // Hello Roshan
-```
-
 
 #### ToLower() string
 
@@ -343,7 +329,7 @@ ToUpper makes all string of user input to uppercase and it can be chained on fun
 
 #### UcFirst() string
 
-UcFirst simply returns result by upper casing first letter of string and it can be chained on function which return StringManipulation interface.
+LcFirst simply returns result by lower casing first letter of string and it can be chained on function which return StringManipulation interface.
 
 ```go
   contains := stringy.New("hello roshan")
@@ -368,31 +354,6 @@ Suffix makes sure string has been suffixed with a given string and avoids adding
 ```go
   pun := stringy.New("this really is a cliff")
   fmt.Println(pun.Suffix("hanger")) // this really is a cliffhanger
-```
-
-
-#### Acronym() string
-
-Acronym func returns acronym of input string. You can chain ToUpper() which with make result all upercase or ToLower() which will make result all lower case or Get which will return result as it is
-
-```go
-  acronym := stringy.New("Laugh Out Loud")
-	fmt.Println(acronym.Acronym().ToLower()) // lol
-```
-
-#### PascalCase(rule ...string) string
-
-PascalCase is variadic function which takes one Param rule i.e slice of strings and it returns input type string in pascal case form and rule helps to omit character you want to omit from string. By default special characters like "_", "-","."," " are treated like word separator and treated accordingly by default and you don't have to worry about it.
-
-```go
-  pascalCase := stringy.New("ThisIsOne___messed up string. Can we Really pascal-case It ?##")
-  fmt.Println(pascalCase.PascalCase("?", "", "#", "")) // ThisIsOneMessedUpStringCanWeReallyPascalCaseIt
-```
-look how it omitted ?## from string. If you dont want to omit anything and since it returns plain strings and you cant actually cap all or lower case all camelcase string it's not required.
-
-```go
-  pascalCase := stringy.New("ThisIsOne___messed up string. Can we Really camel-case It ?##")
-  fmt.Println(pascalCase.PascalCase()) // ThisIsOneMessedUpStringCanWeReallyCamelCaseIt?##
 ```
 
 

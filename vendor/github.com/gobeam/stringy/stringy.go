@@ -10,8 +10,6 @@ import (
 	"unicode"
 )
 
-var matchWordRegexp = regexp.MustCompile(`[\s]*[\W]\pN`)
-
 // input is struct that holds input from user and result
 type input struct {
 	Input  string
@@ -20,11 +18,9 @@ type input struct {
 
 // StringManipulation is an interface that holds all abstract methods to manipulate strings
 type StringManipulation interface {
-	Acronym() StringManipulation
 	Between(start, end string) StringManipulation
 	Boolean() bool
-	PascalCase(rule ...string) StringManipulation
-	CamelCase(rule ...string) StringManipulation
+	CamelCase(rule ...string) string
 	ContainsAll(check ...string) bool
 	Delimited(delimiter string, rule ...string) StringManipulation
 	First(length int) string
@@ -42,7 +38,6 @@ type StringManipulation interface {
 	Surround(with string) string
 	SnakeCase(rule ...string) StringManipulation
 	Tease(length int, indicator string) string
-	Title() string
 	ToLower() string
 	ToUpper() string
 	UcFirst() string
@@ -53,20 +48,6 @@ type StringManipulation interface {
 // New func returns pointer to input struct
 func New(val string) StringManipulation {
 	return &input{Input: val}
-}
-
-// Acronym func returns acronym of input string.
-// You can chain to upper which with make result all upercase or ToLower
-// which will make result all lower case or Get which will return result as it is
-func (i *input) Acronym() StringManipulation {
-	input := getInput(*i)
-	words := strings.Fields(input)
-	var acronym string
-	for _, word := range words {
-		acronym += string(word[0])
-	}
-	i.Result = acronym
-	return i
 }
 
 // Between takes two string params start and end which and returns
@@ -115,40 +96,17 @@ func (i *input) Boolean() bool {
 // CamelCase is variadic function which takes one Param rule i.e slice of strings and it returns
 // input type string in camel case form and rule helps to omit character you want to omit from string.
 // By default special characters like "_", "-","."," " are l\treated like word separator and treated
-// accordingly by default and you don't have to worry about it
-// First letter will be lowercase.
-// Example input: hello user
-// Result : helloUser
-func (i *input) CamelCase(rule ...string) StringManipulation {
-	input := getInput(*i)
-	// removing excess space
-	wordArray := caseHelper(input, true, rule...)
-	for i, word := range wordArray {
-		if i == 0 {
-			wordArray[i] = strings.ToLower(word)
-		} else {
-			wordArray[i] = ucfirst(word)
-		}
-	}
-	i.Result = strings.Join(wordArray, "")
-	return i
-}
-
-// PascalCase is variadic function which takes one Param rule i.e slice of strings and it returns
-// input type string in camel case form and rule helps to omit character you want to omit from string.
-// By default special characters like "_", "-","."," " are l\treated like word separator and treated
-// accordingly by default and you don't have to worry about it
+// accordingly by default and you dont have to worry about it
 // Example input: hello user
 // Result : HelloUser
-func (i *input) PascalCase(rule ...string) StringManipulation {
+func (i *input) CamelCase(rule ...string) string {
 	input := getInput(*i)
 	// removing excess space
 	wordArray := caseHelper(input, true, rule...)
 	for i, word := range wordArray {
 		wordArray[i] = ucfirst(word)
 	}
-	i.Result = strings.Join(wordArray, "")
-	return i
+	return strings.Join(wordArray, "")
 }
 
 // ContainsAll is variadic function which takes slice of strings as param and checks if they are present
@@ -230,8 +188,9 @@ func (i *input) LcFirst() string {
 
 // Lines returns slice of strings by removing white space characters
 func (i *input) Lines() []string {
-	input := getInput(*i) 
-	result := matchWordRegexp.ReplaceAllString(input, " ")
+	input := getInput(*i)
+	matchWord := regexp.MustCompile(`[\s]*[\W]\pN`)
+	result := matchWord.ReplaceAllString(input, " ")
 	return strings.Fields(strings.TrimSpace(result))
 }
 
@@ -357,17 +316,6 @@ func (i *input) Tease(length int, indicator string) string {
 func (i *input) ToLower() (result string) {
 	input := getInput(*i)
 	return strings.ToLower(input)
-}
-
-// Title makes first letter of each word of user input to uppercase
-// it can be chained on function which return StringManipulation interface
-func (i *input) Title() (result string) {
-	input := getInput(*i)
-	wordArray := strings.Split(input, " ")
-	for i, word := range wordArray {
-		wordArray[i] = strings.ToUpper(string(word[0])) + strings.ToLower(word[1:])
-	}
-	return strings.Join(wordArray, " ")
 }
 
 // ToUpper makes all string of user input to uppercase

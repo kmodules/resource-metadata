@@ -27,7 +27,6 @@ const (
 )
 
 const (
-	CassandraContainerName   = "cassandra"
 	ClickHouseContainerName  = "clickhouse"
 	DruidContainerName       = "druid"
 	FerretDBContainerName    = "ferretdb"
