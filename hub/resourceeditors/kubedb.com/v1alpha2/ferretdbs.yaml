@@ -116,7 +116,7 @@ spec:
         name: TLS Configure
         operationId: create-opsrequest-reconfiguretls
       - editor:
-          name: kubedbcom-mysql-editor
+          name: kubedbcom-ferretdb-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
