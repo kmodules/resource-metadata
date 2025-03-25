@@ -24,9 +24,12 @@ const (
 	DBModeReplicaSet = "ReplicaSet"
 	DBModeDedicated  = "Dedicated"
 	DBModeCombined   = "Combined"
+
+	DBModePrimaryOnly = "PrimaryOnly"
 )
 
 const (
+	CassandraContainerName   = "cassandra"
 	ClickHouseContainerName  = "clickhouse"
 	DruidContainerName       = "druid"
 	FerretDBContainerName    = "ferretdb"
@@ -36,4 +39,7 @@ const (
 	SinglestoreContainerName = "singlestore"
 	SolrContainerName        = "solr"
 	ZooKeeperContainerName   = "zookeeper"
+
+	SinglestoreSidecarContainerName = "singlestore-coordinator"
+	MSSQLServerSidecarContainerName = "mssql-coordinator"
 )
