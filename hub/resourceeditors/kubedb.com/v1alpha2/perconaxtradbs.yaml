@@ -27,7 +27,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:d003ee880a9242edcfd98c0e33ca652333fbea254ff80c3713d5682c9126fd77
+      version: sha256:adae6140ef75f5c2cadd4b75ae11277b3a124bbed4b2075177502f632f10a7e4
     enforceQuota: true
     options:
       name: kubedbcom-perconaxtradb-editor-options
@@ -35,7 +35,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:9f0bb55893ab7fa09d68ee62e62f5f575bc96d0c8dd0ef7ada7c250dcfeba029
+      version: sha256:8305f97e9c0ebae7d52b6ba2bca4c0e45e9b31e1d7af54d4667a1bb6673d3ff6
   variants:
   - name: default
     selector:
