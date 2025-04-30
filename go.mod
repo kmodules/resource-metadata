@@ -17,7 +17,7 @@ require (
 	github.com/stretchr/testify v1.10.0
 	github.com/yudai/gojsondiff v1.0.0
 	go.bytebuilders.dev/license-verifier v0.14.6
-	golang.org/x/net v0.37.0
+	golang.org/x/net v0.38.0
 	gomodules.xyz/encoding v0.0.8
 	gomodules.xyz/jsonpath v0.0.2
 	gomodules.xyz/x v0.0.17
@@ -29,7 +29,7 @@ require (
 	k8s.io/klog/v2 v2.130.1
 	k8s.io/kube-openapi v0.0.0-20250318172550-b98be4ee1595
 	kmodules.xyz/apiversion v0.2.0
-	kmodules.xyz/client-go v0.32.1
+	kmodules.xyz/client-go v0.32.3-0.20250430092638-cf957d62e4b2
 	kmodules.xyz/crd-schema-fuzz v0.32.0
 	kmodules.xyz/go-containerregistry v0.0.14
 	kmodules.xyz/offshoot-api v0.32.0
@@ -37,7 +37,7 @@ require (
 	kmodules.xyz/schema-checker v0.4.2
 	moul.io/http2curl/v2 v2.3.1-0.20221024080105-10c404f653f7
 	sigs.k8s.io/cli-utils v0.37.2
-	sigs.k8s.io/controller-runtime v0.20.3
+	sigs.k8s.io/controller-runtime v0.20.4
 	sigs.k8s.io/yaml v1.4.0
 	x-helm.dev/apimachinery v0.0.17
 )
