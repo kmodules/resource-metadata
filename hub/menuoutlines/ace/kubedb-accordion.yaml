@@ -14,7 +14,13 @@ spec:
     - src: https://cdn.appscode.com/k8s/icons/menu/datastore.png
       type: image/png
     items:
-    - featureMode: ALPHA
+    - featureMode: GA
+      layoutName: kubedb.com-v1alpha2-cassandras-kubedb
+      name: Cassandra
+      type:
+        group: kubedb.com
+        kind: Cassandra
+    - featureMode: GA
       layoutName: kubedb.com-v1alpha2-clickhouses-kubedb
       name: ClickHouse
       type:
