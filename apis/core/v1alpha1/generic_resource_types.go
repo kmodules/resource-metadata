@@ -84,6 +84,7 @@ type NamespaceInfo struct {
 	CreationTimestamp metav1.Time       `json:"creationTimestamp,omitempty"`
 	AceOrgID          string            `json:"aceOrgID,omitempty"`
 	AceOrgMetadata    map[string]string `json:"aceOrgMetadata,omitempty"`
+	SkipBilling       bool              `json:"skipBilling,omitempty"`
 }
 
 type ComputeResource struct {
