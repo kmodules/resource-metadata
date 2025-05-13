@@ -30,6 +30,45 @@ spec:
       - actions:
           create: Never
         displayMode: List
+        fieldPath: '{.response.dashboards[0].panels}'
+        impersonate: true
+        kind: Connection
+        name: Dashboards
+        query:
+          raw: |
+            request:
+              embeddedLink: true
+              dashboards:
+              - title: "KubeDB / Kafka / Summary"
+                vars:
+                - name: namespace
+                  value: {{ .namespace }}
+                - name: app
+                  value: {{ .name }}
+                panels:
+                  - { "title": "CPU Usage", "width": 12 }
+                  - { "title": "Memory Usage", "width": 12 }
+                  - { "title": "Disk Usage", "width": 6 }
+                  - { "title": "Disk R/W Info", "width": 6 }
+                  - { "title": "IOPS (Reads+Writes)", "width": 6 }
+                  - { "title": "ThroughPut (Read+Write)", "width": 6 }
+                  - { "title": "Receive Bandwidth", "width": 6 }
+                  - { "title": "Transmit Bandwidth", "width": 6 }
+          type: REST
+        ref:
+          group: ui.openviz.dev
+          kind: DashboardGroup
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
+          opscenter-monitoring:
+          - monitoring-operator
+        view:
+          name: ui.openviz.dev-v1alpha1-dashboardgroups-panels
+      - actions:
+          create: Never
+        displayMode: List
         kind: Connection
         name: Nodes
         query:
