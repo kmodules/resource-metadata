@@ -175,6 +175,8 @@ spec:
                     type: string
                   name:
                     type: string
+                  skipBilling:
+                    type: boolean
                   uid:
                     description: |-
                       UID is a type that holds unique ID values, including UUIDs.  Because we
