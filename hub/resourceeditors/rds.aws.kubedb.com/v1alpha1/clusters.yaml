@@ -22,7 +22,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: v0.17.0
+      version: sha256:e08c836e3506df45138ca7926b77374489c6b3366e139083a7e40d43068c350f
     enforceQuota: false
   variants:
   - name: MariaDB
