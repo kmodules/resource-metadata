@@ -104,7 +104,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:bee533eea3b76eb19d89d92601faa3b4db25f37c7ff8d0857c9cbf302ad6c98e
+      version: sha256:1cc1148481b14d5301d74da97143d1c23c35dcde5bf3daa472fb041c777e3a13
     enforceQuota: true
     options:
       name: kubedbcom-cassandra-editor-options
@@ -112,7 +112,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:c29368639d3e03acbbe0d7d279d1c58ab7ed3787df64474d43a972045970755b
+      version: sha256:1268c061911fa8314d892e8ace16115589bca8b16d288ceb6ca17c5aa7e3cac8
   variants:
   - name: default
     selector:

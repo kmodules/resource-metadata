@@ -27,7 +27,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:7a4e85f68acfc48d654e524ff504dca6ec8fcc825df4a0686cad1cbe9e3f0f32
+      version: sha256:1d1c6422172f3562db5e0b513ba1e99b79f245906af04618f410d498077df482
     enforceQuota: false
     options:
       name: stashappscodecom-restoresession-editor-options
@@ -35,4 +35,4 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:a437bebc1f1c5613b4bdfccffd17028ba36be337119b1f69abe5fb7337aaa1f5
+      version: sha256:e499c34b807de5a7d1efb179563207dc3e4f35153bb390db1def8011eb98c7b2
