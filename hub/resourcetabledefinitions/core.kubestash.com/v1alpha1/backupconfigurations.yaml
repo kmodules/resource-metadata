@@ -10,9 +10,18 @@ metadata:
   name: core.kubestash.com-v1alpha1-backupconfigurations
 spec:
   columns:
-  - name: Name
+  - link:
+      template: |
+        {{ $apiVersion := .apiVersion }}
+        {{ $name := .metadata.name }}
+        {{ $namespace := .metadata.namespace }}
+        {{- printf "/${username}/${clustername}/%s/backupconfigurations/%s?namespace=%s" $apiVersion $name $namespace -}}
+    name: Name
     pathTemplate: '{{ .metadata.name }}'
     priority: 3
+    sort:
+      enable: true
+      type: ""
     type: string
   - name: Namespace
     pathTemplate: '{{ .metadata.namespace }}'
