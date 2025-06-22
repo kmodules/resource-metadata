@@ -29,7 +29,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:b8ed600164907bac4c70a21a4e32d1fbc0860ec4745ca26e4cf0dd873e06eb38
+          version: sha256:30a2dc9cdc3c16b779a0824283c37c067f459705b6df4582c1d35245d0e84068
         enforceQuota: false
         flow: standalone-create
         icons:
@@ -43,7 +43,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:b8ed600164907bac4c70a21a4e32d1fbc0860ec4745ca26e4cf0dd873e06eb38
+          version: sha256:30a2dc9cdc3c16b779a0824283c37c067f459705b6df4582c1d35245d0e84068
         enforceQuota: false
         flow: standalone-create
         icons:
@@ -61,7 +61,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:b8ed600164907bac4c70a21a4e32d1fbc0860ec4745ca26e4cf0dd873e06eb38
+          version: sha256:30a2dc9cdc3c16b779a0824283c37c067f459705b6df4582c1d35245d0e84068
         enforceQuota: true
         flow: standalone-create
         icons:
@@ -75,7 +75,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:b8ed600164907bac4c70a21a4e32d1fbc0860ec4745ca26e4cf0dd873e06eb38
+          version: sha256:30a2dc9cdc3c16b779a0824283c37c067f459705b6df4582c1d35245d0e84068
         enforceQuota: true
         flow: standalone-create
         icons:
@@ -89,7 +89,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:b8ed600164907bac4c70a21a4e32d1fbc0860ec4745ca26e4cf0dd873e06eb38
+          version: sha256:30a2dc9cdc3c16b779a0824283c37c067f459705b6df4582c1d35245d0e84068
         enforceQuota: true
         flow: standalone-create
         icons:
@@ -104,7 +104,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:b8656ce478517a722aad4d0cfc4b2bbd320f5abdc1e43bd241c589c3a12d9273
+      version: sha256:73adb762a33bf3f9c8a8ce3ad14845239054eb85f420c798b4f04ef7ed32bb51
     enforceQuota: true
     options:
       name: kubedbcom-clickhouse-editor-options
@@ -112,7 +112,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:3eaa9ff6fab3b889eebed6bed1c723de6c50f1e7c58419393dc3da51ecd3334d
+      version: sha256:1d486964979091be6e5af61c3bbc2ba5d37efa82e2e576e647b14cb83bb86584
   variants:
   - name: default
     selector:
