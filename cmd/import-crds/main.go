@@ -67,6 +67,7 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/kubedb.dev/apimachinery/crds
 
 go run cmd/import-crds/main.go --input=$HOME/go/src/stash.appscode.dev/apimachinery/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/kubestash.dev/apimachinery/crds
+go run cmd/import-crds/main.go --input=$HOME/go/src/kubeops.dev/taskqueue/crds
 
 go run cmd/import-crds/main.go --input=$HOME/go/src/kubevault.dev/apimachinery/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/sigs.k8s.io/secrets-store-csi-driver/charts/secrets-store-csi-driver/crds
