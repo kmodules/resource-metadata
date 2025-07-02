@@ -4,15 +4,15 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: ops.kubedb.com
-    k8s.io/kind: CassandraOpsRequest
-    k8s.io/resource: cassandraopsrequests
+    k8s.io/kind: IgniteOpsRequest
+    k8s.io/resource: igniteopsrequests
     k8s.io/version: v1alpha1
-  name: ops.kubedb.com-v1alpha1-cassandraopsrequests
+  name: ops.kubedb.com-v1alpha1-igniteopsrequests
 spec:
   resource:
     group: ops.kubedb.com
-    kind: CassandraOpsRequest
-    name: cassandraopsrequests
+    kind: IgniteOpsRequest
+    name: igniteopsrequests
     scope: Namespaced
     version: v1alpha1
   validation:
@@ -63,6 +63,16 @@ spec:
               - IfReady
               - Always
               type: string
+            authentication:
+              properties:
+                secretRef:
+                  properties:
+                    name:
+                      default: ""
+                      type: string
+                  type: object
+                  x-kubernetes-map-type: atomic
+              type: object
             configuration:
               properties:
                 applyConfig:
@@ -92,24 +102,6 @@ spec:
                   format: int32
                   type: integer
               type: object
-            keystoreCredSecret:
-              properties:
-                activeFrom:
-                  format: date-time
-                  type: string
-                apiGroup:
-                  type: string
-                externallyManaged:
-                  type: boolean
-                name:
-                  default: ""
-                  type: string
-                rotateAfter:
-                  type: string
-                secretStoreName:
-                  type: string
-              type: object
-              x-kubernetes-map-type: atomic
             restart:
               type: object
             timeout:
@@ -222,12 +214,13 @@ spec:
             type:
               enum:
               - UpdateVersion
-              - VerticalScaling
-              - Restart
-              - VolumeExpansion
               - HorizontalScaling
+              - VerticalScaling
+              - VolumeExpansion
+              - Restart
               - Reconfigure
               - ReconfigureTLS
+              - RotateAuth
               type: string
             updateVersion:
               properties:
