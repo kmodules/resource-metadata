@@ -1,0 +1,90 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: core.k8s.appscode.com
+    k8s.io/kind: PodView
+    k8s.io/resource: podviews
+    k8s.io/version: v1alpha1
+  name: core.k8s.appscode.com-v1alpha1-podviews-kubedb-hazelcasts
+spec:
+  columns:
+  - format: name
+    link:
+      template: |
+        {{ $name := .metadata.name }}
+        {{ $namespace := .metadata.namespace }}
+        {{- printf "/${username}/${clustername}/core/v1/pods/%s?namespace=%s" $name $namespace -}}
+    name: Name
+    pathTemplate: '{{ .metadata.name }}'
+    priority: 3
+    sort:
+      enable: true
+      template: '{{ .metadata.name }}'
+      type: string
+    type: string
+  - name: Role
+    pathTemplate: '{{ index .metadata.labels `kubedb.com/role` | default `-` | upper}}'
+    priority: 3
+    type: string
+  - name: CPU (usage/limit)
+    pathTemplate: '{{ if .spec.resources.usage.cpu }}{{.spec.resources.usage.cpu}} / {{ default `*` .spec.resources.limits.cpu }}{{ end }}'
+    priority: 3
+    textAlign: center
+    type: string
+  - name: Memory (usage/limit)
+    pathTemplate: '{{ if .spec.resources.usage.memory }}{{.spec.resources.usage.memory}} / {{default `*` .spec.resources.limits.memory}}{{ end }}'
+    priority: 3
+    textAlign: center
+    type: string
+  - name: Storage (usage/limit)
+    pathTemplate: '{{ if .spec.resources.usage.storage }}{{.spec.resources.usage.storage}} / {{default `*` .spec.resources.limits.storage}}{{ end }}'
+    priority: 3
+    textAlign: center
+    type: string
+  - color:
+      template: |
+        {{ $status := .status.phase }}
+        {{ $color := "gray" }}
+        {{ if list "Running" "Succeeded" | has $status }}
+          {{ $color = "success" }}
+        {{ else if list "Pending" | has $status }}
+          {{ $color = "info" }}
+        {{ else if list "Failed" | has $status }}
+          {{ $color = "danger" }}
+        {{ else if list "Unknown" | has $status }}
+          {{ $color = "warning" }}
+        {{ end }}
+        {{- printf "%s is-light" $color -}}
+    name: Status
+    pathTemplate: '{{ .status.phase }}'
+    priority: 3
+    type: string
+  - name: Age
+    pathTemplate: '{{ .metadata.creationTimestamp }}'
+    priority: 3
+    sort:
+      enable: true
+      template: '{{ .metadata.creationTimestamp | toDate "2006-01-02T15:04:05Z07:00" | unixEpoch }}'
+      type: integer
+    type: date
+  - dashboard:
+      name: kubedb.com-v1alpha2-hazelcasts-pod
+    name: Dashboard
+    priority: 4
+    textAlign: center
+    type: string
+  - exec: {}
+    name: Connect
+    pathTemplate: '{{ .metadata.name }}'
+    priority: 4
+    textAlign: center
+    type: string
+  defaultView: false
+  resource:
+    group: core.k8s.appscode.com
+    kind: PodView
+    name: podviews
+    scope: Namespaced
+    version: v1alpha1

@@ -66,8 +66,8 @@ spec:
     pathTemplate: '{{ .spec.authSecret.name }}'
     priority: 1
     type: string
-  - name: Termination Policy
-    pathTemplate: '{{ .spec.terminationPolicy }}'
+  - name: Deletion Policy
+    pathTemplate: '{{ .spec.deletionPolicy }}'
     priority: 3
     type: string
   - name: Halted

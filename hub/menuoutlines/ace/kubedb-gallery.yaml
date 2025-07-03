@@ -45,6 +45,12 @@ spec:
         group: kubedb.com
         kind: FerretDB
     - featureMode: GA
+      layoutName: kubedb.com-v1alpha2-hazelcasts-kubedb
+      name: Hazelcast
+      type:
+        group: kubedb.com
+        kind: Hazelcast
+    - featureMode: GA
       layoutName: kubedb.com-v1alpha2-ignites-kubedb
       name: Ignite
       type:
@@ -86,6 +92,12 @@ spec:
       type:
         group: kubedb.com
         kind: MySQL
+    - featureMode: GA
+      layoutName: kubedb.com-v1alpha2-oracles-kubedb
+      name: Oracle
+      type:
+        group: kubedb.com
+        kind: Oracle
     - featureMode: GA
       layoutName: kubedb.com-v1-perconaxtradbs-kubedb
       name: PerconaXtraDB

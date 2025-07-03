@@ -1,0 +1,251 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceOutline
+metadata:
+  creationTimestamp: null
+  labels:
+    k8s.io/group: kubedb.com
+    k8s.io/kind: Oracle
+    k8s.io/resource: oracles
+    k8s.io/version: v1alpha2
+  name: kubedb.com-v1alpha2-oracles-kubedb
+spec:
+  defaultLayout: false
+  header:
+    actions:
+      create: Never
+    displayMode: Field
+    kind: Connection
+    query:
+      byLabel: view
+      type: GraphQL
+    ref:
+      group: core.k8s.appscode.com
+      kind: GenericResource
+    view:
+      name: core.k8s.appscode.com-v1alpha1-genericresources-kubedb
+  pages:
+  - name: Overview
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        fieldPath: '{.response.dashboards[0].panels}'
+        impersonate: true
+        kind: Connection
+        name: Dashboards
+        query:
+          raw: |
+            request:
+              embeddedLink: true
+              dashboards:
+              - title: "KubeDB / Oracle / Summary"
+                vars:
+                - name: namespace
+                  value: {{ .namespace }}
+                - name: app
+                  value: {{ .name }}
+                panels:
+                  - { "title": "CPU Usage", "width": 12 }
+                  - { "title": "Memory Usage", "width": 12 }
+                  - { "title": "Disk Usage", "width": 6 }
+                  - { "title": "Disk R/W Info", "width": 6 }
+                  - { "title": "IOPS (Reads+Writes)", "width": 6 }
+                  - { "title": "ThroughPut (Read+Write)", "width": 6 }
+                  - { "title": "Receive Bandwidth", "width": 6 }
+                  - { "title": "Transmit Bandwidth", "width": 6 }
+          type: REST
+        ref:
+          group: ui.openviz.dev
+          kind: DashboardGroup
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
+          opscenter-monitoring:
+          - monitoring-operator
+        view:
+          name: ui.openviz.dev-v1alpha1-dashboardgroups-panels
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Nodes
+        query:
+          raw: |-
+            query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+              find(oid: $src) {
+                offshoot(group: "", kind: "Pod") {
+                  refs: view(group: $targetGroup, kind: $targetKind) {
+                    namespace
+                    name
+                  }
+                }
+              }
+            }
+          type: GraphQL
+        ref:
+          group: core.k8s.appscode.com
+          kind: PodView
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+        view:
+          name: core.k8s.appscode.com-v1alpha1-podviews-kubedb-oracles
+      info:
+        actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        query:
+          byLabel: connect_via
+          type: GraphQL
+        ref:
+          group: appcatalog.appscode.com
+          kind: AppBinding
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+  - name: Insights
+    requiredFeatureSets:
+      opscenter-datastore:
+      - kubedb
+      - kubedb-opscenter
+      opscenter-monitoring:
+      - monitoring-operator
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        fieldPath: .response.dashboards
+        impersonate: true
+        kind: Connection
+        name: Grafana Dashboards
+        query:
+          raw: |
+            request:
+              sourceLocator:
+                resource:
+                  group: kubedb.com
+                  name: oracles
+                  version: v1alpha2
+                ref:
+                  name: {{ .name }}
+                  namespace: {{ .namespace }}
+              name: kubedb.com-v1alpha2-oracles
+          type: REST
+        ref:
+          group: meta.k8s.appscode.com
+          kind: RenderDashboard
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
+          opscenter-monitoring:
+          - monitoring-operator
+        view:
+          name: ui.k8s.appscode.com-v1alpha1-resourcedashboards-urls
+  - name: Operations
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Recent Operations
+        query:
+          byLabel: ops
+          type: GraphQL
+        ref:
+          group: ops.kubedb.com
+          kind: OracleOpsRequest
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+        view:
+          name: ops.kubedb.com-v1alpha1-oracleopsrequests-kubedb
+      - actions:
+          create: Never
+        displayMode: List
+        kind: Connection
+        name: Recommendations
+        query:
+          byLabel: recommended_for
+          type: GraphQL
+        ref:
+          group: supervisor.appscode.com
+          kind: Recommendation
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          opscenter-tools:
+          - supervisor
+        view:
+          name: supervisor.appscode.com-v1alpha1-recommendations-kubedb
+  - name: Security
+    sections:
+    - blocks:
+      - kind: Custom
+        name: CVE Report
+      name: CVE Report
+      requiredFeatureSets:
+        opscenter-security:
+        - scanner
+    - blocks:
+      - kind: Block
+        name: rbac.authorization.k8s.io-v1-accesscontrols
+      name: Access Control
+    - blocks:
+      - kind: Block
+        name: cert-manager.io-v1-tls
+      name: TLS
+      requiredFeatureSets:
+        opscenter-security:
+        - cert-manager
+    - blocks:
+      - kind: Block
+        name: policy-v1-policies
+      name: Policies
+      requiredFeatureSets:
+        opscenter-policy-management:
+        - gatekeeper
+        - gatekeeper-templates
+        - gatekeeper-constraints
+        - gatekeeper-grafana-dashboards
+    - blocks:
+      - kind: Block
+        name: falco.appscode.com-v1alpha1-falcoevents-app
+      name: Runtime Security
+      requiredFeatureSets:
+        opscenter-security:
+        - falco
+        - falco-ui-server
+  - name: Manifests
+    sections:
+    - info:
+        kind: Custom
+        query:
+          type: ""
+        ref:
+          group: meta.k8s.appscode.com
+          kind: ResourceManifests
+  resource:
+    group: kubedb.com
+    kind: Oracle
+    name: oracles
+    scope: Namespaced
+    version: v1alpha2
+  tabBar:
+    actions:
+      create: Never
+    displayMode: Field
+    kind: Connection
+    query:
+      byLabel: view
+      type: GraphQL
+    ref:
+      group: core.k8s.appscode.com
+      kind: GenericResourceService
+    view:
+      name: core.k8s.appscode.com-v1alpha1-genericresourceservices-kubedb
