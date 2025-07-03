@@ -15,3 +15,12 @@ spec:
     name: taskqueues
     scope: Cluster
     version: v1alpha1
+  ui:
+    editor:
+      name: batchk8sappscodecom-taskqueue-editor
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: appscode-charts-oci
+      version: v0.19.0
+    enforceQuota: false
