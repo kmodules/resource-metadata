@@ -32,8 +32,11 @@ const (
 	CassandraContainerName   = "cassandra"
 	ClickHouseContainerName  = "clickhouse"
 	DruidContainerName       = "druid"
+	HazelcastContainerName   = "hazelcast"
 	FerretDBContainerName    = "ferretdb"
+	IgniteContainerName      = "ignite"
 	MSSQLServerContainerName = "mssql"
+	OracleContainerName      = "oracle"
 	PgpoolContainerName      = "pgpool"
 	RabbitMQContainerName    = "rabbitmq"
 	SinglestoreContainerName = "singlestore"
@@ -42,4 +45,6 @@ const (
 
 	SinglestoreSidecarContainerName = "singlestore-coordinator"
 	MSSQLServerSidecarContainerName = "mssql-coordinator"
+	OracleSidecarContainerName      = "oracle-coordinator"
+	OracleObserverContainerName     = "observer"
 )
