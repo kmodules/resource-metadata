@@ -322,6 +322,9 @@ spec:
           - kubedb
         view:
           name: ops.kubedb.com-v1alpha1-pgbounceropsrequests-kubedb
+          sort:
+            fieldName: Age
+            order: Ascending
       - actions:
           create: Never
         displayMode: List

@@ -458,6 +458,9 @@ func Convert_PageBlockOutline_To_PageBlockLayout(
 		result.View = &rsapi.PageBlockTableDefinition{
 			Columns: columns,
 		}
+		if in.View != nil && in.View.Sort != nil {
+			result.View.Sort = in.View.Sort
+		}
 	}
 	return result, nil
 }
