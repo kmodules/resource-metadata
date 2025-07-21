@@ -338,6 +338,9 @@ spec:
           - kubedb
         view:
           name: ops.kubedb.com-v1alpha1-redisopsrequests-kubedb
+          sort:
+            fieldName: Age
+            order: Ascending
       - actions:
           create: Never
         displayMode: List
@@ -356,6 +359,9 @@ spec:
           - supervisor
         view:
           name: supervisor.appscode.com-v1alpha1-recommendations-kubedb
+          sort:
+            fieldName: Age
+            order: Ascending
   - name: Backup
     requiredFeatureSets:
       opscenter-backup:
