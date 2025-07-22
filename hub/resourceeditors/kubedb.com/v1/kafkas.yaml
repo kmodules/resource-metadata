@@ -157,6 +157,20 @@ spec:
           type: image/svg+xml
         name: Monitoring
         operationId: edit-self-monitoring
+      - editor:
+          name: opskubedbcom-kafkaopsrequest-editor
+          sourceRef:
+            apiGroup: source.toolkit.fluxcd.io
+            kind: HelmRepository
+            name: appscode-charts-oci
+          version: v0.20.0
+        enforceQuota: false
+        flow: standalone-create
+        icons:
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/configure.svg
+          type: image/svg+xml
+        name: TLS Configure
+        operationId: create-opsrequest-reconfiguretls
       name: Security & Monitoring
     - items:
       - editor:
