@@ -29,11 +29,11 @@ require (
 	k8s.io/klog/v2 v2.130.1
 	k8s.io/kube-openapi v0.0.0-20250318172550-b98be4ee1595
 	kmodules.xyz/apiversion v0.2.0
-	kmodules.xyz/client-go v0.32.6
+	kmodules.xyz/client-go v0.32.7
 	kmodules.xyz/crd-schema-fuzz v0.32.0
 	kmodules.xyz/go-containerregistry v0.0.14
 	kmodules.xyz/offshoot-api v0.32.0
-	kmodules.xyz/resource-metrics v0.30.9
+	kmodules.xyz/resource-metrics v0.30.10
 	kmodules.xyz/schema-checker v0.4.2
 	moul.io/http2curl/v2 v2.3.1-0.20221024080105-10c404f653f7
 	sigs.k8s.io/cli-utils v0.37.2
