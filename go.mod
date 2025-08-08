@@ -33,7 +33,7 @@ require (
 	kmodules.xyz/crd-schema-fuzz v0.32.0
 	kmodules.xyz/go-containerregistry v0.0.14
 	kmodules.xyz/offshoot-api v0.32.0
-	kmodules.xyz/resource-metrics v0.30.10
+	kmodules.xyz/resource-metrics v0.30.11-0.20250808121819-d4255c017e68
 	kmodules.xyz/schema-checker v0.4.2
 	moul.io/http2curl/v2 v2.3.1-0.20221024080105-10c404f653f7
 	sigs.k8s.io/cli-utils v0.37.2
