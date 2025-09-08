@@ -16,18 +16,6 @@ spec:
       value: '{{ .metadata.namespace }}'
     - name: app
       value: '{{ .metadata.name }}'
-  - title: KubeDB / FerretDB / Database
-    vars:
-    - name: namespace
-      value: '{{ .metadata.namespace }}'
-    - name: app
-      value: '{{ .metadata.name }}'
-  - title: KubeDB / FerretDB / Pod
-    vars:
-    - name: namespace
-      value: '{{ .metadata.namespace }}'
-    - name: app
-      value: '{{ .metadata.name }}'
   provider: Grafana
   resource:
     group: kubedb.com

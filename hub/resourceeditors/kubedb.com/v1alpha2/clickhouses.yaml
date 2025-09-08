@@ -54,7 +54,7 @@ spec:
       name: Operations
     - items:
       - disabledTemplate: |
-          {{ not (gt .spec.replicas 1) }}
+          {{ and (not (hasKey .spec "clusterTopology")) (not (gt .spec.replicas 1)) }}
         editor:
           name: opskubedbcom-clickhouseopsrequest-editor
           sourceRef:
@@ -104,7 +104,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: v0.23.0
+      version: sha256:fcf23be5e9c2dc88d984e0f147fbadb39f7fba3131b89fd6ac78222de2b1856b
     enforceQuota: true
     options:
       name: kubedbcom-clickhouse-editor-options
@@ -112,7 +112,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: v0.23.0
+      version: sha256:7ef39b2717efbea68bbda27c2b011d29db3f76e1eff3d75240f311e9cb48e009
   variants:
   - name: default
     selector:

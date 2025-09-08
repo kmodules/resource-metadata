@@ -7,27 +7,9 @@ metadata:
     k8s.io/kind: ClickHouse
     k8s.io/resource: cliickhouses
     k8s.io/version: v1alpha2
-  name: kubedb.com-v1alpha2-cliickhouses
+  name: kubedb.com-v1alpha2-clickhouses
 spec:
-  dashboards:
-  - title: KubeDB / ClickHouse / Summary
-    vars:
-    - name: namespace
-      value: '{{ .metadata.namespace }}'
-    - name: app
-      value: '{{ .metadata.name }}'
-  - title: KubeDB / ClickHouse / Database
-    vars:
-    - name: namespace
-      value: '{{ .metadata.namespace }}'
-    - name: app
-      value: '{{ .metadata.name }}'
-  - title: KubeDB / ClickHouse / Pod
-    vars:
-    - name: namespace
-      value: '{{ .metadata.namespace }}'
-    - name: app
-      value: '{{ .metadata.name }}'
+  dashboards: null
   provider: Grafana
   resource:
     group: kubedb.com
