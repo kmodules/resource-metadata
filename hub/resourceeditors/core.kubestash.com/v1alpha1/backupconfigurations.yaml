@@ -27,7 +27,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:31952eed16427db3ca62466a8ef6a4358343ccd9aa86dab1cc6286f189686126
+      version: v0.24.0
     enforceQuota: false
     options:
       name: corekubestashcom-backupconfiguration-editor-options
@@ -35,4 +35,4 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:f01e6cec3c781ca2dd3f564a1f11f3c5c8a4d4bff4ec0495d2177012f93c2fcc
+      version: v0.24.0
