@@ -139,8 +139,23 @@ spec:
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/vertical_scale.svg
           type: image/svg+xml
+        name: Scale Vertically
+        operationId: create-opsrequest-verticalscaling
+      - editor:
+          name: opskubedbcom-mongodbopsrequest-editor
+          sourceRef:
+            apiGroup: source.toolkit.fluxcd.io
+            kind: HelmRepository
+            name: appscode-charts-oci
+          version: v0.24.0
+        enforceQuota: true
+        flow: standalone-create
+        icons:
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/vertical_scale.svg
+          type: image/svg+xml
         name: Vertical Scale
         operationId: create-opsrequest-verticalscaling
+        partOf: Scale Vertically
       - editor:
           name: opskubedbcom-mongodbopsrequest-editor
           sourceRef:
@@ -171,6 +186,7 @@ spec:
           type: image/svg+xml
         name: Compute
         operationId: edit-self-compute-autoscaler
+        partOf: Scale Vertically
       - editor:
           name: kubedbcom-mongodb-editor
           sourceRef:
