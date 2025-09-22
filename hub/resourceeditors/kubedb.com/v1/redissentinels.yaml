@@ -29,7 +29,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:f060d6753565746b8f24b0edab4bfe88bfaf3594f2e41608726fed40ad87d825
+          version: v0.25.0
         enforceQuota: false
         flow: standalone-create
         icons:
@@ -43,7 +43,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:f060d6753565746b8f24b0edab4bfe88bfaf3594f2e41608726fed40ad87d825
+          version: v0.25.0
         enforceQuota: false
         flow: standalone-create
         icons:
@@ -57,7 +57,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:f060d6753565746b8f24b0edab4bfe88bfaf3594f2e41608726fed40ad87d825
+          version: v0.25.0
         enforceQuota: false
         flow: standalone-create
         icons:
@@ -73,7 +73,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:f060d6753565746b8f24b0edab4bfe88bfaf3594f2e41608726fed40ad87d825
+          version: v0.25.0
         enforceQuota: false
         flow: standalone-create
         icons:
@@ -87,7 +87,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:f060d6753565746b8f24b0edab4bfe88bfaf3594f2e41608726fed40ad87d825
+          version: v0.25.0
         enforceQuota: false
         flow: standalone-create
         icons:
@@ -103,7 +103,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:822a937d6dbba5c6c706b433f105f55aea7b78824384972d74d713b2ab690f64
+          version: v0.25.0
         enforceQuota: true
         flow: standalone-edit
         icons:
@@ -119,7 +119,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:f060d6753565746b8f24b0edab4bfe88bfaf3594f2e41608726fed40ad87d825
+          version: v0.25.0
         enforceQuota: false
         flow: standalone-create
         icons:
@@ -133,7 +133,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:822a937d6dbba5c6c706b433f105f55aea7b78824384972d74d713b2ab690f64
+          version: v0.25.0
         enforceQuota: false
         flow: standalone-edit
         icons:
@@ -148,7 +148,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:822a937d6dbba5c6c706b433f105f55aea7b78824384972d74d713b2ab690f64
+      version: v0.25.0
     enforceQuota: false
   variants:
   - name: default
