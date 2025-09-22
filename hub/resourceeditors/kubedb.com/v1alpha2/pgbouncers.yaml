@@ -27,7 +27,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: v0.24.0
+      version: sha256:1c9aae913030525e81459bcc7557245d4aa45a27c22e89a7f6cae56e5f8cb943
     enforceQuota: false
     options:
       name: kubedbcom-pgbouncer-editor-options
@@ -35,7 +35,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: v0.24.0
+      version: sha256:e7dc2b1554cbd06d1cb6003be9b2364d019e1d53135071e52f8a398b1ecb1ccb
   variants:
   - name: default
     selector:
