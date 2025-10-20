@@ -22,7 +22,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:95dcff05438608f250afc98b2610109450cc2ce224117eb856a49202ab0852a4
+      version: v0.26.0
     enforceQuota: false
     options:
       name: chartsxhelmdev-clusterchartpreset-editor-options
@@ -30,4 +30,4 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:4210ee2e991af9af02b84f9f0949b5e2564aa27c87fa457787444b58e30b23cd
+      version: v0.26.0
