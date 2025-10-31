@@ -19631,6 +19631,12 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplate(ref common.
 							Format:  "",
 						},
 					},
+					"partOf": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
 				},
 				Required: []string{"operationId", "flow", "enforceQuota"},
 			},

@@ -139,6 +139,7 @@ type ActionTemplate struct {
 	DisabledTemplate string                      `json:"disabledTemplate,omitempty"`
 	Editor           *releasesapi.ChartSourceRef `json:"editor,omitempty"`
 	EnforceQuota     bool                        `json:"enforceQuota"`
+	PartOf           string                      `json:"partOf,omitempty"`
 }
 
 type ActionInfo struct {

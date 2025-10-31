@@ -113,6 +113,8 @@ spec:
                             type: string
                           operationId:
                             type: string
+                          partOf:
+                            type: string
                         required:
                         - enforceQuota
                         - flow
