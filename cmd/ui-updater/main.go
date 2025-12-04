@@ -134,7 +134,9 @@ func check(filename string) (string, error) {
 			}
 			for i, ag := range rd.Spec.UI.Actions {
 				for j, a := range ag.Items {
-					a.Editor.Version = getDigestOrVersion(a.Editor.SourceRef.Name, a.Editor.Name, *chartVersion)
+					if a.Editor != nil {
+						a.Editor.Version = getDigestOrVersion(a.Editor.SourceRef.Name, a.Editor.Name, *chartVersion)
+					}
 					ag.Items[j] = a
 				}
 				rd.Spec.UI.Actions[i] = ag

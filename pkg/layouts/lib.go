@@ -217,6 +217,7 @@ func GetResourceLayout(kc client.Client, outline *rsapi.ResourceOutline) (*rsapi
 								Flow:             a.Flow,
 								DisabledTemplate: a.DisabledTemplate,
 								EnforceQuota:     a.EnforceQuota,
+								PartOf:           a.PartOf,
 							}
 							a2.Editor = expand(a.Editor)
 
