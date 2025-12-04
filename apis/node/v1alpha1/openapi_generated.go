@@ -19450,6 +19450,12 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_Action(ref common.Referenc
 							Format: "",
 						},
 					},
+					"icon": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
 					"description": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
@@ -19516,6 +19522,12 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ActionGroup(ref common.Ref
 							Format: "",
 						},
 					},
+					"icon": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
 					"description": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
@@ -19556,6 +19568,12 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ActionInfo(ref common.Refe
 							Format: "",
 						},
 					},
+					"icon": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
 					"description": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
@@ -19575,6 +19593,12 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplate(ref common.
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
 					"name": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"icon": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
 							Format: "",
@@ -19631,6 +19655,12 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplate(ref common.
 							Format:  "",
 						},
 					},
+					"partOf": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
 				},
 				Required: []string{"operationId", "flow", "enforceQuota"},
 			},
@@ -19647,6 +19677,12 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplateGroup(ref co
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
 					"name": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"icon": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
 							Format: "",
