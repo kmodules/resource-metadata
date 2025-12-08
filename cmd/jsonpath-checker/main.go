@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-//nolint:deadcode,unused,varcheck
+//nolint:unused
 package main
 
 import (
@@ -165,7 +165,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	var input interface{}
+	var input any
 	err := yaml.Unmarshal([]byte(yamlSecret), &input)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)

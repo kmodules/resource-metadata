@@ -38,8 +38,8 @@ const (
 // ref: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/kubectl/pkg/describe/describe.go
 func describeVolume(volume core.Volume) string {
 	switch {
-	case volume.VolumeSource.HostPath != nil:
-		hostPath := volume.VolumeSource.HostPath
+	case volume.HostPath != nil:
+		hostPath := volume.HostPath
 		hostPathType := ValueNone
 		if hostPath.Type != nil {
 			hostPathType = string(*hostPath.Type)
@@ -50,9 +50,9 @@ func describeVolume(volume core.Volume) string {
 			"\"HostPath Type\": %q,"+
 			"\"Path\": \"%v\""+
 			"}", volume.Name, hostPathType, hostPath.Path)
-	case volume.VolumeSource.EmptyDir != nil:
+	case volume.EmptyDir != nil:
 		var sizeLimit string
-		emptyDir := volume.VolumeSource.EmptyDir
+		emptyDir := volume.EmptyDir
 		if emptyDir.SizeLimit != nil && emptyDir.SizeLimit.Cmp(resource.Quantity{}) > 0 {
 			sizeLimit = fmt.Sprintf("%v", emptyDir.SizeLimit)
 		} else {
@@ -64,8 +64,8 @@ func describeVolume(volume core.Volume) string {
 			"\"Medium\": \"%v\","+
 			"\"SizeLimit\": %q"+
 			"}", volume.Name, emptyDir.Medium, sizeLimit)
-	case volume.VolumeSource.GCEPersistentDisk != nil:
-		gce := volume.VolumeSource.GCEPersistentDisk
+	case volume.GCEPersistentDisk != nil:
+		gce := volume.GCEPersistentDisk
 		return fmt.Sprintf("{"+
 			"\"Name\": %q,"+
 			"\"Type\": \"GCEPersistentDisk\","+
@@ -74,8 +74,8 @@ func describeVolume(volume core.Volume) string {
 			"\"Partition\": %q,"+
 			"\"ReadOnly\": \"%v\","+
 			"}", volume.Name, gce.PDName, gce.FSType, gce.Partition, gce.ReadOnly)
-	case volume.VolumeSource.AWSElasticBlockStore != nil:
-		aws := volume.VolumeSource.AWSElasticBlockStore
+	case volume.AWSElasticBlockStore != nil:
+		aws := volume.AWSElasticBlockStore
 		return fmt.Sprintf("{"+
 			"\"Name\": %q,"+
 			"\"Type\": \"AWSElasticBlockStore\","+
@@ -84,8 +84,8 @@ func describeVolume(volume core.Volume) string {
 			"\"Partition\": %q,"+
 			"\"ReadOnly\": \"%v\","+
 			"}", volume.Name, aws.VolumeID, aws.FSType, aws.Partition, aws.ReadOnly)
-	case volume.VolumeSource.Secret != nil:
-		secret := volume.VolumeSource.Secret
+	case volume.Secret != nil:
+		secret := volume.Secret
 		optional := secret.Optional != nil && *secret.Optional
 		return fmt.Sprintf("{"+
 			"\"Name\": %q,"+
@@ -93,8 +93,8 @@ func describeVolume(volume core.Volume) string {
 			"\"SecretName\": %q,"+
 			"\"Optional\": \"%v\""+
 			"}", volume.Name, secret.SecretName, optional)
-	case volume.VolumeSource.ConfigMap != nil:
-		configMap := volume.VolumeSource.ConfigMap
+	case volume.ConfigMap != nil:
+		configMap := volume.ConfigMap
 		optional := configMap.Optional != nil && *configMap.Optional
 		return fmt.Sprintf("{"+
 			"\"Name\": %q,"+
@@ -102,8 +102,8 @@ func describeVolume(volume core.Volume) string {
 			"\"ConfigMap Name\": %q,"+
 			"\"Optional\": \"%v\""+
 			"}", volume.Name, configMap.Name, optional)
-	case volume.VolumeSource.NFS != nil:
-		nfs := volume.VolumeSource.NFS
+	case volume.NFS != nil:
+		nfs := volume.NFS
 		return fmt.Sprintf("{"+
 			"\"Name\": %q,"+
 			"\"Type\": \"NFS\","+
@@ -111,8 +111,8 @@ func describeVolume(volume core.Volume) string {
 			"\"Path\": \"%v\","+
 			"\"ReadOnly\": \"%v\""+
 			"}", volume.Name, nfs.Server, nfs.Path, nfs.ReadOnly)
-	case volume.VolumeSource.ISCSI != nil:
-		iscsi := volume.VolumeSource.ISCSI
+	case volume.ISCSI != nil:
+		iscsi := volume.ISCSI
 		initiator := ValueNone
 		if iscsi.InitiatorName != nil {
 			initiator = *iscsi.InitiatorName
@@ -133,8 +133,8 @@ func describeVolume(volume core.Volume) string {
 			"\"InitiatorName\":\"%v\""+
 			"}",
 			volume.Name, iscsi.TargetPortal, iscsi.IQN, iscsi.Lun, iscsi.ISCSIInterface, iscsi.FSType, iscsi.ReadOnly, iscsi.Portals, iscsi.DiscoveryCHAPAuth, iscsi.SessionCHAPAuth, iscsi.SecretRef, initiator)
-	case volume.VolumeSource.Glusterfs != nil:
-		glusterfs := volume.VolumeSource.Glusterfs
+	case volume.Glusterfs != nil:
+		glusterfs := volume.Glusterfs
 		return fmt.Sprintf("{"+
 			"\"Name\": %q,"+
 			"\"Type\": \"Glusterfs\","+
@@ -142,16 +142,16 @@ func describeVolume(volume core.Volume) string {
 			"\"Path\": \"%v\","+
 			"\"ReadOnly\": \"%v\""+
 			"}", volume.Name, glusterfs.EndpointsName, glusterfs.Path, glusterfs.ReadOnly)
-	case volume.VolumeSource.PersistentVolumeClaim != nil:
-		claim := volume.VolumeSource.PersistentVolumeClaim
+	case volume.PersistentVolumeClaim != nil:
+		claim := volume.PersistentVolumeClaim
 		return fmt.Sprintf("{"+
 			"\"Name\": %q,"+
 			"\"Type\": \"PersistentVolumeClaim\","+
 			"\"ClaimName\": %q,"+
 			"\"ReadOnly\": \"%v\""+
 			"}", volume.Name, claim.ClaimName, claim.ReadOnly)
-	case volume.VolumeSource.RBD != nil:
-		rbd := volume.VolumeSource.RBD
+	case volume.RBD != nil:
+		rbd := volume.RBD
 		return fmt.Sprintf("{"+
 			"\"Name\": %q,"+
 			"\"Type\": \"RBD\","+
@@ -165,8 +165,8 @@ func describeVolume(volume core.Volume) string {
 			"\"ReadOnly\":\"%v\""+
 			"}",
 			volume.Name, rbd.CephMonitors, rbd.RBDImage, rbd.FSType, rbd.RBDPool, rbd.RadosUser, rbd.Keyring, rbd.SecretRef, rbd.ReadOnly)
-	case volume.VolumeSource.Quobyte != nil:
-		quobyte := volume.VolumeSource.Quobyte
+	case volume.Quobyte != nil:
+		quobyte := volume.Quobyte
 		return fmt.Sprintf("{"+
 			"\"Name\": %q,"+
 			"\"Type\": \"Quobyte\","+
@@ -174,15 +174,15 @@ func describeVolume(volume core.Volume) string {
 			"\"Volume\": %q,"+
 			"\"ReadOnly\": \"%v\""+
 			"}", volume.Name, quobyte.Registry, quobyte.Volume, quobyte.ReadOnly)
-	case volume.VolumeSource.DownwardAPI != nil:
-		d := volume.VolumeSource.DownwardAPI
+	case volume.DownwardAPI != nil:
+		d := volume.DownwardAPI
 		return fmt.Sprintf("{"+
 			"\"Name\": %q,"+
 			"\"Type\": \"DownwardAPI\","+
 			"\"Mappings\": \"%v\""+
 			"}", volume.Name, d.Items)
-	case volume.VolumeSource.AzureDisk != nil:
-		d := volume.VolumeSource.AzureDisk
+	case volume.AzureDisk != nil:
+		d := volume.AzureDisk
 		return fmt.Sprintf("{"+
 			"\"Name\": %q,"+
 			"\"Type\": \"AzureDisk\","+
@@ -193,8 +193,8 @@ func describeVolume(volume core.Volume) string {
 			"\"CachingMode\": %q,"+
 			"\"ReadOnly\": \"%v\","+
 			"}", volume.Name, d.DiskName, d.DataDiskURI, *d.Kind, *d.FSType, *d.CachingMode, *d.ReadOnly)
-	case volume.VolumeSource.VsphereVolume != nil:
-		vsphere := volume.VolumeSource.VsphereVolume
+	case volume.VsphereVolume != nil:
+		vsphere := volume.VsphereVolume
 		return fmt.Sprintf("{"+
 			"\"Name\": %q,"+
 			"\"Type\": \"vSphereVolume\","+
@@ -202,8 +202,8 @@ func describeVolume(volume core.Volume) string {
 			"\"FSType\": %q,"+
 			"\"StoragePolicyName\": %q"+
 			"}", volume.Name, vsphere.VolumePath, vsphere.FSType, vsphere.StoragePolicyName)
-	case volume.VolumeSource.Cinder != nil:
-		cinder := volume.VolumeSource.Cinder
+	case volume.Cinder != nil:
+		cinder := volume.Cinder
 		return fmt.Sprintf("{"+
 			"\"Name\": %q,"+
 			"\"Type\": \"Cinder\","+
@@ -213,23 +213,23 @@ func describeVolume(volume core.Volume) string {
 			"\"SecretRef\": \"%v\""+
 			"}",
 			volume.Name, cinder.VolumeID, cinder.FSType, cinder.ReadOnly, cinder.SecretRef)
-	case volume.VolumeSource.PhotonPersistentDisk != nil:
-		photon := volume.VolumeSource.PhotonPersistentDisk
+	case volume.PhotonPersistentDisk != nil:
+		photon := volume.PhotonPersistentDisk
 		return fmt.Sprintf("{"+
 			"\"Name\": %q,"+
 			"\"Type\": \"PhotonPersistentDisk\","+
 			"\"PdID\": \"%v\","+
 			"\"FSType\": %q"+
 			"}", volume.Name, photon.PdID, photon.FSType)
-	case volume.VolumeSource.PortworxVolume != nil:
-		portworx := volume.VolumeSource.PortworxVolume
+	case volume.PortworxVolume != nil:
+		portworx := volume.PortworxVolume
 		return fmt.Sprintf("{"+
 			"\"Name\": %q,"+
 			"\"Type\": \"PortworxVolume\","+
 			"\"VolumeID\": \"%v\""+
 			"}", volume.Name, portworx.VolumeID)
-	case volume.VolumeSource.ScaleIO != nil:
-		sio := volume.VolumeSource.ScaleIO
+	case volume.ScaleIO != nil:
+		sio := volume.ScaleIO
 		return fmt.Sprintf("{"+
 			"\"Name\": %q,"+
 			"\"Type\": \"ScaleIO\","+
@@ -243,8 +243,8 @@ func describeVolume(volume core.Volume) string {
 			"\"ReadOnly\":\"%v\""+
 			"}",
 			volume.Name, sio.Gateway, sio.System, sio.ProtectionDomain, sio.StoragePool, sio.StorageMode, sio.VolumeName, sio.FSType, sio.ReadOnly)
-	case volume.VolumeSource.CephFS != nil:
-		cephfs := volume.VolumeSource.CephFS
+	case volume.CephFS != nil:
+		cephfs := volume.CephFS
 		return fmt.Sprintf("{"+
 			"\"Name\": %q,"+
 			"\"Type\": \"CephFS\","+
@@ -256,8 +256,8 @@ func describeVolume(volume core.Volume) string {
 			"\"ReadOnly\":\"%v\""+
 			"}",
 			volume.Name, cephfs.Monitors, cephfs.Path, cephfs.User, cephfs.SecretFile, cephfs.SecretRef, cephfs.ReadOnly)
-	case volume.VolumeSource.StorageOS != nil:
-		storageos := volume.VolumeSource.StorageOS
+	case volume.StorageOS != nil:
+		storageos := volume.StorageOS
 		return fmt.Sprintf("{"+
 			"\"Name\": %q,"+
 			"\"Type\": \"StorageOS\","+
@@ -267,8 +267,8 @@ func describeVolume(volume core.Volume) string {
 			"\"ReadOnly\":\"%v\""+
 			"}",
 			volume.Name, storageos.VolumeName, storageos.VolumeNamespace, storageos.FSType, storageos.ReadOnly)
-	case volume.VolumeSource.FC != nil:
-		fc := volume.VolumeSource.FC
+	case volume.FC != nil:
+		fc := volume.FC
 		lun := ValueNone
 		if fc.Lun != nil {
 			lun = strconv.Itoa(int(*fc.Lun))
@@ -282,8 +282,8 @@ func describeVolume(volume core.Volume) string {
 			"\"ReadOnly\":\"%v\""+
 			"}",
 			volume.Name, strings.Join(fc.TargetWWNs, ", "), lun, fc.FSType, fc.ReadOnly)
-	case volume.VolumeSource.AzureFile != nil:
-		azureFile := volume.VolumeSource.AzureFile
+	case volume.AzureFile != nil:
+		azureFile := volume.AzureFile
 		return fmt.Sprintf("{"+
 			"\"Name\": %q,"+
 			"\"Type\": \"AzureFile\","+
@@ -292,8 +292,8 @@ func describeVolume(volume core.Volume) string {
 			"\"ReadOnly\":\"%v\""+
 			"}",
 			volume.Name, azureFile.SecretName, azureFile.ShareName, azureFile.ReadOnly)
-	case volume.VolumeSource.FlexVolume != nil:
-		flex := volume.VolumeSource.FlexVolume
+	case volume.FlexVolume != nil:
+		flex := volume.FlexVolume
 		return fmt.Sprintf("{"+
 			"\"Name\": %q,"+
 			"\"Type\": \"FlexVolume\","+
@@ -304,16 +304,16 @@ func describeVolume(volume core.Volume) string {
 			"\"Options\": \"%v\""+
 			"}",
 			volume.Name, flex.Driver, flex.FSType, flex.SecretRef, flex.ReadOnly, flex.Options)
-	case volume.VolumeSource.Flocker != nil:
-		flocker := volume.VolumeSource.Flocker
+	case volume.Flocker != nil:
+		flocker := volume.Flocker
 		return fmt.Sprintf("{"+
 			"\"Name\": %q,"+
 			"\"Type\": \"Flocker\","+
 			"\"DatasetName\": \"%v\","+
 			"\"DatasetUUID\": %q"+
 			"}", volume.Name, flocker.DatasetName, flocker.DatasetUUID)
-	case volume.VolumeSource.Projected != nil:
-		projected := volume.VolumeSource.Projected
+	case volume.Projected != nil:
+		projected := volume.Projected
 		sources := "["
 		for i, source := range projected.Sources {
 			sources += "{"
@@ -341,8 +341,8 @@ func describeVolume(volume core.Volume) string {
 			"\"Type\": \"Projected\","+
 			"\"sources\": %v"+
 			"}", volume.Name, sources)
-	case volume.VolumeSource.CSI != nil:
-		csi := volume.VolumeSource.CSI
+	case volume.CSI != nil:
+		csi := volume.CSI
 		var readOnly bool
 		var fsType string
 		if csi.ReadOnly != nil && *csi.ReadOnly {
@@ -415,7 +415,7 @@ func ConvertToHumanReadableDateType(timestamp metav1.Time) string {
 	if now.After(timestamp.Time) {
 		d = now.Sub(timestamp.Time)
 	} else {
-		d = timestamp.Time.Sub(now)
+		d = timestamp.Sub(now)
 	}
 	return duration.HumanDuration(d)
 }

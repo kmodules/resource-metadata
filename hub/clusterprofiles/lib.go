@@ -112,7 +112,7 @@ func List(kc client.Reader) ([]v1alpha1.ClusterProfile, error) {
 
 	var list v1alpha1.ClusterProfileList
 	err := kc.List(context.TODO(), &list)
-	if err != nil && !(meta.IsNoMatchError(err) || apierrors.IsNotFound(err)) {
+	if err != nil && (!meta.IsNoMatchError(err) && !apierrors.IsNotFound(err)) {
 		return nil, err
 	}
 

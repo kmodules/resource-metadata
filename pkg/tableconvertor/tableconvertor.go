@@ -46,7 +46,7 @@ import (
 )
 
 var pool = sync.Pool{
-	New: func() interface{} {
+	New: func() any {
 		return new(bytes.Buffer)
 	},
 }
@@ -196,7 +196,7 @@ func (c *convertor) init(columns []rsapi.ResourceColumnDefinition, fnDashboard D
 	return nil
 }
 
-func addTargetVars(in *rsapi.DashboardDefinition, data interface{}, buf *bytes.Buffer) (string, error) {
+func addTargetVars(in *rsapi.DashboardDefinition, data any, buf *bytes.Buffer) (string, error) {
 	varname := func(s string) string {
 		if strings.HasPrefix(s, "var-") {
 			return s
@@ -238,7 +238,7 @@ func addTargetVars(in *rsapi.DashboardDefinition, data interface{}, buf *bytes.B
 	return u.String(), nil
 }
 
-func (c *convertor) rowFn(obj interface{}) ([]rsapi.TableCell, error) {
+func (c *convertor) rowFn(obj any) ([]rsapi.TableCell, error) {
 	data := obj
 	if o, ok := obj.(runtime.Unstructured); ok {
 		data = o.UnstructuredContent()
@@ -388,7 +388,7 @@ type columnOptions struct {
 	Template string
 }
 
-func renderTemplate(data interface{}, col columnOptions, buf *bytes.Buffer) (interface{}, error) {
+func renderTemplate(data any, col columnOptions, buf *bytes.Buffer) (any, error) {
 	if col.Template == "" {
 		return nil, nil
 	}
@@ -435,7 +435,7 @@ func (c *convertor) ConvertToTable(_ context.Context, obj runtime.Object) (*rsap
 	return table, err
 }
 
-func cellForJSONValue(col columnOptions, value string) (interface{}, error) {
+func cellForJSONValue(col columnOptions, value string) (any, error) {
 	value = strings.TrimSpace(value)
 	switch col.Type {
 	case "integer":
@@ -476,9 +476,9 @@ func cellForJSONValue(col columnOptions, value string) (interface{}, error) {
 		return ConvertToHumanReadableDateType(timestamp), nil
 	case "object":
 		if value == "" || value == "null" {
-			return map[string]interface{}{}, nil
+			return map[string]any{}, nil
 		}
-		var obj interface{}
+		var obj any
 		err := json.Unmarshal([]byte(value), &obj)
 		if err != nil {
 			return nil, fmt.Errorf("col %s, type %s, err %v, value %s", col.Name, col.Type, err.Error(), value)
@@ -490,7 +490,7 @@ func cellForJSONValue(col columnOptions, value string) (interface{}, error) {
 
 // metaToTableRow converts a list or object into one or more table rows. The provided rowFn is invoked for
 // each accessed item, with name and age being passed to each.
-func metaToTableRow(obj runtime.Object, fieldPath string, rowFn func(obj interface{}) ([]rsapi.TableCell, error)) ([]rsapi.TableRow, error) {
+func metaToTableRow(obj runtime.Object, fieldPath string, rowFn func(obj any) ([]rsapi.TableCell, error)) ([]rsapi.TableRow, error) {
 	if meta.IsListType(obj) {
 		rows := make([]rsapi.TableRow, 0, 16)
 		err := meta.EachListItem(obj, func(obj runtime.Object) error {

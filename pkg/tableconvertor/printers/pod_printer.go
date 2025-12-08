@@ -36,7 +36,7 @@ type PodPrinter struct{}
 
 var _ ColumnConverter = PodPrinter{}
 
-func (_ PodPrinter) GVK() schema.GroupVersionKind {
+func (PodPrinter) GVK() schema.GroupVersionKind {
 	return core.SchemeGroupVersion.WithKind("Pod")
 }
 
@@ -51,7 +51,7 @@ func (_ PodPrinter) GVK() schema.GroupVersionKind {
 "name": "Nominated Node",
 "name": "Readiness Gates",
 */
-func (p PodPrinter) Convert(o runtime.Object) (map[string]interface{}, error) {
+func (p PodPrinter) Convert(o runtime.Object) (map[string]any, error) {
 	pod := new(core.Pod)
 	switch to := o.(type) {
 	case *unstructured.Unstructured:
@@ -73,7 +73,7 @@ func (p PodPrinter) Convert(o runtime.Object) (map[string]interface{}, error) {
 		reason = pod.Status.Reason
 	}
 
-	row := map[string]interface{}{}
+	row := map[string]any{}
 
 	initializing := false
 	for i := range pod.Status.InitContainerStatuses {
