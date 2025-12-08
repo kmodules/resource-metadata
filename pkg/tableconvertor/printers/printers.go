@@ -29,7 +29,7 @@ const (
 
 type ColumnConverter interface {
 	GVK() schema.GroupVersionKind
-	Convert(obj runtime.Object) (map[string]interface{}, error)
+	Convert(obj runtime.Object) (map[string]any, error)
 }
 
 var printers = map[schema.GroupVersionKind]ColumnConverter{}
@@ -38,11 +38,11 @@ func Register(c ColumnConverter) {
 	printers[c.GVK()] = c
 }
 
-func Convert(o runtime.Object) (map[string]interface{}, error) {
+func Convert(o runtime.Object) (map[string]any, error) {
 	gvk := o.GetObjectKind().GroupVersionKind()
 	c, ok := printers[gvk]
 	if !ok {
-		return map[string]interface{}{}, nil
+		return map[string]any{}, nil
 	}
 	return c.Convert(o)
 }

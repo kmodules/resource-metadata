@@ -36,11 +36,11 @@ type IngressClassPrinter struct{}
 
 var _ ColumnConverter = IngressClassPrinter{}
 
-func (_ IngressClassPrinter) GVK() schema.GroupVersionKind {
+func (IngressClassPrinter) GVK() schema.GroupVersionKind {
 	return networking.SchemeGroupVersion.WithKind("IngressClass")
 }
 
-func (p IngressClassPrinter) Convert(o runtime.Object) (map[string]interface{}, error) {
+func (p IngressClassPrinter) Convert(o runtime.Object) (map[string]any, error) {
 	obj := new(networking.IngressClass)
 	switch to := o.(type) {
 	case *unstructured.Unstructured:
@@ -53,7 +53,7 @@ func (p IngressClassPrinter) Convert(o runtime.Object) (map[string]interface{}, 
 		return nil, fmt.Errorf("expected %v, received %v", p.GVK().Kind, reflect.TypeOf(o))
 	}
 
-	row := map[string]interface{}{}
+	row := map[string]any{}
 
 	parameters := None
 	if obj.Spec.Parameters != nil {

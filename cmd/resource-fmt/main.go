@@ -50,7 +50,7 @@ func check(typ reflect.Type, filename string, fix bool) (string, error) {
 		return "", err
 	}
 
-	var original map[string]interface{}
+	var original map[string]any
 	err = yaml.Unmarshal(data, &original)
 	if err != nil {
 		return "", err
@@ -111,7 +111,7 @@ func check(typ reflect.Type, filename string, fix bool) (string, error) {
 	return "", nil
 }
 
-func checkType(t interface{}, plural string, fix bool) error {
+func checkType(t any, plural string, fix bool) error {
 	return filepath.Walk(fmt.Sprintf("./hub/%s/", plural), func(path string, info fs.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -135,7 +135,7 @@ func checkType(t interface{}, plural string, fix bool) error {
 	})
 }
 
-func MustCheckType(t interface{}, plural string, fix bool) {
+func MustCheckType(t any, plural string, fix bool) {
 	if err := checkType(t, plural, fix); err != nil {
 		klog.ErrorS(err, "failed to check "+plural)
 	}

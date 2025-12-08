@@ -74,7 +74,7 @@ func init() {
 
 // TxtFuncMap returns a 'text/template'.FuncMap
 func TxtFuncMap() template.FuncMap {
-	gfm := make(map[string]interface{}, len(templateFns))
+	gfm := make(map[string]any, len(templateFns))
 	for k, v := range templateFns {
 		gfm[k] = v
 	}
@@ -97,7 +97,7 @@ func apiVersion(gv string) (string, error) {
 	return out.Version, nil
 }
 
-func convertFn(data interface{}) (map[string]interface{}, error) {
+func convertFn(data any) (map[string]any, error) {
 	var u unstructured.Unstructured
 	if s, ok := data.(string); ok && s != "" {
 		// runtime.DefaultUnstructuredConverter.FromUnstructured()
@@ -105,7 +105,7 @@ func convertFn(data interface{}) (map[string]interface{}, error) {
 		if err != nil {
 			return nil, err
 		}
-	} else if v, ok := data.(map[string]interface{}); ok {
+	} else if v, ok := data.(map[string]any); ok {
 		u = unstructured.Unstructured{
 			Object: v,
 		}
@@ -113,14 +113,14 @@ func convertFn(data interface{}) (map[string]interface{}, error) {
 	return printers.Convert(&u)
 }
 
-func formatLabelSelectorFn(data interface{}) (string, error) {
+func formatLabelSelectorFn(data any) (string, error) {
 	var sel metav1.LabelSelector
 	if s, ok := data.(string); ok && s != "" {
 		err := json.Unmarshal([]byte(s), &sel)
 		if err != nil {
 			return "", err
 		}
-	} else if _, ok := data.(map[string]interface{}); ok {
+	} else if _, ok := data.(map[string]any); ok {
 		err := meta_util.DecodeObject(data, &sel)
 		if err != nil {
 			return "", err
@@ -129,14 +129,14 @@ func formatLabelSelectorFn(data interface{}) (string, error) {
 	return metav1.FormatLabelSelector(&sel), nil
 }
 
-func formatLabelsFn(data interface{}) (string, error) {
+func formatLabelsFn(data any) (string, error) {
 	var lbl map[string]string
 	if s, ok := data.(string); ok && s != "" {
 		err := json.Unmarshal([]byte(s), &lbl)
 		if err != nil {
 			return "", err
 		}
-	} else if _, ok := data.(map[string]interface{}); ok {
+	} else if _, ok := data.(map[string]any); ok {
 		err := meta_util.DecodeObject(data, &lbl)
 		if err != nil {
 			return "", err
@@ -145,7 +145,7 @@ func formatLabelsFn(data interface{}) (string, error) {
 	return labels.FormatLabels(lbl), nil
 }
 
-func ageFn(data interface{}) (string, error) {
+func ageFn(data any) (string, error) {
 	var timestamp metav1.Time
 	if s, ok := data.(string); ok && s != "" {
 		err := timestamp.UnmarshalQueryParameter(s)
@@ -158,7 +158,7 @@ func ageFn(data interface{}) (string, error) {
 	return ConvertToHumanReadableDateType(timestamp), nil
 }
 
-func servicePortsFn(data interface{}) (string, error) {
+func servicePortsFn(data any) (string, error) {
 	var ports []core.ServicePort
 
 	if s, ok := data.(string); ok && s != "" {
@@ -166,7 +166,7 @@ func servicePortsFn(data interface{}) (string, error) {
 		if err != nil {
 			return "", err
 		}
-	} else if _, ok := data.([]interface{}); ok {
+	} else if _, ok := data.([]any); ok {
 		// includes IntOrString, so meta_util.DecodeObject() can't be used.
 		data, err := json.Marshal(data)
 		if err != nil {
@@ -180,7 +180,7 @@ func servicePortsFn(data interface{}) (string, error) {
 	return printers.MakeServicePortString(ports), nil
 }
 
-func serviceExternalIPFn(data interface{}) (string, error) {
+func serviceExternalIPFn(data any) (string, error) {
 	var svc core.Service
 
 	if s, ok := data.(string); ok && s != "" {
@@ -202,14 +202,14 @@ func serviceExternalIPFn(data interface{}) (string, error) {
 	return printers.ServiceExternalIP(&svc), nil
 }
 
-func containerPortFn(data interface{}) (string, error) {
+func containerPortFn(data any) (string, error) {
 	var ports []core.ContainerPort
 	if s, ok := data.(string); ok && s != "" {
 		err := json.Unmarshal([]byte(s), &ports)
 		if err != nil {
 			return "", err
 		}
-	} else if _, ok := data.([]interface{}); ok {
+	} else if _, ok := data.([]any); ok {
 		err := meta_util.DecodeObject(data, &ports)
 		if err != nil {
 			return "", err
@@ -227,14 +227,14 @@ func containerPortFn(data interface{}) (string, error) {
 	return strings.Join(pieces, ","), nil
 }
 
-func volumesFn(data interface{}) (string, error) {
+func volumesFn(data any) (string, error) {
 	var volumes []core.Volume
 	if s, ok := data.(string); ok && s != "" {
 		err := json.Unmarshal([]byte(s), &volumes)
 		if err != nil {
 			return "", err
 		}
-	} else if _, ok := data.([]interface{}); ok {
+	} else if _, ok := data.([]any); ok {
 		err := meta_util.DecodeObject(data, &volumes)
 		if err != nil {
 			return "", err
@@ -252,14 +252,14 @@ func volumesFn(data interface{}) (string, error) {
 	return ss, nil
 }
 
-func volumeMountsFn(data interface{}) (string, error) {
+func volumeMountsFn(data any) (string, error) {
 	var mounts []core.VolumeMount
 	if s, ok := data.(string); ok && s != "" {
 		err := json.Unmarshal([]byte(s), &mounts)
 		if err != nil {
 			return "", err
 		}
-	} else if _, ok := data.([]interface{}); ok {
+	} else if _, ok := data.([]any); ok {
 		err := meta_util.DecodeObject(data, &mounts)
 		if err != nil {
 			return "", err
@@ -277,10 +277,10 @@ func volumeMountsFn(data interface{}) (string, error) {
 	return strings.Join(ss, "\n"), nil
 }
 
-func fmtListFn(data interface{}) (string, error) {
+func fmtListFn(data any) (string, error) {
 	if s, ok := data.(string); ok && s != "" {
 		return s, nil
-	} else if arr, ok := data.([]interface{}); ok && len(arr) > 0 {
+	} else if arr, ok := data.([]any); ok && len(arr) > 0 {
 		s, err := json.Marshal(arr)
 		return string(s), err
 	}
@@ -302,14 +302,14 @@ type promNamespaceSelectorSpec struct {
 	NamespaceSelector *prom_op.NamespaceSelector `json:"namespaceSelector,omitempty"`
 }
 
-func promNamespaceSelectorFn(data interface{}) (string, error) {
+func promNamespaceSelectorFn(data any) (string, error) {
 	var obj promNamespaceSelector
 	if s, ok := data.(string); ok && s != "" {
 		err := json.Unmarshal([]byte(s), &obj)
 		if err != nil {
 			return "", err
 		}
-	} else if _, ok := data.(map[string]interface{}); ok {
+	} else if _, ok := data.(map[string]any); ok {
 		err := meta_util.DecodeObject(data, &obj)
 		if err != nil {
 			return "", err
@@ -329,7 +329,7 @@ func promNamespaceSelectorFn(data interface{}) (string, error) {
 	return "", nil
 }
 
-func containerImagesFn(data interface{}) (string, error) {
+func containerImagesFn(data any) (string, error) {
 	var images []map[string]string
 	appendImage := func(name, image string) {
 		images = append(images, map[string]string{
@@ -339,7 +339,7 @@ func containerImagesFn(data interface{}) (string, error) {
 	}
 
 	if s, ok := data.(string); ok && s != "" {
-		var containers []map[string]interface{}
+		var containers []map[string]any
 		if err := json.Unmarshal([]byte(s), &containers); err != nil {
 			return "", fmt.Errorf("failed to unmarshal containers JSON: %w", err)
 		}
@@ -350,10 +350,10 @@ func containerImagesFn(data interface{}) (string, error) {
 				}
 			}
 		}
-	} else if m, ok := data.(map[string]interface{}); ok {
-		if containerList, ok := m["containers"].([]interface{}); ok {
+	} else if m, ok := data.(map[string]any); ok {
+		if containerList, ok := m["containers"].([]any); ok {
 			for _, c := range containerList {
-				if container, ok := c.(map[string]interface{}); ok {
+				if container, ok := c.(map[string]any); ok {
 					if name, ok := container["name"].(string); ok {
 						if image, ok := container["image"].(string); ok {
 							appendImage(name, image)
@@ -362,9 +362,9 @@ func containerImagesFn(data interface{}) (string, error) {
 				}
 			}
 		}
-	} else if slice, ok := data.([]interface{}); ok {
+	} else if slice, ok := data.([]any); ok {
 		for _, item := range slice {
-			if container, ok := item.(map[string]interface{}); ok {
+			if container, ok := item.(map[string]any); ok {
 				if name, ok := container["name"].(string); ok {
 					if image, ok := container["image"].(string); ok {
 						appendImage(name, image)
@@ -382,7 +382,7 @@ func containerImagesFn(data interface{}) (string, error) {
 	return string(imagesJSON), nil
 }
 
-func durationFn(start interface{}, end ...interface{}) (string, error) {
+func durationFn(start any, end ...any) (string, error) {
 	var st metav1.Time
 	if s, ok := start.(string); ok && s != "" {
 		err := st.UnmarshalQueryParameter(s)
@@ -410,15 +410,15 @@ func durationFn(start interface{}, end ...interface{}) (string, error) {
 	return duration.HumanDuration(et.Sub(st.Time)), nil
 }
 
-func mapKeyCountFn(data interface{}) (string, error) {
-	var m map[string]interface{}
+func mapKeyCountFn(data any) (string, error) {
+	var m map[string]any
 
 	if s, ok := data.(string); ok && s != "" {
 		err := json.Unmarshal([]byte(s), &m)
 		if err != nil {
 			return "", err
 		}
-	} else if v, ok := data.(map[string]interface{}); ok {
+	} else if v, ok := data.(map[string]any); ok {
 		m = v
 	}
 
@@ -428,14 +428,14 @@ func mapKeyCountFn(data interface{}) (string, error) {
 	return strconv.Itoa(len(m)), nil
 }
 
-func rbacSubjects(data interface{}) (string, error) {
+func rbacSubjects(data any) (string, error) {
 	var subjects []rbac.Subject
 	if s, ok := data.(string); ok && s != "" {
 		err := json.Unmarshal([]byte(s), &subjects)
 		if err != nil {
 			return "", err
 		}
-	} else if _, ok := data.([]interface{}); ok {
+	} else if _, ok := data.([]any); ok {
 		err := meta_util.DecodeObject(data, &subjects)
 		if err != nil {
 			return "", err
@@ -453,7 +453,7 @@ func rbacSubjects(data interface{}) (string, error) {
 	return strings.Join(ss, ","), nil
 }
 
-func certificateValidity(data interface{}) (string, error) {
+func certificateValidity(data any) (string, error) {
 	certStatus := struct {
 		NotBefore metav1.Time `json:"notBefore"`
 		NotAfter  metav1.Time `json:"notAfter"`
@@ -463,7 +463,7 @@ func certificateValidity(data interface{}) (string, error) {
 		if err != nil {
 			return "", err
 		}
-	} else if _, ok := data.(map[string]interface{}); ok {
+	} else if _, ok := data.(map[string]any); ok {
 		d, err := json.Marshal(data)
 		if err != nil {
 			return "", err
@@ -485,7 +485,7 @@ func certificateValidity(data interface{}) (string, error) {
 	return duration.HumanDuration(time.Until(certStatus.NotAfter.Time)), nil
 }
 
-func formatResourceCPUFn(data interface{}) (string, error) {
+func formatResourceCPUFn(data any) (string, error) {
 	var cpu string
 	if s, ok := data.(string); ok && s != "" {
 		if strings.HasSuffix(s, "m") {
@@ -502,7 +502,7 @@ func formatResourceCPUFn(data interface{}) (string, error) {
 	return cpu, nil
 }
 
-func formatResourceMemoryFn(data interface{}) (string, error) {
+func formatResourceMemoryFn(data any) (string, error) {
 	if s, ok := data.(string); !ok || s == "" {
 		return "", nil
 	}
@@ -513,13 +513,13 @@ func formatResourceMemoryFn(data interface{}) (string, error) {
 	return fmt.Sprintf("%.1fGi", mem/1024.0/1024.0/1024.0), nil
 }
 
-func managedClusterSetFn(data interface{}) (string, error) {
+func managedClusterSetFn(data any) (string, error) {
 	conditionStr, ok := data.(string)
 	if !ok {
 		return "", fmt.Errorf("expected string input, got %T", data)
 	}
 
-	var condition map[string]interface{}
+	var condition map[string]any
 	if err := json.Unmarshal([]byte(conditionStr), &condition); err != nil {
 		return "", fmt.Errorf("failed to unmarshal condition data: %v", err)
 	}
@@ -541,8 +541,8 @@ func managedClusterSetFn(data interface{}) (string, error) {
 	return "", fmt.Errorf("message is empty or invalid")
 }
 
-func getClusterProfile(data interface{}) (string, error) {
-	labels, ok := data.(map[string]interface{})
+func getClusterProfile(data any) (string, error) {
+	labels, ok := data.(map[string]any)
 	if !ok {
 		return "", nil
 	}

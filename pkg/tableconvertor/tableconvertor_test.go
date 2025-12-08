@@ -26,7 +26,7 @@ func Test_cellForJSONValue(t *testing.T) {
 	tests := []struct {
 		headerType string
 		value      string
-		want       interface{}
+		want       any
 		wantErr    bool
 	}{
 		{"integer", "42", int64(42), false},
@@ -49,7 +49,7 @@ func Test_cellForJSONValue(t *testing.T) {
 		{"string", "true", "true", false},
 		{"string", "foo", "foo", false},
 
-		{"object", `{"app": "xyz"}`, map[string]interface{}{"app": "xyz"}, false},
+		{"object", `{"app": "xyz"}`, map[string]any{"app": "xyz"}, false},
 
 		{"unknown", "foo", nil, true},
 	}

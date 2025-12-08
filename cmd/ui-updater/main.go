@@ -71,7 +71,7 @@ func check(filename string) (string, error) {
 		return "", err
 	}
 
-	var original map[string]interface{}
+	var original map[string]any
 	err = yaml.Unmarshal(data, &original)
 	if err != nil {
 		return "", err

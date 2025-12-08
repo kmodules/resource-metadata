@@ -1,11 +1,9 @@
 module kmodules.xyz/resource-metadata
 
-go 1.23.0
-
-toolchain go1.24.0
+go 1.24.0
 
 require (
-	github.com/Masterminds/sprig/v3 v3.3.0
+	github.com/Masterminds/sprig/v3 v3.2.0
 	github.com/fluxcd/source-controller/api v1.5.0
 	github.com/gobuffalo/flect v1.0.3
 	github.com/google/go-containerregistry v0.20.3
@@ -16,8 +14,8 @@ require (
 	github.com/spf13/pflag v1.0.6
 	github.com/stretchr/testify v1.10.0
 	github.com/yudai/gojsondiff v1.0.0
-	go.bytebuilders.dev/license-verifier v0.14.9
-	golang.org/x/net v0.38.0
+	go.bytebuilders.dev/license-verifier v0.14.10
+	golang.org/x/net v0.47.0
 	gomodules.xyz/encoding v0.0.8
 	gomodules.xyz/jsonpath v0.0.2
 	gomodules.xyz/x v0.0.17
@@ -110,12 +108,12 @@ require (
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	github.com/zeebo/xxh3 v1.0.2 // indirect
-	golang.org/x/crypto v0.36.0 // indirect
+	golang.org/x/crypto v0.45.0 // indirect
 	golang.org/x/oauth2 v0.27.0 // indirect
-	golang.org/x/sync v0.12.0 // indirect
-	golang.org/x/sys v0.31.0 // indirect
-	golang.org/x/term v0.30.0 // indirect
-	golang.org/x/text v0.23.0 // indirect
+	golang.org/x/sync v0.18.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
+	golang.org/x/term v0.37.0 // indirect
+	golang.org/x/text v0.31.0 // indirect
 	golang.org/x/time v0.10.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.5.0 // indirect
 	gomodules.xyz/mergo v0.3.13 // indirect
