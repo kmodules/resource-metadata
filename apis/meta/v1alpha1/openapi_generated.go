@@ -24027,14 +24027,12 @@ func schema_resource_metadata_apis_meta_v1alpha1_TableCell(ref common.ReferenceC
 					"data": {
 						SchemaProps: spec.SchemaProps{
 							Description: "cells will be as wide as the column definitions array and may contain strings, numbers (float64 or int64), booleans, simple maps, lists, or null. See the type field of the column definition for a more detailed description.",
-							Type:        []string{"object"},
-							Format:      "",
+							Ref:         ref("any"),
 						},
 					},
 					"sort": {
 						SchemaProps: spec.SchemaProps{
-							Type:   []string{"object"},
-							Format: "",
+							Ref: ref("any"),
 						},
 					},
 					"link": {
@@ -24065,6 +24063,8 @@ func schema_resource_metadata_apis_meta_v1alpha1_TableCell(ref common.ReferenceC
 				Required: []string{"data"},
 			},
 		},
+		Dependencies: []string{
+			"any"},
 	}
 }
 
