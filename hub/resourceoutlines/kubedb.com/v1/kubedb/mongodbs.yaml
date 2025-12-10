@@ -27,8 +27,7 @@ spec:
     view:
       name: core.k8s.appscode.com-v1alpha1-genericresources-kubedb
   pages:
-  - icon: hugeicons:book-open-01
-    name: Overview
+  - name: Overview
     sections:
     - blocks:
       - actions:
@@ -126,8 +125,7 @@ spec:
           opscenter-datastore:
           - kubedb
           - kubedb-opscenter
-  - icon: hugeicons:chart-line-data-01
-    name: Insights
+  - name: Insights
     requiredFeatureSets:
       opscenter-datastore:
       - kubedb
@@ -218,8 +216,7 @@ spec:
           opscenter-datastore:
           - kubedb
           - kubedb-opscenter
-  - icon: hugeicons:user-03
-    name: Users
+  - name: Users
     sections:
     - blocks:
       - actions:
@@ -325,8 +322,7 @@ spec:
           - kubevault
         view:
           name: engine.kubevault.com-v1alpha1-secretaccessrequests
-  - icon: hugeicons:dashboard-circle-settings
-    name: Operations
+  - name: Operations
     sections:
     - blocks:
       - actions:
@@ -369,8 +365,7 @@ spec:
           sort:
             fieldName: Age
             order: Ascending
-  - icon: carbon:data-backup
-    name: Backup
+  - name: Backup
     requiredFeatureSets:
       opscenter-backup:
       - kubestash
