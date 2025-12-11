@@ -20173,6 +20173,14 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_RegistryProxies(ref common
 							Format:      "",
 						},
 					},
+					"weaviate": {
+						SchemaProps: spec.SchemaProps{
+							Description: "cr.weaviate.io",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
 				},
 			},
 		},
