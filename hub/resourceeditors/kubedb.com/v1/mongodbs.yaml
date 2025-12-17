@@ -31,6 +31,7 @@ spec:
           version: sha256:ae6c40880c323c4910fd6ac34d6ab3feaafe3f0b43f16c85ae239e60e0f9c79f
         enforceQuota: false
         flow: standalone-edit
+        icon: material-symbols-light:backup-outline
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/configure-backup.svg
           type: image/svg+xml
@@ -45,6 +46,7 @@ spec:
           version: sha256:fdb048ccc9fcdbc47fa65b5fdde02f10c4cde81f443786e073bb5668558b43e9
         enforceQuota: false
         flow: standalone-create
+        icon: carbon:ibm-cloud-backup-and-recovery
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/instant-backup.svg
           type: image/svg+xml
@@ -59,6 +61,7 @@ spec:
           version: sha256:9911d381d70ced4108b8f34fa2a78a2bee2d1f87214ba56829ab77d6728c7207
         enforceQuota: false
         flow: standalone-create
+        icon: mdi:backup-restore
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/restore.svg
           type: image/svg+xml
@@ -75,6 +78,7 @@ spec:
           version: sha256:f8662b4ec0f34aa045011f67f316bf69b765ec56f1d270c228ace8d394032987
         enforceQuota: false
         flow: standalone-create
+        icon: qlementine-icons:version-control-16
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/version.svg
           type: image/svg+xml
@@ -89,6 +93,7 @@ spec:
           version: sha256:f8662b4ec0f34aa045011f67f316bf69b765ec56f1d270c228ace8d394032987
         enforceQuota: false
         flow: standalone-create
+        icon: hugeicons:redo
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/restart.svg
           type: image/svg+xml
@@ -103,6 +108,7 @@ spec:
           version: sha256:f8662b4ec0f34aa045011f67f316bf69b765ec56f1d270c228ace8d394032987
         enforceQuota: false
         flow: standalone-create
+        icon: hugeicons:settings-05
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/reconfigure.svg
           type: image/svg+xml
@@ -110,6 +116,16 @@ spec:
         operationId: create-opsrequest-reconfigure
       name: Operations
     - items:
+      - enforceQuota: false
+        flow: ""
+        icon: hugeicons:vertical-resize
+        name: Scale Vertically
+        operationId: scale-vertically
+      - enforceQuota: false
+        flow: ""
+        icon: hugeicons:arrow-expand
+        name: Scale Storage
+        operationId: scale-storage
       - disabledTemplate: |
           {{ not (or (hasKey .spec "shardTopology") ( hasKey .spec "replicaSet"))}}
         editor:
@@ -121,6 +137,7 @@ spec:
           version: sha256:f8662b4ec0f34aa045011f67f316bf69b765ec56f1d270c228ace8d394032987
         enforceQuota: true
         flow: standalone-create
+        icon: hugeicons:horizontal-resize
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/horizontal_scale.svg
           type: image/svg+xml
@@ -140,6 +157,7 @@ spec:
           type: image/svg+xml
         name: Vertical Scale
         operationId: create-opsrequest-verticalscaling
+        partOf: Scale Vertically
       - editor:
           name: opskubedbcom-mongodbopsrequest-editor
           sourceRef:
@@ -154,6 +172,7 @@ spec:
           type: image/svg+xml
         name: Expand Volume
         operationId: create-opsrequest-volumeexpansion
+        partOf: Scale Storage
       name: Scaling
     - items:
       - editor:
@@ -170,6 +189,7 @@ spec:
           type: image/svg+xml
         name: Compute
         operationId: edit-self-compute-autoscaler
+        partOf: Scale Vertically
       - editor:
           name: kubedbcom-mongodb-editor
           sourceRef:
@@ -184,6 +204,7 @@ spec:
           type: image/svg+xml
         name: Storage
         operationId: edit-self-storage-autoscaler
+        partOf: Scale Storage
       name: Autoscaling
     - items:
       - editor:
@@ -195,6 +216,7 @@ spec:
           version: sha256:f8662b4ec0f34aa045011f67f316bf69b765ec56f1d270c228ace8d394032987
         enforceQuota: false
         flow: standalone-create
+        icon: hugeicons:security-check
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/configure.svg
           type: image/svg+xml
@@ -209,6 +231,7 @@ spec:
           version: sha256:ae6c40880c323c4910fd6ac34d6ab3feaafe3f0b43f16c85ae239e60e0f9c79f
         enforceQuota: false
         flow: standalone-edit
+        icon: hugeicons:presentation-line-chart-01
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/monitor.svg
           type: image/svg+xml
@@ -225,6 +248,7 @@ spec:
           version: sha256:ae6c40880c323c4910fd6ac34d6ab3feaafe3f0b43f16c85ae239e60e0f9c79f
         enforceQuota: false
         flow: standalone-edit
+        icon: streamline-ultimate:server-share
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/configure.svg
           type: image/svg+xml
