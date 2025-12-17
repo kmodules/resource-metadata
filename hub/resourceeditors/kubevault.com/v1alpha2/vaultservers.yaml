@@ -27,7 +27,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: v0.28.0
+      version: sha256:d11258850aba982aaedb80f28705ed6ef5e46da0eeeaf011f5d94f4ace119991
     enforceQuota: false
     options:
       name: kubevaultcom-vaultserver-editor-options
@@ -35,7 +35,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: v0.28.0
+      version: sha256:cbe63cdba172e5f23b16e4be98dbd16924b99a74282f06a3b0fbea9be6252ad6
   variants:
   - name: default
     selector:
