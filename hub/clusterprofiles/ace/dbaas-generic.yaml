@@ -1,7 +1,6 @@
 apiVersion: ui.k8s.appscode.com/v1alpha1
 kind: ClusterProfile
 metadata:
-  creationTimestamp: null
   name: dbaas-generic
 spec:
   description: This profile is suitable for any Kubernetes clusters used as KubeDB managed DBaaS
