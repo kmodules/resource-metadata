@@ -1,7 +1,6 @@
 apiVersion: ui.k8s.appscode.com/v1alpha1
 kind: ClusterProfile
 metadata:
-  creationTimestamp: null
   name: dbaas-client-org
 spec:
   description: This profile is suitable for client organizations using KubeDB to manage DBaaS.
