@@ -23,7 +23,8 @@ spec:
     view:
       name: core.k8s.appscode.com-v1alpha1-genericresources-kubedb
   pages:
-  - name: Overview
+  - icon: hugeicons:book-open-01
+    name: Overview
     sections:
     - blocks:
       - actions:
@@ -105,7 +106,8 @@ spec:
         requiredFeatureSets:
           opscenter-datastore:
           - kubedb
-  - name: Insights
+  - icon: hugeicons:chart-line-data-01
+    name: Insights
     requiredFeatureSets:
       opscenter-datastore:
       - kubedb
@@ -145,7 +147,8 @@ spec:
           - monitoring-operator
         view:
           name: ui.k8s.appscode.com-v1alpha1-resourcedashboards-urls
-  - name: Operations
+  - icon: hugeicons:dashboard-circle-settings
+    name: Operations
     sections:
     - blocks:
       - actions:
@@ -188,7 +191,8 @@ spec:
           sort:
             fieldName: Age
             order: Ascending
-  - name: Backup
+  - icon: carbon:data-backup
+    name: Backup
     requiredFeatureSets:
       opscenter-backup:
       - kubestash
@@ -196,7 +200,8 @@ spec:
     - blocks:
       - kind: Block
         name: core.kubestash.com-v1alpha1-kubedb-backup
-  - name: Security
+  - icon: hugeicons:database-locked
+    name: Security
     sections:
     - blocks:
       - kind: Custom
@@ -234,7 +239,8 @@ spec:
         opscenter-security:
         - falco
         - falco-ui-server
-  - name: Manifests
+  - icon: hugeicons:file-02
+    name: Manifests
     sections:
     - info:
         kind: Custom

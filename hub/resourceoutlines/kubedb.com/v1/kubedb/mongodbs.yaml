@@ -377,7 +377,8 @@ spec:
     - blocks:
       - kind: Block
         name: core.kubestash.com-v1alpha1-kubedb-backup
-  - name: Backup (Legacy)
+  - icon: carbon:data-backup
+    name: Backup (Legacy)
     requiredFeatureSets:
       opscenter-backup:
       - stash
@@ -451,7 +452,8 @@ spec:
           opscenter-backup:
           - stash
           - stash-opscenter
-  - name: Security
+  - icon: hugeicons:database-locked
+    name: Security
     sections:
     - blocks:
       - kind: Custom
@@ -489,7 +491,8 @@ spec:
         opscenter-security:
         - falco
         - falco-ui-server
-  - name: Manifests
+  - icon: hugeicons:file-02
+    name: Manifests
     sections:
     - info:
         kind: Custom

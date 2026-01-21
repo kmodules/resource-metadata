@@ -10,12 +10,14 @@ metadata:
 spec:
   defaultLayout: true
   pages:
-  - name: Overview
+  - icon: hugeicons:book-open-01
+    name: Overview
     sections:
     - blocks:
       - kind: Block
         name: kubedb.com-v1-redises
-  - name: Users
+  - icon: hugeicons:user-03
+    name: Users
     sections:
     - blocks:
       - actions:
@@ -109,7 +111,8 @@ spec:
         requiredFeatureSets:
           opscenter-secret-management:
           - kubevault
-  - name: Operations
+  - icon: hugeicons:dashboard-circle-settings
+    name: Operations
     sections:
     - blocks:
       - actions:
@@ -141,7 +144,8 @@ spec:
           - supervisor
         view:
           name: supervisor.appscode.com-v1alpha1-recommendations
-  - name: Backup
+  - icon: carbon:data-backup
+    name: Backup
     requiredFeatureSets:
       opscenter-backup:
       - kubestash
@@ -149,7 +153,8 @@ spec:
     - blocks:
       - kind: Block
         name: core.kubestash.com-v1alpha1-kubedb-backup
-  - name: Backup (Legacy)
+  - icon: carbon:data-backup
+    name: Backup (Legacy)
     requiredFeatureSets:
       opscenter-backup:
       - stash
@@ -163,7 +168,8 @@ spec:
     - blocks:
       - kind: Block
         name: monitoring.coreos.com-v1-kubedb-monitoring
-  - name: Security
+  - icon: hugeicons:database-locked
+    name: Security
     sections:
     - blocks:
       - kind: Custom
