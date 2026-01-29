@@ -31,6 +31,7 @@ spec:
           version: v0.29.0
         enforceQuota: false
         flow: standalone-create
+        icon: hugeicons:redo
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/restart.svg
           type: image/svg+xml
@@ -45,6 +46,7 @@ spec:
           version: v0.29.0
         enforceQuota: false
         flow: standalone-create
+        icon: hugeicons:settings-05
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/reconfigure.svg
           type: image/svg+xml
@@ -52,6 +54,16 @@ spec:
         operationId: create-opsrequest-reconfigure
       name: Operations
     - items:
+      - enforceQuota: false
+        flow: ""
+        icon: hugeicons:vertical-resize
+        name: Scale Vertically
+        operationId: scale-vertically
+      - enforceQuota: false
+        flow: ""
+        icon: hugeicons:arrow-expand
+        name: Scale Storage
+        operationId: scale-storage
       - disabledTemplate: |
           {{ not (gt .spec.replicas 1) }}
         editor:
@@ -63,6 +75,7 @@ spec:
           version: v0.29.0
         enforceQuota: true
         flow: standalone-create
+        icon: hugeicons:horizontal-resize
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/horizontal_scale.svg
           type: image/svg+xml
@@ -82,6 +95,7 @@ spec:
           type: image/svg+xml
         name: Vertical Scale
         operationId: create-opsrequest-verticalscaling
+        partOf: Scale Vertically
       - editor:
           name: opskubedbcom-perconaxtradbopsrequest-editor
           sourceRef:
@@ -96,6 +110,7 @@ spec:
           type: image/svg+xml
         name: Expand Volume
         operationId: create-opsrequest-volumeexpansion
+        partOf: Scale Storage
       name: Scaling
     - items:
       - editor:
@@ -112,6 +127,7 @@ spec:
           type: image/svg+xml
         name: Compute
         operationId: edit-self-compute-autoscaler
+        partOf: Scale Vertically
       - editor:
           name: kubedbcom-perconaxtradb-editor
           sourceRef:
@@ -126,6 +142,7 @@ spec:
           type: image/svg+xml
         name: Storage
         operationId: edit-self-storage-autoscaler
+        partOf: Scale Storage
       name: Autoscaling
     - items:
       - editor:
@@ -137,6 +154,7 @@ spec:
           version: v0.29.0
         enforceQuota: false
         flow: standalone-create
+        icon: hugeicons:security-check
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/configure.svg
           type: image/svg+xml
@@ -151,6 +169,7 @@ spec:
           version: v0.29.0
         enforceQuota: false
         flow: standalone-edit
+        icon: hugeicons:presentation-line-chart-01
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/monitor.svg
           type: image/svg+xml

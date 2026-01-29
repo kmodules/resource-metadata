@@ -23,7 +23,8 @@ spec:
     view:
       name: core.k8s.appscode.com-v1alpha1-genericresources-kubedb
   pages:
-  - name: Overview
+  - icon: hugeicons:book-open-01
+    name: Overview
     sections:
     - blocks:
       - actions:
@@ -121,7 +122,8 @@ spec:
           opscenter-datastore:
           - kubedb
           - kubedb-opscenter
-  - name: Insights
+  - icon: hugeicons:chart-line-data-01
+    name: Insights
     requiredFeatureSets:
       opscenter-datastore:
       - kubedb
@@ -212,7 +214,8 @@ spec:
           opscenter-datastore:
           - kubedb
           - kubedb-opscenter
-  - name: Users
+  - icon: hugeicons:user-03
+    name: Users
     sections:
     - blocks:
       - actions:
@@ -318,7 +321,8 @@ spec:
           - kubevault
         view:
           name: engine.kubevault.com-v1alpha1-secretaccessrequests
-  - name: Operations
+  - icon: hugeicons:dashboard-circle-settings
+    name: Operations
     sections:
     - blocks:
       - actions:
@@ -358,7 +362,8 @@ spec:
           sort:
             fieldName: Age
             order: Ascending
-  - name: Backup
+  - icon: carbon:data-backup
+    name: Backup
     requiredFeatureSets:
       opscenter-backup:
       - kubestash
@@ -366,7 +371,8 @@ spec:
     - blocks:
       - kind: Block
         name: core.kubestash.com-v1alpha1-kubedb-backup
-  - name: Backup (Legacy)
+  - icon: carbon:data-backup
+    name: Backup (Legacy)
     requiredFeatureSets:
       opscenter-backup:
       - stash
@@ -440,7 +446,8 @@ spec:
           opscenter-backup:
           - stash
           - stash-opscenter
-  - name: Security
+  - icon: hugeicons:database-locked
+    name: Security
     sections:
     - blocks:
       - kind: Custom
@@ -478,7 +485,8 @@ spec:
         opscenter-security:
         - falco
         - falco-ui-server
-  - name: Manifests
+  - icon: hugeicons:file-02
+    name: Manifests
     sections:
     - info:
         kind: Custom

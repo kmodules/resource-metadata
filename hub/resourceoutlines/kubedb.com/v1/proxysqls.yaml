@@ -10,12 +10,14 @@ metadata:
 spec:
   defaultLayout: true
   pages:
-  - name: Overview
+  - icon: hugeicons:book-open-01
+    name: Overview
     sections:
     - blocks:
       - kind: Block
         name: kubedb.com-v1-proxysqls
-  - name: Operations
+  - icon: hugeicons:dashboard-circle-settings
+    name: Operations
     sections:
     - blocks:
       - actions:
@@ -52,7 +54,8 @@ spec:
     - blocks:
       - kind: Block
         name: monitoring.coreos.com-v1-kubedb-monitoring
-  - name: Security
+  - icon: hugeicons:database-locked
+    name: Security
     sections:
     - blocks:
       - kind: Custom

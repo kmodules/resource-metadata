@@ -15,7 +15,8 @@ spec:
     - blocks:
       - kind: Block
         name: kubedb.com-v1alpha2-memcacheds
-  - name: Operations
+  - icon: hugeicons:dashboard-circle-settings
+    name: Operations
     sections:
     - blocks:
       - actions:
@@ -58,7 +59,8 @@ spec:
           sort:
             fieldName: Age
             order: Ascending
-  - name: Backup
+  - icon: carbon:data-backup
+    name: Backup
     requiredFeatureSets:
       opscenter-backup:
       - kubestash
@@ -66,7 +68,8 @@ spec:
     - blocks:
       - kind: Block
         name: core.kubestash.com-v1alpha1-kubedb-backup
-  - name: Backup (Legacy)
+  - icon: carbon:data-backup
+    name: Backup (Legacy)
     requiredFeatureSets:
       opscenter-backup:
       - stash
@@ -80,7 +83,8 @@ spec:
     - blocks:
       - kind: Block
         name: monitoring.coreos.com-v1-kubedb-monitoring
-  - name: Security
+  - icon: hugeicons:database-locked
+    name: Security
     sections:
     - blocks:
       - kind: Custom
@@ -118,7 +122,8 @@ spec:
         opscenter-security:
         - falco
         - falco-ui-server
-  - name: Manifests
+  - icon: hugeicons:file-02
+    name: Manifests
     sections:
     - info:
         kind: Custom
