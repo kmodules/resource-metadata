@@ -28,7 +28,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:4adaa6c44932d422dca5d824e4f8e52ececf35e39fa2d2c503403d5b6b062a3f
+          version: v0.30.0
         enforceQuota: false
         flow: standalone-create
         icon: qlementine-icons:version-control-16
@@ -43,7 +43,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:4adaa6c44932d422dca5d824e4f8e52ececf35e39fa2d2c503403d5b6b062a3f
+          version: v0.30.0
         enforceQuota: false
         flow: standalone-create
         icon: hugeicons:redo
@@ -65,7 +65,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:4adaa6c44932d422dca5d824e4f8e52ececf35e39fa2d2c503403d5b6b062a3f
+          version: v0.30.0
         enforceQuota: true
         flow: standalone-create
         icon: hugeicons:horizontal-resize
@@ -80,7 +80,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:4adaa6c44932d422dca5d824e4f8e52ececf35e39fa2d2c503403d5b6b062a3f
+          version: v0.30.0
         enforceQuota: true
         flow: standalone-create
         icons:
@@ -97,7 +97,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:575dfd02c8ebaddba6ee50f3de9db107b9d844aa3a546881f0d26238d58a12d9
+          version: v0.30.0
         enforceQuota: true
         flow: standalone-edit
         icons:
@@ -114,7 +114,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:4adaa6c44932d422dca5d824e4f8e52ececf35e39fa2d2c503403d5b6b062a3f
+          version: v0.30.0
         enforceQuota: false
         flow: standalone-create
         icon: hugeicons:security-check
@@ -129,7 +129,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:575dfd02c8ebaddba6ee50f3de9db107b9d844aa3a546881f0d26238d58a12d9
+          version: v0.30.0
         enforceQuota: false
         flow: standalone-edit
         icon: hugeicons:presentation-line-chart-01
@@ -146,7 +146,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:575dfd02c8ebaddba6ee50f3de9db107b9d844aa3a546881f0d26238d58a12d9
+          version: v0.30.0
         enforceQuota: false
         flow: standalone-edit
         icon: streamline-ultimate:server-share
@@ -162,7 +162,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:575dfd02c8ebaddba6ee50f3de9db107b9d844aa3a546881f0d26238d58a12d9
+      version: v0.30.0
     enforceQuota: true
     options:
       name: kubedbcom-ferretdb-editor-options
@@ -170,7 +170,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:2679fce0c58e43c59698b3b77a9964d3ae91936676b592e58c56cc84f6c7a592
+      version: v0.30.0
   variants:
   - name: default
     selector:
