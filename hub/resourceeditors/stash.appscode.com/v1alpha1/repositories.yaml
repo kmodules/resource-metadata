@@ -26,7 +26,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:00009e1c8eb58f7a92ac17ca20262192513c28f71f2081a51258612cac17b0cb
+      version: v0.30.0
     enforceQuota: false
     options:
       name: stashappscodecom-repository-editor-options
@@ -34,4 +34,4 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:15cd2b297316d9f1864b194f22f97027fc78e0a6354f39f71f8d9736ec65ef12
+      version: v0.30.0
