@@ -94,13 +94,13 @@ func GenDescriptor(dir string) error {
 			schema.Schema = "http://json-schema.org/schema#"
 			if prop, ok := schema.Properties["apiVersion"]; ok {
 				prop.Enum = []crdv1.JSON{
-					{Raw: []byte(fmt.Sprintf("%q", rd.Spec.Resource.GroupVersion()))},
+					{Raw: fmt.Appendf(nil, "%q", rd.Spec.Resource.GroupVersion())},
 				}
 				schema.Properties["apiVersion"] = prop
 			}
 			if prop, ok := schema.Properties["kind"]; ok {
 				prop.Enum = []crdv1.JSON{
-					{Raw: []byte(fmt.Sprintf("%q", rd.Spec.Resource.Kind))},
+					{Raw: fmt.Appendf(nil, "%q", rd.Spec.Resource.Kind)},
 				}
 				schema.Properties["kind"] = prop
 			}
@@ -191,8 +191,8 @@ func ImportCRD(dir string) error {
 	if err != nil {
 		return err
 	}
-	lines := strings.Split(string(data), "\n")
-	for _, line := range lines {
+	lines := strings.SplitSeq(string(data), "\n")
+	for line := range lines {
 		line = strings.TrimSpace(line)
 		if line == "" {
 			continue

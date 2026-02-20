@@ -314,33 +314,34 @@ func describeVolume(volume core.Volume) string {
 			"}", volume.Name, flocker.DatasetName, flocker.DatasetUUID)
 	case volume.Projected != nil:
 		projected := volume.Projected
-		sources := "["
+		var sources strings.Builder
+		sources.WriteString("[")
 		for i, source := range projected.Sources {
-			sources += "{"
+			sources.WriteString("{")
 			if source.Secret != nil {
-				sources += "\"Type\": \"Secret\","
-				sources += fmt.Sprintf("\"SecretName\": %q", source.Secret.Name)
+				sources.WriteString("\"Type\": \"Secret\",")
+				sources.WriteString(fmt.Sprintf("\"SecretName\": %q", source.Secret.Name))
 			} else if source.DownwardAPI != nil {
-				sources += "\"Type\": \"DownwardAPI\","
-				sources += "\"DownwardAPI\": \"true\""
+				sources.WriteString("\"Type\": \"DownwardAPI\",")
+				sources.WriteString("\"DownwardAPI\": \"true\"")
 			} else if source.ConfigMap != nil {
-				sources += "\"Type\": \"ConfigMap\","
-				sources += fmt.Sprintf("\"ConfigMapName\": %q", source.ConfigMap.Name)
+				sources.WriteString("\"Type\": \"ConfigMap\",")
+				sources.WriteString(fmt.Sprintf("\"ConfigMapName\": %q", source.ConfigMap.Name))
 			} else if source.ServiceAccountToken != nil {
-				sources += "\"Type\": \"ServiceAccountToken\","
-				sources += fmt.Sprintf("\"TokenExpirationSeconds\": \"%v\"", source.ServiceAccountToken.ExpirationSeconds)
+				sources.WriteString("\"Type\": \"ServiceAccountToken\",")
+				sources.WriteString(fmt.Sprintf("\"TokenExpirationSeconds\": \"%v\"", source.ServiceAccountToken.ExpirationSeconds))
 			}
-			sources += "}"
+			sources.WriteString("}")
 			if i < len(projected.Sources)-1 {
-				sources += ","
+				sources.WriteString(",")
 			}
 		}
-		sources += "]"
+		sources.WriteString("]")
 		return fmt.Sprintf("{"+
 			"\"Name\": %q,"+
 			"\"Type\": \"Projected\","+
 			"\"sources\": %v"+
-			"}", volume.Name, sources)
+			"}", volume.Name, sources.String())
 	case volume.CSI != nil:
 		csi := volume.CSI
 		var readOnly bool

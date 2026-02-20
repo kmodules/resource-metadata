@@ -69,7 +69,7 @@ var (
 				cpMap[obj.Name] = &obj
 				return nil
 			}); err != nil {
-				panic(errors.Wrapf(err, "failed to load %s", reflect.TypeOf(v1alpha1.ClusterProfile{})))
+				panic(errors.Wrapf(err, "failed to load %s", reflect.TypeFor[v1alpha1.ClusterProfile]()))
 			}
 		},
 	)
