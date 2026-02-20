@@ -18,6 +18,7 @@ package tableconvertor
 
 import (
 	"fmt"
+	"maps"
 	"strconv"
 	"strings"
 	"text/template"
@@ -67,17 +68,13 @@ func init() {
 	templateFns["count_managed_clusters"] = managedClusterSetFn
 	templateFns["get_cluster_profile"] = getClusterProfile
 	// ref: https://github.com/kmodules/resource-metrics/blob/bf6b257f8922a5572ccd20bf1cbab6bbedf4fcb4/template.go#L26-L36
-	for name, fn := range resourcemetrics.TxtFuncMap() {
-		templateFns[name] = fn
-	}
+	maps.Copy(templateFns, resourcemetrics.TxtFuncMap())
 }
 
 // TxtFuncMap returns a 'text/template'.FuncMap
 func TxtFuncMap() template.FuncMap {
 	gfm := make(map[string]any, len(templateFns))
-	for k, v := range templateFns {
-		gfm[k] = v
-	}
+	maps.Copy(gfm, templateFns)
 	return gfm
 }
 
@@ -241,15 +238,16 @@ func volumesFn(data any) (string, error) {
 		}
 	}
 
-	ss := "["
+	var ss strings.Builder
+	ss.WriteString("[")
 	for i := range volumes {
-		ss += describeVolume(volumes[i])
+		ss.WriteString(describeVolume(volumes[i]))
 		if i < len(volumes)-1 {
-			ss += ","
+			ss.WriteString(",")
 		}
 	}
-	ss += "]"
-	return ss, nil
+	ss.WriteString("]")
+	return ss.String(), nil
 }
 
 func volumeMountsFn(data any) (string, error) {

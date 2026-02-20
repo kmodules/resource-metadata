@@ -76,18 +76,18 @@ var (
 					if rv, ok := rtdPerGK[gvk]; !ok {
 						rtdPerGK[gvk] = &obj
 					} else {
-						return fmt.Errorf("multiple %s found for %+v: %s and %s", reflect.TypeOf(v1alpha1.ResourceTableDefinition{}), gvk, rv.Name, obj.Name)
+						return fmt.Errorf("multiple %s found for %+v: %s and %s", reflect.TypeFor[v1alpha1.ResourceTableDefinition](), gvk, rv.Name, obj.Name)
 					}
 					gvr := obj.Spec.Resource.GroupVersionResource()
 					if rv, ok := rtdPerGR[gvr]; !ok {
 						rtdPerGR[gvr] = &obj
 					} else {
-						return fmt.Errorf("multiple %s found for %+v: %s and %s", reflect.TypeOf(v1alpha1.ResourceTableDefinition{}), gvk, rv.Name, obj.Name)
+						return fmt.Errorf("multiple %s found for %+v: %s and %s", reflect.TypeFor[v1alpha1.ResourceTableDefinition](), gvk, rv.Name, obj.Name)
 					}
 				}
 				return nil
 			}); err != nil {
-				panic(errors.Wrapf(err, "failed to load %s", reflect.TypeOf(v1alpha1.ResourceTableDefinition{})))
+				panic(errors.Wrapf(err, "failed to load %s", reflect.TypeFor[v1alpha1.ResourceTableDefinition]()))
 			}
 		},
 	)

@@ -75,24 +75,24 @@ var (
 					gvr := obj.Spec.Resource.GroupVersionResource()
 					expectedName := DefaultLayoutName(gvr)
 					if obj.Name != expectedName {
-						return fmt.Errorf("expected default %s name to be %s, found %s", reflect.TypeOf(v1alpha1.ResourceOutline{}), expectedName, obj.Name)
+						return fmt.Errorf("expected default %s name to be %s, found %s", reflect.TypeFor[v1alpha1.ResourceOutline](), expectedName, obj.Name)
 					}
 
 					gvk := obj.Spec.Resource.GroupVersionKind()
 					if rv, ok := rlPerGK[gvk]; !ok {
 						rlPerGK[gvk] = &obj
 					} else {
-						return fmt.Errorf("multiple %s found for %+v: %s and %s", reflect.TypeOf(v1alpha1.ResourceOutline{}), gvk, rv.Name, obj.Name)
+						return fmt.Errorf("multiple %s found for %+v: %s and %s", reflect.TypeFor[v1alpha1.ResourceOutline](), gvk, rv.Name, obj.Name)
 					}
 					if rv, ok := rlPerGR[gvr]; !ok {
 						rlPerGR[gvr] = &obj
 					} else {
-						return fmt.Errorf("multiple %s found for %+v: %s and %s", reflect.TypeOf(v1alpha1.ResourceOutline{}), gvk, rv.Name, obj.Name)
+						return fmt.Errorf("multiple %s found for %+v: %s and %s", reflect.TypeFor[v1alpha1.ResourceOutline](), gvk, rv.Name, obj.Name)
 					}
 				}
 				return nil
 			}); err != nil {
-				panic(errors.Wrapf(err, "failed to load %s", reflect.TypeOf(v1alpha1.ResourceOutline{})))
+				panic(errors.Wrapf(err, "failed to load %s", reflect.TypeFor[v1alpha1.ResourceOutline]()))
 			}
 		},
 	)

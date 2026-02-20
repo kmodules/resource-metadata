@@ -19,6 +19,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"slices"
 
 	kmapi "kmodules.xyz/client-go/api/v1"
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
@@ -32,13 +33,7 @@ func main() {
 		for _, c := range rdSrc.Spec.Connections {
 			rdTarget, _ := reg.LoadByGVK(c.Target.GroupVersionKind())
 
-			var offshoot bool
-			for _, lbl := range c.Labels {
-				if lbl == kmapi.EdgeLabelOffshoot {
-					offshoot = true
-					break
-				}
-			}
+			offshoot := slices.Contains(c.Labels, kmapi.EdgeLabelOffshoot)
 			if offshoot {
 				if rdSrc.Spec.Resource.Scope != rdTarget.Spec.Resource.Scope {
 					fmt.Printf("%+v has an offshoot label edge with %+v, but their scope does not match\n", rdSrc.Spec.Resource.GroupVersionKind(), rdTarget.Spec.Resource.GroupVersionKind())
