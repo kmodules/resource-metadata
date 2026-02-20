@@ -189,6 +189,13 @@ func (r *Registry) RegisterGVR(gvr schema.GroupVersionResource) error {
 	r.regGVK[rd.Spec.Resource.GroupVersionKind()] = &rd.Spec.Resource
 	r.regGVR[rd.Spec.Resource.GroupVersionResource()] = &rd.Spec.Resource
 	r.cache.Set(filename, rd)
+
+	if existing, ok := r.preferred[gvr.GroupResource()]; !ok {
+		r.preferred[gvr.GroupResource()] = gvr
+	} else if diff, _ := apiversion.Compare(existing.Version, gvr.Version); diff < 0 {
+		r.preferred[gvr.GroupResource()] = gvr
+	}
+
 	return nil
 }
 
@@ -275,7 +282,11 @@ func (r *Registry) createRegistry(cfg *rest.Config) (map[schema.GroupResource]sc
 	preferred := make(map[schema.GroupResource]schema.GroupVersionResource)
 	for _, rd := range reg {
 		gvr := rd.Spec.Resource.GroupVersionResource()
-		preferred[gvr.GroupResource()] = gvr
+		if existing, ok := preferred[gvr.GroupResource()]; !ok {
+			preferred[gvr.GroupResource()] = gvr
+		} else if diff, _ := apiversion.Compare(existing.Version, gvr.Version); diff < 0 {
+			preferred[gvr.GroupResource()] = gvr
+		}
 	}
 
 	err = fs.WalkDir(resourcedescriptors.EmbeddedFS(), ".", func(filename string, e fs.DirEntry, err error) error {
