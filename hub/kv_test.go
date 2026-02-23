@@ -46,7 +46,7 @@ func TestRegister(t *testing.T) {
 		Resource: "prometheuses",
 	}
 	reg := NewRegistry(config.Host, NewKVLocal())
-	assert.NoError(t, reg.Register(gvr, config))
+	assert.NoError(t, reg.Rediscover(gvr, config))
 	rd1, err := resourcedescriptors.LoadByGVR(gvr)
 	assert.NoError(t, err)
 	rd2, err := resourcedescriptors.LoadByName("monitoring.coreos.com-v1-prometheuses")
