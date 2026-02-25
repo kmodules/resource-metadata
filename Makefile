@@ -493,5 +493,4 @@ clean:
 .PHONY: publish-icons
 publish-icons:
 	@echo "publishing icons"
-	gsutil -m rsync -d -r $$(pwd)/icons gs://cdn.appscode.com/k8s/icons
-	gsutil -m acl ch -u AllUsers:R -r gs://cdn.appscode.com/k8s/icons
+	aws s3 sync $$(pwd)/icons s3://cdn-appscode-com/k8s/icons --delete --acl public-read
