@@ -27,7 +27,7 @@ jobs:
           echo "install aws cli"
           sudo apt-get -qq update || true
           sudo apt-get install -y python3-pip
-          pip3 install awscli
+          pipx install awscli
           echo
           echo "configure aws credentials"
           aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
