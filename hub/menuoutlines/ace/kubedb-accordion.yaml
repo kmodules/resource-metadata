@@ -26,6 +26,12 @@ spec:
         group: kubedb.com
         kind: ClickHouse
     - featureMode: GA
+      layoutName: kubedb.com-v1alpha2-db2s-kubedb
+      name: DB2
+      type:
+        group: kubedb.com
+        kind: DB2
+    - featureMode: GA
       layoutName: kubedb.com-v1alpha2-druids-kubedb
       name: Druid
       type:
@@ -43,6 +49,12 @@ spec:
       type:
         group: kubedb.com
         kind: FerretDB
+    - featureMode: GA
+      layoutName: kubedb.com-v1alpha2-hanadbs-kubedb
+      name: HanaDB
+      type:
+        group: kubedb.com
+        kind: HanaDB
     - featureMode: GA
       layoutName: kubedb.com-v1alpha2-hazelcasts-kubedb
       name: Hazelcast
@@ -74,6 +86,12 @@ spec:
         group: kubedb.com
         kind: Memcached
     - featureMode: GA
+      layoutName: kubedb.com-v1alpha2-milvuses-kubedb
+      name: Milvus
+      type:
+        group: kubedb.com
+        kind: Milvus
+    - featureMode: GA
       layoutName: kubedb.com-v1-mongodbs-kubedb
       name: MongoDB
       type:
@@ -91,6 +109,12 @@ spec:
       type:
         group: kubedb.com
         kind: MySQL
+    - featureMode: GA
+      layoutName: kubedb.com-v1alpha2-neo4js-kubedb
+      name: Neo4j
+      type:
+        group: kubedb.com
+        kind: Neo4j
     - featureMode: GA
       layoutName: kubedb.com-v1alpha2-oracles-kubedb
       name: Oracle
@@ -128,6 +152,12 @@ spec:
         group: kubedb.com
         kind: ProxySQL
     - featureMode: GA
+      layoutName: kubedb.com-v1alpha2-qdrants-kubedb
+      name: Qdrant
+      type:
+        group: kubedb.com
+        kind: Qdrant
+    - featureMode: GA
       layoutName: kubedb.com-v1alpha2-rabbitmqs-kubedb
       name: RabbitMQ
       type:
@@ -151,6 +181,12 @@ spec:
       type:
         group: kubedb.com
         kind: Solr
+    - featureMode: GA
+      layoutName: kubedb.com-v1alpha2-weaviates-kubedb
+      name: Weaviate
+      type:
+        group: kubedb.com
+        kind: Weaviate
     - featureMode: GA
       layoutName: kubedb.com-v1alpha2-zookeepers-kubedb
       name: ZooKeeper
