@@ -1,0 +1,215 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceOutline
+metadata:
+  labels:
+    k8s.io/group: kubedb.com
+    k8s.io/kind: DB2
+    k8s.io/resource: db2s
+    k8s.io/version: v1alpha2
+  name: kubedb.com-v1alpha2-db2s
+spec:
+  defaultLayout: true
+  pages:
+    - icon: hugeicons:book-open-01
+      name: Overview
+      sections:
+        - blocks:
+            - kind: Block
+              name: kubedb.com-v1alpha2-db2s
+    - icon: hugeicons:user-03
+      name: Users
+      sections:
+        - blocks:
+            - actions:
+                create: Never
+              displayMode: List
+              kind: Connection
+              name: Root User
+              query:
+                byLabel: auth_secret
+                type: GraphQL
+              ref:
+                group: ""
+                kind: Secret
+            - actions:
+                create: Never
+              displayMode: List
+              kind: Connection
+              name: AppBinding
+              query:
+                byLabel: connect_via
+                type: GraphQL
+              ref:
+                group: appcatalog.appscode.com
+                kind: AppBinding
+              requiredFeatureSets:
+                opscenter-datastore:
+                  - kubedb
+            - actions:
+                create: Never
+              displayMode: List
+              kind: Connection
+              name: VaultServers
+              query:
+                raw: |-
+                  query Find($src: String!, $targetGroup: String!, $targetKind: String!) {
+                    find(oid: $src) {
+                      authz(group: "engine.kubevault.com", kind: "SecretEngine") {
+                        refs: offshoot(group: $targetGroup, kind: $targetKind) {
+                          namespace
+                          name
+                        }
+                      }
+                   }
+                  }
+                type: GraphQL
+              ref:
+                group: kubevault.com
+                kind: VaultServer
+              requiredFeatureSets:
+                opscenter-secret-management:
+                  - kubevault
+            - actions:
+                create: Never
+              displayMode: List
+              kind: Connection
+              name: SecretEngines
+              query:
+                byLabel: authz
+                type: GraphQL
+              ref:
+                group: engine.kubevault.com
+                kind: SecretEngine
+              requiredFeatureSets:
+                opscenter-secret-management:
+                  - kubevault
+            - actions:
+                create: Never
+              displayMode: List
+              kind: Connection
+              name: DB2Roles
+              query:
+                byLabel: authz
+                type: GraphQL
+              ref:
+                group: engine.kubevault.com
+                kind: DB2Role
+              requiredFeatureSets:
+                opscenter-secret-management:
+                  - kubevault
+            - actions:
+                create: Never
+              displayMode: List
+              kind: Connection
+              name: SecretAccessRequests
+              query:
+                byLabel: authz
+                type: GraphQL
+              ref:
+                group: engine.kubevault.com
+                kind: SecretAccessRequest
+              requiredFeatureSets:
+                opscenter-secret-management:
+                  - kubevault
+    - icon: hugeicons:dashboard-circle-settings
+      name: Operations
+      sections:
+        - blocks:
+            - actions:
+                create: Always
+              displayMode: List
+              kind: Connection
+              name: Recent Operations
+              query:
+                byLabel: ops
+                type: GraphQL
+              ref:
+                group: ops.kubedb.com
+                kind: DB2OpsRequest
+            - actions:
+                create: Always
+              displayMode: List
+              kind: Connection
+              name: Recommendations
+              query:
+                byLabel: recommended_for
+                type: GraphQL
+              ref:
+                group: supervisor.appscode.com
+                kind: Recommendation
+              requiredFeatureSets:
+                opscenter-datastore:
+                  - kubedb
+                opscenter-tools:
+                  - supervisor
+              view:
+                name: supervisor.appscode.com-v1alpha1-recommendations
+    - icon: carbon:data-backup
+      name: Backup
+      requiredFeatureSets:
+        opscenter-backup:
+          - kubestash
+      sections:
+        - blocks:
+            - kind: Block
+              name: core.kubestash.com-v1alpha1-kubedb-backup
+    - icon: carbon:data-backup
+      name: Backup (Legacy)
+      requiredFeatureSets:
+        opscenter-backup:
+          - stash
+          - stash-opscenter
+      sections:
+        - blocks:
+            - kind: Block
+              name: stash.appscode.com-v1-kubedb-backup
+    - name: Monitoring
+      sections:
+        - blocks:
+            - kind: Block
+              name: monitoring.coreos.com-v1-kubedb-monitoring
+    - icon: hugeicons:database-locked
+      name: Security
+      sections:
+        - blocks:
+            - kind: Custom
+              name: CVE Report
+          name: CVE Report
+          requiredFeatureSets:
+            opscenter-security:
+              - scanner
+        - blocks:
+            - kind: Block
+              name: rbac.authorization.k8s.io-v1-accesscontrols
+          name: Access Control
+        - blocks:
+            - kind: Block
+              name: cert-manager.io-v1-tls
+          name: TLS
+          requiredFeatureSets:
+            opscenter-security:
+              - cert-manager
+        - blocks:
+            - kind: Block
+              name: policy-v1-policies
+          name: Policies
+          requiredFeatureSets:
+            opscenter-policy-management:
+              - gatekeeper
+              - gatekeeper-templates
+              - gatekeeper-constraints
+              - gatekeeper-grafana-dashboards
+        - blocks:
+            - kind: Block
+              name: falco.appscode.com-v1alpha1-falcoevents-app
+          name: Runtime Security
+          requiredFeatureSets:
+            opscenter-security:
+              - falco
+              - falco-ui-server
+  resource:
+    group: kubedb.com
+    kind: DB2
+    name: db2s
+    scope: Namespaced
+    version: v1alpha2

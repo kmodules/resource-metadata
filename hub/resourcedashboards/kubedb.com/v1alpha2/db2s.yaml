@@ -1,0 +1,38 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceDashboard
+metadata:
+  labels:
+    k8s.io/group: kubedb.com
+    k8s.io/kind: DB2
+    k8s.io/resource: db2s
+    k8s.io/version: v1alpha2
+  name: kubedb.com-v1alpha2-db2s
+spec:
+  dashboards:
+    - title: KubeDB / DB2 / Summary
+      vars:
+        - name: namespace
+          value: '{{ .metadata.namespace }}'
+        - name: app
+          value: '{{ .metadata.name }}'
+    - if:
+        condition: '{{- if or (hasKey .spec "replicaSet") (hasKey .spec "shardTopology") }}true{{ else }}false{{ end -}}'
+      title: KubeDB / DB2 / Database / ReplicaSet
+      vars:
+        - name: namespace
+          value: '{{ .metadata.namespace }}'
+        - name: app
+          value: '{{ .metadata.name }}'
+    - title: KubeDB / DB2 / Pod
+      vars:
+        - name: namespace
+          value: '{{ .metadata.namespace }}'
+        - name: app
+          value: '{{ .metadata.name }}'
+  provider: Grafana
+  resource:
+    group: kubedb.com
+    kind: DB2
+    name: db2s
+    scope: Namespaced
+    version: v1alpha2
