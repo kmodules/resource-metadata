@@ -31,53 +31,6 @@ spec:
               version: v0.30.0
             enforceQuota: false
             flow: standalone-create
-            icon: qlementine-icons:version-control-16
-            icons:
-              - src: https://cdn.appscode.com/k8s/icons/action-icons/version.svg
-                type: image/svg+xml
-            name: Update Version
-            operationId: create-opsrequest-upgrade
-          - editor:
-              name: opskubedbcom-neo4jopsrequest-editor
-              sourceRef:
-                apiGroup: source.toolkit.fluxcd.io
-                kind: HelmRepository
-                name: appscode-charts-oci
-              version: v0.30.0
-            enforceQuota: false
-            flow: standalone-create
-            icon: hugeicons:redo
-            icons:
-              - src: https://cdn.appscode.com/k8s/icons/action-icons/restart.svg
-                type: image/svg+xml
-            name: Restart
-            operationId: create-opsrequest-restart
-          - editor:
-              name: opskubedbcom-neo4jopsrequest-editor
-              sourceRef:
-                apiGroup: source.toolkit.fluxcd.io
-                kind: HelmRepository
-                name: appscode-charts-oci
-              version: v0.30.0
-            enforceQuota: false
-            flow: standalone-create
-            icon: hugeicons:settings-05
-            icons:
-              - src: https://cdn.appscode.com/k8s/icons/action-icons/reconfigure.svg
-                type: image/svg+xml
-            name: Reconfigure
-            operationId: create-opsrequest-reconfigure
-        name: Operations
-      - items:
-          - editor:
-              name: opskubedbcom-neo4jopsrequest-editor
-              sourceRef:
-                apiGroup: source.toolkit.fluxcd.io
-                kind: HelmRepository
-                name: appscode-charts-oci
-              version: v0.30.0
-            enforceQuota: false
-            flow: standalone-create
             icon: hugeicons:security-check
             icons:
               - src: https://cdn.appscode.com/k8s/icons/action-icons/configure.svg
