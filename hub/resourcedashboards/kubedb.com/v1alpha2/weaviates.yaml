@@ -1,0 +1,38 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceDashboard
+metadata:
+  labels:
+    k8s.io/group: kubedb.com
+    k8s.io/kind: Weaviate
+    k8s.io/resource: weaviates
+    k8s.io/version: v1alpha2
+  name: kubedb.com-v1alpha2-weaviates
+spec:
+  dashboards:
+    - title: KubeDB / Weaviate / Summary
+      vars:
+        - name: namespace
+          value: '{{ .metadata.namespace }}'
+        - name: app
+          value: '{{ .metadata.name }}'
+    - if:
+        condition: '{{- if or (hasKey .spec "replicaSet") (hasKey .spec "shardTopology") }}true{{ else }}false{{ end -}}'
+      title: KubeDB / Weaviate / Database / ReplicaSet
+      vars:
+        - name: namespace
+          value: '{{ .metadata.namespace }}'
+        - name: app
+          value: '{{ .metadata.name }}'
+    - title: KubeDB / Weaviate / Pod
+      vars:
+        - name: namespace
+          value: '{{ .metadata.namespace }}'
+        - name: app
+          value: '{{ .metadata.name }}'
+  provider: Grafana
+  resource:
+    group: kubedb.com
+    kind: Weaviate
+    name: weaviates
+    scope: Namespaced
+    version: v1alpha2

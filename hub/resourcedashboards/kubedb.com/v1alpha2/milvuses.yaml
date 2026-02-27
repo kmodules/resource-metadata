@@ -1,0 +1,38 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceDashboard
+metadata:
+  labels:
+    k8s.io/group: kubedb.com
+    k8s.io/kind: Milvus
+    k8s.io/resource: milvuses
+    k8s.io/version: v1alpha2
+  name: kubedb.com-v1alpha2-milvuses
+spec:
+  dashboards:
+    - title: KubeDB / Milvus / Summary
+      vars:
+        - name: namespace
+          value: '{{ .metadata.namespace }}'
+        - name: app
+          value: '{{ .metadata.name }}'
+    - if:
+        condition: '{{- if or (hasKey .spec "replicaSet") (hasKey .spec "shardTopology") }}true{{ else }}false{{ end -}}'
+      title: KubeDB / Milvus / Database / ReplicaSet
+      vars:
+        - name: namespace
+          value: '{{ .metadata.namespace }}'
+        - name: app
+          value: '{{ .metadata.name }}'
+    - title: KubeDB / Milvus / Pod
+      vars:
+        - name: namespace
+          value: '{{ .metadata.namespace }}'
+        - name: app
+          value: '{{ .metadata.name }}'
+  provider: Grafana
+  resource:
+    group: kubedb.com
+    kind: Milvus
+    name: milvuses
+    scope: Namespaced
+    version: v1alpha2

@@ -1,0 +1,38 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceDashboard
+metadata:
+  labels:
+    k8s.io/group: kubedb.com
+    k8s.io/kind: HanaDB
+    k8s.io/resource: hanadbs
+    k8s.io/version: v1alpha2
+  name: kubedb.com-v1alpha2-hanadbs
+spec:
+  dashboards:
+    - title: KubeDB / HanaDB / Summary
+      vars:
+        - name: namespace
+          value: '{{ .metadata.namespace }}'
+        - name: app
+          value: '{{ .metadata.name }}'
+    - if:
+        condition: '{{- if or (hasKey .spec "replicaSet") (hasKey .spec "shardTopology") }}true{{ else }}false{{ end -}}'
+      title: KubeDB / HanaDB / Database / ReplicaSet
+      vars:
+        - name: namespace
+          value: '{{ .metadata.namespace }}'
+        - name: app
+          value: '{{ .metadata.name }}'
+    - title: KubeDB / HanaDB / Pod
+      vars:
+        - name: namespace
+          value: '{{ .metadata.namespace }}'
+        - name: app
+          value: '{{ .metadata.name }}'
+  provider: Grafana
+  resource:
+    group: kubedb.com
+    kind: HanaDB
+    name: hanadbs
+    scope: Namespaced
+    version: v1alpha2
