@@ -1,0 +1,17 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  labels:
+    k8s.io/group: gateway.networking.x-k8s.io
+    k8s.io/kind: XMesh
+    k8s.io/resource: xmeshes
+    k8s.io/version: v1alpha1
+  name: gateway.networking.x-k8s.io-v1alpha1-xmeshes
+spec:
+  defaultView: true
+  resource:
+    group: gateway.networking.x-k8s.io
+    kind: XMesh
+    name: xmeshes
+    scope: Cluster
+    version: v1alpha1

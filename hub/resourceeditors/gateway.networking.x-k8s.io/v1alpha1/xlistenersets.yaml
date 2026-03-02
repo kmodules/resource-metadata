@@ -1,0 +1,16 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceEditor
+metadata:
+  labels:
+    k8s.io/group: gateway.networking.x-k8s.io
+    k8s.io/kind: XListenerSet
+    k8s.io/resource: xlistenersets
+    k8s.io/version: v1alpha1
+  name: gateway.networking.x-k8s.io-v1alpha1-xlistenersets
+spec:
+  resource:
+    group: gateway.networking.x-k8s.io
+    kind: XListenerSet
+    name: xlistenersets
+    scope: Namespaced
+    version: v1alpha1
