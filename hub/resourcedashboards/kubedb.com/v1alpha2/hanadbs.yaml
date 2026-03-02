@@ -9,26 +9,26 @@ metadata:
   name: kubedb.com-v1alpha2-hanadbs
 spec:
   dashboards:
-    - title: KubeDB / HanaDB / Summary
-      vars:
-        - name: namespace
-          value: '{{ .metadata.namespace }}'
-        - name: app
-          value: '{{ .metadata.name }}'
-    - if:
-        condition: '{{- if or (hasKey .spec "replicaSet") (hasKey .spec "shardTopology") }}true{{ else }}false{{ end -}}'
-      title: KubeDB / HanaDB / Database / ReplicaSet
-      vars:
-        - name: namespace
-          value: '{{ .metadata.namespace }}'
-        - name: app
-          value: '{{ .metadata.name }}'
-    - title: KubeDB / HanaDB / Pod
-      vars:
-        - name: namespace
-          value: '{{ .metadata.namespace }}'
-        - name: app
-          value: '{{ .metadata.name }}'
+  - title: KubeDB / HanaDB / Summary
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+  - if:
+      condition: '{{- if or (hasKey .spec "replicaSet") (hasKey .spec "shardTopology") }}true{{ else }}false{{ end -}}'
+    title: KubeDB / HanaDB / Database / ReplicaSet
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+  - title: KubeDB / HanaDB / Pod
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
   provider: Grafana
   resource:
     group: kubedb.com

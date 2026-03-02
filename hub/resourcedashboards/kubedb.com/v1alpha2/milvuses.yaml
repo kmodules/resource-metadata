@@ -9,26 +9,26 @@ metadata:
   name: kubedb.com-v1alpha2-milvuses
 spec:
   dashboards:
-    - title: KubeDB / Milvus / Summary
-      vars:
-        - name: namespace
-          value: '{{ .metadata.namespace }}'
-        - name: app
-          value: '{{ .metadata.name }}'
-    - if:
-        condition: '{{- if or (hasKey .spec "replicaSet") (hasKey .spec "shardTopology") }}true{{ else }}false{{ end -}}'
-      title: KubeDB / Milvus / Database / ReplicaSet
-      vars:
-        - name: namespace
-          value: '{{ .metadata.namespace }}'
-        - name: app
-          value: '{{ .metadata.name }}'
-    - title: KubeDB / Milvus / Pod
-      vars:
-        - name: namespace
-          value: '{{ .metadata.namespace }}'
-        - name: app
-          value: '{{ .metadata.name }}'
+  - title: KubeDB / Milvus / Summary
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+  - if:
+      condition: '{{- if or (hasKey .spec "replicaSet") (hasKey .spec "shardTopology") }}true{{ else }}false{{ end -}}'
+    title: KubeDB / Milvus / Database / ReplicaSet
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+  - title: KubeDB / Milvus / Pod
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
   provider: Grafana
   resource:
     group: kubedb.com
