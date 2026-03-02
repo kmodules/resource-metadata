@@ -63,7 +63,12 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/apimachinery
 go run cmd/import-crds/main.go --input=$HOME/go/src/kmodules.xyz/custom-resources/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/kmodules.xyz/resource-metadata/crds
 
+# KubeDB
 go run cmd/import-crds/main.go --input=$HOME/go/src/kubedb.dev/apimachinery/crds
+# PetSet
+go run cmd/import-crds/main.go --input=$HOME/go/src/kubeops.dev/petset/crds
+# Operator Shard Manager
+go run cmd/import-crds/main.go --input=$HOME/go/src/kubeops.dev/operator-shard-manager/crds
 
 go run cmd/import-crds/main.go --input=$HOME/go/src/stash.appscode.dev/apimachinery/crds
 go run cmd/import-crds/main.go --input=$HOME/go/src/kubestash.dev/apimachinery/crds
@@ -90,9 +95,6 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/github.com/open-policy-agent
 
 # External DNS
 go run cmd/import-crds/main.go --input=$HOME/go/src/kubeops.dev/external-dns-operator/crds
-
-# PetSet
-go run cmd/import-crds/main.go --input=$HOME/go/src/kubeops.dev/petset/crds
 
 # CAPI / Managed DB
 go run cmd/import-crds/main.go --input=$HOME/go/src/sigs.k8s.io/cluster-api/config/crd/bases
