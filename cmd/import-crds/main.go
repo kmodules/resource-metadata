@@ -134,7 +134,8 @@ go run cmd/import-crds/main.go --input=$HOME/go/src/open-cluster-management.io/m
 
 # Gateway
 go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/gateway-api/config/crd/bases
-go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/charts/voyager-gateway/crds/generated
+go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/k8s-gateway-api/config/crd/experimental
+go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/k8s-gateway-api/config/crd/standard
 go run cmd/import-crds/main.go --input=$HOME/go/src/voyagermesh.dev/installer/charts/voyager/crds
 
 # kube-bind
