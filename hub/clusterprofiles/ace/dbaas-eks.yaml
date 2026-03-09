@@ -8,6 +8,8 @@ spec:
   requiredFeatureSets:
     capi-capa:
     - cluster-autoscaler
+    - aws-credential-manager
+    - aws-ebs-csi-driver
     capi-core:
     - cluster-presets
     - capi-ops-manager
