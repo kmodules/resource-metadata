@@ -98,6 +98,30 @@ spec:
         group: kubedb.com
         kind: Elasticsearch
     name: Datastore
+  - autoDiscoverAPIGroup: core.kubestash.com
+    icons:
+    - src: https://cdn.appscode.com/k8s/icons/menu/backupconfigurations.svg
+      type: image/svg+xml
+    - src: https://cdn.appscode.com/k8s/icons/menu/backupconfigurations.png
+      type: image/png
+    items:
+    - name: BackupConfiguration
+      type:
+        group: core.kubestash.com
+        kind: BackupConfiguration
+    name: KubeStash Core
+  - autoDiscoverAPIGroup: storage.kubestash.com
+    icons:
+    - src: https://cdn.appscode.com/k8s/icons/menu/repositories.svg
+      type: image/svg+xml
+    - src: https://cdn.appscode.com/k8s/icons/menu/repositories.png
+      type: image/png
+    items:
+    - name: BackupStorage
+      type:
+        group: storage.kubestash.com
+        kind: BackupStorage
+    name: KubeStash Storage
   - icons:
     - src: https://cdn.appscode.com/k8s/icons/menu/networking.svg
       type: image/svg+xml
