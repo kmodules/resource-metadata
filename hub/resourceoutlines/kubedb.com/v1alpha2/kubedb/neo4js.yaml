@@ -3,10 +3,10 @@ kind: ResourceOutline
 metadata:
   labels:
     k8s.io/group: kubedb.com
-    k8s.io/kind: Milvus
-    k8s.io/resource: milvuses
+    k8s.io/kind: Neo4j
+    k8s.io/resource: neo4js
     k8s.io/version: v1alpha2
-  name: kubedb.com-v1alpha2-milvuses-kubedb
+  name: kubedb.com-v1alpha2-neo4js-kubedb
 spec:
   defaultLayout: false
   header:
@@ -42,7 +42,7 @@ spec:
             request:
               embeddedLink: true
               dashboards:
-              - title: "KubeDB / Milvus / Summary"
+              - title: "KubeDB / Neo4j / Summary"
                 vars:
                 - name: namespace
                   value: {{ .namespace }}
@@ -94,7 +94,7 @@ spec:
           opscenter-datastore:
           - kubedb
         view:
-          name: core.k8s.appscode.com-v1alpha1-podviews-kubedb-milvuses
+          name: core.k8s.appscode.com-v1alpha1-podviews-kubedb-neo4js
       info:
         actions:
           create: Never
@@ -120,7 +120,7 @@ spec:
           type: GraphQL
         ref:
           group: ui.kubedb.com
-          kind: MilvusInsight
+          kind: Neo4jInsight
         requiredFeatureSets:
           opscenter-datastore:
           - kubedb
@@ -139,7 +139,7 @@ spec:
           type: GraphQL
         ref:
           group: ops.kubedb.com
-          kind: MilvusOpsRequest
+          kind: Neo4jOpsRequest
         requiredFeatureSets:
           opscenter-datastore:
           - kubedb
@@ -229,8 +229,8 @@ spec:
           kind: ResourceManifests
   resource:
     group: kubedb.com
-    kind: Milvus
-    name: milvuses
+    kind: Neo4j
+    name: neo4js
     scope: Namespaced
     version: v1alpha2
   tabBar:
