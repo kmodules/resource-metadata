@@ -14,3 +14,12 @@ spec:
     name: xlistenersets
     scope: Namespaced
     version: v1alpha1
+  ui:
+    editor:
+      name: gatewaynetworkingxk8sio-xlistenerset-editor
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: appscode-charts-oci
+      version: v0.31.0
+    enforceQuota: false

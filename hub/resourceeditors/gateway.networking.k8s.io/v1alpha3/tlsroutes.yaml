@@ -14,3 +14,12 @@ spec:
     name: tlsroutes
     scope: Namespaced
     version: v1alpha3
+  ui:
+    editor:
+      name: gatewaynetworkingk8sio-tlsroute-editor
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: appscode-charts-oci
+      version: v0.31.0
+    enforceQuota: false

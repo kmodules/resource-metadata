@@ -14,3 +14,12 @@ spec:
     name: migrators
     scope: Namespaced
     version: v1alpha1
+  ui:
+    editor:
+      name: migratorkubedbcom-migrator-editor
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: appscode-charts-oci
+      version: v0.31.0
+    enforceQuota: false
