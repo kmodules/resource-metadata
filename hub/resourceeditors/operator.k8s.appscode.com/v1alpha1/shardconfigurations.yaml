@@ -14,3 +14,12 @@ spec:
     name: shardconfigurations
     scope: Cluster
     version: v1alpha1
+  ui:
+    editor:
+      name: operatork8sappscodecom-shardconfiguration-editor
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: appscode-charts-oci
+      version: v0.31.0
+    enforceQuota: false
