@@ -28,7 +28,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: v0.31.0
+          version: sha256:c61ae107558e3692bdbeb6b26c406a9dab9cedc5ad8dbd97fbe3b41e0dbeb463
         enforceQuota: false
         flow: standalone-create
         icon: hugeicons:security-check
@@ -43,7 +43,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: v0.31.0
+          version: sha256:82ac000d3a74d7e5e75e9c2c54b0957c44a5edb3f26375221581c082b74b6e4c
         enforceQuota: false
         flow: standalone-edit
         icon: hugeicons:presentation-line-chart-01
@@ -59,7 +59,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: v0.31.0
+      version: sha256:82ac000d3a74d7e5e75e9c2c54b0957c44a5edb3f26375221581c082b74b6e4c
     enforceQuota: true
     options:
       name: kubedbcom-neo4j-editor-options
@@ -67,7 +67,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: v0.31.0
+      version: sha256:56ebe41110be881b632057a12291771cac4669ed4a9b49efd3bb2009624db92f
   variants:
   - name: default
     selector:
