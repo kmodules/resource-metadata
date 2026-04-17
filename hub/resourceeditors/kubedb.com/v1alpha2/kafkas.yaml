@@ -28,7 +28,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:ef08e920178033800312eb309a8f0adc35258bf7bfee7d41fd435a79088a31cd
+          version: v0.32.0
         enforceQuota: false
         flow: standalone-edit
         icon: hugeicons:presentation-line-chart-01
@@ -44,7 +44,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:ef08e920178033800312eb309a8f0adc35258bf7bfee7d41fd435a79088a31cd
+      version: v0.32.0
     enforceQuota: true
     options:
       name: kubedbcom-kafka-editor-options
@@ -52,7 +52,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:247088102c29e157591cb081ab4cd9929b79796a671ca5a213f8bd815e793b0e
+      version: v0.32.0
   variants:
   - name: default
     selector:
