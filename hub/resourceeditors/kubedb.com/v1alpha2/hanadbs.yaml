@@ -26,7 +26,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:b315b1cc1b83f59abcfe5fd793933162c7c13be155c2ef79bcb48df5b0100baa
+      version: v0.32.0
     enforceQuota: true
     options:
       name: kubedbcom-hanadb-editor-options
@@ -34,7 +34,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:56ebe41110be881b632057a12291771cac4669ed4a9b49efd3bb2009624db92f
+      version: v0.32.0
   variants:
   - name: default
     selector:
