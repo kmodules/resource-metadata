@@ -3,15 +3,15 @@ kind: ResourceDescriptor
 metadata:
   labels:
     k8s.io/group: catalog.kubedb.com
-    k8s.io/kind: HanaDBVersion
-    k8s.io/resource: hanadbversions
+    k8s.io/kind: DocumentDBVersion
+    k8s.io/resource: documentdbversions
     k8s.io/version: v1alpha1
-  name: catalog.kubedb.com-v1alpha1-hanadbversions
+  name: catalog.kubedb.com-v1alpha1-documentdbversions
 spec:
   resource:
     group: catalog.kubedb.com
-    kind: HanaDBVersion
-    name: hanadbversions
+    kind: DocumentDBVersion
+    name: documentdbversions
     scope: Cluster
     version: v1alpha1
   validation:
@@ -48,13 +48,6 @@ spec:
           type: object
         spec:
           properties:
-            coordinator:
-              properties:
-                image:
-                  type: string
-              required:
-              - image
-              type: object
             db:
               properties:
                 image:
@@ -64,18 +57,12 @@ spec:
               type: object
             deprecated:
               type: boolean
-            exporter:
-              properties:
-                image:
-                  type: string
-              required:
-              - image
-              type: object
+            endOfLife:
+              type: boolean
+            postgresVersion:
+              type: string
             securityContext:
               properties:
-                runAsGroup:
-                  format: int64
-                  type: integer
                 runAsUser:
                   format: int64
                   type: integer
@@ -109,9 +96,7 @@ spec:
             version:
               type: string
           required:
-          - coordinator
           - db
-          - exporter
           - version
           type: object
       type: object
