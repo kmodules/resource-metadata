@@ -26,7 +26,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: v0.32.0
+      version: sha256:6e7caa5666130eb8cea1f7bb92957f009ecb4e4b493dc3864e3900c7cac7e96c
     enforceQuota: true
     options:
       name: kubedbcom-milvus-editor-options
@@ -34,7 +34,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: v0.32.0
+      version: sha256:42e1558f11958258e2b9818dae6a879752a9b1d656132f3d2e3855bcfd3a0e3c
   variants:
   - name: default
     selector:

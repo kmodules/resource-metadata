@@ -26,7 +26,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: v0.32.0
+      version: sha256:a15bb4e3dacfba61f260dd9c3aeb92405629b5d7782c1b29fcaa5b0edea5099f
     enforceQuota: true
     options:
       name: kubedbcom-weaviate-editor-options
@@ -34,7 +34,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: v0.32.0
+      version: sha256:e152ee314e39f6d532b8c6c3b7eff0ad24cfb0cfdc3c7dcbaf3493865200a366
   variants:
   - name: default
     selector:
