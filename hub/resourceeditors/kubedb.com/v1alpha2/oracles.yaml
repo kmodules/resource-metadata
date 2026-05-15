@@ -118,7 +118,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:73d2eaa3a79668ab0e06364632cb39ce86bbc6e7ccd1027320e4ab07b773371d
+      version: sha256:4a40c8d6a77beb3e3b12659ac88b9e042d417461a98f504fc324f84a99070adb
     enforceQuota: true
     options:
       name: kubedbcom-oracle-editor-options
@@ -126,7 +126,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:22961073de1bfcd42b66b74e9e5232dfc1c833c6dfa1d40221362960fe3c35df
+      version: sha256:731d20fb44e86291f36330154568bc779e5fe2cb2c48ea31242d735f4cefecb4
   variants:
   - name: default
     selector:
