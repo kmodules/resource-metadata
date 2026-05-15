@@ -28,7 +28,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:457248a5d7263b6416e56765934374e275bb6e4eee093af6a84f4684c59085b0
+          version: sha256:3bedb122157f5837b965319394a9e20bce452943b28ffc63da06ac919c187ddf
         enforceQuota: false
         flow: standalone-create
         icon: hugeicons:security-check
@@ -43,7 +43,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:70b873e2e1867fe10855806992f334d1dba8a824f707cf19978e2f9901228b60
+          version: sha256:29c7c9e366dee8e50c63f06e70dbf95611b74780f2025e88f13191c2619f6e13
         enforceQuota: false
         flow: standalone-edit
         icon: hugeicons:presentation-line-chart-01
@@ -59,7 +59,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:70b873e2e1867fe10855806992f334d1dba8a824f707cf19978e2f9901228b60
+      version: sha256:29c7c9e366dee8e50c63f06e70dbf95611b74780f2025e88f13191c2619f6e13
     enforceQuota: true
     options:
       name: kubedbcom-qdrant-editor-options
@@ -67,7 +67,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:0ffb4d654d9d85a629888adfb8a8de4373d063e229daae523607dc987b74d40c
+      version: sha256:69d1434b48f1e5a48fadc45b6fce14ad5b85f27ed6100a74427b209be41420b2
   variants:
   - name: default
     selector:
