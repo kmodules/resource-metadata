@@ -28,7 +28,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:1328752f661cf5f0910572a104cd71195235a64b3deb9a578653a65120824e6a
+          version: v0.33.0
         enforceQuota: false
         flow: standalone-create
         icon: qlementine-icons:version-control-16
@@ -43,7 +43,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:1328752f661cf5f0910572a104cd71195235a64b3deb9a578653a65120824e6a
+          version: v0.33.0
         enforceQuota: false
         flow: standalone-create
         icon: hugeicons:redo
@@ -58,7 +58,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:1328752f661cf5f0910572a104cd71195235a64b3deb9a578653a65120824e6a
+          version: v0.33.0
         enforceQuota: false
         flow: standalone-create
         icon: hugeicons:settings-05
@@ -87,7 +87,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:1328752f661cf5f0910572a104cd71195235a64b3deb9a578653a65120824e6a
+          version: v0.33.0
         enforceQuota: true
         flow: standalone-create
         icon: hugeicons:horizontal-resize
@@ -102,7 +102,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:1328752f661cf5f0910572a104cd71195235a64b3deb9a578653a65120824e6a
+          version: v0.33.0
         enforceQuota: true
         flow: standalone-create
         icons:
@@ -117,7 +117,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:1328752f661cf5f0910572a104cd71195235a64b3deb9a578653a65120824e6a
+          version: v0.33.0
         enforceQuota: true
         flow: standalone-create
         icons:
@@ -134,7 +134,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:efeb0980fb1412df9484b4cdd6a63a415acf4ab0aee8c4115965b32a0cb07197
+          version: v0.33.0
         enforceQuota: true
         flow: standalone-edit
         icons:
@@ -149,7 +149,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:efeb0980fb1412df9484b4cdd6a63a415acf4ab0aee8c4115965b32a0cb07197
+          version: v0.33.0
         enforceQuota: true
         flow: standalone-edit
         icons:
@@ -166,7 +166,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:1328752f661cf5f0910572a104cd71195235a64b3deb9a578653a65120824e6a
+          version: v0.33.0
         enforceQuota: false
         flow: standalone-create
         icon: hugeicons:security-check
@@ -181,7 +181,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:efeb0980fb1412df9484b4cdd6a63a415acf4ab0aee8c4115965b32a0cb07197
+          version: v0.33.0
         enforceQuota: false
         flow: standalone-edit
         icon: hugeicons:presentation-line-chart-01
@@ -197,7 +197,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:efeb0980fb1412df9484b4cdd6a63a415acf4ab0aee8c4115965b32a0cb07197
+      version: v0.33.0
     enforceQuota: true
     options:
       name: kubedbcom-ignite-editor-options
@@ -205,7 +205,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:ad8490fee9620ba84cb4252b2f8afbf95c4f9be317e6f5945b056be385bfd5dc
+      version: v0.33.0
   variants:
   - name: default
     selector:
