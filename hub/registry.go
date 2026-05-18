@@ -32,6 +32,7 @@ import (
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	"kmodules.xyz/resource-metadata/hub/resourcedescriptors"
 
+	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	crd_cs "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -126,10 +127,13 @@ func (r *Registry) discoverResources() error {
 }
 
 func (r *Registry) Refresh(cfg *rest.Config) error {
-	if time.Since(r.lastRefreshed) > ttl {
-		return r.DiscoverResources(cfg)
+	r.m.Lock()
+	defer r.m.Unlock()
+	if time.Since(r.lastRefreshed) <= ttl {
+		return nil
 	}
-	return nil
+	r.cfg = cfg
+	return r.discoverResources()
 }
 
 func (r *Registry) Reset() {
@@ -215,6 +219,17 @@ func (r *Registry) createRegistry(cfg *rest.Config) (map[schema.GroupResource]sc
 		return nil, nil, err
 	}
 
+	crdList, crdErr := apiext.CustomResourceDefinitions().List(context.TODO(), metav1.ListOptions{})
+	if crdErr != nil {
+		klog.ErrorS(crdErr, "failed to list CRDs")
+	}
+	crdMap := make(map[string]*apiextensionsv1.CustomResourceDefinition)
+	if crdList != nil {
+		for i := range crdList.Items {
+			crdMap[crdList.Items[i].Name] = &crdList.Items[i]
+		}
+	}
+
 	reg := make(map[string]*v1alpha1.ResourceDescriptor)
 	for _, rsList := range rsLists {
 		for i := range rsList.APIResources {
@@ -265,8 +280,8 @@ func (r *Registry) createRegistry(cfg *rest.Config) (map[schema.GroupResource]sc
 				},
 			}
 			if !meta_util.IsOfficialType(rd.Spec.Resource.Group) {
-				crd, err := apiext.CustomResourceDefinitions().Get(context.TODO(), fmt.Sprintf("%s.%s", rd.Spec.Resource.Name, rd.Spec.Resource.Group), metav1.GetOptions{})
-				if err == nil {
+				key := fmt.Sprintf("%s.%s", rd.Spec.Resource.Name, rd.Spec.Resource.Group)
+				if crd, ok := crdMap[key]; ok {
 					for _, v := range crd.Spec.Versions {
 						if v.Name == rid.Version {
 							rd.Spec.Validation = v.Schema
