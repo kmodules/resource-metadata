@@ -42,7 +42,7 @@ import (
 	"k8s.io/apimachinery/pkg/util/duration"
 )
 
-var templateFns = sprig.TxtFuncMap()
+var templateFns = sprig.HermeticTxtFuncMap()
 
 func init() {
 	templateFns["k8s_api_group"] = apiGroup
