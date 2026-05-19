@@ -31,6 +31,7 @@ import (
 	ioutilx "gomodules.xyz/x/ioutil"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/api/meta"
+	"k8s.io/klog/v2"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/yaml"
 )
@@ -46,7 +47,7 @@ var (
 		filepath.Join("/tmp", "hub", "clusterprofiles"),
 		fs,
 		func(fsys iofs.FS) {
-			cpMap = map[string]*v1alpha1.ClusterProfile{}
+			next := map[string]*v1alpha1.ClusterProfile{}
 
 			if err := iofs.WalkDir(fsys, ".", func(path string, d iofs.DirEntry, err error) error {
 				if d.IsDir() || err != nil {
@@ -66,11 +67,16 @@ var (
 				if err != nil {
 					return errors.Wrap(err, path)
 				}
-				cpMap[obj.Name] = &obj
+				next[obj.Name] = &obj
 				return nil
 			}); err != nil {
-				panic(errors.Wrapf(err, "failed to load %s", reflect.TypeFor[v1alpha1.ClusterProfile]()))
+				if cpMap == nil {
+					panic(errors.Wrapf(err, "failed to load %s", reflect.TypeFor[v1alpha1.ClusterProfile]()))
+				}
+				klog.ErrorS(err, "failed to reload clusterprofiles; keeping previous state")
+				return
 			}
+			cpMap = next
 		},
 	)
 )

@@ -31,6 +31,7 @@ import (
 	ioutilx "gomodules.xyz/x/ioutil"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/klog/v2"
 	"sigs.k8s.io/yaml"
 )
 
@@ -47,9 +48,9 @@ var (
 		filepath.Join("/tmp", "hub", "resourcetabledefinitions"),
 		fs,
 		func(fsys iofs.FS) {
-			rtdMap = map[string]*v1alpha1.ResourceTableDefinition{}
-			rtdPerGK = map[schema.GroupVersionKind]*v1alpha1.ResourceTableDefinition{}
-			rtdPerGR = map[schema.GroupVersionResource]*v1alpha1.ResourceTableDefinition{}
+			nextMap := map[string]*v1alpha1.ResourceTableDefinition{}
+			nextPerGK := map[schema.GroupVersionKind]*v1alpha1.ResourceTableDefinition{}
+			nextPerGR := map[schema.GroupVersionResource]*v1alpha1.ResourceTableDefinition{}
 
 			if err := iofs.WalkDir(fsys, ".", func(path string, d iofs.DirEntry, err error) error {
 				if d.IsDir() || err != nil {
@@ -69,26 +70,33 @@ var (
 				if err != nil {
 					return errors.Wrap(err, path)
 				}
-				rtdMap[obj.Name] = &obj
+				nextMap[obj.Name] = &obj
 
 				if obj.Spec.Resource != nil && obj.Spec.DefaultView {
 					gvk := obj.Spec.Resource.GroupVersionKind()
-					if rv, ok := rtdPerGK[gvk]; !ok {
-						rtdPerGK[gvk] = &obj
+					if rv, ok := nextPerGK[gvk]; !ok {
+						nextPerGK[gvk] = &obj
 					} else {
 						return fmt.Errorf("multiple %s found for %+v: %s and %s", reflect.TypeFor[v1alpha1.ResourceTableDefinition](), gvk, rv.Name, obj.Name)
 					}
 					gvr := obj.Spec.Resource.GroupVersionResource()
-					if rv, ok := rtdPerGR[gvr]; !ok {
-						rtdPerGR[gvr] = &obj
+					if rv, ok := nextPerGR[gvr]; !ok {
+						nextPerGR[gvr] = &obj
 					} else {
 						return fmt.Errorf("multiple %s found for %+v: %s and %s", reflect.TypeFor[v1alpha1.ResourceTableDefinition](), gvk, rv.Name, obj.Name)
 					}
 				}
 				return nil
 			}); err != nil {
-				panic(errors.Wrapf(err, "failed to load %s", reflect.TypeFor[v1alpha1.ResourceTableDefinition]()))
+				if rtdMap == nil {
+					panic(errors.Wrapf(err, "failed to load %s", reflect.TypeFor[v1alpha1.ResourceTableDefinition]()))
+				}
+				klog.ErrorS(err, "failed to reload resourcetabledefinitions; keeping previous state")
+				return
 			}
+			rtdMap = nextMap
+			rtdPerGK = nextPerGK
+			rtdPerGR = nextPerGR
 		},
 	)
 )

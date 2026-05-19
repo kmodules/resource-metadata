@@ -29,6 +29,7 @@ import (
 	"github.com/pkg/errors"
 	ioutilx "gomodules.xyz/x/ioutil"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
+	"k8s.io/klog/v2"
 	"sigs.k8s.io/yaml"
 )
 
@@ -43,7 +44,7 @@ var (
 		filepath.Join("/tmp", "hub", "resourceblockdefinitions"),
 		fs,
 		func(fsys iofs.FS) {
-			rbMap = map[string]*v1alpha1.ResourceBlockDefinition{}
+			next := map[string]*v1alpha1.ResourceBlockDefinition{}
 
 			if err := iofs.WalkDir(fsys, ".", func(path string, d iofs.DirEntry, err error) error {
 				if d.IsDir() || err != nil {
@@ -63,11 +64,16 @@ var (
 				if err != nil {
 					return errors.Wrap(err, path)
 				}
-				rbMap[obj.Name] = &obj
+				next[obj.Name] = &obj
 				return nil
 			}); err != nil {
-				panic(errors.Wrapf(err, "failed to load %s", reflect.TypeFor[v1alpha1.ResourceBlockDefinition]()))
+				if rbMap == nil {
+					panic(errors.Wrapf(err, "failed to load %s", reflect.TypeFor[v1alpha1.ResourceBlockDefinition]()))
+				}
+				klog.ErrorS(err, "failed to reload resourceblockdefinitions; keeping previous state")
+				return
 			}
+			rbMap = next
 		},
 	)
 )
