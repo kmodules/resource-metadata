@@ -328,7 +328,14 @@ func WriteDescriptor(crd *crdv1.CustomResourceDefinition, dir string) error {
 		filename := filepath.Join(baseDir, plural+".yaml")
 
 		var rd rsapi.ResourceDescriptor
-		if existing, err := os.ReadFile(filename); os.IsNotExist(err) {
+		existing, readErr := os.ReadFile(filename)
+		switch {
+		case readErr == nil:
+			if err := yaml.Unmarshal(existing, &rd); err != nil {
+				return fmt.Errorf("failed to unmarshal %s: %w", filename, err)
+			}
+			rd.Spec.Validation = v.Schema
+		case os.IsNotExist(readErr):
 			rd = rsapi.ResourceDescriptor{
 				TypeMeta: metav1.TypeMeta{
 					APIVersion: rsapi.SchemeGroupVersion.String(),
@@ -354,11 +361,8 @@ func WriteDescriptor(crd *crdv1.CustomResourceDefinition, dir string) error {
 					Validation: v.Schema,
 				},
 			}
-		} else {
-			err = yaml.Unmarshal(existing, &rd)
-			if err == nil {
-				rd.Spec.Validation = v.Schema
-			}
+		default:
+			return fmt.Errorf("failed to read %s: %w", filename, readErr)
 		}
 
 		if rd.Spec.Validation != nil &&
