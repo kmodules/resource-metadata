@@ -23,7 +23,7 @@ jobs:
         with:
           client-id: ${{ secrets.LGTM_APP_CLIENT_ID }}
           private-key: ${{ secrets.LGTM_APP_PRIVATE_KEY }}
-          owner: ${{ github.repository_owner }}
+          owner: appscode-cloud
           repositories: CHANGELOG
           permission-pull-requests: write
 
