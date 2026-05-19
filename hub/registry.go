@@ -113,6 +113,15 @@ func (r *Registry) discoverResources() error {
 		return err
 	}
 
+	// Preserve manually-registered GroupResources that server discovery did
+	// not see (e.g. a CRD just applied but not yet in the discovery cache).
+	// Discovery wins for GroupResources it does know about, since the
+	// api-server is authoritative on its own preferred version.
+	for gr, gvr := range r.preferred {
+		if _, ok := preferred[gr]; !ok {
+			preferred[gr] = gvr
+		}
+	}
 	r.preferred = preferred
 	r.lastRefreshed = time.Now()
 	for filename, rd := range reg {
