@@ -364,43 +364,14 @@ func describeVolume(volume core.Volume) string {
 	return fmt.Sprintf("{\"name\": %q,\"Type\":\"<unknown>\"}", volume.Name)
 }
 
-// convertSizeToBytes converts any dataSize(Mi,Gi,Ti,Ki) to Bytes
+// convertSizeToBytes converts a Kubernetes quantity string (e.g. "1Gi",
+// "500M", "8589934592") to a number of bytes.
 func convertSizeToBytes(dataSize string) (float64, error) {
-	var size float64
-
-	switch {
-	case strings.HasSuffix(dataSize, "Ti"):
-		_, err := fmt.Sscanf(dataSize, "%fTi", &size)
-		if err != nil {
-			return 0, err
-		}
-		return size * (1 << 40), nil
-	case strings.HasSuffix(dataSize, "Gi"):
-		_, err := fmt.Sscanf(dataSize, "%fGi", &size)
-		if err != nil {
-			return 0, err
-		}
-		return size * (1 << 30), nil
-	case strings.HasSuffix(dataSize, "Mi"):
-		_, err := fmt.Sscanf(dataSize, "%fMi", &size)
-		if err != nil {
-			return 0, err
-		}
-		return size * (1 << 20), nil
-	case strings.HasSuffix(dataSize, "Ki"):
-		_, err := fmt.Sscanf(dataSize, "%fKi", &size)
-		if err != nil {
-			return 0, err
-		}
-		return size * (1 << 10), nil
-	default:
-		_, err := fmt.Sscanf(dataSize, "%fB", &size)
-		if err != nil {
-			return 0, err
-		}
-		return size, nil
-
+	q, err := resource.ParseQuantity(dataSize)
+	if err != nil {
+		return 0, err
 	}
+	return q.AsApproximateFloat64(), nil
 }
 
 // ConvertToHumanReadableDateType returns the elapsed time since timestamp in
