@@ -51,6 +51,23 @@ var pool = sync.Pool{
 	},
 }
 
+// templateCache caches parsed templates keyed by template source string.
+// text/template.Template.Execute is safe for concurrent use, and column
+// templates are immutable for the life of the process.
+var templateCache sync.Map // map[string]*template.Template
+
+func parseTemplate(src string) (*template.Template, error) {
+	if cached, ok := templateCache.Load(src); ok {
+		return cached.(*template.Template), nil
+	}
+	tpl, err := template.New("").Funcs(templateFns).Option("missingkey=default").Parse(src)
+	if err != nil {
+		return nil, err
+	}
+	actual, _ := templateCache.LoadOrStore(src, tpl)
+	return actual.(*template.Template), nil
+}
+
 type TableConvertor interface {
 	ConvertToTable(ctx context.Context, object runtime.Object) (*rsapi.Table, error)
 }
@@ -396,7 +413,7 @@ func renderTemplate(data any, col columnOptions, buf *bytes.Buffer) (any, error)
 		return nil, nil
 	}
 
-	tpl, err := template.New("").Funcs(templateFns).Parse(col.Template)
+	tpl, err := parseTemplate(col.Template)
 	if err != nil {
 		klog.ErrorS(err, "failed to parse column template", "name", col.Name, "template", col.Template)
 		return nil, errors.Wrapf(err, "falied to parse column %+v", col)
@@ -404,7 +421,6 @@ func renderTemplate(data any, col columnOptions, buf *bytes.Buffer) (any, error)
 	// Do nothing and continue execution.
 	// If printed, the result of the index operation is the string "<no value>".
 	// We mitigate that later.
-	tpl.Option("missingkey=default")
 	buf.Reset()
 	err = tpl.Execute(buf, data)
 	if err != nil {
