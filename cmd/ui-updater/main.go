@@ -193,9 +193,14 @@ func getDigestOrVersion(repo, bin, ver string) string {
 	if repo != "appscode-charts-oci" {
 		return ver
 	}
-	digest, err := crane.Digest(fmt.Sprintf("ghcr.io/appscode-charts/%s:%s", bin, ver), crane.WithAuthFromKeychain(authn.DefaultKeychain))
-	if err == nil {
-		return digest
+	ref := fmt.Sprintf("ghcr.io/appscode-charts/%s:%s", bin, ver)
+	digest, err := crane.Digest(ref, crane.WithAuthFromKeychain(authn.DefaultKeychain))
+	if err != nil {
+		// Don't silently downgrade from a pinned digest to a mutable tag —
+		// surface the failure so the operator can decide whether to retry
+		// or accept the un-pinned version.
+		fmt.Fprintf(os.Stderr, "ERROR: failed to resolve digest for %s: %v\n", ref, err)
+		os.Exit(1)
 	}
-	return ver
+	return digest
 }
