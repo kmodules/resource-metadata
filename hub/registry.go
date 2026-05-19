@@ -481,7 +481,7 @@ func (r *Registry) Resources() []schema.GroupVersionResource {
 	r.m.RLock()
 	defer r.m.RUnlock()
 
-	out := make([]schema.GroupVersionResource, len(r.preferred))
+	out := make([]schema.GroupVersionResource, 0, len(r.preferred))
 	for _, gvr := range r.preferred {
 		out = append(out, gvr)
 	}
@@ -492,7 +492,7 @@ func (r *Registry) Kinds() []schema.GroupVersionKind {
 	r.m.RLock()
 	defer r.m.RUnlock()
 
-	out := make([]schema.GroupVersionKind, len(r.preferred))
+	out := make([]schema.GroupVersionKind, 0, len(r.preferred))
 	for _, gvr := range r.preferred {
 		out = append(out, r.regGVR[gvr].GroupVersionKind())
 	}
