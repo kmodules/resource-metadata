@@ -31,6 +31,7 @@ import (
 	ioutilx "gomodules.xyz/x/ioutil"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/klog/v2"
 	"sigs.k8s.io/yaml"
 )
 
@@ -47,9 +48,9 @@ var (
 		filepath.Join("/tmp", "hub", "resourceoutlines"),
 		fs,
 		func(fsys iofs.FS) {
-			rlMap = map[string]*v1alpha1.ResourceOutline{}
-			rlPerGK = map[schema.GroupVersionKind]*v1alpha1.ResourceOutline{}
-			rlPerGR = map[schema.GroupVersionResource]*v1alpha1.ResourceOutline{}
+			nextMap := map[string]*v1alpha1.ResourceOutline{}
+			nextPerGK := map[schema.GroupVersionKind]*v1alpha1.ResourceOutline{}
+			nextPerGR := map[schema.GroupVersionResource]*v1alpha1.ResourceOutline{}
 
 			if err := iofs.WalkDir(fsys, ".", func(path string, d iofs.DirEntry, err error) error {
 				if d.IsDir() || err != nil {
@@ -69,7 +70,7 @@ var (
 				if err != nil {
 					return errors.Wrap(err, path)
 				}
-				rlMap[obj.Name] = &obj
+				nextMap[obj.Name] = &obj
 
 				if obj.Spec.DefaultLayout {
 					gvr := obj.Spec.Resource.GroupVersionResource()
@@ -79,21 +80,28 @@ var (
 					}
 
 					gvk := obj.Spec.Resource.GroupVersionKind()
-					if rv, ok := rlPerGK[gvk]; !ok {
-						rlPerGK[gvk] = &obj
+					if rv, ok := nextPerGK[gvk]; !ok {
+						nextPerGK[gvk] = &obj
 					} else {
 						return fmt.Errorf("multiple %s found for %+v: %s and %s", reflect.TypeFor[v1alpha1.ResourceOutline](), gvk, rv.Name, obj.Name)
 					}
-					if rv, ok := rlPerGR[gvr]; !ok {
-						rlPerGR[gvr] = &obj
+					if rv, ok := nextPerGR[gvr]; !ok {
+						nextPerGR[gvr] = &obj
 					} else {
 						return fmt.Errorf("multiple %s found for %+v: %s and %s", reflect.TypeFor[v1alpha1.ResourceOutline](), gvk, rv.Name, obj.Name)
 					}
 				}
 				return nil
 			}); err != nil {
-				panic(errors.Wrapf(err, "failed to load %s", reflect.TypeFor[v1alpha1.ResourceOutline]()))
+				if rlMap == nil {
+					panic(errors.Wrapf(err, "failed to load %s", reflect.TypeFor[v1alpha1.ResourceOutline]()))
+				}
+				klog.ErrorS(err, "failed to reload resourceoutlines; keeping previous state")
+				return
 			}
+			rlMap = nextMap
+			rlPerGK = nextPerGK
+			rlPerGR = nextPerGR
 		},
 	)
 )

@@ -34,6 +34,7 @@ import (
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/klog/v2"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/yaml"
 )
@@ -49,7 +50,7 @@ var (
 		filepath.Join("/tmp", "hub", "resourcedashboards"),
 		fs,
 		func(fsys iofs.FS) {
-			rdMap = map[string]*v1alpha1.ResourceDashboard{}
+			next := map[string]*v1alpha1.ResourceDashboard{}
 
 			if err := iofs.WalkDir(fsys, ".", func(path string, d iofs.DirEntry, err error) error {
 				if d.IsDir() || err != nil {
@@ -69,12 +70,17 @@ var (
 				if err != nil {
 					return errors.Wrap(err, path)
 				}
-				rdMap[obj.Name] = &obj
+				next[obj.Name] = &obj
 
 				return nil
 			}); err != nil {
-				panic(errors.Wrapf(err, "failed to load %s", reflect.TypeFor[v1alpha1.ResourceDashboard]()))
+				if rdMap == nil {
+					panic(errors.Wrapf(err, "failed to load %s", reflect.TypeFor[v1alpha1.ResourceDashboard]()))
+				}
+				klog.ErrorS(err, "failed to reload resourcedashboards; keeping previous state")
+				return
 			}
+			rdMap = next
 		},
 	)
 )
