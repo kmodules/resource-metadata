@@ -94,9 +94,7 @@ func NewRegistry(uid string, cache KV) *Registry {
 }
 
 func NewRegistryOfKnownResources() *Registry {
-	return NewRegistry(KnownUID, &KVMap{
-		cache: resourcedescriptors.KnownDescriptors(),
-	})
+	return NewRegistry(KnownUID, NewKVMapFromKnown())
 }
 
 func (r *Registry) DiscoverResources(cfg *rest.Config) error {
