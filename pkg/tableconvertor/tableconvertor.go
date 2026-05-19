@@ -155,6 +155,9 @@ func (c *convertor) init(columns []rsapi.ResourceColumnDefinition, fnDashboard D
 			if obj, url, err := fnDashboard(c.Dashboard.Name); err != nil {
 				c.Dashboard.Status = rsapi.RenderError
 				c.Dashboard.Message = err.Error()
+			} else if len(obj.Spec.Dashboards) == 0 {
+				c.Dashboard.Status = rsapi.RenderError
+				c.Dashboard.Message = fmt.Sprintf("ResourceDashboard %s has no dashboards", c.Dashboard.Name)
 			} else {
 				c.Dashboard.Dashboard = func(in *uiapi.Dashboard) *shared.Dashboard {
 					out := shared.Dashboard{
