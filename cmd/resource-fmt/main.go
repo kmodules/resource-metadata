@@ -35,15 +35,16 @@ import (
 	"sigs.k8s.io/yaml"
 )
 
-func handlePanic(filename string) {
+func handlePanic(filename string, retErr *error) {
 	a := recover()
 	if a != nil {
 		fmt.Println("RECOVER", filename, a)
+		*retErr = fmt.Errorf("panic while processing %s: %v", filename, a)
 	}
 }
 
-func check(typ reflect.Type, filename string, fix bool) (string, error) {
-	defer handlePanic(filename)
+func check(typ reflect.Type, filename string, fix bool) (out string, err error) {
+	defer handlePanic(filename, &err)
 
 	data, err := os.ReadFile(filename)
 	if err != nil {
@@ -135,9 +136,12 @@ func checkType(t any, plural string, fix bool) error {
 	})
 }
 
+var failures int
+
 func MustCheckType(t any, plural string, fix bool) {
 	if err := checkType(t, plural, fix); err != nil {
 		klog.ErrorS(err, "failed to check "+plural)
+		failures++
 	}
 }
 
@@ -153,4 +157,8 @@ func main() {
 	MustCheckType(metaapi.ResourceOutline{}, "resourceoutlines", *fix)
 	MustCheckType(metaapi.ResourceTableDefinition{}, "resourcetabledefinitions", *fix)
 	MustCheckType(uiapi.ResourceDashboard{}, "resourcedashboards", *fix)
+
+	if failures > 0 {
+		os.Exit(1)
+	}
 }
