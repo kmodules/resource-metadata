@@ -1,0 +1,17 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  labels:
+    k8s.io/group: ops.kubedb.com
+    k8s.io/kind: WeaviateOpsRequest
+    k8s.io/resource: weaviateopsrequests
+    k8s.io/version: v1alpha1
+  name: ops.kubedb.com-v1alpha1-weaviateopsrequests
+spec:
+  defaultView: true
+  resource:
+    group: ops.kubedb.com
+    kind: WeaviateOpsRequest
+    name: weaviateopsrequests
+    scope: Namespaced
+    version: v1alpha1

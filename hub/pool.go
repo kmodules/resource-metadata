@@ -38,7 +38,7 @@ func NewPool(kvFactory func() KV) (*Pool, error) {
 	// in-flight goroutines release it — but any work it had buffered
 	// (e.g. recent RegisterGVR calls) is gone, so frequent evictions are
 	// worth surfacing.
-	cache, err := lru.NewWithEvict(PoolSize, func(key, _ interface{}) {
+	cache, err := lru.NewWithEvict(PoolSize, func(key, _ any) {
 		klog.V(2).InfoS("evicted cluster registry from pool", "uid", key)
 	})
 	if err != nil {
