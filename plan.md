@@ -87,7 +87,6 @@ For each file below, copy the corresponding reference file and do global text re
 Files to copy+replace:
 - `hub/resourceblockdefinitions/kubedb.com/<version>/<plural>.yaml`
 - `hub/resourcedashboards/kubedb.com/<version>/<plural>.yaml`
-- `hub/resourcedescriptors/kubedb.com/<version>/<plural>.yaml`
 - `hub/resourcetabledefinitions/kubedb.com/<version>/<plural>.yaml`
 - `hub/resourcetabledefinitions/ops.kubedb.com/v1alpha1/<ops-plural>.yaml`
 - `hub/resourcetabledefinitions/core.k8s.appscode.com/v1alpha1/kubedb/podviews-<plural>.yaml`
@@ -97,6 +96,9 @@ Run `make fmt` — executes `check-edge-label` and `resource-fmt` which validate
 canonicalize hub YAML. Fix any reported issues before marking the task done.
 
 ## Gotchas (lessons learned — check these before starting)
+
+### 0. Never touch resourcedescriptors
+`hub/resourcedescriptors/` is auto-generated — never read or edit any file under it.
 
 ### 1. Discover existing files with `find`, not `ls | grep`
 Run this first to get a clean inventory:
@@ -116,6 +118,8 @@ The top-level v1alpha2 outline always contains only: Overview, Monitoring, Secur
 Before creating, read the existing file and diff against MSSQLServer reference. Common issues found:
 - Missing Backup page even when `Backup/Restore: yes`
 - Recommendations block present even when `Recommendation: no`
+- Backup page present even when `Backup/Restore: no`
+- Dashboards block in Overview present even when `Dashboards: no`
 
 ### 4. resourcedashboards uses singular filenames for some DBs
 Files like `cassandra.yaml`, `mssqlserver.yaml` use singular despite the plan saying `<plural>.yaml`.
@@ -132,13 +136,52 @@ Both exit 0 on success with no output.
 MSSQLServer has `Recommendation: no` but its kubedb outline still includes the Recommendations block.
 Follow the feature map, not MSSQLServer's actual content, when adding/removing blocks.
 
+### 7. Top-level v1alpha2 outlines may contain incorrect extra pages
+Existing top-level outlines for v1alpha2 DBs sometimes have Users, Operations, Backup pages copied
+from v1 databases. They must be reduced to ONLY: Overview, Monitoring, Security.
+Always read the existing top-level outline and strip anything beyond those three pages.
+
+### 8. resourceeditors may be missing the entire actions section
+Some DBs (e.g. DB2) had only the editor/options spec with no `actions:` list at all.
+Don't assume the file is complete — read it and verify all action groups are present.
+
+### 9. resourcedashboards must match the Dashboards feature flag
+- `Dashboards: yes` → file must have actual dashboard entries (Summary, Database, Pod).
+  If the file currently has `dashboards: null`, populate it from the MSSQLServer reference.
+- `Dashboards: no` → file must have `dashboards: null`.
+  If the file currently has entries, clear them.
+- Also check for typos in the resource name/labels inside the dashboard file (e.g. `cliickhouses`).
+
+### 10. Check for missing ops editor and table definition at base level
+The find output will show whether these exist:
+- `hub/resourceeditors/ops.kubedb.com/v1alpha1/<ops-plural>.yaml`
+- `hub/resourcetabledefinitions/ops.kubedb.com/v1alpha1/<ops-plural>.yaml`
+
+Note: the `kubedb/` subfolder versions (e.g. `kubedb/<ops-plural>.yaml`) are separate files.
+A DB can have the kubedb/ version but be missing the base version — create both if absent.
+
+### 11. kubedb/ outline header must not have requiredFeatureSets
+The `header:` block in the kubedb/ outline should NOT have a `requiredFeatureSets` field.
+Some existing files have it incorrectly. Strip it to match the MSSQLServer/Cassandra reference.
+
+### 12. DB-specific insight sections in kubedb/ outline Overview
+Some DBs have a DB-specific `insight:` field under the Overview section (e.g. `DB2Insight`,
+`PostgresInsight`). These are intentional and DB-specific — keep them if already present.
+They are separate from the `Insights` page (which depends on `Dashboards: yes`).
+
+### 13. ask for disabledTemplate editing
+I mistakenly edited from {{ and (not (hasKey .spec "clusterTopology")) (not (gt .spec.replicas 1)) }} -> {{ not (gt .spec.replicas 1) }}
+in hub/resourceeditors/kubedb.com/v1alpha2/clickhouses.yaml
+
 ## Scope — only touch these folders
 - hub/resourceblockdefinitions/kubedb.com
 - hub/resourcedashboards/kubedb.com
-- hub/resourcedescriptors/kubedb.com
 - hub/resourceeditors/kubedb.com
 - hub/resourceoutlines/kubedb.com
 - hub/resourcetabledefinitions/kubedb.com
 - hub/resourcetabledefinitions/ops.kubedb.com
 - hub/resourcetabledefinitions/core.k8s.appscode.com/v1alpha1/kubedb
+
+## After done
+After editing done, Commit with `git commit -m <dbname> -s`, & push. Dont add you name.
 ```
