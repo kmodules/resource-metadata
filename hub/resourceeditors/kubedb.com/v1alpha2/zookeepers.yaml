@@ -126,14 +126,16 @@ spec:
         icon: hugeicons:arrow-expand
         name: Scale Storage
         operationId: scale-storage
-      - editor:
+      - disabledTemplate: |
+          {{ not (gt .spec.replicas 1) }}
+        editor:
           name: opskubedbcom-zookeeperopsrequest-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
           version: v0.33.0
-        enforceQuota: false
+        enforceQuota: true
         flow: standalone-create
         icon: hugeicons:horizontal-resize
         icons:
@@ -148,7 +150,7 @@ spec:
             kind: HelmRepository
             name: appscode-charts-oci
           version: v0.33.0
-        enforceQuota: false
+        enforceQuota: true
         flow: standalone-create
         icons:
         - src: https://cdn.appscode.com/k8s/icons/action-icons/vertical_scale.svg
@@ -172,6 +174,23 @@ spec:
         operationId: create-opsrequest-volumeexpansion
         partOf: Scale Storage
       name: Scaling
+    - items:
+      - editor:
+          name: kubedbcom-zookeeper-editor
+          sourceRef:
+            apiGroup: source.toolkit.fluxcd.io
+            kind: HelmRepository
+            name: appscode-charts-oci
+          version: v0.33.0
+        enforceQuota: true
+        flow: standalone-edit
+        icons:
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/compute.svg
+          type: image/svg+xml
+        name: Compute
+        operationId: edit-self-compute-autoscaler
+        partOf: Scale Vertically
+      name: Autoscaling
     - items:
       - editor:
           name: opskubedbcom-zookeeperopsrequest-editor

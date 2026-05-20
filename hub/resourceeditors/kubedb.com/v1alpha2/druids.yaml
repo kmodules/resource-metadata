@@ -126,7 +126,9 @@ spec:
         icon: hugeicons:arrow-expand
         name: Scale Storage
         operationId: scale-storage
-      - editor:
+      - disabledTemplate: |
+          {{ not (hasKey .spec "topology")}}
+        editor:
           name: opskubedbcom-druidopsrequest-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io

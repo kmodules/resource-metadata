@@ -127,7 +127,7 @@ spec:
         name: Scale Storage
         operationId: scale-storage
       - disabledTemplate: |
-          {{ not (hasKey .spec "topology")}}
+          {{ not (gt .spec.replicas 1) }}
         editor:
           name: opskubedbcom-cassandraopsrequest-editor
           sourceRef:
@@ -238,6 +238,23 @@ spec:
         name: Monitoring
         operationId: edit-self-monitoring
       name: Security & Monitoring
+    - items:
+      - editor:
+          name: kubedbcom-cassandra-editor
+          sourceRef:
+            apiGroup: source.toolkit.fluxcd.io
+            kind: HelmRepository
+            name: appscode-charts-oci
+          version: v0.33.0
+        enforceQuota: false
+        flow: standalone-edit
+        icon: streamline-ultimate:server-share
+        icons:
+        - src: https://cdn.appscode.com/k8s/icons/action-icons/configure.svg
+          type: image/svg+xml
+        name: Expose via Gateway
+        operationId: edit-self-binding
+      name: Extras
     editor:
       name: kubedbcom-cassandra-editor
       sourceRef:

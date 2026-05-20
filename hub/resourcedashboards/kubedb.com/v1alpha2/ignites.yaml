@@ -1,0 +1,36 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceDashboard
+metadata:
+  labels:
+    k8s.io/group: kubedb.com
+    k8s.io/kind: Ignite
+    k8s.io/resource: ignites
+    k8s.io/version: v1alpha2
+  name: kubedb.com-v1alpha2-ignites
+spec:
+  dashboards:
+  - title: KubeDB / Ignite / Summary
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+  - title: KubeDB / Ignite / Database
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+  - title: KubeDB / Ignite / Pod
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+  provider: Grafana
+  resource:
+    group: kubedb.com
+    kind: Ignite
+    name: ignites
+    scope: Namespaced
+    version: v1alpha2

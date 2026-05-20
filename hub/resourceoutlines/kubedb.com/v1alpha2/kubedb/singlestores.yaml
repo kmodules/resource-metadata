@@ -261,27 +261,6 @@ spec:
           sort:
             fieldName: Age
             order: Ascending
-      - actions:
-          create: Never
-        displayMode: List
-        kind: Connection
-        name: Recommendations
-        query:
-          byLabel: recommended_for
-          type: GraphQL
-        ref:
-          group: supervisor.appscode.com
-          kind: Recommendation
-        requiredFeatureSets:
-          opscenter-datastore:
-          - kubedb
-          opscenter-tools:
-          - supervisor
-        view:
-          name: supervisor.appscode.com-v1alpha1-recommendations-kubedb
-          sort:
-            fieldName: Age
-            order: Ascending
   - icon: carbon:data-backup
     name: Backup
     requiredFeatureSets:

@@ -15,9 +15,7 @@ spec:
       value: '{{ .metadata.namespace }}'
     - name: app
       value: '{{ .metadata.name }}'
-  - if:
-      condition: '{{- if or (hasKey .spec "replicaSet") (hasKey .spec "shardTopology") }}true{{ else }}false{{ end -}}'
-    title: KubeDB / Qdrant / Database / ReplicaSet
+  - title: KubeDB / Qdrant / Database
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
