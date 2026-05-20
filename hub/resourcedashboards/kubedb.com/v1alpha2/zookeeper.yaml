@@ -3,25 +3,25 @@ kind: ResourceDashboard
 metadata:
   labels:
     k8s.io/group: kubedb.com
-    k8s.io/kind: ZooKeeeper
-    k8s.io/resource: zookeeepers
+    k8s.io/kind: ZooKeeper
+    k8s.io/resource: zookeepers
     k8s.io/version: v1alpha2
-  name: kubedb.com-v1alpha2-zookeeepers
+  name: kubedb.com-v1alpha2-zookeepers
 spec:
   dashboards:
-  - title: KubeDB / ZooKeeeper / Summary
+  - title: KubeDB / ZooKeeper / Summary
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
     - name: app
       value: '{{ .metadata.name }}'
-  - title: KubeDB / ZooKeeeper / Database
+  - title: KubeDB / ZooKeeper / Database
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
     - name: app
       value: '{{ .metadata.name }}'
-  - title: KubeDB / ZooKeeeper / Pod
+  - title: KubeDB / ZooKeeper / Pod
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
@@ -30,7 +30,7 @@ spec:
   provider: Grafana
   resource:
     group: kubedb.com
-    kind: ZooKeeeper
-    name: zookeeepers
+    kind: ZooKeeper
+    name: zookeepers
     scope: Namespaced
     version: v1alpha2
