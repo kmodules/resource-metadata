@@ -95,6 +95,10 @@ Files to copy+replace:
 Run `make fmt` — executes `check-edge-label` and `resource-fmt` which validate and
 canonicalize hub YAML. Fix any reported issues before marking the task done.
 
+
+## Subagents
+Use sub-agents feature where ever needed. Like, Read/Do the common stuffs in main agents, and spawn subagents for non-common tasks.
+
 ## Gotchas (lessons learned — check these before starting)
 
 ### 0. Never touch resourcedescriptors
