@@ -3,25 +3,25 @@ kind: ResourceDashboard
 metadata:
   labels:
     k8s.io/group: kubedb.com
-    k8s.io/kind: HanaDB
-    k8s.io/resource: hanadbs
+    k8s.io/kind: Hazelcast
+    k8s.io/resource: hazelcasts
     k8s.io/version: v1alpha2
-  name: kubedb.com-v1alpha2-hanadbs
+  name: kubedb.com-v1alpha2-hazelcasts
 spec:
   dashboards:
-  - title: KubeDB / HanaDB / Summary
+  - title: KubeDB / Hazelcast / Summary
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
     - name: app
       value: '{{ .metadata.name }}'
-  - title: KubeDB / HanaDB / Database
+  - title: KubeDB / Hazelcast / Database
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
     - name: app
       value: '{{ .metadata.name }}'
-  - title: KubeDB / HanaDB / Pod
+  - title: KubeDB / Hazelcast / Pod
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
@@ -30,7 +30,7 @@ spec:
   provider: Grafana
   resource:
     group: kubedb.com
-    kind: HanaDB
-    name: hanadbs
+    kind: Hazelcast
+    name: hazelcasts
     scope: Namespaced
     version: v1alpha2

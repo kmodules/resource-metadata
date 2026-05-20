@@ -20,9 +20,6 @@ spec:
     ref:
       group: core.k8s.appscode.com
       kind: GenericResource
-    requiredFeatureSets:
-      opscenter-datastore:
-      - kubedb
     view:
       name: core.k8s.appscode.com-v1alpha1-genericresources-kubedb
   pages:
@@ -125,6 +122,47 @@ spec:
           opscenter-datastore:
           - kubedb
           - kubedb-opscenter
+  - icon: hugeicons:chart-line-data-01
+    name: Insights
+    requiredFeatureSets:
+      opscenter-datastore:
+      - kubedb
+      - kubedb-opscenter
+      opscenter-monitoring:
+      - monitoring-operator
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        fieldPath: .response.dashboards
+        impersonate: true
+        kind: Connection
+        name: Grafana Dashboards
+        query:
+          raw: |
+            request:
+              sourceLocator:
+                resource:
+                  group: kubedb.com
+                  name: hanadbs
+                  version: v1alpha2
+                ref:
+                  name: {{ .name }}
+                  namespace: {{ .namespace }}
+              name: kubedb.com-v1alpha2-hanadbs
+          type: REST
+        ref:
+          group: meta.k8s.appscode.com
+          kind: RenderDashboard
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
+          opscenter-monitoring:
+          - monitoring-operator
+        view:
+          name: ui.k8s.appscode.com-v1alpha1-resourcedashboards-urls
   - icon: hugeicons:dashboard-circle-settings
     name: Operations
     sections:
@@ -148,36 +186,6 @@ spec:
           sort:
             fieldName: Age
             order: Ascending
-      - actions:
-          create: Never
-        displayMode: List
-        kind: Connection
-        name: Recommendations
-        query:
-          byLabel: recommended_for
-          type: GraphQL
-        ref:
-          group: supervisor.appscode.com
-          kind: Recommendation
-        requiredFeatureSets:
-          opscenter-datastore:
-          - kubedb
-          opscenter-tools:
-          - supervisor
-        view:
-          name: supervisor.appscode.com-v1alpha1-recommendations-kubedb
-          sort:
-            fieldName: Age
-            order: Ascending
-  - icon: carbon:data-backup
-    name: Backup
-    requiredFeatureSets:
-      opscenter-backup:
-      - kubestash
-    sections:
-    - blocks:
-      - kind: Block
-        name: core.kubestash.com-v1alpha1-kubedb-backup
   - icon: hugeicons:database-locked
     name: Security
     sections:
