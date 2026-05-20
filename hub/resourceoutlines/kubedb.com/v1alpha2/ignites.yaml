@@ -3,10 +3,10 @@ kind: ResourceOutline
 metadata:
   labels:
     k8s.io/group: kubedb.com
-    k8s.io/kind: Milvus
-    k8s.io/resource: milvuses
+    k8s.io/kind: Ignite
+    k8s.io/resource: ignites
     k8s.io/version: v1alpha2
-  name: kubedb.com-v1alpha2-milvuses
+  name: kubedb.com-v1alpha2-ignites
 spec:
   defaultLayout: true
   pages:
@@ -15,7 +15,7 @@ spec:
     sections:
     - blocks:
       - kind: Block
-        name: kubedb.com-v1alpha2-milvuses
+        name: kubedb.com-v1alpha2-ignites
   - name: Monitoring
     sections:
     - blocks:
@@ -62,7 +62,7 @@ spec:
         - falco-ui-server
   resource:
     group: kubedb.com
-    kind: Milvus
-    name: milvuses
+    kind: Ignite
+    name: ignites
     scope: Namespaced
     version: v1alpha2
