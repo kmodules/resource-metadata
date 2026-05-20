@@ -282,9 +282,9 @@ spec:
             type:
               enum:
               - UpdateVersion
-              - VerticalScaling
-              - Reconfigure
               - Restart
+              - Reconfigure
+              - VerticalScaling
               - HorizontalScaling
               - ReconfigureTLS
               - RotateAuth
