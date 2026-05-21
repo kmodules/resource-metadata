@@ -83,29 +83,6 @@ spec:
           opscenter-datastore:
           - kubedb
           - kubedb-opscenter
-  - icon: hugeicons:dashboard-circle-settings
-    name: Operations
-    sections:
-    - blocks:
-      - actions:
-          create: Never
-        displayMode: List
-        kind: Connection
-        name: Recent Operations
-        query:
-          byLabel: ops
-          type: GraphQL
-        ref:
-          group: ops.kubedb.com
-          kind: DB2OpsRequest
-        requiredFeatureSets:
-          opscenter-datastore:
-          - kubedb
-        view:
-          name: ops.kubedb.com-v1alpha1-db2opsrequests-kubedb
-          sort:
-            fieldName: Age
-            order: Ascending
   - icon: hugeicons:database-locked
     name: Security
     sections:
