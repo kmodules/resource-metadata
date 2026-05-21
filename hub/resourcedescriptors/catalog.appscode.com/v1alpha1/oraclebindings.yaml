@@ -3,29 +3,20 @@ kind: ResourceDescriptor
 metadata:
   labels:
     k8s.io/group: catalog.appscode.com
-    k8s.io/kind: FerretDBBinding
-    k8s.io/resource: ferretdbbindings
+    k8s.io/kind: OracleBinding
+    k8s.io/resource: oraclebindings
     k8s.io/version: v1alpha1
-  name: catalog.appscode.com-v1alpha1-ferretdbbindings
+  name: catalog.appscode.com-v1alpha1-oraclebindings
 spec:
-  connections:
-  - labels:
-    - exposed_by
-    references:
-    - '{.spec.sourceRef.name},{.spec.sourceRef.namespace}'
-    target:
-      apiVersion: kubedb.com/v1alpha2
-      kind: FerretDB
-    type: MatchRef
   resource:
     group: catalog.appscode.com
-    kind: FerretDBBinding
-    name: ferretdbbindings
+    kind: OracleBinding
+    name: oraclebindings
     scope: Namespaced
     version: v1alpha1
   validation:
     openAPIV3Schema:
-      description: FerretDBBinding is the Schema for the ferretdbbindings API
+      description: OracleBinding is the Schema for the oraclebindings API
       properties:
         apiVersion:
           description: |-
