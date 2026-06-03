@@ -58,6 +58,7 @@ var (
 	chartRegistryURL = flag.String("chart.registry-url", ociURL, "Chart registry url (prod/dev)")
 	chartVersion     = flag.String("chart.version", "v0.13.0", "Chart version")
 	useDigest        = flag.Bool("use-digest", true, "Use digest instead of tag")
+	apiGroups        = flag.StringSlice("api-groups", nil, "Comma-separated API groups to process (e.g. kubedb.com,x.y.z); empty means all")
 )
 
 var helmRepositories = map[string]string{
@@ -160,29 +161,39 @@ func check(filename string) (string, error) {
 func main() {
 	flag.Parse()
 
-	err := filepath.Walk("./hub/resourceeditors/", func(path string, info fs.FileInfo, err error) error {
-		if err != nil {
-			return err
+	roots := []string{"./hub/resourceeditors/"}
+	if len(*apiGroups) > 0 {
+		roots = make([]string, 0, len(*apiGroups))
+		for _, g := range *apiGroups {
+			roots = append(roots, filepath.Join("./hub/resourceeditors/", g))
 		}
-		if info.IsDir() {
-			return nil
-		}
-		ext := filepath.Ext(info.Name())
-		if ext != ".yml" && ext != ".yaml" && ext != ".json" {
-			return nil
-		}
+	}
 
-		d, err := check(path)
+	for _, root := range roots {
+		err := filepath.Walk(root, func(path string, info fs.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
+			if info.IsDir() {
+				return nil
+			}
+			ext := filepath.Ext(info.Name())
+			if ext != ".yml" && ext != ".yaml" && ext != ".json" {
+				return nil
+			}
+
+			d, err := check(path)
+			if err != nil {
+				return err
+			}
+			if d != "" {
+				return fmt.Errorf("parsing error in file %s: %s", path, d)
+			}
+			return nil
+		})
 		if err != nil {
-			return err
+			panic(err)
 		}
-		if d != "" {
-			return fmt.Errorf("parsing error in file %s: %s", path, d)
-		}
-		return nil
-	})
-	if err != nil {
-		panic(err)
 	}
 }
 
