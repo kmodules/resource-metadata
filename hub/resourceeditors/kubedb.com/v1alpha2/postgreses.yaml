@@ -28,7 +28,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:dd8b31da2d3cac8d96391397d1b0c8543703417a88cb780b3bf2cf773c3c315b
+          version: v0.34.0
         enforceQuota: false
         flow: standalone-edit
         icon: material-symbols-light:backup-outline
@@ -43,7 +43,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:222fdb8f2cf48ee34ab46f2aa0bded8fcc7aaa9743aa3036ab4ad173ceb32096
+          version: v0.34.0
         enforceQuota: false
         flow: standalone-create
         icon: mdi:backup-restore
@@ -60,7 +60,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:982d731533e20ca1323c3eaabcad1024210d4f0e385273dd0fdb6c11f04ddddf
+          version: v0.34.0
         enforceQuota: false
         flow: standalone-create
         icon: qlementine-icons:version-control-16
@@ -75,7 +75,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:982d731533e20ca1323c3eaabcad1024210d4f0e385273dd0fdb6c11f04ddddf
+          version: v0.34.0
         enforceQuota: false
         flow: standalone-create
         icon: hugeicons:redo
@@ -90,7 +90,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:982d731533e20ca1323c3eaabcad1024210d4f0e385273dd0fdb6c11f04ddddf
+          version: v0.34.0
         enforceQuota: false
         flow: standalone-create
         icon: hugeicons:settings-05
@@ -119,7 +119,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:982d731533e20ca1323c3eaabcad1024210d4f0e385273dd0fdb6c11f04ddddf
+          version: v0.34.0
         enforceQuota: true
         flow: standalone-create
         icon: hugeicons:horizontal-resize
@@ -134,7 +134,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:982d731533e20ca1323c3eaabcad1024210d4f0e385273dd0fdb6c11f04ddddf
+          version: v0.34.0
         enforceQuota: true
         flow: standalone-create
         icons:
@@ -149,7 +149,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:982d731533e20ca1323c3eaabcad1024210d4f0e385273dd0fdb6c11f04ddddf
+          version: v0.34.0
         enforceQuota: true
         flow: standalone-create
         icons:
@@ -166,7 +166,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:982d731533e20ca1323c3eaabcad1024210d4f0e385273dd0fdb6c11f04ddddf
+          version: v0.34.0
         enforceQuota: false
         flow: standalone-create
         icon: hugeicons:security-check
@@ -181,7 +181,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-charts-oci
-          version: sha256:dd8b31da2d3cac8d96391397d1b0c8543703417a88cb780b3bf2cf773c3c315b
+          version: v0.34.0
         enforceQuota: false
         flow: standalone-edit
         icon: hugeicons:presentation-line-chart-01
@@ -197,7 +197,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:dd8b31da2d3cac8d96391397d1b0c8543703417a88cb780b3bf2cf773c3c315b
+      version: v0.34.0
     enforceQuota: true
     options:
       name: kubedbcom-postgres-editor-options
@@ -205,7 +205,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-charts-oci
-      version: sha256:c35dc0687d6026b1f631377f1c9526544aa21410a26d19e5814925c55a53a13e
+      version: v0.34.0
   variants:
   - name: default
     selector:
