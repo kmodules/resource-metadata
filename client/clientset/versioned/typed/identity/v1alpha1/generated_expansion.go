@@ -18,10 +18,10 @@ limitations under the License.
 
 package v1alpha1
 
+type AuditTokenRequestExpansion interface{}
+
 type ClusterIdentityExpansion interface{}
 
 type InboxTokenRequestExpansion interface{}
-
-type AuditTokenRequestExpansion interface{}
 
 type SelfSubjectNamespaceAccessReviewExpansion interface{}

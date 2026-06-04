@@ -28,9 +28,9 @@ import (
 
 type IdentityV1alpha1Interface interface {
 	RESTClient() rest.Interface
+	AuditTokenRequestsGetter
 	ClusterIdentitiesGetter
 	InboxTokenRequestsGetter
-	AuditTokenRequestsGetter
 	SelfSubjectNamespaceAccessReviewsGetter
 }
 
@@ -39,16 +39,16 @@ type IdentityV1alpha1Client struct {
 	restClient rest.Interface
 }
 
+func (c *IdentityV1alpha1Client) AuditTokenRequests() AuditTokenRequestInterface {
+	return newAuditTokenRequests(c)
+}
+
 func (c *IdentityV1alpha1Client) ClusterIdentities(namespace string) ClusterIdentityInterface {
 	return newClusterIdentities(c, namespace)
 }
 
 func (c *IdentityV1alpha1Client) InboxTokenRequests() InboxTokenRequestInterface {
 	return newInboxTokenRequests(c)
-}
-
-func (c *IdentityV1alpha1Client) AuditTokenRequests() AuditTokenRequestInterface {
-	return newAuditTokenRequests(c)
 }
 
 func (c *IdentityV1alpha1Client) SelfSubjectNamespaceAccessReviews() SelfSubjectNamespaceAccessReviewInterface {

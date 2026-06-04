@@ -28,16 +28,16 @@ type FakeIdentityV1alpha1 struct {
 	*testing.Fake
 }
 
+func (c *FakeIdentityV1alpha1) AuditTokenRequests() v1alpha1.AuditTokenRequestInterface {
+	return &FakeAuditTokenRequests{c}
+}
+
 func (c *FakeIdentityV1alpha1) ClusterIdentities(namespace string) v1alpha1.ClusterIdentityInterface {
 	return &FakeClusterIdentities{c, namespace}
 }
 
 func (c *FakeIdentityV1alpha1) InboxTokenRequests() v1alpha1.InboxTokenRequestInterface {
 	return &FakeInboxTokenRequests{c}
-}
-
-func (c *FakeIdentityV1alpha1) AuditTokenRequests() v1alpha1.AuditTokenRequestInterface {
-	return &FakeAuditTokenRequests{c}
 }
 
 func (c *FakeIdentityV1alpha1) SelfSubjectNamespaceAccessReviews() v1alpha1.SelfSubjectNamespaceAccessReviewInterface {
