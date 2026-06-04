@@ -28,6 +28,7 @@ import (
 
 type IdentityV1alpha1Interface interface {
 	RESTClient() rest.Interface
+	AuditTokenRequestsGetter
 	ClusterIdentitiesGetter
 	InboxTokenRequestsGetter
 	SelfSubjectNamespaceAccessReviewsGetter
@@ -36,6 +37,10 @@ type IdentityV1alpha1Interface interface {
 // IdentityV1alpha1Client is used to interact with features provided by the identity.k8s.appscode.com group.
 type IdentityV1alpha1Client struct {
 	restClient rest.Interface
+}
+
+func (c *IdentityV1alpha1Client) AuditTokenRequests() AuditTokenRequestInterface {
+	return newAuditTokenRequests(c)
 }
 
 func (c *IdentityV1alpha1Client) ClusterIdentities(namespace string) ClusterIdentityInterface {
