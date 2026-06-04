@@ -220,18 +220,14 @@ func (c *Client) GetNatsCredential(features string, license []byte) (*identityap
 	if err != nil {
 		return nil, err
 	}
-	return GetNatsCredentialForCluster(c.client, c.baseURL, c.token, md.UID, features, license)
+	return c.GetNatsCredentialForCluster(md.UID, features, license)
 }
 
 // GetNatsCredentialForCluster posts the supplied license to the appscode
 // Register endpoint (api/v1/register) and returns the issued NATS
-// subject/server/credential. httpClient may be nil (http.DefaultClient is
-// used). baseURL "" selects the production default; token "" omits the
-// Authorization header.
-func GetNatsCredentialForCluster(httpClient *http.Client, baseURL, token, clusterUID, features string, license []byte) (*identityapi.NatsCredentialRequestResponse, error) {
-	if httpClient == nil {
-		httpClient = http.DefaultClient
-	}
+// subject/server/credential. It does not touch c.kc, so it is safe to call
+// on a Client constructed without one.
+func (c *Client) GetNatsCredentialForCluster(clusterUID, features string, license []byte) (*identityapi.NatsCredentialRequestResponse, error) {
 	if features == "" {
 		features = info.ProductName
 	}
@@ -247,7 +243,7 @@ func GetNatsCredentialForCluster(httpClient *http.Client, baseURL, token, cluste
 		return nil, err
 	}
 
-	endpoint, err := info.RegistrationAPIEndpoint(baseURL)
+	endpoint, err := info.RegistrationAPIEndpoint(c.baseURL)
 	if err != nil {
 		return nil, err
 	}
@@ -257,15 +253,15 @@ func GetNatsCredentialForCluster(httpClient *http.Client, baseURL, token, cluste
 		return nil, err
 	}
 	req.Header.Set("Content-Type", "application/json")
-	if token != "" {
-		req.Header.Add("Authorization", "Bearer "+token)
+	if c.token != "" {
+		req.Header.Add("Authorization", "Bearer "+c.token)
 	}
 	if klog.V(8).Enabled() {
 		command, _ := http2curl.GetCurlCommand(req)
 		klog.V(8).Infoln(command.String())
 	}
 
-	resp, err := httpClient.Do(req)
+	resp, err := c.client.Do(req)
 	if err != nil {
 		var ce *tls.CertificateVerificationError
 		if errors.As(err, &ce) {
