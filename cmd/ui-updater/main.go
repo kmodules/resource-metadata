@@ -21,6 +21,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"strings"
 
 	kmapi "kmodules.xyz/client-go/api/v1"
 	uiapi "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
@@ -204,11 +205,17 @@ func getDigestOrVersion(repo, bin, ver string) string {
 	if repo != "appscode-charts-oci" {
 		return ver
 	}
+	// Skip digest resolution for templated chart names (e.g.
+	// uik8sappscodecom-featureset-{.metadata.release.name}-editor) — the
+	// chart name is only resolved at render time, so no fixed digest exists.
+	if strings.ContainsAny(bin, "{}") {
+		return ver
+	}
 	ref := fmt.Sprintf("ghcr.io/appscode-charts/%s:%s", bin, ver)
 	digest, err := crane.Digest(ref, crane.WithAuthFromKeychain(authn.DefaultKeychain))
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "WARN: failed to resolve digest for %s: %v\n", ref, err)
-		return ver
+		fmt.Fprintf(os.Stderr, "ERROR: failed to resolve digest for %s: %v\n", ref, err)
+		os.Exit(1)
 	}
 	return digest
 }
