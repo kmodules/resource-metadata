@@ -211,16 +211,16 @@ type natsRegisterOptions struct {
 	License    []byte `json:"license"`
 }
 
-// GetNatsCredential resolves the cluster identity via c.kc and then calls
+// GetNatsCredential resolves the cluster UID via c.kc and then calls
 // GetNatsCredentialForCluster. Use GetNatsCredentialForCluster directly when
 // the cluster UID is already known and there is no controller-runtime client
 // available.
 func (c *Client) GetNatsCredential(features string, license []byte) (*identityapi.NatsCredentialRequestResponse, error) {
-	id, err := c.GetIdentity()
+	md, err := clustermeta.ClusterMetadata(c.kc)
 	if err != nil {
 		return nil, err
 	}
-	return c.GetNatsCredentialForCluster(id.Status.UID, features, license)
+	return c.GetNatsCredentialForCluster(md.UID, features, license)
 }
 
 // GetNatsCredentialForCluster posts the supplied license to the appscode
