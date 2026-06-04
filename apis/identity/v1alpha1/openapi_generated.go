@@ -380,9 +380,9 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.InboxTokenRequestResponse":            schema_resource_metadata_apis_identity_v1alpha1_InboxTokenRequestResponse(ref),
 		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.KubernetesInfo":                       schema_resource_metadata_apis_identity_v1alpha1_KubernetesInfo(ref),
 		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.NatsConfig":                           schema_resource_metadata_apis_identity_v1alpha1_NatsConfig(ref),
-		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.NatsCredentialRequest":                schema_resource_metadata_apis_identity_v1alpha1_NatsCredentialRequest(ref),
-		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.NatsCredentialRequestRequest":         schema_resource_metadata_apis_identity_v1alpha1_NatsCredentialRequestRequest(ref),
-		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.NatsCredentialRequestResponse":        schema_resource_metadata_apis_identity_v1alpha1_NatsCredentialRequestResponse(ref),
+		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.AuditTokenRequest":                    schema_resource_metadata_apis_identity_v1alpha1_AuditTokenRequest(ref),
+		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.AuditTokenRequestRequest":             schema_resource_metadata_apis_identity_v1alpha1_AuditTokenRequestRequest(ref),
+		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.AuditTokenRequestResponse":            schema_resource_metadata_apis_identity_v1alpha1_AuditTokenRequestResponse(ref),
 		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.NodeInfo":                             schema_resource_metadata_apis_identity_v1alpha1_NodeInfo(ref),
 		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.NodeStats":                            schema_resource_metadata_apis_identity_v1alpha1_NodeStats(ref),
 		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.ProductInfo":                          schema_resource_metadata_apis_identity_v1alpha1_ProductInfo(ref),
@@ -20022,7 +20022,7 @@ func schema_resource_metadata_apis_identity_v1alpha1_NatsConfig(ref common.Refer
 	}
 }
 
-func schema_resource_metadata_apis_identity_v1alpha1_NatsCredentialRequest(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_resource_metadata_apis_identity_v1alpha1_AuditTokenRequest(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
@@ -20045,24 +20045,24 @@ func schema_resource_metadata_apis_identity_v1alpha1_NatsCredentialRequest(ref c
 					"request": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Request describes the attributes for the nats credential request.",
-							Ref:         ref("kmodules.xyz/resource-metadata/apis/identity/v1alpha1.NatsCredentialRequestRequest"),
+							Ref:         ref("kmodules.xyz/resource-metadata/apis/identity/v1alpha1.AuditTokenRequestRequest"),
 						},
 					},
 					"response": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Response describes the attributes for the nats credential response.",
-							Ref:         ref("kmodules.xyz/resource-metadata/apis/identity/v1alpha1.NatsCredentialRequestResponse"),
+							Ref:         ref("kmodules.xyz/resource-metadata/apis/identity/v1alpha1.AuditTokenRequestResponse"),
 						},
 					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.NatsCredentialRequestRequest", "kmodules.xyz/resource-metadata/apis/identity/v1alpha1.NatsCredentialRequestResponse"},
+			"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.AuditTokenRequestRequest", "kmodules.xyz/resource-metadata/apis/identity/v1alpha1.AuditTokenRequestResponse"},
 	}
 }
 
-func schema_resource_metadata_apis_identity_v1alpha1_NatsCredentialRequestRequest(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_resource_metadata_apis_identity_v1alpha1_AuditTokenRequestRequest(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
@@ -20086,7 +20086,7 @@ func schema_resource_metadata_apis_identity_v1alpha1_NatsCredentialRequestReques
 	}
 }
 
-func schema_resource_metadata_apis_identity_v1alpha1_NatsCredentialRequestResponse(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_resource_metadata_apis_identity_v1alpha1_AuditTokenRequestResponse(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{

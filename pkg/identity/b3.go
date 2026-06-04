@@ -212,38 +212,38 @@ func (c *Client) GetToken() (*identityapi.InboxTokenRequestResponse, error) {
 	return tokenResponse, nil
 }
 
-// natsRegisterOptions mirrors the payload accepted by the appscode register
+// auditRegisterOptions mirrors the payload accepted by the appscode register
 // endpoint (api/v1/register). It is duplicated here so that resource-metadata
 // does not need to vendor the full license-verifier package.
-type natsRegisterOptions struct {
+type auditRegisterOptions struct {
 	ClusterUID string `json:"clusterUID"`
 	Features   string `json:"features"`
 	CACert     []byte `json:"caCert,omitempty"`
 	License    []byte `json:"license"`
 }
 
-// GetNatsCredential resolves the cluster UID via c.kc and then calls
-// GetNatsCredentialForCluster. Use GetNatsCredentialForCluster directly when
+// GetAuditToken resolves the cluster UID via c.kc and then calls
+// GetAuditTokenForCluster. Use GetAuditTokenForCluster directly when
 // the cluster UID is already known and there is no controller-runtime client
 // available.
-func (c *Client) GetNatsCredential(features string, license []byte) (*identityapi.NatsCredentialRequestResponse, error) {
+func (c *Client) GetAuditToken(features string, license []byte) (*identityapi.AuditTokenRequestResponse, error) {
 	md, err := clustermeta.ClusterMetadata(c.kc)
 	if err != nil {
 		return nil, err
 	}
-	return c.GetNatsCredentialForCluster(md.UID, features, license)
+	return c.GetAuditTokenForCluster(md.UID, features, license)
 }
 
-// GetNatsCredentialForCluster posts the supplied license to the appscode
+// GetAuditTokenForCluster posts the supplied license to the appscode
 // Register endpoint (api/v1/register) and returns the issued NATS
 // subject/server/credential. It does not touch c.kc, so it is safe to call
 // on a Client constructed without one.
-func (c *Client) GetNatsCredentialForCluster(clusterUID, features string, license []byte) (*identityapi.NatsCredentialRequestResponse, error) {
+func (c *Client) GetAuditTokenForCluster(clusterUID, features string, license []byte) (*identityapi.AuditTokenRequestResponse, error) {
 	if features == "" {
 		features = info.ProductName
 	}
 
-	opts := natsRegisterOptions{
+	opts := auditRegisterOptions{
 		ClusterUID: clusterUID,
 		Features:   features,
 		CACert:     []byte(info.LicenseCA),
@@ -293,7 +293,7 @@ func (c *Client) GetNatsCredentialForCluster(clusterUID, features string, licens
 		return nil, apierrors.NewGenericServerResponse(
 			resp.StatusCode,
 			http.MethodPost,
-			schema.GroupResource{Group: identityapi.GroupName, Resource: identityapi.ResourceNatsCredentialRequests},
+			schema.GroupResource{Group: identityapi.GroupName, Resource: identityapi.ResourceAuditTokenRequests},
 			"",
 			string(body),
 			0,
@@ -301,7 +301,7 @@ func (c *Client) GetNatsCredentialForCluster(clusterUID, features string, licens
 		)
 	}
 
-	out := &identityapi.NatsCredentialRequestResponse{}
+	out := &identityapi.AuditTokenRequestResponse{}
 	if err = json.Unmarshal(body, out); err != nil {
 		return nil, err
 	}

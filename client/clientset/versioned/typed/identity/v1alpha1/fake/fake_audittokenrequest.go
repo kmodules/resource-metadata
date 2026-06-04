@@ -26,21 +26,21 @@ import (
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/identity/v1alpha1"
 )
 
-// FakeNatsCredentialRequests implements NatsCredentialRequestInterface
-type FakeNatsCredentialRequests struct {
+// FakeAuditTokenRequests implements AuditTokenRequestInterface
+type FakeAuditTokenRequests struct {
 	Fake *FakeIdentityV1alpha1
 }
 
-var natscredentialrequestsResource = v1alpha1.SchemeGroupVersion.WithResource("natscredentialrequests")
+var audittokenrequestsResource = v1alpha1.SchemeGroupVersion.WithResource("audittokenrequests")
 
-var natscredentialrequestsKind = v1alpha1.SchemeGroupVersion.WithKind("NatsCredentialRequest")
+var audittokenrequestsKind = v1alpha1.SchemeGroupVersion.WithKind("AuditTokenRequest")
 
-// Create takes the representation of a natsCredentialRequest and creates it.  Returns the server's representation of the natsCredentialRequest, and an error, if there is any.
-func (c *FakeNatsCredentialRequests) Create(ctx context.Context, natsCredentialRequest *v1alpha1.NatsCredentialRequest, opts v1.CreateOptions) (result *v1alpha1.NatsCredentialRequest, err error) {
+// Create takes the representation of a auditTokenRequest and creates it.  Returns the server's representation of the auditTokenRequest, and an error, if there is any.
+func (c *FakeAuditTokenRequests) Create(ctx context.Context, auditTokenRequest *v1alpha1.AuditTokenRequest, opts v1.CreateOptions) (result *v1alpha1.AuditTokenRequest, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootCreateAction(natscredentialrequestsResource, natsCredentialRequest), &v1alpha1.NatsCredentialRequest{})
+		Invokes(testing.NewRootCreateAction(audittokenrequestsResource, auditTokenRequest), &v1alpha1.AuditTokenRequest{})
 	if obj == nil {
 		return nil, err
 	}
-	return obj.(*v1alpha1.NatsCredentialRequest), err
+	return obj.(*v1alpha1.AuditTokenRequest), err
 }

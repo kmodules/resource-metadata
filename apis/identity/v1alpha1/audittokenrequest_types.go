@@ -21,9 +21,9 @@ import (
 )
 
 const (
-	ResourceKindNatsCredentialRequest = "NatsCredentialRequest"
-	ResourceNatsCredentialRequest     = "natscredentialrequest"
-	ResourceNatsCredentialRequests    = "natscredentialrequests"
+	ResourceKindAuditTokenRequest = "AuditTokenRequest"
+	ResourceAuditTokenRequest     = "audittokenrequest"
+	ResourceAuditTokenRequests    = "audittokenrequests"
 )
 
 // +genclient
@@ -31,23 +31,23 @@ const (
 // +genclient:onlyVerbs=create
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +kubebuilder:object:root=true
-// +kubebuilder:resource:path=natscredentialrequests,singular=natscredentialrequest,scope=Cluster
-type NatsCredentialRequest struct {
+// +kubebuilder:resource:path=audittokenrequests,singular=audittokenrequest,scope=Cluster
+type AuditTokenRequest struct {
 	metav1.TypeMeta `json:",inline"`
 	// Request describes the attributes for the nats credential request.
 	// +optional
-	Request *NatsCredentialRequestRequest `json:"request,omitempty"`
+	Request *AuditTokenRequestRequest `json:"request,omitempty"`
 	// Response describes the attributes for the nats credential response.
 	// +optional
-	Response *NatsCredentialRequestResponse `json:"response,omitempty"`
+	Response *AuditTokenRequestResponse `json:"response,omitempty"`
 }
 
-type NatsCredentialRequestRequest struct {
+type AuditTokenRequestRequest struct {
 	Features string `json:"features,omitempty"`
 	License  []byte `json:"license,omitempty"`
 }
 
-type NatsCredentialRequestResponse struct {
+type AuditTokenRequestResponse struct {
 	NatsConfig `json:",inline"`
 	Credential []byte `json:"credential,omitempty"`
 }
@@ -58,5 +58,5 @@ type NatsConfig struct {
 }
 
 func init() {
-	SchemeBuilder.Register(&NatsCredentialRequest{})
+	SchemeBuilder.Register(&AuditTokenRequest{})
 }

@@ -22,6 +22,6 @@ type ClusterIdentityExpansion interface{}
 
 type InboxTokenRequestExpansion interface{}
 
-type NatsCredentialRequestExpansion interface{}
+type AuditTokenRequestExpansion interface{}
 
 type SelfSubjectNamespaceAccessReviewExpansion interface{}

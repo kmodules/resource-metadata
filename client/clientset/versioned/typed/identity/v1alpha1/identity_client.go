@@ -30,7 +30,7 @@ type IdentityV1alpha1Interface interface {
 	RESTClient() rest.Interface
 	ClusterIdentitiesGetter
 	InboxTokenRequestsGetter
-	NatsCredentialRequestsGetter
+	AuditTokenRequestsGetter
 	SelfSubjectNamespaceAccessReviewsGetter
 }
 
@@ -47,8 +47,8 @@ func (c *IdentityV1alpha1Client) InboxTokenRequests() InboxTokenRequestInterface
 	return newInboxTokenRequests(c)
 }
 
-func (c *IdentityV1alpha1Client) NatsCredentialRequests() NatsCredentialRequestInterface {
-	return newNatsCredentialRequests(c)
+func (c *IdentityV1alpha1Client) AuditTokenRequests() AuditTokenRequestInterface {
+	return newAuditTokenRequests(c)
 }
 
 func (c *IdentityV1alpha1Client) SelfSubjectNamespaceAccessReviews() SelfSubjectNamespaceAccessReviewInterface {
