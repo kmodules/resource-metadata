@@ -52,6 +52,17 @@ type Client struct {
 	kc client.Reader
 }
 
+// NewDefaultClient returns a Client wired to the production appscode.com
+// endpoint with no token and no controller-runtime client. It is intended
+// for one-shot callers (e.g. audit) that only need to hit the public
+// register endpoint and supply the cluster UID themselves; methods that
+// touch c.kc will panic on a Client created this way.
+func NewDefaultClient() *Client {
+	return &Client{
+		client: http.DefaultClient,
+	}
+}
+
 func NewClient(baseURL, token string, caCert []byte, kc client.Reader) (*Client, error) {
 	c := &Client{
 		baseURL: baseURL,
