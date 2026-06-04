@@ -379,6 +379,10 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.InboxTokenRequestRequest":             schema_resource_metadata_apis_identity_v1alpha1_InboxTokenRequestRequest(ref),
 		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.InboxTokenRequestResponse":            schema_resource_metadata_apis_identity_v1alpha1_InboxTokenRequestResponse(ref),
 		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.KubernetesInfo":                       schema_resource_metadata_apis_identity_v1alpha1_KubernetesInfo(ref),
+		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.NatsConfig":                           schema_resource_metadata_apis_identity_v1alpha1_NatsConfig(ref),
+		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.NatsCredentialRequest":                schema_resource_metadata_apis_identity_v1alpha1_NatsCredentialRequest(ref),
+		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.NatsCredentialRequestRequest":         schema_resource_metadata_apis_identity_v1alpha1_NatsCredentialRequestRequest(ref),
+		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.NatsCredentialRequestResponse":        schema_resource_metadata_apis_identity_v1alpha1_NatsCredentialRequestResponse(ref),
 		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.NodeInfo":                             schema_resource_metadata_apis_identity_v1alpha1_NodeInfo(ref),
 		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.NodeStats":                            schema_resource_metadata_apis_identity_v1alpha1_NodeStats(ref),
 		"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.ProductInfo":                          schema_resource_metadata_apis_identity_v1alpha1_ProductInfo(ref),
@@ -19988,6 +19992,130 @@ func schema_resource_metadata_apis_identity_v1alpha1_KubernetesInfo(ref common.R
 		},
 		Dependencies: []string{
 			"k8s.io/apimachinery/pkg/version.Info", "kmodules.xyz/client-go/api/v1.ClusterClaimFeatures", "kmodules.xyz/client-go/api/v1.ClusterMetadata", "kmodules.xyz/resource-metadata/apis/identity/v1alpha1.ControlPlaneInfo", "kmodules.xyz/resource-metadata/apis/identity/v1alpha1.NodeInfo"},
+	}
+}
+
+func schema_resource_metadata_apis_identity_v1alpha1_NatsConfig(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"natsSubject": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"natsServer": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+				},
+				Required: []string{"natsSubject", "natsServer"},
+			},
+		},
+	}
+}
+
+func schema_resource_metadata_apis_identity_v1alpha1_NatsCredentialRequest(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"request": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Request describes the attributes for the nats credential request.",
+							Ref:         ref("kmodules.xyz/resource-metadata/apis/identity/v1alpha1.NatsCredentialRequestRequest"),
+						},
+					},
+					"response": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Response describes the attributes for the nats credential response.",
+							Ref:         ref("kmodules.xyz/resource-metadata/apis/identity/v1alpha1.NatsCredentialRequestResponse"),
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"kmodules.xyz/resource-metadata/apis/identity/v1alpha1.NatsCredentialRequestRequest", "kmodules.xyz/resource-metadata/apis/identity/v1alpha1.NatsCredentialRequestResponse"},
+	}
+}
+
+func schema_resource_metadata_apis_identity_v1alpha1_NatsCredentialRequestRequest(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"features": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"license": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "byte",
+						},
+					},
+				},
+			},
+		},
+	}
+}
+
+func schema_resource_metadata_apis_identity_v1alpha1_NatsCredentialRequestResponse(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"natsSubject": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"natsServer": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+					"credential": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "byte",
+						},
+					},
+				},
+				Required: []string{"natsSubject", "natsServer"},
+			},
+		},
 	}
 }
 

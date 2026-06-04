@@ -17,6 +17,7 @@ limitations under the License.
 package identity
 
 import (
+	"bytes"
 	"crypto/tls"
 	"crypto/x509"
 	"encoding/pem"
@@ -198,6 +199,90 @@ func (c *Client) GetToken() (*identityapi.InboxTokenRequestResponse, error) {
 	tokenResponse.CABundle = string(c.caCert)
 
 	return tokenResponse, nil
+}
+
+// natsRegisterOptions mirrors the payload accepted by the appscode register
+// endpoint (api/v1/register). It is duplicated here so that resource-metadata
+// does not need to vendor the full license-verifier package.
+type natsRegisterOptions struct {
+	ClusterUID string `json:"clusterUID"`
+	Features   string `json:"features"`
+	CACert     []byte `json:"caCert,omitempty"`
+	License    []byte `json:"license"`
+}
+
+func (c *Client) GetNatsCredential(features string, license []byte) (*identityapi.NatsCredentialRequestResponse, error) {
+	id, err := c.GetIdentity()
+	if err != nil {
+		return nil, err
+	}
+	if features == "" {
+		features = info.ProductName
+	}
+
+	opts := natsRegisterOptions{
+		ClusterUID: id.Status.UID,
+		Features:   features,
+		CACert:     []byte(info.LicenseCA),
+		License:    license,
+	}
+	data, err := json.Marshal(opts)
+	if err != nil {
+		return nil, err
+	}
+
+	endpoint, err := info.RegistrationAPIEndpoint(c.baseURL)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, endpoint, bytes.NewReader(data))
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Content-Type", "application/json")
+	if c.token != "" {
+		req.Header.Add("Authorization", "Bearer "+c.token)
+	}
+	if klog.V(8).Enabled() {
+		command, _ := http2curl.GetCurlCommand(req)
+		klog.V(8).Infoln(command.String())
+	}
+
+	resp, err := c.client.Do(req)
+	if err != nil {
+		var ce *tls.CertificateVerificationError
+		if errors.As(err, &ce) {
+			klog.ErrorS(err, "UnverifiedCertificates")
+			for _, cert := range ce.UnverifiedCertificates {
+				klog.Errorln(string(encodeCertPEM(cert)))
+			}
+		}
+		return nil, err
+	}
+	defer resp.Body.Close() // nolint:errcheck
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	if resp.StatusCode != http.StatusOK {
+		return nil, apierrors.NewGenericServerResponse(
+			resp.StatusCode,
+			http.MethodPost,
+			schema.GroupResource{Group: identityapi.GroupName, Resource: identityapi.ResourceNatsCredentialRequests},
+			"",
+			string(body),
+			0,
+			false,
+		)
+	}
+
+	out := &identityapi.NatsCredentialRequestResponse{}
+	if err = json.Unmarshal(body, out); err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 const SelfName = "self"

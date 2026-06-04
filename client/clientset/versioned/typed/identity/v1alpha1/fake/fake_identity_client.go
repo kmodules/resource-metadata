@@ -36,6 +36,10 @@ func (c *FakeIdentityV1alpha1) InboxTokenRequests() v1alpha1.InboxTokenRequestIn
 	return &FakeInboxTokenRequests{c}
 }
 
+func (c *FakeIdentityV1alpha1) NatsCredentialRequests() v1alpha1.NatsCredentialRequestInterface {
+	return &FakeNatsCredentialRequests{c}
+}
+
 func (c *FakeIdentityV1alpha1) SelfSubjectNamespaceAccessReviews() v1alpha1.SelfSubjectNamespaceAccessReviewInterface {
 	return &FakeSelfSubjectNamespaceAccessReviews{c}
 }
