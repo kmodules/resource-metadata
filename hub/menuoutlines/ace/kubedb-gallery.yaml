@@ -26,6 +26,12 @@ spec:
         group: kubedb.com
         kind: ClickHouse
     - featureMode: GA
+      layoutName: kubedb.com-v1alpha2-documentdbs-kubedb
+      name: DocumentDB
+      type:
+        group: kubedb.com
+        kind: DocumentDB
+    - featureMode: GA
       layoutName: kubedb.com-v1alpha2-db2s-kubedb
       name: DB2
       type:
