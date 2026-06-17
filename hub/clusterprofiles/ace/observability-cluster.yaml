@@ -1,0 +1,42 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ClusterProfile
+metadata:
+  name: observability-cluster
+spec:
+  description: This profile is suitable for Kubernetes clusters dedicated to observability and monitoring workloads.
+  requiredFeatureSets:
+    capi-core:
+    - cluster-presets
+    opscenter-backup:
+    - kubestash
+    - stash-presets
+    opscenter-core:
+    - license-proxyserver
+    opscenter-cost:
+    - keda
+    - keda-add-ons-http
+    opscenter-datastore:
+    - kubedb
+    - kubedb-opscenter
+    - kubedb-ui-presets
+    opscenter-observability:
+    - grafana-operator
+    - kube-prometheus-stack
+    - monitoring-operator
+    - panopticon
+    - prometheus-adapter
+    - prom-label-proxy
+    - thanos-operator
+    - tenant-operator
+    opscenter-security:
+    - cert-manager
+    - cert-manager-csi-driver-cacerts
+    opscenter-storage:
+    - snapshot-controller
+    opscenter-tools:
+    - sidekick
+    - supervisor
+    saas-core:
+    - catalog-manager
+    - service-gateway-presets
+  title: Observability Cluster
