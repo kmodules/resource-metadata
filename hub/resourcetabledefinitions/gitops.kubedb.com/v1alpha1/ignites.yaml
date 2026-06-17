@@ -1,0 +1,17 @@
+apiVersion: meta.k8s.appscode.com/v1alpha1
+kind: ResourceTableDefinition
+metadata:
+  labels:
+    k8s.io/group: gitops.kubedb.com
+    k8s.io/kind: Ignite
+    k8s.io/resource: ignites
+    k8s.io/version: v1alpha1
+  name: gitops.kubedb.com-v1alpha1-ignites
+spec:
+  defaultView: true
+  resource:
+    group: gitops.kubedb.com
+    kind: Ignite
+    name: ignites
+    scope: Namespaced
+    version: v1alpha1
