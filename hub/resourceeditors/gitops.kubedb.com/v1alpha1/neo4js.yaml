@@ -14,3 +14,12 @@ spec:
     name: neo4js
     scope: Namespaced
     version: v1alpha1
+  ui:
+    editor:
+      name: gitopskubedbcom-neo4j-editor
+      sourceRef:
+        apiGroup: source.toolkit.fluxcd.io
+        kind: HelmRepository
+        name: appscode-charts-oci
+      version: v0.34.0
+    enforceQuota: false
