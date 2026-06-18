@@ -196,16 +196,16 @@ spec:
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:63fcfc29b2cc7244b11225c6e8f66b406760c20000e60d3d9bbb5102e77d069d
     enforceQuota: true
     options:
       name: kubedbcom-mariadb-editor-options
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:ddf1c035c0c0f523b88dafb4c8910d87f5210be0759bcc547d5375a8fd751c85
   variants:
   - name: default
     selector:

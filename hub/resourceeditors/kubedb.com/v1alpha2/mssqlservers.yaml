@@ -260,16 +260,16 @@ spec:
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:c2983955ae53c579a8f5489c5fc13e833930ec8a56c70da5725338857e0cfa99
     enforceQuota: true
     options:
       name: kubedbcom-mssqlserver-editor-options
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:e5fd0deeaace8db2267b3a70ee1d20974bfb5f8441625b7e084d9d3119824a86
   variants:
   - name: default
     selector:

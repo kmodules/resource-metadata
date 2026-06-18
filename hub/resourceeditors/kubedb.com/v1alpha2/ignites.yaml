@@ -196,16 +196,16 @@ spec:
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:45f7b9393214c1499a927bec9ec08d99642212b3c04a03a2fc5ca9d840c3268d
     enforceQuota: true
     options:
       name: kubedbcom-ignite-editor-options
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:ebedc79fc22f034d3e0937f822cd900012002e91f7ac578c14d586c733fd1a03
   variants:
   - name: default
     selector:

@@ -260,16 +260,16 @@ spec:
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:bcffa9b64f850c36c32429b208da2454894762a5c13e2374d0e0a844de332e3a
     enforceQuota: true
     options:
       name: kubedbcom-singlestore-editor-options
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:9d1066fc143ca9cd83241ee7e8160d15962e7c4b8659b732a18efdaa7aaf14f7
   variants:
   - name: default
     selector:

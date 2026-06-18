@@ -213,16 +213,16 @@ spec:
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:067c2a57c8b5a95778d505923c64f0b3005193b47faa737b7f596d6afa804ec7
     enforceQuota: true
     options:
       name: kubedbcom-hazelcast-editor-options
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:dd3ceb9436215c855815dd9a4a1d46df88c5fb8073dc7ae4954f24e93f985334
   variants:
   - name: default
     selector:

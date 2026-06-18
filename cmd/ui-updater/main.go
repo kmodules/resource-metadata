@@ -215,7 +215,7 @@ func getDigestOrVersion(repo, bin, ver string) string {
 	digest, err := crane.Digest(ref, crane.WithAuthFromKeychain(authn.DefaultKeychain))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "ERROR: failed to resolve digest for %s: %v\n", ref, err)
-		os.Exit(1)
+		return ver
 	}
 	return digest
 }

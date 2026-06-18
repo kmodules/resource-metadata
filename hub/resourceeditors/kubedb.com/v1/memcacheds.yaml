@@ -161,16 +161,16 @@ spec:
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:ef1ed9d7755678b0931069bff80cea43785a60a509d1324308dcb1669e3b2a52
     enforceQuota: false
     options:
       name: kubedbcom-memcached-editor-options
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:5feae818938678d661f8d5ac27d282560a1b50f8252ebf5fb4fd23f6696accbd
   variants:
   - name: default
     selector:
