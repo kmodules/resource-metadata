@@ -3,15 +3,15 @@ kind: ResourceDescriptor
 metadata:
   labels:
     k8s.io/group: gitops.kubedb.com
-    k8s.io/kind: Weaviate
-    k8s.io/resource: weaviates
+    k8s.io/kind: DocumentDB
+    k8s.io/resource: documentdbs
     k8s.io/version: v1alpha1
-  name: gitops.kubedb.com-v1alpha1-weaviates
+  name: gitops.kubedb.com-v1alpha1-documentdbs
 spec:
   resource:
     group: gitops.kubedb.com
-    kind: Weaviate
-    name: weaviates
+    kind: DocumentDB
+    name: documentdbs
     scope: Namespaced
     version: v1alpha1
   validation:
@@ -56,6 +56,30 @@ spec:
           type: object
         spec:
           properties:
+            adminAuthSecret:
+              properties:
+                activeFrom:
+                  format: date-time
+                  type: string
+                apiGroup:
+                  default: ""
+                  type: string
+                externallyManaged:
+                  type: boolean
+                kind:
+                  default: Secret
+                  type: string
+                name:
+                  type: string
+                rotateAfter:
+                  type: string
+                secretStoreName:
+                  type: string
+              required:
+              - kind
+              - name
+              type: object
+              x-kubernetes-map-type: atomic
             authSecret:
               properties:
                 activeFrom:
@@ -80,21 +104,41 @@ spec:
               - name
               type: object
               x-kubernetes-map-type: atomic
+            clientAuthMode:
+              enum:
+              - scram
+              - cert
+              type: string
             configuration:
               properties:
-                backupConfigSecret:
-                  properties:
-                    name:
-                      default: ""
-                      type: string
-                  type: object
-                  x-kubernetes-map-type: atomic
                 inline:
                   additionalProperties:
                     type: string
                   type: object
                 secretName:
                   type: string
+                tuning:
+                  properties:
+                    disableAutoTune:
+                      type: boolean
+                    maxConnections:
+                      format: int32
+                      type: integer
+                    profile:
+                      enum:
+                      - web
+                      - oltp
+                      - dw
+                      - mixed
+                      - desktop
+                      type: string
+                    storageType:
+                      enum:
+                      - ssd
+                      - hdd
+                      - san
+                      type: string
+                  type: object
               type: object
             deletionPolicy:
               enum:
@@ -103,11 +147,11 @@ spec:
               - WipeOut
               - DoNotTerminate
               type: string
-            disableSecurity:
+            halted:
               type: boolean
             healthChecker:
               default:
-                failureThreshold: 3
+                failureThreshold: 1
                 periodSeconds: 10
                 timeoutSeconds: 10
               properties:
@@ -1209,6 +1253,39 @@ spec:
                   type: object
                 waitForInitialRestore:
                   type: boolean
+              type: object
+            leaderElection:
+              properties:
+                electionTick:
+                  default: 10
+                  format: int32
+                  type: integer
+                heartbeatTick:
+                  default: 1
+                  format: int32
+                  type: integer
+                leaseDurationSeconds:
+                  format: int32
+                  type: integer
+                maximumLagBeforeFailover:
+                  default: 33554432
+                  format: int64
+                  type: integer
+                period:
+                  default: 100ms
+                  type: string
+                renewDeadlineSeconds:
+                  format: int32
+                  type: integer
+                retryPeriodSeconds:
+                  format: int32
+                  type: integer
+                transferLeadershipInterval:
+                  default: 1s
+                  type: string
+                transferLeadershipTimeout:
+                  default: 60s
+                  type: string
               type: object
             podTemplate:
               properties:
@@ -4451,9 +4528,21 @@ spec:
               type: integer
             replication:
               properties:
-                factor:
+                forceFailoverAcceptingDataLossAfter:
+                  type: string
+                maxSlotWALKeepSize:
                   format: int32
                   type: integer
+                walKeepSegment:
+                  format: int32
+                  type: integer
+                walKeepSize:
+                  format: int32
+                  type: integer
+                walLimitPolicy:
+                  type: string
+              required:
+              - walLimitPolicy
               type: object
             serviceTemplates:
               items:
@@ -4527,6 +4616,11 @@ spec:
                 - alias
                 type: object
               type: array
+            standbyMode:
+              enum:
+              - Hot
+              - Warm
+              type: string
             storage:
               properties:
                 accessModes:
@@ -4620,109 +4714,11 @@ spec:
               - Durable
               - Ephemeral
               type: string
-            tls:
-              properties:
-                certificates:
-                  items:
-                    properties:
-                      alias:
-                        type: string
-                      dnsNames:
-                        items:
-                          type: string
-                        type: array
-                      duration:
-                        type: string
-                      emailAddresses:
-                        items:
-                          type: string
-                        type: array
-                      ipAddresses:
-                        items:
-                          type: string
-                        type: array
-                      issuerRef:
-                        properties:
-                          apiGroup:
-                            type: string
-                          kind:
-                            type: string
-                          name:
-                            type: string
-                        required:
-                        - kind
-                        - name
-                        type: object
-                        x-kubernetes-map-type: atomic
-                      privateKey:
-                        properties:
-                          encoding:
-                            enum:
-                            - PKCS1
-                            - PKCS8
-                            type: string
-                        type: object
-                      renewBefore:
-                        type: string
-                      secretName:
-                        type: string
-                      subject:
-                        properties:
-                          countries:
-                            items:
-                              type: string
-                            type: array
-                          localities:
-                            items:
-                              type: string
-                            type: array
-                          organizationalUnits:
-                            items:
-                              type: string
-                            type: array
-                          organizations:
-                            items:
-                              type: string
-                            type: array
-                          postalCodes:
-                            items:
-                              type: string
-                            type: array
-                          provinces:
-                            items:
-                              type: string
-                            type: array
-                          serialNumber:
-                            type: string
-                          streetAddresses:
-                            items:
-                              type: string
-                            type: array
-                        type: object
-                      uris:
-                        items:
-                          type: string
-                        type: array
-                    required:
-                    - alias
-                    type: object
-                  type: array
-                clientAuth:
-                  type: boolean
-                issuerRef:
-                  properties:
-                    apiGroup:
-                      type: string
-                    kind:
-                      type: string
-                    name:
-                      type: string
-                  required:
-                  - kind
-                  - name
-                  type: object
-                  x-kubernetes-map-type: atomic
-              type: object
+            streamingMode:
+              enum:
+              - Synchronous
+              - Asynchronous
+              type: string
             version:
               type: string
           required:
