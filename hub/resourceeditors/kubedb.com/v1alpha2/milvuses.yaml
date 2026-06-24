@@ -80,7 +80,7 @@ spec:
         name: Scale Storage
         operationId: scale-storage
       - disabledTemplate: |
-          {{ not (gt .spec.replicas 1) }}
+          {{ or (not (hasKey .spec "topology")) (ne .spec.topology.mode "Distributed") }}
         editor:
           name: opskubedbcom-milvusopsrequest-editor
           sourceRef:
