@@ -27,7 +27,7 @@ spec:
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
-            name: appscode-charts-oci
+            name: appscode-wizards-oci
           version: v0.35.0
         enforceQuota: false
         flow: standalone-create
@@ -42,7 +42,7 @@ spec:
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
-            name: appscode-charts-oci
+            name: appscode-wizards-oci
           version: v0.35.0
         enforceQuota: false
         flow: standalone-create
@@ -57,7 +57,7 @@ spec:
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
-            name: appscode-charts-oci
+            name: appscode-wizards-oci
           version: v0.35.0
         enforceQuota: false
         flow: standalone-create
@@ -86,7 +86,7 @@ spec:
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
-            name: appscode-charts-oci
+            name: appscode-wizards-oci
           version: v0.35.0
         enforceQuota: true
         flow: standalone-create
@@ -101,7 +101,7 @@ spec:
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
-            name: appscode-charts-oci
+            name: appscode-wizards-oci
           version: v0.35.0
         enforceQuota: true
         flow: standalone-create
@@ -116,7 +116,7 @@ spec:
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
-            name: appscode-charts-oci
+            name: appscode-wizards-oci
           version: v0.35.0
         enforceQuota: true
         flow: standalone-create
@@ -133,7 +133,7 @@ spec:
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
-            name: appscode-charts-oci
+            name: appscode-wizards-oci
           version: v0.35.0
         enforceQuota: true
         flow: standalone-edit
@@ -148,7 +148,7 @@ spec:
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
-            name: appscode-charts-oci
+            name: appscode-wizards-oci
           version: v0.35.0
         enforceQuota: true
         flow: standalone-edit
@@ -165,7 +165,7 @@ spec:
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
-            name: appscode-charts-oci
+            name: appscode-wizards-oci
           version: v0.35.0
         enforceQuota: false
         flow: standalone-edit
@@ -180,7 +180,7 @@ spec:
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
-            name: appscode-charts-oci
+            name: appscode-wizards-oci
           version: v0.35.0
         enforceQuota: false
         flow: standalone-create
@@ -197,7 +197,7 @@ spec:
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
-            name: appscode-charts-oci
+            name: appscode-wizards-oci
           version: v0.35.0
         enforceQuota: false
         flow: standalone-edit
@@ -213,7 +213,7 @@ spec:
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-charts-oci
+        name: appscode-wizards-oci
       version: v0.35.0
     enforceQuota: true
     options:
@@ -221,7 +221,7 @@ spec:
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-charts-oci
+        name: appscode-wizards-oci
       version: v0.35.0
   variants:
   - name: default
