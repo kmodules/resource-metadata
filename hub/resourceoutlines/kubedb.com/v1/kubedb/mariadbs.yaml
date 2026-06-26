@@ -248,7 +248,7 @@ spec:
         view:
           name: appcatalog.appscode.com-v1alpha1-appbindings
       - actions:
-          create: Never
+          create: Always
         displayMode: List
         kind: Connection
         name: VaultServers
