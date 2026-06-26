@@ -52,10 +52,12 @@ type EditorTemplate struct {
 
 type EditorTemplateRequest struct {
 	releasesapi.ModelMetadata `json:",inline"`
-	// ChartRef optionally selects the chart source. When unset, the resource
-	// editor chart resolved from the metadata resource is used.
+	// Values is the editor chart's values, fetched by the caller. The chart is
+	// pulled (getChart) by the caller because it can take longer than the
+	// aggregated apiserver request budget; kube-ui-server only does the fast
+	// in-cluster reconstruction from these values.
 	// +optional
-	ChartRef *releasesapi.ChartSourceFlatRef `json:"chartRef,omitempty"`
+	Values *runtime.RawExtension `json:"values,omitempty"`
 }
 
 type EditorTemplateResponse struct {
