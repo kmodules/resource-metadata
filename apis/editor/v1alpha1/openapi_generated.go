@@ -19703,17 +19703,17 @@ func schema_resource_metadata_apis_editor_v1alpha1_EditorTemplateRequest(ref com
 							Ref:     ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.Metadata"),
 						},
 					},
-					"chartRef": {
+					"values": {
 						SchemaProps: spec.SchemaProps{
-							Description: "ChartRef optionally selects the chart source. When unset, the resource editor chart resolved from the metadata resource is used.",
-							Ref:         ref("x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartSourceFlatRef"),
+							Description: "Values is the editor chart's values, fetched by the caller. The chart is pulled (getChart) by the caller because it can take longer than the aggregated apiserver request budget; kube-ui-server only does the fast in-cluster reconstruction from these values.",
+							Ref:         ref("k8s.io/apimachinery/pkg/runtime.RawExtension"),
 						},
 					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartSourceFlatRef", "x-helm.dev/apimachinery/apis/releases/v1alpha1.Metadata"},
+			"k8s.io/apimachinery/pkg/runtime.RawExtension", "x-helm.dev/apimachinery/apis/releases/v1alpha1.Metadata"},
 	}
 }
 
