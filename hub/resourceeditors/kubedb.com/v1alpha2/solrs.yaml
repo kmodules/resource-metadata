@@ -260,16 +260,16 @@ spec:
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:411e79ee6887ad49aeadc0fdaf83a4d50fafa9a9fa94cc5bbff1e9d7462587f8
     enforceQuota: true
     options:
       name: kubedbcom-solr-editor-options
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:9543bcc07a161dbde8fe1a51b6cff9993be8b29f353a4acdf1c315a4c72474c5
   variants:
   - name: default
     selector:

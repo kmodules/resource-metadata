@@ -213,16 +213,16 @@ spec:
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:de9ccccf96f640a7e6c20c8f80052f7439c898673fec3d88ff99f5715b0ca233
     enforceQuota: true
     options:
       name: kubedbcom-rabbitmq-editor-options
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:c3124cb3d7469ad6c3fc00f5b34e37019116d415030975c660d9fc4af4edbaed
   variants:
   - name: default
     selector:

@@ -161,16 +161,16 @@ spec:
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:1a5d93dd5819b0ec44e4fd03e81d30643a510ab8f56bba480a85f6851cbbe581
     enforceQuota: true
     options:
       name: kubedbcom-pgpool-editor-options
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:28a40999004a52013da044e88543c7b2cc94293237426e3bd410f5d8b0d3f524
   variants:
   - name: default
     selector:

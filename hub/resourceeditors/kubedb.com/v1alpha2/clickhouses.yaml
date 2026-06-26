@@ -260,16 +260,16 @@ spec:
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:9dad825bebe3325289f35441a59f95792918d4626ebeeb981578f0a28ae26a5c
     enforceQuota: true
     options:
       name: kubedbcom-clickhouse-editor-options
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:3dc397e28c44d9699718b79ebe4e99ceb0791f5a51ec71cbea79ac3ee47dcad2
   variants:
   - name: default
     selector:

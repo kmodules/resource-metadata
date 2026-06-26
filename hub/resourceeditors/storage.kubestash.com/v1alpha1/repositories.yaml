@@ -25,13 +25,13 @@ spec:
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:9a48b7f1fa5d351979bd18f6d3958a2340ae6c052425785821c6d2791863c223
     enforceQuota: false
     options:
       name: storagekubestashcom-repository-editor-options
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:66eb617309c9278739ca00a0cc1a875097edb5791712fc8f078f8b827ca11ef9

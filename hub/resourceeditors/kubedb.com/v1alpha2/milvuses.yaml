@@ -196,16 +196,16 @@ spec:
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:f5f47498c3efbc2c40230401bb5ed7cc2867e68e6ca2e5674b0836435adf4796
     enforceQuota: true
     options:
       name: kubedbcom-milvus-editor-options
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:a1d62a807f5cd3fa99e5df4ea7c0e4fd83039fe9926d63d24fd94904b16a13c8
   variants:
   - name: default
     selector:

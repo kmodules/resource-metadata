@@ -228,16 +228,16 @@ spec:
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:39ec4168df7358702561883d8ed5d6afd68adc0164455be47db22591d5758d85
     enforceQuota: true
     options:
       name: kubedbcom-zookeeper-editor-options
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:2f0a4a5b512cd8d97c90de2a12cb0deb401fad16546f12563e7b17d72bbc431a
   variants:
   - name: default
     selector:

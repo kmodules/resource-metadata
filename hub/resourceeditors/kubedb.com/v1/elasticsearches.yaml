@@ -262,16 +262,16 @@ spec:
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:398b7fe4f19ff792bfc911cefcb40ec56fb87f85ab29d8e111cca2ebe74ab61d
     enforceQuota: true
     options:
       name: kubedbcom-elasticsearch-editor-options
       sourceRef:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
-        name: appscode-wizards-oci
-      version: v0.35.0
+        name: appscode-charts-oci
+      version: sha256:d57c9a9c23119f4c415bf73cd43ebb6d739d8c1bd79a337d769e4b0c953e561a
   variants:
   - name: default
     selector:
