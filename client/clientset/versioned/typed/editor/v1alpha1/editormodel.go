@@ -27,37 +27,37 @@ import (
 	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 )
 
-// EditorTemplatesGetter has a method to return a EditorTemplateInterface.
+// EditorModelsGetter has a method to return a EditorModelInterface.
 // A group's client should implement this interface.
-type EditorTemplatesGetter interface {
-	EditorTemplates() EditorTemplateInterface
+type EditorModelsGetter interface {
+	EditorModels() EditorModelInterface
 }
 
-// EditorTemplateInterface has methods to work with EditorTemplate resources.
-type EditorTemplateInterface interface {
-	Create(ctx context.Context, editorTemplate *v1alpha1.EditorTemplate, opts v1.CreateOptions) (*v1alpha1.EditorTemplate, error)
-	EditorTemplateExpansion
+// EditorModelInterface has methods to work with EditorModel resources.
+type EditorModelInterface interface {
+	Create(ctx context.Context, editorModel *v1alpha1.EditorModel, opts v1.CreateOptions) (*v1alpha1.EditorModel, error)
+	EditorModelExpansion
 }
 
-// editorTemplates implements EditorTemplateInterface
-type editorTemplates struct {
+// editorModels implements EditorModelInterface
+type editorModels struct {
 	client rest.Interface
 }
 
-// newEditorTemplates returns a EditorTemplates
-func newEditorTemplates(c *EditorV1alpha1Client) *editorTemplates {
-	return &editorTemplates{
+// newEditorModels returns a EditorModels
+func newEditorModels(c *EditorV1alpha1Client) *editorModels {
+	return &editorModels{
 		client: c.RESTClient(),
 	}
 }
 
-// Create takes the representation of a editorTemplate and creates it.  Returns the server's representation of the editorTemplate, and an error, if there is any.
-func (c *editorTemplates) Create(ctx context.Context, editorTemplate *v1alpha1.EditorTemplate, opts v1.CreateOptions) (result *v1alpha1.EditorTemplate, err error) {
-	result = &v1alpha1.EditorTemplate{}
+// Create takes the representation of a editorModel and creates it.  Returns the server's representation of the editorModel, and an error, if there is any.
+func (c *editorModels) Create(ctx context.Context, editorModel *v1alpha1.EditorModel, opts v1.CreateOptions) (result *v1alpha1.EditorModel, err error) {
+	result = &v1alpha1.EditorModel{}
 	err = c.client.Post().
-		Resource("editortemplates").
+		Resource("editormodels").
 		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(editorTemplate).
+		Body(editorModel).
 		Do(ctx).
 		Into(result)
 	return

@@ -28,8 +28,8 @@ type FakeEditorV1alpha1 struct {
 	*testing.Fake
 }
 
-func (c *FakeEditorV1alpha1) EditorTemplates() v1alpha1.EditorTemplateInterface {
-	return &FakeEditorTemplates{c}
+func (c *FakeEditorV1alpha1) EditorModels() v1alpha1.EditorModelInterface {
+	return &FakeEditorModels{c}
 }
 
 // RESTClient returns a RESTClient that is used to communicate

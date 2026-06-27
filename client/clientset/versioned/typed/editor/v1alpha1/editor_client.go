@@ -28,7 +28,7 @@ import (
 
 type EditorV1alpha1Interface interface {
 	RESTClient() rest.Interface
-	EditorTemplatesGetter
+	EditorModelsGetter
 }
 
 // EditorV1alpha1Client is used to interact with features provided by the editor.ui.k8s.appscode.com group.
@@ -36,8 +36,8 @@ type EditorV1alpha1Client struct {
 	restClient rest.Interface
 }
 
-func (c *EditorV1alpha1Client) EditorTemplates() EditorTemplateInterface {
-	return newEditorTemplates(c)
+func (c *EditorV1alpha1Client) EditorModels() EditorModelInterface {
+	return newEditorModels(c)
 }
 
 // NewForConfig creates a new EditorV1alpha1Client for the given config.

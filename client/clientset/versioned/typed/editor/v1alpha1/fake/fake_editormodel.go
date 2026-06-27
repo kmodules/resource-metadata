@@ -26,21 +26,21 @@ import (
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/editor/v1alpha1"
 )
 
-// FakeEditorTemplates implements EditorTemplateInterface
-type FakeEditorTemplates struct {
+// FakeEditorModels implements EditorModelInterface
+type FakeEditorModels struct {
 	Fake *FakeEditorV1alpha1
 }
 
-var editortemplatesResource = v1alpha1.SchemeGroupVersion.WithResource("editortemplates")
+var editormodelsResource = v1alpha1.SchemeGroupVersion.WithResource("editormodels")
 
-var editortemplatesKind = v1alpha1.SchemeGroupVersion.WithKind("EditorTemplate")
+var editormodelsKind = v1alpha1.SchemeGroupVersion.WithKind("EditorModel")
 
-// Create takes the representation of a editorTemplate and creates it.  Returns the server's representation of the editorTemplate, and an error, if there is any.
-func (c *FakeEditorTemplates) Create(ctx context.Context, editorTemplate *v1alpha1.EditorTemplate, opts v1.CreateOptions) (result *v1alpha1.EditorTemplate, err error) {
+// Create takes the representation of a editorModel and creates it.  Returns the server's representation of the editorModel, and an error, if there is any.
+func (c *FakeEditorModels) Create(ctx context.Context, editorModel *v1alpha1.EditorModel, opts v1.CreateOptions) (result *v1alpha1.EditorModel, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootCreateAction(editortemplatesResource, editorTemplate), &v1alpha1.EditorTemplate{})
+		Invokes(testing.NewRootCreateAction(editormodelsResource, editorModel), &v1alpha1.EditorModel{})
 	if obj == nil {
 		return nil, err
 	}
-	return obj.(*v1alpha1.EditorTemplate), err
+	return obj.(*v1alpha1.EditorModel), err
 }
