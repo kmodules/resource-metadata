@@ -23,12 +23,12 @@ import (
 )
 
 const (
-	ResourceKindEditorTemplate = "EditorTemplate"
-	ResourceEditorTemplate     = "editortemplate"
-	ResourceEditorTemplates    = "editortemplates"
+	ResourceKindEditorModel = "EditorModel"
+	ResourceEditorModel     = "editormodel"
+	ResourceEditorModels    = "editormodels"
 )
 
-// EditorTemplate loads the editor model, manifest and resources for an existing
+// EditorModel loads the editor model, manifest and resources for an existing
 // installation identified by its metadata. It is the aggregated-API equivalent
 // of kubepack.dev/lib-app/pkg/editor.LoadResourceEditorModel (see
 // chart_template.go loadEditorModel2).
@@ -40,17 +40,17 @@ const (
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:scope=Cluster
-type EditorTemplate struct {
+type EditorModel struct {
 	metav1.TypeMeta `json:",inline"`
 	// Request identifies the installation to load.
 	// +optional
-	Request *EditorTemplateRequest `json:"request,omitempty"`
+	Request *EditorModelRequest `json:"request,omitempty"`
 	// Response holds the loaded editor template.
 	// +optional
-	Response *EditorTemplateResponse `json:"response,omitempty"`
+	Response *EditorModelResponse `json:"response,omitempty"`
 }
 
-type EditorTemplateRequest struct {
+type EditorModelRequest struct {
 	releasesapi.ModelMetadata `json:",inline"`
 	// Values is the editor chart's values, fetched by the caller. The chart is
 	// pulled (getChart) by the caller because it can take longer than the
@@ -60,7 +60,7 @@ type EditorTemplateRequest struct {
 	Values *runtime.RawExtension `json:"values,omitempty"`
 }
 
-type EditorTemplateResponse struct {
+type EditorModelResponse struct {
 	// Manifest is the rendered manifest of the existing installation.
 	// +optional
 	Manifest string `json:"manifest,omitempty"`
@@ -69,10 +69,10 @@ type EditorTemplateResponse struct {
 	Values *runtime.RawExtension `json:"values,omitempty"`
 	// Resources holds the individual resources of the existing installation.
 	// +optional
-	Resources []EditorTemplateResource `json:"resources,omitempty"`
+	Resources []EditorModelResource `json:"resources,omitempty"`
 }
 
-type EditorTemplateResource struct {
+type EditorModelResource struct {
 	// +optional
 	Filename string `json:"filename,omitempty"`
 	// +optional
