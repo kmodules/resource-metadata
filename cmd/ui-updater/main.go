@@ -38,14 +38,14 @@ import (
 /*
 
 ```console
-helm repo add appscode-charts-oci https://bundles.byte.builders/ui/
+helm repo add appscode-wizards-oci https://bundles.byte.builders/ui/
 helm repo update
 ```
 
 ## Configure Development Helm Chart Repository
 
 ```console
-helm repo add appscode-charts-oci-dev https://raw.githubusercontent.com/bytebuilders/ui-wizards/master/stable
+helm repo add appscode-wizards-oci-dev https://raw.githubusercontent.com/bytebuilders/ui-wizards/master/stable
 helm repo update
 ```
 
@@ -64,7 +64,7 @@ var (
 
 var helmRepositories = map[string]string{
 	"https://charts.appscode.com/stable/": "appscode-charts-legacy",
-	ociURL:                                "appscode-charts-oci",
+	ociURL:                                "appscode-wizards-oci",
 }
 
 func check(filename string) (string, error) {
@@ -202,7 +202,7 @@ func getDigestOrVersion(repo, bin, ver string) string {
 	if !*useDigest {
 		return ver
 	}
-	if repo != "appscode-charts-oci" {
+	if repo != "appscode-wizards-oci" {
 		return ver
 	}
 	// Skip digest resolution for templated chart names (e.g.
