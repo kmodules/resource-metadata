@@ -26,7 +26,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-wizards-oci
-      version: sha256:eb1fa4a04d356dac07773fe16a8237e2ff2e5d97cc041872bc001849e2adef93
+      version: sha256:b7bf24c5dc7dbb6bd006b6ee1be7fdd9711a048a11b11d5ad0c28307cfc0f0d6
     enforceQuota: false
     options:
       name: stashappscodecom-repository-editor-options
@@ -34,4 +34,4 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-wizards-oci
-      version: sha256:fd05763ff35cbb10378eae2700bb7a14c371b748ffa37340911097b7e269483b
+      version: sha256:a9e128f2a36c125487f5a653a656b777e40d0393de846c91c8f2635bd00e76db
