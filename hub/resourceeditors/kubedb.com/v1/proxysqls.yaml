@@ -28,7 +28,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-wizards-oci
-          version: sha256:0954ef38ea096310caf968cb7b1a095a8dfc57007526cf5a5d573c8bb1596f87
+          version: sha256:900a4b7b1c21ba3fa6ee9160be4809a48fc0bb56d7242a37809e10f25565947c
         enforceQuota: false
         flow: standalone-create
         icon: qlementine-icons:version-control-16
@@ -43,7 +43,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-wizards-oci
-          version: sha256:0954ef38ea096310caf968cb7b1a095a8dfc57007526cf5a5d573c8bb1596f87
+          version: sha256:900a4b7b1c21ba3fa6ee9160be4809a48fc0bb56d7242a37809e10f25565947c
         enforceQuota: false
         flow: standalone-create
         icon: hugeicons:redo
@@ -58,7 +58,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-wizards-oci
-          version: sha256:0954ef38ea096310caf968cb7b1a095a8dfc57007526cf5a5d573c8bb1596f87
+          version: sha256:900a4b7b1c21ba3fa6ee9160be4809a48fc0bb56d7242a37809e10f25565947c
         enforceQuota: false
         flow: standalone-create
         icon: hugeicons:settings-05
@@ -80,7 +80,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-wizards-oci
-          version: sha256:0954ef38ea096310caf968cb7b1a095a8dfc57007526cf5a5d573c8bb1596f87
+          version: sha256:900a4b7b1c21ba3fa6ee9160be4809a48fc0bb56d7242a37809e10f25565947c
         enforceQuota: false
         flow: standalone-create
         icon: hugeicons:horizontal-resize
@@ -95,7 +95,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-wizards-oci
-          version: sha256:0954ef38ea096310caf968cb7b1a095a8dfc57007526cf5a5d573c8bb1596f87
+          version: sha256:900a4b7b1c21ba3fa6ee9160be4809a48fc0bb56d7242a37809e10f25565947c
         enforceQuota: false
         flow: standalone-create
         icons:
@@ -112,7 +112,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-wizards-oci
-          version: sha256:2fed97eefcb5a11d2b0d5e89f4b46e384399b1f87c2f0b59bc0b7805ff81d47f
+          version: sha256:b645aa0e5f301b011c4cb93e57ab0232ea07b0c71dd643480f0b33eb2e86f47b
         enforceQuota: true
         flow: standalone-edit
         icons:
@@ -129,7 +129,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-wizards-oci
-          version: sha256:0954ef38ea096310caf968cb7b1a095a8dfc57007526cf5a5d573c8bb1596f87
+          version: sha256:900a4b7b1c21ba3fa6ee9160be4809a48fc0bb56d7242a37809e10f25565947c
         enforceQuota: false
         flow: standalone-create
         icon: hugeicons:security-check
@@ -144,7 +144,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-wizards-oci
-          version: sha256:2fed97eefcb5a11d2b0d5e89f4b46e384399b1f87c2f0b59bc0b7805ff81d47f
+          version: sha256:b645aa0e5f301b011c4cb93e57ab0232ea07b0c71dd643480f0b33eb2e86f47b
         enforceQuota: false
         flow: standalone-edit
         icon: hugeicons:presentation-line-chart-01
@@ -160,7 +160,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-wizards-oci
-      version: sha256:2fed97eefcb5a11d2b0d5e89f4b46e384399b1f87c2f0b59bc0b7805ff81d47f
+      version: sha256:b645aa0e5f301b011c4cb93e57ab0232ea07b0c71dd643480f0b33eb2e86f47b
     enforceQuota: false
     options:
       name: kubedbcom-proxysql-editor-options
@@ -168,7 +168,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-wizards-oci
-      version: sha256:af999db38a8f9ff425431de7d0060ed1c57ace43c0629c85f3e49b406b9ff13e
+      version: sha256:b9dc391c00bf72d2d74ce4eedb883c9496146e24dbc1a8bb4dbaf158a0102c45
   variants:
   - name: default
     selector:
