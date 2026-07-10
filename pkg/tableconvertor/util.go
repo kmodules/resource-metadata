@@ -320,16 +320,16 @@ func describeVolume(volume core.Volume) string {
 			sources.WriteString("{")
 			if source.Secret != nil {
 				sources.WriteString("\"Type\": \"Secret\",")
-				sources.WriteString(fmt.Sprintf("\"SecretName\": %q", source.Secret.Name))
+				fmt.Fprintf(&sources, "\"SecretName\": %q", source.Secret.Name)
 			} else if source.DownwardAPI != nil {
 				sources.WriteString("\"Type\": \"DownwardAPI\",")
 				sources.WriteString("\"DownwardAPI\": \"true\"")
 			} else if source.ConfigMap != nil {
 				sources.WriteString("\"Type\": \"ConfigMap\",")
-				sources.WriteString(fmt.Sprintf("\"ConfigMapName\": %q", source.ConfigMap.Name))
+				fmt.Fprintf(&sources, "\"ConfigMapName\": %q", source.ConfigMap.Name)
 			} else if source.ServiceAccountToken != nil {
 				sources.WriteString("\"Type\": \"ServiceAccountToken\",")
-				sources.WriteString(fmt.Sprintf("\"TokenExpirationSeconds\": \"%v\"", source.ServiceAccountToken.ExpirationSeconds))
+				fmt.Fprintf(&sources, "\"TokenExpirationSeconds\": \"%v\"", source.ServiceAccountToken.ExpirationSeconds)
 			}
 			sources.WriteString("}")
 			if i < len(projected.Sources)-1 {
