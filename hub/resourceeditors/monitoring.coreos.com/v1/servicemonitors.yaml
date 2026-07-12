@@ -26,7 +26,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-wizards-oci
-      version: sha256:cb40619d9ce30a77d817cbfa30819f3afc2d9bfb24eaa4f2c3d12fc97efb69f2
+      version: v0.36.0
     enforceQuota: false
     instanceLabelPaths:
     - spec.selector.matchLabels
