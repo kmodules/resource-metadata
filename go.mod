@@ -18,7 +18,7 @@ require (
 	golang.org/x/net v0.55.0
 	gomodules.xyz/encoding v0.0.8
 	gomodules.xyz/jsonpath v0.0.2
-	gomodules.xyz/x v0.0.17
+	gomodules.xyz/x v0.0.18
 	gopkg.in/yaml.v2 v2.4.0
 	k8s.io/api v0.34.3
 	k8s.io/apiextensions-apiserver v0.34.3
