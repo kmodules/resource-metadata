@@ -26,7 +26,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-wizards-oci
-      version: sha256:ab496e94c2329576c88bd05adc6707b381787af3f5e864a6e707ccf4798b5280
+      version: v0.35.0
     enforceQuota: false
     options:
       name: kubedbcom-pgbouncer-editor-options
@@ -34,7 +34,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-wizards-oci
-      version: sha256:64a13149029cce6b4f66cf05926c1ba2d26b5a45d23b9eb3e19afa65438d8505
+      version: v0.35.0
   variants:
   - name: default
     selector:

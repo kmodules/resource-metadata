@@ -28,7 +28,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-wizards-oci
-          version: sha256:b75d878d55c2ab57c130fbebc233ddb923ddf568277797e0cfd0d72cb2ae2fd5
+          version: v0.35.0
         enforceQuota: false
         flow: standalone-create
         icon: hugeicons:redo
@@ -43,7 +43,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-wizards-oci
-          version: sha256:b75d878d55c2ab57c130fbebc233ddb923ddf568277797e0cfd0d72cb2ae2fd5
+          version: v0.35.0
         enforceQuota: false
         flow: standalone-create
         icon: hugeicons:settings-05
@@ -70,7 +70,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-wizards-oci
-          version: sha256:b75d878d55c2ab57c130fbebc233ddb923ddf568277797e0cfd0d72cb2ae2fd5
+          version: v0.35.0
         enforceQuota: true
         flow: standalone-create
         icons:
@@ -85,7 +85,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-wizards-oci
-          version: sha256:b75d878d55c2ab57c130fbebc233ddb923ddf568277797e0cfd0d72cb2ae2fd5
+          version: v0.35.0
         enforceQuota: true
         flow: standalone-create
         icons:
@@ -102,7 +102,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-wizards-oci
-          version: sha256:522d6f76ed9137bc03a2106a14e5ff1baa0ef5f2c9a087a330381064894bb4e1
+          version: v0.35.0
         enforceQuota: true
         flow: standalone-edit
         icons:
@@ -117,7 +117,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-wizards-oci
-          version: sha256:522d6f76ed9137bc03a2106a14e5ff1baa0ef5f2c9a087a330381064894bb4e1
+          version: v0.35.0
         enforceQuota: true
         flow: standalone-edit
         icons:
@@ -134,7 +134,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-wizards-oci
-          version: sha256:522d6f76ed9137bc03a2106a14e5ff1baa0ef5f2c9a087a330381064894bb4e1
+          version: v0.35.0
         enforceQuota: false
         flow: standalone-edit
         icon: hugeicons:presentation-line-chart-01
@@ -151,7 +151,7 @@ spec:
             apiGroup: source.toolkit.fluxcd.io
             kind: HelmRepository
             name: appscode-wizards-oci
-          version: sha256:522d6f76ed9137bc03a2106a14e5ff1baa0ef5f2c9a087a330381064894bb4e1
+          version: v0.35.0
         enforceQuota: false
         flow: standalone-edit
         icon: streamline-ultimate:server-share
@@ -167,7 +167,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-wizards-oci
-      version: sha256:522d6f76ed9137bc03a2106a14e5ff1baa0ef5f2c9a087a330381064894bb4e1
+      version: v0.35.0
     enforceQuota: true
     options:
       name: kubedbcom-oracle-editor-options
@@ -175,7 +175,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-wizards-oci
-      version: sha256:c3be2cf6df677e7da67d5115d1ed29df7ed864b93429d5dff322d24c7d51bd1f
+      version: v0.35.0
   variants:
   - name: default
     selector:

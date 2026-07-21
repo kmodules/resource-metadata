@@ -26,7 +26,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-wizards-oci
-      version: sha256:22fd5290b851c89592cb337197100f03772445b089db40f58a45333d317bee2c
+      version: v0.35.0
     enforceQuota: true
     options:
       name: kubedbcom-db2-editor-options
@@ -34,7 +34,7 @@ spec:
         apiGroup: source.toolkit.fluxcd.io
         kind: HelmRepository
         name: appscode-wizards-oci
-      version: sha256:5332794ef2a0a664c655d634a9cb610934f4911de3339dc1c55a69d0efa5ae20
+      version: v0.35.0
   variants:
   - name: default
     selector:
