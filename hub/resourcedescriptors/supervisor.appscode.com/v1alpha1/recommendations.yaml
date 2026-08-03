@@ -26,7 +26,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: AerospikeOpsRequest
     type: MatchRef
   - labels:
@@ -46,7 +46,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: CassandraOpsRequest
     type: MatchRef
   - labels:
@@ -66,7 +66,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: ClickHouseOpsRequest
     type: MatchRef
   - labels:
@@ -86,7 +86,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: DB2OpsRequest
     type: MatchRef
   - labels:
@@ -106,7 +106,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: DocumentDBOpsRequest
     type: MatchRef
   - labels:
@@ -126,7 +126,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: DruidOpsRequest
     type: MatchRef
   - labels:
@@ -146,7 +146,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: ElasticsearchOpsRequest
     type: MatchRef
   - labels:
@@ -166,7 +166,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: HanaDBOpsRequest
     type: MatchRef
   - labels:
@@ -186,7 +186,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: HazelcastOpsRequest
     type: MatchRef
   - labels:
@@ -206,7 +206,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: IgniteOpsRequest
     type: MatchRef
   - labels:
@@ -226,7 +226,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: KafkaOpsRequest
     type: MatchRef
   - labels:
@@ -246,7 +246,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: MariaDBOpsRequest
     type: MatchRef
   - labels:
@@ -266,7 +266,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: MemcachedOpsRequest
     type: MatchRef
   - labels:
@@ -286,7 +286,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: MilvusOpsRequest
     type: MatchRef
   - labels:
@@ -306,7 +306,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: MongoDBOpsRequest
     type: MatchRef
   - labels:
@@ -326,7 +326,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: MSSQLServerOpsRequest
     type: MatchRef
   - labels:
@@ -346,7 +346,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: MySQLOpsRequest
     type: MatchRef
   - labels:
@@ -366,7 +366,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: Neo4jOpsRequest
     type: MatchRef
   - labels:
@@ -386,7 +386,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: OracleOpsRequest
     type: MatchRef
   - labels:
@@ -406,7 +406,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: PerconaXtraDBOpsRequest
     type: MatchRef
   - labels:
@@ -426,7 +426,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: PgBouncerOpsRequest
     type: MatchRef
   - labels:
@@ -446,7 +446,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: PgpoolOpsRequest
     type: MatchRef
   - labels:
@@ -466,7 +466,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: PostgresOpsRequest
     type: MatchRef
   - labels:
@@ -486,7 +486,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: ProxySQLOpsRequest
     type: MatchRef
   - labels:
@@ -506,7 +506,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: QdrantOpsRequest
     type: MatchRef
   - labels:
@@ -526,7 +526,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: RabbitMQOpsRequest
     type: MatchRef
   - labels:
@@ -546,7 +546,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: RedisOpsRequest
     type: MatchRef
   - labels:
@@ -566,7 +566,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: SinglestoreOpsRequest
     type: MatchRef
   - labels:
@@ -586,7 +586,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: SolrOpsRequest
     type: MatchRef
   - labels:
@@ -606,7 +606,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: WeaviateOpsRequest
     type: MatchRef
   - labels:
@@ -626,7 +626,7 @@ spec:
     references:
     - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
     target:
-      apiVersion: kubedb.com/v1alpha1
+      apiVersion: ops.kubedb.com/v1alpha1
       kind: ZooKeeperOpsRequest
     type: MatchRef
   resource:
