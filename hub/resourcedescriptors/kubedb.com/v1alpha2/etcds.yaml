@@ -34,12 +34,38 @@ spec:
       kind: AppBinding
     type: MatchName
   - labels:
+    - auth_secret
+    references:
+    - '{.spec.authSecret.name}'
+    target:
+      apiVersion: v1
+      kind: Secret
+    type: MatchRef
+  - labels:
     - catalog
     references:
     - '{.spec.version}'
     target:
       apiVersion: catalog.kubedb.com/v1alpha1
       kind: EtcdVersion
+    type: MatchRef
+  - labels:
+    - cert_issuer
+    namespace:
+      path: metadata.namespace
+    references:
+    - '{.spec.tls.issuerRef.name},{.metadata.namespace}'
+    target:
+      apiVersion: cert-manager.io/v1
+      kind: Issuer
+    type: MatchRef
+  - labels:
+    - cert_issuer
+    references:
+    - '{.spec.tls.issuerRef.name}'
+    target:
+      apiVersion: cert-manager.io/v1
+      kind: ClusterIssuer
     type: MatchRef
   - labels:
     - view
