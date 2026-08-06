@@ -85,6 +85,16 @@ spec:
       apiVersion: core.k8s.appscode.com/v1alpha1
       kind: GenericResourceService
     type: MatchName
+  exec:
+  - alias: Primary
+    command:
+    - bash
+    - -c
+    - hdbsql -u "$HANA_USER" -p "$HANA_PASSWORD"
+    container: hanadb
+    help: |
+      \s
+    serviceNameTemplate: '{{- .metadata.name -}}'
   resource:
     group: kubedb.com
     kind: HanaDB

@@ -112,6 +112,16 @@ spec:
       apiVersion: ui.kubedb.com/v1alpha1
       kind: PgpoolSchemaOverview
     type: MatchName
+  exec:
+  - alias: Primary
+    command:
+    - bash
+    - -c
+    - psql -U "$POSTGRES_USERNAME"
+    container: pgpool
+    help: |
+      \l
+    serviceNameTemplate: '{{- .metadata.name -}}'
   resource:
     group: kubedb.com
     kind: Pgpool

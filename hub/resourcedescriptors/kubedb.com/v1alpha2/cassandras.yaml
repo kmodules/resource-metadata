@@ -85,6 +85,16 @@ spec:
       apiVersion: core.k8s.appscode.com/v1alpha1
       kind: GenericResourceService
     type: MatchName
+  exec:
+  - alias: Primary
+    command:
+    - bash
+    - -c
+    - cqlsh -u "$CASSANDRA_USER" -p "$CASSANDRA_PASSWORD"
+    container: cassandra
+    help: |
+      DESCRIBE KEYSPACES;
+    serviceNameTemplate: '{{- .metadata.name -}}'
   resource:
     group: kubedb.com
     kind: Cassandra

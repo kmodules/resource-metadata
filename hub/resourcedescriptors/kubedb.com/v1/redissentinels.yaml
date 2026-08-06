@@ -85,6 +85,16 @@ spec:
       apiVersion: core.k8s.appscode.com/v1alpha1
       kind: GenericResourceService
     type: MatchName
+  exec:
+  - alias: Primary
+    command:
+    - bash
+    - -c
+    - redis-cli -p 26379
+    container: redissentinel
+    help: |
+      sentinel masters
+    serviceNameTemplate: '{{- .metadata.name -}}'
   resource:
     group: kubedb.com
     kind: RedisSentinel

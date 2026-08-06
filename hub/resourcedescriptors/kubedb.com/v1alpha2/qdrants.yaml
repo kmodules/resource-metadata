@@ -85,6 +85,14 @@ spec:
       apiVersion: core.k8s.appscode.com/v1alpha1
       kind: GenericResourceService
     type: MatchName
+  exec:
+  - alias: Primary
+    command:
+    - bash
+    container: qdrant
+    help: |
+      curl -H "api-key: $QDRANT__SERVICE__API_KEY" "http://localhost:6333/collections"
+    serviceNameTemplate: '{{- .metadata.name -}}'
   resource:
     group: kubedb.com
     kind: Qdrant

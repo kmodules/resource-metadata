@@ -112,6 +112,14 @@ spec:
       apiVersion: ui.kubedb.com/v1alpha1
       kind: KafkaSchemaOverview
     type: MatchName
+  exec:
+  - alias: Primary
+    command:
+    - bash
+    container: kafka
+    help: |
+      kafka-topics.sh --bootstrap-server localhost:9092 --list
+    serviceNameTemplate: '{{- .metadata.name -}}'
   resource:
     group: kubedb.com
     kind: Kafka

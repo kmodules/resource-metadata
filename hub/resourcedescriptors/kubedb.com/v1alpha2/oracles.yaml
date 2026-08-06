@@ -85,6 +85,16 @@ spec:
       apiVersion: core.k8s.appscode.com/v1alpha1
       kind: GenericResourceService
     type: MatchName
+  exec:
+  - alias: Primary
+    command:
+    - bash
+    - -c
+    - sqlplus / as sysdba
+    container: oracle
+    help: |
+      SELECT name FROM v$database;
+    serviceNameTemplate: '{{- .metadata.name -}}'
   resource:
     group: kubedb.com
     kind: Oracle
