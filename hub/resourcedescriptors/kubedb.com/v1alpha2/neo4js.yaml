@@ -85,6 +85,16 @@ spec:
       apiVersion: core.k8s.appscode.com/v1alpha1
       kind: GenericResourceService
     type: MatchName
+  exec:
+  - alias: Primary
+    command:
+    - bash
+    - -c
+    - cypher-shell -u "$(cat /config/neo4j-auth/username)" -p "$(cat /config/neo4j-auth/password)"
+    container: neo4j
+    help: |
+      SHOW DATABASES;
+    serviceNameTemplate: '{{- .metadata.name -}}'
   resource:
     group: kubedb.com
     kind: Neo4j

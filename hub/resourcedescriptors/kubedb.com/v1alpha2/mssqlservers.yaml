@@ -112,6 +112,18 @@ spec:
       apiVersion: ui.kubedb.com/v1alpha1
       kind: MSSQLServerSchemaOverview
     type: MatchName
+  exec:
+  - alias: Primary
+    command:
+    - bash
+    - -c
+    - export PATH="/opt/mssql-tools18/bin:/opt/mssql-tools/bin:$PATH"; sqlcmd -S localhost
+      -U "$MSSQL_SA_USERNAME" -P "$MSSQL_SA_PASSWORD" -C
+    container: mssql
+    help: |
+      SELECT name FROM sys.databases;
+      GO
+    serviceNameTemplate: '{{- .metadata.name -}}'
   resource:
     group: kubedb.com
     kind: MSSQLServer

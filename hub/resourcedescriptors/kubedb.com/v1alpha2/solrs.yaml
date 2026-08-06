@@ -112,6 +112,14 @@ spec:
       apiVersion: ui.kubedb.com/v1alpha1
       kind: SolrSchemaOverview
     type: MatchName
+  exec:
+  - alias: Primary
+    command:
+    - bash
+    container: solr
+    help: |
+      curl -u "$SOLR_USER:$SOLR_PASSWORD" "http://localhost:8983/solr/admin/collections?action=LIST"
+    serviceNameTemplate: '{{- .metadata.name -}}'
   resource:
     group: kubedb.com
     kind: Solr
