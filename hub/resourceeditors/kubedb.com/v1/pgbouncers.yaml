@@ -59,9 +59,7 @@ spec:
         icon: hugeicons:vertical-resize
         name: Scale Vertically
         operationId: scale-vertically
-      - disabledTemplate: |
-          {{ not (gt .spec.replicas 1) }}
-        editor:
+      - editor:
           name: opskubedbcom-pgbounceropsrequest-editor
           sourceRef:
             apiGroup: source.toolkit.fluxcd.io
