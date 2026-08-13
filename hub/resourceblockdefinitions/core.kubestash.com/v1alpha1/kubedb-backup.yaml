@@ -25,6 +25,10 @@ spec:
     ref:
       group: core.kubestash.com
       kind: BackupSession
+    view:
+      sort:
+        fieldName: Age
+        order: Ascending
   - actions:
       create: Always
     displayMode: List
@@ -36,6 +40,10 @@ spec:
     ref:
       group: core.kubestash.com
       kind: RestoreSession
+    view:
+      sort:
+        fieldName: Age
+        order: Ascending
   - actions:
       create: IfEmpty
     displayMode: List
@@ -47,6 +55,10 @@ spec:
     ref:
       group: core.kubestash.com
       kind: BackupConfiguration
+    view:
+      sort:
+        fieldName: Age
+        order: Ascending
   - actions:
       create: IfEmpty
     displayMode: List
@@ -58,6 +70,10 @@ spec:
     ref:
       group: storage.kubestash.com
       kind: Repository
+    view:
+      sort:
+        fieldName: Age
+        order: Ascending
   - actions:
       create: Never
     displayMode: List
@@ -79,3 +95,7 @@ spec:
     ref:
       group: batch
       kind: CronJob
+    view:
+      sort:
+        fieldName: Age
+        order: Ascending
