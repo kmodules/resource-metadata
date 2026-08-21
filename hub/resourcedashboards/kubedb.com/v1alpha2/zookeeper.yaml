@@ -15,7 +15,7 @@ spec:
       value: '{{ .metadata.namespace }}'
     - name: app
       value: '{{ .metadata.name }}'
-  - title: KubeDB / ZooKeeper / Database
+  - title: KubeDB / ZooKeeper / Ensemble
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
