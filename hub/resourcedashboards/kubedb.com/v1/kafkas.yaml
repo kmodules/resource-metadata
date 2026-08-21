@@ -9,11 +9,23 @@ metadata:
   name: kubedb.com-v1-kafkas
 spec:
   dashboards:
+  - title: KubeDB / Kafka / Summary
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
   - title: KubeDB / Kafka / Database
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
-    - name: service
+    - name: app
+      value: '{{ .metadata.name }}'
+  - title: KubeDB / Kafka / Pod
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
       value: '{{ .metadata.name }}'
   provider: Grafana
   resource:

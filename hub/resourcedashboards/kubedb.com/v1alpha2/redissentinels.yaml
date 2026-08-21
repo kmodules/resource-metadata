@@ -8,7 +8,19 @@ metadata:
     k8s.io/version: v1alpha2
   name: kubedb.com-v1alpha2-redissentinels
 spec:
-  dashboards: null
+  dashboards:
+  - title: KubeDB / RedisSentinel / Summary
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+  - title: KubeDB / RedisSentinel / Pod
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
   provider: Grafana
   resource:
     group: kubedb.com
