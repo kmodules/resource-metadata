@@ -17,16 +17,9 @@ spec:
       value: '{{ .metadata.name }}'
   - title: KubeDB / Ignite / Database
     vars:
-    - name: namespace
-      value: '{{ .metadata.namespace }}'
     - name: app
       value: '{{ .metadata.name }}'
   - title: KubeDB / Ignite / Pod
-    vars:
-    - name: namespace
-      value: '{{ .metadata.namespace }}'
-    - name: app
-      value: '{{ .metadata.name }}'
   provider: Grafana
   resource:
     group: kubedb.com

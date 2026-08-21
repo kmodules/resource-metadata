@@ -15,6 +15,14 @@ spec:
       value: '{{ .metadata.namespace }}'
     - name: app
       value: '{{ .metadata.name }}'
+  - if:
+      condition: '{{- if hasKey .spec "remoteReplica" }}true{{ else }}false{{ end -}}'
+    title: KubeDB / Postgres / Remote Replica
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
   - title: KubeDB / Postgres / Database
     vars:
     - name: namespace

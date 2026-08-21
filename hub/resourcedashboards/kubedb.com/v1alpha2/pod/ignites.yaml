@@ -1,0 +1,10 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceDashboard
+metadata:
+  name: kubedb.com-v1alpha2-ignites-pod
+spec:
+  dashboards:
+  - title: KubeDB / Ignite / Pod
+  provider: Grafana
+  resource:
+    group: ""

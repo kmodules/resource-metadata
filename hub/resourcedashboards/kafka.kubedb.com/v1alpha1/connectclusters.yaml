@@ -2,26 +2,26 @@ apiVersion: ui.k8s.appscode.com/v1alpha1
 kind: ResourceDashboard
 metadata:
   labels:
-    k8s.io/group: kubedb.com
-    k8s.io/kind: Weaviate
-    k8s.io/resource: weaviates
-    k8s.io/version: v1alpha2
-  name: kubedb.com-v1alpha2-weaviates
+    k8s.io/group: kafka.kubedb.com
+    k8s.io/kind: ConnectCluster
+    k8s.io/resource: connectclusters
+    k8s.io/version: v1alpha1
+  name: kafka.kubedb.com-v1alpha1-connectclusters
 spec:
   dashboards:
-  - title: KubeDB / Weaviate / Summary
+  - title: KubeDB / Kafka / ConnectCluster / Summary
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
     - name: app
       value: '{{ .metadata.name }}'
-  - title: KubeDB / Weaviate / Database
+  - title: KubeDB / Kafka / ConnectCluster / Connect
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
     - name: app
       value: '{{ .metadata.name }}'
-  - title: KubeDB / Weaviate / Pod
+  - title: KubeDB / Kafka / ConnectCluster / Pod
     vars:
     - name: namespace
       value: '{{ .metadata.namespace }}'
@@ -29,8 +29,8 @@ spec:
       value: '{{ .metadata.name }}'
   provider: Grafana
   resource:
-    group: kubedb.com
-    kind: Weaviate
-    name: weaviates
+    group: kafka.kubedb.com
+    kind: ConnectCluster
+    name: connectclusters
     scope: Namespaced
-    version: v1alpha2
+    version: v1alpha1

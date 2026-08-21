@@ -1,0 +1,18 @@
+apiVersion: ui.k8s.appscode.com/v1alpha1
+kind: ResourceDashboard
+metadata:
+  name: kubedb.com-v1alpha2-singlestores-pod
+spec:
+  dashboards:
+  - title: KubeDB / Singlestore / Pod
+    vars:
+    - name: namespace
+      value: '{{ .metadata.namespace }}'
+    - name: app
+      value: '{{ .metadata.name }}'
+    - name: pod
+      type: Target
+      value: '{{ .metadata.name }}'
+  provider: Grafana
+  resource:
+    group: ""
