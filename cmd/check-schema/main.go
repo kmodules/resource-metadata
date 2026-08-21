@@ -17,6 +17,10 @@ limitations under the License.
 package main
 
 import (
+	"fmt"
+	"io/fs"
+	"path/filepath"
+
 	"kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	uiapi "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
 	blockdefs "kmodules.xyz/resource-metadata/hub/resourceblockdefinitions"
@@ -28,19 +32,37 @@ import (
 )
 
 func main() {
-	if err := sc.CheckFS(blockdefs.EmbeddedFS(), &v1alpha1.ResourceBlockDefinition{}); err != nil {
+	if err := checkYAMLs(blockdefs.EmbeddedFS(), &v1alpha1.ResourceBlockDefinition{}); err != nil {
 		panic(err)
 	}
-	if err := sc.CheckFS(resourcedescriptors.EmbeddedFS(), &v1alpha1.ResourceDescriptor{}); err != nil {
+	if err := checkYAMLs(resourcedescriptors.EmbeddedFS(), &v1alpha1.ResourceDescriptor{}); err != nil {
 		panic(err)
 	}
-	if err := sc.CheckFS(resourceoutlines.EmbeddedFS(), &v1alpha1.ResourceOutline{}); err != nil {
+	if err := checkYAMLs(resourceoutlines.EmbeddedFS(), &v1alpha1.ResourceOutline{}); err != nil {
 		panic(err)
 	}
-	if err := sc.CheckFS(tabledefs.EmbeddedFS(), &v1alpha1.ResourceTableDefinition{}); err != nil {
+	if err := checkYAMLs(tabledefs.EmbeddedFS(), &v1alpha1.ResourceTableDefinition{}); err != nil {
 		panic(err)
 	}
-	if err := sc.CheckFS(dashboards.EmbeddedFS(), &uiapi.ResourceDashboard{}); err != nil {
+	if err := checkYAMLs(dashboards.EmbeddedFS(), &uiapi.ResourceDashboard{}); err != nil {
 		panic(err)
 	}
+}
+
+// hub packages embed a non-YAML "trigger" sentinel file for hot reload,
+// which sc.CheckFS would try to parse as an object.
+func checkYAMLs(fsys fs.FS, v interface{}) error {
+	return fs.WalkDir(fsys, ".", func(path string, e fs.DirEntry, err error) error {
+		if err != nil || e.IsDir() || filepath.Ext(path) != ".yaml" {
+			return err
+		}
+		d, err := sc.New(fsys).CheckObject(v, path)
+		if err != nil {
+			return err
+		}
+		if d != "" {
+			return fmt.Errorf("%s: object does not match schema, diff: %s", path, d)
+		}
+		return nil
+	})
 }
