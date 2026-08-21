@@ -5,14 +5,6 @@ metadata:
 spec:
   dashboards:
   - title: KubeDB / Ignite / Pod
-    vars:
-    - name: namespace
-      value: '{{ .metadata.namespace }}'
-    - name: app
-      value: '{{ .metadata.name }}'
-    - name: pod
-      type: Target
-      value: '{{ .metadata.name }}'
   provider: Grafana
   resource:
     group: ""
