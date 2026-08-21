@@ -16,7 +16,7 @@ spec:
     - name: app
       value: '{{ .metadata.name }}'
   - if:
-      condition: '{{- if eq .spec.replicas 1 }}false{{ else }}true{{ end -}}'
+      condition: '{{- if and (ne .spec.replicas 1) (ne (dig "topology" "mode" "GaleraCluster" .spec) "MariaDBReplication") }}true{{ else }}false{{ end -}}'
     title: KubeDB / MariaDB / Galera-Cluster
     vars:
     - name: namespace
