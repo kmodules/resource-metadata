@@ -19,13 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
-	"time"
+	context "context"
+
+	corev1alpha1 "kmodules.xyz/resource-metadata/apis/core/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/core/v1alpha1"
-	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+	gentype "k8s.io/client-go/gentype"
 )
 
 // ProjectsGetter has a method to return a ProjectInterface.
@@ -36,47 +36,26 @@ type ProjectsGetter interface {
 
 // ProjectInterface has methods to work with Project resources.
 type ProjectInterface interface {
-	Get(ctx context.Context, name string, opts v1.GetOptions) (*v1alpha1.Project, error)
-	List(ctx context.Context, opts v1.ListOptions) (*v1alpha1.ProjectList, error)
+	Get(ctx context.Context, name string, opts v1.GetOptions) (*corev1alpha1.Project, error)
+	List(ctx context.Context, opts v1.ListOptions) (*corev1alpha1.ProjectList, error)
 	ProjectExpansion
 }
 
 // projects implements ProjectInterface
 type projects struct {
-	client rest.Interface
+	*gentype.ClientWithList[*corev1alpha1.Project, *corev1alpha1.ProjectList]
 }
 
 // newProjects returns a Projects
 func newProjects(c *CoreV1alpha1Client) *projects {
 	return &projects{
-		client: c.RESTClient(),
+		gentype.NewClientWithList[*corev1alpha1.Project, *corev1alpha1.ProjectList](
+			"projects",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			"",
+			func() *corev1alpha1.Project { return &corev1alpha1.Project{} },
+			func() *corev1alpha1.ProjectList { return &corev1alpha1.ProjectList{} },
+		),
 	}
-}
-
-// Get takes name of the project, and returns the corresponding project object, and an error if there is any.
-func (c *projects) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.Project, err error) {
-	result = &v1alpha1.Project{}
-	err = c.client.Get().
-		Resource("projects").
-		Name(name).
-		VersionedParams(&options, scheme.ParameterCodec).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// List takes label and field selectors, and returns the list of Projects that match those selectors.
-func (c *projects) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.ProjectList, err error) {
-	var timeout time.Duration
-	if opts.TimeoutSeconds != nil {
-		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
-	}
-	result = &v1alpha1.ProjectList{}
-	err = c.client.Get().
-		Resource("projects").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Do(ctx).
-		Into(result)
-	return
 }

@@ -19,9 +19,10 @@ limitations under the License.
 package fake
 
 import (
+	v1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/editor/v1alpha1"
+
 	rest "k8s.io/client-go/rest"
 	testing "k8s.io/client-go/testing"
-	v1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/editor/v1alpha1"
 )
 
 type FakeEditorV1alpha1 struct {
@@ -29,7 +30,7 @@ type FakeEditorV1alpha1 struct {
 }
 
 func (c *FakeEditorV1alpha1) EditorModels() v1alpha1.EditorModelInterface {
-	return &FakeEditorModels{c}
+	return newFakeEditorModels(c)
 }
 
 // RESTClient returns a RESTClient that is used to communicate

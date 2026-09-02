@@ -19,12 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
+
+	metav1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+	gentype "kmodules.xyz/client-go/gentype"
 )
 
 // ClusterStatusesGetter has a method to return a ClusterStatusInterface.
@@ -35,30 +36,24 @@ type ClusterStatusesGetter interface {
 
 // ClusterStatusInterface has methods to work with ClusterStatus resources.
 type ClusterStatusInterface interface {
-	Create(ctx context.Context, clusterStatus *v1alpha1.ClusterStatus, opts v1.CreateOptions) (*v1alpha1.ClusterStatus, error)
+	Create(ctx context.Context, clusterStatus *metav1alpha1.ClusterStatus, opts v1.CreateOptions) (*metav1alpha1.ClusterStatus, error)
 	ClusterStatusExpansion
 }
 
 // clusterStatuses implements ClusterStatusInterface
 type clusterStatuses struct {
-	client rest.Interface
+	*gentype.Client[*metav1alpha1.ClusterStatus]
 }
 
 // newClusterStatuses returns a ClusterStatuses
 func newClusterStatuses(c *MetaV1alpha1Client) *clusterStatuses {
 	return &clusterStatuses{
-		client: c.RESTClient(),
+		gentype.NewClient[*metav1alpha1.ClusterStatus](
+			"clusterstatuses",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			"",
+			func() *metav1alpha1.ClusterStatus { return &metav1alpha1.ClusterStatus{} },
+		),
 	}
-}
-
-// Create takes the representation of a clusterStatus and creates it.  Returns the server's representation of the clusterStatus, and an error, if there is any.
-func (c *clusterStatuses) Create(ctx context.Context, clusterStatus *v1alpha1.ClusterStatus, opts v1.CreateOptions) (result *v1alpha1.ClusterStatus, err error) {
-	result = &v1alpha1.ClusterStatus{}
-	err = c.client.Post().
-		Resource("clusterstatuses").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(clusterStatus).
-		Do(ctx).
-		Into(result)
-	return
 }

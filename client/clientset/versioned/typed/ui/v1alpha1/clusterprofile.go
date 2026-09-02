@@ -19,15 +19,15 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
-	"time"
+	context "context"
+
+	uiv1alpha1 "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
-	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
-	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+	gentype "k8s.io/client-go/gentype"
 )
 
 // ClusterProfilesGetter has a method to return a ClusterProfileInterface.
@@ -38,131 +38,32 @@ type ClusterProfilesGetter interface {
 
 // ClusterProfileInterface has methods to work with ClusterProfile resources.
 type ClusterProfileInterface interface {
-	Create(ctx context.Context, clusterProfile *v1alpha1.ClusterProfile, opts v1.CreateOptions) (*v1alpha1.ClusterProfile, error)
-	Update(ctx context.Context, clusterProfile *v1alpha1.ClusterProfile, opts v1.UpdateOptions) (*v1alpha1.ClusterProfile, error)
+	Create(ctx context.Context, clusterProfile *uiv1alpha1.ClusterProfile, opts v1.CreateOptions) (*uiv1alpha1.ClusterProfile, error)
+	Update(ctx context.Context, clusterProfile *uiv1alpha1.ClusterProfile, opts v1.UpdateOptions) (*uiv1alpha1.ClusterProfile, error)
 	Delete(ctx context.Context, name string, opts v1.DeleteOptions) error
 	DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error
-	Get(ctx context.Context, name string, opts v1.GetOptions) (*v1alpha1.ClusterProfile, error)
-	List(ctx context.Context, opts v1.ListOptions) (*v1alpha1.ClusterProfileList, error)
+	Get(ctx context.Context, name string, opts v1.GetOptions) (*uiv1alpha1.ClusterProfile, error)
+	List(ctx context.Context, opts v1.ListOptions) (*uiv1alpha1.ClusterProfileList, error)
 	Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error)
-	Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.ClusterProfile, err error)
+	Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *uiv1alpha1.ClusterProfile, err error)
 	ClusterProfileExpansion
 }
 
 // clusterProfiles implements ClusterProfileInterface
 type clusterProfiles struct {
-	client rest.Interface
+	*gentype.ClientWithList[*uiv1alpha1.ClusterProfile, *uiv1alpha1.ClusterProfileList]
 }
 
 // newClusterProfiles returns a ClusterProfiles
 func newClusterProfiles(c *UiV1alpha1Client) *clusterProfiles {
 	return &clusterProfiles{
-		client: c.RESTClient(),
+		gentype.NewClientWithList[*uiv1alpha1.ClusterProfile, *uiv1alpha1.ClusterProfileList](
+			"clusterprofiles",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			"",
+			func() *uiv1alpha1.ClusterProfile { return &uiv1alpha1.ClusterProfile{} },
+			func() *uiv1alpha1.ClusterProfileList { return &uiv1alpha1.ClusterProfileList{} },
+		),
 	}
-}
-
-// Get takes name of the clusterProfile, and returns the corresponding clusterProfile object, and an error if there is any.
-func (c *clusterProfiles) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ClusterProfile, err error) {
-	result = &v1alpha1.ClusterProfile{}
-	err = c.client.Get().
-		Resource("clusterprofiles").
-		Name(name).
-		VersionedParams(&options, scheme.ParameterCodec).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// List takes label and field selectors, and returns the list of ClusterProfiles that match those selectors.
-func (c *clusterProfiles) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.ClusterProfileList, err error) {
-	var timeout time.Duration
-	if opts.TimeoutSeconds != nil {
-		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
-	}
-	result = &v1alpha1.ClusterProfileList{}
-	err = c.client.Get().
-		Resource("clusterprofiles").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// Watch returns a watch.Interface that watches the requested clusterProfiles.
-func (c *clusterProfiles) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	var timeout time.Duration
-	if opts.TimeoutSeconds != nil {
-		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
-	}
-	opts.Watch = true
-	return c.client.Get().
-		Resource("clusterprofiles").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Watch(ctx)
-}
-
-// Create takes the representation of a clusterProfile and creates it.  Returns the server's representation of the clusterProfile, and an error, if there is any.
-func (c *clusterProfiles) Create(ctx context.Context, clusterProfile *v1alpha1.ClusterProfile, opts v1.CreateOptions) (result *v1alpha1.ClusterProfile, err error) {
-	result = &v1alpha1.ClusterProfile{}
-	err = c.client.Post().
-		Resource("clusterprofiles").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(clusterProfile).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// Update takes the representation of a clusterProfile and updates it. Returns the server's representation of the clusterProfile, and an error, if there is any.
-func (c *clusterProfiles) Update(ctx context.Context, clusterProfile *v1alpha1.ClusterProfile, opts v1.UpdateOptions) (result *v1alpha1.ClusterProfile, err error) {
-	result = &v1alpha1.ClusterProfile{}
-	err = c.client.Put().
-		Resource("clusterprofiles").
-		Name(clusterProfile.Name).
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(clusterProfile).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// Delete takes name of the clusterProfile and deletes it. Returns an error if one occurs.
-func (c *clusterProfiles) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	return c.client.Delete().
-		Resource("clusterprofiles").
-		Name(name).
-		Body(&opts).
-		Do(ctx).
-		Error()
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *clusterProfiles) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	var timeout time.Duration
-	if listOpts.TimeoutSeconds != nil {
-		timeout = time.Duration(*listOpts.TimeoutSeconds) * time.Second
-	}
-	return c.client.Delete().
-		Resource("clusterprofiles").
-		VersionedParams(&listOpts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Body(&opts).
-		Do(ctx).
-		Error()
-}
-
-// Patch applies the patch and returns the patched clusterProfile.
-func (c *clusterProfiles) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.ClusterProfile, err error) {
-	result = &v1alpha1.ClusterProfile{}
-	err = c.client.Patch(pt).
-		Resource("clusterprofiles").
-		Name(name).
-		SubResource(subresources...).
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(data).
-		Do(ctx).
-		Into(result)
-	return
 }

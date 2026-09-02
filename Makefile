@@ -22,7 +22,7 @@ COMPRESS ?= no
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 # CRD_OPTIONS          ?= "crd:trivialVersions=true"
 CRD_OPTIONS          ?= "crd:allowDangerousTypes=true,crdVersions={v1}"
-CODE_GENERATOR_IMAGE ?= ghcr.io/appscode/gengo:release-1.32
+CODE_GENERATOR_IMAGE ?= ghcr.io/appscode/gengo:release-1.34
 API_GROUPS           ?= core:v1alpha1 editor:v1alpha1 identity:v1alpha1 management:v1alpha1 meta:v1alpha1 node:v1alpha1 ui:v1alpha1
 
 # Where to push the docker image.
@@ -130,9 +130,23 @@ version:
 	@echo commit_hash=$(commit_hash)
 	@echo commit_timestamp=$(commit_timestamp)
 
-# Generate code for Kubernetes types
-.PHONY: clientset
-clientset:
+# Generate code for Kubernetes types, using update-codegen.sh -- a generic
+# script bundled into $(CODE_GENERATOR_IMAGE) (see
+# https://github.com/appscodelabs/gengo-builder/blob/master/scripts/update-codegen.sh
+# for the full env-var interface) driving k8s.io/code-generator's
+# kube_codegen.sh toolchain. Generation scope is configured entirely through
+# the env vars below rather than a repo-local copy of this script.
+# GENERATORS is scoped to deepcopy+client only (no lister/informer), matching
+# what the old generate-groups.sh call here actually generated. apis/shared
+# has no client of its own (it's not part of API_GROUPS) but still needs
+# deepcopy, hence EXTRA_DEEPCOPY_PKGS. Staleness is checked by verify-gen
+# (which re-runs `gen`, including this target, and diffs against HEAD)
+# rather than a separate verify-codegen target.
+GENERATORS          ?= deepcopy,client
+EXTRA_DEEPCOPY_PKGS ?= $(GO_PKG)/$(REPO)/apis/shared
+
+.PHONY: update-codegen
+update-codegen:
 	@docker run --rm	                                 \
 		-u $$(id -u):$$(id -g)                           \
 		-v /tmp:/.cache                                  \
@@ -140,55 +154,11 @@ clientset:
 		-w $(DOCKER_REPO_ROOT)                           \
 		--env HTTP_PROXY=$(HTTP_PROXY)                   \
 		--env HTTPS_PROXY=$(HTTPS_PROXY)                 \
+		--env API_GROUPS="$(API_GROUPS)"                 \
+		--env GENERATORS="$(GENERATORS)"                 \
+		--env EXTRA_DEEPCOPY_PKGS="$(EXTRA_DEEPCOPY_PKGS)" \
 		$(CODE_GENERATOR_IMAGE)                          \
-		deepcopy-gen                                     \
-			--go-header-file "./hack/license/go.txt"       \
-			--input-dirs "$(GO_PKG)/$(REPO)/apis/shared"   \
-			--output-file-base zz_generated.deepcopy
-	@docker run --rm                                   \
-		-u $$(id -u):$$(id -g)                           \
-		-v /tmp:/.cache                                  \
-		-v $$(pwd):$(DOCKER_REPO_ROOT)                   \
-		-w $(DOCKER_REPO_ROOT)                           \
-		--env HTTP_PROXY=$(HTTP_PROXY)                   \
-		--env HTTPS_PROXY=$(HTTPS_PROXY)                 \
-		$(CODE_GENERATOR_IMAGE)                          \
-		/go/src/k8s.io/code-generator/generate-groups.sh \
-			deepcopy,client                                \
-			$(GO_PKG)/$(REPO)/client                       \
-			$(GO_PKG)/$(REPO)/apis                         \
-			"$(API_GROUPS)"                                \
-			--go-header-file "./hack/license/go.txt"
-# 	@docker run --rm                                            \
-# 		-u $$(id -u):$$(id -g)                                    \
-# 		-v /tmp:/.cache                                           \
-# 		-v $$(pwd):$(DOCKER_REPO_ROOT)                            \
-# 		-w $(DOCKER_REPO_ROOT)                                    \
-# 		--env HTTP_PROXY=$(HTTP_PROXY)                            \
-# 		--env HTTPS_PROXY=$(HTTPS_PROXY)                          \
-# 		$(CODE_GENERATOR_IMAGE)                                   \
-# 		/go/src/k8s.io/code-generator/generate-internal-groups.sh \
-# 			"conversion"                                            \
-# 			$(GO_PKG)/$(REPO)/client                                \
-# 			$(GO_PKG)/$(REPO)/apis                                  \
-# 			$(GO_PKG)/$(REPO)/apis                                  \
-# 			"$(API_GROUPS)"                                         \
-# 			--go-header-file "./hack/license/go.txt" --extra-dirs k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1
-# 	# for both CRD and EAS types
-# 	@docker run --rm                                          \
-# 		-u $$(id -u):$$(id -g)                                  \
-# 		-v /tmp:/.cache                                         \
-# 		-v $$(pwd):$(DOCKER_REPO_ROOT)                          \
-# 		-w $(DOCKER_REPO_ROOT)                                  \
-# 		--env HTTP_PROXY=$(HTTP_PROXY)                          \
-# 		--env HTTPS_PROXY=$(HTTPS_PROXY)                        \
-# 		$(CODE_GENERATOR_IMAGE)                                 \
-# 		/go/src/k8s.io/code-generator/generate-groups.sh        \
-# 			all                                                   \
-# 			$(GO_PKG)/$(REPO)/client                              \
-# 			$(GO_PKG)/$(REPO)/apis                                \
-# 			"$(API_GROUPS)"                                       \
-# 			--go-header-file "./hack/license/go.txt"
+		update-codegen.sh
 
 # Generate openapi schema
 .PHONY: openapi
@@ -206,9 +176,11 @@ openapi-shared:
 		openapi-gen                                         \
 			--v 1 --logtostderr                               \
 			--go-header-file "./hack/license/go.txt"          \
-			--input-dirs "$(GO_PKG)/$(REPO)/apis/shared"      \
-			--output-package "$(GO_PKG)/$(REPO)/apis/shared"  \
-			--report-filename /tmp/violation_exceptions.list
+			--output-dir "$(DOCKER_REPO_ROOT)/apis/shared"    \
+			--output-pkg "$(GO_PKG)/$(REPO)/apis/shared"      \
+			--output-file "openapi_generated.go"              \
+			--report-filename /tmp/violation_exceptions.list  \
+			$(GO_PKG)/$(REPO)/apis/shared
 openapi-%:
 	@echo "Generating openapi schema for $(subst _,/,$*)"
 	@mkdir -p .config/api-rules
@@ -223,9 +195,20 @@ openapi-%:
 		openapi-gen                                      \
 			--v 1 --logtostderr                            \
 			--go-header-file "./hack/license/go.txt"       \
-			--input-dirs "$(GO_PKG)/$(REPO)/apis/$(subst _,/,$*),$(GO_PKG)/$(REPO)/apis/shared,k8s.io/apimachinery/pkg/apis/meta/v1,k8s.io/apimachinery/pkg/api/resource,k8s.io/apimachinery/pkg/runtime,k8s.io/apimachinery/pkg/version,k8s.io/api/core/v1,k8s.io/apimachinery/pkg/util/intstr,kmodules.xyz/client-go/api/v1,go.bytebuilders.dev/catalog/api/v1alpha1,kmodules.xyz/offshoot-api/api/v1" \
-			--output-package "$(GO_PKG)/$(REPO)/apis/$(subst _,/,$*)" \
-			--report-filename .config/api-rules/violation_exceptions.list
+			--output-dir "$(DOCKER_REPO_ROOT)/apis/$(subst _,/,$*)" \
+			--output-pkg "$(GO_PKG)/$(REPO)/apis/$(subst _,/,$*)" \
+			--output-file "openapi_generated.go"           \
+			--report-filename .config/api-rules/violation_exceptions.list \
+			$(GO_PKG)/$(REPO)/apis/$(subst _,/,$*) \
+			$(GO_PKG)/$(REPO)/apis/shared \
+			k8s.io/apimachinery/pkg/apis/meta/v1 \
+			k8s.io/apimachinery/pkg/api/resource \
+			k8s.io/apimachinery/pkg/runtime \
+			k8s.io/apimachinery/pkg/version \
+			k8s.io/api/core/v1 \
+			k8s.io/apimachinery/pkg/util/intstr \
+			kmodules.xyz/client-go/api/v1 \
+			kmodules.xyz/offshoot-api/api/v1
 
 # Generate CRD manifests
 .PHONY: gen-crds
@@ -254,7 +237,7 @@ patch-schema: $(BUILD_DIRS)
 	@mv bin/core.k8s.appscode.com_podviews.yaml crds/core.k8s.appscode.com_podviews.yaml
 
 .PHONY: gen
-gen: clientset manifests openapi
+gen: update-codegen manifests openapi
 
 fmt: $(BUILD_DIRS)
 	@docker run                                                 \

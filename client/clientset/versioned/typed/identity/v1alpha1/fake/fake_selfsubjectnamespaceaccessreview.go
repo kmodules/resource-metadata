@@ -19,28 +19,27 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/identity/v1alpha1"
+	identityv1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/identity/v1alpha1"
+
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeSelfSubjectNamespaceAccessReviews implements SelfSubjectNamespaceAccessReviewInterface
-type FakeSelfSubjectNamespaceAccessReviews struct {
+// fakeSelfSubjectNamespaceAccessReviews implements SelfSubjectNamespaceAccessReviewInterface
+type fakeSelfSubjectNamespaceAccessReviews struct {
+	*gentype.FakeClient[*v1alpha1.SelfSubjectNamespaceAccessReview]
 	Fake *FakeIdentityV1alpha1
 }
 
-var selfsubjectnamespaceaccessreviewsResource = v1alpha1.SchemeGroupVersion.WithResource("selfsubjectnamespaceaccessreviews")
-
-var selfsubjectnamespaceaccessreviewsKind = v1alpha1.SchemeGroupVersion.WithKind("SelfSubjectNamespaceAccessReview")
-
-// Create takes the representation of a selfSubjectNamespaceAccessReview and creates it.  Returns the server's representation of the selfSubjectNamespaceAccessReview, and an error, if there is any.
-func (c *FakeSelfSubjectNamespaceAccessReviews) Create(ctx context.Context, selfSubjectNamespaceAccessReview *v1alpha1.SelfSubjectNamespaceAccessReview, opts v1.CreateOptions) (result *v1alpha1.SelfSubjectNamespaceAccessReview, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootCreateAction(selfsubjectnamespaceaccessreviewsResource, selfSubjectNamespaceAccessReview), &v1alpha1.SelfSubjectNamespaceAccessReview{})
-	if obj == nil {
-		return nil, err
+func newFakeSelfSubjectNamespaceAccessReviews(fake *FakeIdentityV1alpha1) identityv1alpha1.SelfSubjectNamespaceAccessReviewInterface {
+	return &fakeSelfSubjectNamespaceAccessReviews{
+		gentype.NewFakeClient[*v1alpha1.SelfSubjectNamespaceAccessReview](
+			fake.Fake,
+			"",
+			v1alpha1.SchemeGroupVersion.WithResource("selfsubjectnamespaceaccessreviews"),
+			v1alpha1.SchemeGroupVersion.WithKind("SelfSubjectNamespaceAccessReview"),
+			func() *v1alpha1.SelfSubjectNamespaceAccessReview { return &v1alpha1.SelfSubjectNamespaceAccessReview{} },
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.SelfSubjectNamespaceAccessReview), err
 }

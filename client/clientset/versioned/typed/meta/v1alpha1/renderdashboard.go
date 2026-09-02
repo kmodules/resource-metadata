@@ -19,12 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
+
+	metav1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+	gentype "kmodules.xyz/client-go/gentype"
 )
 
 // RenderDashboardsGetter has a method to return a RenderDashboardInterface.
@@ -35,30 +36,24 @@ type RenderDashboardsGetter interface {
 
 // RenderDashboardInterface has methods to work with RenderDashboard resources.
 type RenderDashboardInterface interface {
-	Create(ctx context.Context, renderDashboard *v1alpha1.RenderDashboard, opts v1.CreateOptions) (*v1alpha1.RenderDashboard, error)
+	Create(ctx context.Context, renderDashboard *metav1alpha1.RenderDashboard, opts v1.CreateOptions) (*metav1alpha1.RenderDashboard, error)
 	RenderDashboardExpansion
 }
 
 // renderDashboards implements RenderDashboardInterface
 type renderDashboards struct {
-	client rest.Interface
+	*gentype.Client[*metav1alpha1.RenderDashboard]
 }
 
 // newRenderDashboards returns a RenderDashboards
 func newRenderDashboards(c *MetaV1alpha1Client) *renderDashboards {
 	return &renderDashboards{
-		client: c.RESTClient(),
+		gentype.NewClient[*metav1alpha1.RenderDashboard](
+			"renderdashboards",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			"",
+			func() *metav1alpha1.RenderDashboard { return &metav1alpha1.RenderDashboard{} },
+		),
 	}
-}
-
-// Create takes the representation of a renderDashboard and creates it.  Returns the server's representation of the renderDashboard, and an error, if there is any.
-func (c *renderDashboards) Create(ctx context.Context, renderDashboard *v1alpha1.RenderDashboard, opts v1.CreateOptions) (result *v1alpha1.RenderDashboard, err error) {
-	result = &v1alpha1.RenderDashboard{}
-	err = c.client.Post().
-		Resource("renderdashboards").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(renderDashboard).
-		Do(ctx).
-		Into(result)
-	return
 }

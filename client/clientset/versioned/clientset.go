@@ -19,12 +19,9 @@ limitations under the License.
 package versioned
 
 import (
-	"fmt"
-	"net/http"
+	fmt "fmt"
+	http "net/http"
 
-	discovery "k8s.io/client-go/discovery"
-	rest "k8s.io/client-go/rest"
-	flowcontrol "k8s.io/client-go/util/flowcontrol"
 	corev1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/core/v1alpha1"
 	editorv1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/editor/v1alpha1"
 	identityv1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/identity/v1alpha1"
@@ -32,6 +29,10 @@ import (
 	metav1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/meta/v1alpha1"
 	nodev1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/node/v1alpha1"
 	uiv1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/ui/v1alpha1"
+
+	discovery "k8s.io/client-go/discovery"
+	rest "k8s.io/client-go/rest"
+	flowcontrol "k8s.io/client-go/util/flowcontrol"
 )
 
 type Interface interface {

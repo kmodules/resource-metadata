@@ -19,9 +19,10 @@ limitations under the License.
 package fake
 
 import (
+	v1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/identity/v1alpha1"
+
 	rest "k8s.io/client-go/rest"
 	testing "k8s.io/client-go/testing"
-	v1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/identity/v1alpha1"
 )
 
 type FakeIdentityV1alpha1 struct {
@@ -29,19 +30,19 @@ type FakeIdentityV1alpha1 struct {
 }
 
 func (c *FakeIdentityV1alpha1) AuditTokenRequests() v1alpha1.AuditTokenRequestInterface {
-	return &FakeAuditTokenRequests{c}
+	return newFakeAuditTokenRequests(c)
 }
 
 func (c *FakeIdentityV1alpha1) ClusterIdentities(namespace string) v1alpha1.ClusterIdentityInterface {
-	return &FakeClusterIdentities{c, namespace}
+	return newFakeClusterIdentities(c, namespace)
 }
 
 func (c *FakeIdentityV1alpha1) InboxTokenRequests() v1alpha1.InboxTokenRequestInterface {
-	return &FakeInboxTokenRequests{c}
+	return newFakeInboxTokenRequests(c)
 }
 
 func (c *FakeIdentityV1alpha1) SelfSubjectNamespaceAccessReviews() v1alpha1.SelfSubjectNamespaceAccessReviewInterface {
-	return &FakeSelfSubjectNamespaceAccessReviews{c}
+	return newFakeSelfSubjectNamespaceAccessReviews(c)
 }
 
 // RESTClient returns a RESTClient that is used to communicate

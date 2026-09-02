@@ -19,53 +19,33 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/core/v1alpha1"
+	corev1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/core/v1alpha1"
+
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakePodViews implements PodViewInterface
-type FakePodViews struct {
+// fakePodViews implements PodViewInterface
+type fakePodViews struct {
+	*gentype.FakeClientWithList[*v1alpha1.PodView, *v1alpha1.PodViewList]
 	Fake *FakeCoreV1alpha1
-	ns   string
 }
 
-var podviewsResource = v1alpha1.SchemeGroupVersion.WithResource("podviews")
-
-var podviewsKind = v1alpha1.SchemeGroupVersion.WithKind("PodView")
-
-// Get takes name of the podView, and returns the corresponding podView object, and an error if there is any.
-func (c *FakePodViews) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.PodView, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(podviewsResource, c.ns, name), &v1alpha1.PodView{})
-
-	if obj == nil {
-		return nil, err
+func newFakePodViews(fake *FakeCoreV1alpha1, namespace string) corev1alpha1.PodViewInterface {
+	return &fakePodViews{
+		gentype.NewFakeClientWithList[*v1alpha1.PodView, *v1alpha1.PodViewList](
+			fake.Fake,
+			namespace,
+			v1alpha1.SchemeGroupVersion.WithResource("podviews"),
+			v1alpha1.SchemeGroupVersion.WithKind("PodView"),
+			func() *v1alpha1.PodView { return &v1alpha1.PodView{} },
+			func() *v1alpha1.PodViewList { return &v1alpha1.PodViewList{} },
+			func(dst, src *v1alpha1.PodViewList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.PodViewList) []*v1alpha1.PodView { return gentype.ToPointerSlice(list.Items) },
+			func(list *v1alpha1.PodViewList, items []*v1alpha1.PodView) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.PodView), err
-}
-
-// List takes label and field selectors, and returns the list of PodViews that match those selectors.
-func (c *FakePodViews) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.PodViewList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(podviewsResource, podviewsKind, c.ns, opts), &v1alpha1.PodViewList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.PodViewList{ListMeta: obj.(*v1alpha1.PodViewList).ListMeta}
-	for _, item := range obj.(*v1alpha1.PodViewList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
 }

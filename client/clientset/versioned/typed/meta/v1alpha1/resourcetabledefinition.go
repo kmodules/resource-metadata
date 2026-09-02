@@ -19,12 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
+
+	metav1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+	gentype "k8s.io/client-go/gentype"
 )
 
 // ResourceTableDefinitionsGetter has a method to return a ResourceTableDefinitionInterface.
@@ -35,30 +36,24 @@ type ResourceTableDefinitionsGetter interface {
 
 // ResourceTableDefinitionInterface has methods to work with ResourceTableDefinition resources.
 type ResourceTableDefinitionInterface interface {
-	Get(ctx context.Context, name string, opts v1.GetOptions) (*v1alpha1.ResourceTableDefinition, error)
+	Get(ctx context.Context, name string, opts v1.GetOptions) (*metav1alpha1.ResourceTableDefinition, error)
 	ResourceTableDefinitionExpansion
 }
 
 // resourceTableDefinitions implements ResourceTableDefinitionInterface
 type resourceTableDefinitions struct {
-	client rest.Interface
+	*gentype.Client[*metav1alpha1.ResourceTableDefinition]
 }
 
 // newResourceTableDefinitions returns a ResourceTableDefinitions
 func newResourceTableDefinitions(c *MetaV1alpha1Client) *resourceTableDefinitions {
 	return &resourceTableDefinitions{
-		client: c.RESTClient(),
+		gentype.NewClient[*metav1alpha1.ResourceTableDefinition](
+			"resourcetabledefinitions",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			"",
+			func() *metav1alpha1.ResourceTableDefinition { return &metav1alpha1.ResourceTableDefinition{} },
+		),
 	}
-}
-
-// Get takes name of the resourceTableDefinition, and returns the corresponding resourceTableDefinition object, and an error if there is any.
-func (c *resourceTableDefinitions) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ResourceTableDefinition, err error) {
-	result = &v1alpha1.ResourceTableDefinition{}
-	err = c.client.Get().
-		Resource("resourcetabledefinitions").
-		Name(name).
-		VersionedParams(&options, scheme.ParameterCodec).
-		Do(ctx).
-		Into(result)
-	return
 }

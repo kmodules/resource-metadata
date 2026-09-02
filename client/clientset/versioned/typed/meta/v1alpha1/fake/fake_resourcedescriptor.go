@@ -19,28 +19,27 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	metav1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/meta/v1alpha1"
+
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeResourceDescriptors implements ResourceDescriptorInterface
-type FakeResourceDescriptors struct {
+// fakeResourceDescriptors implements ResourceDescriptorInterface
+type fakeResourceDescriptors struct {
+	*gentype.FakeClient[*v1alpha1.ResourceDescriptor]
 	Fake *FakeMetaV1alpha1
 }
 
-var resourcedescriptorsResource = v1alpha1.SchemeGroupVersion.WithResource("resourcedescriptors")
-
-var resourcedescriptorsKind = v1alpha1.SchemeGroupVersion.WithKind("ResourceDescriptor")
-
-// Get takes name of the resourceDescriptor, and returns the corresponding resourceDescriptor object, and an error if there is any.
-func (c *FakeResourceDescriptors) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ResourceDescriptor, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootGetAction(resourcedescriptorsResource, name), &v1alpha1.ResourceDescriptor{})
-	if obj == nil {
-		return nil, err
+func newFakeResourceDescriptors(fake *FakeMetaV1alpha1) metav1alpha1.ResourceDescriptorInterface {
+	return &fakeResourceDescriptors{
+		gentype.NewFakeClient[*v1alpha1.ResourceDescriptor](
+			fake.Fake,
+			"",
+			v1alpha1.SchemeGroupVersion.WithResource("resourcedescriptors"),
+			v1alpha1.SchemeGroupVersion.WithKind("ResourceDescriptor"),
+			func() *v1alpha1.ResourceDescriptor { return &v1alpha1.ResourceDescriptor{} },
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.ResourceDescriptor), err
 }

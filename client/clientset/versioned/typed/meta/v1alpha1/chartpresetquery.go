@@ -19,12 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
+
+	metav1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+	gentype "kmodules.xyz/client-go/gentype"
 )
 
 // ChartPresetQueriesGetter has a method to return a ChartPresetQueryInterface.
@@ -35,30 +36,24 @@ type ChartPresetQueriesGetter interface {
 
 // ChartPresetQueryInterface has methods to work with ChartPresetQuery resources.
 type ChartPresetQueryInterface interface {
-	Create(ctx context.Context, chartPresetQuery *v1alpha1.ChartPresetQuery, opts v1.CreateOptions) (*v1alpha1.ChartPresetQuery, error)
+	Create(ctx context.Context, chartPresetQuery *metav1alpha1.ChartPresetQuery, opts v1.CreateOptions) (*metav1alpha1.ChartPresetQuery, error)
 	ChartPresetQueryExpansion
 }
 
 // chartPresetQueries implements ChartPresetQueryInterface
 type chartPresetQueries struct {
-	client rest.Interface
+	*gentype.Client[*metav1alpha1.ChartPresetQuery]
 }
 
 // newChartPresetQueries returns a ChartPresetQueries
 func newChartPresetQueries(c *MetaV1alpha1Client) *chartPresetQueries {
 	return &chartPresetQueries{
-		client: c.RESTClient(),
+		gentype.NewClient[*metav1alpha1.ChartPresetQuery](
+			"chartpresetqueries",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			"",
+			func() *metav1alpha1.ChartPresetQuery { return &metav1alpha1.ChartPresetQuery{} },
+		),
 	}
-}
-
-// Create takes the representation of a chartPresetQuery and creates it.  Returns the server's representation of the chartPresetQuery, and an error, if there is any.
-func (c *chartPresetQueries) Create(ctx context.Context, chartPresetQuery *v1alpha1.ChartPresetQuery, opts v1.CreateOptions) (result *v1alpha1.ChartPresetQuery, err error) {
-	result = &v1alpha1.ChartPresetQuery{}
-	err = c.client.Post().
-		Resource("chartpresetqueries").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(chartPresetQuery).
-		Do(ctx).
-		Into(result)
-	return
 }

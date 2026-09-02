@@ -19,50 +19,33 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/core/v1alpha1"
+	corev1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/core/v1alpha1"
+
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeProjects implements ProjectInterface
-type FakeProjects struct {
+// fakeProjects implements ProjectInterface
+type fakeProjects struct {
+	*gentype.FakeClientWithList[*v1alpha1.Project, *v1alpha1.ProjectList]
 	Fake *FakeCoreV1alpha1
 }
 
-var projectsResource = v1alpha1.SchemeGroupVersion.WithResource("projects")
-
-var projectsKind = v1alpha1.SchemeGroupVersion.WithKind("Project")
-
-// Get takes name of the project, and returns the corresponding project object, and an error if there is any.
-func (c *FakeProjects) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.Project, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootGetAction(projectsResource, name), &v1alpha1.Project{})
-	if obj == nil {
-		return nil, err
+func newFakeProjects(fake *FakeCoreV1alpha1) corev1alpha1.ProjectInterface {
+	return &fakeProjects{
+		gentype.NewFakeClientWithList[*v1alpha1.Project, *v1alpha1.ProjectList](
+			fake.Fake,
+			"",
+			v1alpha1.SchemeGroupVersion.WithResource("projects"),
+			v1alpha1.SchemeGroupVersion.WithKind("Project"),
+			func() *v1alpha1.Project { return &v1alpha1.Project{} },
+			func() *v1alpha1.ProjectList { return &v1alpha1.ProjectList{} },
+			func(dst, src *v1alpha1.ProjectList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.ProjectList) []*v1alpha1.Project { return gentype.ToPointerSlice(list.Items) },
+			func(list *v1alpha1.ProjectList, items []*v1alpha1.Project) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.Project), err
-}
-
-// List takes label and field selectors, and returns the list of Projects that match those selectors.
-func (c *FakeProjects) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.ProjectList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootListAction(projectsResource, projectsKind, opts), &v1alpha1.ProjectList{})
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.ProjectList{ListMeta: obj.(*v1alpha1.ProjectList).ListMeta}
-	for _, item := range obj.(*v1alpha1.ProjectList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
 }

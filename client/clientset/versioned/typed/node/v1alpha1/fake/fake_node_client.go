@@ -19,9 +19,10 @@ limitations under the License.
 package fake
 
 import (
+	v1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/node/v1alpha1"
+
 	rest "k8s.io/client-go/rest"
 	testing "k8s.io/client-go/testing"
-	v1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/node/v1alpha1"
 )
 
 type FakeNodeV1alpha1 struct {
@@ -29,7 +30,7 @@ type FakeNodeV1alpha1 struct {
 }
 
 func (c *FakeNodeV1alpha1) NodeTopologies() v1alpha1.NodeTopologyInterface {
-	return &FakeNodeTopologies{c}
+	return newFakeNodeTopologies(c)
 }
 
 // RESTClient returns a RESTClient that is used to communicate

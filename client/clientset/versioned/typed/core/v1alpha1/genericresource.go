@@ -19,13 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
-	"time"
+	context "context"
+
+	corev1alpha1 "kmodules.xyz/resource-metadata/apis/core/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/core/v1alpha1"
-	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+	gentype "k8s.io/client-go/gentype"
 )
 
 // GenericResourcesGetter has a method to return a GenericResourceInterface.
@@ -36,51 +36,26 @@ type GenericResourcesGetter interface {
 
 // GenericResourceInterface has methods to work with GenericResource resources.
 type GenericResourceInterface interface {
-	Get(ctx context.Context, name string, opts v1.GetOptions) (*v1alpha1.GenericResource, error)
-	List(ctx context.Context, opts v1.ListOptions) (*v1alpha1.GenericResourceList, error)
+	Get(ctx context.Context, name string, opts v1.GetOptions) (*corev1alpha1.GenericResource, error)
+	List(ctx context.Context, opts v1.ListOptions) (*corev1alpha1.GenericResourceList, error)
 	GenericResourceExpansion
 }
 
 // genericResources implements GenericResourceInterface
 type genericResources struct {
-	client rest.Interface
-	ns     string
+	*gentype.ClientWithList[*corev1alpha1.GenericResource, *corev1alpha1.GenericResourceList]
 }
 
 // newGenericResources returns a GenericResources
 func newGenericResources(c *CoreV1alpha1Client, namespace string) *genericResources {
 	return &genericResources{
-		client: c.RESTClient(),
-		ns:     namespace,
+		gentype.NewClientWithList[*corev1alpha1.GenericResource, *corev1alpha1.GenericResourceList](
+			"genericresources",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			namespace,
+			func() *corev1alpha1.GenericResource { return &corev1alpha1.GenericResource{} },
+			func() *corev1alpha1.GenericResourceList { return &corev1alpha1.GenericResourceList{} },
+		),
 	}
-}
-
-// Get takes name of the genericResource, and returns the corresponding genericResource object, and an error if there is any.
-func (c *genericResources) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.GenericResource, err error) {
-	result = &v1alpha1.GenericResource{}
-	err = c.client.Get().
-		Namespace(c.ns).
-		Resource("genericresources").
-		Name(name).
-		VersionedParams(&options, scheme.ParameterCodec).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// List takes label and field selectors, and returns the list of GenericResources that match those selectors.
-func (c *genericResources) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.GenericResourceList, err error) {
-	var timeout time.Duration
-	if opts.TimeoutSeconds != nil {
-		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
-	}
-	result = &v1alpha1.GenericResourceList{}
-	err = c.client.Get().
-		Namespace(c.ns).
-		Resource("genericresources").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Do(ctx).
-		Into(result)
-	return
 }

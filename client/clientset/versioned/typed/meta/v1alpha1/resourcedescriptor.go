@@ -19,12 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
+
+	metav1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+	gentype "k8s.io/client-go/gentype"
 )
 
 // ResourceDescriptorsGetter has a method to return a ResourceDescriptorInterface.
@@ -35,30 +36,24 @@ type ResourceDescriptorsGetter interface {
 
 // ResourceDescriptorInterface has methods to work with ResourceDescriptor resources.
 type ResourceDescriptorInterface interface {
-	Get(ctx context.Context, name string, opts v1.GetOptions) (*v1alpha1.ResourceDescriptor, error)
+	Get(ctx context.Context, name string, opts v1.GetOptions) (*metav1alpha1.ResourceDescriptor, error)
 	ResourceDescriptorExpansion
 }
 
 // resourceDescriptors implements ResourceDescriptorInterface
 type resourceDescriptors struct {
-	client rest.Interface
+	*gentype.Client[*metav1alpha1.ResourceDescriptor]
 }
 
 // newResourceDescriptors returns a ResourceDescriptors
 func newResourceDescriptors(c *MetaV1alpha1Client) *resourceDescriptors {
 	return &resourceDescriptors{
-		client: c.RESTClient(),
+		gentype.NewClient[*metav1alpha1.ResourceDescriptor](
+			"resourcedescriptors",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			"",
+			func() *metav1alpha1.ResourceDescriptor { return &metav1alpha1.ResourceDescriptor{} },
+		),
 	}
-}
-
-// Get takes name of the resourceDescriptor, and returns the corresponding resourceDescriptor object, and an error if there is any.
-func (c *resourceDescriptors) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ResourceDescriptor, err error) {
-	result = &v1alpha1.ResourceDescriptor{}
-	err = c.client.Get().
-		Resource("resourcedescriptors").
-		Name(name).
-		VersionedParams(&options, scheme.ParameterCodec).
-		Do(ctx).
-		Into(result)
-	return
 }

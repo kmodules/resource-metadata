@@ -19,53 +19,35 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/core/v1alpha1"
+	corev1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/core/v1alpha1"
+
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeGenericResources implements GenericResourceInterface
-type FakeGenericResources struct {
+// fakeGenericResources implements GenericResourceInterface
+type fakeGenericResources struct {
+	*gentype.FakeClientWithList[*v1alpha1.GenericResource, *v1alpha1.GenericResourceList]
 	Fake *FakeCoreV1alpha1
-	ns   string
 }
 
-var genericresourcesResource = v1alpha1.SchemeGroupVersion.WithResource("genericresources")
-
-var genericresourcesKind = v1alpha1.SchemeGroupVersion.WithKind("GenericResource")
-
-// Get takes name of the genericResource, and returns the corresponding genericResource object, and an error if there is any.
-func (c *FakeGenericResources) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.GenericResource, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(genericresourcesResource, c.ns, name), &v1alpha1.GenericResource{})
-
-	if obj == nil {
-		return nil, err
+func newFakeGenericResources(fake *FakeCoreV1alpha1, namespace string) corev1alpha1.GenericResourceInterface {
+	return &fakeGenericResources{
+		gentype.NewFakeClientWithList[*v1alpha1.GenericResource, *v1alpha1.GenericResourceList](
+			fake.Fake,
+			namespace,
+			v1alpha1.SchemeGroupVersion.WithResource("genericresources"),
+			v1alpha1.SchemeGroupVersion.WithKind("GenericResource"),
+			func() *v1alpha1.GenericResource { return &v1alpha1.GenericResource{} },
+			func() *v1alpha1.GenericResourceList { return &v1alpha1.GenericResourceList{} },
+			func(dst, src *v1alpha1.GenericResourceList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.GenericResourceList) []*v1alpha1.GenericResource {
+				return gentype.ToPointerSlice(list.Items)
+			},
+			func(list *v1alpha1.GenericResourceList, items []*v1alpha1.GenericResource) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.GenericResource), err
-}
-
-// List takes label and field selectors, and returns the list of GenericResources that match those selectors.
-func (c *FakeGenericResources) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.GenericResourceList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(genericresourcesResource, genericresourcesKind, c.ns, opts), &v1alpha1.GenericResourceList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.GenericResourceList{ListMeta: obj.(*v1alpha1.GenericResourceList).ListMeta}
-	for _, item := range obj.(*v1alpha1.GenericResourceList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
 }
