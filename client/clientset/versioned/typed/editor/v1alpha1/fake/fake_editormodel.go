@@ -19,28 +19,27 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/editor/v1alpha1"
+	editorv1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/editor/v1alpha1"
+
+	gentype "kmodules.xyz/client-go/gentype"
 )
 
-// FakeEditorModels implements EditorModelInterface
-type FakeEditorModels struct {
+// fakeEditorModels implements EditorModelInterface
+type fakeEditorModels struct {
+	*gentype.FakeClient[*v1alpha1.EditorModel]
 	Fake *FakeEditorV1alpha1
 }
 
-var editormodelsResource = v1alpha1.SchemeGroupVersion.WithResource("editormodels")
-
-var editormodelsKind = v1alpha1.SchemeGroupVersion.WithKind("EditorModel")
-
-// Create takes the representation of a editorModel and creates it.  Returns the server's representation of the editorModel, and an error, if there is any.
-func (c *FakeEditorModels) Create(ctx context.Context, editorModel *v1alpha1.EditorModel, opts v1.CreateOptions) (result *v1alpha1.EditorModel, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootCreateAction(editormodelsResource, editorModel), &v1alpha1.EditorModel{})
-	if obj == nil {
-		return nil, err
+func newFakeEditorModels(fake *FakeEditorV1alpha1) editorv1alpha1.EditorModelInterface {
+	return &fakeEditorModels{
+		gentype.NewFakeClient[*v1alpha1.EditorModel](
+			fake.Fake,
+			"",
+			v1alpha1.SchemeGroupVersion.WithResource("editormodels"),
+			v1alpha1.SchemeGroupVersion.WithKind("EditorModel"),
+			func() *v1alpha1.EditorModel { return &v1alpha1.EditorModel{} },
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.EditorModel), err
 }

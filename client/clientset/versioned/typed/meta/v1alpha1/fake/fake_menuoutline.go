@@ -19,111 +19,35 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	metav1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/meta/v1alpha1"
+
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeMenuOutlines implements MenuOutlineInterface
-type FakeMenuOutlines struct {
+// fakeMenuOutlines implements MenuOutlineInterface
+type fakeMenuOutlines struct {
+	*gentype.FakeClientWithList[*v1alpha1.MenuOutline, *v1alpha1.MenuOutlineList]
 	Fake *FakeMetaV1alpha1
-	ns   string
 }
 
-var menuoutlinesResource = v1alpha1.SchemeGroupVersion.WithResource("menuoutlines")
-
-var menuoutlinesKind = v1alpha1.SchemeGroupVersion.WithKind("MenuOutline")
-
-// Get takes name of the menuOutline, and returns the corresponding menuOutline object, and an error if there is any.
-func (c *FakeMenuOutlines) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.MenuOutline, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(menuoutlinesResource, c.ns, name), &v1alpha1.MenuOutline{})
-
-	if obj == nil {
-		return nil, err
+func newFakeMenuOutlines(fake *FakeMetaV1alpha1, namespace string) metav1alpha1.MenuOutlineInterface {
+	return &fakeMenuOutlines{
+		gentype.NewFakeClientWithList[*v1alpha1.MenuOutline, *v1alpha1.MenuOutlineList](
+			fake.Fake,
+			namespace,
+			v1alpha1.SchemeGroupVersion.WithResource("menuoutlines"),
+			v1alpha1.SchemeGroupVersion.WithKind("MenuOutline"),
+			func() *v1alpha1.MenuOutline { return &v1alpha1.MenuOutline{} },
+			func() *v1alpha1.MenuOutlineList { return &v1alpha1.MenuOutlineList{} },
+			func(dst, src *v1alpha1.MenuOutlineList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.MenuOutlineList) []*v1alpha1.MenuOutline {
+				return gentype.ToPointerSlice(list.Items)
+			},
+			func(list *v1alpha1.MenuOutlineList, items []*v1alpha1.MenuOutline) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.MenuOutline), err
-}
-
-// List takes label and field selectors, and returns the list of MenuOutlines that match those selectors.
-func (c *FakeMenuOutlines) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.MenuOutlineList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(menuoutlinesResource, menuoutlinesKind, c.ns, opts), &v1alpha1.MenuOutlineList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.MenuOutlineList{ListMeta: obj.(*v1alpha1.MenuOutlineList).ListMeta}
-	for _, item := range obj.(*v1alpha1.MenuOutlineList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested menuOutlines.
-func (c *FakeMenuOutlines) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(menuoutlinesResource, c.ns, opts))
-
-}
-
-// Create takes the representation of a menuOutline and creates it.  Returns the server's representation of the menuOutline, and an error, if there is any.
-func (c *FakeMenuOutlines) Create(ctx context.Context, menuOutline *v1alpha1.MenuOutline, opts v1.CreateOptions) (result *v1alpha1.MenuOutline, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(menuoutlinesResource, c.ns, menuOutline), &v1alpha1.MenuOutline{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.MenuOutline), err
-}
-
-// Update takes the representation of a menuOutline and updates it. Returns the server's representation of the menuOutline, and an error, if there is any.
-func (c *FakeMenuOutlines) Update(ctx context.Context, menuOutline *v1alpha1.MenuOutline, opts v1.UpdateOptions) (result *v1alpha1.MenuOutline, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(menuoutlinesResource, c.ns, menuOutline), &v1alpha1.MenuOutline{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.MenuOutline), err
-}
-
-// Delete takes name of the menuOutline and deletes it. Returns an error if one occurs.
-func (c *FakeMenuOutlines) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(menuoutlinesResource, c.ns, name, opts), &v1alpha1.MenuOutline{})
-
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakeMenuOutlines) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(menuoutlinesResource, c.ns, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha1.MenuOutlineList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched menuOutline.
-func (c *FakeMenuOutlines) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.MenuOutline, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(menuoutlinesResource, c.ns, name, pt, data, subresources...), &v1alpha1.MenuOutline{})
-
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.MenuOutline), err
 }

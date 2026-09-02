@@ -19,114 +19,33 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
+	uiv1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/ui/v1alpha1"
+
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeFeatures implements FeatureInterface
-type FakeFeatures struct {
+// fakeFeatures implements FeatureInterface
+type fakeFeatures struct {
+	*gentype.FakeClientWithList[*v1alpha1.Feature, *v1alpha1.FeatureList]
 	Fake *FakeUiV1alpha1
 }
 
-var featuresResource = v1alpha1.SchemeGroupVersion.WithResource("features")
-
-var featuresKind = v1alpha1.SchemeGroupVersion.WithKind("Feature")
-
-// Get takes name of the feature, and returns the corresponding feature object, and an error if there is any.
-func (c *FakeFeatures) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.Feature, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootGetAction(featuresResource, name), &v1alpha1.Feature{})
-	if obj == nil {
-		return nil, err
+func newFakeFeatures(fake *FakeUiV1alpha1) uiv1alpha1.FeatureInterface {
+	return &fakeFeatures{
+		gentype.NewFakeClientWithList[*v1alpha1.Feature, *v1alpha1.FeatureList](
+			fake.Fake,
+			"",
+			v1alpha1.SchemeGroupVersion.WithResource("features"),
+			v1alpha1.SchemeGroupVersion.WithKind("Feature"),
+			func() *v1alpha1.Feature { return &v1alpha1.Feature{} },
+			func() *v1alpha1.FeatureList { return &v1alpha1.FeatureList{} },
+			func(dst, src *v1alpha1.FeatureList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.FeatureList) []*v1alpha1.Feature { return gentype.ToPointerSlice(list.Items) },
+			func(list *v1alpha1.FeatureList, items []*v1alpha1.Feature) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.Feature), err
-}
-
-// List takes label and field selectors, and returns the list of Features that match those selectors.
-func (c *FakeFeatures) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.FeatureList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootListAction(featuresResource, featuresKind, opts), &v1alpha1.FeatureList{})
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.FeatureList{ListMeta: obj.(*v1alpha1.FeatureList).ListMeta}
-	for _, item := range obj.(*v1alpha1.FeatureList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested features.
-func (c *FakeFeatures) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewRootWatchAction(featuresResource, opts))
-}
-
-// Create takes the representation of a feature and creates it.  Returns the server's representation of the feature, and an error, if there is any.
-func (c *FakeFeatures) Create(ctx context.Context, feature *v1alpha1.Feature, opts v1.CreateOptions) (result *v1alpha1.Feature, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootCreateAction(featuresResource, feature), &v1alpha1.Feature{})
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.Feature), err
-}
-
-// Update takes the representation of a feature and updates it. Returns the server's representation of the feature, and an error, if there is any.
-func (c *FakeFeatures) Update(ctx context.Context, feature *v1alpha1.Feature, opts v1.UpdateOptions) (result *v1alpha1.Feature, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootUpdateAction(featuresResource, feature), &v1alpha1.Feature{})
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.Feature), err
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeFeatures) UpdateStatus(ctx context.Context, feature *v1alpha1.Feature, opts v1.UpdateOptions) (*v1alpha1.Feature, error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootUpdateSubresourceAction(featuresResource, "status", feature), &v1alpha1.Feature{})
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.Feature), err
-}
-
-// Delete takes name of the feature and deletes it. Returns an error if one occurs.
-func (c *FakeFeatures) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewRootDeleteActionWithOptions(featuresResource, name, opts), &v1alpha1.Feature{})
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakeFeatures) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewRootDeleteCollectionAction(featuresResource, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha1.FeatureList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched feature.
-func (c *FakeFeatures) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.Feature, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootPatchSubresourceAction(featuresResource, name, pt, data, subresources...), &v1alpha1.Feature{})
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.Feature), err
 }

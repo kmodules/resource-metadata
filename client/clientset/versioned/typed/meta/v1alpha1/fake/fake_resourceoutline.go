@@ -19,28 +19,27 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	metav1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/meta/v1alpha1"
+
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeResourceOutlines implements ResourceOutlineInterface
-type FakeResourceOutlines struct {
+// fakeResourceOutlines implements ResourceOutlineInterface
+type fakeResourceOutlines struct {
+	*gentype.FakeClient[*v1alpha1.ResourceOutline]
 	Fake *FakeMetaV1alpha1
 }
 
-var resourceoutlinesResource = v1alpha1.SchemeGroupVersion.WithResource("resourceoutlines")
-
-var resourceoutlinesKind = v1alpha1.SchemeGroupVersion.WithKind("ResourceOutline")
-
-// Get takes name of the resourceOutline, and returns the corresponding resourceOutline object, and an error if there is any.
-func (c *FakeResourceOutlines) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ResourceOutline, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootGetAction(resourceoutlinesResource, name), &v1alpha1.ResourceOutline{})
-	if obj == nil {
-		return nil, err
+func newFakeResourceOutlines(fake *FakeMetaV1alpha1) metav1alpha1.ResourceOutlineInterface {
+	return &fakeResourceOutlines{
+		gentype.NewFakeClient[*v1alpha1.ResourceOutline](
+			fake.Fake,
+			"",
+			v1alpha1.SchemeGroupVersion.WithResource("resourceoutlines"),
+			v1alpha1.SchemeGroupVersion.WithKind("ResourceOutline"),
+			func() *v1alpha1.ResourceOutline { return &v1alpha1.ResourceOutline{} },
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.ResourceOutline), err
 }

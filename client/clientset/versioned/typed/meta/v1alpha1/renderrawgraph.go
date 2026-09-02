@@ -19,12 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
+
+	metav1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+	gentype "kmodules.xyz/client-go/gentype"
 )
 
 // RenderRawGraphsGetter has a method to return a RenderRawGraphInterface.
@@ -35,30 +36,24 @@ type RenderRawGraphsGetter interface {
 
 // RenderRawGraphInterface has methods to work with RenderRawGraph resources.
 type RenderRawGraphInterface interface {
-	Create(ctx context.Context, renderRawGraph *v1alpha1.RenderRawGraph, opts v1.CreateOptions) (*v1alpha1.RenderRawGraph, error)
+	Create(ctx context.Context, renderRawGraph *metav1alpha1.RenderRawGraph, opts v1.CreateOptions) (*metav1alpha1.RenderRawGraph, error)
 	RenderRawGraphExpansion
 }
 
 // renderRawGraphs implements RenderRawGraphInterface
 type renderRawGraphs struct {
-	client rest.Interface
+	*gentype.Client[*metav1alpha1.RenderRawGraph]
 }
 
 // newRenderRawGraphs returns a RenderRawGraphs
 func newRenderRawGraphs(c *MetaV1alpha1Client) *renderRawGraphs {
 	return &renderRawGraphs{
-		client: c.RESTClient(),
+		gentype.NewClient[*metav1alpha1.RenderRawGraph](
+			"renderrawgraphs",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			"",
+			func() *metav1alpha1.RenderRawGraph { return &metav1alpha1.RenderRawGraph{} },
+		),
 	}
-}
-
-// Create takes the representation of a renderRawGraph and creates it.  Returns the server's representation of the renderRawGraph, and an error, if there is any.
-func (c *renderRawGraphs) Create(ctx context.Context, renderRawGraph *v1alpha1.RenderRawGraph, opts v1.CreateOptions) (result *v1alpha1.RenderRawGraph, err error) {
-	result = &v1alpha1.RenderRawGraph{}
-	err = c.client.Post().
-		Resource("renderrawgraphs").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(renderRawGraph).
-		Do(ctx).
-		Into(result)
-	return
 }

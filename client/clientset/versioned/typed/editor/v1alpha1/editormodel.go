@@ -19,12 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
+
+	editorv1alpha1 "kmodules.xyz/resource-metadata/apis/editor/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/editor/v1alpha1"
-	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+	gentype "kmodules.xyz/client-go/gentype"
 )
 
 // EditorModelsGetter has a method to return a EditorModelInterface.
@@ -35,30 +36,24 @@ type EditorModelsGetter interface {
 
 // EditorModelInterface has methods to work with EditorModel resources.
 type EditorModelInterface interface {
-	Create(ctx context.Context, editorModel *v1alpha1.EditorModel, opts v1.CreateOptions) (*v1alpha1.EditorModel, error)
+	Create(ctx context.Context, editorModel *editorv1alpha1.EditorModel, opts v1.CreateOptions) (*editorv1alpha1.EditorModel, error)
 	EditorModelExpansion
 }
 
 // editorModels implements EditorModelInterface
 type editorModels struct {
-	client rest.Interface
+	*gentype.Client[*editorv1alpha1.EditorModel]
 }
 
 // newEditorModels returns a EditorModels
 func newEditorModels(c *EditorV1alpha1Client) *editorModels {
 	return &editorModels{
-		client: c.RESTClient(),
+		gentype.NewClient[*editorv1alpha1.EditorModel](
+			"editormodels",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			"",
+			func() *editorv1alpha1.EditorModel { return &editorv1alpha1.EditorModel{} },
+		),
 	}
-}
-
-// Create takes the representation of a editorModel and creates it.  Returns the server's representation of the editorModel, and an error, if there is any.
-func (c *editorModels) Create(ctx context.Context, editorModel *v1alpha1.EditorModel, opts v1.CreateOptions) (result *v1alpha1.EditorModel, err error) {
-	result = &v1alpha1.EditorModel{}
-	err = c.client.Post().
-		Resource("editormodels").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(editorModel).
-		Do(ctx).
-		Into(result)
-	return
 }

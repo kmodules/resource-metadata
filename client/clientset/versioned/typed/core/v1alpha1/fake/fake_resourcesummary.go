@@ -19,53 +19,35 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/core/v1alpha1"
+	corev1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/core/v1alpha1"
+
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeResourceSummaries implements ResourceSummaryInterface
-type FakeResourceSummaries struct {
+// fakeResourceSummaries implements ResourceSummaryInterface
+type fakeResourceSummaries struct {
+	*gentype.FakeClientWithList[*v1alpha1.ResourceSummary, *v1alpha1.ResourceSummaryList]
 	Fake *FakeCoreV1alpha1
-	ns   string
 }
 
-var resourcesummariesResource = v1alpha1.SchemeGroupVersion.WithResource("resourcesummaries")
-
-var resourcesummariesKind = v1alpha1.SchemeGroupVersion.WithKind("ResourceSummary")
-
-// Get takes name of the resourceSummary, and returns the corresponding resourceSummary object, and an error if there is any.
-func (c *FakeResourceSummaries) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ResourceSummary, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(resourcesummariesResource, c.ns, name), &v1alpha1.ResourceSummary{})
-
-	if obj == nil {
-		return nil, err
+func newFakeResourceSummaries(fake *FakeCoreV1alpha1, namespace string) corev1alpha1.ResourceSummaryInterface {
+	return &fakeResourceSummaries{
+		gentype.NewFakeClientWithList[*v1alpha1.ResourceSummary, *v1alpha1.ResourceSummaryList](
+			fake.Fake,
+			namespace,
+			v1alpha1.SchemeGroupVersion.WithResource("resourcesummaries"),
+			v1alpha1.SchemeGroupVersion.WithKind("ResourceSummary"),
+			func() *v1alpha1.ResourceSummary { return &v1alpha1.ResourceSummary{} },
+			func() *v1alpha1.ResourceSummaryList { return &v1alpha1.ResourceSummaryList{} },
+			func(dst, src *v1alpha1.ResourceSummaryList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.ResourceSummaryList) []*v1alpha1.ResourceSummary {
+				return gentype.ToPointerSlice(list.Items)
+			},
+			func(list *v1alpha1.ResourceSummaryList, items []*v1alpha1.ResourceSummary) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.ResourceSummary), err
-}
-
-// List takes label and field selectors, and returns the list of ResourceSummaries that match those selectors.
-func (c *FakeResourceSummaries) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.ResourceSummaryList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewListAction(resourcesummariesResource, resourcesummariesKind, c.ns, opts), &v1alpha1.ResourceSummaryList{})
-
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.ResourceSummaryList{ListMeta: obj.(*v1alpha1.ResourceSummaryList).ListMeta}
-	for _, item := range obj.(*v1alpha1.ResourceSummaryList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
 }

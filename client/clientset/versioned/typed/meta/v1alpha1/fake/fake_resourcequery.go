@@ -19,28 +19,27 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	metav1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/meta/v1alpha1"
+
+	gentype "kmodules.xyz/client-go/gentype"
 )
 
-// FakeResourceQueries implements ResourceQueryInterface
-type FakeResourceQueries struct {
+// fakeResourceQueries implements ResourceQueryInterface
+type fakeResourceQueries struct {
+	*gentype.FakeClient[*v1alpha1.ResourceQuery]
 	Fake *FakeMetaV1alpha1
 }
 
-var resourcequeriesResource = v1alpha1.SchemeGroupVersion.WithResource("resourcequeries")
-
-var resourcequeriesKind = v1alpha1.SchemeGroupVersion.WithKind("ResourceQuery")
-
-// Create takes the representation of a resourceQuery and creates it.  Returns the server's representation of the resourceQuery, and an error, if there is any.
-func (c *FakeResourceQueries) Create(ctx context.Context, resourceQuery *v1alpha1.ResourceQuery, opts v1.CreateOptions) (result *v1alpha1.ResourceQuery, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootCreateAction(resourcequeriesResource, resourceQuery), &v1alpha1.ResourceQuery{})
-	if obj == nil {
-		return nil, err
+func newFakeResourceQueries(fake *FakeMetaV1alpha1) metav1alpha1.ResourceQueryInterface {
+	return &fakeResourceQueries{
+		gentype.NewFakeClient[*v1alpha1.ResourceQuery](
+			fake.Fake,
+			"",
+			v1alpha1.SchemeGroupVersion.WithResource("resourcequeries"),
+			v1alpha1.SchemeGroupVersion.WithKind("ResourceQuery"),
+			func() *v1alpha1.ResourceQuery { return &v1alpha1.ResourceQuery{} },
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.ResourceQuery), err
 }

@@ -19,12 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
+
+	metav1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+	gentype "k8s.io/client-go/gentype"
 )
 
 // ResourceLayoutsGetter has a method to return a ResourceLayoutInterface.
@@ -35,30 +36,24 @@ type ResourceLayoutsGetter interface {
 
 // ResourceLayoutInterface has methods to work with ResourceLayout resources.
 type ResourceLayoutInterface interface {
-	Get(ctx context.Context, name string, opts v1.GetOptions) (*v1alpha1.ResourceLayout, error)
+	Get(ctx context.Context, name string, opts v1.GetOptions) (*metav1alpha1.ResourceLayout, error)
 	ResourceLayoutExpansion
 }
 
 // resourceLayouts implements ResourceLayoutInterface
 type resourceLayouts struct {
-	client rest.Interface
+	*gentype.Client[*metav1alpha1.ResourceLayout]
 }
 
 // newResourceLayouts returns a ResourceLayouts
 func newResourceLayouts(c *MetaV1alpha1Client) *resourceLayouts {
 	return &resourceLayouts{
-		client: c.RESTClient(),
+		gentype.NewClient[*metav1alpha1.ResourceLayout](
+			"resourcelayouts",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			"",
+			func() *metav1alpha1.ResourceLayout { return &metav1alpha1.ResourceLayout{} },
+		),
 	}
-}
-
-// Get takes name of the resourceLayout, and returns the corresponding resourceLayout object, and an error if there is any.
-func (c *resourceLayouts) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ResourceLayout, err error) {
-	result = &v1alpha1.ResourceLayout{}
-	err = c.client.Get().
-		Resource("resourcelayouts").
-		Name(name).
-		VersionedParams(&options, scheme.ParameterCodec).
-		Do(ctx).
-		Into(result)
-	return
 }

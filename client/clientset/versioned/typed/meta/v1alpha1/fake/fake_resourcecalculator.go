@@ -19,28 +19,27 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	metav1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/meta/v1alpha1"
+
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeResourceCalculators implements ResourceCalculatorInterface
-type FakeResourceCalculators struct {
+// fakeResourceCalculators implements ResourceCalculatorInterface
+type fakeResourceCalculators struct {
+	*gentype.FakeClient[*v1alpha1.ResourceCalculator]
 	Fake *FakeMetaV1alpha1
 }
 
-var resourcecalculatorsResource = v1alpha1.SchemeGroupVersion.WithResource("resourcecalculators")
-
-var resourcecalculatorsKind = v1alpha1.SchemeGroupVersion.WithKind("ResourceCalculator")
-
-// Create takes the representation of a resourceCalculator and creates it.  Returns the server's representation of the resourceCalculator, and an error, if there is any.
-func (c *FakeResourceCalculators) Create(ctx context.Context, resourceCalculator *v1alpha1.ResourceCalculator, opts v1.CreateOptions) (result *v1alpha1.ResourceCalculator, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootCreateAction(resourcecalculatorsResource, resourceCalculator), &v1alpha1.ResourceCalculator{})
-	if obj == nil {
-		return nil, err
+func newFakeResourceCalculators(fake *FakeMetaV1alpha1) metav1alpha1.ResourceCalculatorInterface {
+	return &fakeResourceCalculators{
+		gentype.NewFakeClient[*v1alpha1.ResourceCalculator](
+			fake.Fake,
+			"",
+			v1alpha1.SchemeGroupVersion.WithResource("resourcecalculators"),
+			v1alpha1.SchemeGroupVersion.WithKind("ResourceCalculator"),
+			func() *v1alpha1.ResourceCalculator { return &v1alpha1.ResourceCalculator{} },
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.ResourceCalculator), err
 }

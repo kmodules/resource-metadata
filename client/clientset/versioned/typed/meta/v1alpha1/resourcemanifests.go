@@ -19,12 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
+
+	metav1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+	gentype "kmodules.xyz/client-go/gentype"
 )
 
 // ResourceManifestsesGetter has a method to return a ResourceManifestsInterface.
@@ -35,30 +36,24 @@ type ResourceManifestsesGetter interface {
 
 // ResourceManifestsInterface has methods to work with ResourceManifests resources.
 type ResourceManifestsInterface interface {
-	Create(ctx context.Context, resourceManifests *v1alpha1.ResourceManifests, opts v1.CreateOptions) (*v1alpha1.ResourceManifests, error)
+	Create(ctx context.Context, resourceManifests *metav1alpha1.ResourceManifests, opts v1.CreateOptions) (*metav1alpha1.ResourceManifests, error)
 	ResourceManifestsExpansion
 }
 
 // resourceManifestses implements ResourceManifestsInterface
 type resourceManifestses struct {
-	client rest.Interface
+	*gentype.Client[*metav1alpha1.ResourceManifests]
 }
 
 // newResourceManifestses returns a ResourceManifestses
 func newResourceManifestses(c *MetaV1alpha1Client) *resourceManifestses {
 	return &resourceManifestses{
-		client: c.RESTClient(),
+		gentype.NewClient[*metav1alpha1.ResourceManifests](
+			"resourcemanifestses",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			"",
+			func() *metav1alpha1.ResourceManifests { return &metav1alpha1.ResourceManifests{} },
+		),
 	}
-}
-
-// Create takes the representation of a resourceManifests and creates it.  Returns the server's representation of the resourceManifests, and an error, if there is any.
-func (c *resourceManifestses) Create(ctx context.Context, resourceManifests *v1alpha1.ResourceManifests, opts v1.CreateOptions) (result *v1alpha1.ResourceManifests, err error) {
-	result = &v1alpha1.ResourceManifests{}
-	err = c.client.Post().
-		Resource("resourcemanifestses").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(resourceManifests).
-		Do(ctx).
-		Into(result)
-	return
 }

@@ -19,9 +19,10 @@ limitations under the License.
 package fake
 
 import (
+	v1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/ui/v1alpha1"
+
 	rest "k8s.io/client-go/rest"
 	testing "k8s.io/client-go/testing"
-	v1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/ui/v1alpha1"
 )
 
 type FakeUiV1alpha1 struct {
@@ -29,27 +30,27 @@ type FakeUiV1alpha1 struct {
 }
 
 func (c *FakeUiV1alpha1) ClusterProfiles() v1alpha1.ClusterProfileInterface {
-	return &FakeClusterProfiles{c}
+	return newFakeClusterProfiles(c)
 }
 
 func (c *FakeUiV1alpha1) Features() v1alpha1.FeatureInterface {
-	return &FakeFeatures{c}
+	return newFakeFeatures(c)
 }
 
 func (c *FakeUiV1alpha1) FeatureSets() v1alpha1.FeatureSetInterface {
-	return &FakeFeatureSets{c}
+	return newFakeFeatureSets(c)
 }
 
 func (c *FakeUiV1alpha1) ResourceDashboards() v1alpha1.ResourceDashboardInterface {
-	return &FakeResourceDashboards{c}
+	return newFakeResourceDashboards(c)
 }
 
 func (c *FakeUiV1alpha1) ResourceEditors() v1alpha1.ResourceEditorInterface {
-	return &FakeResourceEditors{c}
+	return newFakeResourceEditors(c)
 }
 
 func (c *FakeUiV1alpha1) ResourceOutlineFilters() v1alpha1.ResourceOutlineFilterInterface {
-	return &FakeResourceOutlineFilters{c}
+	return newFakeResourceOutlineFilters(c)
 }
 
 // RESTClient returns a RESTClient that is used to communicate

@@ -19,12 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
+
+	metav1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+	gentype "kmodules.xyz/client-go/gentype"
 )
 
 // RenderMenusGetter has a method to return a RenderMenuInterface.
@@ -35,30 +36,24 @@ type RenderMenusGetter interface {
 
 // RenderMenuInterface has methods to work with RenderMenu resources.
 type RenderMenuInterface interface {
-	Create(ctx context.Context, renderMenu *v1alpha1.RenderMenu, opts v1.CreateOptions) (*v1alpha1.RenderMenu, error)
+	Create(ctx context.Context, renderMenu *metav1alpha1.RenderMenu, opts v1.CreateOptions) (*metav1alpha1.RenderMenu, error)
 	RenderMenuExpansion
 }
 
 // renderMenus implements RenderMenuInterface
 type renderMenus struct {
-	client rest.Interface
+	*gentype.Client[*metav1alpha1.RenderMenu]
 }
 
 // newRenderMenus returns a RenderMenus
 func newRenderMenus(c *MetaV1alpha1Client) *renderMenus {
 	return &renderMenus{
-		client: c.RESTClient(),
+		gentype.NewClient[*metav1alpha1.RenderMenu](
+			"rendermenus",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			"",
+			func() *metav1alpha1.RenderMenu { return &metav1alpha1.RenderMenu{} },
+		),
 	}
-}
-
-// Create takes the representation of a renderMenu and creates it.  Returns the server's representation of the renderMenu, and an error, if there is any.
-func (c *renderMenus) Create(ctx context.Context, renderMenu *v1alpha1.RenderMenu, opts v1.CreateOptions) (result *v1alpha1.RenderMenu, err error) {
-	result = &v1alpha1.RenderMenu{}
-	err = c.client.Post().
-		Resource("rendermenus").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(renderMenu).
-		Do(ctx).
-		Into(result)
-	return
 }

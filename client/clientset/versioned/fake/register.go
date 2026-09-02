@@ -19,11 +19,6 @@ limitations under the License.
 package fake
 
 import (
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	runtime "k8s.io/apimachinery/pkg/runtime"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
-	serializer "k8s.io/apimachinery/pkg/runtime/serializer"
-	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	corev1alpha1 "kmodules.xyz/resource-metadata/apis/core/v1alpha1"
 	editorv1alpha1 "kmodules.xyz/resource-metadata/apis/editor/v1alpha1"
 	identityv1alpha1 "kmodules.xyz/resource-metadata/apis/identity/v1alpha1"
@@ -31,6 +26,12 @@ import (
 	metav1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 	nodev1alpha1 "kmodules.xyz/resource-metadata/apis/node/v1alpha1"
 	uiv1alpha1 "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
+
+	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	runtime "k8s.io/apimachinery/pkg/runtime"
+	schema "k8s.io/apimachinery/pkg/runtime/schema"
+	serializer "k8s.io/apimachinery/pkg/runtime/serializer"
+	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 )
 
 var scheme = runtime.NewScheme()

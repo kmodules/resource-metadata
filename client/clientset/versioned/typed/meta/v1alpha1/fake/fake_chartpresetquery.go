@@ -19,28 +19,27 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	metav1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/meta/v1alpha1"
+
+	gentype "kmodules.xyz/client-go/gentype"
 )
 
-// FakeChartPresetQueries implements ChartPresetQueryInterface
-type FakeChartPresetQueries struct {
+// fakeChartPresetQueries implements ChartPresetQueryInterface
+type fakeChartPresetQueries struct {
+	*gentype.FakeClient[*v1alpha1.ChartPresetQuery]
 	Fake *FakeMetaV1alpha1
 }
 
-var chartpresetqueriesResource = v1alpha1.SchemeGroupVersion.WithResource("chartpresetqueries")
-
-var chartpresetqueriesKind = v1alpha1.SchemeGroupVersion.WithKind("ChartPresetQuery")
-
-// Create takes the representation of a chartPresetQuery and creates it.  Returns the server's representation of the chartPresetQuery, and an error, if there is any.
-func (c *FakeChartPresetQueries) Create(ctx context.Context, chartPresetQuery *v1alpha1.ChartPresetQuery, opts v1.CreateOptions) (result *v1alpha1.ChartPresetQuery, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootCreateAction(chartpresetqueriesResource, chartPresetQuery), &v1alpha1.ChartPresetQuery{})
-	if obj == nil {
-		return nil, err
+func newFakeChartPresetQueries(fake *FakeMetaV1alpha1) metav1alpha1.ChartPresetQueryInterface {
+	return &fakeChartPresetQueries{
+		gentype.NewFakeClient[*v1alpha1.ChartPresetQuery](
+			fake.Fake,
+			"",
+			v1alpha1.SchemeGroupVersion.WithResource("chartpresetqueries"),
+			v1alpha1.SchemeGroupVersion.WithKind("ChartPresetQuery"),
+			func() *v1alpha1.ChartPresetQuery { return &v1alpha1.ChartPresetQuery{} },
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.ChartPresetQuery), err
 }

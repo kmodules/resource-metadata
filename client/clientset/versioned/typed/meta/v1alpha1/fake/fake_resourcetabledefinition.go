@@ -19,28 +19,27 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	metav1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/meta/v1alpha1"
+
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeResourceTableDefinitions implements ResourceTableDefinitionInterface
-type FakeResourceTableDefinitions struct {
+// fakeResourceTableDefinitions implements ResourceTableDefinitionInterface
+type fakeResourceTableDefinitions struct {
+	*gentype.FakeClient[*v1alpha1.ResourceTableDefinition]
 	Fake *FakeMetaV1alpha1
 }
 
-var resourcetabledefinitionsResource = v1alpha1.SchemeGroupVersion.WithResource("resourcetabledefinitions")
-
-var resourcetabledefinitionsKind = v1alpha1.SchemeGroupVersion.WithKind("ResourceTableDefinition")
-
-// Get takes name of the resourceTableDefinition, and returns the corresponding resourceTableDefinition object, and an error if there is any.
-func (c *FakeResourceTableDefinitions) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ResourceTableDefinition, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootGetAction(resourcetabledefinitionsResource, name), &v1alpha1.ResourceTableDefinition{})
-	if obj == nil {
-		return nil, err
+func newFakeResourceTableDefinitions(fake *FakeMetaV1alpha1) metav1alpha1.ResourceTableDefinitionInterface {
+	return &fakeResourceTableDefinitions{
+		gentype.NewFakeClient[*v1alpha1.ResourceTableDefinition](
+			fake.Fake,
+			"",
+			v1alpha1.SchemeGroupVersion.WithResource("resourcetabledefinitions"),
+			v1alpha1.SchemeGroupVersion.WithKind("ResourceTableDefinition"),
+			func() *v1alpha1.ResourceTableDefinition { return &v1alpha1.ResourceTableDefinition{} },
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.ResourceTableDefinition), err
 }

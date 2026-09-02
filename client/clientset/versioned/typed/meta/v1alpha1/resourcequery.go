@@ -19,12 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
+
+	metav1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+	gentype "kmodules.xyz/client-go/gentype"
 )
 
 // ResourceQueriesGetter has a method to return a ResourceQueryInterface.
@@ -35,30 +36,24 @@ type ResourceQueriesGetter interface {
 
 // ResourceQueryInterface has methods to work with ResourceQuery resources.
 type ResourceQueryInterface interface {
-	Create(ctx context.Context, resourceQuery *v1alpha1.ResourceQuery, opts v1.CreateOptions) (*v1alpha1.ResourceQuery, error)
+	Create(ctx context.Context, resourceQuery *metav1alpha1.ResourceQuery, opts v1.CreateOptions) (*metav1alpha1.ResourceQuery, error)
 	ResourceQueryExpansion
 }
 
 // resourceQueries implements ResourceQueryInterface
 type resourceQueries struct {
-	client rest.Interface
+	*gentype.Client[*metav1alpha1.ResourceQuery]
 }
 
 // newResourceQueries returns a ResourceQueries
 func newResourceQueries(c *MetaV1alpha1Client) *resourceQueries {
 	return &resourceQueries{
-		client: c.RESTClient(),
+		gentype.NewClient[*metav1alpha1.ResourceQuery](
+			"resourcequeries",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			"",
+			func() *metav1alpha1.ResourceQuery { return &metav1alpha1.ResourceQuery{} },
+		),
 	}
-}
-
-// Create takes the representation of a resourceQuery and creates it.  Returns the server's representation of the resourceQuery, and an error, if there is any.
-func (c *resourceQueries) Create(ctx context.Context, resourceQuery *v1alpha1.ResourceQuery, opts v1.CreateOptions) (result *v1alpha1.ResourceQuery, err error) {
-	result = &v1alpha1.ResourceQuery{}
-	err = c.client.Post().
-		Resource("resourcequeries").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(resourceQuery).
-		Do(ctx).
-		Into(result)
-	return
 }

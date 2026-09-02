@@ -19,28 +19,27 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/identity/v1alpha1"
+	identityv1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/identity/v1alpha1"
+
+	gentype "kmodules.xyz/client-go/gentype"
 )
 
-// FakeAuditTokenRequests implements AuditTokenRequestInterface
-type FakeAuditTokenRequests struct {
+// fakeAuditTokenRequests implements AuditTokenRequestInterface
+type fakeAuditTokenRequests struct {
+	*gentype.FakeClient[*v1alpha1.AuditTokenRequest]
 	Fake *FakeIdentityV1alpha1
 }
 
-var audittokenrequestsResource = v1alpha1.SchemeGroupVersion.WithResource("audittokenrequests")
-
-var audittokenrequestsKind = v1alpha1.SchemeGroupVersion.WithKind("AuditTokenRequest")
-
-// Create takes the representation of a auditTokenRequest and creates it.  Returns the server's representation of the auditTokenRequest, and an error, if there is any.
-func (c *FakeAuditTokenRequests) Create(ctx context.Context, auditTokenRequest *v1alpha1.AuditTokenRequest, opts v1.CreateOptions) (result *v1alpha1.AuditTokenRequest, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootCreateAction(audittokenrequestsResource, auditTokenRequest), &v1alpha1.AuditTokenRequest{})
-	if obj == nil {
-		return nil, err
+func newFakeAuditTokenRequests(fake *FakeIdentityV1alpha1) identityv1alpha1.AuditTokenRequestInterface {
+	return &fakeAuditTokenRequests{
+		gentype.NewFakeClient[*v1alpha1.AuditTokenRequest](
+			fake.Fake,
+			"",
+			v1alpha1.SchemeGroupVersion.WithResource("audittokenrequests"),
+			v1alpha1.SchemeGroupVersion.WithKind("AuditTokenRequest"),
+			func() *v1alpha1.AuditTokenRequest { return &v1alpha1.AuditTokenRequest{} },
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.AuditTokenRequest), err
 }

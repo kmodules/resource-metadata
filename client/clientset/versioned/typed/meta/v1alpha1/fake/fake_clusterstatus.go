@@ -19,28 +19,27 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	metav1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/meta/v1alpha1"
+
+	gentype "kmodules.xyz/client-go/gentype"
 )
 
-// FakeClusterStatuses implements ClusterStatusInterface
-type FakeClusterStatuses struct {
+// fakeClusterStatuses implements ClusterStatusInterface
+type fakeClusterStatuses struct {
+	*gentype.FakeClient[*v1alpha1.ClusterStatus]
 	Fake *FakeMetaV1alpha1
 }
 
-var clusterstatusesResource = v1alpha1.SchemeGroupVersion.WithResource("clusterstatuses")
-
-var clusterstatusesKind = v1alpha1.SchemeGroupVersion.WithKind("ClusterStatus")
-
-// Create takes the representation of a clusterStatus and creates it.  Returns the server's representation of the clusterStatus, and an error, if there is any.
-func (c *FakeClusterStatuses) Create(ctx context.Context, clusterStatus *v1alpha1.ClusterStatus, opts v1.CreateOptions) (result *v1alpha1.ClusterStatus, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootCreateAction(clusterstatusesResource, clusterStatus), &v1alpha1.ClusterStatus{})
-	if obj == nil {
-		return nil, err
+func newFakeClusterStatuses(fake *FakeMetaV1alpha1) metav1alpha1.ClusterStatusInterface {
+	return &fakeClusterStatuses{
+		gentype.NewFakeClient[*v1alpha1.ClusterStatus](
+			fake.Fake,
+			"",
+			v1alpha1.SchemeGroupVersion.WithResource("clusterstatuses"),
+			v1alpha1.SchemeGroupVersion.WithKind("ClusterStatus"),
+			func() *v1alpha1.ClusterStatus { return &v1alpha1.ClusterStatus{} },
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.ClusterStatus), err
 }

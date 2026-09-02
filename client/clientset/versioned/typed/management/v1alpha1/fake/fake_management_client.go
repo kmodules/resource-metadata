@@ -19,9 +19,10 @@ limitations under the License.
 package fake
 
 import (
+	v1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/management/v1alpha1"
+
 	rest "k8s.io/client-go/rest"
 	testing "k8s.io/client-go/testing"
-	v1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/management/v1alpha1"
 )
 
 type FakeManagementV1alpha1 struct {
@@ -29,7 +30,7 @@ type FakeManagementV1alpha1 struct {
 }
 
 func (c *FakeManagementV1alpha1) ProjectQuotas() v1alpha1.ProjectQuotaInterface {
-	return &FakeProjectQuotas{c}
+	return newFakeProjectQuotas(c)
 }
 
 // RESTClient returns a RESTClient that is used to communicate

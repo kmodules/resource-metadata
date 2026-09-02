@@ -19,12 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
+
+	uiv1alpha1 "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
-	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+	gentype "k8s.io/client-go/gentype"
 )
 
 // ResourceOutlineFiltersGetter has a method to return a ResourceOutlineFilterInterface.
@@ -35,30 +36,24 @@ type ResourceOutlineFiltersGetter interface {
 
 // ResourceOutlineFilterInterface has methods to work with ResourceOutlineFilter resources.
 type ResourceOutlineFilterInterface interface {
-	Get(ctx context.Context, name string, opts v1.GetOptions) (*v1alpha1.ResourceOutlineFilter, error)
+	Get(ctx context.Context, name string, opts v1.GetOptions) (*uiv1alpha1.ResourceOutlineFilter, error)
 	ResourceOutlineFilterExpansion
 }
 
 // resourceOutlineFilters implements ResourceOutlineFilterInterface
 type resourceOutlineFilters struct {
-	client rest.Interface
+	*gentype.Client[*uiv1alpha1.ResourceOutlineFilter]
 }
 
 // newResourceOutlineFilters returns a ResourceOutlineFilters
 func newResourceOutlineFilters(c *UiV1alpha1Client) *resourceOutlineFilters {
 	return &resourceOutlineFilters{
-		client: c.RESTClient(),
+		gentype.NewClient[*uiv1alpha1.ResourceOutlineFilter](
+			"resourceoutlinefilters",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			"",
+			func() *uiv1alpha1.ResourceOutlineFilter { return &uiv1alpha1.ResourceOutlineFilter{} },
+		),
 	}
-}
-
-// Get takes name of the resourceOutlineFilter, and returns the corresponding resourceOutlineFilter object, and an error if there is any.
-func (c *resourceOutlineFilters) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ResourceOutlineFilter, err error) {
-	result = &v1alpha1.ResourceOutlineFilter{}
-	err = c.client.Get().
-		Resource("resourceoutlinefilters").
-		Name(name).
-		VersionedParams(&options, scheme.ParameterCodec).
-		Do(ctx).
-		Into(result)
-	return
 }

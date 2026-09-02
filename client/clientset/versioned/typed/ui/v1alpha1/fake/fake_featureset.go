@@ -19,114 +19,33 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
+	uiv1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/ui/v1alpha1"
+
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeFeatureSets implements FeatureSetInterface
-type FakeFeatureSets struct {
+// fakeFeatureSets implements FeatureSetInterface
+type fakeFeatureSets struct {
+	*gentype.FakeClientWithList[*v1alpha1.FeatureSet, *v1alpha1.FeatureSetList]
 	Fake *FakeUiV1alpha1
 }
 
-var featuresetsResource = v1alpha1.SchemeGroupVersion.WithResource("featuresets")
-
-var featuresetsKind = v1alpha1.SchemeGroupVersion.WithKind("FeatureSet")
-
-// Get takes name of the featureSet, and returns the corresponding featureSet object, and an error if there is any.
-func (c *FakeFeatureSets) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.FeatureSet, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootGetAction(featuresetsResource, name), &v1alpha1.FeatureSet{})
-	if obj == nil {
-		return nil, err
+func newFakeFeatureSets(fake *FakeUiV1alpha1) uiv1alpha1.FeatureSetInterface {
+	return &fakeFeatureSets{
+		gentype.NewFakeClientWithList[*v1alpha1.FeatureSet, *v1alpha1.FeatureSetList](
+			fake.Fake,
+			"",
+			v1alpha1.SchemeGroupVersion.WithResource("featuresets"),
+			v1alpha1.SchemeGroupVersion.WithKind("FeatureSet"),
+			func() *v1alpha1.FeatureSet { return &v1alpha1.FeatureSet{} },
+			func() *v1alpha1.FeatureSetList { return &v1alpha1.FeatureSetList{} },
+			func(dst, src *v1alpha1.FeatureSetList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.FeatureSetList) []*v1alpha1.FeatureSet { return gentype.ToPointerSlice(list.Items) },
+			func(list *v1alpha1.FeatureSetList, items []*v1alpha1.FeatureSet) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.FeatureSet), err
-}
-
-// List takes label and field selectors, and returns the list of FeatureSets that match those selectors.
-func (c *FakeFeatureSets) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.FeatureSetList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootListAction(featuresetsResource, featuresetsKind, opts), &v1alpha1.FeatureSetList{})
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.FeatureSetList{ListMeta: obj.(*v1alpha1.FeatureSetList).ListMeta}
-	for _, item := range obj.(*v1alpha1.FeatureSetList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested featureSets.
-func (c *FakeFeatureSets) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewRootWatchAction(featuresetsResource, opts))
-}
-
-// Create takes the representation of a featureSet and creates it.  Returns the server's representation of the featureSet, and an error, if there is any.
-func (c *FakeFeatureSets) Create(ctx context.Context, featureSet *v1alpha1.FeatureSet, opts v1.CreateOptions) (result *v1alpha1.FeatureSet, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootCreateAction(featuresetsResource, featureSet), &v1alpha1.FeatureSet{})
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.FeatureSet), err
-}
-
-// Update takes the representation of a featureSet and updates it. Returns the server's representation of the featureSet, and an error, if there is any.
-func (c *FakeFeatureSets) Update(ctx context.Context, featureSet *v1alpha1.FeatureSet, opts v1.UpdateOptions) (result *v1alpha1.FeatureSet, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootUpdateAction(featuresetsResource, featureSet), &v1alpha1.FeatureSet{})
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.FeatureSet), err
-}
-
-// UpdateStatus was generated because the type contains a Status member.
-// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeFeatureSets) UpdateStatus(ctx context.Context, featureSet *v1alpha1.FeatureSet, opts v1.UpdateOptions) (*v1alpha1.FeatureSet, error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootUpdateSubresourceAction(featuresetsResource, "status", featureSet), &v1alpha1.FeatureSet{})
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.FeatureSet), err
-}
-
-// Delete takes name of the featureSet and deletes it. Returns an error if one occurs.
-func (c *FakeFeatureSets) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewRootDeleteActionWithOptions(featuresetsResource, name, opts), &v1alpha1.FeatureSet{})
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakeFeatureSets) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewRootDeleteCollectionAction(featuresetsResource, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha1.FeatureSetList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched featureSet.
-func (c *FakeFeatureSets) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.FeatureSet, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootPatchSubresourceAction(featuresetsResource, name, pt, data, subresources...), &v1alpha1.FeatureSet{})
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.FeatureSet), err
 }

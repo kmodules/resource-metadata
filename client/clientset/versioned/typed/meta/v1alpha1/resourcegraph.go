@@ -19,12 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
+
+	metav1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+	gentype "kmodules.xyz/client-go/gentype"
 )
 
 // ResourceGraphsGetter has a method to return a ResourceGraphInterface.
@@ -35,30 +36,24 @@ type ResourceGraphsGetter interface {
 
 // ResourceGraphInterface has methods to work with ResourceGraph resources.
 type ResourceGraphInterface interface {
-	Create(ctx context.Context, resourceGraph *v1alpha1.ResourceGraph, opts v1.CreateOptions) (*v1alpha1.ResourceGraph, error)
+	Create(ctx context.Context, resourceGraph *metav1alpha1.ResourceGraph, opts v1.CreateOptions) (*metav1alpha1.ResourceGraph, error)
 	ResourceGraphExpansion
 }
 
 // resourceGraphs implements ResourceGraphInterface
 type resourceGraphs struct {
-	client rest.Interface
+	*gentype.Client[*metav1alpha1.ResourceGraph]
 }
 
 // newResourceGraphs returns a ResourceGraphs
 func newResourceGraphs(c *MetaV1alpha1Client) *resourceGraphs {
 	return &resourceGraphs{
-		client: c.RESTClient(),
+		gentype.NewClient[*metav1alpha1.ResourceGraph](
+			"resourcegraphs",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			"",
+			func() *metav1alpha1.ResourceGraph { return &metav1alpha1.ResourceGraph{} },
+		),
 	}
-}
-
-// Create takes the representation of a resourceGraph and creates it.  Returns the server's representation of the resourceGraph, and an error, if there is any.
-func (c *resourceGraphs) Create(ctx context.Context, resourceGraph *v1alpha1.ResourceGraph, opts v1.CreateOptions) (result *v1alpha1.ResourceGraph, err error) {
-	result = &v1alpha1.ResourceGraph{}
-	err = c.client.Post().
-		Resource("resourcegraphs").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(resourceGraph).
-		Do(ctx).
-		Into(result)
-	return
 }

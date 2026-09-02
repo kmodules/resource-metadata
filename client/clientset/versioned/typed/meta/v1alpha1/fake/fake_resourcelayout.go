@@ -19,28 +19,27 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	metav1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/meta/v1alpha1"
+
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeResourceLayouts implements ResourceLayoutInterface
-type FakeResourceLayouts struct {
+// fakeResourceLayouts implements ResourceLayoutInterface
+type fakeResourceLayouts struct {
+	*gentype.FakeClient[*v1alpha1.ResourceLayout]
 	Fake *FakeMetaV1alpha1
 }
 
-var resourcelayoutsResource = v1alpha1.SchemeGroupVersion.WithResource("resourcelayouts")
-
-var resourcelayoutsKind = v1alpha1.SchemeGroupVersion.WithKind("ResourceLayout")
-
-// Get takes name of the resourceLayout, and returns the corresponding resourceLayout object, and an error if there is any.
-func (c *FakeResourceLayouts) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ResourceLayout, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootGetAction(resourcelayoutsResource, name), &v1alpha1.ResourceLayout{})
-	if obj == nil {
-		return nil, err
+func newFakeResourceLayouts(fake *FakeMetaV1alpha1) metav1alpha1.ResourceLayoutInterface {
+	return &fakeResourceLayouts{
+		gentype.NewFakeClient[*v1alpha1.ResourceLayout](
+			fake.Fake,
+			"",
+			v1alpha1.SchemeGroupVersion.WithResource("resourcelayouts"),
+			v1alpha1.SchemeGroupVersion.WithKind("ResourceLayout"),
+			func() *v1alpha1.ResourceLayout { return &v1alpha1.ResourceLayout{} },
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.ResourceLayout), err
 }

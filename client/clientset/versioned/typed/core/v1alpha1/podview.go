@@ -19,13 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
-	"time"
+	context "context"
+
+	corev1alpha1 "kmodules.xyz/resource-metadata/apis/core/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/core/v1alpha1"
-	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+	gentype "k8s.io/client-go/gentype"
 )
 
 // PodViewsGetter has a method to return a PodViewInterface.
@@ -36,51 +36,26 @@ type PodViewsGetter interface {
 
 // PodViewInterface has methods to work with PodView resources.
 type PodViewInterface interface {
-	Get(ctx context.Context, name string, opts v1.GetOptions) (*v1alpha1.PodView, error)
-	List(ctx context.Context, opts v1.ListOptions) (*v1alpha1.PodViewList, error)
+	Get(ctx context.Context, name string, opts v1.GetOptions) (*corev1alpha1.PodView, error)
+	List(ctx context.Context, opts v1.ListOptions) (*corev1alpha1.PodViewList, error)
 	PodViewExpansion
 }
 
 // podViews implements PodViewInterface
 type podViews struct {
-	client rest.Interface
-	ns     string
+	*gentype.ClientWithList[*corev1alpha1.PodView, *corev1alpha1.PodViewList]
 }
 
 // newPodViews returns a PodViews
 func newPodViews(c *CoreV1alpha1Client, namespace string) *podViews {
 	return &podViews{
-		client: c.RESTClient(),
-		ns:     namespace,
+		gentype.NewClientWithList[*corev1alpha1.PodView, *corev1alpha1.PodViewList](
+			"podviews",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			namespace,
+			func() *corev1alpha1.PodView { return &corev1alpha1.PodView{} },
+			func() *corev1alpha1.PodViewList { return &corev1alpha1.PodViewList{} },
+		),
 	}
-}
-
-// Get takes name of the podView, and returns the corresponding podView object, and an error if there is any.
-func (c *podViews) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.PodView, err error) {
-	result = &v1alpha1.PodView{}
-	err = c.client.Get().
-		Namespace(c.ns).
-		Resource("podviews").
-		Name(name).
-		VersionedParams(&options, scheme.ParameterCodec).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// List takes label and field selectors, and returns the list of PodViews that match those selectors.
-func (c *podViews) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.PodViewList, err error) {
-	var timeout time.Duration
-	if opts.TimeoutSeconds != nil {
-		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
-	}
-	result = &v1alpha1.PodViewList{}
-	err = c.client.Get().
-		Namespace(c.ns).
-		Resource("podviews").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Do(ctx).
-		Into(result)
-	return
 }

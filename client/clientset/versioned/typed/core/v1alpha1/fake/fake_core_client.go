@@ -19,9 +19,10 @@ limitations under the License.
 package fake
 
 import (
+	v1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/core/v1alpha1"
+
 	rest "k8s.io/client-go/rest"
 	testing "k8s.io/client-go/testing"
-	v1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/core/v1alpha1"
 )
 
 type FakeCoreV1alpha1 struct {
@@ -29,23 +30,23 @@ type FakeCoreV1alpha1 struct {
 }
 
 func (c *FakeCoreV1alpha1) GenericResources(namespace string) v1alpha1.GenericResourceInterface {
-	return &FakeGenericResources{c, namespace}
+	return newFakeGenericResources(c, namespace)
 }
 
 func (c *FakeCoreV1alpha1) GenericResourceServices(namespace string) v1alpha1.GenericResourceServiceInterface {
-	return &FakeGenericResourceServices{c, namespace}
+	return newFakeGenericResourceServices(c, namespace)
 }
 
 func (c *FakeCoreV1alpha1) PodViews(namespace string) v1alpha1.PodViewInterface {
-	return &FakePodViews{c, namespace}
+	return newFakePodViews(c, namespace)
 }
 
 func (c *FakeCoreV1alpha1) Projects() v1alpha1.ProjectInterface {
-	return &FakeProjects{c}
+	return newFakeProjects(c)
 }
 
 func (c *FakeCoreV1alpha1) ResourceSummaries(namespace string) v1alpha1.ResourceSummaryInterface {
-	return &FakeResourceSummaries{c, namespace}
+	return newFakeResourceSummaries(c, namespace)
 }
 
 // RESTClient returns a RESTClient that is used to communicate

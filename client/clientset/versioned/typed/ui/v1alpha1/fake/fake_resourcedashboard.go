@@ -19,103 +19,35 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	labels "k8s.io/apimachinery/pkg/labels"
-	types "k8s.io/apimachinery/pkg/types"
-	watch "k8s.io/apimachinery/pkg/watch"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/ui/v1alpha1"
+	uiv1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/ui/v1alpha1"
+
+	gentype "k8s.io/client-go/gentype"
 )
 
-// FakeResourceDashboards implements ResourceDashboardInterface
-type FakeResourceDashboards struct {
+// fakeResourceDashboards implements ResourceDashboardInterface
+type fakeResourceDashboards struct {
+	*gentype.FakeClientWithList[*v1alpha1.ResourceDashboard, *v1alpha1.ResourceDashboardList]
 	Fake *FakeUiV1alpha1
 }
 
-var resourcedashboardsResource = v1alpha1.SchemeGroupVersion.WithResource("resourcedashboards")
-
-var resourcedashboardsKind = v1alpha1.SchemeGroupVersion.WithKind("ResourceDashboard")
-
-// Get takes name of the resourceDashboard, and returns the corresponding resourceDashboard object, and an error if there is any.
-func (c *FakeResourceDashboards) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ResourceDashboard, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootGetAction(resourcedashboardsResource, name), &v1alpha1.ResourceDashboard{})
-	if obj == nil {
-		return nil, err
+func newFakeResourceDashboards(fake *FakeUiV1alpha1) uiv1alpha1.ResourceDashboardInterface {
+	return &fakeResourceDashboards{
+		gentype.NewFakeClientWithList[*v1alpha1.ResourceDashboard, *v1alpha1.ResourceDashboardList](
+			fake.Fake,
+			"",
+			v1alpha1.SchemeGroupVersion.WithResource("resourcedashboards"),
+			v1alpha1.SchemeGroupVersion.WithKind("ResourceDashboard"),
+			func() *v1alpha1.ResourceDashboard { return &v1alpha1.ResourceDashboard{} },
+			func() *v1alpha1.ResourceDashboardList { return &v1alpha1.ResourceDashboardList{} },
+			func(dst, src *v1alpha1.ResourceDashboardList) { dst.ListMeta = src.ListMeta },
+			func(list *v1alpha1.ResourceDashboardList) []*v1alpha1.ResourceDashboard {
+				return gentype.ToPointerSlice(list.Items)
+			},
+			func(list *v1alpha1.ResourceDashboardList, items []*v1alpha1.ResourceDashboard) {
+				list.Items = gentype.FromPointerSlice(items)
+			},
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.ResourceDashboard), err
-}
-
-// List takes label and field selectors, and returns the list of ResourceDashboards that match those selectors.
-func (c *FakeResourceDashboards) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.ResourceDashboardList, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootListAction(resourcedashboardsResource, resourcedashboardsKind, opts), &v1alpha1.ResourceDashboardList{})
-	if obj == nil {
-		return nil, err
-	}
-
-	label, _, _ := testing.ExtractFromListOptions(opts)
-	if label == nil {
-		label = labels.Everything()
-	}
-	list := &v1alpha1.ResourceDashboardList{ListMeta: obj.(*v1alpha1.ResourceDashboardList).ListMeta}
-	for _, item := range obj.(*v1alpha1.ResourceDashboardList).Items {
-		if label.Matches(labels.Set(item.Labels)) {
-			list.Items = append(list.Items, item)
-		}
-	}
-	return list, err
-}
-
-// Watch returns a watch.Interface that watches the requested resourceDashboards.
-func (c *FakeResourceDashboards) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	return c.Fake.
-		InvokesWatch(testing.NewRootWatchAction(resourcedashboardsResource, opts))
-}
-
-// Create takes the representation of a resourceDashboard and creates it.  Returns the server's representation of the resourceDashboard, and an error, if there is any.
-func (c *FakeResourceDashboards) Create(ctx context.Context, resourceDashboard *v1alpha1.ResourceDashboard, opts v1.CreateOptions) (result *v1alpha1.ResourceDashboard, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootCreateAction(resourcedashboardsResource, resourceDashboard), &v1alpha1.ResourceDashboard{})
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.ResourceDashboard), err
-}
-
-// Update takes the representation of a resourceDashboard and updates it. Returns the server's representation of the resourceDashboard, and an error, if there is any.
-func (c *FakeResourceDashboards) Update(ctx context.Context, resourceDashboard *v1alpha1.ResourceDashboard, opts v1.UpdateOptions) (result *v1alpha1.ResourceDashboard, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootUpdateAction(resourcedashboardsResource, resourceDashboard), &v1alpha1.ResourceDashboard{})
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.ResourceDashboard), err
-}
-
-// Delete takes name of the resourceDashboard and deletes it. Returns an error if one occurs.
-func (c *FakeResourceDashboards) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	_, err := c.Fake.
-		Invokes(testing.NewRootDeleteActionWithOptions(resourcedashboardsResource, name, opts), &v1alpha1.ResourceDashboard{})
-	return err
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *FakeResourceDashboards) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewRootDeleteCollectionAction(resourcedashboardsResource, listOpts)
-
-	_, err := c.Fake.Invokes(action, &v1alpha1.ResourceDashboardList{})
-	return err
-}
-
-// Patch applies the patch and returns the patched resourceDashboard.
-func (c *FakeResourceDashboards) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.ResourceDashboard, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootPatchSubresourceAction(resourcedashboardsResource, name, pt, data, subresources...), &v1alpha1.ResourceDashboard{})
-	if obj == nil {
-		return nil, err
-	}
-	return obj.(*v1alpha1.ResourceDashboard), err
 }

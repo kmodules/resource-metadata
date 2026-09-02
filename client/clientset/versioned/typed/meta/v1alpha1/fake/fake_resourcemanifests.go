@@ -19,28 +19,27 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	metav1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/meta/v1alpha1"
+
+	gentype "kmodules.xyz/client-go/gentype"
 )
 
-// FakeResourceManifestses implements ResourceManifestsInterface
-type FakeResourceManifestses struct {
+// fakeResourceManifestses implements ResourceManifestsInterface
+type fakeResourceManifestses struct {
+	*gentype.FakeClient[*v1alpha1.ResourceManifests]
 	Fake *FakeMetaV1alpha1
 }
 
-var resourcemanifestsesResource = v1alpha1.SchemeGroupVersion.WithResource("resourcemanifestses")
-
-var resourcemanifestsesKind = v1alpha1.SchemeGroupVersion.WithKind("ResourceManifests")
-
-// Create takes the representation of a resourceManifests and creates it.  Returns the server's representation of the resourceManifests, and an error, if there is any.
-func (c *FakeResourceManifestses) Create(ctx context.Context, resourceManifests *v1alpha1.ResourceManifests, opts v1.CreateOptions) (result *v1alpha1.ResourceManifests, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootCreateAction(resourcemanifestsesResource, resourceManifests), &v1alpha1.ResourceManifests{})
-	if obj == nil {
-		return nil, err
+func newFakeResourceManifestses(fake *FakeMetaV1alpha1) metav1alpha1.ResourceManifestsInterface {
+	return &fakeResourceManifestses{
+		gentype.NewFakeClient[*v1alpha1.ResourceManifests](
+			fake.Fake,
+			"",
+			v1alpha1.SchemeGroupVersion.WithResource("resourcemanifestses"),
+			v1alpha1.SchemeGroupVersion.WithKind("ResourceManifests"),
+			func() *v1alpha1.ResourceManifests { return &v1alpha1.ResourceManifests{} },
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.ResourceManifests), err
 }

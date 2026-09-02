@@ -19,28 +19,27 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	metav1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/meta/v1alpha1"
+
+	gentype "kmodules.xyz/client-go/gentype"
 )
 
-// FakeRenderRawGraphs implements RenderRawGraphInterface
-type FakeRenderRawGraphs struct {
+// fakeRenderRawGraphs implements RenderRawGraphInterface
+type fakeRenderRawGraphs struct {
+	*gentype.FakeClient[*v1alpha1.RenderRawGraph]
 	Fake *FakeMetaV1alpha1
 }
 
-var renderrawgraphsResource = v1alpha1.SchemeGroupVersion.WithResource("renderrawgraphs")
-
-var renderrawgraphsKind = v1alpha1.SchemeGroupVersion.WithKind("RenderRawGraph")
-
-// Create takes the representation of a renderRawGraph and creates it.  Returns the server's representation of the renderRawGraph, and an error, if there is any.
-func (c *FakeRenderRawGraphs) Create(ctx context.Context, renderRawGraph *v1alpha1.RenderRawGraph, opts v1.CreateOptions) (result *v1alpha1.RenderRawGraph, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootCreateAction(renderrawgraphsResource, renderRawGraph), &v1alpha1.RenderRawGraph{})
-	if obj == nil {
-		return nil, err
+func newFakeRenderRawGraphs(fake *FakeMetaV1alpha1) metav1alpha1.RenderRawGraphInterface {
+	return &fakeRenderRawGraphs{
+		gentype.NewFakeClient[*v1alpha1.RenderRawGraph](
+			fake.Fake,
+			"",
+			v1alpha1.SchemeGroupVersion.WithResource("renderrawgraphs"),
+			v1alpha1.SchemeGroupVersion.WithKind("RenderRawGraph"),
+			func() *v1alpha1.RenderRawGraph { return &v1alpha1.RenderRawGraph{} },
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.RenderRawGraph), err
 }

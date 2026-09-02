@@ -19,15 +19,15 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
-	"time"
+	context "context"
+
+	metav1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
-	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+	gentype "k8s.io/client-go/gentype"
 )
 
 // MenuOutlinesGetter has a method to return a MenuOutlineInterface.
@@ -38,141 +38,32 @@ type MenuOutlinesGetter interface {
 
 // MenuOutlineInterface has methods to work with MenuOutline resources.
 type MenuOutlineInterface interface {
-	Create(ctx context.Context, menuOutline *v1alpha1.MenuOutline, opts v1.CreateOptions) (*v1alpha1.MenuOutline, error)
-	Update(ctx context.Context, menuOutline *v1alpha1.MenuOutline, opts v1.UpdateOptions) (*v1alpha1.MenuOutline, error)
+	Create(ctx context.Context, menuOutline *metav1alpha1.MenuOutline, opts v1.CreateOptions) (*metav1alpha1.MenuOutline, error)
+	Update(ctx context.Context, menuOutline *metav1alpha1.MenuOutline, opts v1.UpdateOptions) (*metav1alpha1.MenuOutline, error)
 	Delete(ctx context.Context, name string, opts v1.DeleteOptions) error
 	DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error
-	Get(ctx context.Context, name string, opts v1.GetOptions) (*v1alpha1.MenuOutline, error)
-	List(ctx context.Context, opts v1.ListOptions) (*v1alpha1.MenuOutlineList, error)
+	Get(ctx context.Context, name string, opts v1.GetOptions) (*metav1alpha1.MenuOutline, error)
+	List(ctx context.Context, opts v1.ListOptions) (*metav1alpha1.MenuOutlineList, error)
 	Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error)
-	Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.MenuOutline, err error)
+	Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *metav1alpha1.MenuOutline, err error)
 	MenuOutlineExpansion
 }
 
 // menuOutlines implements MenuOutlineInterface
 type menuOutlines struct {
-	client rest.Interface
-	ns     string
+	*gentype.ClientWithList[*metav1alpha1.MenuOutline, *metav1alpha1.MenuOutlineList]
 }
 
 // newMenuOutlines returns a MenuOutlines
 func newMenuOutlines(c *MetaV1alpha1Client, namespace string) *menuOutlines {
 	return &menuOutlines{
-		client: c.RESTClient(),
-		ns:     namespace,
+		gentype.NewClientWithList[*metav1alpha1.MenuOutline, *metav1alpha1.MenuOutlineList](
+			"menuoutlines",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			namespace,
+			func() *metav1alpha1.MenuOutline { return &metav1alpha1.MenuOutline{} },
+			func() *metav1alpha1.MenuOutlineList { return &metav1alpha1.MenuOutlineList{} },
+		),
 	}
-}
-
-// Get takes name of the menuOutline, and returns the corresponding menuOutline object, and an error if there is any.
-func (c *menuOutlines) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.MenuOutline, err error) {
-	result = &v1alpha1.MenuOutline{}
-	err = c.client.Get().
-		Namespace(c.ns).
-		Resource("menuoutlines").
-		Name(name).
-		VersionedParams(&options, scheme.ParameterCodec).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// List takes label and field selectors, and returns the list of MenuOutlines that match those selectors.
-func (c *menuOutlines) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.MenuOutlineList, err error) {
-	var timeout time.Duration
-	if opts.TimeoutSeconds != nil {
-		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
-	}
-	result = &v1alpha1.MenuOutlineList{}
-	err = c.client.Get().
-		Namespace(c.ns).
-		Resource("menuoutlines").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// Watch returns a watch.Interface that watches the requested menuOutlines.
-func (c *menuOutlines) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
-	var timeout time.Duration
-	if opts.TimeoutSeconds != nil {
-		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
-	}
-	opts.Watch = true
-	return c.client.Get().
-		Namespace(c.ns).
-		Resource("menuoutlines").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Watch(ctx)
-}
-
-// Create takes the representation of a menuOutline and creates it.  Returns the server's representation of the menuOutline, and an error, if there is any.
-func (c *menuOutlines) Create(ctx context.Context, menuOutline *v1alpha1.MenuOutline, opts v1.CreateOptions) (result *v1alpha1.MenuOutline, err error) {
-	result = &v1alpha1.MenuOutline{}
-	err = c.client.Post().
-		Namespace(c.ns).
-		Resource("menuoutlines").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(menuOutline).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// Update takes the representation of a menuOutline and updates it. Returns the server's representation of the menuOutline, and an error, if there is any.
-func (c *menuOutlines) Update(ctx context.Context, menuOutline *v1alpha1.MenuOutline, opts v1.UpdateOptions) (result *v1alpha1.MenuOutline, err error) {
-	result = &v1alpha1.MenuOutline{}
-	err = c.client.Put().
-		Namespace(c.ns).
-		Resource("menuoutlines").
-		Name(menuOutline.Name).
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(menuOutline).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// Delete takes name of the menuOutline and deletes it. Returns an error if one occurs.
-func (c *menuOutlines) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
-	return c.client.Delete().
-		Namespace(c.ns).
-		Resource("menuoutlines").
-		Name(name).
-		Body(&opts).
-		Do(ctx).
-		Error()
-}
-
-// DeleteCollection deletes a collection of objects.
-func (c *menuOutlines) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	var timeout time.Duration
-	if listOpts.TimeoutSeconds != nil {
-		timeout = time.Duration(*listOpts.TimeoutSeconds) * time.Second
-	}
-	return c.client.Delete().
-		Namespace(c.ns).
-		Resource("menuoutlines").
-		VersionedParams(&listOpts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Body(&opts).
-		Do(ctx).
-		Error()
-}
-
-// Patch applies the patch and returns the patched menuOutline.
-func (c *menuOutlines) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.MenuOutline, err error) {
-	result = &v1alpha1.MenuOutline{}
-	err = c.client.Patch(pt).
-		Namespace(c.ns).
-		Resource("menuoutlines").
-		Name(name).
-		SubResource(subresources...).
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(data).
-		Do(ctx).
-		Into(result)
-	return
 }

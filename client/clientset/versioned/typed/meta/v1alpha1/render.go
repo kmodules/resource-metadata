@@ -19,12 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
+
+	metav1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+	gentype "kmodules.xyz/client-go/gentype"
 )
 
 // RendersGetter has a method to return a RenderInterface.
@@ -35,30 +36,24 @@ type RendersGetter interface {
 
 // RenderInterface has methods to work with Render resources.
 type RenderInterface interface {
-	Create(ctx context.Context, render *v1alpha1.Render, opts v1.CreateOptions) (*v1alpha1.Render, error)
+	Create(ctx context.Context, render *metav1alpha1.Render, opts v1.CreateOptions) (*metav1alpha1.Render, error)
 	RenderExpansion
 }
 
 // renders implements RenderInterface
 type renders struct {
-	client rest.Interface
+	*gentype.Client[*metav1alpha1.Render]
 }
 
 // newRenders returns a Renders
 func newRenders(c *MetaV1alpha1Client) *renders {
 	return &renders{
-		client: c.RESTClient(),
+		gentype.NewClient[*metav1alpha1.Render](
+			"renders",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			"",
+			func() *metav1alpha1.Render { return &metav1alpha1.Render{} },
+		),
 	}
-}
-
-// Create takes the representation of a render and creates it.  Returns the server's representation of the render, and an error, if there is any.
-func (c *renders) Create(ctx context.Context, render *v1alpha1.Render, opts v1.CreateOptions) (result *v1alpha1.Render, err error) {
-	result = &v1alpha1.Render{}
-	err = c.client.Post().
-		Resource("renders").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(render).
-		Do(ctx).
-		Into(result)
-	return
 }

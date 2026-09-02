@@ -19,12 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
+
+	metav1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+	gentype "k8s.io/client-go/gentype"
 )
 
 // ResourceCalculatorsGetter has a method to return a ResourceCalculatorInterface.
@@ -35,30 +36,24 @@ type ResourceCalculatorsGetter interface {
 
 // ResourceCalculatorInterface has methods to work with ResourceCalculator resources.
 type ResourceCalculatorInterface interface {
-	Create(ctx context.Context, resourceCalculator *v1alpha1.ResourceCalculator, opts v1.CreateOptions) (*v1alpha1.ResourceCalculator, error)
+	Create(ctx context.Context, resourceCalculator *metav1alpha1.ResourceCalculator, opts v1.CreateOptions) (*metav1alpha1.ResourceCalculator, error)
 	ResourceCalculatorExpansion
 }
 
 // resourceCalculators implements ResourceCalculatorInterface
 type resourceCalculators struct {
-	client rest.Interface
+	*gentype.Client[*metav1alpha1.ResourceCalculator]
 }
 
 // newResourceCalculators returns a ResourceCalculators
 func newResourceCalculators(c *MetaV1alpha1Client) *resourceCalculators {
 	return &resourceCalculators{
-		client: c.RESTClient(),
+		gentype.NewClient[*metav1alpha1.ResourceCalculator](
+			"resourcecalculators",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			"",
+			func() *metav1alpha1.ResourceCalculator { return &metav1alpha1.ResourceCalculator{} },
+		),
 	}
-}
-
-// Create takes the representation of a resourceCalculator and creates it.  Returns the server's representation of the resourceCalculator, and an error, if there is any.
-func (c *resourceCalculators) Create(ctx context.Context, resourceCalculator *v1alpha1.ResourceCalculator, opts v1.CreateOptions) (result *v1alpha1.ResourceCalculator, err error) {
-	result = &v1alpha1.ResourceCalculator{}
-	err = c.client.Post().
-		Resource("resourcecalculators").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(resourceCalculator).
-		Do(ctx).
-		Into(result)
-	return
 }

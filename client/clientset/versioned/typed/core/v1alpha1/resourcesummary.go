@@ -19,13 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
-	"time"
+	context "context"
+
+	corev1alpha1 "kmodules.xyz/resource-metadata/apis/core/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/core/v1alpha1"
-	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+	gentype "k8s.io/client-go/gentype"
 )
 
 // ResourceSummariesGetter has a method to return a ResourceSummaryInterface.
@@ -36,51 +36,26 @@ type ResourceSummariesGetter interface {
 
 // ResourceSummaryInterface has methods to work with ResourceSummary resources.
 type ResourceSummaryInterface interface {
-	Get(ctx context.Context, name string, opts v1.GetOptions) (*v1alpha1.ResourceSummary, error)
-	List(ctx context.Context, opts v1.ListOptions) (*v1alpha1.ResourceSummaryList, error)
+	Get(ctx context.Context, name string, opts v1.GetOptions) (*corev1alpha1.ResourceSummary, error)
+	List(ctx context.Context, opts v1.ListOptions) (*corev1alpha1.ResourceSummaryList, error)
 	ResourceSummaryExpansion
 }
 
 // resourceSummaries implements ResourceSummaryInterface
 type resourceSummaries struct {
-	client rest.Interface
-	ns     string
+	*gentype.ClientWithList[*corev1alpha1.ResourceSummary, *corev1alpha1.ResourceSummaryList]
 }
 
 // newResourceSummaries returns a ResourceSummaries
 func newResourceSummaries(c *CoreV1alpha1Client, namespace string) *resourceSummaries {
 	return &resourceSummaries{
-		client: c.RESTClient(),
-		ns:     namespace,
+		gentype.NewClientWithList[*corev1alpha1.ResourceSummary, *corev1alpha1.ResourceSummaryList](
+			"resourcesummaries",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			namespace,
+			func() *corev1alpha1.ResourceSummary { return &corev1alpha1.ResourceSummary{} },
+			func() *corev1alpha1.ResourceSummaryList { return &corev1alpha1.ResourceSummaryList{} },
+		),
 	}
-}
-
-// Get takes name of the resourceSummary, and returns the corresponding resourceSummary object, and an error if there is any.
-func (c *resourceSummaries) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ResourceSummary, err error) {
-	result = &v1alpha1.ResourceSummary{}
-	err = c.client.Get().
-		Namespace(c.ns).
-		Resource("resourcesummaries").
-		Name(name).
-		VersionedParams(&options, scheme.ParameterCodec).
-		Do(ctx).
-		Into(result)
-	return
-}
-
-// List takes label and field selectors, and returns the list of ResourceSummaries that match those selectors.
-func (c *resourceSummaries) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.ResourceSummaryList, err error) {
-	var timeout time.Duration
-	if opts.TimeoutSeconds != nil {
-		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
-	}
-	result = &v1alpha1.ResourceSummaryList{}
-	err = c.client.Get().
-		Namespace(c.ns).
-		Resource("resourcesummaries").
-		VersionedParams(&opts, scheme.ParameterCodec).
-		Timeout(timeout).
-		Do(ctx).
-		Into(result)
-	return
 }

@@ -19,28 +19,27 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	metav1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/meta/v1alpha1"
+
+	gentype "kmodules.xyz/client-go/gentype"
 )
 
-// FakeResourceGraphs implements ResourceGraphInterface
-type FakeResourceGraphs struct {
+// fakeResourceGraphs implements ResourceGraphInterface
+type fakeResourceGraphs struct {
+	*gentype.FakeClient[*v1alpha1.ResourceGraph]
 	Fake *FakeMetaV1alpha1
 }
 
-var resourcegraphsResource = v1alpha1.SchemeGroupVersion.WithResource("resourcegraphs")
-
-var resourcegraphsKind = v1alpha1.SchemeGroupVersion.WithKind("ResourceGraph")
-
-// Create takes the representation of a resourceGraph and creates it.  Returns the server's representation of the resourceGraph, and an error, if there is any.
-func (c *FakeResourceGraphs) Create(ctx context.Context, resourceGraph *v1alpha1.ResourceGraph, opts v1.CreateOptions) (result *v1alpha1.ResourceGraph, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootCreateAction(resourcegraphsResource, resourceGraph), &v1alpha1.ResourceGraph{})
-	if obj == nil {
-		return nil, err
+func newFakeResourceGraphs(fake *FakeMetaV1alpha1) metav1alpha1.ResourceGraphInterface {
+	return &fakeResourceGraphs{
+		gentype.NewFakeClient[*v1alpha1.ResourceGraph](
+			fake.Fake,
+			"",
+			v1alpha1.SchemeGroupVersion.WithResource("resourcegraphs"),
+			v1alpha1.SchemeGroupVersion.WithKind("ResourceGraph"),
+			func() *v1alpha1.ResourceGraph { return &v1alpha1.ResourceGraph{} },
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.ResourceGraph), err
 }

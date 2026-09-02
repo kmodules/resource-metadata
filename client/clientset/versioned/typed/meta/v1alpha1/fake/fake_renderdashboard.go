@@ -19,28 +19,27 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	metav1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/meta/v1alpha1"
+
+	gentype "kmodules.xyz/client-go/gentype"
 )
 
-// FakeRenderDashboards implements RenderDashboardInterface
-type FakeRenderDashboards struct {
+// fakeRenderDashboards implements RenderDashboardInterface
+type fakeRenderDashboards struct {
+	*gentype.FakeClient[*v1alpha1.RenderDashboard]
 	Fake *FakeMetaV1alpha1
 }
 
-var renderdashboardsResource = v1alpha1.SchemeGroupVersion.WithResource("renderdashboards")
-
-var renderdashboardsKind = v1alpha1.SchemeGroupVersion.WithKind("RenderDashboard")
-
-// Create takes the representation of a renderDashboard and creates it.  Returns the server's representation of the renderDashboard, and an error, if there is any.
-func (c *FakeRenderDashboards) Create(ctx context.Context, renderDashboard *v1alpha1.RenderDashboard, opts v1.CreateOptions) (result *v1alpha1.RenderDashboard, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootCreateAction(renderdashboardsResource, renderDashboard), &v1alpha1.RenderDashboard{})
-	if obj == nil {
-		return nil, err
+func newFakeRenderDashboards(fake *FakeMetaV1alpha1) metav1alpha1.RenderDashboardInterface {
+	return &fakeRenderDashboards{
+		gentype.NewFakeClient[*v1alpha1.RenderDashboard](
+			fake.Fake,
+			"",
+			v1alpha1.SchemeGroupVersion.WithResource("renderdashboards"),
+			v1alpha1.SchemeGroupVersion.WithKind("RenderDashboard"),
+			func() *v1alpha1.RenderDashboard { return &v1alpha1.RenderDashboard{} },
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.RenderDashboard), err
 }

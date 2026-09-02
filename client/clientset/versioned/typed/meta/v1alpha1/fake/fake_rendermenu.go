@@ -19,28 +19,27 @@ limitations under the License.
 package fake
 
 import (
-	"context"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	testing "k8s.io/client-go/testing"
 	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	metav1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/meta/v1alpha1"
+
+	gentype "kmodules.xyz/client-go/gentype"
 )
 
-// FakeRenderMenus implements RenderMenuInterface
-type FakeRenderMenus struct {
+// fakeRenderMenus implements RenderMenuInterface
+type fakeRenderMenus struct {
+	*gentype.FakeClient[*v1alpha1.RenderMenu]
 	Fake *FakeMetaV1alpha1
 }
 
-var rendermenusResource = v1alpha1.SchemeGroupVersion.WithResource("rendermenus")
-
-var rendermenusKind = v1alpha1.SchemeGroupVersion.WithKind("RenderMenu")
-
-// Create takes the representation of a renderMenu and creates it.  Returns the server's representation of the renderMenu, and an error, if there is any.
-func (c *FakeRenderMenus) Create(ctx context.Context, renderMenu *v1alpha1.RenderMenu, opts v1.CreateOptions) (result *v1alpha1.RenderMenu, err error) {
-	obj, err := c.Fake.
-		Invokes(testing.NewRootCreateAction(rendermenusResource, renderMenu), &v1alpha1.RenderMenu{})
-	if obj == nil {
-		return nil, err
+func newFakeRenderMenus(fake *FakeMetaV1alpha1) metav1alpha1.RenderMenuInterface {
+	return &fakeRenderMenus{
+		gentype.NewFakeClient[*v1alpha1.RenderMenu](
+			fake.Fake,
+			"",
+			v1alpha1.SchemeGroupVersion.WithResource("rendermenus"),
+			v1alpha1.SchemeGroupVersion.WithKind("RenderMenu"),
+			func() *v1alpha1.RenderMenu { return &v1alpha1.RenderMenu{} },
+		),
+		fake,
 	}
-	return obj.(*v1alpha1.RenderMenu), err
 }

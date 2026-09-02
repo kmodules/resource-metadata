@@ -19,12 +19,13 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"context"
+	context "context"
+
+	metav1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
+	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	rest "k8s.io/client-go/rest"
-	v1alpha1 "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
-	scheme "kmodules.xyz/resource-metadata/client/clientset/versioned/scheme"
+	gentype "k8s.io/client-go/gentype"
 )
 
 // ResourceOutlinesGetter has a method to return a ResourceOutlineInterface.
@@ -35,30 +36,24 @@ type ResourceOutlinesGetter interface {
 
 // ResourceOutlineInterface has methods to work with ResourceOutline resources.
 type ResourceOutlineInterface interface {
-	Get(ctx context.Context, name string, opts v1.GetOptions) (*v1alpha1.ResourceOutline, error)
+	Get(ctx context.Context, name string, opts v1.GetOptions) (*metav1alpha1.ResourceOutline, error)
 	ResourceOutlineExpansion
 }
 
 // resourceOutlines implements ResourceOutlineInterface
 type resourceOutlines struct {
-	client rest.Interface
+	*gentype.Client[*metav1alpha1.ResourceOutline]
 }
 
 // newResourceOutlines returns a ResourceOutlines
 func newResourceOutlines(c *MetaV1alpha1Client) *resourceOutlines {
 	return &resourceOutlines{
-		client: c.RESTClient(),
+		gentype.NewClient[*metav1alpha1.ResourceOutline](
+			"resourceoutlines",
+			c.RESTClient(),
+			scheme.ParameterCodec,
+			"",
+			func() *metav1alpha1.ResourceOutline { return &metav1alpha1.ResourceOutline{} },
+		),
 	}
-}
-
-// Get takes name of the resourceOutline, and returns the corresponding resourceOutline object, and an error if there is any.
-func (c *resourceOutlines) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.ResourceOutline, err error) {
-	result = &v1alpha1.ResourceOutline{}
-	err = c.client.Get().
-		Resource("resourceoutlines").
-		Name(name).
-		VersionedParams(&options, scheme.ParameterCodec).
-		Do(ctx).
-		Into(result)
-	return
 }

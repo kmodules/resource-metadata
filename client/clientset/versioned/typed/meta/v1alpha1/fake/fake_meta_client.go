@@ -19,9 +19,10 @@ limitations under the License.
 package fake
 
 import (
+	v1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/meta/v1alpha1"
+
 	rest "k8s.io/client-go/rest"
 	testing "k8s.io/client-go/testing"
-	v1alpha1 "kmodules.xyz/resource-metadata/client/clientset/versioned/typed/meta/v1alpha1"
 )
 
 type FakeMetaV1alpha1 struct {
@@ -29,79 +30,79 @@ type FakeMetaV1alpha1 struct {
 }
 
 func (c *FakeMetaV1alpha1) ChartPresetQueries() v1alpha1.ChartPresetQueryInterface {
-	return &FakeChartPresetQueries{c}
+	return newFakeChartPresetQueries(c)
 }
 
 func (c *FakeMetaV1alpha1) ClusterProfiles() v1alpha1.ClusterProfileInterface {
-	return &FakeClusterProfiles{c}
+	return newFakeClusterProfiles(c)
 }
 
 func (c *FakeMetaV1alpha1) ClusterStatuses() v1alpha1.ClusterStatusInterface {
-	return &FakeClusterStatuses{c}
+	return newFakeClusterStatuses(c)
 }
 
 func (c *FakeMetaV1alpha1) MenuOutlines(namespace string) v1alpha1.MenuOutlineInterface {
-	return &FakeMenuOutlines{c, namespace}
+	return newFakeMenuOutlines(c, namespace)
 }
 
 func (c *FakeMetaV1alpha1) Renders() v1alpha1.RenderInterface {
-	return &FakeRenders{c}
+	return newFakeRenders(c)
 }
 
 func (c *FakeMetaV1alpha1) RenderDashboards() v1alpha1.RenderDashboardInterface {
-	return &FakeRenderDashboards{c}
+	return newFakeRenderDashboards(c)
 }
 
 func (c *FakeMetaV1alpha1) RenderMenus() v1alpha1.RenderMenuInterface {
-	return &FakeRenderMenus{c}
+	return newFakeRenderMenus(c)
 }
 
 func (c *FakeMetaV1alpha1) RenderRawGraphs() v1alpha1.RenderRawGraphInterface {
-	return &FakeRenderRawGraphs{c}
+	return newFakeRenderRawGraphs(c)
 }
 
 func (c *FakeMetaV1alpha1) ResourceBlockDefinitions() v1alpha1.ResourceBlockDefinitionInterface {
-	return &FakeResourceBlockDefinitions{c}
+	return newFakeResourceBlockDefinitions(c)
 }
 
 func (c *FakeMetaV1alpha1) ResourceCalculators() v1alpha1.ResourceCalculatorInterface {
-	return &FakeResourceCalculators{c}
+	return newFakeResourceCalculators(c)
 }
 
 func (c *FakeMetaV1alpha1) ResourceDescriptors() v1alpha1.ResourceDescriptorInterface {
-	return &FakeResourceDescriptors{c}
+	return newFakeResourceDescriptors(c)
 }
 
 func (c *FakeMetaV1alpha1) ResourceEditors() v1alpha1.ResourceEditorInterface {
-	return &FakeResourceEditors{c}
+	return newFakeResourceEditors(c)
 }
 
 func (c *FakeMetaV1alpha1) ResourceGraphs() v1alpha1.ResourceGraphInterface {
-	return &FakeResourceGraphs{c}
+	return newFakeResourceGraphs(c)
 }
 
 func (c *FakeMetaV1alpha1) ResourceLayouts() v1alpha1.ResourceLayoutInterface {
-	return &FakeResourceLayouts{c}
+	return newFakeResourceLayouts(c)
 }
 
 func (c *FakeMetaV1alpha1) ResourceManifestses() v1alpha1.ResourceManifestsInterface {
-	return &FakeResourceManifestses{c}
+	return newFakeResourceManifestses(c)
 }
 
 func (c *FakeMetaV1alpha1) ResourceOutlines() v1alpha1.ResourceOutlineInterface {
-	return &FakeResourceOutlines{c}
+	return newFakeResourceOutlines(c)
 }
 
 func (c *FakeMetaV1alpha1) ResourceOutlineFilters() v1alpha1.ResourceOutlineFilterInterface {
-	return &FakeResourceOutlineFilters{c}
+	return newFakeResourceOutlineFilters(c)
 }
 
 func (c *FakeMetaV1alpha1) ResourceQueries() v1alpha1.ResourceQueryInterface {
-	return &FakeResourceQueries{c}
+	return newFakeResourceQueries(c)
 }
 
 func (c *FakeMetaV1alpha1) ResourceTableDefinitions() v1alpha1.ResourceTableDefinitionInterface {
-	return &FakeResourceTableDefinitions{c}
+	return newFakeResourceTableDefinitions(c)
 }
 
 // RESTClient returns a RESTClient that is used to communicate
