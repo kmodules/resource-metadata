@@ -122,6 +122,47 @@ spec:
           opscenter-datastore:
           - kubedb
           - kubedb-opscenter
+  - icon: hugeicons:chart-line-data-01
+    name: Insights
+    requiredFeatureSets:
+      opscenter-datastore:
+      - kubedb
+      - kubedb-opscenter
+      opscenter-monitoring:
+      - monitoring-operator
+    sections:
+    - blocks:
+      - actions:
+          create: Never
+        displayMode: List
+        fieldPath: .response.dashboards
+        impersonate: true
+        kind: Connection
+        name: Dashboards
+        query:
+          raw: |
+            request:
+              sourceLocator:
+                resource:
+                  group: kubedb.com
+                  name: milvuses
+                  version: v1alpha2
+                ref:
+                  name: {{ .name }}
+                  namespace: {{ .namespace }}
+              name: kubedb.com-v1alpha2-milvuses
+          type: REST
+        ref:
+          group: meta.k8s.appscode.com
+          kind: RenderDashboard
+        requiredFeatureSets:
+          opscenter-datastore:
+          - kubedb
+          - kubedb-opscenter
+          opscenter-monitoring:
+          - monitoring-operator
+        view:
+          name: ui.k8s.appscode.com-v1alpha1-resourcedashboards-urls
   - icon: hugeicons:dashboard-circle-settings
     name: Operations
     sections:
