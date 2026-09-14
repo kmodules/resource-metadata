@@ -401,6 +401,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceView":                      schema_resource_metadata_apis_core_v1alpha1_ResourceView(ref),
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.Service":                           schema_resource_metadata_apis_core_v1alpha1_Service(ref),
 		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.StorageResource":                   schema_resource_metadata_apis_core_v1alpha1_StorageResource(ref),
+		"kmodules.xyz/resource-metadata/apis/core/v1alpha1.TenantInfo":                        schema_resource_metadata_apis_core_v1alpha1_TenantInfo(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.Action":                                   schema_kmodulesxyz_resource_metadata_apis_shared_Action(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.ActionGroup":                              schema_kmodulesxyz_resource_metadata_apis_shared_ActionGroup(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.ActionInfo":                               schema_kmodulesxyz_resource_metadata_apis_shared_ActionInfo(ref),
@@ -20655,6 +20656,11 @@ func schema_resource_metadata_apis_core_v1alpha1_GenericResourceSpec(ref common.
 							Ref: ref("kmodules.xyz/resource-metadata/apis/core/v1alpha1.NamespaceInfo"),
 						},
 					},
+					"tenant": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kmodules.xyz/resource-metadata/apis/core/v1alpha1.TenantInfo"),
+						},
+					},
 					"pods": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"array"},
@@ -20692,7 +20698,7 @@ func schema_resource_metadata_apis_core_v1alpha1_GenericResourceSpec(ref common.
 			},
 		},
 		Dependencies: []string{
-			"kmodules.xyz/client-go/api/v1.ClusterMetadata", "kmodules.xyz/client-go/api/v1.ResourceID", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.ComputeResource", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.GenericResourceStatus", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.NamespaceInfo", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceRequirements", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.StorageResource"},
+			"kmodules.xyz/client-go/api/v1.ClusterMetadata", "kmodules.xyz/client-go/api/v1.ResourceID", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.ComputeResource", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.GenericResourceStatus", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.NamespaceInfo", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.ResourceRequirements", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.StorageResource", "kmodules.xyz/resource-metadata/apis/core/v1alpha1.TenantInfo"},
 	}
 }
 
@@ -20785,13 +20791,15 @@ func schema_resource_metadata_apis_core_v1alpha1_NamespaceInfo(ref common.Refere
 					},
 					"aceOrgID": {
 						SchemaProps: spec.SchemaProps{
-							Type:   []string{"string"},
-							Format: "",
+							Description: "Deprecated: use GenericResourceSpec.Tenant. Removed after one release.",
+							Type:        []string{"string"},
+							Format:      "",
 						},
 					},
 					"aceOrgMetadata": {
 						SchemaProps: spec.SchemaProps{
-							Type: []string{"object"},
+							Description: "Deprecated: use GenericResourceSpec.Tenant. Removed after one release.",
+							Type:        []string{"object"},
 							AdditionalProperties: &spec.SchemaOrBool{
 								Allows: true,
 								Schema: &spec.Schema{
@@ -21450,6 +21458,46 @@ func schema_resource_metadata_apis_core_v1alpha1_StorageResource(ref common.Refe
 		},
 		Dependencies: []string{
 			"k8s.io/api/core/v1.VolumeResourceRequirements", "k8s.io/apimachinery/pkg/apis/meta/v1.Time"},
+	}
+}
+
+func schema_resource_metadata_apis_core_v1alpha1_TenantInfo(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "TenantInfo identifies the org a usage event is billed to, independent of how that org was discovered.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"orgID": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+					"source": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+				},
+			},
+		},
 	}
 }
 
