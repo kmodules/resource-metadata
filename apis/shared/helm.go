@@ -27,6 +27,22 @@ type BootstrapPresets struct {
 	Image            ImageRegistrySpec `json:"image"`
 	Registry         RegistryInfo      `json:"registry"`
 	Helm             HelmInfo          `json:"helm"`
+	// +optional
+	Selfhost *SelfhostPresets `json:"selfhost,omitempty"`
+}
+
+type SelfhostPresets struct {
+	// Older ace-installer versions that can still be rendered; the latest is helm.releases["ace-installer"].
+	// +optional
+	Versions []SelfhostVersion `json:"versions,omitempty"`
+}
+
+type SelfhostVersion struct {
+	Version string `json:"version"`
+	Image   string `json:"image"`
+	// Snapshot of the bootstrap helm presets that shipped with this version.
+	// +optional
+	Helm HelmInfo `json:"helm,omitempty"`
 }
 
 type ImageRegistrySpec struct {
