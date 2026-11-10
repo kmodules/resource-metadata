@@ -21174,6 +21174,12 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_HelmRelease(ref common.Ref
 							Format:  "",
 						},
 					},
+					"namespace": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
 					"values": {
 						SchemaProps: spec.SchemaProps{
 							Ref: ref("k8s.io/apimachinery/pkg/runtime.RawExtension"),
