@@ -136,7 +136,8 @@ type HelmRepository struct {
 }
 
 type HelmRelease struct {
-	Enabled bool                  `json:"enabled"`
-	Version string                `json:"version"`
-	Values  *runtime.RawExtension `json:"values,omitempty"`
+	Enabled   bool                  `json:"enabled"`
+	Version   string                `json:"version"`
+	Namespace string                `json:"namespace,omitempty"`
+	Values    *runtime.RawExtension `json:"values,omitempty"`
 }
