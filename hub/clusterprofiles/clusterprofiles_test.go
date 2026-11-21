@@ -31,7 +31,7 @@ func TestPatchConsoleProfileListsPrerequisites(t *testing.T) {
 	want := map[string][]string{
 		"opscenter-core":              {"license-proxyserver"},
 		"opscenter-observability":     {"grafana-operator", "monitoring-operator"},
-		"opscenter-security":          {"cert-manager", "kube-bench", "patch-console-agent", "scanner", "trivy-operator"},
+		"opscenter-security":          {"cert-manager", "patch-console-agent", "scanner", "trivy-operator"},
 		"opscenter-policy-management": {"kyverno", "kyverno-policies"},
 		"opscenter-backup":            {"kubestash"},
 	}

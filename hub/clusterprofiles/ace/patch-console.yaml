@@ -3,7 +3,7 @@ kind: ClusterProfile
 metadata:
   name: patch-console
 spec:
-  description: This profile installs everything Patch Console needs in a managed cluster, the Patch Console agent with the scanner, Kyverno, Trivy Operator and kube-bench it reads
+  description: This profile installs everything Patch Console needs in a managed cluster, the Patch Console agent with the scanner, Kyverno and Trivy Operator it reads (the agent chart runs kube-bench itself)
   requiredFeatureSets:
     opscenter-backup:
     - kubestash
@@ -17,7 +17,6 @@ spec:
     - kyverno-policies
     opscenter-security:
     - cert-manager
-    - kube-bench
     - patch-console-agent
     - scanner
     - trivy-operator
